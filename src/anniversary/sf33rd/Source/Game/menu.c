@@ -2142,7 +2142,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Dummy_Move_S
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Blocking_Training);
 // Blocking_Training contains literal_2592
 
-const LetterData training_letter_data[6] = { { 0x67, "NORMAL TRAINING" },   { 0x5C, "PARRYING TRAINING" },
+const LetterData training_letter_data[6] = { { 0x68, "NORMAL TRAINING" },   { 0x5C, "PARRYING TRAINING" },
                                              { 0x7C, "DUMMY SETTING" },     { 0x6C, "TRAINING OPTION" },
                                              { 0x64, "RECORDING SETTING" }, { 0x72, "BUTTON CONFIG." } };
 
