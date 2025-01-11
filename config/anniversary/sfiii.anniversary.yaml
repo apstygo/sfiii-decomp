@@ -435,7 +435,7 @@ segments:
       - [0x1659A0, asm, sf33rd/Source/Game/HITPLEF]
       - [0x165CF0, asm, sf33rd/Source/Game/HITPLPL]
       - [0x166100, c, sf33rd/Source/Game/init3rd]
-      - [0x166B10, asm, sf33rd/Source/Game/IOConv]
+      - [0x166B10, c, sf33rd/Source/Game/IOConv]
       - [0x1671A0, asm, sf33rd/Source/Game/LOSE_PL]
       - [0x167F10, asm, sf33rd/Source/Game/Manage]
       - [0x16EBE0, c, sf33rd/Source/Game/menu]
