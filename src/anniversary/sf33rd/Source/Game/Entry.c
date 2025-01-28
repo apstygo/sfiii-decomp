@@ -20,6 +20,7 @@ void Entry_07();
 void Entry_08();
 void Entry_10();
 
+void Disp_00_0();
 void Entry_01_Sub(s16 PL_id);
 void Exit_Title_Sub_Entry();
 void Entry_Main_Sub(s16 PL_id, s16 Jump_Index);
@@ -27,8 +28,7 @@ void Entry_03_1st();
 void Entry_03_2nd();
 void Entry_04_1st();
 void Entry_04_2nd();
-
-void Disp_00_0();
+void Correct_BI_Data();
 
 void Entry_Task(struct _TASK * /* unused */) {
     s16 ix;
@@ -277,7 +277,55 @@ void Entry_04_1st() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_04_2nd);
+void Entry_04_2nd() {
+    switch (E_No[2]) {
+    case 0:
+        if (--E_Timer == 0) {
+            if (Check_LDREQ_Break() == 0) {
+                E_No[2] += 1;
+                Switch_Screen_Init(1);
+                return;
+            }
+
+            E_Timer = 1;
+            return;
+        }
+
+        break;
+
+    case 1:
+        if (Switch_Screen(0) != 0) {
+            E_No[2] += 1;
+            Cover_Timer = 23;
+            G_No[1] = 1;
+            G_No[2] = 0;
+            G_No[3] = 0;
+
+            if (E_No[3] == 0xFF) {
+                E_Number[LOSER][0] = 1;
+                E_Number[LOSER][1] = 0;
+                E_Number[LOSER][2] = 0;
+                E_Number[LOSER][3] = 0;
+            } else {
+                Correct_BI_Data();
+            }
+
+            E_No[0] = 2;
+            E_No[1] = 0;
+            E_No[2] = 0;
+            E_No[3] = 0;
+            Game_pause = 0;
+            plw[New_Challenger].wu.operator = 1;
+            Operator_Status[New_Challenger] = 1;
+
+            if (Continue_Coin[New_Challenger] == 0) {
+                grade_check_work_1st_init(New_Challenger, 0);
+            }
+        }
+
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_06);
 
