@@ -22,6 +22,8 @@ void Entry_10();
 void Entry_01_Sub(s16 PL_id);
 void Exit_Title_Sub_Entry();
 void Entry_Main_Sub(s16 PL_id, s16 Jump_Index);
+void Entry_03_1st();
+void Entry_03_2nd();
 
 void Disp_00_0();
 
@@ -185,7 +187,17 @@ void Entry_02() {
     Entry_Main_Sub(1, 2);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_03);
+void Entry_03() {
+    switch (E_No[1]) {
+    case 0:
+        Entry_03_1st();
+        break;
+
+    default:
+        Entry_03_2nd();
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_03_1st);
 
