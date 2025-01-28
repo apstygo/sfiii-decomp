@@ -352,7 +352,69 @@ void Entry_06_1st() {
     Entry_Main_Sub(1, 7);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_06_2nd);
+void Entry_06_2nd() {
+    if (E_07_Flag[0] == 0) {
+        Entry_Main_Sub(0, 7);
+    }
+
+    if (E_07_Flag[1] == 0) {
+        Entry_Main_Sub(1, 7);
+    }
+
+    switch (E_No[2]) {
+    case 0:
+        E_No[2] += 1;
+        Switch_Screen_Init(1);
+        break;
+
+    case 1:
+        if (Switch_Screen(1) != 0) {
+            E_No[2] += 1;
+            Cover_Timer = 23;
+            return;
+        }
+
+        break;
+
+    default:
+        Switch_Screen(1);
+        G_No[1] = 1;
+        G_No[2] = 0;
+        G_No[3] = 0;
+        E_No[0] = 2;
+        E_No[1] = 0;
+        E_No[2] = 0;
+        E_No[3] = 0;
+        Fade_Flag = 0;
+
+        if (E_07_Flag[0]) {
+            plw[0].wu.operator = 1;
+            Operator_Status[0] = 1;
+
+            if (Continue_Coin[0] == 0) {
+                grade_check_work_1st_init(0, 0);
+            }
+        }
+
+        if (E_07_Flag[1]) {
+            plw[1].wu.operator = 1;
+            Operator_Status[1] = 1;
+
+            if (Continue_Coin[1] == 0) {
+                grade_check_work_1st_init(1, 0);
+            }
+        }
+
+        E_07_Flag[0] = 0;
+        E_07_Flag[1] = 0;
+
+        if (E_Number[LOSER][0] == 5) {
+            E_Number[LOSER][0] = 1;
+        }
+
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_07);
 
