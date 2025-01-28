@@ -1659,7 +1659,7 @@ void SE_dir_cursor_move();              // Range: 0x398450 -> 0x398474
 void SE_dir_selected();                 // Range: 0x398480 -> 0x3984A4
 
 // SYS_sub.c
-void Switch_Screen_Init();                         // Range: 0x3A1C50 -> 0x3A1C98
+void Switch_Screen_Init(s32 /* unused */);         // Range: 0x3A1C50 -> 0x3A1C98
 s32 Switch_Screen(u8 Wipe_Type);                   // Range: 0x3A1CA0 -> 0x3A1D08
 s32 Switch_Screen_Revival(u8 Wipe_Type);           // Range: 0x3A1D10 -> 0x3A1D78
 void Clear_Personal_Data(s16 PL_id);               // Range: 0x3A21C0 -> 0x3A2744

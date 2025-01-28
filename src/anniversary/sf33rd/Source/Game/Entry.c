@@ -1,5 +1,6 @@
 #include "sf33rd/Source/Game/Entry.h"
 #include "common.h"
+#include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/Reset.h"
 #include "unknown.h"
 
@@ -210,7 +211,44 @@ void Entry_03_1st() {
     Entry_Main_Sub(1, 4);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_03_2nd);
+void Entry_03_2nd() {
+    switch (E_No[2]) {
+    case 0:
+        if (--E_Timer == 0) {
+            if (Check_LDREQ_Break() == 0) {
+                E_No[2] += 1;
+                Switch_Screen_Init(1);
+                return;
+            }
+
+            E_Timer = 1;
+            return;
+        }
+
+        break;
+
+    case 1:
+        if (Switch_Screen(1) != 0) {
+            Cover_Timer = 23;
+            G_No[1] = 1;
+            G_No[2] = 0;
+            G_No[3] = 0;
+            E_No[0] = 2;
+            E_No[1] = 0;
+            E_No[2] = 0;
+            E_No[3] = 0;
+            plw[New_Challenger].wu.operator = 1;
+            Operator_Status[New_Challenger] = 1;
+            Sel_Arts_Complete[Champion] = -1;
+
+            if (Continue_Coin[New_Challenger] == 0) {
+                grade_check_work_1st_init(New_Challenger, 0);
+            }
+        }
+
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_04);
 
