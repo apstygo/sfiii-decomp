@@ -1868,6 +1868,7 @@ extern s16 M_Timer;                       // size: 0x2, address: 0x579FBC
 extern s16 Random_ix32;                   // size: 0x2, address: 0x579FC0
 extern s16 Random_ix16;                   // size: 0x2, address: 0x579FC4
 extern s16 Sel_Arts_Complete[2];          // size: 0x4, address: 0x57A000
+extern s16 E_Timer;                       // size: 0x2, address: 0x57A01C
 extern s16 G_Timer;                       // size: 0x2, address: 0x57A02C
 extern u16 Game_timer;                    // size: 0x2, address: 0x57A044
 extern u8 Pause_Type;                     // size: 0x1, address: 0x57A048
