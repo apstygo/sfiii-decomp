@@ -1900,6 +1900,10 @@ extern s8 Menu_Cursor_Y[2];               // size: 0x2, address: 0x57A0EC
 extern s8 Menu_Cursor_X[2];               // size: 0x2, address: 0x57A0F0
 extern u8 Unsubstantial_BG[4];            // size: 0x4, address: 0x57A0F4
 extern s8 Convert_Buff[4][2][12];         // size: 0x60, address: 0x57A100
+extern u8 F_No3[2];                       // size: 0x2, address: 0x57A1CC
+extern u8 F_No2[2];                       // size: 0x2, address: 0x57A1D0
+extern u8 F_No1[2];                       // size: 0x2, address: 0x57A1D4
+extern u8 F_No0[2];                       // size: 0x2, address: 0x57A1D8
 extern u8 Cont_No[4];                     // size: 0x4, address: 0x57A1F8
 extern u8 ixbfw_cut;                      // size: 0x1, address: 0x57A1FC
 extern u8 test_flag;                      // size: 0x1, address: 0x57A200

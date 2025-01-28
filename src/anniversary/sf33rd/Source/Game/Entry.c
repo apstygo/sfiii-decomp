@@ -155,7 +155,23 @@ void Entry_01_Sub(s16 PL_id) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Exit_Title_Sub_Entry);
+void Exit_Title_Sub_Entry() {
+    s16 i;
+    s16 j;
+
+    E_No[0] = 2;
+    E_No[1] = 0;
+    E_No[2] = 0;
+    E_No[3] = 0;
+    F_No1[0] = F_No2[0] = F_No3[0] = 0;
+    F_No1[1] = F_No2[1] = F_No3[1] = 0;
+
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 4; j++) {
+            E_Number[i][j] = 0;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_02);
 
