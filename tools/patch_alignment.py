@@ -7,6 +7,7 @@ skipped_rodata = {
     "GD3rd",
     "init3rd",
     "flADX",
+    "Entry",
 }
 
 # (file, section, index of section within sections of this type) -> alignment
@@ -30,6 +31,7 @@ special_cases = {
     ("sbss_579878", ".sbss", 0): 8,
     ("bss_6BDA68", ".bss", 0): 8,
     ("flPADUSR", ".rodata", 0): 16,
+    ("Entry", ".rodata", 4): 16,
 }
 
 def alignment_to_bytes(alignment: int) -> bytes:
@@ -63,21 +65,21 @@ def alignments(path: Path) -> list[tuple[int, int]]:
                 continue
 
             filename = path.stem.split(".")[0]
+            section_key = (filename, section.name, section_indices[section.name])
 
-            if section.name == '.rodata' and filename in skipped_rodata:
+            if section.name == '.rodata' and filename in skipped_rodata and section_key not in special_cases:
+                section_indices[section.name] += 1
                 continue
 
             header_offset = elf_header["e_shoff"] + section_index * elf_header["e_shentsize"]
             align_offset = header_offset + 8 * 4 # 8 is the index of alignment value
-
-            section_key = (filename, section.name, section_indices[section.name])
             section_alignment = 1
 
             if section_key in special_cases:
                 section_alignment = special_cases[section_key]
             elif section.name in (".bss", ".sbss", ".sdata"):
                 # Don't change alignment of .bss/.sbss/.sdata sections if not explicitly stated
-                continue
+                section_alignment = None
 
             alignments.append((align_offset, section_alignment))
             section_indices[section.name] += 1
@@ -93,6 +95,9 @@ def main():
 
     with open(path, "r+b") as f:
         for offset, alignment in aligns:
+            if not alignment:
+                continue
+
             f.seek(offset)
             f.write(alignment_to_bytes(alignment))
 

@@ -7,6 +7,16 @@ u8 letter_stack[40];
 u8 letter_counter;
 u8 *letter_ptr;
 
+const u8 Coin_Message_Data[7][2] = {
+    { 5, 30 },
+    { 2, 27 },
+    { 7, 32 },
+    { 17, 37 },
+    { 6, 31 },
+    { 5, 42 },
+    { 0, 0 }
+};
+
 void Entry_00();
 void Entry_01();
 void Entry_02();
@@ -82,7 +92,20 @@ void Entry_00() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Disp_00_0);
+void Disp_00_0() {
+    if (save_w[1].extra_option.contents[3][5] == 0) {
+        return;
+    }
+
+    SSPutStr(15, Insert_Y, 9, "PRESS START BUTTON");
+
+    if (!(G_No[1] == 3 || G_No[1] == 5)) {
+        return;
+    }
+
+    SSPutStr(5, 0, 9, "PRESS 1P START");
+    SSPutStr(30, 0, 9, "PRESS 2P START");
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_01);
 
@@ -127,14 +150,6 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_10);
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_10_1st);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_10_2nd);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Coin_Message_Data);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", literal_235_0051F1B0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", literal_236_0051F1C8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", literal_237_0051F1D8);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_Main_Sub);
 

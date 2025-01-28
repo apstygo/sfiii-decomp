@@ -1621,6 +1621,7 @@ void Saver_Task(struct _TASK *task_ptr); // Range: 0x37F1B0 -> 0x37F210
 
 // sc_sub.c
 void Scrscreen_Init();                         // Range: 0x37F4A0 -> 0x37F6E4
+void SSPutStr(u16 x, u16 y, u8 atr, s8 *str);  // Range: 0x380020 -> 0x380180
 void SSPutStr2(u16 x, u16 y, u8 atr, s8 *str); // Range: 0x3806E0 -> 0x380800
 void FadeInit();                               // Range: 0x3834D0 -> 0x3834E0
 s32 FadeOut(u8 type, u8 step, u8 priority);    // Range: 0x3834E0 -> 0x3836D4
@@ -1864,6 +1865,7 @@ extern u16 Win_Record[2];                 // size: 0x4, address: 0x579E5C
 extern s16 Bonus_Game_Flag;               // size: 0x2, address: 0x579EA4
 extern s16 Max_vitality;                  // size: 0x2, address: 0x579EA8
 extern s16 DE_X[2];                       // size: 0x4, address: 0x579EB0
+extern s16 Insert_Y;                      // size: 0x2, address: 0x579F90
 extern s16 M_Timer;                       // size: 0x2, address: 0x579FBC
 extern s16 Random_ix32;                   // size: 0x2, address: 0x579FC0
 extern s16 Random_ix16;                   // size: 0x2, address: 0x579FC4
