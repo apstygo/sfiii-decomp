@@ -33,6 +33,8 @@ void Entry_06_1st();
 void Entry_06_2nd();
 void Entry_07_1st();
 void Entry_07_2nd();
+void Entry_08_1st();
+void Entry_08_2nd();
 
 void Entry_Task(struct _TASK * /* unused */) {
     s16 ix;
@@ -496,7 +498,17 @@ void Entry_07_2nd() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_08);
+void Entry_08() {
+    switch (E_No[1]) {
+    case 0:
+        Entry_08_1st();
+        break;
+
+    default:
+        Entry_08_2nd();
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_08_1st);
 
