@@ -1940,6 +1940,7 @@ extern u8 Continue_Coin[2];               // size: 0x2, address: 0x57A590
 extern u8 Country;                        // size: 0x1, address: 0x57A5E4
 extern s8 Player_id;                      // size: 0x1, address: 0x57A60C
 extern s8 Demo_Flag;                      // size: 0x1, address: 0x57A634
+extern s8 E_07_Flag[2];                   // size: 0x2, address: 0x57A63C
 extern s8 Request_G_No;                   // size: 0x1, address: 0x57A66C
 extern s8 Request_E_No;                   // size: 0x1, address: 0x57A670
 extern s8 Cover_Timer;                    // size: 0x1, address: 0x57A678
@@ -1953,6 +1954,7 @@ extern s8 Continue_Count[2];              // size: 0x2, address: 0x57A6B4
 extern s8 Request_Break[2];               // size: 0x2, address: 0x57A6B8
 extern s8 Forbid_Break;                   // size: 0x1, address: 0x57A6BC
 extern s8 Super_Arts[2];                  // size: 0x2, address: 0x57A6C0
+extern s8 Fade_Flag;                      // size: 0x1, address: 0x57A6C4
 extern u8 My_char[2];                     // size: 0x2, address: 0x57A6D4
 extern s8 Break_Into;                     // size: 0x1, address: 0x57A6D8
 extern s8 Winner_id;                      // size: 0x1, address: 0x57A6E8
