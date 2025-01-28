@@ -152,10 +152,10 @@ void Entry_01() {
 void Entry_01_Sub(s16 PL_id) {
     E_No[2] += 1;
     Request_G_No = 1;
-    plw[PL_id].wu.operator = 1;
+    plw[PL_id].wu.operator= 1;
     Operator_Status[PL_id] = 1;
     Champion = PL_id;
-    plw[PL_id ^ 1].wu.operator = 0;
+    plw[PL_id ^ 1].wu.operator= 0;
     Operator_Status[PL_id ^ 1] = 0;
     Ignore_Entry[0] = 0;
     Ignore_Entry[1] = 0;
@@ -243,7 +243,7 @@ void Entry_03_2nd() {
             E_No[1] = 0;
             E_No[2] = 0;
             E_No[3] = 0;
-            plw[New_Challenger].wu.operator = 1;
+            plw[New_Challenger].wu.operator= 1;
             Operator_Status[New_Challenger] = 1;
             Sel_Arts_Complete[Champion] = -1;
 
@@ -319,7 +319,7 @@ void Entry_04_2nd() {
             E_No[2] = 0;
             E_No[3] = 0;
             Game_pause = 0;
-            plw[New_Challenger].wu.operator = 1;
+            plw[New_Challenger].wu.operator= 1;
             Operator_Status[New_Challenger] = 1;
 
             if (Continue_Coin[New_Challenger] == 0) {
@@ -390,7 +390,7 @@ void Entry_06_2nd() {
         Fade_Flag = 0;
 
         if (E_07_Flag[0]) {
-            plw[0].wu.operator = 1;
+            plw[0].wu.operator= 1;
             Operator_Status[0] = 1;
 
             if (Continue_Coin[0] == 0) {
@@ -399,7 +399,7 @@ void Entry_06_2nd() {
         }
 
         if (E_07_Flag[1]) {
-            plw[1].wu.operator = 1;
+            plw[1].wu.operator= 1;
             Operator_Status[1] = 1;
 
             if (Continue_Coin[1] == 0) {
@@ -441,7 +441,60 @@ void Entry_07_1st() {
     Entry_Main_Sub(1, 8);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_07_2nd);
+void Entry_07_2nd() {
+    if (E_07_Flag[0] == 0) {
+        Entry_Main_Sub(0, 8);
+    }
+
+    if (E_07_Flag[1] == 0) {
+        Entry_Main_Sub(1, 8);
+    }
+
+    switch (E_No[2]) {
+    case 0:
+        if (!--E_Timer) {
+            E_No[2] += 1;
+            Switch_Screen_Init(1);
+        }
+
+        break;
+
+    default:
+        if (Switch_Screen(1) != 0) {
+            Cover_Timer = 23;
+            G_No[1] = 1;
+            G_No[2] = 0;
+            G_No[3] = 0;
+            E_No[0] = 2;
+            E_No[1] = 0;
+            E_No[2] = 0;
+            E_No[3] = 0;
+
+            if (E_07_Flag[0]) {
+                plw[0].wu.operator= 1;
+                Operator_Status[0] = 1;
+
+                if (Continue_Coin[0] == 0) {
+                    grade_check_work_1st_init(0, 0);
+                }
+            }
+
+            if (E_07_Flag[1]) {
+                plw[1].wu.operator= 1;
+                Operator_Status[1] = 1;
+
+                if (Continue_Coin[1] == 0) {
+                    grade_check_work_1st_init(1, 0);
+                }
+            }
+
+            E_07_Flag[0] = 0;
+            E_07_Flag[1] = 0;
+        }
+
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_08);
 
