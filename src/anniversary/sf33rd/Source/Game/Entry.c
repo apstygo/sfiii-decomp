@@ -139,7 +139,21 @@ void Entry_01() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_01_Sub);
+void Entry_01_Sub(s16 PL_id) {
+    E_No[2] += 1;
+    Request_G_No = 1;
+    plw[PL_id].wu.operator = 1;
+    Operator_Status[PL_id] = 1;
+    Champion = PL_id;
+    plw[PL_id ^ 1].wu.operator = 0;
+    Operator_Status[PL_id ^ 1] = 0;
+    Ignore_Entry[0] = 0;
+    Ignore_Entry[1] = 0;
+
+    if (Continue_Coin[PL_id] == 0) {
+        grade_check_work_1st_init(PL_id, 0);
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Exit_Title_Sub_Entry);
 

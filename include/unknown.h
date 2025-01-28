@@ -1579,7 +1579,7 @@ void Push_LDREQ_Queue_BG(s16 ix);             // Range: 0x254EB0 -> 0x254EEC
 s32 Check_LDREQ_Queue_BG(s16 ix);             // Range: 0x255960 -> 0x255994
 
 // Grade.c
-void grade_check_work_1st_init(s16 ix, s16 ix2); // Range: 0x255B90 -> 0x255D78
+void grade_check_work_1st_init(s32 ix, s32 ix2); // Range: 0x255B90 -> 0x255D78
 
 // init3rd.c
 void Init_Task(struct _TASK *task_ptr); // Range: 0x266080 -> 0x2660D4
@@ -1936,6 +1936,7 @@ extern u8 Continue_Coin[2];               // size: 0x2, address: 0x57A590
 extern u8 Country;                        // size: 0x1, address: 0x57A5E4
 extern s8 Player_id;                      // size: 0x1, address: 0x57A60C
 extern s8 Demo_Flag;                      // size: 0x1, address: 0x57A634
+extern s8 Request_G_No;                   // size: 0x1, address: 0x57A66C
 extern s8 Request_E_No;                   // size: 0x1, address: 0x57A670
 extern s8 Cover_Timer;                    // size: 0x1, address: 0x57A678
 extern s8 Switch_Type;                    // size: 0x1, address: 0x57A67C
