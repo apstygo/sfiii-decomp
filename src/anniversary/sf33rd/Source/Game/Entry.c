@@ -264,7 +264,18 @@ void Entry_04() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_04_1st);
+void Entry_04_1st() {
+    switch (E_No[2]) {
+    case 0:
+        E_No[2] += 1;
+        break;
+    }
+
+    if (Game_pause != 0x81) {
+        Entry_Main_Sub(0, 5);
+        Entry_Main_Sub(1, 5);
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_04_2nd);
 
