@@ -1936,6 +1936,7 @@ extern u8 Continue_Coin[2];               // size: 0x2, address: 0x57A590
 extern u8 Country;                        // size: 0x1, address: 0x57A5E4
 extern s8 Player_id;                      // size: 0x1, address: 0x57A60C
 extern s8 Demo_Flag;                      // size: 0x1, address: 0x57A634
+extern s8 Request_E_No;                   // size: 0x1, address: 0x57A670
 extern s8 Cover_Timer;                    // size: 0x1, address: 0x57A678
 extern s8 Switch_Type;                    // size: 0x1, address: 0x57A67C
 extern s8 Next_Step;                      // size: 0x1, address: 0x57A680

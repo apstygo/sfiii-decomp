@@ -7,15 +7,7 @@ u8 letter_stack[40];
 u8 letter_counter;
 u8 *letter_ptr;
 
-const u8 Coin_Message_Data[7][2] = {
-    { 5, 30 },
-    { 2, 27 },
-    { 7, 32 },
-    { 17, 37 },
-    { 6, 31 },
-    { 5, 42 },
-    { 0, 0 }
-};
+const u8 Coin_Message_Data[7][2] = { { 5, 30 }, { 2, 27 }, { 7, 32 }, { 17, 37 }, { 6, 31 }, { 5, 42 }, { 0, 0 } };
 
 void Entry_00();
 void Entry_01();
@@ -26,6 +18,9 @@ void Entry_06();
 void Entry_07();
 void Entry_08();
 void Entry_10();
+
+void Entry_01_Sub(s16 PL_id);
+void Exit_Title_Sub_Entry();
 
 void Disp_00_0();
 
@@ -107,7 +102,42 @@ void Disp_00_0() {
     SSPutStr(30, 0, 9, "PRESS 2P START");
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_01);
+void Entry_01() {
+    switch (E_No[2]) {
+    case 0:
+        E_No[2] += 1;
+        E_No[1] = 1;
+        Break_Into = 0;
+        break;
+
+    case 1:
+        Entry_00();
+
+        if (~p1sw_1 & p1sw_0 & 0x4000) {
+            Entry_01_Sub(0);
+            return;
+        }
+
+        if (~p2sw_1 & p2sw_0 & 0x4000) {
+            Entry_01_Sub(1);
+            return;
+        }
+
+        break;
+
+    case 2:
+        if (Request_E_No) {
+            E_No[2] += 1;
+            return;
+        }
+
+        break;
+
+    default:
+        Exit_Title_Sub_Entry();
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_01_Sub);
 
