@@ -1568,9 +1568,6 @@ void effect_work_init(); // Range: 0x21AEE0 -> 0x21B05C
 s32 effect_K6_init(s16 PL_id, s16 dir_old, s16 dm_vital, s16 Target_BG); // Range: 0x22EEC0 -> 0x22F020
 s32 effect_L1_init(s16 flag);                                            // Range: 0x232820 -> 0x2328E8
 
-// Entry.c
-void Entry_Task(); // Range: 0x24B5C0 -> 0x24B708
-
 // Game.c
 void Game_Task(struct _TASK *task_ptr); // Range: 0x250190 -> 0x250378
 void Game01_Sub();                      // Range: 0x2514F0 -> 0x2515C0
@@ -1906,6 +1903,7 @@ extern u8 test_flag;                      // size: 0x1, address: 0x57A200
 extern u8 Exit_Menu;                      // size: 0x1, address: 0x57A24C
 extern u8 Play_Type;                      // size: 0x1, address: 0x57A250
 extern u8 Pause_ID;                       // size: 0x1, address: 0x57A254
+extern u8 Pause;                          // size: 0x1, address: 0x57A258
 extern u8 Game_pause;                     // size: 0x1, address: 0x57A260
 extern u8 Menu_Suicide[4];                // size: 0x4, address: 0x57A264
 extern u8 Connect_Status;                 // size: 0x1, address: 0x57A268

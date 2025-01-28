@@ -1,6 +1,51 @@
+#include "sf33rd/Source/Game/Entry.h"
 #include "common.h"
+#include "sf33rd/Source/Game/Reset.h"
+#include "unknown.h"
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_Task);
+u8 letter_stack[40];
+u8 letter_counter;
+u8 *letter_ptr;
+
+void Entry_00();
+void Entry_01();
+void Entry_02();
+void Entry_03();
+void Entry_04();
+void Entry_06();
+void Entry_07();
+void Entry_08();
+void Entry_10();
+
+void Entry_Task(struct _TASK * /* unused */) {
+    s16 ix;
+    s16 ff;
+
+    void (*Main_Jmp_Tbl[11])() = { Entry_00, Entry_01, Entry_02, Entry_03, Entry_04, Entry_03,
+                                   Entry_06, Entry_07, Entry_08, Entry_03, Entry_10 };
+
+    if (Pause || nowSoftReset()) {
+        return;
+    }
+
+    ff = 1;
+
+    if ((Usage == 7) && !Turbo) {
+        ff = sysFF;
+    }
+
+    for (ix = 0; ix < ff; ix++) {
+        if (ix == (ff - 1)) {
+            No_Trans = 0;
+        } else {
+            No_Trans = 1;
+        }
+
+        letter_counter = 0;
+        letter_ptr = letter_stack;
+        Main_Jmp_Tbl[E_No[0]]();
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_00);
 

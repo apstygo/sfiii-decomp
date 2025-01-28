@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/init3rd.h"
+#include "sf33rd/Source/Game/Entry.h"
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/Reset.h"
 #include "sf33rd/Source/Game/SYS_sub2.h"
