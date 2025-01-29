@@ -2,6 +2,9 @@
 #include "common.h"
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/Reset.h"
+#include "sf33rd/Source/Game/end_data.h"
+#include "sf33rd/Source/Game/main.h"
+#include "sf33rd/Source/Game/n_input.h"
 #include "unknown.h"
 
 u8 letter_stack[40];
@@ -35,6 +38,26 @@ void Entry_07_1st();
 void Entry_07_2nd();
 void Entry_08_1st();
 void Entry_08_2nd();
+void Entry_10_1st();
+void Entry_10_2nd();
+void Break_Into_Sub(s16 PL_id, s16 Jump_Index);
+void Entry_Common_Sub(s16 PL_id, s16 Jump_Index);
+void Entry_Continue_Sub(s16 PL_id);
+void In_Game_Sub(s16 PL_id);
+void In_Over_Sub(s16 PL_id);
+void Loser_Scene_Sub(s16 PL_id, s16 Jump_Index);
+void Name_In_Sub(s16 PL_id);
+void Name_In_Sub0(s16 PL_id, s16 xx);
+s32 Credit_Continue_1P();
+s32 Credit_Continue_2P();
+void Naming_Cut_Sub_1P();
+void Naming_Cut_Sub_2P();
+void Naming_Init(s16 PL_id);
+s32 Ck_Break_Into_SP(u16 Sw_0, u16 Sw_1, s16 PL_id);
+s32 Credit_Sub_1P();
+s32 Credit_Sub_2P();
+s32 Loser_Sub_1P();
+s32 Loser_Sub_2P();
 
 void Entry_Task(struct _TASK * /* unused */) {
     s16 ix;
@@ -510,31 +533,404 @@ void Entry_08() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_08_1st);
+void Entry_08_1st() {
+    switch (E_No[2]) {
+    case 0:
+        E_No[2] += 1;
+        /* fallthrough */
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_08_2nd);
+    case 1:
+        Entry_Main_Sub(0, 9);
+        Entry_Main_Sub(1, 9);
+        break;
+    }
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_10);
+void Entry_08_2nd() {
+    if (E_07_Flag[0] == 0) {
+        Entry_Main_Sub(0, 9);
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_10_1st);
+    if (E_07_Flag[1] == 0) {
+        Entry_Main_Sub(1, 9);
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_10_2nd);
+    switch (E_No[2]) {
+    case 0:
+        E_No[2] += 1;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_Main_Sub);
+        if ((E_Number[LOSER][0] == 8) && (E_Number[LOSER][1] == 1)) {
+            Clear_Personal_Data(LOSER);
+        }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Naming_Init);
+        Switch_Screen_Init(1);
+        break;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Naming_Cut_Sub_1P);
+    default:
+        if (Switch_Screen(1) != 0) {
+            Cover_Timer = 23;
+            G_No[1] = 1;
+            G_No[2] = 0;
+            G_No[3] = 0;
+            E_No[0] = 2;
+            E_No[1] = 0;
+            E_No[2] = 0;
+            E_No[3] = 0;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Naming_Cut_Sub_2P);
+            if (E_07_Flag[0]) {
+                plw[0].wu.operator= 1;
+                Operator_Status[0] = 1;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Name_In_Sub);
+                if (Continue_Coin[0] == 0) {
+                    grade_check_work_1st_init(0, 0);
+                }
+            }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Name_In_Sub0);
+            if (E_07_Flag[1]) {
+                plw[1].wu.operator= 1;
+                Operator_Status[1] = 1;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_Common_Sub);
+                if (Continue_Coin[1] == 0) {
+                    grade_check_work_1st_init(1, 0);
+                }
+            }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Loser_Scene_Sub);
+            E_07_Flag[0] = 0;
+            E_07_Flag[1] = 0;
+            Request_Disp_Rank[0][0] = -1;
+            Request_Disp_Rank[0][1] = -1;
+            Request_Disp_Rank[1][0] = -1;
+            Request_Disp_Rank[1][1] = -1;
+        }
+
+        break;
+    }
+}
+
+void Entry_10() {
+    if ((E_Number[0][0] == 0x63) && (E_Number[1][0] == 0x63)) {
+        cpExitTask(1);
+        return;
+    }
+
+    switch (E_No[1]) {
+    case 0:
+        Entry_10_1st();
+        break;
+
+    default:
+        Entry_10_2nd();
+        break;
+    }
+}
+
+void Entry_10_1st() {
+    switch (E_No[2]) {
+    case 0:
+        E_No[2] += 1;
+        break;
+
+    case 1:
+        E_No[2] += 1;
+        Setup_Final_Grade();
+
+        if (Check_Ranking(WINNER) != 0) {
+            E_Number[WINNER][0] = 2;
+            E_Number[WINNER][1] = 0;
+            E_Number[WINNER][2] = 0;
+            E_Number[WINNER][3] = 0;
+            Request_Disp_Rank[WINNER][0] = Rank_In[WINNER][0];
+            Request_Disp_Rank[WINNER][1] = Rank_In[WINNER][1];
+            Request_Disp_Rank[WINNER][2] = Rank_In[WINNER][2];
+            Request_Disp_Rank[WINNER][3] = Rank_In[WINNER][3];
+        } else {
+            E_Number[WINNER][0] = 8;
+            E_Number[WINNER][1] = 0;
+        }
+
+        /* fallthrough */
+
+    default:
+        Entry_Main_Sub(0, 10);
+        Entry_Main_Sub(1, 10);
+        break;
+    }
+}
+
+void Entry_10_2nd() {
+    if (E_07_Flag[0] == 0) {
+        Entry_Main_Sub(0, 10);
+    }
+
+    if (E_07_Flag[1] == 0) {
+        Entry_Main_Sub(1, 10);
+    }
+
+    switch (E_No[2]) {
+    case 0:
+        E_No[2] += 1;
+
+        if ((E_Number[LOSER][0] == 8) && (E_Number[LOSER][1] == 1)) {
+            Clear_Personal_Data(LOSER);
+        }
+
+        Switch_Screen_Init(1);
+        break;
+
+    default:
+        if (Switch_Screen(1) != 0) {
+            Cover_Timer = 23;
+            G_No[1] = 1;
+            G_No[2] = 0;
+            G_No[3] = 0;
+            E_No[0] = 2;
+            E_No[1] = 0;
+            E_No[2] = 0;
+            E_No[3] = 0;
+
+            if (E_07_Flag[0]) {
+                plw[0].wu.operator= 1;
+                Operator_Status[0] = 1;
+
+                if (Continue_Coin[0] == 0) {
+                    grade_check_work_1st_init(0, 0);
+                }
+            }
+
+            if (E_07_Flag[1]) {
+                plw[1].wu.operator= 1;
+                Operator_Status[1] = 1;
+
+                if (Continue_Coin[1] == 0) {
+                    grade_check_work_1st_init(1, 0);
+                }
+            }
+
+            E_07_Flag[0] = 0;
+            E_07_Flag[1] = 0;
+            Request_Disp_Rank[0][0] = -1;
+            Request_Disp_Rank[0][1] = -1;
+            Request_Disp_Rank[1][0] = -1;
+            Request_Disp_Rank[1][1] = -1;
+        }
+
+        break;
+    }
+}
+
+void Entry_Main_Sub(s16 PL_id, s16 Jump_Index) {
+    ENTRY_X = 0;
+
+    switch (E_Number[PL_id][0]) {
+    case 0:
+        if (!Ignore_Entry[LOSER]) {
+            if ((E_No[0] == 10) || (E_No[0] == 8)) {
+                E_Number[PL_id][0] = 99;
+                return;
+            }
+
+            if (plw[PL_id].wu.operator== 0) {
+                Entry_Common_Sub(PL_id, Jump_Index);
+                return;
+            }
+        }
+
+        break;
+
+    case 1:
+        if (PL_id) {
+            if (Credit_Continue_2P() != 0) {
+                Break_Into_Sub(PL_id, Jump_Index);
+            }
+        } else if (Credit_Continue_1P() != 0) {
+            Break_Into_Sub(PL_id, Jump_Index);
+        }
+
+        if (Request_Break[PL_id]) {
+            E_Number[PL_id][0] = 0;
+            E_Number[PL_id][1] = 0;
+            E_Number[PL_id][2] = 0;
+            E_Number[PL_id][3] = 0;
+            return;
+        }
+
+        if ((E_Number[PL_id][0] == 1) && (E_07_Flag[PL_id ^ 1] == 0)) {
+            Entry_Continue_Sub(PL_id);
+            return;
+        }
+
+        break;
+
+    case 2:
+        switch (E_Number[PL_id][1]) {
+        case 0:
+            E_Number[PL_id][1] += 1;
+            Personal_Timer[PL_id] = 30;
+            break;
+
+        case 1:
+            if (!--Personal_Timer[PL_id]) {
+                E_Number[PL_id][1] += 1;
+                Naming_Init(PL_id);
+                return;
+            }
+
+            break;
+
+        case 2:
+            if (Forbid_Break != 1) {
+                if (PL_id == 0) {
+                    Naming_Cut_Sub_1P();
+                } else {
+                    Naming_Cut_Sub_2P();
+                }
+
+                if (Name_Input(PL_id)) {
+                    Name_In_Sub(PL_id);
+
+                    if (Naming_Cut[PL_id]) {
+                        Clear_Personal_Data(PL_id);
+                        return;
+                    }
+
+                    E_Number[PL_id][2] = 0;
+                    E_Number[PL_id][3] = 0;
+
+                    if (E_No[0] == 8) {
+                        E_Number[PL_id][0] = 8;
+                        E_Number[PL_id][1] = 1;
+                        return;
+                    }
+
+                    E_Number[PL_id][0] = 8;
+                    E_Number[PL_id][1] = 0;
+                    return;
+                }
+            }
+
+            break;
+        }
+
+        break;
+
+    case 3:
+        switch (E_Number[PL_id][1]) {
+        case 0:
+            if ((E_No[0] == 8) || (E_No[0] == 2)) {
+                E_Number[PL_id][0] = 2;
+                E_Number[PL_id][1] = 2;
+                E_Number[PL_id][2] = 0;
+                E_Number[PL_id][3] = 0;
+                Naming_Init(PL_id);
+                return;
+            }
+
+            break;
+
+        case 1:
+            if ((E_No[0] == 8) || (E_No[0] == 2)) {
+                E_Number[PL_id][0] = 8;
+                E_Number[PL_id][1] = 1;
+                E_Number[PL_id][2] = 0;
+                E_Number[PL_id][3] = 0;
+
+                if (E_No[0] == 2) {
+                    E_Number[PL_id][1] = 0;
+                    return;
+                }
+            }
+
+            break;
+        }
+
+        break;
+
+    case 8:
+        switch (E_Number[PL_id][1]) {
+        case 0:
+            In_Game_Sub(PL_id);
+            break;
+
+        case 1:
+            In_Over_Sub(PL_id);
+            break;
+        }
+
+        break;
+
+    case 5:
+        Loser_Scene_Sub(PL_id, Jump_Index);
+        break;
+    }
+}
+
+void Naming_Init(s16 PL_id) {
+    Naming_Cut[PL_id] = 0;
+    Name_00[PL_id] = 0;
+    name_wk[PL_id].r_no_0 = 0;
+    name_wk[PL_id].r_no_1 = 0;
+    end_name_cut[PL_id] = 0;
+}
+
+void Naming_Cut_Sub_1P() {
+    if (!Naming_Cut[0] && (Ck_Break_Into_SP(p1sw_0, p1sw_1, 0) != 0)) {
+        Game_pause = 0;
+        Naming_Cut[0] = 1;
+        Request_Break[0] = 1;
+    }
+}
+
+void Naming_Cut_Sub_2P() {
+    if (!Naming_Cut[1] && (Ck_Break_Into_SP(p2sw_0, p2sw_1, 1) != 0)) {
+        Game_pause = 0;
+        Naming_Cut[1] = 1;
+        Request_Break[1] = 1;
+    }
+}
+
+void Name_In_Sub(s16 PL_id) {
+    if (Rank_In[PL_id][0] >= 0) {
+        Name_In_Sub0(PL_id, Rank_In[PL_id][0] + 0);
+    }
+
+    if (Rank_In[PL_id][1] >= 0) {
+        Name_In_Sub0(PL_id, Rank_In[PL_id][1] + 5);
+    }
+
+    if (Rank_In[PL_id][2] >= 0) {
+        Name_In_Sub0(PL_id, Rank_In[PL_id][2] + 10);
+    }
+
+    if (Rank_In[PL_id][3] >= 0) {
+        Name_In_Sub0(PL_id, Rank_In[PL_id][3] + 15);
+    }
+}
+
+void Name_In_Sub0(s16 PL_id, s16 xx) {
+    Ranking_Data[xx].name[0] = rank_name_w[PL_id].code[0];
+    Ranking_Data[xx].name[1] = rank_name_w[PL_id].code[1];
+    Ranking_Data[xx].name[2] = rank_name_w[PL_id].code[2];
+}
+
+void Entry_Common_Sub(s16 PL_id, s16 Jump_Index) {
+    if (PL_id) {
+        if (Credit_Sub_2P() != 0) {
+            Break_Into_Sub(PL_id, Jump_Index);
+        }
+    } else if (Credit_Sub_1P() != 0) {
+        Break_Into_Sub(PL_id, Jump_Index);
+    }
+}
+
+void Loser_Scene_Sub(s16 PL_id, s16 Jump_Index) {
+    if (PL_id) {
+        if (Loser_Sub_2P() != 0) {
+            Break_Into_Sub(PL_id, Jump_Index);
+        }
+    } else if (Loser_Sub_1P() != 0) {
+        Break_Into_Sub(PL_id, Jump_Index);
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Loser_Sub_1P);
 

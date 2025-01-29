@@ -1496,6 +1496,45 @@ typedef struct {
     u8 use;         // offset 0xB, size 0x1
 } RCKeyWork;
 
+typedef struct {
+    // total size: 0x32
+    s8 type;         // offset 0x0, size 0x1
+    s8 form;         // offset 0x1, size 0x1
+    s8 end_flag[4];  // offset 0x2, size 0x4
+    s8 dmm;          // offset 0x6, size 0x1
+    s16 id;          // offset 0x8, size 0x2
+    s16 r_no_0;      // offset 0xA, size 0x2
+    s16 r_no_1;      // offset 0xC, size 0x2
+    u8 rank_in;      // offset 0xE, size 0x1
+    s16 rank_status; // offset 0x10, size 0x2
+    s16 rank;        // offset 0x12, size 0x2
+    s16 status;      // offset 0x14, size 0x2
+    s16 index;       // offset 0x16, size 0x2
+    s16 timer;       // offset 0x18, size 0x2
+    s16 code[4];     // offset 0x1A, size 0x8
+    s16 old_code[4]; // offset 0x22, size 0x8
+    s16 count1[2];   // offset 0x2A, size 0x4
+    s8 count2[2];    // offset 0x2E, size 0x2
+    s16 wait_cnt;    // offset 0x30, size 0x2
+} NAME_WK;
+
+typedef struct {
+    // total size: 0x14
+    u8 name[3];      // offset 0x0, size 0x3
+    u16 player;      // offset 0x4, size 0x2
+    u32 score;       // offset 0x8, size 0x4
+    s8 cpu_grade;    // offset 0xC, size 0x1
+    s8 grade;        // offset 0xD, size 0x1
+    u16 wins;        // offset 0xE, size 0x2
+    u8 player_color; // offset 0x10, size 0x1
+    u8 all_clear;    // offset 0x11, size 0x1
+} RANK_DATA;
+
+typedef struct {
+    // total size: 0x4
+    s8 code[4]; // offset 0x0, size 0x4
+} UNK_14;
+
 // .text
 
 void mflInit(void *mem_ptr, s32 memsize, s32 memalign);                     // Range: 0x115FB0 -> 0x115FFC
@@ -1665,6 +1704,7 @@ s32 Switch_Screen_Revival(u8 Wipe_Type);           // Range: 0x3A1D10 -> 0x3A1D7
 void Clear_Personal_Data(s16 PL_id);               // Range: 0x3A21C0 -> 0x3A2744
 void Clear_Flash_No();                             // Range: 0x3A2910 -> 0x3A2954
 s32 Cut_Cut_Cut();                                 // Range: 0x3A2960 -> 0x3A29F0
+void Setup_Final_Grade();                          // Range: 0x3A3320 -> 0x3A33D8
 void Game_Data_Init();                             // Range: 0x3A3740 -> 0x3A380C
 void Setup_IO_ConvDataDefault(s32 id);             // Range: 0x3A3810 -> 0x3A388C
 void Save_Game_Data();                             // Range: 0x3A3890 -> 0x3A3B80
@@ -1684,6 +1724,7 @@ s16 Check_SysDir_Page();                           // Range: 0x3A6060 -> 0x3A617
 void Clear_Flash_Init(s16 level);                  // Range: 0x3A6180 -> 0x3A61A4
 s16 Clear_Flash_Sub();                             // Range: 0x3A61B0 -> 0x3A625C
 void Copy_Key_Disp_Work();                         // Range: 0x3A6260 -> 0x3A631C
+s32 Check_Ranking(s16 PL_id);                      // Range: 0x3A6680 -> 0x3A6CA0
 void All_Clear_Suicide();                          // Range: 0x3A85C0 -> 0x3A865C
 
 // aboutspr.c
@@ -1803,6 +1844,9 @@ extern UNK_Data *parabora_own_table[20];  // size: 0x50, address: 0x578CD0
 extern MessageData Message_Data[4];       // size: 0x30, address: 0x578ED0
 extern IO io_w;                           // size: 0x6C, address: 0x579230
 extern u8 r_no_plus;                      // size: 0x1, address: 0x5792B8
+extern UNK_14 rank_name_w[2];             // size: 0x8, address: 0x5792E8
+extern s16 Name_00[2];                    // size: 0x4, address: 0x579374
+extern NAME_WK name_wk[2];                // size: 0x64, address: 0x579390
 extern s16 appear_type;                   // size: 0x2, address: 0x5795C8
 extern PPWORK ppwork[2];                  // size: 0x68, address: 0x579610
 extern s16 EXE_flag;                      // size: 0x2, address: 0x579870
@@ -1870,6 +1914,7 @@ extern s16 M_Timer;                       // size: 0x2, address: 0x579FBC
 extern s16 Random_ix32;                   // size: 0x2, address: 0x579FC0
 extern s16 Random_ix16;                   // size: 0x2, address: 0x579FC4
 extern s16 Sel_Arts_Complete[2];          // size: 0x4, address: 0x57A000
+extern s16 ENTRY_X;                       // size: 0x2, address: 0x57A014
 extern s16 E_Timer;                       // size: 0x2, address: 0x57A01C
 extern s16 G_Timer;                       // size: 0x2, address: 0x57A02C
 extern u16 Game_timer;                    // size: 0x2, address: 0x57A044
@@ -1920,6 +1965,8 @@ extern u8 G_No[4];                        // size: 0x4, address: 0x57A2A4
 extern u8 S_No[4];                        // size: 0x4, address: 0x57A2A8
 extern u8 E_No[4];                        // size: 0x4, address: 0x57A2B0
 extern u8 E_Number[2][4];                 // size: 0x8, address: 0x57A2B8
+extern s8 Request_Disp_Rank[2][4];        // size: 0x8, address: 0x57A2E0
+extern s8 Rank_In[2][4];                  // size: 0x8, address: 0x57A2E8
 extern s8 Suicide[8];                     // size: 0x8, address: 0x57A2F8
 extern s8 Last_Selected_EM[2];            // size: 0x2, address: 0x57A30C
 extern u8 Continue_Count_Down[2];         // size: 0x2, address: 0x57A33C
@@ -1935,6 +1982,7 @@ extern s8 PB_Music_Off;                   // size: 0x1, address: 0x57A520
 extern s8 Operator_Status[2];             // size: 0x2, address: 0x57A550
 extern u8 Usage;                          // size: 0x1, address: 0x57A55C
 extern s8 Player_Color[2];                // size: 0x2, address: 0x57A578
+extern s8 Naming_Cut[2];                  // size: 0x2, address: 0x57A580
 extern s8 Ignore_Entry[2];                // size: 0x2, address: 0x57A58C
 extern u8 Continue_Coin[2];               // size: 0x2, address: 0x57A590
 extern u8 Country;                        // size: 0x1, address: 0x57A5E4
@@ -1943,6 +1991,7 @@ extern s8 Demo_Flag;                      // size: 0x1, address: 0x57A634
 extern s8 E_07_Flag[2];                   // size: 0x2, address: 0x57A63C
 extern s8 Request_G_No;                   // size: 0x1, address: 0x57A66C
 extern s8 Request_E_No;                   // size: 0x1, address: 0x57A670
+extern s8 Personal_Timer[2];              // size: 0x2, address: 0x57A674
 extern s8 Cover_Timer;                    // size: 0x1, address: 0x57A678
 extern s8 Switch_Type;                    // size: 0x1, address: 0x57A67C
 extern s8 Next_Step;                      // size: 0x1, address: 0x57A680
@@ -1994,6 +2043,7 @@ extern CharInitData char_init_data[23];           // size: 0x8FC, address: 0x595
 extern f32 PrioBase[128];                         // size: 0x200, address: 0x5E3F50
 extern PLW plw[2];                                // size: 0x8D8, address: 0x5E4D20
 extern RCKeyWork rckey_work[64];                  // size: 0x300, address: 0x5E5600
+extern RANK_DATA Ranking_Data[20];                // size: 0x190, address: 0x5E5900
 extern struct _SAVE_W save_w[6];                  // size: 0xC30, address: 0x6B4E80
 extern Permission permission_player[6];           // size: 0x90, address: 0x6B5AB0
 extern SystemDir system_dir[6];                   // size: 0x1B0, address: 0x6B5B40
