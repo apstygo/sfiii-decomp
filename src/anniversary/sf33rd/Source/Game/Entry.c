@@ -54,10 +54,13 @@ void Naming_Cut_Sub_1P();
 void Naming_Cut_Sub_2P();
 void Naming_Init(s16 PL_id);
 s32 Ck_Break_Into_SP(u16 Sw_0, u16 Sw_1, s16 PL_id);
+s32 Ck_Break_Into(u16 Sw_0, u16 Sw_1, s16 PL_id);
 s32 Credit_Sub_1P();
 s32 Credit_Sub_2P();
 s32 Loser_Sub_1P();
 s32 Loser_Sub_2P();
+s32 Flash_Start(s16 PL_id);
+void Setup_Next_Step(s16 PL_id);
 
 void Entry_Task(struct _TASK * /* unused */) {
     s16 ix;
@@ -932,9 +935,33 @@ void Loser_Scene_Sub(s16 PL_id, s16 Jump_Index) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Loser_Sub_1P);
+s32 Loser_Sub_1P() {
+    if ((Ck_Break_Into(p1sw_0, p1sw_1, 0) == 0) && !Request_Break[0]) {
+        if (LOSER == 0) {
+            if (save_w[1].extra_option.contents[3][5]) {
+                SSPutStr(DE_X[0], 0, 9, "     CONTINUE?");
+            }
+        } else {
+            Flash_Start(0);
+        }
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Loser_Sub_2P);
+    return ENTRY_X;
+}
+
+s32 Loser_Sub_2P() {
+    if ((Ck_Break_Into(p2sw_0, p2sw_1, 1) == 0) && !Request_Break[1]) {
+        if (LOSER == 1) {
+            if (save_w[1].extra_option.contents[3][5]) {
+                SSPutStr(DE_X[1], 0, 9, "     CONTINUE?");
+            }
+        } else {
+            Flash_Start(1);
+        }
+    }
+
+    return ENTRY_X;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Credit_Sub_1P);
 
@@ -944,25 +971,111 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Credit_Cont
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Credit_Continue_2P);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Entry_Continue_Sub);
+void Entry_Continue_Sub(s16 PL_id) {
+    if ((Continue_Count_Down[PL_id] == 0) && save_w[1].extra_option.contents[3][5]) {
+        SSPutStr(DE_X[PL_id], 0, 9, "     CONTINUE?");
+        Disp_Personal_Count(PL_id, Continue_Count[PL_id]);
+    }
+
+    switch (E_Number[PL_id][1]) {
+    case 0:
+        if (Continue_Count_Down[PL_id] == 0) {
+            E_Number[PL_id][1] += 1;
+            Personal_Timer[PL_id] = 60;
+            return;
+        }
+
+        break;
+
+    case 1:
+        if (Check_Count_Cut(PL_id, 8)) {
+            Continue_Cut[PL_id] = 1;
+        } else if (--Personal_Timer[PL_id]) {
+            break;
+        }
+
+        if (--Continue_Count[PL_id] >= 0) {
+            Personal_Timer[PL_id] = 60;
+            return;
+        }
+
+        Setup_Next_Step(PL_id);
+
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Setup_Next_Step);
+
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", literal_766_0051F228);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", In_Game_Sub);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", In_Over_Sub);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Flash_Start);
+s32 Flash_Start(s16 PL_id) {
+    switch (F_No1[PL_id]) {
+    case 0:
+        F_No1[PL_id] += 1;
+        F_No0[PL_id] = 0;
+        F_No2[PL_id] = 0;
+        F_No3[PL_id] = 0;
+        F_Timer[PL_id] = 1;
+
+        if ((E_No[0] == 6) && (PL_id == LOSER)) {
+            F_No1[PL_id] = 3;
+        }
+
+        break;
+
+    case 1:
+        if (!--F_Timer[PL_id]) {
+            F_No1[PL_id] += 1;
+            F_Timer[PL_id] = 50;
+
+            if (save_w[1].extra_option.contents[3][5]) {
+                if (PL_id) {
+                    SSPutStr(DE_X[1], 0, 9, "   PRESS 2P START");
+                } else {
+                    SSPutStr(DE_X[0], 0, 9, "   PRESS 1P START");
+                }
+            }
+        }
+
+        break;
+
+    case 2:
+        if (--F_Timer[PL_id]) {
+            if (save_w[1].extra_option.contents[3][5]) {
+                if (PL_id) {
+                    SSPutStr(DE_X[1], 0, 9, "   PRESS 2P START");
+                } else {
+                    SSPutStr(DE_X[0], 0, 9, "   PRESS 1P START");
+                }
+            }
+        } else {
+            F_No1[PL_id] -= 1;
+            F_Timer[PL_id] = 30;
+        }
+
+        break;
+
+    case 3:
+        F_No1[PL_id] = 99;
+        /* fallthrough */
+
+    default:
+        if (save_w[1].extra_option.contents[3][5]) {
+            SSPutStr(DE_X[1], 0, 9, "     CONTINUE?");
+        }
+
+        break;
+    }
+
+    return 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", Flash_Please);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", literal_655_0051F218);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", literal_766_0051F228);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", literal_808_0051F240);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", literal_809_0051F260);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Entry", literal_827_0051F280);
 

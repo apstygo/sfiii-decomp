@@ -1702,6 +1702,8 @@ void Switch_Screen_Init(s32 /* unused */);         // Range: 0x3A1C50 -> 0x3A1C9
 s32 Switch_Screen(u8 Wipe_Type);                   // Range: 0x3A1CA0 -> 0x3A1D08
 s32 Switch_Screen_Revival(u8 Wipe_Type);           // Range: 0x3A1D10 -> 0x3A1D78
 void Clear_Personal_Data(s16 PL_id);               // Range: 0x3A21C0 -> 0x3A2744
+s16 Check_Count_Cut(s16 PL_id, s16 Limit);         // Range: 0x3A2750 -> 0x3A2850
+void Disp_Personal_Count(s16 PL_id, s8 counter);   // Range: 0x3A2850 -> 0x3A28B8
 void Clear_Flash_No();                             // Range: 0x3A2910 -> 0x3A2954
 s32 Cut_Cut_Cut();                                 // Range: 0x3A2960 -> 0x3A29F0
 void Setup_Final_Grade();                          // Range: 0x3A3320 -> 0x3A33D8
@@ -1915,6 +1917,7 @@ extern s16 Random_ix32;                   // size: 0x2, address: 0x579FC0
 extern s16 Random_ix16;                   // size: 0x2, address: 0x579FC4
 extern s16 Sel_Arts_Complete[2];          // size: 0x4, address: 0x57A000
 extern s16 ENTRY_X;                       // size: 0x2, address: 0x57A014
+extern s16 F_Timer[2];                    // size: 0x4, address: 0x57A018
 extern s16 E_Timer;                       // size: 0x2, address: 0x57A01C
 extern s16 G_Timer;                       // size: 0x2, address: 0x57A02C
 extern u16 Game_timer;                    // size: 0x2, address: 0x57A044
@@ -1968,6 +1971,7 @@ extern u8 E_Number[2][4];                 // size: 0x8, address: 0x57A2B8
 extern s8 Request_Disp_Rank[2][4];        // size: 0x8, address: 0x57A2E0
 extern s8 Rank_In[2][4];                  // size: 0x8, address: 0x57A2E8
 extern s8 Suicide[8];                     // size: 0x8, address: 0x57A2F8
+extern u8 Continue_Cut[2];                // size: 0x2, address: 0x57A304
 extern s8 Last_Selected_EM[2];            // size: 0x2, address: 0x57A30C
 extern u8 Continue_Count_Down[2];         // size: 0x2, address: 0x57A33C
 extern u8 GO_No[4];                       // size: 0x4, address: 0x57A344
