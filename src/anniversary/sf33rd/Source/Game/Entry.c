@@ -2,6 +2,7 @@
 #include "common.h"
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/Reset.h"
+#include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/end_data.h"
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/n_input.h"

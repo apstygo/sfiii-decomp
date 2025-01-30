@@ -1,5 +1,6 @@
-#include "unknown.h"
 #include "common.h"
+#include "sf33rd/Source/Game/debug/Debug.h"
+#include "unknown.h"
 
 u8 CONTINUE_X; // size: 0x1, address: 0x578E50
 
@@ -12,17 +13,11 @@ void Setup_Continue_OBJ();
 static s16 Check_Exit_Continue();
 
 s32 Continue_Scene() {
-    void (* Continue_Jmp_Tbl[5])() = {
-        Continue_1st,
-        Continue_2nd,
-        Continue_3rd,
-        Continue_4th,
-        Continue_5th
-    };
+    void (*Continue_Jmp_Tbl[5])() = { Continue_1st, Continue_2nd, Continue_3rd, Continue_4th, Continue_5th };
 
     CONTINUE_X = 0;
     Continue_Jmp_Tbl[Cont_No[0]]();
-    
+
     if ((Check_Exit_Check() == 0) && (Debug_w[0x18] == 0xFF)) {
         CONTINUE_X = 0;
     }

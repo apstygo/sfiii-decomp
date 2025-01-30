@@ -1553,6 +1553,7 @@ void bg_etc_write(s16 type); // Range: 0x175920 -> 0x175FC0
 // color3rd.c
 void q_ldreq_color_data(REQ *curr); // Range: 0x19D800 -> 0x19DD7C
 void set_hitmark_color();           // Range: 0x19DE70 -> 0x19E010
+void init_color_trans_req();        // Range: 0x19F600 -> 0x19F694
 void palCreateGhost();              // Range: 0x19F8D0 -> 0x19FB50
 
 // DC_Ghost.c
@@ -1645,6 +1646,7 @@ void pulpul_stop();                 // Range: 0x37A760 -> 0x37A790
 void pulpul_stop2(s32 ix);          // Range: 0x37A790 -> 0x37A890
 void pp_vib_on(s32 id);             // Range: 0x37AB30 -> 0x37AB74
 void pp_operator_check_flag(u8 fl); // Range: 0x37ABD0 -> 0x37ABF0
+void move_pulpul_work();            // Range: 0x37ABF0 -> 0x37AC30
 
 // RAMCNT.c
 void disp_ramcnt_free_area();                                 // Range: 0x37BB90 -> 0x37BC58
@@ -1676,6 +1678,7 @@ void Sound_SE(s16 Code);               // Range: 0x389170 -> 0x38919C
 void BGM_Request(s16 Code);            // Range: 0x3891A0 -> 0x3891CC
 void BGM_Request_Code_Check(u16 Code); // Range: 0x3891D0 -> 0x3891FC
 void BGM_Stop();                       // Range: 0x389200 -> 0x389220
+void Disp_Sound_Code();                // Range: 0x389E00 -> 0x38A00C
 
 // Sound3rd.c
 void Init_sound_system();               // Range: 0x3963A0 -> 0x396438
@@ -1699,38 +1702,6 @@ void SE_selected();                     // Range: 0x398420 -> 0x398444
 void SE_dir_cursor_move();              // Range: 0x398450 -> 0x398474
 void SE_dir_selected();                 // Range: 0x398480 -> 0x3984A4
 
-// SYS_sub.c
-void Switch_Screen_Init(s32 /* unused */);         // Range: 0x3A1C50 -> 0x3A1C98
-s32 Switch_Screen(u8 Wipe_Type);                   // Range: 0x3A1CA0 -> 0x3A1D08
-s32 Switch_Screen_Revival(u8 Wipe_Type);           // Range: 0x3A1D10 -> 0x3A1D78
-void Clear_Personal_Data(s16 PL_id);               // Range: 0x3A21C0 -> 0x3A2744
-s16 Check_Count_Cut(s16 PL_id, s16 Limit);         // Range: 0x3A2750 -> 0x3A2850
-void Disp_Personal_Count(s16 PL_id, s8 counter);   // Range: 0x3A2850 -> 0x3A28B8
-void Clear_Flash_No();                             // Range: 0x3A2910 -> 0x3A2954
-s32 Cut_Cut_Cut();                                 // Range: 0x3A2960 -> 0x3A29F0
-void Setup_Final_Grade();                          // Range: 0x3A3320 -> 0x3A33D8
-void Game_Data_Init();                             // Range: 0x3A3740 -> 0x3A380C
-void Setup_IO_ConvDataDefault(s32 id);             // Range: 0x3A3810 -> 0x3A388C
-void Save_Game_Data();                             // Range: 0x3A3890 -> 0x3A3B80
-void Copy_Save_w();                                // Range: 0x3A3B80 -> 0x3A3E3C
-void Copy_Check_w();                               // Range: 0x3A3E40 -> 0x3A3FA8
-s32 Check_Change_Contents();                       // Range: 0x3A4080 -> 0x3A4410
-void Setup_Limit_Time();                           // Range: 0x3A4550 -> 0x3A4618
-void Setup_Training_Difficulty();                  // Range: 0x3A4620 -> 0x3A4720
-void Setup_BG(s16 BG_INDEX, s16 X, s16 Y);         // Range: 0x3A4720 -> 0x3A48C4
-void Setup_Virtual_BG(s16 BG_INDEX, s16 X, s16 Y); // Range: 0x3A48D0 -> 0x3A4A58
-s32 Check_PL_Load();                               // Range: 0x3A4BF0 -> 0x3A4C48
-void System_all_clear_Level_B();                   // Range: 0x3A4F20 -> 0x3A4F48
-s32 Cut_Cut_Loser();                               // Range: 0x3A5070 -> 0x3A50E0
-void Soft_Reset_Sub();                             // Range: 0x3A5100 -> 0x3A5258
-void Check_Replay_Status(s16 PL_id, u8 Status);    // Range: 0x3A58D0 -> 0x3A5A30
-s16 Check_SysDir_Page();                           // Range: 0x3A6060 -> 0x3A6174
-void Clear_Flash_Init(s16 level);                  // Range: 0x3A6180 -> 0x3A61A4
-s16 Clear_Flash_Sub();                             // Range: 0x3A61B0 -> 0x3A625C
-void Copy_Key_Disp_Work();                         // Range: 0x3A6260 -> 0x3A631C
-s32 Check_Ranking(s16 PL_id);                      // Range: 0x3A6680 -> 0x3A6CA0
-void All_Clear_Suicide();                          // Range: 0x3A85C0 -> 0x3A865C
-
 // aboutspr.c
 void Init_load_on_memory_data(); // Range: 0x3A8710 -> 0x3A87CC
 
@@ -1738,8 +1709,10 @@ void Init_load_on_memory_data(); // Range: 0x3A8710 -> 0x3A87CC
 void init_omop(); // Range: 0x3AB060 -> 0x3AB290
 
 // texcash.c
-void init_texcash_1st();   // Range: 0x3AE390 -> 0x3AE4EC
-void Clear_texcash_work(); // Range: 0x3AFEC0 -> 0x3AFF28
+void init_texcash_1st();            // Range: 0x3AE390 -> 0x3AE4EC
+void init_texcash_before_process(); // Range: 0x3AE4F0 -> 0x3AE5B8
+void texture_cash_update();         // Range: 0x3AE960 -> 0x3AEDE4
+void Clear_texcash_work();          // Range: 0x3AFEC0 -> 0x3AFF28
 
 // VM_SUB.c
 u8 VM_Access_Request(u8 Request, u8 Drive);         // Range: 0x3B1B80 -> 0x3B1BAC
@@ -1747,10 +1720,6 @@ void Setup_File_Property(s16 file_type, u8 number); // Range: 0x3B1BB0 -> 0x3B1C
 
 // zlibApp.c
 void zlib_Initialize(void *tempAdrs, s32 tempSize); // Range: 0x3B76E0 -> 0x3B776C
-
-// Debug.c
-void Debug_Task(struct _TASK *task_ptr); // Range: 0x3BDDD0 -> 0x3BDE70
-s32 Check_Exit_Check();                  // Range: 0x3BF690 -> 0x3BF6E0
 
 // MemMan.c
 void mmSystemInitialize(); // Range: 0x3C0080 -> 0x3C008C

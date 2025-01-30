@@ -1,6 +1,63 @@
 #include "common.h"
+#include "sf33rd/Source/Game/GD3rd.h"
+#include "sf33rd/Source/Game/Reset.h"
+#include "sf33rd/Source/Game/SYS_sub.h"
+#include "sf33rd/Source/Game/debug/Debug.h"
+#include "unknown.h"
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game_Task);
+void Wait_Auto_Load();
+void Loop_Demo();
+void Game();
+
+void Game_Task(struct _TASK *task_ptr) {
+    s16 ix;
+    s16 ff;
+
+    void (*Main_Jmp_Tbl[3])() = { Wait_Auto_Load, Loop_Demo, Game };
+
+    init_color_trans_req();
+    ff = Process_Counter;
+
+    if ((Usage == 7) && !Turbo) {
+        ff = sysFF;
+    }
+
+    for (ix = 0; ix < ff; ix++) {
+        if (ix == ff - 1) {
+            No_Trans = 0;
+
+            if (Turbo != 0 && (Process_Counter > 1) && (Turbo_Timer != 5)) {
+                Play_Game = 0;
+                break;
+            }
+        } else {
+            No_Trans = 1;
+        }
+
+        Play_Game = 0;
+
+        if (Game_pause != 0x81) {
+            system_timer += 1;
+        }
+
+        init_texcash_before_process();
+        seqsBeforeProcess();
+
+        if (nowSoftReset() == 0) {
+            Main_Jmp_Tbl[G_No[0]](task_ptr);
+        }
+
+        seqsAfterProcess();
+        texture_cash_update();
+        move_pulpul_work();
+        Check_Off_Vib();
+        Check_LDREQ_Queue();
+    }
+
+    Check_Check_Screen();
+    Check_Pos_BG();
+    Disp_Sound_Code();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game);
 

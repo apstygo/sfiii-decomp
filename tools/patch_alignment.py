@@ -31,6 +31,7 @@ special_cases = {
     ("sbss_579878", ".sbss", 0): 8,
     ("bss_6BDA68", ".bss", 0): 8,
     ("flPADUSR", ".rodata", 0): 16,
+    ("Game_nondecompiled", ".sdata", 0): 16,
 }
 
 def alignment_to_bytes(alignment: int) -> bytes:

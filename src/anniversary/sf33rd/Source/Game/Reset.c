@@ -1,5 +1,6 @@
 #include "sf33rd/Source/Game/Reset.h"
 #include "sf33rd/Source/Game/GD3rd.h"
+#include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/texgroup.h"
 
 u8 Reset_Status[2];
