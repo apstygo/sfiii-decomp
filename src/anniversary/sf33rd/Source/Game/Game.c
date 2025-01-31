@@ -215,7 +215,17 @@ void Game12_1() {
     SsBgmFadeOut(0x1000);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game12_2);
+void Game12_2() {
+    if (Switch_Screen(1) != 0) {
+        G_No[1] = 1;
+        G_No[2] = 0;
+        G_No[3] = 0;
+        Control_Time = 481;
+        Cover_Timer = 23;
+        effect_work_init();
+        cpExitTask(3);
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game01);
 

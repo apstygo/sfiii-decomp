@@ -1888,6 +1888,7 @@ extern s16 ENTRY_X;                       // size: 0x2, address: 0x57A014
 extern s16 F_Timer[2];                    // size: 0x4, address: 0x57A018
 extern s16 E_Timer;                       // size: 0x2, address: 0x57A01C
 extern s16 G_Timer;                       // size: 0x2, address: 0x57A02C
+extern s16 Control_Time;                  // size: 0x2, address: 0x57A040
 extern u16 Game_timer;                    // size: 0x2, address: 0x57A044
 extern u8 Pause_Type;                     // size: 0x1, address: 0x57A048
 extern u8 CPU_Rec[2];                     // size: 0x2, address: 0x57A04C
