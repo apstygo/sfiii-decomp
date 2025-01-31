@@ -22,6 +22,10 @@ void Game09();
 void Game10();
 void Game11();
 void Game12();
+void Check_Back_Demo();
+void Game0_0();
+void Game0_1();
+void Game0_2();
 
 void Game_Task(struct _TASK *task_ptr) {
     s16 ix;
@@ -86,7 +90,15 @@ void Game() {
     Game_Jmp_Tbl[G_No[1]]();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game00);
+void Game00() {
+    void (*Game00_Jmp_Tbl[3])() = { Game0_0, Game0_1, Game0_2 };
+
+    Game00_Jmp_Tbl[G_No[2]]();
+    njSetBackColor(0, 0, 0);
+    BG_Draw_System();
+    Basic_Sub();
+    Check_Back_Demo();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game0_0);
 

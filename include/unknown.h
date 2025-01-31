@@ -1557,6 +1557,7 @@ void init_color_trans_req();        // Range: 0x19F600 -> 0x19F694
 void palCreateGhost();              // Range: 0x19F8D0 -> 0x19FB50
 
 // DC_Ghost.c
+void njSetBackColor(u32 c0, u32 c1, u32 c2);            // Range: 0x1BFF30 -> 0x1BFFBC
 void njdp2d_init();                                     // Range: 0x1C0330 -> 0x1C034C
 void njdp2d_draw();                                     // Range: 0x1C0350 -> 0x1C0568
 void njdp2d_sort(f32 *pos, f32 pri, u32 col, s32 flag); // Range: 0x1C0570 -> 0x1C0A0C

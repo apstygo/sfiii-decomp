@@ -24,6 +24,7 @@ void Setup_BG(s16 BG_INDEX, s16 X, s16 Y);         // Range: 0x3A4720 -> 0x3A48C
 void Setup_Virtual_BG(s16 BG_INDEX, s16 X, s16 Y); // Range: 0x3A48D0 -> 0x3A4A58
 void Basic_Sub();                                  // Range: 0x3A4B20 -> 0x3A4B90
 s32 Check_PL_Load();                               // Range: 0x3A4BF0 -> 0x3A4C48
+void BG_Draw_System();                             // Range: 0x3A4C50 -> 0x3A4E00
 void System_all_clear_Level_B();                   // Range: 0x3A4F20 -> 0x3A4F48
 s32 Cut_Cut_Loser();                               // Range: 0x3A5070 -> 0x3A50E0
 void Soft_Reset_Sub();                             // Range: 0x3A5100 -> 0x3A5258
