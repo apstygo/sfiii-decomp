@@ -1,4 +1,5 @@
 #include "common.h"
+#include "sf33rd/Source/Game/DEMO00.h"
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/Reset.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
@@ -8,6 +9,19 @@
 void Wait_Auto_Load();
 void Loop_Demo();
 void Game();
+void Game00();
+void Game01();
+void Game02();
+void Game03();
+void Game04();
+void Game05();
+void Game06();
+void Game07();
+void Game08();
+void Game09();
+void Game10();
+void Game11();
+void Game12();
 
 void Game_Task(struct _TASK *task_ptr) {
     s16 ix;
@@ -59,7 +73,18 @@ void Game_Task(struct _TASK *task_ptr) {
     Disp_Sound_Code();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game);
+void Game() {
+    void (*Game_Jmp_Tbl[13])() = { Game00, Game01, Game02, Game03, Game04, Game05, Game06,
+                                   Game07, Game08, Game09, Game10, Game11, Game12 };
+
+    if (G_No[1] == 2 || G_No[1] == 9) {
+        Play_Game = 1;
+    } else if (G_No[1] == 8) {
+        Play_Game = 2;
+    }
+
+    Game_Jmp_Tbl[G_No[1]]();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game00);
 
