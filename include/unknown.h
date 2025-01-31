@@ -1878,6 +1878,7 @@ extern u16 Win_Record[2];                 // size: 0x4, address: 0x579E5C
 extern s16 Bonus_Game_Flag;               // size: 0x2, address: 0x579EA4
 extern s16 Max_vitality;                  // size: 0x2, address: 0x579EA8
 extern s16 DE_X[2];                       // size: 0x4, address: 0x579EB0
+extern s16 Random_ix32_ex;                // size: 0x2, address: 0x579EB4
 extern s16 Insert_Y;                      // size: 0x2, address: 0x579F90
 extern s16 M_Timer;                       // size: 0x2, address: 0x579FBC
 extern s16 Random_ix32;                   // size: 0x2, address: 0x579FC0
@@ -1969,6 +1970,7 @@ extern s8 Naming_Cut[2];                  // size: 0x2, address: 0x57A580
 extern s8 Ignore_Entry[2];                // size: 0x2, address: 0x57A58C
 extern u8 Continue_Coin[2];               // size: 0x2, address: 0x57A590
 extern s8 Stop_Combo;                     // size: 0x1, address: 0x57A59C
+extern s8 Demo_Time_Stop;                 // size: 0x1, address: 0x57A5E0
 extern u8 Country;                        // size: 0x1, address: 0x57A5E4
 extern s8 Player_id;                      // size: 0x1, address: 0x57A60C
 extern s8 Select_Timer;                   // size: 0x1, address: 0x57A618

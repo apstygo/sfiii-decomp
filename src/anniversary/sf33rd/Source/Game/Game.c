@@ -4,12 +4,14 @@
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/OPENING.h"
 #include "sf33rd/Source/Game/Reset.h"
+#include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/bg_sub.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/menu.h"
 #include "sf33rd/Source/Game/op_sub.h"
+#include "sf33rd/Source/Game/sel_pl.h"
 #include "unknown.h"
 
 void Wait_Auto_Load();
@@ -227,7 +229,114 @@ void Game12_2() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game01);
+void Game01() {
+    BG_Draw_System();
+    Basic_Sub();
+    Setup_Play_Type();
+
+    switch (G_No[2]) {
+    case 0:
+        Switch_Screen(1);
+        G_No[2] += 1;
+        S_No[0] = 0;
+        S_No[1] = 0;
+        S_No[2] = 0;
+        S_No[3] = 0;
+        SsBgmHalfVolume(0);
+
+        if (Mode_Type == 0) {
+            BGM_Request(53);
+        } else {
+            BGM_Request(66);
+        }
+
+        Break_Into = 0;
+        Stop_Combo = 0;
+
+        if (Mode_Type != 2) {
+            Random_ix32 = Interrupt_Timer;
+            Random_ix32_ex = Interrupt_Timer;
+        } else {
+            Setup_Net_Random_ix();
+            All_Clear_Timer();
+        }
+
+        init_slow_flag();
+        System_all_clear_Level_B();
+        pulpul_stop();
+        init_pulpul_work();
+        break;
+
+    case 1:
+        Switch_Screen(1);
+        G_No[2] += 1;
+        break;
+
+    case 2:
+        if (Select_Player()) {
+            G_No[2] += 1;
+            Bonus_Game_Flag = 0;
+            Switch_Screen_Init(0);
+        }
+
+        break;
+
+    default:
+        Select_Player();
+
+        if (Switch_Screen(0) != 0) {
+            Game01_Sub();
+            Cover_Timer = 5;
+            appear_type = 1;
+            set_hitmark_color();
+
+            if (Debug_w[0x1D]) {
+                My_char[0] = Debug_w[0x1D] - 1;
+            }
+
+            if (Debug_w[0x1E]) {
+                My_char[1] = Debug_w[0x1E] - 1;
+            }
+
+            Purge_texcash_of_list(3);
+            Make_texcash_of_list(3);
+
+            if (Demo_Flag) {
+                G_No[1] = 2;
+                G_No[2] = 0;
+                G_No[3] = 0;
+                E_No[0] = 4;
+                E_No[1] = 0;
+                E_No[2] = 0;
+                E_No[3] = 0;
+            } else {
+                Demo_Time_Stop = 1;
+                plw[0].wu.operator= 0;
+                Operator_Status[0] = 0;
+                plw[1].wu.operator= 0;
+                Operator_Status[1] = 0;
+            }
+
+            if (plw[0].wu.operator!= 0) {
+                Sel_Arts_Complete[0] = -1;
+            }
+
+            if (plw[1].wu.operator!= 0) {
+                Sel_Arts_Complete[1] = -1;
+            }
+
+            if ((plw[0].wu.operator!= 0) && (plw[1].wu.operator!= 0)) {
+                Play_Type = 1;
+            } else {
+                Play_Type = 0;
+            }
+        }
+
+        break;
+    }
+
+    BG_move();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game02);
 

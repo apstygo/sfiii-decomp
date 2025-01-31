@@ -9,6 +9,7 @@ s32 Switch_Screen_Revival(u8 Wipe_Type);           // Range: 0x3A1D10 -> 0x3A1D7
 void Clear_Personal_Data(s16 PL_id);               // Range: 0x3A21C0 -> 0x3A2744
 s16 Check_Count_Cut(s16 PL_id, s16 Limit);         // Range: 0x3A2750 -> 0x3A2850
 void Disp_Personal_Count(s16 PL_id, s8 counter);   // Range: 0x3A2850 -> 0x3A28B8
+void Setup_Play_Type();                            // Range: 0x3A28C0 -> 0x3A2910
 void Clear_Flash_No();                             // Range: 0x3A2910 -> 0x3A2954
 s32 Cut_Cut_Cut();                                 // Range: 0x3A2960 -> 0x3A29F0
 void Setup_Final_Grade();                          // Range: 0x3A3320 -> 0x3A33D8
@@ -22,6 +23,7 @@ void Setup_Limit_Time();                           // Range: 0x3A4550 -> 0x3A461
 void Setup_Training_Difficulty();                  // Range: 0x3A4620 -> 0x3A4720
 void Setup_BG(s16 BG_INDEX, s16 X, s16 Y);         // Range: 0x3A4720 -> 0x3A48C4
 void Setup_Virtual_BG(s16 BG_INDEX, s16 X, s16 Y); // Range: 0x3A48D0 -> 0x3A4A58
+void BG_move();                                    // Range: 0x3A4A60 -> 0x3A4AF0
 void BG_move_Ex(u8 ix);                            // Range: 0x3A4AF0 -> 0x3A4B18
 void Basic_Sub();                                  // Range: 0x3A4B20 -> 0x3A4B90
 s32 Check_PL_Load();                               // Range: 0x3A4BF0 -> 0x3A4C48
@@ -34,6 +36,8 @@ s16 Check_SysDir_Page();                           // Range: 0x3A6060 -> 0x3A617
 void Clear_Flash_Init(s16 level);                  // Range: 0x3A6180 -> 0x3A61A4
 s16 Clear_Flash_Sub();                             // Range: 0x3A61B0 -> 0x3A625C
 void Copy_Key_Disp_Work();                         // Range: 0x3A6260 -> 0x3A631C
+void All_Clear_Timer();                            // Range: 0x3A6510 -> 0x3A6524
+void Setup_Net_Random_ix();                        // Range: 0x3A6550 -> 0x3A658C
 s32 Check_Ranking(s16 PL_id);                      // Range: 0x3A6680 -> 0x3A6CA0
 void Disp_Copyright();                             // Range: 0x3A7AA0 -> 0x3A7B74
 void All_Clear_Suicide();                          // Range: 0x3A85C0 -> 0x3A865C
