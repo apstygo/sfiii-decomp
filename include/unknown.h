@@ -1562,12 +1562,6 @@ void njdp2d_init();                                     // Range: 0x1C0330 -> 0x
 void njdp2d_draw();                                     // Range: 0x1C0350 -> 0x1C0568
 void njdp2d_sort(f32 *pos, f32 pri, u32 col, s32 flag); // Range: 0x1C0570 -> 0x1C0A0C
 
-// DEMO00.c
-s32 Warning();                 // Range: 0x1C0B60 -> 0x1C0DC4
-void Warning_Init();           // Range: 0x1C16F0 -> 0x1C1898
-void Put_Warning(s16 type);    // Range: 0x1C18A0 -> 0x1C1BC0
-void Pal_Cursor_Put(s16 type); // Range: 0x1C1BC0 -> 0x1C1E28
-
 s32 effect_04_init(s16 Death_Type, s16 cg_type, s16 sync_bg, s16 priority); // Range: 0x1C56A0 -> 0x1C5818
 // DWARF says disp_index and cursor_id are s16, but decompilation suggests otherwise
 s32 effect_18_init(s32 disp_index, s32 cursor_id, s16 sync_bg, s16 master_player); // Range: 0x1D36B0 -> 0x1D37E0

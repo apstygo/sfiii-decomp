@@ -2,6 +2,7 @@
 #include "sf33rd/Source/Game/DEMO00.h"
 #include "sf33rd/Source/Game/DEMO01.h"
 #include "sf33rd/Source/Game/GD3rd.h"
+#include "sf33rd/Source/Game/OPENING.h"
 #include "sf33rd/Source/Game/Reset.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
@@ -107,7 +108,14 @@ void Game0_0() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game0_1);
+void Game0_1() {
+    Disp_Copyright();
+    TITLE_Move(1);
+
+    if (Request_G_No) {
+        G_No[2] += 1;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game0_2);
 

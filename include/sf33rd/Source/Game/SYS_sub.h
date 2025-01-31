@@ -34,6 +34,7 @@ void Clear_Flash_Init(s16 level);                  // Range: 0x3A6180 -> 0x3A61A
 s16 Clear_Flash_Sub();                             // Range: 0x3A61B0 -> 0x3A625C
 void Copy_Key_Disp_Work();                         // Range: 0x3A6260 -> 0x3A631C
 s32 Check_Ranking(s16 PL_id);                      // Range: 0x3A6680 -> 0x3A6CA0
+void Disp_Copyright();                             // Range: 0x3A7AA0 -> 0x3A7B74
 void All_Clear_Suicide();                          // Range: 0x3A85C0 -> 0x3A865C
 void Check_Off_Vib();                              // Range: 0x3A86E0 -> 0x3A86E8
 
