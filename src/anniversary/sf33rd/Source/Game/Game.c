@@ -205,7 +205,9 @@ void Game12() {
     BG_move_Ex(0);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game12_0);
+void Game12_0() {
+    // Do nothing
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game12_1);
 
