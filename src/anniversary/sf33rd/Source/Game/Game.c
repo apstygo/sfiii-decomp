@@ -6,6 +6,9 @@
 #include "sf33rd/Source/Game/Reset.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
+#include "sf33rd/Source/Game/main.h"
+#include "sf33rd/Source/Game/menu.h"
+#include "sf33rd/Source/Game/op_sub.h"
 #include "unknown.h"
 
 void Wait_Auto_Load();
@@ -117,7 +120,55 @@ void Game0_1() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game0_2);
+void Game0_2() {
+    switch (G_No[3]) {
+    case 0:
+        Disp_Copyright();
+        TITLE_Move(1);
+        G_No[3] += 1;
+        Switch_Screen_Init(1);
+        break;
+
+    case 1:
+        if (Switch_Screen(1) != 0) {
+            G_No[3] += 1;
+            Cover_Timer = 23;
+            return;
+        }
+
+        TITLE_Move(1);
+        Disp_Copyright();
+        break;
+
+    case 2:
+        FadeOut(1, 0xFF, 8);
+        G_No[3] += 1;
+        break;
+
+    case 3:
+        FadeOut(1, 0xFF, 8);
+        G_No[3] += 1;
+        TexRelease(0x259);
+        title_tex_flag = 0;
+        break;
+
+    case 4:
+        FadeOut(1, 0xFF, 8);
+        G_No[3] += 1;
+        Purge_mmtm_area(2);
+        Make_texcash_of_list(2);
+        break;
+
+    case 5:
+        FadeOut(1, 0xFF, 8);
+        BGM_Request(0x41);
+        G_No[1] = 0xC;
+        G_No[2] = 0;
+        G_No[3] = 0;
+        cpReadyTask(3, Menu_Task);
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Check_Back_Demo);
 

@@ -1815,6 +1815,7 @@ extern u8 r_no_plus;                      // size: 0x1, address: 0x5792B8
 extern UNK_14 rank_name_w[2];             // size: 0x8, address: 0x5792E8
 extern s16 Name_00[2];                    // size: 0x4, address: 0x579374
 extern NAME_WK name_wk[2];                // size: 0x64, address: 0x579390
+extern s16 title_tex_flag;                // size: 0x2, address: 0x579464
 extern s16 appear_type;                   // size: 0x2, address: 0x5795C8
 extern PPWORK ppwork[2];                  // size: 0x68, address: 0x579610
 extern s16 EXE_flag;                      // size: 0x2, address: 0x579870
