@@ -167,7 +167,7 @@ void Menu_Init(struct _TASK *task_ptr) {
         setup_pos_remake_key(0);
     }
 
-    cpReadyTask(6, Saver_Task);
+    cpReadyTask(SAVER_TASK_NUM, Saver_Task);
 }
 
 void Mode_Select(struct _TASK *task_ptr) {
@@ -188,7 +188,7 @@ void Mode_Select(struct _TASK *task_ptr) {
             E_No[1] = 2;
             E_No[2] = 2;
             E_No[3] = 0;
-            cpReadyTask(1, Entry_Task);
+            cpReadyTask(ENTRY_TASK_NUM, Entry_Task);
         }
 
         Menu_Common_Init();
@@ -272,7 +272,7 @@ void Mode_Select(struct _TASK *task_ptr) {
                 G_No[2] += 1;
                 Mode_Type = 0;
                 task_ptr->r_no[0] = 5;
-                cpExitTask(6);
+                cpExitTask(SAVER_TASK_NUM);
                 Decide_PL(PL_id);
                 break;
 
@@ -281,7 +281,7 @@ void Mode_Select(struct _TASK *task_ptr) {
                 G_No[1] = 0xC;
                 G_No[2] = 1;
                 Mode_Type = 1;
-                cpExitTask(3);
+                cpExitTask(MENU_TASK_NUM);
                 break;
 
             case 2:
@@ -312,7 +312,7 @@ void Mode_Select(struct _TASK *task_ptr) {
 
 void Setup_VS_Mode(struct _TASK *task_ptr) {
     task_ptr->r_no[0] = 5;
-    cpExitTask(6);
+    cpExitTask(SAVER_TASK_NUM);
     plw->wu.operator= 1;
     plw[1].wu.operator= 1;
     Operator_Status[0] = 1;
@@ -532,12 +532,12 @@ void Training_Mode(struct _TASK *task_ptr) {
         Setup_VS_Mode(task_ptr);
         G_No[2] += 1;
         task_ptr->r_no[0] = 5;
-        cpExitTask(6);
+        cpExitTask(SAVER_TASK_NUM);
         Champion = PL_id;
         Pause_ID = PL_id;
         Training_ID = PL_id;
         New_Challenger = PL_id ^ 1;
-        cpExitTask(1);
+        cpExitTask(ENTRY_TASK_NUM);
 
         break;
     }
@@ -1363,7 +1363,7 @@ void Load_Replay_Sub(struct _TASK *task_ptr) {
     case 0:
         task_ptr->r_no[3] += 1;
         Rep_Game_Infor[0xA] = Replay_w.game_infor;
-        cpExitTask(1);
+        cpExitTask(ENTRY_TASK_NUM);
         Play_Mode = 3;
         break;
 
@@ -1400,7 +1400,7 @@ void Load_Replay_Sub(struct _TASK *task_ptr) {
         save_w[3].Pad_Infor[1] = Replay_w.mini_save_w.Pad_Infor[1];
         save_w[3].Pad_Infor[0].Vibration = 0;
         save_w[3].Pad_Infor[1].Vibration = 0;
-        cpExitTask(6);
+        cpExitTask(SAVER_TASK_NUM);
         break;
 
     case 2:
@@ -1501,7 +1501,7 @@ void Load_Replay_Sub(struct _TASK *task_ptr) {
             }
 
             task_ptr->r_no[2] = 0;
-            cpExitTask(3);
+            cpExitTask(MENU_TASK_NUM);
         }
 
         break;

@@ -314,7 +314,7 @@ void njUserInit() {
     Setup_Directory_Record_Data();
     sndInitialLoad();
     cpInitTask();
-    cpReadyTask(0, Init_Task);
+    cpReadyTask(INIT_TASK_NUM, Init_Task);
 }
 
 s32 njUserMain() {

@@ -184,7 +184,7 @@ void Game0_2() {
         G_No[1] = 0xC;
         G_No[2] = 0;
         G_No[3] = 0;
-        cpReadyTask(3, Menu_Task);
+        cpReadyTask(MENU_TASK_NUM, Menu_Task);
         break;
     }
 }
