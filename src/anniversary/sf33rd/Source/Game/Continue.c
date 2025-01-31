@@ -39,7 +39,7 @@ void Continue_1st() {
 
         Setup_Continue_OBJ();
         effect_A9_init(0x37, 0, 0x13, 0);
-        BGM_Request(0x3A);
+        BGM_Request(58);
         effect_76_init(0x38);
         Order[0x38] = 3;
         Order_Timer[0x38] = 1;

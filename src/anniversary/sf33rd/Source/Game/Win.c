@@ -47,7 +47,7 @@ void Win_1st() {
     M_No[0] += 1;
     M_No[1] = 0;
     Game_pause = 0;
-    BGM_Request(0x37);
+    BGM_Request(55);
     Cover_Timer = 23;
     All_Clear_Suicide();
     base_y_pos = 40;

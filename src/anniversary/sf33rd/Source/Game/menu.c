@@ -1449,7 +1449,7 @@ void Load_Replay_Sub(struct _TASK *task_ptr) {
         if (--task_ptr->timer <= 0) {
             task_ptr->r_no[3] += 1;
             bgPalCodeOffset[0] = 0x90;
-            BGM_Request(0x33);
+            BGM_Request(51);
             Purge_memory_of_kind_of_key(0xCU);
             Push_LDREQ_Queue_Player(0, My_char[0]);
             Push_LDREQ_Queue_Player(1, My_char[1]);

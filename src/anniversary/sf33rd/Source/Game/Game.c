@@ -31,6 +31,7 @@ void Check_Back_Demo();
 void Game0_0();
 void Game0_1();
 void Game0_2();
+void Next_Demo_Loop();
 
 void Game_Task(struct _TASK *task_ptr) {
     s16 ix;
@@ -148,7 +149,7 @@ void Game0_2() {
     case 3:
         FadeOut(1, 0xFF, 8);
         G_No[3] += 1;
-        TexRelease(0x259);
+        TexRelease(601);
         title_tex_flag = 0;
         break;
 
@@ -161,7 +162,7 @@ void Game0_2() {
 
     case 5:
         FadeOut(1, 0xFF, 8);
-        BGM_Request(0x41);
+        BGM_Request(65);
         G_No[1] = 0xC;
         G_No[2] = 0;
         G_No[3] = 0;
@@ -170,7 +171,20 @@ void Game0_2() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Check_Back_Demo);
+void Check_Back_Demo() {
+    if (++G_Timer < 1800) {
+        return;
+    }
+
+    if (G_No[1] == 10 || (G_No[2] == 2 && G_No[3] >= 2)) {
+        return;
+    }
+
+    TexRelease(0x259);
+    title_tex_flag = 0;
+    Next_Demo_Loop();
+    effect_work_init();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game12);
 

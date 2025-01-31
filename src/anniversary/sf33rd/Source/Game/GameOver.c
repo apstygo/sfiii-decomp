@@ -40,7 +40,7 @@ void GameOver_1st() {
         bg_mvxy.a[0].sp = 0xE0000;
         bg_mvxy.d[0].sp = 0;
         effect_A9_init(0x20, 5, 0x12, 0);
-        BGM_Request(0x3B);
+        BGM_Request(59);
         Next_Step = 0;
 
         effect_58_init(0xC, 1, 3);
@@ -135,7 +135,7 @@ void GameOver_2nd() {
     case 4:
         if (FadeIn(1, 8, 8) != 0) {
             Forbid_Break = 0;
-            BGM_Request(0x36);
+            BGM_Request(54);
             Ignore_Entry[LOSER] = 0;
 
             if ((E_Number[0][0] != 2) && (E_Number[1][0] != 2)) {
