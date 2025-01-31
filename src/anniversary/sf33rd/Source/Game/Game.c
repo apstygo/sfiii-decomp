@@ -1,5 +1,6 @@
 #include "common.h"
 #include "sf33rd/Source/Game/DEMO00.h"
+#include "sf33rd/Source/Game/DEMO01.h"
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/Reset.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
@@ -100,7 +101,11 @@ void Game00() {
     Check_Back_Demo();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game0_0);
+void Game0_0() {
+    if (Title_At_a_Dash() != 0) {
+        G_No[2] += 1;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game0_1);
 
