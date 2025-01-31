@@ -209,7 +209,11 @@ void Game12_0() {
     // Do nothing
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game12_1);
+void Game12_1() {
+    G_No[2] += 1;
+    Switch_Screen_Init(1);
+    SsBgmFadeOut(0x1000);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game12_2);
 
