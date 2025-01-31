@@ -24,5 +24,6 @@ void Request_LDREQ_Break();
 u8 Check_LDREQ_Break();
 void Push_LDREQ_Queue_Player(s16 id, s16 ix);
 void Check_LDREQ_Queue();
+s32 Check_LDREQ_Clear();
 
 #endif

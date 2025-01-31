@@ -31,12 +31,15 @@ void BG_Draw_System();                             // Range: 0x3A4C50 -> 0x3A4E0
 void System_all_clear_Level_B();                   // Range: 0x3A4F20 -> 0x3A4F48
 s32 Cut_Cut_Loser();                               // Range: 0x3A5070 -> 0x3A50E0
 void Soft_Reset_Sub();                             // Range: 0x3A5100 -> 0x3A5258
+void Check_Replay();                               // Range: 0x3A52A0 -> 0x3A555C
 void Check_Replay_Status(s16 PL_id, u8 Status);    // Range: 0x3A58D0 -> 0x3A5A30
 s16 Check_SysDir_Page();                           // Range: 0x3A6060 -> 0x3A6174
 void Clear_Flash_Init(s16 level);                  // Range: 0x3A6180 -> 0x3A61A4
 s16 Clear_Flash_Sub();                             // Range: 0x3A61B0 -> 0x3A625C
 void Copy_Key_Disp_Work();                         // Range: 0x3A6260 -> 0x3A631C
+void All_Clear_Random_ix();                        // Range: 0x3A64F0 -> 0x3A6508
 void All_Clear_Timer();                            // Range: 0x3A6510 -> 0x3A6524
+void All_Clear_ETC();                              // Range: 0x3A6530 -> 0x3A6548
 void Setup_Net_Random_ix();                        // Range: 0x3A6550 -> 0x3A658C
 s32 Check_Ranking(s16 PL_id);                      // Range: 0x3A6680 -> 0x3A6CA0
 void Disp_Copyright();                             // Range: 0x3A7AA0 -> 0x3A7B74

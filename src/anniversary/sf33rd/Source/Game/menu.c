@@ -2,6 +2,7 @@
 #include "common.h"
 #include "sf33rd/Source/Game/EX_DATA.h"
 #include "sf33rd/Source/Game/Entry.h"
+#include "sf33rd/Source/Game/Grade.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/SYS_sub2.h"
 #include "sf33rd/Source/Game/main.h"

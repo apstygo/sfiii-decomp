@@ -2,16 +2,20 @@
 #include "sf33rd/Source/Game/DEMO00.h"
 #include "sf33rd/Source/Game/DEMO01.h"
 #include "sf33rd/Source/Game/GD3rd.h"
+#include "sf33rd/Source/Game/Grade.h"
+#include "sf33rd/Source/Game/HITCHECK.h"
 #include "sf33rd/Source/Game/OPENING.h"
 #include "sf33rd/Source/Game/Reset.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
+#include "sf33rd/Source/Game/SYS_sub2.h"
 #include "sf33rd/Source/Game/bg_sub.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/menu.h"
 #include "sf33rd/Source/Game/op_sub.h"
 #include "sf33rd/Source/Game/sel_pl.h"
+#include "sf33rd/Source/Game/ta_sub.h"
 #include "unknown.h"
 
 void Wait_Auto_Load();
@@ -354,7 +358,89 @@ void Game02() {
     BG_move_Ex(3);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game2_0);
+void Game2_0() {
+    s16 ix;
+
+    BG_Draw_System();
+    Switch_Screen(0);
+
+    if (Check_LDREQ_Clear() == 0) {
+        return;
+    }
+
+    System_all_clear_Level_B();
+
+    switch (Mode_Type) {
+    case 0:
+        Play_Mode = 0;
+        Replay_Status[0] = 0;
+        Replay_Status[1] = 0;
+        break;
+
+    case 1:
+        for (ix = 0; ix < 2; ix++) {
+            if (save_w[1].Partner_Type[ix]) {
+                plw[ix].wu.operator= 0;
+                Operator_Status[ix] = 0;
+            }
+        }
+
+        cpExitTask(1);
+        /* fallthrough */
+
+    case 2:
+        Play_Mode = 1;
+        All_Clear_Random_ix();
+        All_Clear_Timer();
+        All_Clear_ETC();
+        break;
+
+    case 5:
+        Play_Mode = 3;
+        All_Clear_Timer();
+        break;
+    }
+
+    Check_Replay();
+
+    if (Demo_Flag == 0) {
+        Play_Mode = 0;
+        Replay_Status[0] = 0;
+        Replay_Status[1] = 0;
+    }
+
+    Game_difficulty = 15;
+    Game_pause = 0;
+    Demo_Time_Stop = 0;
+    C_No[0] = 0;
+    C_No[1] = 0;
+    C_No[2] = 0;
+    C_No[3] = 0;
+    G_No[2] = 6;
+    G_Timer = 10;
+    Round_num = 0;
+    Keep_Grade[0] = 0;
+    Keep_Grade[1] = 0;
+
+    if (Win_Record[0]) {
+        Keep_Grade[0] = grade_get_my_grade(0) + 1;
+    }
+
+    if (Win_Record[1]) {
+        Keep_Grade[1] = grade_get_my_grade(1) + 1;
+    }
+
+    Allow_a_battle_f = 0;
+    Time_in_Time = 60;
+    init_slow_flag();
+    clear_hit_queue();
+    pcon_rno[0] = pcon_rno[1] = pcon_rno[2] = pcon_rno[3] = 0;
+    ca_check_flag = 1;
+    bg_work_clear();
+    win_lose_work_clear();
+    player_face_init();
+    setup_pos_remake_key(3);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game2_1);
 

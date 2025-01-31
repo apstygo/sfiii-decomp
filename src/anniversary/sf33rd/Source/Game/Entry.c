@@ -1,6 +1,7 @@
 #include "sf33rd/Source/Game/Entry.h"
 #include "common.h"
 #include "sf33rd/Source/Game/GD3rd.h"
+#include "sf33rd/Source/Game/Grade.h"
 #include "sf33rd/Source/Game/Reset.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/end_data.h"
