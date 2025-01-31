@@ -38,6 +38,14 @@ void Next_Demo_Loop();
 void Game12_0();
 void Game12_1();
 void Game12_2();
+void Game2_0();
+void Game2_1();
+void Game2_2();
+void Game2_3();
+void Game2_4();
+void Game2_5();
+void Game2_6();
+void Game2_7();
 
 void Game_Task(struct _TASK *task_ptr) {
     s16 ix;
@@ -338,7 +346,13 @@ void Game01() {
     BG_move();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game02);
+void Game02() {
+    void (*Game02_Jmp_Tbl[8])() = { Game2_0, Game2_1, Game2_2, Game2_3, Game2_4, Game2_5, Game2_6, Game2_7 };
+
+    Scene_Cut = Cut_Cut_Cut();
+    Game02_Jmp_Tbl[G_No[2]]();
+    BG_move_Ex(3);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game2_0);
 
