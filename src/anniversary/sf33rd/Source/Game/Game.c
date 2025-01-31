@@ -5,6 +5,7 @@
 #include "sf33rd/Source/Game/OPENING.h"
 #include "sf33rd/Source/Game/Reset.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
+#include "sf33rd/Source/Game/bg_sub.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/menu.h"
@@ -32,6 +33,9 @@ void Game0_0();
 void Game0_1();
 void Game0_2();
 void Next_Demo_Loop();
+void Game12_0();
+void Game12_1();
+void Game12_2();
 
 void Game_Task(struct _TASK *task_ptr) {
     s16 ix;
@@ -176,7 +180,7 @@ void Check_Back_Demo() {
         return;
     }
 
-    if (G_No[1] == 10 || (G_No[2] == 2 && G_No[3] >= 2)) {
+    if (G_No[1] == 12 || (G_No[2] == 2 && G_No[3] >= 2)) {
         return;
     }
 
@@ -186,7 +190,20 @@ void Check_Back_Demo() {
     effect_work_init();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game12);
+void Game12() {
+    void (*Game12_Jmp_Tbl[3])() = { Game12_0, Game12_1, Game12_2 };
+
+    Game12_Jmp_Tbl[G_No[2]]();
+    BG_Draw_System();
+    Basic_Sub();
+    bg_pos_hosei_sub2(0);
+    bg_pos_hosei_sub2(1);
+    bg_pos_hosei_sub2(2);
+    Bg_Family_Set_appoint(0);
+    Bg_Family_Set_appoint(1);
+    Bg_Family_Set_appoint(2);
+    BG_move_Ex(0);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game12_0);
 

@@ -22,6 +22,7 @@ void Setup_Limit_Time();                           // Range: 0x3A4550 -> 0x3A461
 void Setup_Training_Difficulty();                  // Range: 0x3A4620 -> 0x3A4720
 void Setup_BG(s16 BG_INDEX, s16 X, s16 Y);         // Range: 0x3A4720 -> 0x3A48C4
 void Setup_Virtual_BG(s16 BG_INDEX, s16 X, s16 Y); // Range: 0x3A48D0 -> 0x3A4A58
+void BG_move_Ex(u8 ix);                            // Range: 0x3A4AF0 -> 0x3A4B18
 void Basic_Sub();                                  // Range: 0x3A4B20 -> 0x3A4B90
 s32 Check_PL_Load();                               // Range: 0x3A4BF0 -> 0x3A4C48
 void BG_Draw_System();                             // Range: 0x3A4C50 -> 0x3A4E00
