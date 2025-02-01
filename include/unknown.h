@@ -1655,13 +1655,16 @@ void Saver_Task(struct _TASK *task_ptr); // Range: 0x37F1B0 -> 0x37F210
 
 // sc_sub.c
 void Scrscreen_Init();                         // Range: 0x37F4A0 -> 0x37F6E4
+void Sa_frame_Write();                         // Range: 0x37F970 -> 0x37FC88
 void SSPutStr(u16 x, u16 y, u8 atr, s8 *str);  // Range: 0x380020 -> 0x380180
 void SSPutStr2(u16 x, u16 y, u8 atr, s8 *str); // Range: 0x3806E0 -> 0x380800
 void FadeInit();                               // Range: 0x3834D0 -> 0x3834E0
 s32 FadeOut(u8 type, u8 step, u8 priority);    // Range: 0x3834E0 -> 0x3836D4
 s32 FadeIn(u8 type, u8 step, u8 priority);     // Range: 0x3836E0 -> 0x3838DC
 void ToneDown(u8 tone, u8 priority);           // Range: 0x3838E0 -> 0x383A24
+void player_name();                            // Range: 0x383A30 -> 0x383B80
 void player_face_init();                       // Range: 0x384A30 -> 0x384A38
+void player_face();                            // Range: 0x384E10 -> 0x385204
 
 // sc_sub.c
 void dispButtonImage2(s32 px, s32 py, s32 pz, s32 sx, s32 sy, s32 cl, s32 ix); // Range: 0x388AA0 -> 0x388D94
@@ -1777,9 +1780,6 @@ s32 SaveMove();                              // Range: 0x40A3E0 -> 0x40A464
 
 // cse.c
 s32 cseExecServer(); // Range: 0x4116A0 -> 0x411730
-
-// PPGWork.c
-void ppgWorkInitializeApprication(); // Range: 0x413920 -> 0x413A54
 
 // reboot.c
 void Reboot_Program(s8 *args); // Range: 0x413F40 -> 0x414030
@@ -1928,6 +1928,7 @@ extern u8 Cont_No[4];                     // size: 0x4, address: 0x57A1F8
 extern u8 ixbfw_cut;                      // size: 0x1, address: 0x57A1FC
 extern u8 test_flag;                      // size: 0x1, address: 0x57A200
 extern u8 Stop_Update_Score;              // size: 0x1, address: 0x57A204
+extern u8 Disp_Cockpit;                   // size: 0x1, address: 0x57A218
 extern u8 Conclusion_Flag;                // size: 0x1, address: 0x57A248
 extern u8 Exit_Menu;                      // size: 0x1, address: 0x57A24C
 extern u8 Play_Type;                      // size: 0x1, address: 0x57A250

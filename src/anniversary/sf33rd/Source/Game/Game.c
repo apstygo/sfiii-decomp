@@ -1,20 +1,29 @@
 #include "common.h"
+#include "sf33rd/Source/Common/PPGWork.h"
 #include "sf33rd/Source/Game/DEMO00.h"
 #include "sf33rd/Source/Game/DEMO01.h"
+#include "sf33rd/Source/Game/Flash_LP.h"
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/Grade.h"
 #include "sf33rd/Source/Game/HITCHECK.h"
+#include "sf33rd/Source/Game/Manage.h"
 #include "sf33rd/Source/Game/OPENING.h"
+#include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/Reset.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/SYS_sub2.h"
+#include "sf33rd/Source/Game/TATE00.h"
+#include "sf33rd/Source/Game/VITAL.h"
 #include "sf33rd/Source/Game/bg_sub.h"
+#include "sf33rd/Source/Game/cmb_win.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/menu.h"
 #include "sf33rd/Source/Game/op_sub.h"
 #include "sf33rd/Source/Game/sel_pl.h"
+#include "sf33rd/Source/Game/spgauge.h"
+#include "sf33rd/Source/Game/stun.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "unknown.h"
 
@@ -50,6 +59,7 @@ void Game2_4();
 void Game2_5();
 void Game2_6();
 void Game2_7();
+void Time_Control();
 
 void Game_Task(struct _TASK *task_ptr) {
     s16 ix;
@@ -442,7 +452,40 @@ void Game2_0() {
     setup_pos_remake_key(3);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game2_1);
+void Game2_1() {
+    mpp_w.inGame = 1;
+
+    if (Game_pause != 0x81) {
+        Game_timer += 1;
+    }
+
+    set_EXE_flag();
+    ppgPurgeFromVRAM(5);
+    Player_control();
+    TATE00();
+    Game_Management();
+    BG_Draw_System();
+    ppgPurgeFromVRAM(4);
+    reqPlayerDraw();
+    Basic_Sub_Ex();
+
+    if (Disp_Cockpit) {
+        Time_Control();
+        vital_cont_main();
+        player_face();
+        player_name();
+        combo_cont_main();
+        stngauge_cont_main();
+        spgauge_cont_main();
+        Sa_frame_Write();
+        Score_Sub();
+        Flash_Lamp();
+        Disp_Win_Record();
+    }
+
+    ppgPurgeFromVRAM(0);
+    hit_check_main_process();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game2_2);
 
