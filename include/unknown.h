@@ -1541,8 +1541,9 @@ void mflInit(void *mem_ptr, s32 memsize, s32 memalign);                     // R
 int fmsInitialize(FL_FMS *lp, void *memory_ptr, s32 memsize, s32 memalign); // Range: 0x115D90 -> 0x115E80
 
 // bg.c
-void Bg_TexInit();      // Range: 0x16BA90 -> 0x16BB34
-void Pause_Family_On(); // Range: 0x170290 -> 0x170320
+void Bg_TexInit();       // Range: 0x16BA90 -> 0x16BB34
+void Pause_Family_On();  // Range: 0x170290 -> 0x170320
+void Bg_On_R(u32 s_prm); // Range: 0x170B00 -> 0x170B2C
 
 void Scrn_Renew(); // Range: 0x170BE0 -> 0x170BF0
 void Irl_Family(); // Range: 0x170BF0 -> 0x170CD0
@@ -1598,8 +1599,9 @@ s32 effect_B8_init(s16 WIN_PL_NO, s16 timer);                                   
 s32 effect_C4_init(s16 id, s16 letter_type, s16 cursor_index, s16 master_player); // Range: 0x209D40 -> 0x209F4C
 
 // EFFECT.c
-void disp_effect_work(); // Range: 0x21AD30 -> 0x21AED8
-void effect_work_init(); // Range: 0x21AEE0 -> 0x21B05C
+void disp_effect_work();       // Range: 0x21AD30 -> 0x21AED8
+void effect_work_init();       // Range: 0x21AEE0 -> 0x21B05C
+void effect_work_quick_init(); // Range: 0x21B060 -> 0x21B0C0
 
 s32 effect_K6_init(s16 PL_id, s16 dir_old, s16 dm_vital, s16 Target_BG); // Range: 0x22EEC0 -> 0x22F020
 s32 effect_L1_init(s16 flag);                                            // Range: 0x232820 -> 0x2328E8
@@ -1786,6 +1788,7 @@ void Reboot_Program(s8 *args); // Range: 0x413F40 -> 0x414030
 
 // .rodata
 
+extern const u8 stage_bgw_number[22][3];       // size: 0x42, address: 0x4E6FD0
 extern const u8 Dir_Menu_Max_Data[10][7];      // size: 0x46, address: 0x504FB0
 extern const SystemDir Dir_Default_Data;       // size: 0x48, address: 0x505000
 extern const u8 Page_Data[10];                 // size: 0xA, address: 0x505048

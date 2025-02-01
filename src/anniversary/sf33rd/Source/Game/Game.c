@@ -487,7 +487,66 @@ void Game2_1() {
     hit_check_main_process();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game2_2);
+void Game2_2() {
+    s16 i;
+
+    BG_Draw_System();
+    Switch_Screen(0);
+
+    if (Check_LDREQ_Clear() == 0) {
+        return;
+    }
+
+    SsBgmHalfVolume(0);
+    All_Clear_Timer();
+    Check_Replay();
+    Game_difficulty = 15;
+    Game_timer = 0;
+    Game_pause = 0;
+    Demo_Time_Stop = 0;
+    C_No[0] = 0;
+    C_No[1] = 0;
+    C_No[2] = 0;
+    C_No[3] = 0;
+    G_Timer = 10;
+    Round_num = 0;
+    Keep_Grade[0] = 0;
+    Keep_Grade[1] = 0;
+
+    if (Win_Record[0]) {
+        Keep_Grade[0] = grade_get_my_grade(0) + 1;
+    }
+
+    if (Win_Record[1]) {
+        Keep_Grade[1] = grade_get_my_grade(1) + 1;
+    }
+
+    Allow_a_battle_f = 0;
+    Time_in_Time = 60;
+    init_slow_flag();
+    effect_work_quick_init();
+    clear_hit_queue();
+    pcon_rno[0] = pcon_rno[1] = pcon_rno[2] = pcon_rno[3] = 0;
+    ca_check_flag = 1;
+    bg_work_clear();
+    win_lose_work_clear();
+    player_face_init();
+    Game01_Sub();
+    appear_type = 1;
+    TATE00();
+
+    for (i = 0; i < 3; i++) {
+        if (stage_bgw_number[bg_w.stage][i] > 0) {
+            Bg_On_R(1 << i);
+        }
+    }
+
+    if (bg_w.stage == 7) {
+        Bg_On_R(4);
+    }
+
+    G_No[2] = 7;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game2_3);
 
