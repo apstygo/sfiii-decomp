@@ -603,7 +603,15 @@ void Game2_5() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game2_6);
+void Game2_6() {
+    BG_Draw_System();
+    Switch_Screen(0);
+
+    if (Wait_Seek_Time() != 0) {
+        G_No[2] = 3;
+        TATE00();
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game2_7);
 
