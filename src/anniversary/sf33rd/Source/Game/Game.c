@@ -780,7 +780,45 @@ void Game03() {
     BG_move();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game04);
+void Game04() {
+    s16 i;
+
+    BG_Draw_System();
+    move_effect_work(4);
+    move_effect_work(5);
+
+    switch (G_No[2]) {
+    case 0:
+        if (Loser_Scene() != 0) {
+            if (Mode_Type == 5) {
+                G_No[2] = 5;
+                cpReadyTask(MENU_TASK_NUM, Menu_Task);
+                task[3].r_no[0] = 8;
+            } else {
+                G_No[1] = 7;
+                G_No[2] = 0;
+                G_No[3] = 0;
+                E_No[0] = 7;
+                Cont_No[0] = 0;
+                E_Number[LOSER][0] = 1;
+
+                for (i = 1; i < 4; i++) {
+                    E_No[i] = 0;
+                    Cont_No[i] = 0;
+                    E_Number[LOSER][i] = 0;
+                }
+            }
+        }
+
+        break;
+
+    default:
+        // Do nothing
+        break;
+    }
+
+    BG_move();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game05);
 
