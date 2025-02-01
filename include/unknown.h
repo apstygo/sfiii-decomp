@@ -1599,9 +1599,10 @@ s32 effect_B8_init(s16 WIN_PL_NO, s16 timer);                                   
 s32 effect_C4_init(s16 id, s16 letter_type, s16 cursor_index, s16 master_player); // Range: 0x209D40 -> 0x209F4C
 
 // EFFECT.c
-void disp_effect_work();       // Range: 0x21AD30 -> 0x21AED8
-void effect_work_init();       // Range: 0x21AEE0 -> 0x21B05C
-void effect_work_quick_init(); // Range: 0x21B060 -> 0x21B0C0
+void move_effect_work(s16 index); // Range: 0x21ABC0 -> 0x21AD24
+void disp_effect_work();          // Range: 0x21AD30 -> 0x21AED8
+void effect_work_init();          // Range: 0x21AEE0 -> 0x21B05C
+void effect_work_quick_init();    // Range: 0x21B060 -> 0x21B0C0
 
 s32 effect_K6_init(s16 PL_id, s16 dir_old, s16 dm_vital, s16 Target_BG); // Range: 0x22EEC0 -> 0x22F020
 s32 effect_L1_init(s16 flag);                                            // Range: 0x232820 -> 0x2328E8
@@ -1955,6 +1956,7 @@ extern s8 Last_Selected_EM[2];            // size: 0x2, address: 0x57A30C
 extern u8 Continue_Count_Down[2];         // size: 0x2, address: 0x57A33C
 extern u8 GO_No[4];                       // size: 0x4, address: 0x57A344
 extern u8 Scene_Cut;                      // size: 0x1, address: 0x57A348
+extern u8 Battle_Q[2];                    // size: 0x2, address: 0x57A364
 extern s8 Stage_Cheap_Finish[2];          // size: 0x2, address: 0x57A3D0
 extern s8 Stage_Perfect_Finish[2];        // size: 0x2, address: 0x57A3D4
 extern s8 Stage_Lost_Round[2];            // size: 0x2, address: 0x57A3D8
@@ -1970,6 +1972,7 @@ extern u8 CC_Value[2];                    // size: 0x2, address: 0x57A494
 extern s8 Break_Com[2][20];               // size: 0x28, address: 0x57A4C0
 extern s8 No_Death;                       // size: 0x1, address: 0x57A51C
 extern s8 PB_Music_Off;                   // size: 0x1, address: 0x57A520
+extern s8 Round_Operator[2];              // size: 0x2, address: 0x57A54C
 extern s8 Operator_Status[2];             // size: 0x2, address: 0x57A550
 extern u8 Usage;                          // size: 0x1, address: 0x57A55C
 extern s8 Player_Color[2];                // size: 0x2, address: 0x57A578
@@ -2002,6 +2005,7 @@ extern u8 Round_num;                      // size: 0x1, address: 0x57A6CC
 extern u8 Allow_a_battle_f;               // size: 0x1, address: 0x57A6D0
 extern u8 My_char[2];                     // size: 0x2, address: 0x57A6D4
 extern s8 Break_Into;                     // size: 0x1, address: 0x57A6D8
+extern s8 Loser_id;                       // size: 0x1, address: 0x57A6E4
 extern s8 Winner_id;                      // size: 0x1, address: 0x57A6E8
 extern u32 WGJ_Score;                     // size: 0x4, address: 0x57A70C
 extern u32 Stage_Stock_Score[2];          // size: 0x8, address: 0x57A728

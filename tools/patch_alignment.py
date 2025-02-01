@@ -8,6 +8,7 @@ skipped_rodata = {
     "init3rd",
     "flADX",
     "Entry",
+    "Game",
 }
 
 # (file, section, index of section within sections of this type) -> alignment
@@ -31,7 +32,7 @@ special_cases = {
     ("sbss_579878", ".sbss", 0): 8,
     ("bss_6BDA68", ".bss", 0): 8,
     ("flPADUSR", ".rodata", 0): 16,
-    ("Game", ".rodata", 1): 16,
+    ("Game", ".rodata", 2): 16,
 }
 
 def alignment_to_bytes(alignment: int) -> bytes:
