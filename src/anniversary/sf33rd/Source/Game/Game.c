@@ -548,7 +548,14 @@ void Game2_2() {
     G_No[2] = 7;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game2_3);
+void Game2_3() {
+    Game2_1();
+
+    if (--G_Timer == 0) {
+        G_No[2] = 1;
+        Clear_Flash_No();
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game2_4);
 
