@@ -14,6 +14,8 @@
 #include "sf33rd/Source/Game/Next_CPU.h"
 #include "sf33rd/Source/Game/OPENING.h"
 #include "sf33rd/Source/Game/PLCNT.h"
+#include "sf33rd/Source/Game/PLCNT2.h"
+#include "sf33rd/Source/Game/PLCNT3.h"
 #include "sf33rd/Source/Game/RANKING.h"
 #include "sf33rd/Source/Game/Reset.h"
 #include "sf33rd/Source/Game/SLOWF.h"
@@ -1354,7 +1356,35 @@ void Game09() {
     BG_move();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Bonus_Sub);
+s16 Bonus_Sub() {
+    s16 x;
+
+    mpp_w.inGame = 1;
+    Scene_Cut = Cut_Cut_Cut();
+    Bonus_Game_Complete = 0;
+
+    if (Game_pause != 0x81) {
+        Game_timer += 1;
+    }
+
+    set_EXE_flag();
+    Time_Control();
+
+    if (Bonus_Type == 0x15) {
+        Bonus_Game_Complete = Player_control_bonus();
+    } else {
+        Bonus_Game_Complete = Player_control_bonus2();
+    }
+
+    TATE00();
+    x = 0;
+    x = Game_Management();
+    BG_Draw_System();
+    reqPlayerDraw();
+    Basic_Sub_Ex();
+    hit_check_main_process();
+    return x;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game10);
 

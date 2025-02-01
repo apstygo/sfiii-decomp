@@ -1968,6 +1968,7 @@ extern s8 Stage_Lost_Round[2];            // size: 0x2, address: 0x57A3D8
 extern u8 Extra_Break;                    // size: 0x1, address: 0x57A3E0
 extern u8 Combo_Demo_Flag;                // size: 0x1, address: 0x57A3EC
 extern u8 Get_Demo_Index;                 // size: 0x1, address: 0x57A3F0
+extern s8 Bonus_Game_Complete;            // size: 0x1, address: 0x57A3F4
 extern s8 Cheap_Finish[2];                // size: 0x2, address: 0x57A400
 extern s8 Perfect_Finish[2];              // size: 0x2, address: 0x57A404
 extern s8 Stage_SA_Finish[2];             // size: 0x2, address: 0x57A408
