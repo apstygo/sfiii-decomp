@@ -1742,7 +1742,40 @@ void Time_Control() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Ck_Coin);
+s16 Ck_Coin() {
+    s16 PL_id;
+
+    switch (G_No[3]) {
+    case 0:
+        PL_id = -1;
+
+        if (~p1sw_1 & p1sw_0 & 0x4000) {
+            PL_id = 0;
+        } else if (~p2sw_1 & p2sw_0 & 0x4000) {
+            PL_id = 1;
+        }
+
+        if (PL_id == -1) {
+            return 0;
+        }
+
+        ToneDown(0xFF, 0);
+        Request_LDREQ_Break();
+        G_No[3] = 1;
+        plw[PL_id].wu.operator= 1;
+        Operator_Status[PL_id] = 1;
+        Champion = PL_id;
+        plw[PL_id ^ 1].wu.operator= 0;
+        Operator_Status[PL_id ^ 1] = 0;
+        return 0;
+
+    default:
+    case 1:
+        ToneDown(0xFF, 0);
+        PL_id = Check_LDREQ_Break();
+        return PL_id ^ 1;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Before_Select_Sub);
 
