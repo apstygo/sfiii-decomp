@@ -1068,7 +1068,25 @@ s32 Check_Disp_Ranking() {
     return 0;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Disp_Rank_Sub);
+s16 Disp_Rank_Sub(s16 PL_id) {
+    if (Request_Disp_Rank[PL_id][3] >= 0) {
+        return 15;
+    }
+
+    if (Request_Disp_Rank[PL_id][2] >= 0) {
+        return 10;
+    }
+
+    if (Request_Disp_Rank[PL_id][1] >= 0) {
+        return 5;
+    }
+
+    if (Request_Disp_Rank[PL_id][0] >= 0) {
+        return 0;
+    }
+
+    return -1;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Disp_Ranking);
 
