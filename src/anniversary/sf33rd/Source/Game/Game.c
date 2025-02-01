@@ -1825,4 +1825,10 @@ void Before_Select_Sub() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Wait_Auto_Load);
+void Wait_Auto_Load(struct _TASK * /* unused */) {
+    Basic_Sub();
+    BG_Draw_System();
+    bg_pos_hosei_sub2(0);
+    Bg_Family_Set_appoint(0);
+    BG_move_Ex(0);
+}
