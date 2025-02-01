@@ -1946,6 +1946,7 @@ extern s8 Rank_In[2][4];                  // size: 0x8, address: 0x57A2E8
 extern s8 Suicide[8];                     // size: 0x8, address: 0x57A2F8
 extern u8 Continue_Cut[2];                // size: 0x2, address: 0x57A304
 extern s8 Last_Selected_EM[2];            // size: 0x2, address: 0x57A30C
+extern u8 WGJ_Target;                     // size: 0x1, address: 0x57A338
 extern u8 Continue_Count_Down[2];         // size: 0x2, address: 0x57A33C
 extern u8 GO_No[4];                       // size: 0x4, address: 0x57A344
 extern u8 Scene_Cut;                      // size: 0x1, address: 0x57A348
@@ -1953,6 +1954,7 @@ extern u8 Battle_Q[2];                    // size: 0x2, address: 0x57A364
 extern u8 SC_No[4];                       // size: 0x4, address: 0x57A388
 extern u8 Bonus_Type;                     // size: 0x1, address: 0x57A3B4
 extern s8 Stock_Com_Arts[2];              // size: 0x2, address: 0x57A3C4
+extern u8 End_PL;                         // size: 0x1, address: 0x57A3C8
 extern s8 Stage_Cheap_Finish[2];          // size: 0x2, address: 0x57A3D0
 extern s8 Stage_Perfect_Finish[2];        // size: 0x2, address: 0x57A3D4
 extern s8 Stage_Lost_Round[2];            // size: 0x2, address: 0x57A3D8
@@ -1966,6 +1968,7 @@ extern s8 Super_Arts_Finish[2];           // size: 0x2, address: 0x57A40C
 extern s8 Lost_Round[2];                  // size: 0x2, address: 0x57A410
 extern s8 Deley_Shot_Timer[2];            // size: 0x2, address: 0x57A414
 extern s8 Deley_Shot_No[2];               // size: 0x2, address: 0x57A418
+extern u8 Final_Result_id;                // size: 0x1, address: 0x57A480
 extern u8 CC_Value[2];                    // size: 0x2, address: 0x57A494
 extern s8 Break_Com[2][20];               // size: 0x28, address: 0x57A4C0
 extern s8 No_Death;                       // size: 0x1, address: 0x57A51C
@@ -1980,6 +1983,7 @@ extern u8 Continue_Coin[2];               // size: 0x2, address: 0x57A590
 extern s8 Stop_Combo;                     // size: 0x1, address: 0x57A59C
 extern s8 Demo_Time_Stop;                 // size: 0x1, address: 0x57A5E0
 extern u8 Country;                        // size: 0x1, address: 0x57A5E4
+extern s8 Player_Number;                  // size: 0x1, address: 0x57A604
 extern s8 Last_Player_id;                 // size: 0x1, address: 0x57A608
 extern s8 Player_id;                      // size: 0x1, address: 0x57A60C
 extern s8 Select_Timer;                   // size: 0x1, address: 0x57A618
