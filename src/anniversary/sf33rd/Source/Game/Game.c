@@ -12,6 +12,7 @@
 #include "sf33rd/Source/Game/Next_CPU.h"
 #include "sf33rd/Source/Game/OPENING.h"
 #include "sf33rd/Source/Game/PLCNT.h"
+#include "sf33rd/Source/Game/RANKING.h"
 #include "sf33rd/Source/Game/Reset.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
@@ -1088,7 +1089,64 @@ s16 Disp_Rank_Sub(s16 PL_id) {
     return -1;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Disp_Ranking);
+s32 Disp_Ranking() {
+    switch (G_No[3]) {
+    case 0:
+        G_No[3] += 1;
+        Switch_Screen_Init(1);
+        BGM_Request(57);
+        break;
+
+    case 1:
+        if (Switch_Screen(1) != 0) {
+            Cover_Timer = 24;
+            G_No[3] += 1;
+            D_No[0] = 1;
+            D_No[1] = 0;
+            D_No[2] = 0;
+            D_No[3] = 0;
+            Clear_Personal_Data(0);
+            grade_check_work_1st_init(0, 0);
+            grade_check_work_1st_init(0, 1);
+            Clear_Personal_Data(1);
+            grade_check_work_1st_init(1, 0);
+            grade_check_work_1st_init(1, 1);
+        }
+
+        break;
+
+    case 2:
+        Switch_Screen(1);
+        Ranking();
+
+        if (--Cover_Timer == 0) {
+            G_No[3] += 1;
+            Switch_Screen_Init(1);
+        }
+
+        break;
+
+    case 3:
+        Ranking();
+
+        if (Switch_Screen_Revival(1) != 0) {
+            G_No[3] += 1;
+            Forbid_Break = 0;
+        }
+
+        break;
+
+    default:
+        if (Ranking() != 0) {
+            BGM_Stop();
+            return 1;
+        }
+
+        break;
+    }
+
+    return 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game07);
 
