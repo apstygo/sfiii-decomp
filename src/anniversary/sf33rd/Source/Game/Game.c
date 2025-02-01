@@ -1639,7 +1639,30 @@ void Loop_Demo(struct _TASK * /* unused */) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Next_Demo_Loop);
+void Next_Demo_Loop() {
+    G_No[0] = 1;
+    G_No[1] = 1;
+    G_No[2] = 0;
+    D_No[0] = 0;
+    D_No[1] = 0;
+    D_No[2] = 0;
+    D_No[3] = 0;
+    E_No[0] = 0;
+    E_No[1] = 0x63;
+    E_No[2] = 0;
+    E_No[3] = 0;
+    Demo_PL_Index = 0;
+    Demo_Stage_Index = 0;
+    Select_Demo_Index = 0;
+    Demo_Flag = 0;
+    Present_Mode = 0;
+    Game_pause = 0;
+    Play_Mode = 0;
+    Replay_Status[0] = 0;
+    Replay_Status[1] = 0;
+    System_all_clear_Level_B();
+    Purge_mmtm_area(6);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Loop_Demo_Sub);
 
