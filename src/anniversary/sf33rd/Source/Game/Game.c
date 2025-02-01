@@ -1,5 +1,6 @@
 #include "common.h"
 #include "sf33rd/Source/Common/PPGWork.h"
+#include "sf33rd/Source/Game/Continue.h"
 #include "sf33rd/Source/Game/DEMO00.h"
 #include "sf33rd/Source/Game/DEMO01.h"
 #include "sf33rd/Source/Game/Entry.h"
@@ -1148,7 +1149,22 @@ s32 Disp_Ranking() {
     return 0;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game07);
+void Game07() {
+    BG_Draw_System();
+    Basic_Sub();
+
+    switch (G_No[2]) {
+    case 0:
+        if (Continue_Scene() != 0) {
+            G_No[1] = 6;
+            G_No[2] = 0;
+        }
+
+        break;
+    }
+
+    BG_move();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game08);
 
