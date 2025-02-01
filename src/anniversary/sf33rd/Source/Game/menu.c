@@ -5,6 +5,7 @@
 #include "sf33rd/Source/Game/Grade.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/SYS_sub2.h"
+#include "sf33rd/Source/Game/SysDir.h"
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/texgroup.h"
 #include "unknown.h"

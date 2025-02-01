@@ -13,6 +13,7 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/SYS_sub2.h"
+#include "sf33rd/Source/Game/SysDir.h"
 #include "sf33rd/Source/Game/TATE00.h"
 #include "sf33rd/Source/Game/VITAL.h"
 #include "sf33rd/Source/Game/bg_sub.h"
@@ -622,7 +623,33 @@ void Game2_7() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game01_Sub);
+void Game01_Sub() {
+    Disp_Cockpit = 0;
+    Stop_Update_Score = 0;
+    vital_cont_init();
+    count_cont_init(0);
+    Score[0][1] = 0;
+    Score[0][2] = 0;
+    Score[1][1] = 0;
+    Score[1][2] = 0;
+    PL_Wins[0] = 0;
+    PL_Wins[1] = 0;
+    combo_cont_init();
+    Clear_Win_Type();
+    Lamp_No = 0;
+    set_kizetsu_status(0);
+    set_kizetsu_status(1);
+    set_super_arts_status(0);
+    set_super_arts_status(1);
+
+    if (Demo_Flag && (sag_ikinari_max() != 0)) {
+        spgauge_cont_init();
+    } else {
+        spgauge_cont_demo_init();
+    }
+
+    stngauge_cont_init();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game03);
 

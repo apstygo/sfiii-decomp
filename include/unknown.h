@@ -1703,9 +1703,6 @@ void SE_dir_selected();                 // Range: 0x398480 -> 0x3984A4
 // aboutspr.c
 void Init_load_on_memory_data(); // Range: 0x3A8710 -> 0x3A87CC
 
-// SysDir.c
-void init_omop(); // Range: 0x3AB060 -> 0x3AB290
-
 // texcash.c
 void init_texcash_1st();            // Range: 0x3AE390 -> 0x3AE4EC
 void init_texcash_before_process(); // Range: 0x3AE4F0 -> 0x3AE5B8
@@ -1927,10 +1924,12 @@ extern u8 F_No3[2];                       // size: 0x2, address: 0x57A1CC
 extern u8 F_No2[2];                       // size: 0x2, address: 0x57A1D0
 extern u8 F_No1[2];                       // size: 0x2, address: 0x57A1D4
 extern u8 F_No0[2];                       // size: 0x2, address: 0x57A1D8
+extern u8 PL_Wins[2];                     // size: 0x2, address: 0x57A1F4
 extern u8 Cont_No[4];                     // size: 0x4, address: 0x57A1F8
 extern u8 ixbfw_cut;                      // size: 0x1, address: 0x57A1FC
 extern u8 test_flag;                      // size: 0x1, address: 0x57A200
 extern u8 Stop_Update_Score;              // size: 0x1, address: 0x57A204
+extern u8 Lamp_No;                        // size: 0x1, address: 0x57A210
 extern u8 Disp_Cockpit;                   // size: 0x1, address: 0x57A218
 extern u8 Conclusion_Flag;                // size: 0x1, address: 0x57A248
 extern u8 Exit_Menu;                      // size: 0x1, address: 0x57A24C
