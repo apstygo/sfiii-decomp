@@ -2,8 +2,10 @@
 #include "sf33rd/Source/Common/PPGWork.h"
 #include "sf33rd/Source/Game/DEMO00.h"
 #include "sf33rd/Source/Game/DEMO01.h"
+#include "sf33rd/Source/Game/Entry.h"
 #include "sf33rd/Source/Game/Flash_LP.h"
 #include "sf33rd/Source/Game/GD3rd.h"
+#include "sf33rd/Source/Game/GameOver.h"
 #include "sf33rd/Source/Game/Grade.h"
 #include "sf33rd/Source/Game/HITCHECK.h"
 #include "sf33rd/Source/Game/Manage.h"
@@ -64,6 +66,9 @@ void Game2_5();
 void Game2_6();
 void Game2_7();
 void Time_Control();
+static s32 Check_Disp_Ranking();
+s32 Disp_Ranking();
+void Request_Break_Sub(s16 PL_id);
 
 void Game_Task(struct _TASK *task_ptr) {
     s16 ix;
@@ -890,7 +895,149 @@ void Game05() {
     BG_move();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game06);
+void Game06() {
+    s16 xx;
+
+    BG_Draw_System();
+    Basic_Sub_Ex();
+
+    if (!Break_Into) {
+        switch (G_No[2]) {
+        case 0:
+            G_No[2] += 1;
+            Game_pause = 0;
+            Stock_Com_Color[Player_id] = -1;
+            Stock_Com_Arts[Player_id] = -1;
+            Last_Player_id = -1;
+            Control_Time = 481;
+            E_No[0] = 8;
+            E_No[1] = 0;
+            E_No[2] = 0;
+            E_No[3] = 0;
+
+            for (xx = 0; xx < 4; xx++) {
+                GO_No[xx] = 0;
+            }
+
+            make_texcash_work(13);
+            break;
+
+        case 1:
+            if (Game_Over()) {
+                G_Timer = 60;
+
+                if (Check_Disp_Ranking() != 0) {
+                    G_No[2] += 1;
+                } else {
+                    G_No[2] = 3;
+                }
+            }
+
+            break;
+
+        case 2:
+            if (Disp_Ranking() != 0) {
+                G_No[2] += 1;
+                G_Timer = 1;
+            }
+
+            break;
+
+        case 3:
+            if (--G_Timer == 0) {
+                G_No[2] += 1;
+                Clear_Disp_Ranking(0);
+                Clear_Disp_Ranking(1);
+                Switch_Screen_Init(1);
+            }
+
+            break;
+
+        case 4:
+            if (Switch_Screen(1) != 0) {
+                Cover_Timer = 24;
+                Forbid_Break = 0;
+                Clear_Flash_No();
+                Clear_Personal_Data(LOSER);
+                grade_check_work_1st_init(LOSER, 0);
+                grade_check_work_1st_init(LOSER, 1);
+
+                if (Request_Break[0] != 0 || Request_Break[1] != 0) {
+                    Request_Break_Sub(0);
+                    Request_Break_Sub(1);
+                    G_No[1] = 1;
+                    G_No[2] = 0;
+                    G_No[3] = 0;
+                    E_No[0] = 2;
+                    E_No[1] = 0;
+                    E_No[2] = 0;
+                    E_No[3] = 0;
+                    break;
+                }
+
+                for (xx = 0; xx < 20; xx++) {
+                    save_w[Present_Mode].Ranking[xx] = Ranking_Data[xx];
+                }
+
+                if (save_w[Present_Mode].Auto_Save) {
+                    G_No[2] = 5;
+                    G_No[3] = 0;
+                    G_Timer = 4;
+                    Pause_ID = Player_id;
+                    cpReadyTask(MENU_TASK_NUM, Menu_Task);
+                    System_all_clear_Level_B();
+                    Menu_Init(&task[3]);
+                    task[3].r_no[0] = 9;
+                    task[3].r_no[1] = 0;
+                    Forbid_Reset = 1;
+                    make_texcash_work(12);
+                    Unsubstantial_BG[0] = 1;
+                    Copy_Check_w();
+                    cpExitTask(SAVER_TASK_NUM);
+                } else {
+                    G_No[2] = 6;
+                }
+            }
+
+            break;
+
+        case 5:
+            if (G_No[3] == 0) {
+                FadeOut(1, 0xFF, 8);
+
+                if (--G_Timer == 0) {
+                    G_No[3] = 1;
+                }
+            }
+
+            break;
+
+        case 6:
+            Switch_Screen(1);
+            G_No[0] = 1;
+            G_No[1] = 0x63;
+            G_No[2] = 0;
+            G_No[3] = 0;
+            E_No[0] = 0;
+            E_No[1] = 0x63;
+            E_No[2] = 0;
+            E_No[3] = 0;
+            D_No[0] = 0;
+            D_No[1] = 0;
+            D_No[2] = 0;
+            D_No[3] = 0;
+            Get_Demo_Index = 0;
+            Combo_Demo_Flag = 0;
+            cpReadyTask(ENTRY_TASK_NUM, Entry_Task);
+            Purge_mmtm_area(5);
+            Make_texcash_of_list(5);
+            System_all_clear_Level_B();
+            break;
+        }
+
+        BG_move();
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Request_Break_Sub);
 

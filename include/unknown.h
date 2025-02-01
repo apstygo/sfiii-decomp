@@ -1186,6 +1186,18 @@ typedef struct {
     s8 contents[4][8]; // offset 0x0, size 0x20
 } _EXTRA_OPTION;
 
+typedef struct {
+    // total size: 0x14
+    u8 name[3];      // offset 0x0, size 0x3
+    u16 player;      // offset 0x4, size 0x2
+    u32 score;       // offset 0x8, size 0x4
+    s8 cpu_grade;    // offset 0xC, size 0x1
+    s8 grade;        // offset 0xD, size 0x1
+    u16 wins;        // offset 0xE, size 0x2
+    u8 player_color; // offset 0x10, size 0x1
+    u8 all_clear;    // offset 0x11, size 0x1
+} RANK_DATA;
+
 struct _SAVE_W {
     // total size: 0x208
     _PAD_INFOR Pad_Infor[2];    // offset 0x0, size 0x18
@@ -1209,18 +1221,8 @@ struct _SAVE_W {
     u8 Extra_Option;            // offset 0x2B, size 0x1
     u8 PL_Color[2][20];         // offset 0x2C, size 0x28
     _EXTRA_OPTION extra_option; // offset 0x54, size 0x20
-    struct {
-        // total size: 0x14
-        u8 name[3];      // offset 0x0, size 0x3
-        u16 player;      // offset 0x4, size 0x2
-        u32 score;       // offset 0x8, size 0x4
-        s8 cpu_grade;    // offset 0xC, size 0x1
-        s8 grade;        // offset 0xD, size 0x1
-        u16 wins;        // offset 0xE, size 0x2
-        u8 player_color; // offset 0x10, size 0x1
-        u8 all_clear;    // offset 0x11, size 0x1
-    } Ranking[20];       // offset 0x74, size 0x190
-    u32 sum;             // offset 0x204, size 0x4
+    RANK_DATA Ranking[20];      // offset 0x74, size 0x190
+    u32 sum;                    // offset 0x204, size 0x4
 };
 
 typedef struct {
@@ -1519,18 +1521,6 @@ typedef struct {
 } NAME_WK;
 
 typedef struct {
-    // total size: 0x14
-    u8 name[3];      // offset 0x0, size 0x3
-    u16 player;      // offset 0x4, size 0x2
-    u32 score;       // offset 0x8, size 0x4
-    s8 cpu_grade;    // offset 0xC, size 0x1
-    s8 grade;        // offset 0xD, size 0x1
-    u16 wins;        // offset 0xE, size 0x2
-    u8 player_color; // offset 0x10, size 0x1
-    u8 all_clear;    // offset 0x11, size 0x1
-} RANK_DATA;
-
-typedef struct {
     // total size: 0x4
     s8 code[4]; // offset 0x0, size 0x4
 } UNK_14;
@@ -1708,6 +1698,7 @@ void Init_load_on_memory_data(); // Range: 0x3A8710 -> 0x3A87CC
 void init_texcash_1st();            // Range: 0x3AE390 -> 0x3AE4EC
 void init_texcash_before_process(); // Range: 0x3AE4F0 -> 0x3AE5B8
 void texture_cash_update();         // Range: 0x3AE960 -> 0x3AEDE4
+void make_texcash_work(s16 ix);     // Range: 0x3AF190 -> 0x3AFEC0
 void Clear_texcash_work();          // Range: 0x3AFEC0 -> 0x3AFF28
 
 // VM_SUB.c
@@ -1877,6 +1868,7 @@ extern s16 Offset_BG_X[6];                // size: 0xC, address: 0x579E38
 extern s16 Target_BG_X[6];                // size: 0xC, address: 0x579E48
 extern u16 WGJ_Win;                       // size: 0x2, address: 0x579E54
 extern u16 Win_Record[2];                 // size: 0x4, address: 0x579E5C
+extern s16 Stock_Com_Color[2];            // size: 0x4, address: 0x579E78
 extern s16 Bonus_Game_Flag;               // size: 0x2, address: 0x579EA4
 extern s16 Max_vitality;                  // size: 0x2, address: 0x579EA8
 extern s16 DE_X[2];                       // size: 0x4, address: 0x579EB0
@@ -1943,6 +1935,7 @@ extern u8 Menu_Suicide[4];                // size: 0x4, address: 0x57A264
 extern u8 Connect_Status;                 // size: 0x1, address: 0x57A268
 extern s8 Cursor_Y_Pos[2][4];             // size: 0x8, address: 0x57A278
 extern u8 M_No[4];                        // size: 0x4, address: 0x57A29C
+extern u8 D_No[4];                        // size: 0x4, address: 0x57A2A0
 extern u8 G_No[4];                        // size: 0x4, address: 0x57A2A4
 extern u8 S_No[4];                        // size: 0x4, address: 0x57A2A8
 extern u8 C_No[4];                        // size: 0x4, address: 0x57A2AC
@@ -1959,10 +1952,13 @@ extern u8 Scene_Cut;                      // size: 0x1, address: 0x57A348
 extern u8 Battle_Q[2];                    // size: 0x2, address: 0x57A364
 extern u8 SC_No[4];                       // size: 0x4, address: 0x57A388
 extern u8 Bonus_Type;                     // size: 0x1, address: 0x57A3B4
+extern s8 Stock_Com_Arts[2];              // size: 0x2, address: 0x57A3C4
 extern s8 Stage_Cheap_Finish[2];          // size: 0x2, address: 0x57A3D0
 extern s8 Stage_Perfect_Finish[2];        // size: 0x2, address: 0x57A3D4
 extern s8 Stage_Lost_Round[2];            // size: 0x2, address: 0x57A3D8
 extern u8 Extra_Break;                    // size: 0x1, address: 0x57A3E0
+extern u8 Combo_Demo_Flag;                // size: 0x1, address: 0x57A3EC
+extern u8 Get_Demo_Index;                 // size: 0x1, address: 0x57A3F0
 extern s8 Cheap_Finish[2];                // size: 0x2, address: 0x57A400
 extern s8 Perfect_Finish[2];              // size: 0x2, address: 0x57A404
 extern s8 Stage_SA_Finish[2];             // size: 0x2, address: 0x57A408
@@ -1984,6 +1980,7 @@ extern u8 Continue_Coin[2];               // size: 0x2, address: 0x57A590
 extern s8 Stop_Combo;                     // size: 0x1, address: 0x57A59C
 extern s8 Demo_Time_Stop;                 // size: 0x1, address: 0x57A5E0
 extern u8 Country;                        // size: 0x1, address: 0x57A5E4
+extern s8 Last_Player_id;                 // size: 0x1, address: 0x57A608
 extern s8 Player_id;                      // size: 0x1, address: 0x57A60C
 extern s8 Select_Timer;                   // size: 0x1, address: 0x57A618
 extern s8 Demo_Flag;                      // size: 0x1, address: 0x57A634

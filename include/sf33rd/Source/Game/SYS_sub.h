@@ -16,6 +16,7 @@ void Score_Sub();                                  // Range: 0x3A29F0 -> 0x3A2D8
 void Disp_Win_Record();                            // Range: 0x3A2D90 -> 0x3A2F68
 void Setup_Final_Grade();                          // Range: 0x3A3320 -> 0x3A33D8
 void Clear_Win_Type();                             // Range: 0x3A33E0 -> 0x3A34A4
+void Clear_Disp_Ranking(s16 PL_id);                // Range: 0x3A34B0 -> 0x3A3554
 void Game_Data_Init();                             // Range: 0x3A3740 -> 0x3A380C
 void Setup_IO_ConvDataDefault(s32 id);             // Range: 0x3A3810 -> 0x3A388C
 void Save_Game_Data();                             // Range: 0x3A3890 -> 0x3A3B80
