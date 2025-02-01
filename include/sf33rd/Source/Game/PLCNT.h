@@ -5,5 +5,6 @@
 
 void Player_control();
 void reqPlayerDraw();
+void erase_extra_plef_work();
 
 #endif

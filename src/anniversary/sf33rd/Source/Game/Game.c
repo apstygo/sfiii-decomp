@@ -17,6 +17,7 @@
 #include "sf33rd/Source/Game/VITAL.h"
 #include "sf33rd/Source/Game/bg_sub.h"
 #include "sf33rd/Source/Game/cmb_win.h"
+#include "sf33rd/Source/Game/count.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/menu.h"
@@ -561,7 +562,46 @@ void Game2_4() {
     BG_Draw_System();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game2_5);
+void Game2_5() {
+    BG_Draw_System();
+
+    switch (G_No[3]) {
+    case 0:
+        Switch_Screen(0);
+        G_No[3] += 1;
+        Stop_Update_Score = 0;
+        vital_cont_init();
+        count_cont_init(0);
+        stngauge_cont_init();
+        stngauge_work_clear();
+        combo_cont_init();
+        count_cont_init(1);
+        Score[0][2] = 0;
+        Score[1][2] = 0;
+        Suicide[0] = 1;
+        Game_pause = 0;
+        pcon_rno[0] = 0;
+        pcon_rno[1] = 0;
+        pcon_rno[2] = 0;
+        pcon_rno[3] = 0;
+        appear_type = 0;
+        erase_extra_plef_work();
+        compel_bg_init_position();
+        win_lose_work_clear();
+        TATE00();
+        break;
+
+    default:
+        Game2_1();
+
+        if (--G_Timer == 0) {
+            G_No[2] = 1;
+            Clear_Flash_No();
+        }
+
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game2_6);
 
