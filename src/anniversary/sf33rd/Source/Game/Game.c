@@ -69,6 +69,7 @@ void Time_Control();
 static s32 Check_Disp_Ranking();
 s32 Disp_Ranking();
 void Request_Break_Sub(s16 PL_id);
+s16 Disp_Rank_Sub(s16 PL_id);
 
 void Game_Task(struct _TASK *task_ptr) {
     s16 ix;
@@ -1039,9 +1040,33 @@ void Game06() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Request_Break_Sub);
+void Request_Break_Sub(s16 PL_id) {
+    if ((Request_Break[PL_id] != 0) && (Ck_Break_Into(0, 0, PL_id) != 0)) {
+        plw[PL_id].wu.operator= 1;
+        Operator_Status[PL_id] = 1;
+    }
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Check_Disp_Ranking);
+s32 Check_Disp_Ranking() {
+    s16 rank_type = Disp_Rank_Sub(0);
+
+    if (rank_type != -1) {
+        Rank_Type = rank_type;
+        Present_Rank[0] = Rank_In[0][rank_type];
+        Present_Rank[1] = Rank_In[1][rank_type];
+        return 1;
+    }
+
+    rank_type = Disp_Rank_Sub(1);
+
+    if (rank_type != -1) {
+        Rank_Type = rank_type;
+        Present_Rank[1] = Rank_In[1][rank_type];
+        return 1;
+    }
+
+    return 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Disp_Rank_Sub);
 

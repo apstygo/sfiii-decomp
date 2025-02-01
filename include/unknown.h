@@ -1985,6 +1985,8 @@ extern s8 Player_id;                      // size: 0x1, address: 0x57A60C
 extern s8 Select_Timer;                   // size: 0x1, address: 0x57A618
 extern s8 Demo_Flag;                      // size: 0x1, address: 0x57A634
 extern s8 E_07_Flag[2];                   // size: 0x2, address: 0x57A63C
+extern s8 Rank_Type;                      // size: 0x1, address: 0x57A658
+extern u8 Present_Rank[2];                // size: 0x2, address: 0x57A668
 extern s8 Request_G_No;                   // size: 0x1, address: 0x57A66C
 extern s8 Request_E_No;                   // size: 0x1, address: 0x57A670
 extern s8 Personal_Timer[2];              // size: 0x2, address: 0x57A674
