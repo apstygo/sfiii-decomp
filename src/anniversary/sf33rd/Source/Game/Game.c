@@ -557,7 +557,9 @@ void Game2_3() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game2_4);
+void Game2_4() {
+    BG_Draw_System();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game2_5);
 
