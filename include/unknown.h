@@ -1901,6 +1901,7 @@ extern u8 CPU_Time_Lag[2];                // size: 0x2, address: 0x57A054
 extern u8 Decide_ID;                      // size: 0x1, address: 0x57A064
 extern u8 Reset_Bootrom;                  // size: 0x1, address: 0x57A068
 extern s8 Menu_Page_Buff;                 // size: 0x1, address: 0x57A06C
+extern u8 End_Training;                   // size: 0x1, address: 0x57A070
 extern u8 Disp_Attack_Data;               // size: 0x1, address: 0x57A078
 extern u8 Training_ID;                    // size: 0x1, address: 0x57A07C
 extern u8 Pause_Down;                     // size: 0x1, address: 0x57A080
@@ -1990,6 +1991,7 @@ extern s8 Naming_Cut[2];                  // size: 0x2, address: 0x57A580
 extern s8 Ignore_Entry[2];                // size: 0x2, address: 0x57A58C
 extern u8 Continue_Coin[2];               // size: 0x2, address: 0x57A590
 extern s8 Stop_Combo;                     // size: 0x1, address: 0x57A59C
+extern s8 Exec_Wipe;                      // size: 0x1, address: 0x57A5D8
 extern s8 Demo_Time_Stop;                 // size: 0x1, address: 0x57A5E0
 extern u8 Country;                        // size: 0x1, address: 0x57A5E4
 extern s8 Select_Demo_Index;              // size: 0x1, address: 0x57A5E8
@@ -2015,6 +2017,7 @@ extern s8 Champion;                       // size: 0x1, address: 0x57A690
 extern s8 New_Challenger;                 // size: 0x1, address: 0x57A694
 extern s8 LOSER;                          // size: 0x1, address: 0x57A698
 extern s8 WINNER;                         // size: 0x1, address: 0x57A69C
+extern s8 judge_flag;                     // size: 0x1, address: 0x57A6A0
 extern s8 Continue_Count[2];              // size: 0x2, address: 0x57A6B4
 extern s8 Request_Break[2];               // size: 0x2, address: 0x57A6B8
 extern s8 Forbid_Break;                   // size: 0x1, address: 0x57A6BC

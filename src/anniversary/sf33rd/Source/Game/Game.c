@@ -81,6 +81,7 @@ static s16 Bonus_Sub();
 s16 Ck_Coin();
 void Loop_Demo_Sub();
 void Next_Title_Sub();
+void Before_Select_Sub();
 
 void Game_Task(struct _TASK *task_ptr) {
     s16 ix;
@@ -1677,7 +1678,49 @@ void Loop_Demo_Sub() {
     pp_operator_check_flag(1);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Next_Title_Sub);
+void Next_Title_Sub() {
+    s16 ix;
+
+    if (G_No[1] != 0x63) {
+        SsAllNoteOff();
+    }
+
+    if (Demo_Flag == 0) {
+        SsRequest(106);
+    }
+
+    TexRelease(0x258);
+    TexRelease_OP();
+    System_all_clear_Level_B();
+    Purge_mmtm_area(6);
+    G_Timer = 0;
+
+    for (ix = 0; ix < 4; ix++) {
+        vm_w.r_no[ix] = 0;
+        G_No[ix] = 0;
+        E_No[ix] = 0;
+        D_No[ix] = 0;
+        task->r_no[ix] = 0;
+    }
+
+    G_No[0] = 2;
+    E_No[0] = 1;
+    task->r_no[0] = 1;
+    Demo_Flag = 1;
+    Game_pause = 0;
+    judge_flag = 0;
+    Pause_Down = 0;
+    Disp_Attack_Data = 0;
+    seraph_flag = 0;
+    End_Training = 0;
+    Forbid_Reset = 0;
+    Exec_Wipe = 0;
+    Present_Mode = 1;
+    Insert_Y = 23;
+    Before_Select_Sub();
+    cpReadyTask(ENTRY_TASK_NUM, Entry_Task);
+    setup_pos_remake_key(2);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Time_Control);
 
