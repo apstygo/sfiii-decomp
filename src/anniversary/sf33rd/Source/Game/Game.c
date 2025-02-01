@@ -1664,7 +1664,18 @@ void Next_Demo_Loop() {
     Purge_mmtm_area(6);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Loop_Demo_Sub);
+void Loop_Demo_Sub() {
+    G_No[1] += 1;
+    G_No[2] = 0;
+    D_No[0] = 0;
+    D_No[1] = 0;
+    D_No[2] = 0;
+    D_No[3] = 0;
+    E_No[1] = 1;
+    Play_Game = 0;
+    pulpul_stop();
+    pp_operator_check_flag(1);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Next_Title_Sub);
 
