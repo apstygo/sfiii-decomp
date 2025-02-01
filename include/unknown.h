@@ -1881,6 +1881,7 @@ extern s16 Bonus_Game_Flag;               // size: 0x2, address: 0x579EA4
 extern s16 Max_vitality;                  // size: 0x2, address: 0x579EA8
 extern s16 DE_X[2];                       // size: 0x4, address: 0x579EB0
 extern s16 Random_ix32_ex;                // size: 0x2, address: 0x579EB4
+extern s16 Limit_Time;                    // size: 0x2, address: 0x579EC0
 extern s16 Insert_Y;                      // size: 0x2, address: 0x579F90
 extern s16 M_Timer;                       // size: 0x2, address: 0x579FBC
 extern s16 Random_ix32;                   // size: 0x2, address: 0x579FC0

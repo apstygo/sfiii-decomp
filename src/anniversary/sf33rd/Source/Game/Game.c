@@ -1722,7 +1722,25 @@ void Next_Title_Sub() {
     setup_pos_remake_key(2);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Time_Control);
+void Time_Control() {
+    count_cont_main();
+
+    if ((Allow_a_battle_f == 0) || (Demo_Time_Stop != 0) || (Bonus_Game_Flag != 0)) {
+        return;
+    }
+
+    if (Game_pause != 0x81) {
+        if (Control_Time >= Limit_Time) {
+            Control_Time = Limit_Time;
+            return;
+        }
+
+        if (--Time_in_Time == 0) {
+            Time_in_Time = 60;
+            Control_Time += 1;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Ck_Coin);
 

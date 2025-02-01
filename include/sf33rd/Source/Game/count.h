@@ -4,5 +4,6 @@
 #include "types.h"
 
 void count_cont_init(u8 type);
+void count_cont_main();
 
 #endif
