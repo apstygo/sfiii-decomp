@@ -1777,6 +1777,52 @@ s16 Ck_Coin() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Before_Select_Sub);
+void Before_Select_Sub() {
+    s16 xx;
+
+    Request_G_No = 0;
+    Request_E_No = 0;
+    Allow_a_battle_f = 0;
+    Bonus_Type = 0;
+
+    if (Demo_Flag == 0) {
+        Control_Time = 2048;
+        Round_Level = 7;
+    } else {
+        Control_Time = 481;
+    }
+
+    Super_Arts[0] = 0;
+    Super_Arts[1] = 0;
+    Exec_Wipe = 0;
+    Fade_Flag = 0;
+    Stock_Com_Color[0] = -1;
+    Stock_Com_Arts[0] = -1;
+    Stock_Com_Color[1] = -1;
+    Stock_Com_Arts[1] = -1;
+    Bonus_Game_Flag = 0;
+    Combo_Demo_Flag = 0;
+    paring_counter[0] = 0;
+    paring_bonus_r[0] = 0;
+    paring_counter[1] = 0;
+    paring_bonus_r[1] = 0;
+    Clear_Disp_Ranking(0);
+    Clear_Disp_Ranking(1);
+    Clear_Personal_Data(0);
+    grade_check_work_1st_init(0, 0);
+    grade_check_work_1st_init(0, 1);
+    Clear_Personal_Data(1);
+    grade_check_work_1st_init(1, 0);
+    grade_check_work_1st_init(1, 1);
+    Last_Player_id = Player_Number = -1;
+    Round_Level = 3;
+    Time_in_Time = 60;
+
+    if (Mode_Type != 2) {
+        xx = system_timer;
+        Random_ix16 = xx & 0x3F;
+        Random_ix32 = xx & 0x7F;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Wait_Auto_Load);

@@ -1892,6 +1892,7 @@ extern s16 ENTRY_X;                       // size: 0x2, address: 0x57A014
 extern s16 F_Timer[2];                    // size: 0x4, address: 0x57A018
 extern s16 E_Timer;                       // size: 0x2, address: 0x57A01C
 extern s16 G_Timer;                       // size: 0x2, address: 0x57A02C
+extern s16 Round_Level;                   // size: 0x2, address: 0x57A038
 extern s16 Time_in_Time;                  // size: 0x2, address: 0x57A03C
 extern s16 Control_Time;                  // size: 0x2, address: 0x57A040
 extern u16 Game_timer;                    // size: 0x2, address: 0x57A044
@@ -1981,6 +1982,8 @@ extern s8 Deley_Shot_Timer[2];            // size: 0x2, address: 0x57A414
 extern s8 Deley_Shot_No[2];               // size: 0x2, address: 0x57A418
 extern u8 Final_Result_id;                // size: 0x1, address: 0x57A480
 extern u8 CC_Value[2];                    // size: 0x2, address: 0x57A494
+extern u8 paring_bonus_r[2];              // size: 0x2, address: 0x57A4B0
+extern u8 paring_counter[2];              // size: 0x2, address: 0x57A4B4
 extern s8 Break_Com[2][20];               // size: 0x28, address: 0x57A4C0
 extern s8 No_Death;                       // size: 0x1, address: 0x57A51C
 extern s8 PB_Music_Off;                   // size: 0x1, address: 0x57A520
