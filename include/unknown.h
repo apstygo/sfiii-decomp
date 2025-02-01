@@ -1558,6 +1558,7 @@ s32 effect_04_init(s16 Death_Type, s16 cg_type, s16 sync_bg, s16 priority); // R
 s32 effect_18_init(s32 disp_index, s32 cursor_id, s16 sync_bg, s16 master_player); // Range: 0x1D36B0 -> 0x1D37E0
 s32 effect_23_init(s16 id, u8 dir_old, s16 sync_bg, s16 master_player, s16 letter_type, s16 cursor_index,
                    u16 char_offset, s16 pos_index, s16 type); // Range: 0x1D5230 -> 0x1D5390
+s32 effect_35_init(s16 wait_timer, s16 c_type);               // Range: 0x1DBE80 -> 0x1DC170
 s32 effect_38_init(s16 PL_id, s16 dir_old, s16 Your_Char, s16 Play_Status,
                    s16 Target_BG);                                                    // Range: 0x1DEC30 -> 0x1DF620
 s32 effect_39_init(s16 PL_id, s16 dir_old, s16 Your_Char, s16 Target_BG, s16 Option); // Range: 0x1E04E0 -> 0x1E0718
@@ -1589,11 +1590,13 @@ s32 effect_B8_init(s16 WIN_PL_NO, s16 timer);                                   
 s32 effect_C4_init(s16 id, s16 letter_type, s16 cursor_index, s16 master_player); // Range: 0x209D40 -> 0x209F4C
 
 // EFFECT.c
-void move_effect_work(s16 index); // Range: 0x21ABC0 -> 0x21AD24
-void disp_effect_work();          // Range: 0x21AD30 -> 0x21AED8
-void effect_work_init();          // Range: 0x21AEE0 -> 0x21B05C
-void effect_work_quick_init();    // Range: 0x21B060 -> 0x21B0C0
+void move_effect_work(s16 index);  // Range: 0x21ABC0 -> 0x21AD24
+void disp_effect_work();           // Range: 0x21AD30 -> 0x21AED8
+void effect_work_init();           // Range: 0x21AEE0 -> 0x21B05C
+void effect_work_quick_init();     // Range: 0x21B060 -> 0x21B0C0
+void effect_work_kill_mod_plcol(); // Range: 0x21C560 -> 0x21C588
 
+s32 effect_J2_init(s16 delay);                                           // Range: 0x227340 -> 0x227478
 s32 effect_K6_init(s16 PL_id, s16 dir_old, s16 dm_vital, s16 Target_BG); // Range: 0x22EEC0 -> 0x22F020
 s32 effect_L1_init(s16 flag);                                            // Range: 0x232820 -> 0x2328E8
 
@@ -1667,6 +1670,7 @@ void Sound_SE(s16 Code);               // Range: 0x389170 -> 0x38919C
 void BGM_Request(s16 Code);            // Range: 0x3891A0 -> 0x3891CC
 void BGM_Request_Code_Check(u16 Code); // Range: 0x3891D0 -> 0x3891FC
 void BGM_Stop();                       // Range: 0x389200 -> 0x389220
+void SE_All_Off();                     // Range: 0x389220 -> 0x389240
 void Disp_Sound_Code();                // Range: 0x389E00 -> 0x38A00C
 
 // Sound3rd.c
@@ -1869,6 +1873,9 @@ extern s16 Target_BG_X[6];                // size: 0xC, address: 0x579E48
 extern u16 WGJ_Win;                       // size: 0x2, address: 0x579E54
 extern u16 Win_Record[2];                 // size: 0x4, address: 0x579E5C
 extern s16 Stock_Com_Color[2];            // size: 0x4, address: 0x579E78
+extern s16 Bonus_Game_ex_result;          // size: 0x2, address: 0x579E7C
+extern s16 Bonus_Game_result;             // size: 0x2, address: 0x579E9C
+extern s16 Bonus_Game_Work;               // size: 0x2, address: 0x579EA0
 extern s16 Bonus_Game_Flag;               // size: 0x2, address: 0x579EA4
 extern s16 Max_vitality;                  // size: 0x2, address: 0x579EA8
 extern s16 DE_X[2];                       // size: 0x4, address: 0x579EB0
@@ -1983,6 +1990,7 @@ extern u8 Continue_Coin[2];               // size: 0x2, address: 0x57A590
 extern s8 Stop_Combo;                     // size: 0x1, address: 0x57A59C
 extern s8 Demo_Time_Stop;                 // size: 0x1, address: 0x57A5E0
 extern u8 Country;                        // size: 0x1, address: 0x57A5E4
+extern s8 COM_id;                         // size: 0x1, address: 0x57A5F4
 extern s8 Player_Number;                  // size: 0x1, address: 0x57A604
 extern s8 Last_Player_id;                 // size: 0x1, address: 0x57A608
 extern s8 Player_id;                      // size: 0x1, address: 0x57A60C

@@ -1,5 +1,6 @@
 #include "common.h"
 #include "sf33rd/Source/Common/PPGWork.h"
+#include "sf33rd/Source/Game/BBBSCOM.h"
 #include "sf33rd/Source/Game/Continue.h"
 #include "sf33rd/Source/Game/DEMO00.h"
 #include "sf33rd/Source/Game/DEMO01.h"
@@ -73,6 +74,7 @@ static s32 Check_Disp_Ranking();
 s32 Disp_Ranking();
 void Request_Break_Sub(s16 PL_id);
 s16 Disp_Rank_Sub(s16 PL_id);
+static s16 Bonus_Sub();
 
 void Game_Task(struct _TASK *task_ptr) {
     s16 ix;
@@ -1226,7 +1228,131 @@ void Game08() {
     move_effect_work(4);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game09);
+void Game09() {
+    switch (G_No[2]) {
+    case 0:
+        BG_Draw_System();
+        Switch_Screen(0);
+        System_all_clear_Level_B();
+        Bonus_Game_Flag = Bonus_Type;
+        Game_difficulty = 15;
+        Game_timer = 0;
+        Game_pause = 0;
+        Demo_Time_Stop = 0;
+        C_No[0] = 0;
+        C_No[1] = 0;
+        C_No[2] = 0;
+        C_No[3] = 0;
+        G_No[2] += 1;
+        G_Timer = 19;
+        Round_num = 0;
+        Allow_a_battle_f = 0;
+        Time_in_Time = 60;
+        init_slow_flag();
+        clear_hit_queue();
+        pcon_rno[0] = pcon_rno[1] = pcon_rno[2] = pcon_rno[3] = 0;
+        bbbs_com_initialize();
+        ca_check_flag = 1;
+        Bonus_Game_Work = 20;
+        Bonus_Game_result = 0;
+        Bonus_Game_ex_result = 0;
+        bg_work_clear();
+        win_lose_work_clear();
+
+        if (Bonus_Game_Flag == 0x15) {
+            My_char[COM_id] = 12;
+        } else {
+            My_char[COM_id] = My_char[Player_id];
+        }
+
+        break;
+
+    case 1:
+        BG_Draw_System();
+        Switch_Screen(1);
+
+        if (--G_Timer == 0) {
+            if (Check_LDREQ_Queue_BG((u16)bg_w.stage) == 0) {
+                G_Timer = 1;
+            } else {
+                G_No[2] += 1;
+                Clear_Flash_No();
+
+                if (Bonus_Type == 0x15) {
+                    makeup_bonus_game_level(COM_id);
+                    effect_35_init(0x3C, 5);
+                    effect_J2_init(0x78);
+                    effect_35_init(0xB4, 7);
+                    effect_58_init(6, 0xB4, 0xA1);
+                } else {
+                    effect_35_init(0x3C, 6);
+                    effect_35_init(0x78, 7);
+                    effect_58_init(6, 0x78, 0xA1);
+                }
+
+                TATE00();
+                Switch_Screen_Init(0);
+                Bonus_Sub();
+            }
+        }
+
+        break;
+
+    case 2:
+        Bonus_Sub();
+
+        if (Switch_Screen_Revival(1) != 0) {
+            G_No[2] += 1;
+            Forbid_Break = 0;
+        }
+
+        break;
+
+    case 3:
+        if (Bonus_Sub()) {
+            G_No[2] += 1;
+            Cover_Timer = 24;
+            Stop_Combo = 1;
+            Switch_Screen_Init(0);
+        }
+
+        break;
+
+    case 4:
+        Bonus_Sub();
+
+        if (Switch_Screen(0) != 0) {
+            G_No[2] += 1;
+            G_Timer = 3;
+            SE_All_Off();
+            Clear_Flash_No();
+            effect_work_kill_mod_plcol();
+        }
+
+        break;
+
+    default:
+        Switch_Screen(0);
+        Bonus_Sub();
+
+        if (--G_Timer == 0) {
+            Cover_Timer = 24;
+            Suicide[0] = 1;
+            System_all_clear_Level_B();
+            G_No[1] = 10;
+            G_No[2] = 0;
+            G_No[3] = 0;
+            E_No[0] = 9;
+            E_No[1] = 0;
+            E_No[2] = 0;
+            E_No[3] = 0;
+        }
+
+        break;
+    }
+
+    BG_move();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Bonus_Sub);
 
