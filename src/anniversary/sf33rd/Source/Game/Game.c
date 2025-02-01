@@ -7,6 +7,7 @@
 #include "sf33rd/Source/Game/Grade.h"
 #include "sf33rd/Source/Game/HITCHECK.h"
 #include "sf33rd/Source/Game/Manage.h"
+#include "sf33rd/Source/Game/Next_CPU.h"
 #include "sf33rd/Source/Game/OPENING.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/Reset.h"
@@ -820,7 +821,74 @@ void Game04() {
     BG_move();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game05);
+void Game05() {
+    BG_Draw_System();
+    Basic_Sub();
+    Setup_Play_Type();
+
+    switch (G_No[2]) {
+    case 0:
+        G_No[2] += 1;
+        SC_No[0] = 0;
+        SC_No[1] = 0;
+        SC_No[2] = 0;
+        SC_No[3] = 0;
+
+        if (Check_Bonus_Stage()) {
+            SC_No[0] = 6;
+        }
+
+        Stop_Combo = 0;
+        init_slow_flag();
+        pulpul_stop();
+        break;
+
+    case 1:
+        if (Next_CPU()) {
+            G_No[2] += 1;
+            Switch_Screen_Init(0);
+        }
+
+        break;
+
+    default:
+        Next_CPU();
+
+        if (Switch_Screen(0) != 0) {
+            Cover_Timer = 24;
+            Purge_texcash_of_list(3);
+            Make_texcash_of_list(3);
+
+            if (Bonus_Type == 0) {
+                Game01_Sub();
+            }
+
+            BGM_Stop();
+
+            if (Bonus_Type == 0) {
+                G_No[1] = 2;
+                G_No[2] = 0;
+                E_No[0] = 4;
+                E_No[1] = 0;
+                E_No[2] = 0;
+                E_No[3] = 0;
+                Bonus_Game_Flag = 0;
+            } else {
+                G_No[1] = 9;
+                G_No[2] = 0;
+                G_No[3] = 0;
+                E_No[0] = 4;
+                E_No[1] = 0;
+                E_No[2] = 0;
+                E_No[3] = 0;
+            }
+        }
+
+        break;
+    }
+
+    BG_move();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game06);
 
