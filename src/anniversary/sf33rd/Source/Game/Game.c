@@ -4,6 +4,7 @@
 #include "sf33rd/Source/Game/Continue.h"
 #include "sf33rd/Source/Game/DEMO00.h"
 #include "sf33rd/Source/Game/DEMO01.h"
+#include "sf33rd/Source/Game/DEMO02.h"
 #include "sf33rd/Source/Game/Entry.h"
 #include "sf33rd/Source/Game/Flash_LP.h"
 #include "sf33rd/Source/Game/GD3rd.h"
@@ -39,8 +40,8 @@
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "unknown.h"
 
-void Wait_Auto_Load();
-void Loop_Demo();
+void Wait_Auto_Load(struct _TASK * /* unused */);
+void Loop_Demo(struct _TASK * /* unused */);
 void Game();
 void Game00();
 void Game01();
@@ -77,12 +78,15 @@ s32 Disp_Ranking();
 void Request_Break_Sub(s16 PL_id);
 s16 Disp_Rank_Sub(s16 PL_id);
 static s16 Bonus_Sub();
+s16 Ck_Coin();
+void Loop_Demo_Sub();
+void Next_Title_Sub();
 
 void Game_Task(struct _TASK *task_ptr) {
     s16 ix;
     s16 ff;
 
-    void (*Main_Jmp_Tbl[3])() = { Wait_Auto_Load, Loop_Demo, Game };
+    void (*Main_Jmp_Tbl[3])(struct _TASK *) = { Wait_Auto_Load, Loop_Demo, Game };
 
     init_color_trans_req();
     ff = Process_Counter;
@@ -1516,7 +1520,124 @@ void Game11() {
     BG_move();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Loop_Demo);
+void Loop_Demo(struct _TASK * /* unused */) {
+    if (Ck_Coin()) {
+        Next_Title_Sub();
+        return;
+    }
+
+    switch (G_No[1]) {
+    case 0:
+        G_No[1] += 1;
+        G_No[2] = 0;
+        G_No[3] = 0;
+        D_No[0] = 0;
+        D_No[1] = 0;
+        D_No[2] = 0;
+        D_No[3] = 0;
+        E_No[1] = 0x63;
+        Demo_PL_Index = 0;
+        Demo_Stage_Index = 0;
+        Select_Demo_Index = 0;
+        check_screen_L = 0;
+        check_screen_S = 0;
+        Insert_Y = 23;
+        Demo_Flag = 0;
+        Play_Mode = 0;
+        Replay_Status[0] = 0;
+        Replay_Status[1] = 0;
+        Present_Mode = 0;
+        title_tex_flag = 0;
+        Reset_Bootrom = 0;
+        break;
+
+    case 1:
+        Basic_Sub();
+
+        if (CAPCOM_Logo() != 0) {
+            Loop_Demo_Sub();
+            Insert_Y = 23;
+            E_No[1] = 2;
+            E_Timer = 1;
+            return;
+        }
+
+        break;
+
+    case 2:
+        Basic_Sub();
+
+        if (Title()) {
+            Loop_Demo_Sub();
+            Insert_Y = 17;
+            D_No[0] = 1;
+            return;
+        }
+
+        break;
+
+    case 3:
+        if (Play_Demo() != 0) {
+            Switch_Screen(1);
+            Loop_Demo_Sub();
+            Rank_Type = 0;
+            Demo_Type = 0;
+            SsAllNoteOff();
+            return;
+        }
+
+        break;
+
+    case 4:
+        Basic_Sub();
+
+        if (Ranking() != 0) {
+            Switch_Screen(1);
+            Loop_Demo_Sub();
+            setup_pos_remake_key(3);
+            return;
+        }
+
+        break;
+
+    case 5:
+        if (Play_Demo() != 0) {
+            Loop_Demo_Sub();
+            Demo_Type = 1;
+            Rank_Type = 5;
+            Demo_Type = 1;
+            SsAllNoteOff();
+            return;
+        }
+
+        break;
+
+    case 6:
+        Basic_Sub();
+
+        if (Ranking() != 0) {
+            Switch_Screen(1);
+            Loop_Demo_Sub();
+            System_all_clear_Level_B();
+            Purge_mmtm_area(6);
+            Game_pause = 0;
+            G_No[1] = 1;
+            E_No[1] = 0x63;
+            return;
+        }
+
+        break;
+
+    default:
+        Switch_Screen(1);
+
+        if (--Cover_Timer <= 0) {
+            Next_Demo_Loop();
+        }
+
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Next_Demo_Loop);
 

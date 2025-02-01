@@ -1687,6 +1687,7 @@ void BGM_Server();                      // Range: 0x396B30 -> 0x3977D8
 void setupAlwaysSeamlessFlag(s16 flag); // Range: 0x397820 -> 0x39783C
 s32 adx_now_playend();                  // Range: 0x397AF0 -> 0x397B50
 s32 bgmSkipCheck(s32 code);             // Range: 0x397BC0 -> 0x397C08
+void SsAllNoteOff();                    // Range: 0x397C10 -> 0x397C30
 void SsRequest(u16 ReqNumber);          // Range: 0x398030 -> 0x398088
 void SsBgmFadeOut(u16 time);            // Range: 0x398290 -> 0x398304
 void SsBgmHalfVolume(s16 flag);         // Range: 0x3983A0 -> 0x3983EC
@@ -1991,14 +1992,18 @@ extern u8 Continue_Coin[2];               // size: 0x2, address: 0x57A590
 extern s8 Stop_Combo;                     // size: 0x1, address: 0x57A59C
 extern s8 Demo_Time_Stop;                 // size: 0x1, address: 0x57A5E0
 extern u8 Country;                        // size: 0x1, address: 0x57A5E4
+extern s8 Select_Demo_Index;              // size: 0x1, address: 0x57A5E8
 extern s8 COM_id;                         // size: 0x1, address: 0x57A5F4
 extern s8 Player_Number;                  // size: 0x1, address: 0x57A604
 extern s8 Last_Player_id;                 // size: 0x1, address: 0x57A608
 extern s8 Player_id;                      // size: 0x1, address: 0x57A60C
 extern s8 Select_Timer;                   // size: 0x1, address: 0x57A618
+extern s8 Demo_Stage_Index;               // size: 0x1, address: 0x57A628
+extern s8 Demo_PL_Index;                  // size: 0x1, address: 0x57A62C
 extern s8 Demo_Flag;                      // size: 0x1, address: 0x57A634
 extern s8 E_07_Flag[2];                   // size: 0x2, address: 0x57A63C
 extern s8 Rank_Type;                      // size: 0x1, address: 0x57A658
+extern s8 Demo_Type;                      // size: 0x1, address: 0x57A65C
 extern u8 Present_Rank[2];                // size: 0x2, address: 0x57A668
 extern s8 Request_G_No;                   // size: 0x1, address: 0x57A66C
 extern s8 Request_E_No;                   // size: 0x1, address: 0x57A670
@@ -2025,6 +2030,8 @@ extern u32 WGJ_Score;                     // size: 0x4, address: 0x57A70C
 extern u32 Stage_Stock_Score[2];          // size: 0x8, address: 0x57A728
 extern u32 Score[2][3];                   // size: 0x18, address: 0x57A760
 extern u32 Record_Timer;                  // size: 0x4, address: 0x57A810
+extern u8 check_screen_L;                 // size: 0x1, address: 0x57A828
+extern u8 check_screen_S;                 // size: 0x1, address: 0x57A82C
 extern s8 Slow_Timer;                     // size: 0x1, address: 0x57A830
 extern u8 sysSLOW;                        // size: 0x1, address: 0x57A834
 extern u8 sysFF;                          // size: 0x1, address: 0x57A838
