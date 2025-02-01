@@ -1435,7 +1435,86 @@ void Game10() {
     BG_move();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Game11);
+void Game11() {
+    BG_Draw_System();
+    Basic_Sub();
+    Setup_Play_Type();
+
+    switch (G_No[2]) {
+    case 0:
+        Switch_Screen(0);
+        G_No[2] += 1;
+        SC_No[0] = 0;
+        SC_No[1] = 0;
+        SC_No[2] = 0;
+        SC_No[3] = 0;
+        Stop_Combo = 0;
+        Bonus_Type = 0;
+        init_slow_flag();
+        break;
+
+    case 1:
+        if (Next_Q()) {
+            G_No[2] += 1;
+            Switch_Screen_Init(0);
+        }
+
+        break;
+
+    case 2:
+        Next_Q();
+
+        if (Switch_Screen(0) != 0) {
+            Cover_Timer = 24;
+            Game01_Sub();
+            BGM_Stop();
+            Purge_texcash_of_list(3);
+            Make_texcash_of_list(3);
+
+            if (Bonus_Type == 0) {
+                G_No[1] = 2;
+                G_No[2] = 0;
+                E_No[0] = 4;
+                E_No[1] = 0;
+                E_No[2] = 0;
+                E_No[3] = 0;
+                Bonus_Game_Flag = 0;
+            } else {
+                G_No[1] = 9;
+                G_No[2] = 0;
+                G_No[3] = 0;
+                E_No[0] = 4;
+                E_No[1] = 0;
+                E_No[2] = 0;
+                E_No[3] = 0;
+            }
+        }
+
+        break;
+
+    case 3:
+        G_No[2] += 1;
+        SC_No[0] = 0;
+        SC_No[1] = 0;
+        SC_No[2] = 0;
+        SC_No[3] = 0;
+        Stop_Combo = 0;
+        Bonus_Type = 0;
+        init_slow_flag();
+        Switch_Screen_Init(0);
+        break;
+
+    case 4:
+        if (Switch_Screen(0) != 0) {
+            G_No[2] = 1;
+            Cover_Timer = 24;
+        }
+
+        break;
+    }
+
+    BG_move();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Game", Loop_Demo);
 
