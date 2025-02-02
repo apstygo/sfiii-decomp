@@ -1552,7 +1552,7 @@ segments:
 
       - { type: .sbss, vram: 0x578980, name: sf33rd/AcrSDK/common/memfound }
       - { type: .sbss, vram: 0x5789A8, name: sf33rd/AcrSDK/common/mlPAD }
-      - { type: sbss, vram: 0x578A10, name: sbss_578A10 }
+      - { type: .sbss, vram: 0x578A10, name: sf33rd/AcrSDK/common/prilay }
       - { type: .sbss, vram: 0x578A20, name: sf33rd/Source/Game/AcrUtil }
       - { type: sbss, vram: 0x578A80, name: sbss_578A80 }
       - { type: .sbss, vram: 0x578E50, name: sf33rd/Source/Game/Continue }
