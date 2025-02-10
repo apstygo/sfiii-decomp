@@ -1889,6 +1889,7 @@ extern s16 Sel_Arts_Complete[2];          // size: 0x4, address: 0x57A000
 extern s16 ENTRY_X;                       // size: 0x2, address: 0x57A014
 extern s16 F_Timer[2];                    // size: 0x4, address: 0x57A018
 extern s16 E_Timer;                       // size: 0x2, address: 0x57A01C
+extern s16 D_Timer;                       // size: 0x2, address: 0x57A028
 extern s16 G_Timer;                       // size: 0x2, address: 0x57A02C
 extern s16 Round_Level;                   // size: 0x2, address: 0x57A038
 extern s16 Time_in_Time;                  // size: 0x2, address: 0x57A03C
@@ -2004,6 +2005,7 @@ extern s8 Player_id;                      // size: 0x1, address: 0x57A60C
 extern s8 Select_Timer;                   // size: 0x1, address: 0x57A618
 extern s8 Demo_Stage_Index;               // size: 0x1, address: 0x57A628
 extern s8 Demo_PL_Index;                  // size: 0x1, address: 0x57A62C
+extern s32 Next_Demo;                     // size: 0x4, address: 0x57A630
 extern s8 Demo_Flag;                      // size: 0x1, address: 0x57A634
 extern s8 E_07_Flag[2];                   // size: 0x2, address: 0x57A63C
 extern s8 Rank_Type;                      // size: 0x1, address: 0x57A658

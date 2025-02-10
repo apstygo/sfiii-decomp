@@ -1,6 +1,84 @@
+#include "sf33rd/Source/Game/DEMO00.h"
 #include "common.h"
+#include "sf33rd/Source/Game/AcrUtil.h"
+#include "sf33rd/Source/Game/op_sub.h"
+#include "unknown.h"
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", Warning);
+s32 Warning() {
+    setTexAdrsMode(0);
+    setFilterMode(1);
+    Next_Demo = 0;
+
+    switch (D_No[1]) {
+    case 0:
+        D_No[1] = 5;
+        D_No[1] = 9;
+        D_Timer = 120;
+        FadeInit();
+        Next_Demo = 0;
+        break;
+
+    case 5:
+        Put_Warning(1);
+        Next_Demo = 0;
+
+        if (FadeIn(1, 8, 8) != 0) {
+            D_No[1] += 1;
+            D_Timer = 120;
+        }
+
+        break;
+
+    case 6:
+        if ((Usage == 7) && (((p1sw_0 & 0x4FF0) | (p2sw_0 & 0x4FF0)) != 0)) {
+            D_Timer = 2;
+            D_No[1] = 7;
+            FadeInit();
+        }
+
+        Put_Warning(1);
+        Next_Demo = 0;
+
+        if (!--D_Timer) {
+            D_No[1] += 1;
+            D_Timer = 180;
+        }
+
+        break;
+
+    case 7:
+        if (((p1sw_0 & 0x4FF0) | (p2sw_0 & 0x4FF0)) != 0) {
+            D_Timer = 1;
+        }
+
+        if (!--D_Timer) {
+            D_No[1] += 1;
+            FadeInit();
+        }
+
+        Put_Warning(1);
+        Next_Demo = 0;
+        break;
+
+    case 8:
+        Put_Warning(1);
+        Next_Demo = 0;
+
+        if (FadeOut(1, 8, 8) != 0) {
+            D_No[1] += 1;
+        }
+
+        break;
+
+    default:
+        D_No[1] = 0;
+        TexRelease(0x24E);
+        Next_Demo = 1;
+        break;
+    }
+
+    return Next_Demo;
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", caplogo00);
 
