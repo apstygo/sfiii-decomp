@@ -1525,6 +1525,39 @@ typedef struct {
     s8 code[4]; // offset 0x0, size 0x4
 } UNK_14;
 
+typedef struct {
+    // total size: 0x8
+    struct {
+        // total size: 0x20
+        s8 be;      // offset 0x0, size 0x1
+        u8 flags;   // offset 0x1, size 0x1
+        s16 arCnt;  // offset 0x2, size 0x2
+        s16 arInit; // offset 0x4, size 0x2
+        u16 total;  // offset 0x6, size 0x2
+        union /* @anon9 */ {
+            u32 b32;    // offset 0x0, size 0x4
+            u16 b16[2]; // offset 0x0, size 0x4
+            u8 b8[4];   // offset 0x0, size 0x4
+        } *handle;      // offset 0x8, size 0x4
+        s32 ixNum1st;   // offset 0xC, size 0x4
+        u16 textures;   // offset 0x10, size 0x2
+        u16 accnum;     // offset 0x12, size 0x2
+        u32 *offset;    // offset 0x14, size 0x4
+        u8 *srcAdrs;    // offset 0x18, size 0x4
+        u32 srcSize;    // offset 0x1C, size 0x4
+    } *tex;             // offset 0x0, size 0x4
+    struct {
+        // total size: 0x14
+        s8 be;        // offset 0x0, size 0x1
+        u8 c_mode;    // offset 0x1, size 0x1
+        u16 total;    // offset 0x2, size 0x2
+        u16 *handle;  // offset 0x4, size 0x4
+        s32 ixNum1st; // offset 0x8, size 0x4
+        u8 *srcAdrs;  // offset 0xC, size 0x4
+        u32 srcSize;  // offset 0x10, size 0x4
+    } *pal;           // offset 0x4, size 0x4
+} UNK_15;
+
 // .text
 
 void mflInit(void *mem_ptr, s32 memsize, s32 memalign);                     // Range: 0x115FB0 -> 0x115FFC
@@ -1689,6 +1722,8 @@ s32 adx_now_playend();                  // Range: 0x397AF0 -> 0x397B50
 s32 bgmSkipCheck(s32 code);             // Range: 0x397BC0 -> 0x397C08
 void SsAllNoteOff();                    // Range: 0x397C10 -> 0x397C30
 void SsRequest(u16 ReqNumber);          // Range: 0x398030 -> 0x398088
+void Standby_BGM(s16 num);              // Range: 0x3980F0 -> 0x398150
+void Go_BGM();                          // Range: 0x398150 -> 0x398190
 void SsBgmFadeOut(u16 time);            // Range: 0x398290 -> 0x398304
 void SsBgmHalfVolume(s16 flag);         // Range: 0x3983A0 -> 0x3983EC
 void SE_cursor_move();                  // Range: 0x3983F0 -> 0x398414
@@ -1722,6 +1757,7 @@ void mmFree(_MEMMAN_OBJ *mmobj, u8 *adrs);           // Range: 0x3C0560 -> 0x3C0
 
 // PPGFile.c
 void ppg_Initialize(void *lcmAdrs, s32 lcmSize); // Range: 0x3C05E0 -> 0x3C0650
+void ppgSetupCurrentDataList(UNK_15 *dlist);     // Range: 0x3C0870 -> 0x3C088C
 void ppgMakeConvTableTexDC();                    // Range: 0x3C3620 -> 0x3C3768
 
 // ps2Quad.c
@@ -1810,6 +1846,7 @@ extern UNK_14 rank_name_w[2];             // size: 0x8, address: 0x5792E8
 extern s16 Name_00[2];                    // size: 0x4, address: 0x579374
 extern NAME_WK name_wk[2];                // size: 0x64, address: 0x579390
 extern s16 title_tex_flag;                // size: 0x2, address: 0x579464
+extern s16 op_timer0;                     // size: 0x2, address: 0x579468
 extern s16 appear_type;                   // size: 0x2, address: 0x5795C8
 extern s16 pcon_rno[4];                   // size: 0x8, address: 0x5795D0
 extern PPWORK ppwork[2];                  // size: 0x68, address: 0x579610
@@ -2062,6 +2099,7 @@ extern s32 flHeight;                      // size: 0x4, address: 0x57AF3C
 extern s32 flWidth;                       // size: 0x4, address: 0x57AF40
 extern s32 flCTNum;                       // size: 0x4, address: 0x57AF44
 extern TARPAD tarpad_root[2];             // size: 0x68, address: 0x57B040
+extern UNK_15 ppgCapLogoList;             // size: 0x8, address: 0x57B308
 
 // .bss
 
