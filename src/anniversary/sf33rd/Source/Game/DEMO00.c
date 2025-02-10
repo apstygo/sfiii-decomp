@@ -207,7 +207,28 @@ void CAPLOGO_Init() {
     ppgSourceDataReleased(0);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", CAPLOGO_Move);
+s16 CAPLOGO_Move(u16 type) {
+    s16 rnum = 0;
+
+    switch (type) {
+    case 0:
+        if (!Game_pause && (op_timer0 != 61)) {
+            njSetPaletteBankNumG(0x258, op_timer0 / 2);
+            op_timer0 += 1;
+            rnum = 1;
+        }
+
+        Put_char(caplogo[type], 0x258, 9, -0x10, 0x50, 1.0f, 1.0f);
+        break;
+
+    default:
+        njSetPaletteBankNumG(0x258, 0x1F);
+        Put_char(caplogo[type], 0x258, 9, 0x30, 0x58, 1.0f, 1.0f);
+        break;
+    }
+
+    return rnum;
+}
 
 void Put_char(const f32 *ptr, u32 indexG, u16 prio, s16 x, s16 y, f32 zx, f32 zy) {
     Polygon tex[4];

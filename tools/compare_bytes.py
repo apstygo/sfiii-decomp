@@ -26,6 +26,27 @@ EXPECTED_ERRORS = {
     0x175A4C: 0x0014A43F,
     0x175ACC: 0x305200FF,
     0x175C8C: 0x0240202D,
+
+    # DEMO00::CAPLOGO_Move: misplaced nop
+    0xC1284: 0x8782F078,
+    0xC1288: 0x00021C3C,
+    0xC128C: 0x00031C3F,
+    0xC1290: 0x24020002,
+    0xC1294: 0x00032843,
+    0xC1298: 0x04610003,
+    0xC129C: 0x00000000,
+    0xC12A0: 0x24620001,
+    0xC12A4: 0x00022843,
+    0xC12A8: 0x24040258,
+    0xC12AC: 0x0C07029C,
+    0xC12B0: 0x00000000,
+    0xC12B4: 0x8782F078,
+    0xC12B8: 0x24420001,
+    0xC12BC: 0xA782F078,
+    0xC12C0: 0x24020001,
+    0xC12C4: 0x0002843C,
+    0xC12C8: 0x0010843F,
+    0xC12CC: 0x00000000,
 }
 
 def read_word(b: bytes, offset: int) -> int:
@@ -82,7 +103,7 @@ def main():
             if offset not in EXPECTED_ERRORS or EXPECTED_ERRORS[offset] != word_b:
                 unexpected_error = True
 
-            if (word_a == 0 or word_b == 0) and misalign_offset == None:
+            if (word_a == 0 or word_b == 0) and misalign_offset == None and unexpected_error:
                 misalign_offset = offset
 
     success = True
@@ -108,7 +129,7 @@ def main():
                 offset_str += " (expected)"
 
             print(offset_str)
-        
+
     if misalign_offset != None:
         print(f"Misalignment at 0x{misalign_offset:X}")
 
