@@ -10,6 +10,7 @@
 
 void CAPLOGO_Init();
 s16 CAPLOGO_Move(u16 type);
+void Put_char(const f32 *ptr, u32 indexG, u16 prio, s16 x, s16 y, f32 zx, f32 zy);
 
 static const f32 caplogo00[17] = { 0.25f, 0.25f, 1.0f,  0.5f,   0.0f, 0.0f,   192.0f, 64.0f, 0.0f,
                                    0.5f,  1.0f,  0.75f, 192.0f, 0.0f, 256.0f, 64.0f,  -1.0f };
@@ -208,7 +209,32 @@ void CAPLOGO_Init() {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", CAPLOGO_Move);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", Put_char);
+void Put_char(const f32 *ptr, u32 indexG, u16 prio, s16 x, s16 y, f32 zx, f32 zy) {
+    Polygon tex[4];
+    s16 off_x;
+    s16 off_y;
+
+    if (No_Trans) {
+        return;
+    }
+
+    tex[0].col = tex[1].col = tex[2].col = tex[3].col = 0xFFFFFFFF;
+    tex[0].z = tex[1].z = tex[2].z = tex[3].z = PrioBase[prio];
+
+    while (*ptr != -1.0f) {
+        tex[0].u = tex[1].u = *ptr++;
+        tex[0].v = tex[2].v = *ptr++;
+        tex[2].u = tex[3].u = *ptr++;
+        tex[1].v = tex[3].v = *ptr++;
+        off_x = (u32)*ptr++;
+        off_y = (u32)*ptr++;
+        tex[0].x = tex[1].x = Frame_Zoom_X * (x + off_x * zx);
+        tex[0].y = tex[2].y = Frame_Zoom_Y * (y + off_y * zy);
+        tex[2].x = tex[3].x = Frame_Zoom_X * (x + (off_x * zx) + ((u32)*ptr++ * zx));
+        tex[1].y = tex[3].y = Frame_Zoom_Y * (y + (off_y * zy) + ((u32)*ptr++ * zy));
+        njDrawTexture(tex, 4, indexG, 1);
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", Warning_Init);
 

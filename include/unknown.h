@@ -1564,6 +1564,25 @@ typedef struct {
     UNK_16 *pal; // offset 0x4, size 0x4
 } UNK_15;
 
+typedef struct {
+    // total size: 0x18
+    f32 x;   // offset 0x0, size 0x4
+    f32 y;   // offset 0x4, size 0x4
+    f32 z;   // offset 0x8, size 0x4
+    f32 u;   // offset 0xC, size 0x4
+    f32 v;   // offset 0x10, size 0x4
+    u32 col; // offset 0x14, size 0x4
+} Polygon;
+
+typedef struct {
+    // total size: 0x14
+    f32 x; // offset 0x0, size 0x4
+    f32 y; // offset 0x4, size 0x4
+    f32 z; // offset 0x8, size 0x4
+    f32 s; // offset 0xC, size 0x4
+    f32 t; // offset 0x10, size 0x4
+} Vertex;
+
 // .text
 
 void mflInit(void *mem_ptr, s32 memsize, s32 memalign);                     // Range: 0x115FB0 -> 0x115FFC
@@ -1587,10 +1606,12 @@ void init_color_trans_req();        // Range: 0x19F600 -> 0x19F694
 void palCreateGhost();              // Range: 0x19F8D0 -> 0x19FB50
 
 // DC_Ghost.c
-void njSetBackColor(u32 c0, u32 c1, u32 c2);            // Range: 0x1BFF30 -> 0x1BFFBC
-void njdp2d_init();                                     // Range: 0x1C0330 -> 0x1C034C
-void njdp2d_draw();                                     // Range: 0x1C0350 -> 0x1C0568
-void njdp2d_sort(f32 *pos, f32 pri, u32 col, s32 flag); // Range: 0x1C0570 -> 0x1C0A0C
+void njSetBackColor(u32 c0, u32 c1, u32 c2);                                       // Range: 0x1BFF30 -> 0x1BFFBC
+void njDrawTexture(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */); // Range: 0x1C0130 -> 0x1C01E8
+void njdp2d_init();                                                                // Range: 0x1C0330 -> 0x1C034C
+void njdp2d_draw();                                                                // Range: 0x1C0350 -> 0x1C0568
+void njdp2d_sort(f32 *pos, f32 pri, u32 col, s32 flag);                            // Range: 0x1C0570 -> 0x1C0A0C
+void njSetPaletteBankNumG(u32 globalIndex, s32 bank);                              // Range: 0x1C0A70 -> 0x1C0AA8
 
 s32 effect_04_init(s16 Death_Type, s16 cg_type, s16 sync_bg, s16 priority); // Range: 0x1C56A0 -> 0x1C5818
 // DWARF says disp_index and cursor_id are s16, but decompilation suggests otherwise
