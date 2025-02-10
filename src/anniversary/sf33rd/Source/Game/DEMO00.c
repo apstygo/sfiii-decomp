@@ -1,5 +1,6 @@
 #include "sf33rd/Source/Game/DEMO00.h"
 #include "common.h"
+#include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "sf33rd/Source/Game/AcrUtil.h"
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/SYS_sub2.h"
@@ -181,7 +182,29 @@ s32 CAPCOM_Logo() {
     return Next_Demo;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", CAPLOGO_Init);
+void CAPLOGO_Init() {
+    void *loadAdrs;
+    u32 loadSize;
+    s16 key;
+
+    mmDebWriteTag("\nCAPCOM LOGO\n\n");
+    ppgCapLogoList.tex = &ppgCapLogoTex;
+    ppgCapLogoList.pal = &ppgCapLogoPal;
+    ppgSetupCurrentDataList(&ppgCapLogoList);
+    loadSize = load_it_use_any_key2(0x4B, &loadAdrs, &key, 2, 1);
+
+    if (loadSize == 0) {
+        flLogOut("カプロゴのテクスチャが読み込めませんでした。\n");
+        while (1) {}
+    }
+
+    ppgSetupPalChunk(0, loadAdrs, loadSize, 0, 0, 1);
+    ppgSetupTexChunk_1st(0, loadAdrs, loadSize, 0x258, 1, 0, 0);
+    ppgSetupTexChunk_2nd(0, 0x258);
+    ppgSetupTexChunk_3rd(0, 0x258, 1);
+    Push_ramcnt_key(key);
+    ppgSourceDataReleased(0);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", CAPLOGO_Move);
 
@@ -192,10 +215,6 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", Warning_In
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", Put_Warning);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", Pal_Cursor_Put);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", literal_253_00504ED0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", literal_254_00504EE0);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", literal_315_00504F10);
 
