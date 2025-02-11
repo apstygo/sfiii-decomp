@@ -1,4 +1,3 @@
-#include "sf33rd/Source/Game/DEMO01.h"
 #include "common.h"
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/OPENING.h"
@@ -71,4 +70,37 @@ s16 Title() {
     return xx;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO01", Title_At_a_Dash);
+s16 Title_At_a_Dash() {
+    s16 xx = 0;
+
+    BGM_Stop();
+    Disp_Copyright();
+
+    switch (D_No[1]) {
+    case 0:
+        mpp_w.ctrDemo = 0;
+        D_No[1] += 1;
+        D_Timer = 30;
+
+        if (!title_tex_flag) {
+            TITLE_Init();
+        }
+
+        break;
+
+    case 1:
+        if (--D_Timer == 0) {
+            D_No[1] += 1;
+        }
+
+        TITLE_Move(1);
+        break;
+
+    default:
+        xx = 1;
+        TITLE_Move(1);
+        break;
+    }
+
+    return xx;
+}
