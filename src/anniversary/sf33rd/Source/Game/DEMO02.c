@@ -1,6 +1,16 @@
 #include "common.h"
+#include "unknown.h"
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Play_Demo);
+void Demo00();
+void Demo01();
+
+s32 Play_Demo() {
+    void (*main_jmp_tbl[2])() = { Demo00, Demo01 };
+
+    Next_Demo = 0;
+    main_jmp_tbl[D_No[0]]();
+    return Next_Demo;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Demo00);
 
