@@ -2137,6 +2137,11 @@ extern TARPAD tarpad_root[2];             // size: 0x68, address: 0x57B040
 extern UNK_15 ppgCapLogoList;             // size: 0x8, address: 0x57B308
 extern UNK_16 ppgCapLogoPal;              // size: 0x14, address: 0x57B310
 extern UNK_18 ppgCapLogoTex;              // size: 0x20, address: 0x57B330
+extern UNK_15 ppgAdxList;                 // size: 0x8, address: 0x57B350
+extern UNK_15 ppgWarList;                 // size: 0x8, address: 0x57B358
+extern UNK_16 ppgAdxPal;                  // size: 0x14, address: 0x57B360
+extern UNK_16 ppgWarPal;                  // size: 0x14, address: 0x57B380
+extern UNK_18 ppgWarTex;                  // size: 0x20, address: 0x57B3A0
 
 // .bss
 

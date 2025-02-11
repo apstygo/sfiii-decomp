@@ -260,12 +260,39 @@ void Put_char(const f32 *ptr, u32 indexG, u16 prio, s16 x, s16 y, f32 zx, f32 zy
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", Warning_Init);
+void Warning_Init() {
+    void *loadAdrs;
+    u32 loadSize;
+    s16 key;
+    s16 i;
+
+    mmDebWriteTag("\nWARNING\n\n");
+    ppgWarList.tex = &ppgWarTex;
+    ppgWarList.pal = &ppgWarPal;
+    ppgAdxList.tex = &ppgWarTex;
+    ppgAdxList.pal = &ppgAdxPal;
+    ppgSetupCurrentDataList(&ppgWarList);
+    loadSize = load_it_use_any_key2(0xC, &loadAdrs, &key, 2, 1);
+
+    if (loadSize == 0) {
+        flLogOut("警告文のテクスチャが読み込めませんでした。\n");
+        while (1) {}
+    }
+
+    ppgSetupPalChunk(&ppgWarPal, loadAdrs, loadSize, 0, 0, 1);
+    ppgSetupPalChunk(&ppgAdxPal, loadAdrs, loadSize, 0, 1, 1);
+    ppgSetupTexChunk_1st(0, loadAdrs, loadSize, 0x24E, 4, 0, 0);
+
+    for (i = 0; i < ppgWarTex.textures; i++) {
+        ppgSetupTexChunk_2nd(0, i + 0x24E);
+        ppgSetupTexChunk_3rd(0, i + 0x24E, 1);
+    }
+
+    Push_ramcnt_key(key);
+    ppgSourceDataReleased(0);
+    picon_no = 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", Put_Warning);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", Pal_Cursor_Put);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", literal_315_00504F10);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", literal_316_00504F20);
