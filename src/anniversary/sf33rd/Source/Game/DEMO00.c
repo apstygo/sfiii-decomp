@@ -293,6 +293,61 @@ void Warning_Init() {
     picon_no = 0;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", Put_Warning);
+void Put_Warning(s16 type) {
+    Polygon tex[4];
+    f32 video_y = 16.0f;
+
+    tex[0].col = tex[1].col = tex[2].col = tex[3].col = 0xFFFFFFFF;
+
+    if (type == 2) {
+        tex[0].z = tex[1].z = tex[2].z = tex[3].z = PrioBase[0x14];
+    } else {
+        tex[0].z = tex[1].z = tex[2].z = tex[3].z = PrioBase[0x1E];
+    }
+
+    switch (type) {
+    case 0:
+        ppgSetupCurrentDataList(&ppgWarList);
+        ppgSetupCurrentPaletteNumber(0, 0);
+        tex[0].u = tex[1].u = 0.0f;
+        tex[0].v = tex[2].v = 0.0f;
+        tex[2].u = tex[3].u = 1.0f;
+        tex[1].v = tex[3].v = 1.0f;
+        tex[0].x = tex[1].x = 0.0f;
+        tex[0].y = tex[2].y = 0.0f;
+        tex[2].x = tex[3].x = flPs2State.DispWidth;
+        tex[1].y = tex[3].y = flPs2State.DispHeight;
+        break;
+
+    case 1:
+        ppgSetupCurrentDataList(&ppgAdxList);
+        ppgSetupCurrentPaletteNumber(0, 0);
+        tex[0].u = tex[1].u = 0.0f;
+        tex[0].v = tex[2].v = 0.0f;
+        tex[2].u = tex[3].u = 1.0f;
+        tex[1].v = tex[3].v = 0.875f;
+        tex[0].x = tex[1].x = 0.0f;
+        tex[0].y = tex[2].y = 0.0f;
+        tex[2].x = tex[3].x = flPs2State.DispWidth;
+        tex[1].y = tex[3].y = flPs2State.DispHeight;
+        break;
+
+    case 2:
+    case 3:
+    default:
+        tex[0].x = tex[1].x = 64.0f;
+        tex[0].y = tex[2].y = -32.0f;
+        tex[2].x = tex[3].x = 576.0f;
+        tex[1].y = tex[3].y = 480.0f;
+        break;
+    }
+
+    if (type == 2) {
+        njDrawTexture(tex, 4, type + 0x24E, 1);
+        return;
+    }
+
+    njDrawTexture(tex, 4, type + 0x24E, 0);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO00", Pal_Cursor_Put);
