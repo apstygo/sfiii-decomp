@@ -192,7 +192,7 @@ segments:
       - [0x0BF1C0, asm, sf33rd/Source/Game/count]
       - [0x0BFDF0, asm, sf33rd/Source/Game/DC_Ghost]
       - [0x0C0BE0, c, sf33rd/Source/Game/DEMO00]
-      - [0x0C1EB0, asm, sf33rd/Source/Game/DEMO01]
+      - [0x0C1EB0, c, sf33rd/Source/Game/DEMO01]
       - [0x0C21C0, asm, sf33rd/Source/Game/DEMO02]
       - [0x0C2AE0, asm, sf33rd/Source/Game/EFF00]
       - [0x0C3690, asm, sf33rd/Source/Game/EFF01]
