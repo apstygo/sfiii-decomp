@@ -18,7 +18,10 @@ static const f32 caplogo00[17] = { 0.25f, 0.25f, 1.0f,  0.5f,   0.0f, 0.0f,   19
 static const f32 caplogo01[17] = { 0.0f,  0.0f,  1.0f, 0.25f,  0.0f, 0.0f,  256.0f, 64.0f, 0.0f,
                                    0.25f, 0.25f, 0.5f, 256.0f, 0.0f, 64.0f, 64.0f,  -1.0f };
 
-static const float *caplogo[2] = { caplogo00, caplogo01 };
+static const f32 *caplogo[2] = { caplogo00, caplogo01 };
+
+s16 picon_no;
+f32 picon_level;
 
 s32 Warning() {
     setTexAdrsMode(0);
