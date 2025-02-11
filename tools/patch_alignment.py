@@ -31,7 +31,6 @@ special_cases = {
     ("flPADUSR", ".rodata", 0): 16,
     ("Game", ".rodata", 2): 16,
     ("IOConv", ".sbss", 0): 16,
-    ("DEMO00_more_sdata", ".sdata", 0): 16,
     ("EFF45", ".sbss", 0): 16,
 }
 

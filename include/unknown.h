@@ -1583,6 +1583,42 @@ typedef struct {
     f32 t; // offset 0x10, size 0x4
 } Vertex;
 
+typedef struct {
+    // total size: 0x8
+    f32 x; // offset 0x0, size 0x4
+    f32 y; // offset 0x4, size 0x4
+} PAL_CURSOR_P;
+
+typedef union {
+    u32 color; // offset 0x0, size 0x4
+    struct {
+        // total size: 0x4
+        s16 u; // offset 0x0, size 0x2
+        s16 v; // offset 0x2, size 0x2
+    } tex;     // offset 0x0, size 0x4
+    struct {
+        // total size: 0x4
+        u8 b; // offset 0x0, size 0x1
+        u8 g; // offset 0x1, size 0x1
+        u8 r; // offset 0x2, size 0x1
+        u8 a; // offset 0x3, size 0x1
+    } argb;   // offset 0x0, size 0x4
+} PAL_CURSOR_COL;
+
+typedef struct {
+    // total size: 0x30
+    PAL_CURSOR_P pal_cursor_p[4];     // offset 0x0, size 0x20
+    PAL_CURSOR_COL pal_cursor_col[4]; // offset 0x20, size 0x10
+} PAL_CURSOR_TBL;
+
+typedef struct {
+    // total size: 0x10
+    PAL_CURSOR_P *p;     // offset 0x0, size 0x4
+    PAL_CURSOR_COL *col; // offset 0x4, size 0x4
+    PAL_CURSOR_COL *tex; // offset 0x8, size 0x4
+    u32 num;             // offset 0xC, size 0x4
+} PAL_CURSOR;
+
 // .text
 
 void mflInit(void *mem_ptr, s32 memsize, s32 memalign);                     // Range: 0x115FB0 -> 0x115FFC
@@ -1611,6 +1647,7 @@ void njDrawTexture(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */
 void njdp2d_init();                                                                // Range: 0x1C0330 -> 0x1C034C
 void njdp2d_draw();                                                                // Range: 0x1C0350 -> 0x1C0568
 void njdp2d_sort(f32 *pos, f32 pri, u32 col, s32 flag);                            // Range: 0x1C0570 -> 0x1C0A0C
+void njDrawPolygon2D(PAL_CURSOR *p, s32 /* unused */, f32 pri, u32 attr);          // Range: 0x1C0A10 -> 0x1C0A68
 void njSetPaletteBankNumG(u32 globalIndex, s32 bank);                              // Range: 0x1C0A70 -> 0x1C0AA8
 
 s32 effect_04_init(s16 Death_Type, s16 cg_type, s16 sync_bg, s16 priority); // Range: 0x1C56A0 -> 0x1C5818
