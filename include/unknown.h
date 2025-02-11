@@ -2028,6 +2028,7 @@ extern s8 Menu_Page;                      // size: 0x1, address: 0x57A0C0
 extern u8 Mode_Type;                      // size: 0x1, address: 0x57A0C4
 extern s8 Menu_Cursor_Move;               // size: 0x1, address: 0x57A0D8
 extern u8 Play_Game;                      // size: 0x1, address: 0x57A0DC
+extern u8 Disappear_LOGO;                 // size: 0x1, address: 0x57A0E4
 extern u8 Replay_Status[2];               // size: 0x2, address: 0x57A0E8
 extern s8 Menu_Cursor_Y[2];               // size: 0x2, address: 0x57A0EC
 extern s8 Menu_Cursor_X[2];               // size: 0x2, address: 0x57A0F0
@@ -2090,6 +2091,7 @@ extern s8 Lost_Round[2];                  // size: 0x2, address: 0x57A410
 extern s8 Deley_Shot_Timer[2];            // size: 0x2, address: 0x57A414
 extern s8 Deley_Shot_No[2];               // size: 0x2, address: 0x57A418
 extern u8 Final_Result_id;                // size: 0x1, address: 0x57A480
+extern u8 Weak_PL;                        // size: 0x1, address: 0x57A48C
 extern u8 CC_Value[2];                    // size: 0x2, address: 0x57A494
 extern u8 paring_bonus_r[2];              // size: 0x2, address: 0x57A4B0
 extern u8 paring_counter[2];              // size: 0x2, address: 0x57A4B4
@@ -2098,6 +2100,7 @@ extern s8 No_Death;                       // size: 0x1, address: 0x57A51C
 extern s8 PB_Music_Off;                   // size: 0x1, address: 0x57A520
 extern s8 Round_Operator[2];              // size: 0x2, address: 0x57A54C
 extern s8 Operator_Status[2];             // size: 0x2, address: 0x57A550
+extern s8 Stop_SG;                        // size: 0x1, address: 0x57A554
 extern u8 Usage;                          // size: 0x1, address: 0x57A55C
 extern s8 Player_Color[2];                // size: 0x2, address: 0x57A578
 extern s8 Naming_Cut[2];                  // size: 0x2, address: 0x57A580
