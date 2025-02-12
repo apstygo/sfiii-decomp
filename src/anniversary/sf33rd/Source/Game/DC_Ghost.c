@@ -24,7 +24,34 @@ void njSetMatrix(MTX *md, MTX *ms) {
     *md = *ms;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njScale);
+void njScale(MTX *mtx, f32 x, f32 y, f32 z) {
+    f32 v0[4];
+
+    v0[0] = x;
+    v0[1] = y;
+    v0[2] = z;
+    v0[3] = 1.0f;
+
+    if (mtx == NULL) {
+        mtx = &cmtx;
+    }
+
+    __asm__ __volatile__("lqc2       vf8,  0x0(%0) \n"
+                         "lqc2       $vf4, 0x0(%1) \n"
+                         "lqc2       $vf5, 0x10(%1) \n"
+                         "lqc2       $vf6, 0x20(%1) \n"
+                         "lqc2       $vf7, 0x30(%1) \n"
+                         "vmulx.xyzw $vf4, $vf4, $vf8x \n"
+                         "vmuly.xyzw $vf5, $vf5, $vf8y \n"
+                         "vmulz.xyzw $vf6, $vf6, $vf8z \n"
+                         "sqc2       $vf4, 0x0(%1) \n"
+                         "sqc2       $vf5, 0x10(%1) \n"
+                         "sqc2       $vf6, 0x20(%1) \n"
+                         "sqc2       $vf7, 0x30(%1) \n"
+                         :
+                         : "r"(v0), "r"(mtx)
+                         : "memory");
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njTranslate);
 
