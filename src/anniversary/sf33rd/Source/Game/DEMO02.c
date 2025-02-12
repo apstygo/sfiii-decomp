@@ -1,11 +1,14 @@
 #include "common.h"
 #include "sf33rd/Source/Game/Game.h"
+#include "sf33rd/Source/Game/Grade.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "unknown.h"
 
 void Demo00();
 void Demo01();
+void Setup_Demo_Arts();
+void Setup_Select_Demo_PL();
 
 s32 Play_Demo() {
     void (*main_jmp_tbl[2])() = { Demo00, Demo01 };
@@ -129,7 +132,113 @@ void Demo00() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Demo01);
+void Demo01() {
+    if (D_No[1] >= 2) {
+        Play_Game = 1;
+    }
+
+    switch (D_No[1]) {
+    case 0:
+        Switch_Screen(1);
+        D_No[1] += 1;
+        Game_pause = 0;
+        Demo_Time_Stop = 0;
+        Before_Select_Sub();
+        Setup_Select_Demo_PL();
+        Setup_Demo_Arts();
+        Weak_PL = random_16() & 1;
+        Clear_Break_Com(0);
+        grade_check_work_1st_init(0, 0);
+        grade_check_work_1st_init(0, 1);
+        Clear_Break_Com(1);
+        grade_check_work_1st_init(1, 0);
+        grade_check_work_1st_init(1, 1);
+        Game01();
+        break;
+
+    case 1:
+        Game01();
+
+        if (Demo_Time_Stop) {
+            D_No[1] += 1;
+            G_No[2] = 0;
+            return;
+        }
+
+        break;
+
+    case 2:
+        Switch_Screen(1);
+        Game02();
+
+        if (--Cover_Timer == 0) {
+            D_No[1] += 1;
+            Switch_Screen_Init(0);
+            return;
+        }
+
+        break;
+
+    case 3:
+        Game02();
+
+        if (Switch_Screen_Revival(0) != 0) {
+            D_No[1] += 1;
+            D_Timer = 1200;
+            Stop_SG = 0;
+            return;
+        }
+
+        break;
+
+    case 4:
+        Game02();
+
+        if (--D_Timer == 1) {
+            Stop_Combo = 1;
+            Disappear_LOGO = 1;
+            return;
+        }
+
+        if (!D_Timer) {
+            D_No[1] += 1;
+            D_Timer = 16;
+            Demo_Time_Stop = 1;
+            Game_pause = 1;
+            return;
+        }
+
+        break;
+
+    case 5:
+        Game02();
+
+        if (--D_Timer == 0) {
+            D_No[1] += 1;
+            Switch_Screen_Init(0);
+            SsBgmFadeOut(0x800);
+            return;
+        }
+
+        break;
+
+    case 6:
+        Game02();
+
+        if (Switch_Screen(0) != 0) {
+            D_No[1] += 1;
+            Cover_Timer = 23;
+            BGM_Stop();
+            return;
+        }
+
+        break;
+
+    default:
+        Next_Demo = 1;
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Setup_Demo_PL);
 
