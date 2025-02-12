@@ -223,7 +223,8 @@ def main():
             # GNU as expects numbered registers
             text = convert_regs(text)
 
-        text = text.replace("ACC", "$ACC")
+        text = text.replace("xyzw ACC", "xyzw $ACC")
+        text = text.replace("xyz ACC", "xyz $ACC")
 
         asm_file.write_text(text)
 
