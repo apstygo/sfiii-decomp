@@ -54,7 +54,6 @@ options:
   migrate_rodata_to_functions: True
   gp_value: 0x57A3F0
   rodata_string_guesser_level: 0
-  named_regs_for_c_funcs: False
   asm_jtbl_label_macro: jlabel
   asm_data_macro: dlabel
   asm_inc_header: |

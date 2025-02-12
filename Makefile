@@ -37,7 +37,7 @@ PYTHON := python3
 SPLICE_ELF := $(PYTHON) $(TOOLS_DIR)/splice_elf.py
 COMPARE_BYTES := $(PYTHON) $(TOOLS_DIR)/compare_bytes.py
 PATCH_ALIGNMENT := $(PYTHON) $(TOOLS_DIR)/patch_alignment.py
-GENERATE_LCF := $(PYTHON) $(TOOLS_DIR)/lcf/generate_lcf.py
+GENERATE_LCF := $(PYTHON) -m tools.lcf.generate_lcf
 
 # Flags
 

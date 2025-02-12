@@ -4,6 +4,7 @@ from pathlib import Path
 import splat.scripts.split as split
 from splat.segtypes.linker_entry import LinkerEntry
 from pathlib import Path
+from ..convert_regs import convert_regs
 
 @dataclass
 class Run:
@@ -89,7 +90,7 @@ class LCFWriter:
         for run in runs:
             self.add_entries(run.entries, section)
 
-def main():
+def generate_lcf():
     config_path = Path(sys.argv[1])
     split.main(["config/anniversary/sfiii.anniversary.yaml"], modes="all", verbose=False)
     runs = split_into_runs(split.linker_writer.entries)
@@ -203,16 +204,27 @@ def main():
 
         lcf.align(0x80)
 
-    # Patch CRI rodata segments
-    # 
-    # spimdisasm adds `.section .rodata` before each rodata peace of CRI.
-    # But GNU as expects `.rdata` instead. That's why the code below exists.
+def main():
+    generate_lcf()
 
-    cri_nonmatchings = Path("asm/anniversary/nonmatchings/cri")
+    # Patch asm
 
-    for asm_file in cri_nonmatchings.rglob("*.s"):
+    nonmatchings = Path("asm/anniversary/nonmatchings")
+
+    for asm_file in nonmatchings.rglob("*.s"):
         text = asm_file.read_text()
-        text = text.replace(".section .rodata", ".rdata")
+        is_cri = "cri" in str(asm_file).split("/")
+
+        if is_cri:
+            # spimdisasm adds `.section .rodata` before each rodata peace of CRI.
+            # But GNU as expects `.rdata` instead
+            text = text.replace(".section .rodata", ".rdata")
+
+            # GNU as expects numbered registers
+            text = convert_regs(text)
+
+        text = text.replace("ACC", "$ACC")
+
         asm_file.write_text(text)
 
 if __name__ == "__main__":
