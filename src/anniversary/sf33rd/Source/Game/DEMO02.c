@@ -244,6 +244,7 @@ void Demo01() {
 const s8 Demo_PL_Play_Data[4][2] = { { 15, 19 }, { 11, 18 }, { 2, 16 }, { 12, 8 } };
 const u8 Arts_Rnd_Demo_Data[8] = { 0, 0, 0, 1, 1, 1, 2, 2 };
 const s8 Demo_Stage_Play_Data[4][2] = { { 15, 19 }, { 11, 18 }, { 2, 16 }, { 12, 8 } };
+const s8 Demo_PL_Data[4] = { 0, 1, 0, 1 };
 
 void Setup_Demo_PL() {
     My_char[0] = Demo_PL_Play_Data[Demo_PL_Index][0];
@@ -280,6 +281,11 @@ void Setup_Demo_Stage() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Setup_Select_Demo_PL);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Demo_PL_Data);
+void Setup_Select_Demo_PL() {
+    plw[0].wu.operator= 0;
+    plw[1].wu.operator= 0;
+    Operator_Status[0] = 0;
+    Operator_Status[1] = 0;
+    plw[Demo_PL_Data[Select_Demo_Index]].wu.operator= 1;
+    Operator_Status[Demo_PL_Data[Select_Demo_Index]] = 1;
+}
