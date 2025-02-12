@@ -3,6 +3,7 @@
 #include "sf33rd/Source/Game/Grade.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
+#include "sf33rd/Source/Game/SysDir.h"
 #include "unknown.h"
 
 void Demo00();
@@ -240,15 +241,28 @@ void Demo01() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Setup_Demo_PL);
+const s8 Demo_PL_Play_Data[4][2] = { { 15, 19 }, { 11, 18 }, { 2, 16 }, { 12, 8 } };
+
+void Setup_Demo_PL() {
+    My_char[0] = Demo_PL_Play_Data[Demo_PL_Index][0];
+    My_char[1] = Demo_PL_Play_Data[Demo_PL_Index][1];
+
+    if (Debug_w[0x1D]) {
+        My_char[0] = Debug_w[0x1D] - 1;
+    }
+
+    if (Debug_w[0x1E]) {
+        My_char[1] = Debug_w[0x1E] - 1;
+    }
+
+    init_omop();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Setup_Demo_Arts);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Setup_Demo_Stage);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Setup_Select_Demo_PL);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Demo_PL_Play_Data);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Arts_Rnd_Demo_Data);
 
