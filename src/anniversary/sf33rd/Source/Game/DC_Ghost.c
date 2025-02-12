@@ -1,6 +1,16 @@
+#include "sf33rd/Source/Game/DC_Ghost.h"
 #include "common.h"
+#include <libvu0.h>
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njUnitMatrix);
+MTX cmtx;
+
+void njUnitMatrix(MTX *mtx) {
+    if (mtx == NULL) {
+        mtx = &cmtx;
+    }
+
+    sceVu0UnitMatrix(mtx->a);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njGetMatrix);
 

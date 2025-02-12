@@ -2,6 +2,7 @@
 #include "sf33rd/Source/Common/PPGWork.h"
 #include "sf33rd/Source/Game/BBBSCOM.h"
 #include "sf33rd/Source/Game/Continue.h"
+#include "sf33rd/Source/Game/DC_Ghost.h"
 #include "sf33rd/Source/Game/DEMO00.h"
 #include "sf33rd/Source/Game/DEMO01.h"
 #include "sf33rd/Source/Game/DEMO02.h"

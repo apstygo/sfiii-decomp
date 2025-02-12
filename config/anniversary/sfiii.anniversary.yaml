@@ -1566,7 +1566,7 @@ segments:
       - { type: sbss, vram: 0x578E48, name: sf33rd/Source/Game/Com_Sub }
       - { type: .sbss, vram: 0x578E50, name: sf33rd/Source/Game/Continue }
       - { type: sbss, vram: 0x578E54, name: sf33rd/Source/Game/count }
-      - { type: sbss, vram: 0x578E80, name: sf33rd/Source/Game/DC_Ghost }
+      - { type: .sbss, vram: 0x578E80, name: sf33rd/Source/Game/DC_Ghost }
       - { type: .sbss, vram: 0x578EC0, name: sf33rd/Source/Game/DEMO00 }
       - { type: sbss, vram: 0x578ED0, name: sf33rd/Source/Game/EFF45 }
       - { type: sbss, vram: 0x578F00, name: sf33rd/Source/Game/EFF56 }

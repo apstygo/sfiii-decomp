@@ -1641,15 +1641,6 @@ void set_hitmark_color();           // Range: 0x19DE70 -> 0x19E010
 void init_color_trans_req();        // Range: 0x19F600 -> 0x19F694
 void palCreateGhost();              // Range: 0x19F8D0 -> 0x19FB50
 
-// DC_Ghost.c
-void njSetBackColor(u32 c0, u32 c1, u32 c2);                                       // Range: 0x1BFF30 -> 0x1BFFBC
-void njDrawTexture(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */); // Range: 0x1C0130 -> 0x1C01E8
-void njdp2d_init();                                                                // Range: 0x1C0330 -> 0x1C034C
-void njdp2d_draw();                                                                // Range: 0x1C0350 -> 0x1C0568
-void njdp2d_sort(f32 *pos, f32 pri, u32 col, s32 flag);                            // Range: 0x1C0570 -> 0x1C0A0C
-void njDrawPolygon2D(PAL_CURSOR *p, s32 /* unused */, f32 pri, u32 attr);          // Range: 0x1C0A10 -> 0x1C0A68
-void njSetPaletteBankNumG(u32 globalIndex, s32 bank);                              // Range: 0x1C0A70 -> 0x1C0AA8
-
 s32 effect_04_init(s16 Death_Type, s16 cg_type, s16 sync_bg, s16 priority); // Range: 0x1C56A0 -> 0x1C5818
 // DWARF says disp_index and cursor_id are s16, but decompilation suggests otherwise
 s32 effect_18_init(s32 disp_index, s32 cursor_id, s16 sync_bg, s16 master_player); // Range: 0x1D36B0 -> 0x1D37E0

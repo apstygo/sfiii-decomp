@@ -1,4 +1,5 @@
 #include "common.h"
+#include "sf33rd/Source/Game/DC_Ghost.h"
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/OPENING.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
