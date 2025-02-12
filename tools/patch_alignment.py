@@ -20,20 +20,27 @@ special_cases = {
     ("menu", ".rodata", 16): 16,
     ("menu", ".rodata", 20): 16,
     ("menu", ".rodata", 23): 16,
-    ("Grade", ".sbss", 0): 16,
+    ("flPADUSR", ".rodata", 0): 16,
+    ("Game", ".rodata", 2): 16,
+
     ("VM_DATA", ".sdata", 0): 16,
     ("Demo_Dat", ".sdata", 0): 16,
     ("BBBSCOM", ".sdata", 0): 16,
     ("win_pl", ".sdata", 0): 16,
     ("LOSE_PL", ".sdata", 0): 16,
-    ("sbss_579878", ".sbss", 0): 8,
-    ("bss_6BDA68", ".bss", 0): 8,
-    ("flPADUSR", ".rodata", 0): 16,
-    ("Game", ".rodata", 2): 16,
-    ("IOConv", ".sbss", 0): 16,
-    ("EFF45", ".sbss", 0): 16,
     ("eff05", ".sdata", 0): 16,
+
+    ("sbss_579878", ".sbss", 0): 8,
+    ("EFF45", ".sbss", 0): 16,
+    ("IOConv", ".sbss", 0): 16,
+    ("Grade", ".sbss", 0): 16,
     ("Sound3rd", ".sbss", 0): 8,
+
+    ("bss_6BDA68", ".bss", 0): 8,
+    ("iopnotify", ".bss", 0): 8,
+    ("cri_cvfs", ".bss", 0): 8,
+    ("libdbc", ".bss", 0): 8,
+    ("libpad2", ".bss", 0): 8,
 }
 
 def alignment_to_bytes(alignment: int) -> bytes:

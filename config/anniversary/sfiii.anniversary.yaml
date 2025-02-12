@@ -1658,19 +1658,74 @@ segments:
       # .bss
       # (starts at __bss_start)
 
-      - { type: bss, vram: 0x57B650, name: bss_57B650 }
+      - { type: bss, vram: 0x57B650, name: sdk/libdma/libdma }
+      - { type: bss, vram: 0x57B6A0, name: sdk/libkernl/thread }
+      - { type: bss, vram: 0x57BEB0, name: sdk/libkernl/deci2 }
+      - { type: bss, vram: 0x57BF00, name: sdk/libkernl/tty }
+      - { type: bss, vram: 0x57C2C0, name: sdk/libkernl/kprintf2 }
+      - { type: bss, vram: 0x57C340, name: sdk/libkernl/sifcmd }
+      - { type: bss, vram: 0x57C640, name: sdk/libkernl/sifrpc }
+      - { type: bss, vram: 0x57DE80, name: sdk/libkernl/filestub }
+      - { type: bss, vram: 0x57F6C0, name: sdk/libkernl/iopheap }
+      - { type: bss, vram: 0x57F880, name: sdk/libkernl/eeloadfile }
+      - { type: bss, vram: 0x57FAC0, name: sdk/libkernl/iopreset } # May need a more granular split
+      - { type: bss, vram: 0x580B40, name: sdk/libkernl/tlbtrap }
+      - { type: bss, vram: 0x580D80, name: sdk/libkernl/timer }
+      - { type: bss, vram: 0x582D80, name: sdk/libkernl/timeralarm }
+      - { type: bss, vram: 0x583188, name: sdk/libkernl/iopnotify }
+      - { type: bss, vram: 0x5833C0, name: sdk/libcdvd/cdvd000 }
+      - { type: bss, vram: 0x583680, name: sdk/libmc/libmc }
+
+      - { type: bss, vram: 0x584C80, name: sf33rd/AcrSDK/common/memfound }
       - { type: .bss, vram: 0x594C80, name: sf33rd/AcrSDK/common/mlPAD }
       - { type: .bss, vram: 0x594EA0, name: sf33rd/AcrSDK/common/prilay }
-      - { type: bss, vram: 0x5956A0, name: bss_5956A0 }
+      - { type: bss, vram: 0x5956A0, name: sf33rd/Source/Game/bg }
+      - { type: bss, vram: 0x595C60, name: sf33rd/Source/Game/CHARID }
+      - { type: bss, vram: 0x596560, name: sf33rd/Source/Game/cmb_win }
+      - { type: bss, vram: 0x596680, name: sf33rd/Source/Game/cmd_data }
+      - { type: bss, vram: 0x597B60, name: sf33rd/Source/Game/color3rd }
+      - { type: bss, vram: 0x5A8420, name: sf33rd/Source/Game/DC_Ghost }
+      - { type: bss, vram: 0x5A9BA0, name: sf33rd/Source/Game/EFFECT }
       - { type: .bss, vram: 0x5E1CA0, name: sf33rd/Source/Game/GD3rd }
-      - { type: bss, vram: 0x5E2D70, name: bss_5E2D70 }
+      - { type: bss, vram: 0x5E2D70, name: sf33rd/Source/Game/Grade }
+      - { type: bss, vram: 0x5E3450, name: sf33rd/Source/Game/HITCHECK }
+      - { type: bss, vram: 0x5E3650, name: sf33rd/Source/Game/meta_col }
+      - { type: bss, vram: 0x5E3D50, name: sf33rd/Source/Game/MTRANS }
+      - { type: bss, vram: 0x5E4150, name: sf33rd/Source/Game/OPENING }
+      - { type: bss, vram: 0x5E4480, name: sf33rd/Source/Game/PLCNT }
+      - { type: bss, vram: 0x5E5600, name: sf33rd/Source/Game/RAMCNT }
+      - { type: bss, vram: 0x5E5900, name: sf33rd/Source/Game/RANKING }
+      - { type: bss, vram: 0x5E5A90, name: sf33rd/Source/Game/sc_sub }
       - { type: bss, vram: 0x5E5D00, name: sf33rd/Source/Game/Sound3rd }
-      - { type: bss, vram: 0x623700, name: bss_623700 }
+      - { type: bss, vram: 0x6B3830, name: sf33rd/Source/Game/aboutspr }
       - { type: .bss, vram: 0x6B49D0, name: sf33rd/Source/Game/texgroup }
-      - { type: bss, vram: 0x6B4E80, name: bss_6B4E80 }
+      - { type: bss, vram: 0x6B4E80, name: sf33rd/Source/Game/WORK_SYS }
+      - { type: bss, vram: 0x6BD5F0, name: sf33rd/Source/Game/workuser }
+      - { type: bss, vram: 0x6BD7D0, name: sf33rd/Source/Game/debug/OBJTEST }
+
       - { type: .bss, vram: 0x6BDA48, name: cri/libadxe/adx_errs }
-      - { type: bss, vram: 0x6BDA68, name: bss_6BDA68 }
+      - { type: bss, vram: 0x6BDA68, name: cri/libadxe/cri_cvfs } # More CRI stuff
+      - { type: bss, vram: 0x6BDF00, name: cri/libadxe/dtx }
+      - { type: bss, vram: 0x6BE100, name: cri/libadxe/dvci_sub }
+      - { type: bss, vram: 0x6BF100, name: cri/libadxe/htci_sub } # May need to be split more granularly
+      - { type: bss, vram: 0x6C0100, name: cri/libadxe/sjr_clt }
+      - { type: bss, vram: 0x6C0340, name: cri/libadxe/svm }
+
       - { type: .bss, vram: 0x6C0540, name: sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX }
-      - { type: bss, vram: 0x6C0DD0, name: bss_6C0DD0 }
+      - { type: bss, vram: 0x6C0DD0, name: sf33rd/AcrSDK/ps2/foundaps2 }
+      - { type: bss, vram: 0x6E2BC0, name: sf33rd/AcrSDK/ps2/ps2PAD }
+
+      - { type: bss, vram: 0x6E2EC0, name: bss_6E2EC0 } # Arguments for main
+      - { type: bss, vram: 0x6E3048, name: sdk/libdbc/libdbc }
+      - { type: bss, vram: 0x6E6608, name: sdk/libpad2/libpad2 }
+      - { type: bss, vram: 0x6E9950, name: sf33rd/Source/PS2/mc/mcsub }
+      - { type: bss, vram: 0x6E9A40, name: sf33rd/Source/PS2/mc/knjsub }
+      - { type: bss, vram: 0x6E9AE0, name: sf33rd/Source/PS2/mc/savesub }
+      - { type: bss, vram: 0x6E9D00, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc }
+      - { type: bss, vram: 0x6EA200, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap }
+      - { type: bss, vram: 0x6EA2C0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue }
+      - { type: bss, vram: 0x6EABC0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB }
+
+      - { type: bss, vram: 0x6EAF40, name: bss_6EAF40 } # libc?
 
   - [0x478A00]

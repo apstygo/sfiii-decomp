@@ -19336,3 +19336,12 @@ _asstbl_lv_A010 = 0x470CEA; // size:0x12
 _exchange_pow_pl03_sa3 = 0x475340;
 _add_arts_gauge = 0x475900; // size:0x500
 _add_piyo_gauge = 0x475E00; // size:0x140
+
+frw = 0x5A9CA0; // size:0x38000
+adx_VS = 0x682F00; // size:0x3092A
+
+// crt0
+
+_args = 0x6E2EC0; // size:0x144
+_exit = 0x100218; // type:func
+_root = 0x100220; // type:func
