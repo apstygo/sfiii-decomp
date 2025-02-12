@@ -33,6 +33,7 @@ special_cases = {
     ("IOConv", ".sbss", 0): 16,
     ("EFF45", ".sbss", 0): 16,
     ("eff05", ".sdata", 0): 16,
+    ("Sound3rd", ".sbss", 0): 8,
 }
 
 def alignment_to_bytes(alignment: int) -> bytes:

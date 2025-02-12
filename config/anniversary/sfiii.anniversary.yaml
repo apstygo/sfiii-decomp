@@ -1609,15 +1609,51 @@ segments:
       - { type: sbss, vram: 0x579678, name: sf33rd/Source/Game/RAMCNT }
       - { type: sbss, vram: 0x579730, name: sf33rd/Source/Game/RANKING }
       - { type: .sbss, vram: 0x579758, name: sf33rd/Source/Game/Reset }
-      - { type: sbss, vram: 0x579760, name: sbss_579760 }
+      - { type: sbss, vram: 0x579760, name: sf33rd/Source/Game/sc_data }
+      - { type: sbss, vram: 0x579778, name: sf33rd/Source/Game/sc_sub }
+      - { type: sbss, vram: 0x5797F0, name: sf33rd/Source/Game/SE }
+      - { type: sbss, vram: 0x579854, name: sf33rd/Source/Game/sel_pl }
       - { type: .sbss, vram: 0x579868, name: sf33rd/Source/Game/SLOWF }
-      - { type: sbss, vram: 0x579878, name: sbss_579878 }
+      - { type: sbss, vram: 0x579878, name: sf33rd/Source/Game/Sound3rd }
+      - { type: sbss, vram: 0x5798E0, name: sf33rd/Source/Game/spgauge }
+      - { type: sbss, vram: 0x579980, name: sf33rd/Source/Game/staff }
+      - { type: sbss, vram: 0x5799A0, name: sf33rd/Source/Game/stun }
+      - { type: sbss, vram: 0x5799C0, name: sf33rd/Source/Game/SYS_sub }
+      - { type: sbss, vram: 0x5799D0, name: sf33rd/Source/Game/SysDir }
+      - { type: sbss, vram: 0x579A70, name: sf33rd/Source/Game/ta_sub }
+      - { type: sbss, vram: 0x579A88, name: sf33rd/Source/Game/texcash }
+      - { type: sbss, vram: 0x579AA0, name: sf33rd/Source/Game/VITAL }
       - { type: .sbss, vram: 0x579AB0, name: sf33rd/Source/Game/Win }
-      - { type: sbss, vram: 0x579AB4, name: sbss_579AB4 }
+      - { type: sbss, vram: 0x579AB4, name: sf33rd/Source/Game/win_pl }
+      - { type: sbss, vram: 0x579AC4, name: sf33rd/Source/Game/WORK_SYS }
+      - { type: sbss, vram: 0x579DB0, name: sf33rd/Source/Game/workuser }
       - { type: .sbss, vram: 0x57A780, name: sf33rd/Source/Compress/zlibApp }
-      - { type: sbss, vram: 0x57A7F8, name: sbss_57A7F8 }
+      - { type: sbss, vram: 0x57A7F8, name: sf33rd/Source/Compress/zlib/zutil }
+      - { type: sbss, vram: 0x57A7FC, name: sf33rd/Source/Game/debug/Debug_ID }
+      - { type: sbss, vram: 0x57A800, name: sf33rd/Source/Game/debug/Debug }
+      - { type: sbss, vram: 0x57A8B0, name: sf33rd/Source/Game/debug/OBJTEST }
+      - { type: sbss, vram: 0x57A930, name: sf33rd/Source/Game/debug/OTESTDAT }
+      - { type: sbss, vram: 0x57A94C, name: sf33rd/Source/Common/MemMan }
+      - { type: sbss, vram: 0x57A950, name: sf33rd/Source/Common/PPGFile }
+      - { type: sbss, vram: 0x57A994, name: sf33rd/Source/PS2/ps2Quad }
       - { type: .sbss, vram: 0x57A9A0, name: sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX }
-      - { type: sbss, vram: 0x57A9F0, name: sbss_57A9F0 }
+      - { type: sbss, vram: 0x57A9F0, name: sf33rd/Source/Game/main }
+      - { type: sbss, vram: 0x57AA40, name: sf33rd/AcrSDK/ps2/flps2dma }
+      - { type: sbss, vram: 0x57AA50, name: sf33rd/AcrSDK/ps2/foundaps2 }
+      - { type: sbss, vram: 0x57AF4C, name: sf33rd/AcrSDK/ps2/ps2PAD }
+      - { type: sbss, vram: 0x57B0B0, name: sf33rd/Source/PS2/mc/mcsub }
+      - { type: sbss, vram: 0x57B140, name: sf33rd/Source/PS2/mc/knjsub }
+      - { type: sbss, vram: 0x57B148, name: sf33rd/Source/PS2/mc/savesub }
+      - { type: sbss, vram: 0x57B150, name: sf33rd/Source/PS2/mc/msgsub }
+      - { type: sbss, vram: 0x57B160, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap }
+      - { type: sbss, vram: 0x57B1A0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc }
+      - { type: sbss, vram: 0x57B248, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap }
+      - { type: sbss, vram: 0x57B260, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse }
+      - { type: sbss, vram: 0x57B2A8, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue }
+      - { type: sbss, vram: 0x57B2C0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB }
+      - { type: sbss, vram: 0x57B300, name: sf33rd/Source/PS2/mc/msgtblj }
+      - { type: sbss, vram: 0x57B304, name: sf33rd/Source/PS2/mc/msgtble }
+      - { type: sbss, vram: 0x57B308, name: sf33rd/Source/Common/PPGWork }
 
       # .bss
       # (starts at __bss_start)
