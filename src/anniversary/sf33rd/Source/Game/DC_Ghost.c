@@ -16,7 +16,13 @@ void njGetMatrix(MTX *m) {
     *m = cmtx;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njSetMatrix);
+void njSetMatrix(MTX *md, MTX *ms) {
+    if (md == NULL) {
+        md = &cmtx;
+    }
+
+    *md = *ms;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njScale);
 

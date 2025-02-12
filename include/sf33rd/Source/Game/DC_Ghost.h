@@ -6,6 +6,7 @@
 
 void njUnitMatrix(MTX *mtx);
 void njGetMatrix(MTX *m);
+void njSetMatrix(MTX *md, MTX *ms);
 void njSetBackColor(u32 c0, u32 c1, u32 c2);                                       // Range: 0x1BFF30 -> 0x1BFFBC
 void njDrawTexture(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */); // Range: 0x1C0130 -> 0x1C01E8
 void njdp2d_init();                                                                // Range: 0x1C0330 -> 0x1C034C
