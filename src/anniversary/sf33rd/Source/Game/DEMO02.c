@@ -242,6 +242,7 @@ void Demo01() {
 }
 
 const s8 Demo_PL_Play_Data[4][2] = { { 15, 19 }, { 11, 18 }, { 2, 16 }, { 12, 8 } };
+const u8 Arts_Rnd_Demo_Data[8] = { 0, 0, 0, 1, 1, 1, 2, 2 };
 
 void Setup_Demo_PL() {
     My_char[0] = Demo_PL_Play_Data[Demo_PL_Index][0];
@@ -258,13 +259,16 @@ void Setup_Demo_PL() {
     init_omop();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Setup_Demo_Arts);
+void Setup_Demo_Arts() {
+    Super_Arts[0] = Arts_Rnd_Demo_Data[random_16() & 7];
+    Super_Arts[1] = Arts_Rnd_Demo_Data[random_16() & 7];
+    Player_Color[0] = 0;
+    Player_Color[1] = 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Setup_Demo_Stage);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Setup_Select_Demo_PL);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Arts_Rnd_Demo_Data);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/DEMO02", Demo_Stage_Play_Data);
 
