@@ -1591,6 +1591,11 @@ typedef struct {
 } Vertex;
 
 typedef struct {
+    // total size: 0x30
+    Point v[4]; // offset 0x0, size 0x30
+} Quad;
+
+typedef struct {
     // total size: 0x8
     f32 x; // offset 0x0, size 0x4
     f32 y; // offset 0x4, size 0x4
@@ -1794,7 +1799,8 @@ void SE_dir_cursor_move();              // Range: 0x398450 -> 0x398474
 void SE_dir_selected();                 // Range: 0x398480 -> 0x3984A4
 
 // aboutspr.c
-void Init_load_on_memory_data(); // Range: 0x3A8710 -> 0x3A87CC
+void Init_load_on_memory_data();          // Range: 0x3A8710 -> 0x3A87CC
+void shadow_drawing(UNK_12 *wk, s16 bsy); // Range: 0x3AAD20 -> 0x3AAEAC
 
 // texcash.c
 void init_texcash_1st();            // Range: 0x3AE390 -> 0x3AE4EC
@@ -1834,13 +1840,16 @@ s32 ppgSetupTexChunk_2nd(UNK_18 *tch, s32 ixNum);                // Range: 0x3C3
 s32 ppgSetupTexChunk_3rd(UNK_18 *tch, s32 ixNum, u32 attribute); // Range: 0x3C4110 -> 0x3C4460
 
 // ps2Quad.c
-s32 getCP3toFullScreenDrawFlag(); // Range: 0x3C64A0 -> 0x3C64AC
-void CP3toPS2DrawOn();            // Range: 0x3C64B0 -> 0x3C64C0
-void CP3toPS2DrawOff();           // Range: 0x3C64C0 -> 0x3C64CC
-void CP3toPS2Draw();              // Range: 0x3C64D0 -> 0x3C6D8C
-void flmwVSyncCallback();         // Range: 0x3C6D90 -> 0x3C6DB4
-void flmwFlip();                  // Range: 0x3C6E00 -> 0x3C6ED8
-void njUserInit();                // Range: 0x3E5BA0 -> 0x3E5E64
+void ps2SeqsRenderQuadInit_B();               // Range: 0x3C5580 -> 0x3C5588
+void ps2SeqsRenderQuad_B(Quad *spr, u32 col); // Range: 0x3C6090 -> 0x3C6158
+void ps2SeqsRenderQuadEnd();                  // Range: 0x3C6490 -> 0x3C6498
+s32 getCP3toFullScreenDrawFlag();             // Range: 0x3C64A0 -> 0x3C64AC
+void CP3toPS2DrawOn();                        // Range: 0x3C64B0 -> 0x3C64C0
+void CP3toPS2DrawOff();                       // Range: 0x3C64C0 -> 0x3C64CC
+void CP3toPS2Draw();                          // Range: 0x3C64D0 -> 0x3C6D8C
+void flmwVSyncCallback();                     // Range: 0x3C6D90 -> 0x3C6DB4
+void flmwFlip();                              // Range: 0x3C6E00 -> 0x3C6ED8
+void njUserInit();                            // Range: 0x3E5BA0 -> 0x3E5E64
 
 // flps2render.c
 s32 flBeginRender();                                          // Range: 0x3EE930 -> 0x3EE9B0

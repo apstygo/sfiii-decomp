@@ -1,5 +1,6 @@
 #include "sf33rd/Source/Game/DC_Ghost.h"
 #include "common.h"
+#include "sf33rd/Source/Game/AcrUtil.h"
 #include "unknown.h"
 #include <libvu0.h>
 
@@ -197,7 +198,33 @@ void njdp2d_init() {
     njdp2d_w.total = 0;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njdp2d_draw);
+void njdp2d_draw() {
+    Quad prm;
+    s32 i;
+
+    ps2SeqsRenderQuadInit_B();
+    setZ_Operation(1);
+
+    for (i = njdp2d_w.ix1st; i != -1; i = njdp2d_w.prim[i].next) {
+        switch (njdp2d_w.prim[i].type) {
+        case 0:
+            prm.v[0] = njdp2d_w.prim[i].v[0];
+            prm.v[1] = njdp2d_w.prim[i].v[1];
+            prm.v[2] = njdp2d_w.prim[i].v[2];
+            prm.v[3] = njdp2d_w.prim[i].v[3];
+
+            ps2SeqsRenderQuad_B(&prm, njdp2d_w.prim[i].col);
+            break;
+
+        case 1:
+            shadow_drawing((UNK_12 *)njdp2d_w.prim[i].col, njdp2d_w.prim[i].v[0].y); // Looks weird
+            break;
+        }
+    }
+
+    njdp2d_init();
+    ps2SeqsRenderQuadEnd();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njdp2d_sort);
 
