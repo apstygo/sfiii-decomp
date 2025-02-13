@@ -14,6 +14,8 @@ const u8 pplColorModeWidth[4] = { 0xF, 0x3F, 0xFF, 0 };
 PPG_W ppg_w;
 s16 *dctex_linear;
 
+void *ppgMallocF(s32 size);
+
 void ppg_Initialize(void *lcmAdrs, s32 lcmSize) {
     if (lcmAdrs == NULL) {
         while (1) {}
@@ -22,7 +24,9 @@ void ppg_Initialize(void *lcmAdrs, s32 lcmSize) {
     mmHeapInitialize(&ppg_w.mm, lcmAdrs, lcmSize, 0x10, "- for PPG -");
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/PPGFile", ppgMallocF);
+void *ppgMallocF(s32 size) {
+    return mmAlloc(&ppg_w.mm, size, 0);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/PPGFile", ppgMallocR);
 
