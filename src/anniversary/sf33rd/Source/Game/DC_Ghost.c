@@ -307,7 +307,10 @@ void njDrawPolygon2D(PAL_CURSOR *p, s32 /* unused */, f32 pri, u32 attr) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njSetPaletteBankNumG);
+void njSetPaletteBankNumG(u32 globalIndex, s32 bank) {
+    globalIndex = globalIndex;
+    ppgSetupCurrentPaletteNumber(0, bank);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njSetPaletteMode);
 
