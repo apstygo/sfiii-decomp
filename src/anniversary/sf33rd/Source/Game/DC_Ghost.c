@@ -301,7 +301,11 @@ void njdp2d_sort(f32 *pos, f32 pri, u32 col, s32 flag) {
     njdp2d_w.total += 1;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njDrawPolygon2D);
+void njDrawPolygon2D(PAL_CURSOR *p, s32 /* unused */, f32 pri, u32 attr) {
+    if (attr & 0x20) {
+        njdp2d_sort(&p->p->x, pri, p->col->color, 0);
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njSetPaletteBankNumG);
 
