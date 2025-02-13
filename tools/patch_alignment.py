@@ -22,6 +22,7 @@ special_cases = {
     ("menu", ".rodata", 23): 16,
     ("flPADUSR", ".rodata", 0): 16,
     ("Game", ".rodata", 2): 16,
+    ("Demo_Dat", ".rodata", 0): 16,
 
     ("VM_DATA", ".sdata", 0): 16,
     ("Demo_Dat", ".sdata", 0): 16,

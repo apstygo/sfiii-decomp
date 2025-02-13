@@ -1,5 +1,6 @@
 #include "sf33rd/Source/Game/DC_Ghost.h"
 #include "common.h"
+#include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "sf33rd/Source/Game/AcrUtil.h"
 #include "unknown.h"
 #include <libvu0.h>
@@ -226,7 +227,79 @@ void njdp2d_draw() {
     ps2SeqsRenderQuadEnd();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njdp2d_sort);
+void njdp2d_sort(f32 *pos, f32 pri, u32 col, s32 flag) {
+    s32 i;
+    s32 ix = njdp2d_w.total;
+    s32 prev;
+
+    if (ix >= 0x64) {
+        // Have to write the string as raw bytes here.
+        // Otherwise MWCC removes a single byte for some reason
+        //
+        // Original:
+        // flLogOut("２Ｄポリゴンの表示要求がバッファをオーバーしました\n");
+
+        // The 2D polygon display request has exceeded the buffer\n
+        flLogOut(
+            "\x82\x51\x82\x63\x83\x7C\x83\x8A\x83\x53\x83\x93\x82\xCC\x95\x5C\x8E\xA6\x97\x76\x8B\x81\x82\xAA\x83\x6F"
+            "\x83\x62\x83\x74\x83\x40\x82\xF0\x83\x49\x81\x5B\x83\x6F\x81\x5B\x82\xB5\x82\xDC\x82\xB5\x82\xBD\xA");
+        return;
+    }
+
+    if (flag == 0) {
+        njdp2d_w.prim[ix].v[0].z = njdp2d_w.prim[ix].v[1].z = njdp2d_w.prim[ix].v[2].z = njdp2d_w.prim[ix].v[3].z = pri;
+        njdp2d_w.prim[ix].v[0].x = pos[0];
+        njdp2d_w.prim[ix].v[0].y = pos[1];
+        njdp2d_w.prim[ix].v[1].x = pos[2];
+        njdp2d_w.prim[ix].v[1].y = pos[3];
+        njdp2d_w.prim[ix].v[2].x = pos[4];
+        njdp2d_w.prim[ix].v[2].y = pos[5];
+        njdp2d_w.prim[ix].v[3].x = pos[6];
+        njdp2d_w.prim[ix].v[3].y = pos[7];
+        njdp2d_w.prim[ix].type = 0;
+        njdp2d_w.prim[ix].col = col;
+    }
+
+    if (flag == 1) {
+        njdp2d_w.prim[ix].v[0].z = pri;
+        njdp2d_w.prim[ix].v[0].y = pos[0];
+        njdp2d_w.prim[ix].type = 1;
+        njdp2d_w.prim[ix].col = col;
+    }
+
+    njdp2d_w.prim[ix].next = -1;
+
+    if (njdp2d_w.ix1st == -1) {
+        njdp2d_w.ix1st = njdp2d_w.total;
+    } else {
+        i = njdp2d_w.ix1st;
+        prev = -1;
+
+        while (1) {
+            if (pri > njdp2d_w.prim[i].v[0].z) {
+                if (prev == -1) {
+                    njdp2d_w.ix1st = ix;
+                    njdp2d_w.prim[ix].next = i;
+                } else {
+                    njdp2d_w.prim[prev].next = ix;
+                    njdp2d_w.prim[ix].next = i;
+                }
+
+                break;
+            }
+
+            if (njdp2d_w.prim[i].next == -1) {
+                njdp2d_w.prim[i].next = ix;
+                break;
+            }
+
+            prev = i;
+            i = njdp2d_w.prim[i].next;
+        }
+    }
+
+    njdp2d_w.total += 1;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njDrawPolygon2D);
 
@@ -237,5 +310,3 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njSetPal
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njSetPaletteData);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njReLoadTexturePartNumG);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", literal_477_00504BB0);
