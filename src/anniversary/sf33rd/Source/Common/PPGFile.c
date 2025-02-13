@@ -15,6 +15,7 @@ PPG_W ppg_w;
 s16 *dctex_linear;
 
 void *ppgMallocF(s32 size);
+void *ppgMallocR(s32 size);
 
 void ppg_Initialize(void *lcmAdrs, s32 lcmSize) {
     if (lcmAdrs == NULL) {
@@ -28,7 +29,9 @@ void *ppgMallocF(s32 size) {
     return mmAlloc(&ppg_w.mm, size, 0);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/PPGFile", ppgMallocR);
+void *ppgMallocR(s32 size) {
+    return mmAlloc(&ppg_w.mm, size, 1);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/PPGFile", ppgFree);
 
