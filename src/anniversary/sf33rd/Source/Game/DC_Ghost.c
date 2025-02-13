@@ -321,4 +321,7 @@ void njSetPaletteData(s32 offset, s32 count, void *data) {
     palUpdateGhostDC();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njReLoadTexturePartNumG);
+s32 njReLoadTexturePartNumG(u32 gix, s8 *srcAdrs, u32 ofs, u32 size) {
+    ppgRenewDotDataSeqs(0, gix, (u32 *)srcAdrs, ofs, size);
+    return 1;
+}

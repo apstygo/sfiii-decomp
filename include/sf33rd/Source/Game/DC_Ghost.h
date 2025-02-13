@@ -23,5 +23,6 @@ void njDrawPolygon2D(PAL_CURSOR *p, s32 /* unused */, f32 pri, u32 attr);
 void njSetPaletteBankNumG(u32 globalIndex, s32 bank);
 void njSetPaletteMode(u32 mode);
 void njSetPaletteData(s32 offset, s32 count, void *data);
+s32 njReLoadTexturePartNumG(u32 gix, s8 *srcAdrs, u32 ofs, u32 size);
 
 #endif // DC_GHOST_H
