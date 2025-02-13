@@ -312,7 +312,9 @@ void njSetPaletteBankNumG(u32 globalIndex, s32 bank) {
     ppgSetupCurrentPaletteNumber(0, bank);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njSetPaletteMode);
+void njSetPaletteMode(u32 mode) {
+    mode = mode;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njSetPaletteData);
 

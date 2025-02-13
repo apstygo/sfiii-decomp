@@ -21,5 +21,6 @@ void njdp2d_draw();
 void njdp2d_sort(f32 *pos, f32 pri, u32 col, s32 flag);
 void njDrawPolygon2D(PAL_CURSOR *p, s32 /* unused */, f32 pri, u32 attr);
 void njSetPaletteBankNumG(u32 globalIndex, s32 bank);
+void njSetPaletteMode(u32 mode);
 
 #endif // DC_GHOST_H
