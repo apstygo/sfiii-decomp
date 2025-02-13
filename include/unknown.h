@@ -1383,6 +1383,13 @@ typedef struct {
 } Pixel;
 
 typedef struct {
+    // total size: 0xC
+    f32 x; // offset 0x0, size 0x4
+    f32 y; // offset 0x4, size 0x4
+    f32 z; // offset 0x8, size 0x4
+} Point;
+
+typedef struct {
     // total size: 0x40
     f32 _11; // offset 0x0, size 0x4
     f32 _12; // offset 0x4, size 0x4

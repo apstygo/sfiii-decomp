@@ -95,7 +95,36 @@ void njColorBlendingMode(s32 target, s32 mode) {
     flSetRenderState(FLRENDER_ALPHABLENDMODE, 0x32);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njCalcPoint);
+void njCalcPoint(MTX *mtx, Point *ps, Point *pd) {
+    f32 v0[4];
+
+    if (mtx == NULL) {
+        mtx = &cmtx;
+    }
+
+    v0[0] = ps->x;
+    v0[1] = ps->y;
+    v0[2] = ps->z;
+    v0[3] = 1.0f;
+
+    __asm__ __volatile__("lqc2    $vf8, 0(%1) \n"
+                         "lqc2    $vf4, 0(%0) \n"
+                         "lqc2    $vf5, 0x10(%0) \n"
+                         "lqc2    $vf6, 0x20(%0) \n"
+                         "lqc2    $vf7, 0x30(%0) \n"
+                         "vmulax.xyz $ACC, $vf4, $vf8x \n"
+                         "vmadday.xyz $ACC, $vf5, $vf8y \n"
+                         "vmaddaz.xyz $ACC, $vf6, $vf8z \n"
+                         "vmaddw.xyz $vf9, $vf7, $vf8w \n"
+                         "sqc2 $vf9, 0(%1) \n"
+                         :
+                         : "r"(mtx), "r"(v0), "f"(pd)
+                         : "memory");
+
+    pd->x = v0[0];
+    pd->y = v0[1];
+    pd->z = v0[2];
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njCalcPoints);
 
