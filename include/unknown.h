@@ -1819,10 +1819,11 @@ u8 *mmAlloc(_MEMMAN_OBJ *mmobj, s32 size, s32 flag); // Range: 0x3C02D0 -> 0x3C0
 void mmFree(_MEMMAN_OBJ *mmobj, u8 *adrs);           // Range: 0x3C0560 -> 0x3C05D8
 
 // PPGFile.c
-void ppg_Initialize(void *lcmAdrs, s32 lcmSize);         // Range: 0x3C05E0 -> 0x3C0650
-void ppgSourceDataReleased(UNK_15 *dlist);               // Range: 0x3C0800 -> 0x3C0870
-void ppgSetupCurrentDataList(UNK_15 *dlist);             // Range: 0x3C0870 -> 0x3C088C
-void ppgSetupCurrentPaletteNumber(UNK_16 *pal, s32 num); // Range: 0x3C0890 -> 0x3C0904
+void ppg_Initialize(void *lcmAdrs, s32 lcmSize);                              // Range: 0x3C05E0 -> 0x3C0650
+void ppgSourceDataReleased(UNK_15 *dlist);                                    // Range: 0x3C0800 -> 0x3C0870
+void ppgSetupCurrentDataList(UNK_15 *dlist);                                  // Range: 0x3C0870 -> 0x3C088C
+void ppgSetupCurrentPaletteNumber(UNK_16 *pal, s32 num);                      // Range: 0x3C0890 -> 0x3C0904
+s32 ppgWriteQuadWithST_B(Vertex *pos, u32 col, UNK_15 *tb, s32 tix, s32 cix); // Range: 0x3C0B70 -> 0x3C0CF0
 s32 ppgSetupPalChunk(UNK_16 *pch, u8 *adrs, s32 size, s32 ixNum1st, s32 num,
                      s32 /* unused */); // Range: 0x3C2020 -> 0x3C271C
 void ppgMakeConvTableTexDC();           // Range: 0x3C3620 -> 0x3C3768

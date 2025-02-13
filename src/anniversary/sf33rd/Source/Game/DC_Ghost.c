@@ -4,6 +4,11 @@
 
 #define NTH_BYTE(value, n) ((((value >> n * 8) & 0xFF) << n * 8))
 
+typedef struct {
+    Vertex v;
+    u32 col;
+} _Polygon;
+
 MTX cmtx;
 
 void njUnitMatrix(MTX *mtx) {
@@ -142,7 +147,19 @@ void njRotateZ(s32 /* unused */, s32 /* unused */) {
     // Do nothing
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njDrawTexture);
+void njDrawTexture(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */) {
+    Vertex vtx[4];
+    s32 i;
+
+    Polygon *temp_v1;
+    void *temp_v0;
+
+    for (i = 0; i < 4; i++) {
+        vtx[i] = ((_Polygon *)polygon)[i].v;
+    }
+
+    ppgWriteQuadWithST_B(vtx, polygon[0].col, NULL, tex, -1);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njDrawSprite);
 
