@@ -1633,7 +1633,7 @@ segments:
       - { type: sbss, vram: 0x57A8B0, name: sf33rd/Source/Game/debug/OBJTEST }
       - { type: sbss, vram: 0x57A930, name: sf33rd/Source/Game/debug/OTESTDAT }
       - { type: sbss, vram: 0x57A94C, name: sf33rd/Source/Common/MemMan }
-      - { type: sbss, vram: 0x57A950, name: sf33rd/Source/Common/PPGFile }
+      - { type: .sbss, vram: 0x57A950, name: sf33rd/Source/Common/PPGFile }
       - { type: sbss, vram: 0x57A994, name: sf33rd/Source/PS2/ps2Quad }
       - { type: .sbss, vram: 0x57A9A0, name: sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX }
       - { type: sbss, vram: 0x57A9F0, name: sf33rd/Source/Game/main }

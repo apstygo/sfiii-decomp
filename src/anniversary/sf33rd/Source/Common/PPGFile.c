@@ -1,7 +1,26 @@
 #include "sf33rd/Source/Common/PPGFile.h"
 #include "common.h"
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/PPGFile", ppg_Initialize);
+typedef struct {
+    // total size: 0x34
+    UNK_15 *cur;    // offset 0x0, size 0x4
+    u16 hanPal;     // offset 0x4, size 0x2
+    u16 hanTex;     // offset 0x6, size 0x2
+    _MEMMAN_OBJ mm; // offset 0x8, size 0x2C
+} PPG_W;
+
+const u8 pplColorModeWidth[4] = { 0xF, 0x3F, 0xFF, 0 };
+
+PPG_W ppg_w;
+s16 *dctex_linear;
+
+void ppg_Initialize(void *lcmAdrs, s32 lcmSize) {
+    if (lcmAdrs == NULL) {
+        while (1) {}
+    }
+
+    mmHeapInitialize(&ppg_w.mm, lcmAdrs, lcmSize, 0x10, "- for PPG -");
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/PPGFile", ppgMallocF);
 
@@ -81,9 +100,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/PPGFile", ppgGetU
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/PPGFile", ppgCheckTextureNumber);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Common/PPGFile", pplColorModeWidth);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Common/PPGFile", literal_200_005595D8);
+// INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Common/PPGFile", literal_200_005595D8);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Common/PPGFile", literal_625_005595E8);
 
