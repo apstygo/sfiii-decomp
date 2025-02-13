@@ -550,7 +550,7 @@ segments:
       - [0x2BDE50, asm, sf33rd/Source/Game/debug/Debug]
       - [0x2BFF30, asm, sf33rd/Source/Game/debug/OBJTEST] # Good first decomp
       - [0x2C0100, asm, sf33rd/Source/Common/MemMan] # Good first decomp
-      - [0x2C0660, asm, sf33rd/Source/Common/PPGFile]
+      - [0x2C0660, c, sf33rd/Source/Common/PPGFile]
       - [0x2C55F0, asm, sf33rd/Source/PS2/ps2Quad]
       - [0x2C6E10, asm, sf33rd/AcrSDK/MiddleWare/PS2/acrmw] # Good first decomp
 
@@ -1262,7 +1262,7 @@ segments:
       - [0x458D10, rodata, sf33rd/Source/Game/debug/Debug]
       - [0x458E78, rodata, sf33rd/Source/Game/debug/Deb_Data]
       - [0x459600, rodata, sf33rd/Source/Game/debug/Nakai]
-      - [0x459650, rodata, sf33rd/Source/Common/PPGFile]
+      - [0x459650, .rodata, sf33rd/Source/Common/PPGFile]
 
       - [0x4599A0, rodata, cri/libadxe/adx_baif]
       - [0x4599B0, rodata, cri/libadxe/adx_bau]

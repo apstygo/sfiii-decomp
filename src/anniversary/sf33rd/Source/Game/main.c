@@ -1,6 +1,7 @@
 #include "sf33rd/Source/Game/main.h"
 #include "common.h"
 #include "sf33rd/AcrSDK/ps2/flps2etc.h"
+#include "sf33rd/Source/Common/PPGFile.h"
 #include "sf33rd/Source/Common/PPGWork.h"
 #include "sf33rd/Source/Game/AcrUtil.h"
 #include "sf33rd/Source/Game/DC_Ghost.h"
@@ -270,8 +271,8 @@ void njUserInit() {
     mmSystemInitialize();
     flGetFrame(&mpp_w.fmsFrame);
     seqsInitialize(mppMalloc(seqsGetUseMemorySize()));
-    ppg_Initialize(mppMalloc(0x60000U), 0x60000);
-    zlib_Initialize(mppMalloc(0x10000U), 0x10000);
+    ppg_Initialize(mppMalloc(0x60000), 0x60000);
+    zlib_Initialize(mppMalloc(0x10000), 0x10000);
     size = flGetSpace();
     mpp_w.ramcntBuff = mppMalloc(size);
     Init_ram_control_work(mpp_w.ramcntBuff, size);
