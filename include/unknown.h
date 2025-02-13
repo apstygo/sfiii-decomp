@@ -1648,10 +1648,12 @@ void Irl_Scrn();   // Range: 0x170CD0 -> 0x170E9C
 void bg_etc_write(s16 type); // Range: 0x175920 -> 0x175FC0
 
 // color3rd.c
-void q_ldreq_color_data(REQ *curr); // Range: 0x19D800 -> 0x19DD7C
-void set_hitmark_color();           // Range: 0x19DE70 -> 0x19E010
-void init_color_trans_req();        // Range: 0x19F600 -> 0x19F694
-void palCreateGhost();              // Range: 0x19F8D0 -> 0x19FB50
+void q_ldreq_color_data(REQ *curr);                // Range: 0x19D800 -> 0x19DD7C
+void set_hitmark_color();                          // Range: 0x19DE70 -> 0x19E010
+void init_color_trans_req();                       // Range: 0x19F600 -> 0x19F694
+void palCopyGhostDC(s32 ofs, s32 cnt, void *data); // Range: 0x19F700 -> 0x19F7C0
+void palCreateGhost();                             // Range: 0x19F8D0 -> 0x19FB50
+void palUpdateGhostDC();                           // Range: 0x19FB70 -> 0x19FC6C
 
 s32 effect_04_init(s16 Death_Type, s16 cg_type, s16 sync_bg, s16 priority); // Range: 0x1C56A0 -> 0x1C5818
 // DWARF says disp_index and cursor_id are s16, but decompilation suggests otherwise

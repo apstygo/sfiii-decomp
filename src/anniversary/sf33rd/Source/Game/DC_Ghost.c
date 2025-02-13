@@ -316,6 +316,9 @@ void njSetPaletteMode(u32 mode) {
     mode = mode;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njSetPaletteData);
+void njSetPaletteData(s32 offset, s32 count, void *data) {
+    palCopyGhostDC(offset, count, data);
+    palUpdateGhostDC();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njReLoadTexturePartNumG);
