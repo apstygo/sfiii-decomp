@@ -12,6 +12,7 @@ void njTranslate(MTX *mtx, f32 x, f32 y, f32 z);
 void njSetBackColor(u32 c0, u32 c1, u32 c2);
 void njColorBlendingMode(s32 target, s32 mode);
 void njCalcPoint(MTX *mtx, Point *ps, Point *pd);
+void njCalcPoints(MTX *mtx, Point *ps, Point *pd, s32 num);
 void njDrawTexture(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */);
 void njdp2d_init();
 void njdp2d_draw();

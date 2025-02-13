@@ -126,7 +126,17 @@ void njCalcPoint(MTX *mtx, Point *ps, Point *pd) {
     pd->z = v0[2];
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njCalcPoints);
+void njCalcPoints(MTX *mtx, Point *ps, Point *pd, s32 num) {
+    s32 i;
+
+    if (mtx == NULL) {
+        mtx = &cmtx;
+    }
+
+    for (i = 0; i < num; i++) {
+        njCalcPoint(mtx, ps++, pd++);
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njRotateZ);
 
