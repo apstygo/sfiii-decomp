@@ -1819,11 +1819,12 @@ u8 *mmAlloc(_MEMMAN_OBJ *mmobj, s32 size, s32 flag); // Range: 0x3C02D0 -> 0x3C0
 void mmFree(_MEMMAN_OBJ *mmobj, u8 *adrs);           // Range: 0x3C0560 -> 0x3C05D8
 
 // PPGFile.c
-void ppg_Initialize(void *lcmAdrs, s32 lcmSize);                              // Range: 0x3C05E0 -> 0x3C0650
-void ppgSourceDataReleased(UNK_15 *dlist);                                    // Range: 0x3C0800 -> 0x3C0870
-void ppgSetupCurrentDataList(UNK_15 *dlist);                                  // Range: 0x3C0870 -> 0x3C088C
-void ppgSetupCurrentPaletteNumber(UNK_16 *pal, s32 num);                      // Range: 0x3C0890 -> 0x3C0904
-s32 ppgWriteQuadWithST_B(Vertex *pos, u32 col, UNK_15 *tb, s32 tix, s32 cix); // Range: 0x3C0B70 -> 0x3C0CF0
+void ppg_Initialize(void *lcmAdrs, s32 lcmSize);                               // Range: 0x3C05E0 -> 0x3C0650
+void ppgSourceDataReleased(UNK_15 *dlist);                                     // Range: 0x3C0800 -> 0x3C0870
+void ppgSetupCurrentDataList(UNK_15 *dlist);                                   // Range: 0x3C0870 -> 0x3C088C
+void ppgSetupCurrentPaletteNumber(UNK_16 *pal, s32 num);                       // Range: 0x3C0890 -> 0x3C0904
+s32 ppgWriteQuadWithST_B(Vertex *pos, u32 col, UNK_15 *tb, s32 tix, s32 cix);  // Range: 0x3C0B70 -> 0x3C0CF0
+s32 ppgWriteQuadWithST_B2(Vertex *pos, u32 col, UNK_15 *tb, s32 tix, s32 cix); // Range: 0x3C0CF0 -> 0x3C0E70
 s32 ppgSetupPalChunk(UNK_16 *pch, u8 *adrs, s32 size, s32 ixNum1st, s32 num,
                      s32 /* unused */); // Range: 0x3C2020 -> 0x3C271C
 void ppgMakeConvTableTexDC();           // Range: 0x3C3620 -> 0x3C3768
@@ -1833,12 +1834,13 @@ s32 ppgSetupTexChunk_2nd(UNK_18 *tch, s32 ixNum);                // Range: 0x3C3
 s32 ppgSetupTexChunk_3rd(UNK_18 *tch, s32 ixNum, u32 attribute); // Range: 0x3C4110 -> 0x3C4460
 
 // ps2Quad.c
-void CP3toPS2DrawOn();    // Range: 0x3C64B0 -> 0x3C64C0
-void CP3toPS2DrawOff();   // Range: 0x3C64C0 -> 0x3C64CC
-void CP3toPS2Draw();      // Range: 0x3C64D0 -> 0x3C6D8C
-void flmwVSyncCallback(); // Range: 0x3C6D90 -> 0x3C6DB4
-void flmwFlip();          // Range: 0x3C6E00 -> 0x3C6ED8
-void njUserInit();        // Range: 0x3E5BA0 -> 0x3E5E64
+s32 getCP3toFullScreenDrawFlag(); // Range: 0x3C64A0 -> 0x3C64AC
+void CP3toPS2DrawOn();            // Range: 0x3C64B0 -> 0x3C64C0
+void CP3toPS2DrawOff();           // Range: 0x3C64C0 -> 0x3C64CC
+void CP3toPS2Draw();              // Range: 0x3C64D0 -> 0x3C6D8C
+void flmwVSyncCallback();         // Range: 0x3C6D90 -> 0x3C6DB4
+void flmwFlip();                  // Range: 0x3C6E00 -> 0x3C6ED8
+void njUserInit();                // Range: 0x3E5BA0 -> 0x3E5E64
 
 // flps2render.c
 s32 flBeginRender();                                          // Range: 0x3EE930 -> 0x3EE9B0

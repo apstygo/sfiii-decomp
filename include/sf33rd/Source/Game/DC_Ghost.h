@@ -15,6 +15,7 @@ void njCalcPoint(MTX *mtx, Point *ps, Point *pd);
 void njCalcPoints(MTX *mtx, Point *ps, Point *pd, s32 num);
 void njRotateZ(s32 /* unused */, s32 /* unused */);
 void njDrawTexture(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */);
+void njDrawSprite(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */);
 void njdp2d_init();
 void njdp2d_draw();
 void njdp2d_sort(f32 *pos, f32 pri, u32 col, s32 flag);

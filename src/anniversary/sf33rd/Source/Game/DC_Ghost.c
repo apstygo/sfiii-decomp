@@ -161,7 +161,19 @@ void njDrawTexture(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */
     ppgWriteQuadWithST_B(vtx, polygon[0].col, NULL, tex, -1);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njDrawSprite);
+void njDrawSprite(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */) {
+    Vertex vtx[4];
+
+    if ((getCP3toFullScreenDrawFlag() != 0) &&
+        ((polygon[0].x >= 384.0f) || (polygon[3].x < 0.0f) || (polygon[0].y >= 224.0f) || (polygon[3].y < 0.0f))) {
+        return;
+    }
+
+    vtx[0] = ((_Polygon *)polygon)[0].v;
+    vtx[3] = ((_Polygon *)polygon)[3].v;
+
+    ppgWriteQuadWithST_B2(vtx, polygon[0].col, 0, tex, -1);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njdp2d_init);
 
