@@ -138,7 +138,9 @@ void njCalcPoints(MTX *mtx, Point *ps, Point *pd, s32 num) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njRotateZ);
+void njRotateZ(s32 /* unused */, s32 /* unused */) {
+    // Do nothing
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njDrawTexture);
 
