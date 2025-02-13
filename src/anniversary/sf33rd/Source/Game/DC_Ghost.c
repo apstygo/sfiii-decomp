@@ -2,6 +2,8 @@
 #include "common.h"
 #include <libvu0.h>
 
+#define NTH_BYTE(value, n) ((((value >> n * 8) & 0xFF) << n * 8))
+
 MTX cmtx;
 
 void njUnitMatrix(MTX *mtx) {
@@ -82,7 +84,10 @@ void njTranslate(MTX *mtx, f32 x, f32 y, f32 z) {
                          : "t0", "t1", "memory");
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njSetBackColor);
+void njSetBackColor(u32 c0, u32 c1, u32 c2) {
+    c0 = c0 | c1 | c2;
+    flSetRenderState(FLRENDER_BACKCOLOR, NTH_BYTE(c0, 3) | NTH_BYTE(c0, 2) | NTH_BYTE(c0, 1) | NTH_BYTE(c0, 0));
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njColorBlendingMode);
 
