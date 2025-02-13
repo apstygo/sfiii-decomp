@@ -1,5 +1,6 @@
 #include "sf33rd/Source/Game/DC_Ghost.h"
 #include "common.h"
+#include "unknown.h"
 #include <libvu0.h>
 
 #define NTH_BYTE(value, n) ((((value >> n * 8) & 0xFF) << n * 8))
@@ -9,6 +10,22 @@ typedef struct {
     u32 col;
 } _Polygon;
 
+typedef struct {
+    // total size: 0x3C
+    Point v[4]; // offset 0x0, size 0x30
+    u32 col;    // offset 0x30, size 0x4
+    u32 type;   // offset 0x34, size 0x4
+    s32 next;   // offset 0x38, size 0x4
+} NJDP2D_PRIM;
+
+typedef struct {
+    // total size: 0x1774
+    s16 ix1st;             // offset 0x0, size 0x2
+    s16 total;             // offset 0x2, size 0x2
+    NJDP2D_PRIM prim[100]; // offset 0x4, size 0x1770
+} NJDP2D_W;
+
+extern NJDP2D_W njdp2d_w;
 MTX cmtx;
 
 void njUnitMatrix(MTX *mtx) {
@@ -175,7 +192,10 @@ void njDrawSprite(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */)
     ppgWriteQuadWithST_B2(vtx, polygon[0].col, 0, tex, -1);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njdp2d_init);
+void njdp2d_init() {
+    njdp2d_w.ix1st = -1;
+    njdp2d_w.total = 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njdp2d_draw);
 

@@ -25,4 +25,14 @@ __asm__(".include \"include/cri_macro.inc\"\n");
 #define INCLUDE_RODATA(FOLDER, NAME)
 #endif
 
+#if defined(M2CTX)
+
+#define ATTR_ALIGNED(value)
+
+#else
+
+#define ATTR_ALIGNED(value) __attribute__((aligned(value)))
+
+#endif
+
 #endif
