@@ -53,7 +53,34 @@ void njScale(MTX *mtx, f32 x, f32 y, f32 z) {
                          : "memory");
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njTranslate);
+void njTranslate(MTX *mtx, f32 x, f32 y, f32 z) {
+    if (mtx == NULL) {
+        mtx = &cmtx;
+    }
+
+    __asm__ __volatile__("mfc1       $t0, %1 \n"
+                         "mfc1       $t1, %3 \n"
+                         "pextlw     $t0, $t1, $t0 \n"
+
+                         "mfc1       $t1, %2 \n"
+                         "pextlw     $t0, $t1, $t0 \n"
+
+                         "qmtc2      $t0, $vf8 \n"
+                         "vmove.w    $vf8, $vf0 \n"
+
+                         "lqc2       $vf4, 0x0(%0) \n"
+                         "lqc2       $vf5, 0x10(%0) \n"
+                         "lqc2       $vf6, 0x20(%0) \n"
+                         "lqc2       $vf7, 0x30(%0) \n"
+                         "vmulax.xyzw $ACC, $vf4, $vf8x \n"
+                         "vmadday.xyzw $ACC, $vf5, $vf8y \n"
+                         "vmaddaz.xyzw $ACC, $vf6, $vf8z \n"
+                         "vmaddw.xyzw $vf9, $vf7, $vf8w \n"
+                         "sqc2       $vf9, 0x30(%0) \n"
+                         :
+                         : "r"(mtx), "f"(x), "f"(y), "f"(z)
+                         : "t0", "t1", "memory");
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njSetBackColor);
 
