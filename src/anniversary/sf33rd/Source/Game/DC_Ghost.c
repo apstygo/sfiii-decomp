@@ -89,7 +89,11 @@ void njSetBackColor(u32 c0, u32 c1, u32 c2) {
     flSetRenderState(FLRENDER_BACKCOLOR, NTH_BYTE(c0, 3) | NTH_BYTE(c0, 2) | NTH_BYTE(c0, 1) | NTH_BYTE(c0, 0));
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njColorBlendingMode);
+void njColorBlendingMode(s32 target, s32 mode) {
+    target = target;
+    mode = mode;
+    flSetRenderState(FLRENDER_ALPHABLENDMODE, 0x32);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/DC_Ghost", njCalcPoint);
 
