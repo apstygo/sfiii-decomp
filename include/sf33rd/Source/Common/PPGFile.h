@@ -17,5 +17,8 @@ s32 ppgSetupTexChunk_1st(Texture *tch, u8 *adrs, s32 size, s32 ixNum1st, s32 ixN
 s32 ppgSetupTexChunk_2nd(Texture *tch, s32 ixNum);
 s32 ppgSetupTexChunk_3rd(Texture *tch, s32 ixNum, u32 attribute);
 s32 ppgWriteQuadUseTrans(Vertex *pos, u32 col, PPGDataList *tb, s32 tix, s32 cix, s32 flip, s32 pal);
+s32 ppgGetUsingTextureHandle(Texture *tch, s32 ixNums);
+s32 ppgGetUsingPaletteHandle(Palette *pch, s32 ixNums);
+s32 ppgCheckTextureNumber(Texture *tex, s32 num);
 
 #endif // PPGFILE_H

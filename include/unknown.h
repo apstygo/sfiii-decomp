@@ -1390,6 +1390,14 @@ typedef struct {
 } Point;
 
 typedef struct {
+    // total size: 0x8
+    s16 x1; // offset 0x0, size 0x2
+    s16 y1; // offset 0x2, size 0x2
+    s16 x2; // offset 0x4, size 0x2
+    s16 y2; // offset 0x6, size 0x2
+} Rect;
+
+typedef struct {
     // total size: 0x40
     f32 _11; // offset 0x0, size 0x4
     f32 _12; // offset 0x4, size 0x4
@@ -1547,22 +1555,22 @@ typedef union {
     u32 b32;    // offset 0x0, size 0x4
     u16 b16[2]; // offset 0x0, size 0x4
     u8 b8[4];   // offset 0x0, size 0x4
-} UNK_17;
+} TextureHandle;
 
 typedef struct {
     // total size: 0x20
-    s8 be;          // offset 0x0, size 0x1
-    u8 flags;       // offset 0x1, size 0x1
-    s16 arCnt;      // offset 0x2, size 0x2
-    s16 arInit;     // offset 0x4, size 0x2
-    u16 total;      // offset 0x6, size 0x2
-    UNK_17 *handle; // offset 0x8, size 0x4
-    s32 ixNum1st;   // offset 0xC, size 0x4
-    u16 textures;   // offset 0x10, size 0x2
-    u16 accnum;     // offset 0x12, size 0x2
-    u32 *offset;    // offset 0x14, size 0x4
-    u8 *srcAdrs;    // offset 0x18, size 0x4
-    u32 srcSize;    // offset 0x1C, size 0x4
+    s8 be;                 // offset 0x0, size 0x1
+    u8 flags;              // offset 0x1, size 0x1
+    s16 arCnt;             // offset 0x2, size 0x2
+    s16 arInit;            // offset 0x4, size 0x2
+    u16 total;             // offset 0x6, size 0x2
+    TextureHandle *handle; // offset 0x8, size 0x4
+    s32 ixNum1st;          // offset 0xC, size 0x4
+    u16 textures;          // offset 0x10, size 0x2
+    u16 accnum;            // offset 0x12, size 0x2
+    u32 *offset;           // offset 0x14, size 0x4
+    u8 *srcAdrs;           // offset 0x18, size 0x4
+    u32 srcSize;           // offset 0x1C, size 0x4
 } Texture;
 
 typedef struct {
@@ -1582,6 +1590,27 @@ typedef struct {
     u16 formARGB;  // offset 0xC, size 0x2
     u16 transNums; // offset 0xE, size 0x2
 } PPGFileHeader;
+
+typedef struct {
+    // total size: 0x10
+    u32 magic;    // offset 0x0, size 0x4
+    u32 fileSize; // offset 0x4, size 0x4
+    u16 id;       // offset 0x8, size 0x2
+    u8 compress;  // offset 0xA, size 0x1
+    u8 free;      // offset 0xB, size 0x1
+    u32 expSize;  // offset 0xC, size 0x4
+} PPXFileHeader;
+
+typedef struct {
+    // total size: 0x10
+    u32 magic;    // offset 0x0, size 0x4
+    u32 fileSize; // offset 0x4, size 0x4
+    u16 free;     // offset 0x8, size 0x2
+    u8 compress;  // offset 0xA, size 0x1
+    u8 c_mode;    // offset 0xB, size 0x1
+    u16 formARGB; // offset 0xC, size 0x2
+    u16 palettes; // offset 0xE, size 0x2
+} PPLFileHeader;
 
 typedef struct {
     // total size: 0x18
@@ -1891,9 +1920,6 @@ s32 tarPADInit();                                            // Range: 0x400120 
 void tarPADDestroy();                                        // Range: 0x400420 -> 0x400448
 void flPADConfigSetACRtoXX(s32 padnum, s16 a, s16 b, s16 c); // Range: 0x400450 -> 0x4004B8
 void tarPADRead();                                           // Range: 0x4004C0 -> 0x400624
-
-void func_00402698(void *mem, s32 size);                // Range: 0x402698 -> 0x4026B0
-void func_00402570(const void *src, void *dest, s32 n); // Range: 0x402570 -> 0x402590
 
 // mcsub.c
 void MemcardInit(); // Range: 0x403EC0 -> 0x403F38

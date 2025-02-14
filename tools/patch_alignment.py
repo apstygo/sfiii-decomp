@@ -10,6 +10,7 @@ skipped_rodata = {
     "Entry",
     "Game",
     "DEMO00",
+    "PPGFile",
 }
 
 # (file, section, index of section within sections of this type) -> alignment

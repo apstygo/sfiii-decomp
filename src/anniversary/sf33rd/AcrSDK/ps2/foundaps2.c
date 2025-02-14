@@ -4,6 +4,7 @@
 #include "sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX.h"
 #include "sf33rd/AcrSDK/common/mlPAD.h"
 #include "sf33rd/AcrSDK/common/prilay.h"
+#include "sf33rd/AcrSDK/ps2/flps2asm.h"
 #include "sf33rd/AcrSDK/ps2/flps2dma.h"
 #include "sf33rd/AcrSDK/ps2/flps2etc.h"
 #include "unknown.h"
@@ -186,7 +187,7 @@ void flPS2VramFullClear() {
     i = 0;
     handle = flPS2GetSystemMemoryHandle(0x40000, 0);
     lpBuff = flPS2GetSystemBuffAdrs(handle);
-    func_00402698(lpBuff, 0x4000);
+    memzero_1q(lpBuff, 0x4000);
 
     do {
         sceGsSetDefLoadImage(&Loadimage, 0, 16, 0, 0, i * 64, 0x400, 0x40);
@@ -634,7 +635,7 @@ void flPS2DrawPreparation() {
     ds->acr_fba_2.I64[0] = flPs2FBA;
 
     dst = (u32 *)flPS2GetSystemTmpBuff(sizeof(FLPS2DrawStart), 0x10);
-    func_00402570(ds, dst, 0x14);
+    memcpy_1q(ds, dst, 0x14);
     flPS2DmaAddQueue2(0, (u32)dst & 0xFFFFFFF, (u32)dst, &flPs2VIF1Control);
 }
 

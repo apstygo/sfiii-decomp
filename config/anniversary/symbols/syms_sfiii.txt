@@ -19345,3 +19345,18 @@ adx_VS = 0x682F00; // size:0x3092A
 _args = 0x6E2EC0; // size:0x144
 _exit = 0x100218; // type:func
 _root = 0x100220; // type:func
+
+// flps2asm
+
+memcpy_1w = 0x4024F0; // type:func
+memcpy_4w = 0x402510; // type:func
+memcpy_2d = 0x402548; // type:func
+memcpy_1q = 0x402570; // type:func
+memcpy_8w = 0x402590; // type:func
+memcpy_4d = 0x4025E8; // type:func
+memcpy_2q = 0x402620; // type:func
+memcpy_4q = 0x402648; // type:func
+memzero_1w = 0x402680; // type:func
+memzero_1q = 0x402698; // type:func
+memset_1w = 0x4026B0; // type:func
+memset_1q = 0x4026C8; // type:func
