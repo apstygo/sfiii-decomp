@@ -1840,8 +1840,8 @@ void Clear_texcash_work();          // Range: 0x3AFEC0 -> 0x3AFF28
 u8 VM_Access_Request(u8 Request, u8 Drive);         // Range: 0x3B1B80 -> 0x3B1BAC
 void Setup_File_Property(s16 file_type, u8 number); // Range: 0x3B1BB0 -> 0x3B1CBC
 
-// zlibApp.c
-void zlib_Initialize(void *tempAdrs, s32 tempSize); // Range: 0x3B76E0 -> 0x3B776C
+// Lz77Dec.c
+s32 decLZ77withSizeCheck(u8 *src, u8 *dst, s32 size); // Range: 0x3B78F0 -> 0x3B7F3C
 
 // MemMan.c
 void mmSystemInitialize(); // Range: 0x3C0080 -> 0x3C008C

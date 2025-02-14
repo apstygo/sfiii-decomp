@@ -1,5 +1,6 @@
 #include "sf33rd/Source/Common/PPGFile.h"
 #include "common.h"
+#include "sf33rd/Source/Compress/zlibApp.h"
 
 typedef struct {
     // total size: 0x34
@@ -384,7 +385,38 @@ s32 ppgWriteQuadUseTrans(Vertex *pos, u32 col, PPGDataList *tb, s32 tix, s32 cix
     return 1;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/PPGFile", ppgDecompress);
+s32 ppgDecompress(s32 koCmpr, void *srcAdrs, s32 srcSize, void *dstAdrs, s32 dstSize) {
+    u8 *src;
+    u8 *dst;
+    s32 i;
+    s32 rnum = 0;
+
+    switch (koCmpr) {
+    default:
+        if (srcAdrs != dstAdrs) {
+            src = srcAdrs;
+            dst = dstAdrs;
+
+            for (i = 0; i < dstSize; i++) {
+                *dst++ = *src++;
+            }
+        }
+
+        rnum = srcSize;
+        break;
+
+    case 1:
+        rnum = decLZ77withSizeCheck(srcAdrs, dstAdrs, dstSize);
+        rnum *= dstSize;
+        break;
+
+    case 2:
+        rnum = zlib_Decompress(srcAdrs, srcSize, dstAdrs, dstSize);
+        break;
+    }
+
+    return rnum;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/PPGFile", ppgSetupCmpChunk);
 
