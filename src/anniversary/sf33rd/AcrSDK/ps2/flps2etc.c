@@ -11,6 +11,7 @@
 #include "sf33rd/AcrSDK/ps2/flps2debug.h"
 #include "sf33rd/AcrSDK/ps2/flps2dma.h"
 #include "sf33rd/AcrSDK/ps2/flps2vram.h"
+#include "structs.h"
 #include "unknown.h"
 #include <cri_mw.h>
 #include <sifdev.h>

@@ -1,5 +1,6 @@
 #include "sf33rd/Source/Game/AcrUtil.h"
 #include "common.h"
+#include "structs.h"
 
 #define REINTERPRET_AS_U32(_num) (*(u32 *)&_num)
 

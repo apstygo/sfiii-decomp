@@ -8,6 +8,7 @@
 #include "sf33rd/Source/Game/DC_Ghost.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/SYS_sub2.h"
+#include "structs.h"
 #include "unknown.h"
 #include <memory.h>
 

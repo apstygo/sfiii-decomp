@@ -1,4 +1,5 @@
 #include "common.h"
+#include "structs.h"
 #include "unknown.h"
 
 struct internal_state {
@@ -19,41 +20,35 @@ ZLIB zlib; // size: 0x78, address: 0x57A780
 void *zlib_Malloc(void *, u32, u32);
 void zlib_Free(void *, void *); // size: 0x0, address: 0x3B77C0
 
-void zlib_Initialize(void* tempAdrs, s32 tempSize) {
+void zlib_Initialize(void *tempAdrs, s32 tempSize) {
     if (tempAdrs == NULL) {
         while (1) {}
     }
-    
-    mmHeapInitialize(
-        &zlib.mobj, 
-        tempAdrs, 
-        tempSize, 
-        0x10, 
-        "- for zlib -"
-    );
-    
+
+    mmHeapInitialize(&zlib.mobj, tempAdrs, tempSize, 0x10, "- for zlib -");
+
     zlib.info.zalloc = zlib_Malloc;
     zlib.info.zfree = zlib_Free;
     zlib.info.opaque = NULL;
 }
 
-void* zlib_Malloc(void* opaque, u32 items, u32 size) {
+void *zlib_Malloc(void *opaque, u32 items, u32 size) {
     opaque = opaque;
     return mmAlloc(&zlib.mobj, size * items, 0);
 }
 
-void zlib_Free(void* opaque, void* adrs) {
+void zlib_Free(void *opaque, void *adrs) {
     opaque = opaque;
-    mmFree(&zlib.mobj, (u8*)adrs);
+    mmFree(&zlib.mobj, (u8 *)adrs);
 }
 
-s32 zlib_Decompress(void* srcBuff, s32 srcSize, void* dstBuff, s32 dstSize) {
+s32 zlib_Decompress(void *srcBuff, s32 srcSize, void *dstBuff, s32 dstSize) {
     zlib.info.next_in = srcBuff;
     zlib.info.avail_in = srcSize;
     zlib.info.next_out = dstBuff;
     zlib.info.avail_out = dstSize;
     zlib.state = 0;
-    
+
     if (inflateInit_(&zlib.info, ZLIB_VERSION, 0x48) != 0) {
         return 0;
     }

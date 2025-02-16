@@ -8,6 +8,7 @@
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/texgroup.h"
+#include "structs.h"
 
 f32 Keep_Zoom_X;
 s8 Test_Cursor;

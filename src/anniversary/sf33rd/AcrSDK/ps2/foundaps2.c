@@ -7,6 +7,7 @@
 #include "sf33rd/AcrSDK/ps2/flps2asm.h"
 #include "sf33rd/AcrSDK/ps2/flps2dma.h"
 #include "sf33rd/AcrSDK/ps2/flps2etc.h"
+#include "structs.h"
 #include "unknown.h"
 #include <eekernel.h>
 #include <libcdvd.h>

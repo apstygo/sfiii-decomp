@@ -7,6 +7,7 @@
 #include "sf33rd/Source/Game/end_data.h"
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/n_input.h"
+#include "structs.h"
 #include "unknown.h"
 
 u8 letter_stack[40];

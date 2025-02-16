@@ -8,6 +8,7 @@
 #include "sf33rd/Source/Game/SYS_sub2.h"
 #include "sf33rd/Source/Game/op_sub.h"
 #include "sf33rd/Source/Game/texgroup.h"
+#include "structs.h"
 #include "unknown.h"
 
 void CAPLOGO_Init();

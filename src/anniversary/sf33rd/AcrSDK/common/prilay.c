@@ -1,6 +1,7 @@
 #include "sf33rd/AcrSDK/common/prilay.h"
 #include "common.h"
 #include "mw_stdarg.h"
+#include "structs.h"
 #include <stdio.h>
 
 s8 plReportMessage[2048];

@@ -2,6 +2,7 @@
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/texgroup.h"
+#include "structs.h"
 
 u8 Reset_Status[2];
 u8 RESET_X;

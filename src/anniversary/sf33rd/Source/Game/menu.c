@@ -8,6 +8,7 @@
 #include "sf33rd/Source/Game/SysDir.h"
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/texgroup.h"
+#include "structs.h"
 #include "unknown.h"
 
 void After_Title(struct _TASK *task_ptr);

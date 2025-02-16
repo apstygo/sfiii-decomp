@@ -39,6 +39,7 @@
 #include "sf33rd/Source/Game/spgauge.h"
 #include "sf33rd/Source/Game/stun.h"
 #include "sf33rd/Source/Game/ta_sub.h"
+#include "structs.h"
 #include "unknown.h"
 
 void Wait_Auto_Load(struct _TASK * /* unused */);

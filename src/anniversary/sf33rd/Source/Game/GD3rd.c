@@ -3,6 +3,7 @@
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "sf33rd/Source/Common/FileSizeAFS.h"
 #include "sf33rd/Source/Game/texgroup.h"
+#include "structs.h"
 #include "unknown.h"
 #include <cri_mw.h>
 #include <libcdvd.h>

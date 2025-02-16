@@ -1,5 +1,6 @@
 #include "sf33rd/AcrSDK/common/mlPAD.h"
 #include "common.h"
+#include "structs.h"
 #include "unknown.h"
 
 const u8 fllever_flip_data[4][16] = {
