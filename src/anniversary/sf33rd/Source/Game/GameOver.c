@@ -1,6 +1,11 @@
 #include "common.h"
+#include "sf33rd/Source/Game/SE.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
+#include "sf33rd/Source/Game/Sound3rd.h"
+#include "sf33rd/Source/Game/bg_sub.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
+#include "sf33rd/Source/Game/effect_init.h"
+#include "sf33rd/Source/Game/sc_sub.h"
 #include "unknown.h"
 
 u8 GAME_OVER_X; // size: 0x1, address: 0x579078

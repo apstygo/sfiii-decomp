@@ -1,13 +1,29 @@
 #include "sf33rd/Source/Game/menu.h"
 #include "common.h"
+#include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/EX_DATA.h"
 #include "sf33rd/Source/Game/Entry.h"
+#include "sf33rd/Source/Game/GD3rd.h"
+#include "sf33rd/Source/Game/Game.h"
 #include "sf33rd/Source/Game/Grade.h"
+#include "sf33rd/Source/Game/MMTMCNT.h"
+#include "sf33rd/Source/Game/PulPul.h"
+#include "sf33rd/Source/Game/RAMCNT.h"
+#include "sf33rd/Source/Game/SE.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/SYS_sub2.h"
+#include "sf33rd/Source/Game/Saver.h"
+#include "sf33rd/Source/Game/Sound3rd.h"
 #include "sf33rd/Source/Game/SysDir.h"
+#include "sf33rd/Source/Game/VM_SUB.h"
+#include "sf33rd/Source/Game/bg_sub.h"
+#include "sf33rd/Source/Game/color3rd.h"
+#include "sf33rd/Source/Game/effect_init.h"
 #include "sf33rd/Source/Game/main.h"
+#include "sf33rd/Source/Game/sc_sub.h"
 #include "sf33rd/Source/Game/texgroup.h"
+#include "sf33rd/Source/PS2/mc/savesub.h"
+#include "sf33rd/Source/PS2/reboot.h"
 #include "structs.h"
 #include "unknown.h"
 
@@ -1453,7 +1469,7 @@ void Load_Replay_Sub(struct _TASK *task_ptr) {
             task_ptr->r_no[3] += 1;
             bgPalCodeOffset[0] = 0x90;
             BGM_Request(51);
-            Purge_memory_of_kind_of_key(0xCU);
+            Purge_memory_of_kind_of_key(0xC);
             Push_LDREQ_Queue_Player(0, My_char[0]);
             Push_LDREQ_Queue_Player(1, My_char[1]);
             Push_LDREQ_Queue_BG((u16)bg_w.stage);

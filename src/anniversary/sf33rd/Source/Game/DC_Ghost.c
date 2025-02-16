@@ -1,8 +1,12 @@
 #include "sf33rd/Source/Game/DC_Ghost.h"
 #include "common.h"
+#include "sf33rd/AcrSDK/ps2/flps2render.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "sf33rd/Source/Common/PPGFile.h"
 #include "sf33rd/Source/Game/AcrUtil.h"
+#include "sf33rd/Source/Game/aboutspr.h"
+#include "sf33rd/Source/Game/color3rd.h"
+#include "sf33rd/Source/PS2/ps2Quad.h"
 #include "structs.h"
 #include "unknown.h"
 #include <libvu0.h>

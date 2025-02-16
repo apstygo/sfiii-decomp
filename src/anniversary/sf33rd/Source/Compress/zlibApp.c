@@ -1,4 +1,5 @@
 #include "common.h"
+#include "sf33rd/Source/Common/MemMan.h"
 #include "structs.h"
 #include "unknown.h"
 

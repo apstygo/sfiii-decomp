@@ -1,8 +1,11 @@
 #include "common.h"
 #include "sf33rd/Source/Game/Game.h"
 #include "sf33rd/Source/Game/Grade.h"
+#include "sf33rd/Source/Game/MMTMCNT.h"
 #include "sf33rd/Source/Game/PLS02.h"
+#include "sf33rd/Source/Game/SE.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
+#include "sf33rd/Source/Game/Sound3rd.h"
 #include "sf33rd/Source/Game/SysDir.h"
 #include "unknown.h"
 

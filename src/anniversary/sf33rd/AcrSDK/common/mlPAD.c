@@ -1,5 +1,6 @@
 #include "sf33rd/AcrSDK/common/mlPAD.h"
 #include "common.h"
+#include "sf33rd/AcrSDK/ps2/ps2PAD.h"
 #include "structs.h"
 #include "unknown.h"
 

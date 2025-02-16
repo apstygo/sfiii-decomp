@@ -2,9 +2,13 @@
 #include "common.h"
 #include "sf33rd/AcrSDK/common/plcommon.h"
 #include "sf33rd/AcrSDK/ps2/flps2asm.h"
+#include "sf33rd/AcrSDK/ps2/flps2render.h"
 #include "sf33rd/AcrSDK/ps2/flps2vram.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
+#include "sf33rd/Source/Common/MemMan.h"
+#include "sf33rd/Source/Compress/Lz77/Lz77Dec.h"
 #include "sf33rd/Source/Compress/zlibApp.h"
+#include "sf33rd/Source/PS2/ps2Quad.h"
 #include "structs.h"
 
 #define MAGIC_TO_INT(str) ((str[0] << 0x18) | (str[1] << 0x10) | (str[2] << 0x8) | (str[3]))

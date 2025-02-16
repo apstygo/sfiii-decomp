@@ -2,7 +2,9 @@
 #include "sf33rd/Source/Game/DC_Ghost.h"
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/OPENING.h"
+#include "sf33rd/Source/Game/SE.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
+#include "sf33rd/Source/Game/Sound3rd.h"
 #include "sf33rd/Source/Game/op_sub.h"
 #include "unknown.h"
 
