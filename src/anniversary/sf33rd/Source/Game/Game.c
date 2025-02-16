@@ -55,7 +55,6 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
-#include "unknown.h"
 
 void Wait_Auto_Load(struct _TASK * /* unused */);
 void Loop_Demo(struct _TASK * /* unused */);

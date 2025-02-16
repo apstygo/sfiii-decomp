@@ -1,8 +1,8 @@
 #ifndef TEXGROUP_H
 #define TEXGROUP_H
 
+#include "structs.h"
 #include "types.h"
-#include "unknown.h"
 
 void q_ldreq_texture_group(REQ *curr);
 void Init_texgrplds_work();

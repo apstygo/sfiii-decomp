@@ -13,7 +13,6 @@
 #include "sf33rd/AcrSDK/ps2/flps2vram.h"
 #include "sf33rd/AcrSDK/ps2/ps2PAD.h"
 #include "structs.h"
-#include "unknown.h"
 #include <eekernel.h>
 #include <libcdvd.h>
 #include <libdma.h>

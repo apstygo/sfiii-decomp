@@ -33,7 +33,6 @@
 #include "sf33rd/Source/PS2/mc/savesub.h"
 #include "sf33rd/Source/PS2/reboot.h"
 #include "structs.h"
-#include "unknown.h"
 
 void After_Title(struct _TASK *task_ptr);
 void In_Game(struct _TASK *task_ptr);

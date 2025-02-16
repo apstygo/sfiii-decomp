@@ -2,8 +2,8 @@
 #define PRILAY_H
 
 #include "plcommon.h"
+#include "structs.h"
 #include "types.h"
-#include "unknown.h"
 
 extern void *(*plmalloc)(s32);
 extern void (*plfree)(void *);

@@ -1,8 +1,8 @@
 #ifndef GD3RD_H
 #define GD3RD_H
 
+#include "structs.h"
 #include "types.h"
-#include "unknown.h"
 
 extern s16 plt_req[2];
 extern const u8 lpr_wrdata[3];

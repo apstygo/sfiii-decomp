@@ -1,6 +1,5 @@
 #include "sf33rd/AcrSDK/common/pltim2.h"
 #include "common.h"
-#include "unknown.h"
 
 static s32 CheckTIM2FileHeader(u8 *lpTim2FileHead);
 static u32 InputTim2AlignRegulation(u8 *lpTim2FileHead, u32 size);

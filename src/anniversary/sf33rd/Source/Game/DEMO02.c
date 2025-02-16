@@ -11,7 +11,6 @@
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/workuser.h"
-#include "unknown.h"
 
 void Demo00();
 void Demo01();

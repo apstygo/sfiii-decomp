@@ -17,7 +17,6 @@
 #include "sf33rd/Source/Game/sc_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
-#include "unknown.h"
 
 u8 letter_stack[40];
 u8 letter_counter;

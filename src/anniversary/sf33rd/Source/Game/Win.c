@@ -14,7 +14,6 @@
 #include "sf33rd/Source/Game/effect_init.h"
 #include "sf33rd/Source/Game/texgroup.h"
 #include "sf33rd/Source/Game/workuser.h"
-#include "unknown.h"
 
 void Win_1st();
 void Win_2nd();

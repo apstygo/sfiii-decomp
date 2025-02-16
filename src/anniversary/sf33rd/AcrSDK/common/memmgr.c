@@ -1,7 +1,6 @@
 #include "sf33rd/AcrSDK/common/memmgr.h"
 #include "common.h"
 #include "sf33rd/AcrSDK/common/prilay.h"
-#include "unknown.h"
 
 #define ALIGN(ptr, len, alignment) ((~(alignment - 1)) & ((u32)(ptr) + len + alignment - 1))
 #define ALIGN_DOWN(ptr, len, alignment) ((~(alignment - 1)) & ((u32)(ptr) - len))

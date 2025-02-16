@@ -30,7 +30,6 @@
 #include "sf33rd/Source/PS2/mc/mcsub.h"
 #include "sf33rd/Source/PS2/ps2Quad.h"
 #include "structs.h"
-#include "unknown.h"
 #include <memory.h>
 
 void distributeScratchPadAddress();

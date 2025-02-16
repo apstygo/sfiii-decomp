@@ -13,7 +13,6 @@
 #include "sf33rd/AcrSDK/ps2/flps2vram.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "structs.h"
-#include "unknown.h"
 #include <cri_mw.h>
 #include <sifdev.h>
 #include <stdio.h>

@@ -1,7 +1,6 @@
 #include "sf33rd/AcrSDK/common/plbmp.h"
 #include "common.h"
 #include "sf33rd/AcrSDK/common/prilay.h"
-#include "unknown.h"
 
 #define BMP_MAGIC 0x4D42
 #define U16_AT(_ptr, _offset) (((u16 *)_ptr)[_offset])

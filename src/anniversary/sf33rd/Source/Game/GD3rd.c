@@ -10,7 +10,6 @@
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/texgroup.h"
 #include "structs.h"
-#include "unknown.h"
 #include <cri_mw.h>
 #include <libcdvd.h>
 #include <libgraph.h>

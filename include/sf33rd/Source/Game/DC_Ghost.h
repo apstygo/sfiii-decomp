@@ -1,8 +1,8 @@
 #ifndef DC_GHOST_H
 #define DC_GHOST_H
 
+#include "structs.h"
 #include "types.h"
-#include "unknown.h"
 
 void njUnitMatrix(MTX *mtx);
 void njGetMatrix(MTX *m);

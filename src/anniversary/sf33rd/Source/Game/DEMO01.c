@@ -8,7 +8,6 @@
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/op_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
-#include "unknown.h"
 
 s16 Title() {
     s16 xx = 0;

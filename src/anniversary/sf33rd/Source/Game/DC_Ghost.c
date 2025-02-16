@@ -8,7 +8,6 @@
 #include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/PS2/ps2Quad.h"
 #include "structs.h"
-#include "unknown.h"
 #include <libvu0.h>
 
 #define NTH_BYTE(value, n) ((((value >> n * 8) & 0xFF) << n * 8))

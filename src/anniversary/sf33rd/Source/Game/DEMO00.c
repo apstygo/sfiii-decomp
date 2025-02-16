@@ -18,7 +18,6 @@
 #include "sf33rd/Source/Game/texgroup.h"
 #include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
-#include "unknown.h"
 
 void CAPLOGO_Init();
 s16 CAPLOGO_Move(u16 type);
