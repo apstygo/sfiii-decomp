@@ -1,7 +1,10 @@
 #ifndef RAMCNT_H
 #define RAMCNT_H
 
+#include "structs.h"
 #include "types.h"
+
+extern RCKeyWork rckey_work[64]; // size: 0x300, address: 0x5E5600
 
 void disp_ramcnt_free_area();
 void Init_ram_control_work(u8 *adrs, s32 size);

@@ -1,7 +1,12 @@
 #ifndef BG_H
 #define BG_H
 
+#include "structs.h"
 #include "types.h"
+
+extern s32 bgPalCodeOffset[8]; // size: 0x20, address: 0x578AA0
+
+extern BG bg_w; // size: 0x428, address: 0x595830
 
 void Bg_TexInit();       // Range: 0x16BA90 -> 0x16BB34
 void Pause_Family_On();  // Range: 0x170290 -> 0x170320

@@ -1,7 +1,10 @@
 #ifndef PULPUL_H
 #define PULPUL_H
 
+#include "structs.h"
 #include "types.h"
+
+extern PPWORK ppwork[2]; // size: 0x68, address: 0x579610
 
 void init_pulpul_work();
 void pulpul_stop();

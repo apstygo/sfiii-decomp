@@ -1,7 +1,10 @@
 #ifndef RANKING_H
 #define RANKING_H
 
+#include "structs.h"
 #include "types.h"
+
+extern RANK_DATA Ranking_Data[20]; // size: 0x190, address: 0x5E5900
 
 s32 Ranking();
 

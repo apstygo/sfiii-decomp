@@ -1,7 +1,10 @@
 #include "common.h"
 #include "sf33rd/Source/Game/SE.h"
+#include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/bg_data.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/effect_init.h"
+#include "sf33rd/Source/Game/workuser.h"
 #include "unknown.h"
 
 u8 CONTINUE_X; // size: 0x1, address: 0x578E50

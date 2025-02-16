@@ -33,8 +33,10 @@
 #include "sf33rd/Source/Game/SysDir.h"
 #include "sf33rd/Source/Game/TATE00.h"
 #include "sf33rd/Source/Game/VITAL.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/Win.h"
 #include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/bg_data.h"
 #include "sf33rd/Source/Game/bg_sub.h"
 #include "sf33rd/Source/Game/cmb_win.h"
 #include "sf33rd/Source/Game/color3rd.h"
@@ -51,6 +53,7 @@
 #include "sf33rd/Source/Game/stun.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
+#include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
 #include "unknown.h"
 

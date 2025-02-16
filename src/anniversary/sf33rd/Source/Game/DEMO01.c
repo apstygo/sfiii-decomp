@@ -5,7 +5,9 @@
 #include "sf33rd/Source/Game/SE.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/Sound3rd.h"
+#include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/op_sub.h"
+#include "sf33rd/Source/Game/workuser.h"
 #include "unknown.h"
 
 s16 Title() {

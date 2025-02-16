@@ -3,6 +3,9 @@
 
 #include "types.h"
 
+extern s16 bgm_level; // size: 0x2, address: 0x5798D0
+extern s16 se_level;  // size: 0x2, address: 0x5798D4
+
 void Init_sound_system();
 s32 sndCheckVTransStatus(s32 type);
 void sndInitialLoad();

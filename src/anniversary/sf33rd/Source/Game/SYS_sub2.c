@@ -1,5 +1,6 @@
 #include "sf33rd/Source/Game/SYS_sub2.h"
 #include "common.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
 #include "unknown.h"
 
 u8 dspwhPack(u8 xdsp, u8 ydsp) {

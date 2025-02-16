@@ -1,7 +1,10 @@
 #ifndef SYS_SUB_H
 #define SYS_SUB_H
 
+#include "structs.h"
 #include "types.h"
+
+extern const struct _SAVE_W Game_Default_Data; // size: 0x208, address: 0x5544C0
 
 void Switch_Screen_Init(s32 /* unused */);         // Range: 0x3A1C50 -> 0x3A1C98
 s32 Switch_Screen(u8 Wipe_Type);                   // Range: 0x3A1CA0 -> 0x3A1D08

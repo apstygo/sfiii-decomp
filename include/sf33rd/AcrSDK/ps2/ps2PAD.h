@@ -1,7 +1,10 @@
 #ifndef PS2PAD_H
 #define PS2PAD_H
 
+#include "structs.h"
 #include "types.h"
+
+extern TARPAD tarpad_root[2]; // size: 0x68, address: 0x57B040
 
 s32 flPS2PADModuleInit();
 s32 tarPADInit();

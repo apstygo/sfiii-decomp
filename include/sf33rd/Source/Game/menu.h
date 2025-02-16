@@ -1,7 +1,8 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include "unknown.h"
+#include "structs.h"
+#include "types.h"
 
 void Menu_Task(struct _TASK *task_ptr);
 void Menu_Init(struct _TASK *task_ptr);

@@ -1,7 +1,15 @@
 #ifndef PLCNT_H
 #define PLCNT_H
 
+#include "structs.h"
 #include "types.h"
+
+extern const s8 plid_data[20]; // size: 0x14, address: 0x54B230
+
+extern s16 appear_type; // size: 0x2, address: 0x5795C8
+extern s16 pcon_rno[4]; // size: 0x8, address: 0x5795D0
+
+extern PLW plw[2]; // size: 0x8D8, address: 0x5E4D20
 
 void Player_control();
 void reqPlayerDraw();

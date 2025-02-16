@@ -1,9 +1,12 @@
 #include "sf33rd/Source/Game/texgroup.h"
 #include "common.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
+#include "sf33rd/Source/Game/CHARID.h"
 #include "sf33rd/Source/Game/GD3rd.h"
+#include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/RAMCNT.h"
 #include "sf33rd/Source/Game/chren3rd.h"
+#include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "structs.h"
 

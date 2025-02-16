@@ -1,8 +1,10 @@
 #ifndef PPGFILE_H
 #define PPGFILE_H
 
+#include "structs.h"
 #include "types.h"
-#include "unknown.h"
+
+extern s16 *dctex_linear; // size: 0x4, address: 0x57A950
 
 void ppg_Initialize(void *lcmAdrs, s32 lcmSize);
 void ppgSourceDataReleased(PPGDataList *dlist);
