@@ -40,7 +40,7 @@ __asm__(".include \"include/cri_macro.inc\"\n");
 #include <stdio.h>
 #include <stdlib.h>
 
-void not_implemented(const s8* func) {
+void not_implemented(const s8* func) __dead2 {
     fprintf(stderr, "Function not implemented: %s\n", func);
     abort();
 }
