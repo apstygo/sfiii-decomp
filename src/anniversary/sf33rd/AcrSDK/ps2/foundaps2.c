@@ -1,8 +1,9 @@
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "common.h"
-#include "mw_stdarg.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/acrmw.h"
+#include "sf33rd/AcrSDK/common/fbms.h"
+#include "sf33rd/AcrSDK/common/memfound.h"
 #include "sf33rd/AcrSDK/common/mlPAD.h"
 #include "sf33rd/AcrSDK/common/prilay.h"
 #include "sf33rd/AcrSDK/ps2/flps2asm.h"
@@ -18,11 +19,17 @@
 #include <libdma.h>
 #include <libgraph.h>
 #include <libvu0.h>
-#include <malloc.h>
 #include <sifdev.h>
 #include <sifprc.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+
+#if defined(TARGET_PS2)
+#include "mw_stdarg.h"
+#else
+#include <stdarg.h>
+#endif
 
 static s32 system_work_init();
 static s32 system_hard_init();
@@ -152,7 +159,10 @@ void flPS2VSyncCallback() {
     }
 
     flmwVSyncCallback();
+
+#if defined(TARGET_PS2)
     ExitHandler();
+#endif
 }
 
 u32 flPS2CheckDbChangeFlag() {

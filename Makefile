@@ -41,9 +41,12 @@ GENERATE_LCF := $(PYTHON) -m tools.lcf.generate_lcf
 
 # Flags
 
-INCLUDES := -I$(INCLUDE_DIR) -I$(INCLUDE_DIR)/gcc -I$(INCLUDE_DIR)/sdk -I$(INCLUDE_DIR)/cri -I$(INCLUDE_DIR)/cri/ee
-MWCCPS2_FLAGS := -gccinc $(INCLUDES) -O0,p -c -lang c -str readonly -fl divbyzerocheck -sdatathreshold 128 -D__mips64
-EEGCC_FLAGS := $(INCLUDES) -O2 -G0 -c
+COMMON_INCLUDES := -I$(INCLUDE_DIR) -I$(INCLUDE_DIR)/sdk -I$(INCLUDE_DIR)/cri -I$(INCLUDE_DIR)/cri/ee
+PS2_INCLUDES := $(COMMON_INCLUDES) -I$(INCLUDE_DIR)/gcc
+SDL2_INCLUDES := $(COMMON_INCLUDES)
+PS2_DEFINES := -DTARGET_PS2
+MWCCPS2_FLAGS := -gccinc $(PS2_INCLUDES) -O0,p -c -lang c -str readonly -fl divbyzerocheck -sdatathreshold 128 $(PS2_DEFINES) -D__mips64
+EEGCC_FLAGS := $(PS2_INCLUDES) -O2 -G0 -c $(PS2_DEFINES)
 
 AS_FLAGS += -EL -I $(INCLUDE_DIR) -G 128 -march=r5900 -mabi=eabi -no-pad-sections
 LD_FLAGS := -main func_00100008 -map
@@ -118,3 +121,6 @@ $(MWCCPS2):
 $(EEGCC):
 	@mkdir -p $(BIN_DIR)
 	wget -O- https://github.com/decompme/compilers/releases/download/compilers/$(EE_COMPILER_TAR) | tar xJv -C $(BIN_DIR)
+
+build_macos:
+	clang $(GAME_C_FILES) -o $(BUILD_DIR)/sf33rd $(SDL2_INCLUDES) -DTARGET_SDL2 -Wno-c2x-extensions -w -std=c99

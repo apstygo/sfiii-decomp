@@ -9,6 +9,7 @@
 #include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/texgroup.h"
+#include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
 #include <cri_mw.h>
 #include <libcdvd.h>
@@ -52,6 +53,8 @@ s32 Push_LDREQ_Queue(REQ *ldreq);
 void Push_LDREQ_Queue_Metamor();
 void q_ldreq_error(REQ *curr);
 void disp_ldreq_status();
+void Push_LDREQ_Queue_Union(s16 ix);
+s32 Check_LDREQ_Queue_Union(s16 ix);
 
 // forward decls
 const LDREQ_Process_Func ldreq_process[6];
@@ -357,13 +360,13 @@ void Push_LDREQ_Queue_Player(s16 id, s16 ix) {
     }
 }
 
-#if 0
+#if defined(TARGET_PS2)
+INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/GD3rd", Push_LDREQ_Queue_BG);
+#else
 void Push_LDREQ_Queue_BG(s16 ix) {
     Push_LDREQ_Queue_Union(ix + 20);
     Push_LDREQ_Queue_Metamor();
 }
-#else
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/GD3rd", Push_LDREQ_Queue_BG);
 #endif
 
 void Push_LDREQ_Queue_Union(s16 ix) {
@@ -388,7 +391,9 @@ void Push_LDREQ_Queue_Union(s16 ix) {
     }
 }
 
-#if 0
+#if defined(TARGET_PS2)
+INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/GD3rd", Push_LDREQ_Queue_Metamor);
+#else
 void Push_LDREQ_Queue_Metamor() {
     switch ((My_char[0] == 0x12) + (My_char[1] == 0x12) * 2) {
     case 1:
@@ -404,8 +409,6 @@ void Push_LDREQ_Queue_Metamor() {
         break;
     }
 }
-#else
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/GD3rd", Push_LDREQ_Queue_Metamor);
 #endif
 
 void Push_LDREQ_Queue_Direct(s16 ix, s16 id) {
@@ -528,12 +531,12 @@ s32 Check_LDREQ_Queue_Player(s16 id) {
     return 1;
 }
 
-#if 0
+#if defined(TARGET_PS2)
+INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/GD3rd", Check_LDREQ_Queue_BG);
+#else
 s32 Check_LDREQ_Queue_BG(s16 ix) {
     return Check_LDREQ_Queue_Union(ix + 20);
 }
-#else
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/GD3rd", Check_LDREQ_Queue_BG);
 #endif
 
 s32 Check_LDREQ_Queue_Union(s16 ix) {

@@ -18,6 +18,21 @@
 #include <stdio.h>
 #include <string.h>
 
+#if !defined(TARGET_PS2)
+#include <ctype.h>
+
+s8 *strupr(s8 *s) {
+    s8 *p = s;
+
+    while (*p) {
+        *p = toupper((u8)*p);
+        p++;
+    }
+
+    return s;
+}
+#endif
+
 void flCompact();
 void flPS2ConvertAlpha(void *lpPtr, s32 width, s32 height);
 u32 flCreateTextureFromApx(s8 *apx_file, u32 flag);

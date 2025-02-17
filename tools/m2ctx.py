@@ -21,6 +21,7 @@ CPP_FLAGS = [
     "-D_MIPS_SZLONG=32",
     "-D__mips64",
     "-DM2CTX",
+    "-DTARGET_PS2",
     "-ffreestanding",
     "-nostdinc",
 ]

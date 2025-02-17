@@ -59,6 +59,7 @@ def main():
             use_cpp=True,
             cpp_args=[
                 "-DM2CTX",
+                "-DTARGET_PS2",
                 "-Iinclude", 
                 "-Iinclude/sdk",
                 "-Iinclude/cri",

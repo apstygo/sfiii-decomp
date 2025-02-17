@@ -10,5 +10,6 @@ void appSetupTempPriority();
 void seqsInitialize(void *adrs);
 void seqsBeforeProcess();
 void seqsAfterProcess();
+u32 seqsGetUseMemorySize();
 
 #endif

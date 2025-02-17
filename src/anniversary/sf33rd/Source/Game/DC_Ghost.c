@@ -67,6 +67,7 @@ void njScale(MTX *mtx, f32 x, f32 y, f32 z) {
         mtx = &cmtx;
     }
 
+#if defined(TARGET_PS2)
     __asm__ __volatile__("lqc2       vf8,  0x0(%0) \n"
                          "lqc2       $vf4, 0x0(%1) \n"
                          "lqc2       $vf5, 0x10(%1) \n"
@@ -82,6 +83,9 @@ void njScale(MTX *mtx, f32 x, f32 y, f32 z) {
                          :
                          : "r"(v0), "r"(mtx)
                          : "memory");
+#else
+    not_implemented(__func__);
+#endif
 }
 
 void njTranslate(MTX *mtx, f32 x, f32 y, f32 z) {
@@ -89,6 +93,7 @@ void njTranslate(MTX *mtx, f32 x, f32 y, f32 z) {
         mtx = &cmtx;
     }
 
+#if defined(TARGET_PS2)
     __asm__ __volatile__("mfc1       $t0, %1 \n"
                          "mfc1       $t1, %3 \n"
                          "pextlw     $t0, $t1, $t0 \n"
@@ -111,6 +116,9 @@ void njTranslate(MTX *mtx, f32 x, f32 y, f32 z) {
                          :
                          : "r"(mtx), "f"(x), "f"(y), "f"(z)
                          : "t0", "t1", "memory");
+#else
+    not_implemented(__func__);
+#endif
 }
 
 void njSetBackColor(u32 c0, u32 c1, u32 c2) {
@@ -136,6 +144,7 @@ void njCalcPoint(MTX *mtx, Point *ps, Point *pd) {
     v0[2] = ps->z;
     v0[3] = 1.0f;
 
+#if defined(TARGET_PS2)
     __asm__ __volatile__("lqc2    $vf8, 0(%1) \n"
                          "lqc2    $vf4, 0(%0) \n"
                          "lqc2    $vf5, 0x10(%0) \n"
@@ -149,6 +158,10 @@ void njCalcPoint(MTX *mtx, Point *ps, Point *pd) {
                          :
                          : "r"(mtx), "r"(v0), "f"(pd)
                          : "memory");
+
+#else
+    not_implemented(__func__);
+#endif
 
     pd->x = v0[0];
     pd->y = v0[1];

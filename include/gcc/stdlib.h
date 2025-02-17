@@ -1,5 +1,5 @@
-#ifndef _MALLOC_H
-#define _MALLOC_H
+#ifndef _STD_LIB_H
+#define _STD_LIB_H
 
 #include "types.h"
 

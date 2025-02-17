@@ -6,7 +6,7 @@
 #define NULL 0
 
 // Compilation with GNU C Compilier means we are compiling CRI
-#if defined(__GNUC__) && !defined(M2CTX)
+#if defined(__GNUC__) && !defined(M2CTX) && !defined(TARGET_SDL2)
 #define INCLUDE_ASM(FOLDER, NAME)                                                                                      \
     __asm__("\t.text\n"                                                                                                \
             "\t.align\t3\n"                                                                                            \
@@ -32,6 +32,18 @@ __asm__(".include \"include/cri_macro.inc\"\n");
 #else
 
 #define ATTR_ALIGNED(value) __attribute__((aligned(value)))
+
+#endif
+
+#if !defined(TARGET_PS2)
+
+#include <stdio.h>
+#include <stdlib.h>
+
+void not_implemented(const s8* func) {
+    fprintf(stderr, "Function not implemented: %s\n", func);
+    abort();
+}
 
 #endif
 
