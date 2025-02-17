@@ -551,7 +551,7 @@ segments:
       - [0x2BFF30, asm, sf33rd/Source/Game/debug/OBJTEST] # Good first decomp
       - [0x2C0100, asm, sf33rd/Source/Common/MemMan] # Good first decomp
       - [0x2C0660, c, sf33rd/Source/Common/PPGFile]
-      - [0x2C55F0, asm, sf33rd/Source/PS2/ps2Quad]
+      - [0x2C55F0, c, sf33rd/Source/PS2/ps2Quad]
       - [0x2C6E10, asm, sf33rd/AcrSDK/MiddleWare/PS2/acrmw] # Good first decomp
 
       - [0x2C6F58, c, cri/libadxe/adx_amp]
