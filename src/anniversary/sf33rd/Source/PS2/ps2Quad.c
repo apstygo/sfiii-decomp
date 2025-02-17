@@ -1,8 +1,12 @@
 #include "common.h"
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/ps2Quad", ps2SeqsRenderQuadInit_A);
+void ps2SeqsRenderQuadInit_A() {
+    // Do nothing
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/ps2Quad", ps2SeqsRenderQuadInit_B);
+void ps2SeqsRenderQuadInit_B() {
+    // Do nothing
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/ps2Quad", ps2SeqsRenderQuad_Ax);
 
