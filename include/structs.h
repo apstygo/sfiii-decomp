@@ -1639,6 +1639,15 @@ typedef struct {
 } Sprite;
 
 typedef struct {
+    // total size: 0x34
+    Point v[2];    // offset 0x0, size 0x18
+    TexCoord t[2]; // offset 0x18, size 0x10
+    u32 vtxColor;  // offset 0x28, size 0x4
+    u32 texCode;   // offset 0x2C, size 0x4
+    u32 id;        // offset 0x30, size 0x4
+} Sprite2;
+
+typedef struct {
     // total size: 0x8
     f32 x; // offset 0x0, size 0x4
     f32 y; // offset 0x4, size 0x4

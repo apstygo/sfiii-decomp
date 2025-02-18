@@ -2,33 +2,6 @@
 #define __eestruct__
 
 typedef struct {
-    unsigned long long NLOOP : 15;
-    unsigned long long EOP : 1;
-    unsigned long long pad16 : 16;
-    unsigned long long id : 14;
-    unsigned long long PRE : 1;
-    unsigned long long PRIM : 11;
-    unsigned long long FLG : 2;
-    unsigned long long NREG : 4;
-    unsigned long long REGS0 : 4;
-    unsigned long long REGS1 : 4;
-    unsigned long long REGS2 : 4;
-    unsigned long long REGS3 : 4;
-    unsigned long long REGS4 : 4;
-    unsigned long long REGS5 : 4;
-    unsigned long long REGS6 : 4;
-    unsigned long long REGS7 : 4;
-    unsigned long long REGS8 : 4;
-    unsigned long long REGS9 : 4;
-    unsigned long long REGS10 : 4;
-    unsigned long long REGS11 : 4;
-    unsigned long long REGS12 : 4;
-    unsigned long long REGS13 : 4;
-    unsigned long long REGS14 : 4;
-    unsigned long long REGS15 : 4;
-} sceGifTag;
-
-typedef struct {
     unsigned long long FBP : 9;
     unsigned long long pad09 : 7;
     unsigned long long FBW : 6;
@@ -157,6 +130,99 @@ typedef struct {
     unsigned long long XDR : 2;
     unsigned long long pad02 : 62;
 } sceGsTrxdir;
+
+/*-vif1--------------------------------------------------*/
+
+#define SCE_VIF1_SET_CODE(immediate, num, cmd, irq)                                                                    \
+    ((u_int)(immediate) | ((u_int)(num) << 16) | ((u_int)(cmd) << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_NOP(irq) ((u_int)(irq) << 31)
+
+#define SCE_VIF1_SET_STCYCL(wl, cl, irq) ((u_int)(cl) | ((u_int)(wl) << 8) | ((u_int)0x01 << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_OFFSET(offset, irq) ((u_int)(offset) | ((u_int)0x02 << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_BASE(base, irq) ((u_int)(base) | ((u_int)0x03 << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_ITOP(itop, irq) ((u_int)(itop) | ((u_int)0x04 << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_STMOD(stmod, irq) ((u_int)(stmod) | ((u_int)0x05 << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_MSKPATH3(msk, irq) ((u_int)(msk) | ((u_int)0x06 << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_MARK(mark, irq) ((u_int)(mark) | ((u_int)0x07 << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_FLUSHE(irq) (((u_int)0x10 << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_FLUSH(irq) (((u_int)0x11 << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_FLUSHA(irq) (((u_int)0x13 << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_MSCAL(vuaddr, irq) ((u_int)(vuaddr) | ((u_int)0x14 << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_MSCNT(irq) (((u_int)0x17 << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_MSCALF(vuaddr, irq) ((u_int)(vuaddr) | ((u_int)0x15 << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_STMASK(irq) (((u_int)0x20 << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_STROW(irq) (((u_int)0x30 << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_STCOL(irq) (((u_int)0x31 << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_MPG(vuaddr, num, irq)                                                                             \
+    ((u_int)(vuaddr) | ((u_int)(num) << 16) | ((u_int)(0x4a) << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_DIRECT(count, irq) ((u_int)(count) | ((u_int)(0x50) << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_DIRECTHL(count, irq) ((u_int)(count) | ((u_int)(0x51) << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_UNPACK(vuaddr, num, cmd, irq)                                                                     \
+    ((u_int)(vuaddr) | ((u_int)(num) << 16) | ((u_int)(0x60 | (cmd)) << 24) | ((u_int)(irq) << 31))
+
+#define SCE_VIF1_SET_UNPACKR(vuaddr, num, cmd, irq)                                                                    \
+    ((u_int)((vuaddr) | 0x8000) | ((u_int)(num) << 16) | ((u_int)(0x60 | (cmd)) << 24) | ((u_int)(irq) << 31))
+
+/*-gif--------------------------------------------------*/
+
+/* Utility for making giftag */
+typedef struct {
+    unsigned long long NLOOP : 15;
+    unsigned long long EOP : 1;
+    unsigned long long pad16 : 16;
+    unsigned long long id : 14;
+    unsigned long long PRE : 1;
+    unsigned long long PRIM : 11;
+    unsigned long long FLG : 2;
+    unsigned long long NREG : 4;
+    unsigned long long REGS0 : 4;
+    unsigned long long REGS1 : 4;
+    unsigned long long REGS2 : 4;
+    unsigned long long REGS3 : 4;
+    unsigned long long REGS4 : 4;
+    unsigned long long REGS5 : 4;
+    unsigned long long REGS6 : 4;
+    unsigned long long REGS7 : 4;
+    unsigned long long REGS8 : 4;
+    unsigned long long REGS9 : 4;
+    unsigned long long REGS10 : 4;
+    unsigned long long REGS11 : 4;
+    unsigned long long REGS12 : 4;
+    unsigned long long REGS13 : 4;
+    unsigned long long REGS14 : 4;
+    unsigned long long REGS15 : 4;
+} sceGifTag;
+
+#define SCE_GIF_SET_TAG(nloop, eop, pre, prim, flg, nreg)                                                              \
+    ((u_long)(nloop) | ((u_long)(eop) << 15) | ((u_long)(pre) << 46) | ((u_long)(prim) << 47) |                        \
+     ((u_long)(flg) << 58) | ((u_long)(nreg) << 60))
+
+#define SCE_GIF_CLEAR_TAG(tp) (*(u_long128 *)(tp) = (u_long128)0)
+
+#define SCE_GIF_PACKED 0
+#define SCE_GIF_REGLIST 1
+#define SCE_GIF_IMAGE 2
+#define SCE_GIF_PACKED_AD 0x0e
 
 /* Macros for making bit pattern of GS registers */
 
@@ -312,20 +378,20 @@ typedef struct {
 //      ((u_long)(dw) << 32) | ((u_long)(dh) << 44))
 
 // /* PAL, INTERLACE */
-// #define SCE_GS_SET_DISPLAY_INTERLACE(dx, dy, magh, magv, dw, dh)                                                       \
-//     ((u_long)(0x290 + (dx)) | ((u_long)(72 + (dy)) << 12) | ((u_long)(magh) << 23) | ((u_long)(magv) << 27) |          \
+// #define SCE_GS_SET_DISPLAY_INTERLACE(dx, dy, magh, magv, dw, dh) \
+//     ((u_long)(0x290 + (dx)) | ((u_long)(72 + (dy)) << 12) | ((u_long)(magh) << 23) | ((u_long)(magv) << 27) | \
 //      ((u_long)(dw) << 32) | ((u_long)(dh) << 44))
 
 // #else
 
 // /* NTSC, NOINTERLACE */
-// #define SCE_GS_SET_DISPLAY_NOINTERLACE(dx, dy, magh, magv, dw, dh)                                                     \
-//     ((u_long)(0x27c + (dx)) | ((u_long)(25 + (dy)) << 12) | ((u_long)(magh) << 23) | ((u_long)(magv) << 27) |          \
+// #define SCE_GS_SET_DISPLAY_NOINTERLACE(dx, dy, magh, magv, dw, dh) \
+//     ((u_long)(0x27c + (dx)) | ((u_long)(25 + (dy)) << 12) | ((u_long)(magh) << 23) | ((u_long)(magv) << 27) | \
 //      ((u_long)(dw) << 32) | ((u_long)(dh) << 44))
 
 // /* NTSC, INTERLACE */
-// #define SCE_GS_SET_DISPLAY_INTERLACE(dx, dy, magh, magv, dw, dh)                                                       \
-//     ((u_long)(0x27c + (dx)) | ((u_long)(50 + (dy)) << 12) | ((u_long)(magh) << 23) | ((u_long)(magv) << 27) |          \
+// #define SCE_GS_SET_DISPLAY_INTERLACE(dx, dy, magh, magv, dw, dh) \
+//     ((u_long)(0x27c + (dx)) | ((u_long)(50 + (dy)) << 12) | ((u_long)(magh) << 23) | ((u_long)(magv) << 27) | \
 //      ((u_long)(dw) << 32) | ((u_long)(dh) << 44))
 
 // #endif /* GS_PAL_MODE */
@@ -334,8 +400,8 @@ typedef struct {
 
 /* NTSC, INTERLACE */
 #define SCE_GS_SET_DISPLAY_INTERLACE(dx, dy, magh, magv, dw, dh)                                                       \
-    ((u_long)(dx) | ((u_long)(dy) << 12) | ((u_long)(magh) << 23) | ((u_long)(magv) << 27) |          \
-     ((u_long)(dw) << 32) | ((u_long)(dh) << 44))
+    ((u_long)(dx) | ((u_long)(dy) << 12) | ((u_long)(magh) << 23) | ((u_long)(magv) << 27) | ((u_long)(dw) << 32) |    \
+     ((u_long)(dh) << 44))
 
 #define SCE_GS_SET_DISPFB1 SCE_GS_SET_DISPFB
 #define SCE_GS_SET_DISPFB2 SCE_GS_SET_DISPFB
