@@ -191,7 +191,7 @@ void ps2QuadTexture(VecUnk *ptr, u32 num) {
     u32 qwc;
     u32 work;
     u32 data_ptr;
-    Numeric *dma_data;
+    QWORD *dma_data;
     u64 *vtx_data;
     s32 x;
     s32 y;
@@ -208,7 +208,7 @@ void ps2QuadTexture(VecUnk *ptr, u32 num) {
     qwc += work;
     data_ptr = flPS2GetSystemTmpBuff(qwc * 16, 16);
 
-    dma_data = (Numeric *)data_ptr;
+    dma_data = (QWORD *)data_ptr;
     dma_data->UI64[0] = qwc + 0xEFFFFFFF;
     dma_data->UI32[2] = 0x13000000;
     dma_data->UI32[3] = (qwc - 1) | 0x51000000;
