@@ -23,14 +23,14 @@ typedef struct {
 
 typedef struct {
     // total size: 0x54
-    Vec3 v[4];     // offset 0x0, size 0x30
+    Vec3 v[4];      // offset 0x0, size 0x30
     _TexCoord t[4]; // offset 0x30, size 0x20
     u32 texCode;    // offset 0x50, size 0x4
 } _Sprite;
 
 typedef struct {
     // total size: 0x34
-    Vec3 v[2];     // offset 0x0, size 0x18
+    Vec3 v[2];      // offset 0x0, size 0x18
     _TexCoord t[2]; // offset 0x18, size 0x10
     u32 vtxColor;   // offset 0x28, size 0x4
     u32 texCode;    // offset 0x2C, size 0x4
@@ -187,7 +187,66 @@ void ps2SeqsRenderQuad_A(Sprite *spr, u32 col) {
     ps2QuadTexture(vptr, 4);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/ps2Quad", ps2QuadTexture);
+void ps2QuadTexture(VecUnk *ptr, u32 num) {
+    u32 qwc;
+    u32 work;
+    u32 data_ptr;
+    Numeric *dma_data;
+    u64 *vtx_data;
+    s32 x;
+    s32 y;
+    s32 z;
+    u32 col;
+    u8 cA;
+    u8 cR;
+    u8 cG;
+    u8 cB;
+
+    qwc = 4;
+    work = num * 3;
+    work = (work + 1) >> 1;
+    qwc += work;
+    data_ptr = flPS2GetSystemTmpBuff(qwc * 16, 16);
+
+    dma_data = (Numeric *)data_ptr;
+    dma_data->UI64[0] = qwc + 0xEFFFFFFF;
+    dma_data->UI32[2] = 0x13000000;
+    dma_data->UI32[3] = (qwc - 1) | 0x51000000;
+
+    dma_data++;
+    dma_data->UI64[0] = 0x1000000000008001;
+    dma_data->UI64[1] = 0xE;
+
+    dma_data++;
+    dma_data->UI64[0] = 0x54;
+    dma_data->UI64[1] = 0;
+
+    dma_data++;
+    dma_data->UI64[0] = (u_long)num | 0x8000 | 0x400000000000000 | 0x3000000000000000;
+    dma_data->UI64[1] = 0x521;
+
+    dma_data++;
+    vtx_data = (u64 *)dma_data;
+    col = flPS2ConvColor(ptr->c, 0);
+    cA = (col >> 24) & 0xFF;
+    cR = (col >> 16) & 0xFF;
+    cG = (col >> 8) & 0xFF;
+    cB = col & 0xFF;
+    z = flPS2ConvScreenFZ(ptr->vec.z);
+
+    do {
+        *vtx_data++ = SCE_GS_SET_RGBAQ(cR, cG, cB, cA, REINTERPRET_AS_U32(ptr->vec.w));
+        *vtx_data++ = SCE_GS_SET_ST(REINTERPRET_AS_U32(ptr->t.s), REINTERPRET_AS_U32(ptr->t.t));
+
+        x = ptr->vec.x + 0.5f;
+        y = ptr->vec.y + 0.5f;
+        *vtx_data++ = SCE_GS_SET_XYZ((flPs2State.D2dOffsetX + x) << 4, (flPs2State.D2dOffsetY + y) << 4, z);
+
+        ptr++;
+    } while (--num);
+
+    flPS2DmaAddQueue2(0, (data_ptr & 0xFFFFFFF) | 0x40000000, data_ptr, &flPs2VIF1Control);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/ps2Quad", ps2SeqsRenderQuad_B);
 

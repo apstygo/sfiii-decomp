@@ -4,6 +4,7 @@
 #include "types.h"
 
 #define NULL 0
+#define REINTERPRET_AS_U32(_num) (*(u32 *)&(_num))
 
 // Compilation with GNU C Compilier means we are compiling CRI
 #if defined(__GNUC__) && !defined(M2CTX) && !defined(TARGET_SDL2)

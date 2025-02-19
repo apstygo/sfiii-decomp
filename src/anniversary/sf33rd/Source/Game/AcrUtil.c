@@ -4,8 +4,6 @@
 #include "sf33rd/AcrSDK/ps2/flps2render.h"
 #include "structs.h"
 
-#define REINTERPRET_AS_U32(_num) (*(u32 *)&_num)
-
 typedef struct {
     // total size: 0x60
     MTX mtx;     // offset 0x0, size 0x40
