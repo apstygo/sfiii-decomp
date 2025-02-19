@@ -323,7 +323,9 @@ void ps2QuadSolid(VecUnk *ptr, u32 num) {
     flPS2DmaAddQueue2(0, (data_ptr & 0xFFFFFFF) | 0x40000000, data_ptr, &flPs2VIF1Control);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/ps2Quad", ps2SeqsRenderQuadEnd);
+void ps2SeqsRenderQuadEnd() {
+    // Do nothing
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/ps2Quad", getCP3toFullScreenDrawFlag);
 
