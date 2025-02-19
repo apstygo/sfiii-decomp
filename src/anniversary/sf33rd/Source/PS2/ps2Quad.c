@@ -49,6 +49,9 @@ typedef struct {
     TexCoord t; // offset 0x14, size 0x8
 } _VecUnk;
 
+static s32 FilterMode;
+static s32 CP3toPS2DrawFlag;
+
 void ps2QuadTexture(VecUnk *ptr, u32 num);
 void ps2QuadSolid(VecUnk *ptr, u32 num);
 
@@ -327,7 +330,9 @@ void ps2SeqsRenderQuadEnd() {
     // Do nothing
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/ps2Quad", getCP3toFullScreenDrawFlag);
+s32 getCP3toFullScreenDrawFlag() {
+    return CP3toPS2DrawFlag;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/ps2Quad", CP3toPS2DrawOn);
 
