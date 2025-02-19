@@ -334,8 +334,12 @@ s32 getCP3toFullScreenDrawFlag() {
     return CP3toPS2DrawFlag;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/ps2Quad", CP3toPS2DrawOn);
+void CP3toPS2DrawOn() {
+    CP3toPS2DrawFlag = 1;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/ps2Quad", CP3toPS2DrawOff);
+void CP3toPS2DrawOff() {
+    CP3toPS2DrawFlag = 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/ps2Quad", CP3toPS2Draw);
