@@ -29,7 +29,7 @@ typedef struct {
 } PPG_W;
 
 typedef struct {
-    Point v;
+    Vec3 v;
     TexCoord t;
 } _Vertex;
 

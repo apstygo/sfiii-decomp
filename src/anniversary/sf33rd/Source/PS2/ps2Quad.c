@@ -23,14 +23,14 @@ typedef struct {
 
 typedef struct {
     // total size: 0x54
-    Point v[4];     // offset 0x0, size 0x30
+    Vec3 v[4];     // offset 0x0, size 0x30
     _TexCoord t[4]; // offset 0x30, size 0x20
     u32 texCode;    // offset 0x50, size 0x4
 } _Sprite;
 
 typedef struct {
     // total size: 0x34
-    Point v[2];     // offset 0x0, size 0x18
+    Vec3 v[2];     // offset 0x0, size 0x18
     _TexCoord t[2]; // offset 0x18, size 0x10
     u32 vtxColor;   // offset 0x28, size 0x4
     u32 texCode;    // offset 0x2C, size 0x4
@@ -38,7 +38,7 @@ typedef struct {
 } _Sprite2;
 
 typedef struct {
-    Point vec3;
+    Vec3 vec3;
     f32 w;
 } _Vec4;
 

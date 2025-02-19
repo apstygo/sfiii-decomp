@@ -19,7 +19,7 @@ typedef struct {
 
 typedef struct {
     // total size: 0x3C
-    Point v[4]; // offset 0x0, size 0x30
+    Vec3 v[4]; // offset 0x0, size 0x30
     u32 col;    // offset 0x30, size 0x4
     u32 type;   // offset 0x34, size 0x4
     s32 next;   // offset 0x38, size 0x4
@@ -132,7 +132,7 @@ void njColorBlendingMode(s32 target, s32 mode) {
     flSetRenderState(FLRENDER_ALPHABLENDMODE, 0x32);
 }
 
-void njCalcPoint(MTX *mtx, Point *ps, Point *pd) {
+void njCalcPoint(MTX *mtx, Vec3 *ps, Vec3 *pd) {
     f32 v0[4];
 
     if (mtx == NULL) {
@@ -168,7 +168,7 @@ void njCalcPoint(MTX *mtx, Point *ps, Point *pd) {
     pd->z = v0[2];
 }
 
-void njCalcPoints(MTX *mtx, Point *ps, Point *pd, s32 num) {
+void njCalcPoints(MTX *mtx, Vec3 *ps, Vec3 *pd, s32 num) {
     s32 i;
 
     if (mtx == NULL) {
