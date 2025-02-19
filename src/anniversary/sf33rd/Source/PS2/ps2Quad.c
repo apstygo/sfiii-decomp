@@ -50,6 +50,7 @@ typedef struct {
 } _VecUnk;
 
 void ps2QuadTexture(VecUnk *ptr, u32 num);
+void ps2QuadSolid(VecUnk *ptr, u32 num);
 
 void ps2SeqsRenderQuadInit_A() {
     // Do nothing
@@ -248,7 +249,18 @@ void ps2QuadTexture(VecUnk *ptr, u32 num) {
     flPS2DmaAddQueue2(0, (data_ptr & 0xFFFFFFF) | 0x40000000, data_ptr, &flPs2VIF1Control);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/ps2Quad", ps2SeqsRenderQuad_B);
+void ps2SeqsRenderQuad_B(Quad *spr, u32 col) {
+    VecUnk vptr[4];
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        ((_VecUnk *)vptr)[i].vec.vec3 = spr->v[i];
+        vptr[i].vec.w = 1.0f;
+        vptr[i].c = col;
+    }
+
+    ps2QuadSolid(vptr, 4);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/ps2Quad", ps2QuadSolid);
 
