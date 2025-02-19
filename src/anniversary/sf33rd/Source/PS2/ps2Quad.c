@@ -9,6 +9,13 @@
 #include <libgraph.h>
 
 typedef struct {
+    // total size: 0x1C
+    Vec4 vec;   // offset 0x0, size 0x10
+    u32 c;      // offset 0x10, size 0x4
+    TexCoord t; // offset 0x14, size 0x8
+} VecUnk;
+
+typedef struct {
     // total size: 0x8
     u32 s; // offset 0x0, size 0x4
     u32 t; // offset 0x4, size 0x4
@@ -29,6 +36,20 @@ typedef struct {
     u32 texCode;    // offset 0x2C, size 0x4
     u32 id;         // offset 0x30, size 0x4
 } _Sprite2;
+
+typedef struct {
+    Point vec3;
+    f32 w;
+} _Vec4;
+
+typedef struct {
+    // total size: 0x1C
+    _Vec4 vec;  // offset 0x0, size 0x10
+    u32 c;      // offset 0x10, size 0x4
+    TexCoord t; // offset 0x14, size 0x8
+} _VecUnk;
+
+void ps2QuadTexture(VecUnk *ptr, u32 num);
 
 void ps2SeqsRenderQuadInit_A() {
     // Do nothing
@@ -152,7 +173,19 @@ void ps2SeqsRenderQuad_A2(Sprite *spr, u32 col) {
     flPS2DmaAddQueue2(0, DMArefs | (data_ptr & 0xFFFFFFF), data_ptr, &flPs2VIF1Control);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/ps2Quad", ps2SeqsRenderQuad_A);
+void ps2SeqsRenderQuad_A(Sprite *spr, u32 col) {
+    VecUnk vptr[4];
+    s32 i;
+
+    for (i = 0; i < 4; i++) {
+        ((_VecUnk *)vptr)[i].vec.vec3 = spr->v[i];
+        vptr[i].vec.w = 1.0f;
+        vptr[i].c = col;
+        vptr[i].t = spr->t[i];
+    }
+
+    ps2QuadTexture(vptr, 4);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/ps2Quad", ps2QuadTexture);
 

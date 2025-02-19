@@ -1379,6 +1379,14 @@ typedef struct {
 } Point;
 
 typedef struct {
+    // total size: 0x10
+    f32 x; // offset 0x0, size 0x4
+    f32 y; // offset 0x4, size 0x4
+    f32 z; // offset 0x8, size 0x4
+    f32 w; // offset 0xC, size 0x4
+} Vec4;
+
+typedef struct {
     // total size: 0x8
     s16 x1; // offset 0x0, size 0x2
     s16 y1; // offset 0x2, size 0x2
