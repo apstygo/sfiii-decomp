@@ -541,7 +541,7 @@ segments:
       - [0x2B7970, asm, sf33rd/Source/Compress/Lz77/Lz77Dec]
       - [0x2B7FC0, asm, sf33rd/Source/Compress/zlib/infcodes]
       - [0x2B92F0, asm, sf33rd/Source/Compress/zlib/infblock]
-      - [0x2BB340, asm, sf33rd/Source/Compress/zlib/adler32]
+      - [0x2BB340, c, sf33rd/Source/Compress/zlib/adler32]
       - [0x2BB5C0, asm, sf33rd/Source/Compress/zlib/inffast]
       - [0x2BC090, asm, sf33rd/Source/Compress/zlib/inflate]
       - [0x2BCEA0, asm, sf33rd/Source/Compress/zlib/inftrees]
