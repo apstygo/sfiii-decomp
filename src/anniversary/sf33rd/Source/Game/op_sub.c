@@ -53,6 +53,42 @@ void put_chr2(OPTW *optw) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/op_sub", opbg_trans);
+void opbg_trans(OPBW *opbw, s16 x, s16 y) {
+    OPTW optw;
+    s16 i;
+    s16 i0;
+    s16 i1;
+    s16 j;
+    s16 j0;
+    s16 j1;
+    s16 xx;
+    s16 yy;
+
+    xx = (x < 0) ? 0 : x;
+    yy = (y < 0) ? 0 : y;
+    xx = (x > 0x3FF) ? 0x3FF : xx;
+    yy = (y > 0x3FF) ? 0x3FF : yy;
+
+    i0 = xx >> 8;
+    i1 = ((xx + 0x17F) >> 8) & 3;
+    j1 = ((yy + 0xDF) >> 8) & 3;
+    j0 = yy >> 8;
+
+    for (i = i0; i <= i1; i++) {
+        for (j = j0; j <= j1; j++) {
+            if (opbw->map[i][j].g_no != 0) {
+                optw.g_no = opbw->map[i][j].g_no;
+                optw.hv = opbw->map[i][j].hv;
+                optw.off_x = (i << 8) - x;
+                optw.off_y = (y + 0xE0) - ((j << 8) + 0x100);
+                optw.zx = optw.zy = scr_sc;
+                optw.prio = opbw->prio;
+                optw.trans = opbw->map[i][j].trans;
+                optw.col.full = opbw->map[i][j].col.full;
+                put_chr2(&optw);
+            }
+        }
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/op_sub", COLOR_COPYn);

@@ -1715,4 +1715,25 @@ typedef struct {
     OPTW_Color col; // offset 0x1C, size 0x4
 } OPTW;
 
+typedef struct {
+    // total size: 0x10
+    u32 g_no;       // offset 0x0, size 0x4
+    s32 trans;      // offset 0x4, size 0x4
+    u16 hv;         // offset 0x8, size 0x2
+    s16 ok;         // offset 0xA, size 0x2
+    OPTW_Color col; // offset 0xC, size 0x4
+} OPTW_Small;
+
+typedef struct {
+    // total size: 0x10C
+    s8 r_no_0;            // offset 0x0, size 0x1
+    s8 r_no_1;            // offset 0x1, size 0x1
+    s8 dir;               // offset 0x2, size 0x1
+    s8 ctr;               // offset 0x3, size 0x1
+    s16 bg_no;            // offset 0x4, size 0x2
+    u16 blk_no;           // offset 0x6, size 0x2
+    s32 prio;             // offset 0x8, size 0x4
+    OPTW_Small map[4][4]; // offset 0xC, size 0x100
+} OPBW;
+
 #endif

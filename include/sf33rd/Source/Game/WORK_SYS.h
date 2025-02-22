@@ -13,6 +13,7 @@ extern f32 SA_Zoom_Y;            // size: 0x4, address: 0x579AD8
 extern f32 SA_Zoom_X;            // size: 0x4, address: 0x579ADC
 extern f32 Screen_Zoom_Y;        // size: 0x4, address: 0x579AE0
 extern f32 Screen_Zoom_X;        // size: 0x4, address: 0x579AE4
+extern f32 scr_sc;               // size: 0x4, address: 0x579AE8
 extern u8 Screen_PAL;            // size: 0x1, address: 0x579C20
 extern u16 PLsw[2][2];           // size: 0x8, address: 0x579C28
 extern u32 Interrupt_Timer;      // size: 0x4, address: 0x579C34
