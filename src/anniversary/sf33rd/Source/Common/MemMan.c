@@ -34,7 +34,9 @@ u32 mmRoundOff(s32 unit, u32 num) {
     return num & ~(unit - 1);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/MemMan", mmDebWriteTag);
+void mmDebWriteTag(s8* /* unused */) {
+    // Do nothing
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/MemMan", mmGetRemainder);
 
