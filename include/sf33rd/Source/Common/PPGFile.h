@@ -22,5 +22,7 @@ s32 ppgWriteQuadUseTrans(Vertex *pos, u32 col, PPGDataList *tb, s32 tix, s32 cix
 s32 ppgGetUsingTextureHandle(Texture *tch, s32 ixNums);
 s32 ppgGetUsingPaletteHandle(Palette *pch, s32 ixNums);
 s32 ppgCheckTextureNumber(Texture *tex, s32 num);
+s32 ppgReleasePaletteHandle(Palette *pch, s32 ixNum);
+s32 ppgReleaseTextureHandle(Texture *tch, s32 ixNum);
 
 #endif // PPGFILE_H
