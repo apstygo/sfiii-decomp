@@ -5,7 +5,7 @@
 #include "types.h"
 
 void Init_load_on_memory_data();
-void shadow_drawing(UNK_12 *wk, s16 bsy);
+void shadow_drawing(WORK *wk, s16 bsy);
 void reset_dma_group(u16 num);
 
 #endif

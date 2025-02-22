@@ -236,7 +236,7 @@ void njdp2d_draw() {
             break;
 
         case 1:
-            shadow_drawing((UNK_12 *)njdp2d_w.prim[i].col, njdp2d_w.prim[i].v[0].y); // Looks weird
+            shadow_drawing((WORK *)njdp2d_w.prim[i].col, njdp2d_w.prim[i].v[0].y); // Looks weird
             break;
         }
     }

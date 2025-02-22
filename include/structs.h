@@ -488,11 +488,11 @@ typedef struct {
     s16 E4_work_index;     // offset 0x350, size 0x2
     u8 kezurare_flag;      // offset 0x352, size 0x1
     u8 wrd_free[53];       // offset 0x353, size 0x35
-} UNK_12;
+} WORK;
 
 typedef struct {
     // total size: 0x46C
-    UNK_12 wu; // offset 0x0, size 0x388
+    WORK wu; // offset 0x0, size 0x388
     struct /* @anon65 */ {
         // total size: 0x406
         u16 sw_lvbt;       // offset 0x0, size 0x2
@@ -633,7 +633,7 @@ typedef struct {
     u8 sa_stop_lvdir;      // offset 0x3EF, size 0x1
     u8 sa_stop_flag;       // offset 0x3F0, size 0x1
     u8 kezurijini_flag;    // offset 0x3F1, size 0x1
-    UNK_12 *illusion_work; // offset 0x3F4, size 0x4
+    WORK *illusion_work; // offset 0x3F4, size 0x4
     s16 image_setup_flag;  // offset 0x3F8, size 0x2
     s16 image_data_index;  // offset 0x3FA, size 0x2
     u8 caution_flag;       // offset 0x3FC, size 0x1
