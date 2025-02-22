@@ -3,6 +3,9 @@
 #include "sf33rd/Source/Common/PPGFile.h"
 #include "sf33rd/Source/Common/PPGWork.h"
 #include "sf33rd/Source/Game/OPENING.h"
+#include "sf33rd/Source/Game/RAMCNT.h"
+#include "sf33rd/Source/Game/aboutspr.h"
+#include "sf33rd/Source/Game/texcash.h"
 
 void TexRelease(u32 G_Num) {
     if (G_Num == 0x259) {
@@ -27,7 +30,13 @@ void TexRelease(u32 G_Num) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/op_sub", TexRelease_OP);
+void TexRelease_OP() {
+    Purge_memory_of_kind_of_key(0x1D);
+    ppgSourceDataReleased(&ppgOpnBgList);
+    ppgReleaseTextureHandle(&ppgOpnBgTex, -1);
+    reset_dma_group(0x8C40);
+    purge_texcash_work(9);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/op_sub", put_chr2);
 
