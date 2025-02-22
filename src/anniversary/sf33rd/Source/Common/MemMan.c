@@ -1,6 +1,11 @@
+#include "sf33rd/Source/Common/MemMan.h"
 #include "common.h"
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/MemMan", mmSystemInitialize);
+u32 mmInitialNumber;
+
+void mmSystemInitialize() {
+    mmInitialNumber = 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/MemMan", mmHeapInitialize);
 
