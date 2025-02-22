@@ -12,6 +12,7 @@ void mmDebWriteTag(s8 * /* unused */);
 s32 mmGetRemainder(_MEMMAN_OBJ *mmobj);
 s32 mmGetRemainderMin(_MEMMAN_OBJ *mmobj);
 u8 *mmAlloc(_MEMMAN_OBJ *mmobj, s32 size, s32 flag);
+struct _MEMMAN_CELL *mmAllocSub(_MEMMAN_OBJ *mmobj, s32 size, s32 flag);
 void mmFree(_MEMMAN_OBJ *mmobj, u8 *adrs);
 
 #endif

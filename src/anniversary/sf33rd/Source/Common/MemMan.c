@@ -46,7 +46,21 @@ s32 mmGetRemainderMin(_MEMMAN_OBJ *mmobj) {
     return mmobj->remainderMin;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/MemMan", mmAlloc);
+u8 *mmAlloc(_MEMMAN_OBJ *mmobj, s32 size, s32 flag) {
+    struct _MEMMAN_CELL *cell = mmAllocSub(mmobj, size, flag);
+
+    if (cell == NULL) {
+        return NULL;
+    }
+
+    mmobj->remainder -= cell->size;
+
+    if (mmobj->remainderMin > mmobj->remainder) {
+        mmobj->remainderMin = mmobj->remainder;
+    }
+
+    return (u8 *)cell + mmobj->ownUnit;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/MemMan", mmAllocSub);
 
