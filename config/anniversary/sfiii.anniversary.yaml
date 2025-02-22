@@ -444,7 +444,7 @@ segments:
       - [0x180ED0, asm, sf33rd/Source/Game/MTRANS]
       - [0x188DB0, asm, sf33rd/Source/Game/n_input]
       - [0x18ABF0, asm, sf33rd/Source/Game/Next_CPU]
-      - [0x18F640, asm, sf33rd/Source/Game/op_sub] # Good first decomp
+      - [0x18F640, c, sf33rd/Source/Game/op_sub]
       - [0x18FD20, asm, sf33rd/Source/Game/OPENING]
       - [0x198E80, asm, sf33rd/Source/Game/pass00]
       - [0x1A0AC0, asm, sf33rd/Source/Game/PASS01]
