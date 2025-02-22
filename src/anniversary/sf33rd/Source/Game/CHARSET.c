@@ -98,7 +98,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_cmhs);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move);
+void char_move(WORK *wk) {
+    wk->K5_exec_ok = 1;
+
+    if (--wk->cg_ctr == 0) {
+        check_cm_extended_code(wk);
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", check_cm_extended_code);
 
