@@ -1,6 +1,8 @@
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "common.h"
 
+extern const u16 acatkoa_table[65];
+
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", set_char_move_init);
 
 void setupCharTableData(WORK *wk, s32 clr, s32 info) {
@@ -27,7 +29,50 @@ void setupCharTableData(WORK *wk, s32 clr, s32 info) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", set_char_move_init2);
+void set_char_move_init2(WORK *wk, s16 koc, s16 index, s16 ip, s16 scf) {
+    u8 pst;
+    u8 kow;
+
+    if (index < 0) {
+        index = 0;
+    }
+
+    if (ip <= 0) {
+        ip = 1;
+    }
+
+    pst = wk->pat_status;
+    kow = wk->kind_of_waza;
+    wk->now_koc = koc;
+    wk->char_index = index;
+    wk->set_char_ad = wk->char_table[koc] + (wk->char_table[koc][index] / 4);
+    setupCharTableData(wk, 1, 1);
+    wk->cg_ix = (ip - 1) * wk->cgd_type - wk->cgd_type;
+    wk->cg_ctr = 1;
+    wk->cg_next_ix = 0;
+    wk->old_cgnum = 0;
+    wk->cg_wca_ix = 0;
+
+    if (wk->cmoa.pat == 0) {
+        wk->cmoa.koc = wk->now_koc;
+        wk->cmoa.ix = wk->char_index;
+        wk->cmoa.pat = 1;
+    }
+
+    if (scf) {
+        wk->pat_status = pst;
+        wk->kind_of_waza = kow;
+    } else {
+        wk->kow = wk->kind_of_waza;
+    }
+
+    if (wk->work_id & 0xF) {
+        wk->at_koa = acatkoa_table[wk->kind_of_waza];
+    }
+
+    wk->K5_init_flag = 1;
+    char_move(wk);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", exset_char_move_init);
 
@@ -349,4 +394,7 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", decode
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", decode_if_lever);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", acatkoa_table);
+const u16 acatkoa_table[65] = { 4,   4,   8,   8,   8,   8,   8,   8,   16,  16,  16,  16,  16,  16,  16,  16,  32,
+                                32,  32,  32,  32,  32,  32,  32,  64,  64,  64,  64,  64,  64,  64,  64,  128, 128,
+                                128, 128, 128, 128, 128, 128, 256, 256, 256, 256, 256, 256, 256, 256, 128, 128, 128,
+                                128, 128, 128, 128, 128, 256, 256, 256, 256, 256, 256, 256, 256, 2048 };

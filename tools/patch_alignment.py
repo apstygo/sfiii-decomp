@@ -24,6 +24,7 @@ special_cases = {
     ("flPADUSR", ".rodata", 0): 16,
     ("Game", ".rodata", 2): 16,
     ("Demo_Dat", ".rodata", 0): 16,
+    ("chren3rd", ".rodata", 0): 16,
 
     ("VM_DATA", ".sdata", 0): 16,
     ("Demo_Dat", ".sdata", 0): 16,
