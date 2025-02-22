@@ -26,7 +26,9 @@ void mmHeapInitialize(_MEMMAN_OBJ *mmobj, u8 *adrs, s32 size, s32 unit, s8 *form
     mmobj->cell_fin->size = mmobj->ownUnit;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/MemMan", mmRoundUp);
+u32 mmRoundUp(s32 unit, u32 num) {
+    return ~(unit - 1) & (num + unit - 1);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/MemMan", mmRoundOff);
 
