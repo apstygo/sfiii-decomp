@@ -143,4 +143,15 @@ struct _MEMMAN_CELL *mmAllocSub(_MEMMAN_OBJ *mmobj, s32 size, s32 flag) {
     return myself;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/MemMan", mmFree);
+void mmFree(_MEMMAN_OBJ *mmobj, u8 *adrs) {
+    struct _MEMMAN_CELL *cell;
+
+    if (adrs != NULL) {
+        cell = (struct _MEMMAN_CELL *)((s32)adrs - mmobj->ownUnit);
+        mmobj->remainder += cell->size;
+        cell->prev->next = cell->next;
+        cell->next->prev = cell->prev;
+    } else {
+        return;
+    }
+}
