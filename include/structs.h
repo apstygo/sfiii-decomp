@@ -1691,4 +1691,28 @@ typedef struct {
     u32 num;             // offset 0xC, size 0x4
 } PAL_CURSOR;
 
+typedef union {
+    s32 full; // offset 0x0, size 0x4
+    struct {
+        // total size: 0x4
+        u8 B; // offset 0x0, size 0x1
+        u8 G; // offset 0x1, size 0x1
+        u8 R; // offset 0x2, size 0x1
+        u8 A; // offset 0x3, size 0x1
+    } rgb;    // offset 0x0, size 0x4
+} OPTW_Color;
+
+typedef struct {
+    // total size: 0x20
+    u32 g_no;       // offset 0x0, size 0x4
+    u16 hv;         // offset 0x4, size 0x2
+    s16 off_x;      // offset 0x6, size 0x2
+    s16 off_y;      // offset 0x8, size 0x2
+    f32 zx;         // offset 0xC, size 0x4
+    f32 zy;         // offset 0x10, size 0x4
+    s32 prio;       // offset 0x14, size 0x4
+    s32 trans;      // offset 0x18, size 0x4
+    OPTW_Color col; // offset 0x1C, size 0x4
+} OPTW;
+
 #endif

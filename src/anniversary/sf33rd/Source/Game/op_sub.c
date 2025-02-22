@@ -2,8 +2,10 @@
 #include "common.h"
 #include "sf33rd/Source/Common/PPGFile.h"
 #include "sf33rd/Source/Common/PPGWork.h"
+#include "sf33rd/Source/Game/MTRANS.h"
 #include "sf33rd/Source/Game/OPENING.h"
 #include "sf33rd/Source/Game/RAMCNT.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/texcash.h"
 
@@ -38,7 +40,18 @@ void TexRelease_OP() {
     purge_texcash_work(9);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/op_sub", put_chr2);
+void put_chr2(OPTW *optw) {
+    Vertex tex[4];
+
+    if (!No_Trans) {
+        tex[0].x = Frame_Zoom_X * ((s32)optw->off_x * optw->zx);
+        tex[0].y = Frame_Zoom_Y * ((s32)optw->off_y * optw->zy);
+        tex[3].x = Frame_Zoom_X * ((optw->off_x + 0x100) * optw->zx);
+        tex[3].y = Frame_Zoom_Y * ((optw->off_y + 0x100) * optw->zy);
+        tex[0].z = tex[3].z = PrioBase[optw->prio];
+        ppgWriteQuadUseTrans(tex, optw->col.full, NULL, optw->g_no, -1, optw->hv, 0x12C);
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/op_sub", opbg_trans);
 
