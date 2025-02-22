@@ -42,7 +42,9 @@ s32 mmGetRemainder(_MEMMAN_OBJ *mmobj) {
     return mmobj->remainder;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/MemMan", mmGetRemainderMin);
+s32 mmGetRemainderMin(_MEMMAN_OBJ *mmobj) {
+    return mmobj->remainderMin;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Common/MemMan", mmAlloc);
 
