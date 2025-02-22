@@ -2,11 +2,13 @@
 #include "common.h"
 #include "sf33rd/Source/Common/PPGFile.h"
 #include "sf33rd/Source/Common/PPGWork.h"
+#include "sf33rd/Source/Game/DC_Ghost.h"
 #include "sf33rd/Source/Game/MTRANS.h"
 #include "sf33rd/Source/Game/OPENING.h"
 #include "sf33rd/Source/Game/RAMCNT.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/aboutspr.h"
+#include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/Game/texcash.h"
 
 void TexRelease(u32 G_Num) {
@@ -91,4 +93,7 @@ void opbg_trans(OPBW *opbw, s16 x, s16 y) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/op_sub", COLOR_COPYn);
+void COLOR_COPYn(s16 dst, s16 colcd, s16 n) {
+    s16 *colram = (s16 *)ColorRAM;
+    njSetPaletteData(dst * 16, n * 16, &colram[colcd * 16]);
+}

@@ -4,6 +4,8 @@
 #include "structs.h"
 #include "types.h"
 
+extern u16 ColorRAM[512][64]; // size: 0x10000, address: 0x597C10
+
 void q_ldreq_color_data(REQ *curr);                // Range: 0x19D800 -> 0x19DD7C
 void set_hitmark_color();                          // Range: 0x19DE70 -> 0x19E010
 void init_color_trans_req();                       // Range: 0x19F600 -> 0x19F694
