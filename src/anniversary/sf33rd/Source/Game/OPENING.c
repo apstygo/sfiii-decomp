@@ -4,18 +4,31 @@
 #include "sf33rd/Source/Common/MemMan.h"
 #include "sf33rd/Source/Common/PPGFile.h"
 #include "sf33rd/Source/Common/PPGWork.h"
+#include "sf33rd/Source/Game/AcrUtil.h"
+#include "sf33rd/Source/Game/DEMO00.h"
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/RAMCNT.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/aboutspr.h"
+#include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/op_sub.h"
 #include "sf33rd/Source/Game/sc_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", title00);
+typedef const f32 *ro_f32_ptr;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", optsr_tbl);
+static const f32 title00[25] = { 0.0009765625f, 0.001953125f, 0.7509765625f, 0.751953125f, -192.0f, -96.0f, 384.0f,
+                                 192.0f,        -1.0f,        0.0f,          0.0f,         0.0f,    0.0f,   0.0f,
+                                 0.0f,          0.0f,         0.0f,          0.0f,         0.0f,    0.0f,   0.0f,
+                                 0.0f,          0.0f,         0.0f,          0.0f };
+
+static ro_f32_ptr title[2] = { title00, title00 };
+
+const s16 optsr_tbl[59] = { 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53,
+                            54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73,
+                            74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, -1 };
 
 s16 op_obj_disp;
 s8 op_scrn_end;
@@ -109,7 +122,58 @@ void TITLE_Init() {
     op_w.r_no_0 = 0;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", TITLE_Move);
+s16 TITLE_Move(u16 type) {
+    ppgSetupCurrentDataList(&ppgTitleList);
+    setTexAdrsMode(0);
+    setFilterMode(0);
+
+    switch (type) {
+    case 0:
+        switch (op_w.r_no_0) {
+        case 0:
+            op_w.r_no_0 += 1;
+            Zoom_Value_Set(0x40);
+            Frame_Up(0xC0, 0x70, 0x13);
+            op_timer0 = 10;
+            break;
+
+        case 1:
+            op_timer0 -= 1;
+
+            if (op_timer0 <= 0) {
+                op_w.r_no_0 += 1;
+                op_timer0 = 19;
+            }
+
+            break;
+
+        case 2:
+            if (!Game_pause) {
+                if (op_timer0-- >= 0) {
+                    Frame_Down(0xC0, 0x70, 1);
+                } else {
+                    op_w.r_no_0 += 1;
+                }
+            }
+
+            break;
+
+        default:
+            Zoom_Value_Set(0x40);
+            break;
+        }
+
+        Put_char(title[type], 0x259, 9, 0xC0, 0x60, scr_sc, scr_sc);
+        return 0;
+
+    case 1:
+        Put_char(title[type], 0x259, 9, 0xC0, 0x60, 1.0f, 1.0f);
+        return 0;
+
+    default:
+        return 0;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", OPBG_Init);
 

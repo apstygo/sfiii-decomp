@@ -1441,7 +1441,8 @@ segments:
       - [0x473CF0, sdata, sdata_473CF0] # This belongs to menu too
       - [0x473D50, sdata, sf33rd/Source/Game/n_input]
       - [0x473D70, sdata, sf33rd/Source/Game/Next_CPU]
-      - [0x473DF8, sdata, sf33rd/Source/Game/OPENING]
+      - [0x473DF8, .sdata, sf33rd/Source/Game/OPENING]
+      - [0x473E00, sdata, sf33rd/Source/Game/OPENING_more_sdata]
       - [0x473E70, sdata, sf33rd/Source/Game/Pause]
       - [0x473EA0, sdata, sf33rd/Source/Game/PLCNT]
       - [0x473F30, sdata, sf33rd/Source/Game/PLPAT]

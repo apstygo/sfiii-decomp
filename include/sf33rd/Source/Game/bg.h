@@ -14,5 +14,8 @@ void Bg_On_R(u32 s_prm); // Range: 0x170B00 -> 0x170B2C
 void Scrn_Renew();       // Range: 0x170BE0 -> 0x170BF0
 void Irl_Family();       // Range: 0x170BF0 -> 0x170CD0
 void Irl_Scrn();         // Range: 0x170CD0 -> 0x170E9C
+void Frame_Up(u16 x, u16 y, u16 add);
+void Frame_Down(u16 x, u16 y, u16 add);
+void Zoom_Value_Set(u16 zadd);
 
 #endif
