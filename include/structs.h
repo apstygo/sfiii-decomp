@@ -1764,4 +1764,82 @@ typedef struct {
     OPBW bgw[3];   // offset 0xC, size 0x324
 } OP_W;
 
+typedef struct {
+    // total size: 0xD08
+    s32 x16;            // offset 0x0, size 0x4
+    s32 x32;            // offset 0x4, size 0x4
+    u16 x16_free[1024]; // offset 0x8, size 0x800
+    u16 x32_free[640];  // offset 0x808, size 0x500
+} TexturePoolFree;
+
+typedef struct {
+    // total size: 0xD08
+    s32 x16;            // offset 0x0, size 0x4
+    s32 x32;            // offset 0x4, size 0x4
+    u16 x16_used[1024]; // offset 0x8, size 0x800
+    u16 x32_used[640];  // offset 0x808, size 0x500
+} TexturePoolUsed;
+
+typedef struct {
+    // total size: 0xD0
+    u16 x16_map[4][16]; // offset 0x0, size 0x80
+    u8 x32_map[10][8];  // offset 0x80, size 0x50
+} PatternMap;
+
+typedef union {
+    u32 code; // offset 0x0, size 0x4
+    struct {
+        // total size: 0x4
+        u16 offset; // offset 0x0, size 0x2
+        u16 group;  // offset 0x2, size 0x2
+    } parts;        // offset 0x0, size 0x4
+} PatternCode;
+
+typedef struct {
+    // total size: 0x8
+    s16 time;       // offset 0x0, size 0x2
+    s16 state;      // offset 0x2, size 0x2
+    PatternCode cs; // offset 0x4, size 0x4
+} PatternState;
+
+typedef struct {
+    // total size: 0xDC
+    s16 curr_disp;  // offset 0x0, size 0x2
+    s16 time;       // offset 0x2, size 0x2
+    PatternCode cg; // offset 0x4, size 0x4
+    s16 x16;        // offset 0x8, size 0x2
+    s16 x32;        // offset 0xA, size 0x2
+    PatternMap map; // offset 0xC, size 0xD0
+} PatternInstance;
+
+typedef struct {
+    // total size: 0x3804
+    s16 kazu;                 // offset 0x0, size 0x2
+    PatternInstance *adr[64]; // offset 0x4, size 0x100
+    PatternInstance patt[64]; // offset 0x104, size 0x3700
+} PatternCollection;
+
+typedef struct {
+    // total size: 0x64
+    s32 mltnum16;            // offset 0x0, size 0x4
+    s32 mltnum32;            // offset 0x4, size 0x4
+    s32 mltnum;              // offset 0x8, size 0x4
+    s32 mltgidx16;           // offset 0xC, size 0x4
+    s32 mltgidx32;           // offset 0x10, size 0x4
+    s32 mltcshtime16;        // offset 0x14, size 0x4
+    s32 mltcshtime32;        // offset 0x18, size 0x4
+    PatternState *mltcsh16;  // offset 0x1C, size 0x4
+    PatternState *mltcsh32;  // offset 0x20, size 0x4
+    u8 *mltbuf;              // offset 0x24, size 0x4
+    Texture tex;             // offset 0x28, size 0x20
+    PPGDataList texList;     // offset 0x48, size 0x8
+    u32 attribute;           // offset 0x50, size 0x4
+    PatternCollection *cpat; // offset 0x54, size 0x4
+    TexturePoolFree *tpf;    // offset 0x58, size 0x4
+    TexturePoolUsed *tpu;    // offset 0x5C, size 0x4
+    u8 id;                   // offset 0x60, size 0x1
+    u8 ext;                  // offset 0x61, size 0x1
+    s16 mode;                // offset 0x62, size 0x2
+} MultiTexture;
+
 #endif

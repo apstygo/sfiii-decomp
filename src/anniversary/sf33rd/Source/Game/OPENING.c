@@ -7,11 +7,13 @@
 #include "sf33rd/Source/Game/AcrUtil.h"
 #include "sf33rd/Source/Game/DEMO00.h"
 #include "sf33rd/Source/Game/GD3rd.h"
+#include "sf33rd/Source/Game/MTRANS.h"
 #include "sf33rd/Source/Game/RAMCNT.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/Game/op_sub.h"
 #include "sf33rd/Source/Game/sc_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
@@ -46,6 +48,8 @@ OP_W op_w;
 
 void OPBG_Init();
 s16 OPBG_Move();
+void opening_init();
+void sound_trg_init();
 
 s16 opening_demo() {
     switch (D_No[3]) {
@@ -175,7 +179,38 @@ s16 TITLE_Move(u16 type) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", OPBG_Init);
+void OPBG_Init() {
+    void *loadAdrs;
+    u32 loadSize;
+    s16 i;
+    s16 key;
+
+    mmDebWriteTag("\nOPENING\n\n");
+    ppgOpnBgList.tex = &ppgOpnBgTex;
+    ppgOpnBgList.pal = palGetChunkGhostCP3();
+    ppgSetupCurrentDataList(&ppgOpnBgList);
+
+    if ((key = Search_ramcnt_type(0x1D)) == 0) {
+        flLogOut("オープニングデモテクスチャが読み込まれていません。\n");
+        while (1) {}
+    }
+
+    loadSize = Get_size_data_ramcnt_key(key);
+    loadAdrs = (void *)Get_ramcnt_address(key);
+    ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, 0x25A, 0x5B, 0, 0);
+
+    for (i = 0; i < ppgOpnBgTex.textures; i++) {
+        ppgSetupTexChunk_2nd(NULL, i + 0x25A);
+        ppgSetupTexChunk_3rd(NULL, i + 0x25A, 1);
+    }
+
+    Opening_Now = 1;
+    make_texcash_work(9);
+    mlt_obj_melt2(&mts[9], 0x8C40);
+    sound_trg_init();
+    opening_init();
+    Zoom_Value_Set(0x40);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", OPBG_Move);
 
@@ -218,10 +253,6 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", op_100_mo
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", op_101_move);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", op_102_move);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", literal_264_005230B8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", literal_265_005230D0);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", sound_time_tbl);
 

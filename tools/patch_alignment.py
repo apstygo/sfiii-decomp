@@ -28,6 +28,7 @@ special_cases = {
     ("Demo_Dat", ".rodata", 0): 16,
     ("chren3rd", ".rodata", 0): 16,
     ("CHARSET", ".rodata", 11): 16,
+    ("OPENING", ".rodata", 6): 16,
 
     ("VM_DATA", ".sdata", 0): 16,
     ("Demo_Dat", ".sdata", 0): 16,

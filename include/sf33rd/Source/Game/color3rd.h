@@ -12,5 +12,6 @@ void init_color_trans_req();                       // Range: 0x19F600 -> 0x19F69
 void palCopyGhostDC(s32 ofs, s32 cnt, void *data); // Range: 0x19F700 -> 0x19F7C0
 void palCreateGhost();                             // Range: 0x19F8D0 -> 0x19FB50
 void palUpdateGhostDC();                           // Range: 0x19FB70 -> 0x19FC6C
+Palette *palGetChunkGhostCP3();
 
 #endif
