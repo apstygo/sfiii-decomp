@@ -198,7 +198,20 @@ s32 comm_for(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_nex);
+#else
+s32 comm_nex(WORK *wk, UNK11 *ctc) {
+    if (wk->cmlp.code) {
+        if (--wk->cmlp.code > 0) {
+            set_char_move_init2(wk, wk->cmlp.koc, wk->cmlp.ix, wk->cmlp.pat, 1);
+            return 0;
+        }
+    }
+
+    return 1;
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_for2);
 
