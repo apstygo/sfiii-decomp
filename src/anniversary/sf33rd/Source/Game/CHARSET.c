@@ -269,7 +269,26 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_paxy
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_pa_x);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_pa_y);
+s32 comm_pa_y(WORK *wk, UNK11 *ctc) {
+    WORK *emwk;
+
+    switch (ctc->koc) {
+    case 0:
+        wk->xyz[1].cal += ctc->pat << 8;
+        break;
+
+    case 2:
+        wk->xyz[1].cal += ctc->pat << 8;
+        /* fallthrough */
+
+    default:
+        emwk = (WORK *)wk->target_adrs;
+        emwk->xyz[1].cal += ctc->pat << 8;
+        break;
+    }
+
+    return 1;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_exec);
 
