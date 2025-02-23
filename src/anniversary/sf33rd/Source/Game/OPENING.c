@@ -1,4 +1,24 @@
+#include "sf33rd/Source/Game/OPENING.h"
 #include "common.h"
+#include "sf33rd/Source/Game/SYS_sub.h"
+#include "sf33rd/Source/Game/aboutspr.h"
+#include "sf33rd/Source/Game/op_sub.h"
+#include "sf33rd/Source/Game/sc_sub.h"
+#include "sf33rd/Source/Game/texcash.h"
+#include "sf33rd/Source/Game/workuser.h"
+
+s16 op_obj_disp;
+s8 op_scrn_end;
+s16 op_timer0;
+s16 title_tex_flag;
+s16 music_scene;
+s16 music_time;
+s16 op_plmove_timer;
+OPBW *opw_ptr;
+s16 op_end_flag;
+s16 op_demo_index;
+s16 op_sound_status;
+MVXY op_bg_mvxy[3];
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", opening_demo);
 
