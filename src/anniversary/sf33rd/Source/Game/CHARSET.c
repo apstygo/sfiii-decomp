@@ -678,7 +678,14 @@ void setup_metamor_kezuri(WORK *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", set_jugde_area);
+void set_jugde_area(WORK *wk) {
+    wk->h_bod = wk->body_adrs + wk->cg_ja.boix;
+    wk->h_cat = wk->catch_adrs + wk->cg_ja.caix;
+    wk->h_cau = wk->caught_adrs + wk->cg_ja.cuix;
+    wk->h_att = wk->attack_adrs + wk->cg_ja.atix;
+    wk->h_hos = wk->hosei_adrs + wk->cg_ja.hoix;
+    wk->h_han = wk->hand_adrs + (wk->cg_ja.bhix + wk->cg_ja.haix);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", get_char_data_zanzou);
 
