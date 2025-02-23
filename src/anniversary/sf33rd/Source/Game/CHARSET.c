@@ -672,7 +672,11 @@ void set_new_attnum(WORK *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", setup_metamor_kezuri);
+void setup_metamor_kezuri(WORK *wk) {
+    if (wk->kezuri_pow == 0) {
+        wk->kezuri_pow = kezuri_pow_table[4];
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", set_jugde_area);
 
