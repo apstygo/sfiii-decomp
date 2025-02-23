@@ -124,7 +124,7 @@ void char_move(WORK *wk) {
 }
 
 void check_cm_extended_code(WORK *wk) {
-    UNK_11 *cpc;
+    UNK11 *cpc;
 
     if (wk->cg_next_ix) {
         wk->cg_ix = (wk->cg_next_ix - 1) * wk->cgd_type;
@@ -133,7 +133,7 @@ void check_cm_extended_code(WORK *wk) {
     }
 
     while (1) {
-        cpc = (UNK_11 *)(wk->set_char_ad + wk->cg_ix);
+        cpc = (UNK11 *)(wk->set_char_ad + wk->cg_ix);
 
         if (cpc->code >= 0x100) {
             check_cgd_patdat(wk);
@@ -153,7 +153,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_dumm
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_roa);
 #else
-s32 comm_roa(WORK *wk, UNK_11 * /* unused */) {
+s32 comm_roa(WORK *wk, UNK11 * /* unused */) {
     if (wk->cmoa.pat == 0) {
         wk->cmoa.koc = wk->now_koc;
         wk->cmoa.ix = wk->char_index;
@@ -185,7 +185,18 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_if_l
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_djmp);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_for);
+s32 comm_for(WORK *wk, UNK11 *ctc) {
+    if (ctc->pat & 0x4000) {
+        wk->cmlp.code = wk->cmwk[ctc->pat & 0xF];
+    } else {
+        wk->cmlp.code = ctc->pat;
+    }
+
+    wk->cmlp.koc = wk->now_koc;
+    wk->cmlp.ix = wk->char_index;
+    wk->cmlp.pat = wk->cg_ix / wk->cgd_type + 2;
+    return 1;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_nex);
 
@@ -707,131 +718,131 @@ const s16 jphos_table[16] = { 0x0000, 0xFFF0, 0xFFF4, 0xFFF8, 0xFFFC, 0x0004, 0x
 
 const s16 kezuri_pow_table[5] = { 0, 4, 8, 16, 24 };
 
-s32 comm_dummy(WORK *, UNK_11 *);
-s32 comm_roa(WORK *, UNK_11 *);
-s32 comm_end(WORK *, UNK_11 *);
-s32 comm_jmp(WORK *, UNK_11 *);
-s32 comm_jpss(WORK *, UNK_11 *);
-s32 comm_jsr(WORK *, UNK_11 *);
-s32 comm_ret(WORK *, UNK_11 *);
-s32 comm_sps(WORK *, UNK_11 *);
-s32 comm_setr(WORK *, UNK_11 *);
-s32 comm_addr(WORK *, UNK_11 *);
-s32 comm_if_l(WORK *, UNK_11 *);
-s32 comm_djmp(WORK *, UNK_11 *);
-s32 comm_for(WORK *, UNK_11 *);
-s32 comm_nex(WORK *, UNK_11 *);
-s32 comm_for2(WORK *, UNK_11 *);
-s32 comm_nex2(WORK *, UNK_11 *);
-s32 comm_rja(WORK *, UNK_11 *);
-s32 comm_uja(WORK *, UNK_11 *);
-s32 comm_rja2(WORK *, UNK_11 *);
-s32 comm_uja2(WORK *, UNK_11 *);
-s32 comm_rja3(WORK *, UNK_11 *);
-s32 comm_uja3(WORK *, UNK_11 *);
-s32 comm_rja4(WORK *, UNK_11 *);
-s32 comm_uja4(WORK *, UNK_11 *);
-s32 comm_rja5(WORK *, UNK_11 *);
-s32 comm_uja5(WORK *, UNK_11 *);
-s32 comm_rja6(WORK *, UNK_11 *);
-s32 comm_uja6(WORK *, UNK_11 *);
-s32 comm_rja7(WORK *, UNK_11 *);
-s32 comm_uja7(WORK *, UNK_11 *);
-s32 comm_rmja(WORK *, UNK_11 *);
-s32 comm_umja(WORK *, UNK_11 *);
-s32 comm_mdat(WORK *, UNK_11 *);
-s32 comm_ydat(WORK *, UNK_11 *);
-s32 comm_mpos(WORK *, UNK_11 *);
-s32 comm_cafr(WORK *, UNK_11 *);
-s32 comm_care(WORK *, UNK_11 *);
-s32 comm_psxy(WORK *, UNK_11 *);
-s32 comm_ps_x(WORK *, UNK_11 *);
-s32 comm_ps_y(WORK *, UNK_11 *);
-s32 comm_paxy(WORK *, UNK_11 *);
-s32 comm_pa_x(WORK *, UNK_11 *);
-s32 comm_pa_y(WORK *, UNK_11 *);
-s32 comm_exec(WORK *, UNK_11 *);
-s32 comm_rngc(WORK *, UNK_11 *);
-s32 comm_mxyt(WORK *, UNK_11 *);
-s32 comm_pjmp(WORK *, UNK_11 *);
-s32 comm_hjmp(WORK *, UNK_11 *);
-s32 comm_hclr(WORK *, UNK_11 *);
-s32 comm_ixfw(WORK *, UNK_11 *);
-s32 comm_ixbw(WORK *, UNK_11 *);
-s32 comm_quax(WORK *, UNK_11 *);
-s32 comm_quay(WORK *, UNK_11 *);
-s32 comm_if_s(WORK *, UNK_11 *);
-s32 comm_rapp(WORK *, UNK_11 *);
-s32 comm_rapk(WORK *, UNK_11 *);
-s32 comm_gets(WORK *, UNK_11 *);
-s32 comm_s123(WORK *, UNK_11 *);
-s32 comm_s456(WORK *, UNK_11 *);
-s32 comm_a123(WORK *, UNK_11 *);
-s32 comm_a456(WORK *, UNK_11 *);
-s32 comm_stop(WORK *, UNK_11 *);
-s32 comm_smhf(WORK *, UNK_11 *);
-s32 comm_ngme(WORK *, UNK_11 *);
-s32 comm_ngem(WORK *, UNK_11 *);
-s32 comm_iflb(WORK *, UNK_11 *);
-s32 comm_asxy(WORK *, UNK_11 *);
-s32 comm_schx(WORK *, UNK_11 *);
-s32 comm_schy(WORK *, UNK_11 *);
-s32 comm_back(WORK *, UNK_11 *);
-s32 comm_mvix(WORK *, UNK_11 *);
-s32 comm_sajp(WORK *, UNK_11 *);
-s32 comm_ccch(WORK *, UNK_11 *);
-s32 comm_wset(WORK *, UNK_11 *);
-s32 comm_wswk(WORK *, UNK_11 *);
-s32 comm_wadd(WORK *, UNK_11 *);
-s32 comm_wceq(WORK *, UNK_11 *);
-s32 comm_wcne(WORK *, UNK_11 *);
-s32 comm_wcgt(WORK *, UNK_11 *);
-s32 comm_wclt(WORK *, UNK_11 *);
-s32 comm_wadd2(WORK *, UNK_11 *);
-s32 comm_wceq2(WORK *, UNK_11 *);
-s32 comm_wcne2(WORK *, UNK_11 *);
-s32 comm_wcgt2(WORK *, UNK_11 *);
-s32 comm_wclt2(WORK *, UNK_11 *);
-s32 comm_rapp2(WORK *, UNK_11 *);
-s32 comm_rapk2(WORK *, UNK_11 *);
-s32 comm_iflg(WORK *, UNK_11 *);
-s32 comm_mpcy(WORK *, UNK_11 *);
-s32 comm_epcy(WORK *, UNK_11 *);
-s32 comm_imgs(WORK *, UNK_11 *);
-s32 comm_imgc(WORK *, UNK_11 *);
-s32 comm_rvxy(WORK *, UNK_11 *);
-s32 comm_rv_x(WORK *, UNK_11 *);
-s32 comm_rv_y(WORK *, UNK_11 *);
-s32 comm_ccfl(WORK *, UNK_11 *);
-s32 comm_myhp(WORK *, UNK_11 *);
-s32 comm_emhp(WORK *, UNK_11 *);
-s32 comm_exbgs(WORK *, UNK_11 *);
-s32 comm_exbgc(WORK *, UNK_11 *);
-s32 comm_atmf(WORK *, UNK_11 *);
-s32 comm_chkwf(WORK *, UNK_11 *);
-s32 comm_retmj(WORK *, UNK_11 *);
-s32 comm_sstx(WORK *, UNK_11 *);
-s32 comm_ssty(WORK *, UNK_11 *);
-s32 comm_ngda(WORK *, UNK_11 *);
-s32 comm_flip(WORK *, UNK_11 *);
-s32 comm_kage(WORK *, UNK_11 *);
-s32 comm_dspf(WORK *, UNK_11 *);
-s32 comm_ifrlf(WORK *, UNK_11 *);
-s32 comm_srlf(WORK *, UNK_11 *);
-s32 comm_bgrlf(WORK *, UNK_11 *);
-s32 comm_scmd(WORK *, UNK_11 *);
-s32 comm_rljmp(WORK *, UNK_11 *);
-s32 comm_ifs2(WORK *, UNK_11 *);
-s32 comm_abbak(WORK *, UNK_11 *);
-s32 comm_sse(WORK *, UNK_11 *);
-s32 comm_s_chg(WORK *, UNK_11 *);
-s32 comm_schg2(WORK *, UNK_11 *);
-s32 comm_rhsja(WORK *, UNK_11 *);
-s32 comm_uhsja(WORK *, UNK_11 *);
-s32 comm_ifcom(WORK *, UNK_11 *);
-s32 comm_axjmp(WORK *, UNK_11 *);
-s32 comm_ayjmp(WORK *, UNK_11 *);
-s32 comm_ifs3(WORK *, UNK_11 *);
+s32 comm_dummy(WORK *, UNK11 *);
+s32 comm_roa(WORK *, UNK11 *);
+s32 comm_end(WORK *, UNK11 *);
+s32 comm_jmp(WORK *, UNK11 *);
+s32 comm_jpss(WORK *, UNK11 *);
+s32 comm_jsr(WORK *, UNK11 *);
+s32 comm_ret(WORK *, UNK11 *);
+s32 comm_sps(WORK *, UNK11 *);
+s32 comm_setr(WORK *, UNK11 *);
+s32 comm_addr(WORK *, UNK11 *);
+s32 comm_if_l(WORK *, UNK11 *);
+s32 comm_djmp(WORK *, UNK11 *);
+s32 comm_for(WORK *, UNK11 *);
+s32 comm_nex(WORK *, UNK11 *);
+s32 comm_for2(WORK *, UNK11 *);
+s32 comm_nex2(WORK *, UNK11 *);
+s32 comm_rja(WORK *, UNK11 *);
+s32 comm_uja(WORK *, UNK11 *);
+s32 comm_rja2(WORK *, UNK11 *);
+s32 comm_uja2(WORK *, UNK11 *);
+s32 comm_rja3(WORK *, UNK11 *);
+s32 comm_uja3(WORK *, UNK11 *);
+s32 comm_rja4(WORK *, UNK11 *);
+s32 comm_uja4(WORK *, UNK11 *);
+s32 comm_rja5(WORK *, UNK11 *);
+s32 comm_uja5(WORK *, UNK11 *);
+s32 comm_rja6(WORK *, UNK11 *);
+s32 comm_uja6(WORK *, UNK11 *);
+s32 comm_rja7(WORK *, UNK11 *);
+s32 comm_uja7(WORK *, UNK11 *);
+s32 comm_rmja(WORK *, UNK11 *);
+s32 comm_umja(WORK *, UNK11 *);
+s32 comm_mdat(WORK *, UNK11 *);
+s32 comm_ydat(WORK *, UNK11 *);
+s32 comm_mpos(WORK *, UNK11 *);
+s32 comm_cafr(WORK *, UNK11 *);
+s32 comm_care(WORK *, UNK11 *);
+s32 comm_psxy(WORK *, UNK11 *);
+s32 comm_ps_x(WORK *, UNK11 *);
+s32 comm_ps_y(WORK *, UNK11 *);
+s32 comm_paxy(WORK *, UNK11 *);
+s32 comm_pa_x(WORK *, UNK11 *);
+s32 comm_pa_y(WORK *, UNK11 *);
+s32 comm_exec(WORK *, UNK11 *);
+s32 comm_rngc(WORK *, UNK11 *);
+s32 comm_mxyt(WORK *, UNK11 *);
+s32 comm_pjmp(WORK *, UNK11 *);
+s32 comm_hjmp(WORK *, UNK11 *);
+s32 comm_hclr(WORK *, UNK11 *);
+s32 comm_ixfw(WORK *, UNK11 *);
+s32 comm_ixbw(WORK *, UNK11 *);
+s32 comm_quax(WORK *, UNK11 *);
+s32 comm_quay(WORK *, UNK11 *);
+s32 comm_if_s(WORK *, UNK11 *);
+s32 comm_rapp(WORK *, UNK11 *);
+s32 comm_rapk(WORK *, UNK11 *);
+s32 comm_gets(WORK *, UNK11 *);
+s32 comm_s123(WORK *, UNK11 *);
+s32 comm_s456(WORK *, UNK11 *);
+s32 comm_a123(WORK *, UNK11 *);
+s32 comm_a456(WORK *, UNK11 *);
+s32 comm_stop(WORK *, UNK11 *);
+s32 comm_smhf(WORK *, UNK11 *);
+s32 comm_ngme(WORK *, UNK11 *);
+s32 comm_ngem(WORK *, UNK11 *);
+s32 comm_iflb(WORK *, UNK11 *);
+s32 comm_asxy(WORK *, UNK11 *);
+s32 comm_schx(WORK *, UNK11 *);
+s32 comm_schy(WORK *, UNK11 *);
+s32 comm_back(WORK *, UNK11 *);
+s32 comm_mvix(WORK *, UNK11 *);
+s32 comm_sajp(WORK *, UNK11 *);
+s32 comm_ccch(WORK *, UNK11 *);
+s32 comm_wset(WORK *, UNK11 *);
+s32 comm_wswk(WORK *, UNK11 *);
+s32 comm_wadd(WORK *, UNK11 *);
+s32 comm_wceq(WORK *, UNK11 *);
+s32 comm_wcne(WORK *, UNK11 *);
+s32 comm_wcgt(WORK *, UNK11 *);
+s32 comm_wclt(WORK *, UNK11 *);
+s32 comm_wadd2(WORK *, UNK11 *);
+s32 comm_wceq2(WORK *, UNK11 *);
+s32 comm_wcne2(WORK *, UNK11 *);
+s32 comm_wcgt2(WORK *, UNK11 *);
+s32 comm_wclt2(WORK *, UNK11 *);
+s32 comm_rapp2(WORK *, UNK11 *);
+s32 comm_rapk2(WORK *, UNK11 *);
+s32 comm_iflg(WORK *, UNK11 *);
+s32 comm_mpcy(WORK *, UNK11 *);
+s32 comm_epcy(WORK *, UNK11 *);
+s32 comm_imgs(WORK *, UNK11 *);
+s32 comm_imgc(WORK *, UNK11 *);
+s32 comm_rvxy(WORK *, UNK11 *);
+s32 comm_rv_x(WORK *, UNK11 *);
+s32 comm_rv_y(WORK *, UNK11 *);
+s32 comm_ccfl(WORK *, UNK11 *);
+s32 comm_myhp(WORK *, UNK11 *);
+s32 comm_emhp(WORK *, UNK11 *);
+s32 comm_exbgs(WORK *, UNK11 *);
+s32 comm_exbgc(WORK *, UNK11 *);
+s32 comm_atmf(WORK *, UNK11 *);
+s32 comm_chkwf(WORK *, UNK11 *);
+s32 comm_retmj(WORK *, UNK11 *);
+s32 comm_sstx(WORK *, UNK11 *);
+s32 comm_ssty(WORK *, UNK11 *);
+s32 comm_ngda(WORK *, UNK11 *);
+s32 comm_flip(WORK *, UNK11 *);
+s32 comm_kage(WORK *, UNK11 *);
+s32 comm_dspf(WORK *, UNK11 *);
+s32 comm_ifrlf(WORK *, UNK11 *);
+s32 comm_srlf(WORK *, UNK11 *);
+s32 comm_bgrlf(WORK *, UNK11 *);
+s32 comm_scmd(WORK *, UNK11 *);
+s32 comm_rljmp(WORK *, UNK11 *);
+s32 comm_ifs2(WORK *, UNK11 *);
+s32 comm_abbak(WORK *, UNK11 *);
+s32 comm_sse(WORK *, UNK11 *);
+s32 comm_s_chg(WORK *, UNK11 *);
+s32 comm_schg2(WORK *, UNK11 *);
+s32 comm_rhsja(WORK *, UNK11 *);
+s32 comm_uhsja(WORK *, UNK11 *);
+s32 comm_ifcom(WORK *, UNK11 *);
+s32 comm_axjmp(WORK *, UNK11 *);
+s32 comm_ayjmp(WORK *, UNK11 *);
+s32 comm_ifs3(WORK *, UNK11 *);
 
 // 0x1 - comm_roa
 // 0xC - comm_for
