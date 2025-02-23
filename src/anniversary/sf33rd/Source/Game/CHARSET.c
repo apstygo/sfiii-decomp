@@ -883,12 +883,6 @@ s32 comm_axjmp(WORK *, UNK11 *);
 s32 comm_ayjmp(WORK *, UNK11 *);
 s32 comm_ifs3(WORK *, UNK11 *);
 
-// 0x1 - comm_roa
-// 0xC - comm_for
-// 0xD - comm_nex
-// 0x2A - comm_pa_y
-// 0x32 - comm_ixbw
-
 s32 (*const decode_chcmd[125])() = {
     comm_dummy, comm_roa,   comm_end,   comm_jmp,   comm_jpss,  comm_jsr,   comm_ret,   comm_sps,   comm_setr,
     comm_addr,  comm_if_l,  comm_djmp,  comm_for,   comm_nex,   comm_for2,  comm_nex2,  comm_rja,   comm_uja,
