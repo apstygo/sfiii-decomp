@@ -1,6 +1,7 @@
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "common.h"
 #include "sf33rd/Source/Game/EFFXX.h"
+#include "sf33rd/Source/Game/Grade.h"
 #include "sf33rd/Source/Game/HITCHECK.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/PLS02.h"
@@ -14,8 +15,10 @@
 extern const u16 acatkoa_table[65];
 extern s32 (*const decode_chcmd[125])();
 extern const s16 jphos_table[16];
+extern const s16 kezuri_pow_table[5];
 
 static u16 check_xcopy_filter_se_req(WORK *wk);
+void setup_metamor_kezuri(WORK *wk);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", set_char_move_init);
 
@@ -615,7 +618,59 @@ u16 check_xcopy_filter_se_req(WORK *wk) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", check_cgd_patdat2);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", set_new_attnum);
+void set_new_attnum(WORK *wk) {
+    s16 aag_sw;
+    u32 dspadrs;
+    static u16 att_req;
+
+    wk->renew_attack = wk->cg_att_ix;
+
+    if ((att_req = (++att_req & 0x7FFF)) == 0) {
+        att_req++;
+    }
+
+    aag_sw = 0;
+
+    if (wk->cg_att_ix < 0) {
+        wk->cg_att_ix = -wk->cg_att_ix;
+        wk->attack_num = att_req;
+        wk->att_hit_ok = 1;
+        aag_sw = 1;
+        wk->meoshi_hit_flag = 0;
+
+        if (wk->work_id == 1) {
+            WK_AS_PLW->caution_flag = 1;
+            WK_AS_PLW->total_att_hit_ok += 1;
+        }
+
+        grade_add_att_renew((WORK_Other *)wk);
+    }
+
+    wk->att = *(wk->att_ix_table + wk->cg_att_ix);
+    dspadrs = (u32)(wk->att_ix_table + wk->cg_att_ix);
+    wk->zu_flag = wk->att.level & 0x80;
+    wk->jump_att_flag = wk->att.level & 0x40;
+    wk->at_attribute = (wk->att.level >> 4) & 3;
+    wk->no_death_attack = wk->att.level & 8;
+    wk->att.level &= 7;
+    wk->kezuri_pow = kezuri_pow_table[(wk->att.guard >> 6) & 3];
+    wk->att.guard &= 0x3F;
+    wk->att_zuru = (wk->att.dir >> 4) & 7;
+    wk->att.dir &= 0xF;
+    wk->add_arts_point = (wk->att.piyo >> 4) & 0xF;
+    wk->att.piyo &= 0xF;
+    wk->vs_id = (wk->att.ng_type >> 4) & 0xF;
+    wk->att.ng_type &= 0xF;
+    wk->dir_atthit = cal_attdir(wk);
+
+    if (aag_sw) {
+        add_sp_arts_gauge_init((PLW *)wk);
+    }
+
+    if ((wk->work_id == 1) && !(WK_AS_PLW->spmv_ng_flag & 0x4000)) {
+        setup_metamor_kezuri(wk);
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", setup_metamor_kezuri);
 
@@ -626,7 +681,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", get_char_
 const s16 jphos_table[16] = { 0x0000, 0xFFF0, 0xFFF4, 0xFFF8, 0xFFFC, 0x0004, 0x0008, 0x000C,
                               0x0010, 0x0014, 0x0018, 0x001C, 0x0020, 0x0024, 0x0028, 0x002C };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", kezuri_pow_table);
+const s16 kezuri_pow_table[5] = { 0, 4, 8, 16, 24 };
 
 s32 comm_dummy(WORK *, UNK_11 *);
 s32 comm_roa(WORK *, UNK_11 *);

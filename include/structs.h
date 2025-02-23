@@ -611,33 +611,33 @@ typedef struct {
             s32 timer; // offset 0x0, size 0x4
             struct /* @anon41 */ {
                 // total size: 0x4
-                s16 l;     // offset 0x0, size 0x2
-                s16 h;     // offset 0x2, size 0x2
-            } quantity;    // offset 0x0, size 0x4
-        } now;             // offset 0x8, size 0x4
-        s32 recover;       // offset 0xC, size 0x4
-        s16 store;         // offset 0x10, size 0x2
-        s16 again;         // offset 0x12, size 0x2
-    } *py;                 // offset 0x3CC, size 0x4
-    s8 wkey_flag;          // offset 0x3D0, size 0x1
-    s8 dead_flag;          // offset 0x3D1, size 0x1
-    s16 ukemi_ok_timer;    // offset 0x3D2, size 0x2
-    s16 backup_ok_timer;   // offset 0x3D4, size 0x2
-    s8 uot_cd_ok_flag;     // offset 0x3D6, size 0x1
-    s8 ukemi_success;      // offset 0x3D7, size 0x1
-    s16 old_pos_data[8];   // offset 0x3D8, size 0x10
-    s16 move_distance;     // offset 0x3E8, size 0x2
-    s16 move_power;        // offset 0x3EA, size 0x2
-    s16 sa_stop_sai;       // offset 0x3EC, size 0x2
-    u8 saishin_lvdir;      // offset 0x3EE, size 0x1
-    u8 sa_stop_lvdir;      // offset 0x3EF, size 0x1
-    u8 sa_stop_flag;       // offset 0x3F0, size 0x1
-    u8 kezurijini_flag;    // offset 0x3F1, size 0x1
-    WORK *illusion_work; // offset 0x3F4, size 0x4
-    s16 image_setup_flag;  // offset 0x3F8, size 0x2
-    s16 image_data_index;  // offset 0x3FA, size 0x2
-    u8 caution_flag;       // offset 0x3FC, size 0x1
-    u8 tc_1st_flag;        // offset 0x3FD, size 0x1
+                s16 l;    // offset 0x0, size 0x2
+                s16 h;    // offset 0x2, size 0x2
+            } quantity;   // offset 0x0, size 0x4
+        } now;            // offset 0x8, size 0x4
+        s32 recover;      // offset 0xC, size 0x4
+        s16 store;        // offset 0x10, size 0x2
+        s16 again;        // offset 0x12, size 0x2
+    } *py;                // offset 0x3CC, size 0x4
+    s8 wkey_flag;         // offset 0x3D0, size 0x1
+    s8 dead_flag;         // offset 0x3D1, size 0x1
+    s16 ukemi_ok_timer;   // offset 0x3D2, size 0x2
+    s16 backup_ok_timer;  // offset 0x3D4, size 0x2
+    s8 uot_cd_ok_flag;    // offset 0x3D6, size 0x1
+    s8 ukemi_success;     // offset 0x3D7, size 0x1
+    s16 old_pos_data[8];  // offset 0x3D8, size 0x10
+    s16 move_distance;    // offset 0x3E8, size 0x2
+    s16 move_power;       // offset 0x3EA, size 0x2
+    s16 sa_stop_sai;      // offset 0x3EC, size 0x2
+    u8 saishin_lvdir;     // offset 0x3EE, size 0x1
+    u8 sa_stop_lvdir;     // offset 0x3EF, size 0x1
+    u8 sa_stop_flag;      // offset 0x3F0, size 0x1
+    u8 kezurijini_flag;   // offset 0x3F1, size 0x1
+    WORK *illusion_work;  // offset 0x3F4, size 0x4
+    s16 image_setup_flag; // offset 0x3F8, size 0x2
+    s16 image_data_index; // offset 0x3FA, size 0x2
+    u8 caution_flag;      // offset 0x3FC, size 0x1
+    u8 tc_1st_flag;       // offset 0x3FD, size 0x1
     struct /* @anon27 */ {
         // total size: 0xA8
         s16 total;             // offset 0x0, size 0x2
@@ -706,6 +706,21 @@ typedef struct {
     s16 reserv_add_y;          // offset 0x454, size 0x2
     u8 pt_free[20];            // offset 0x456, size 0x14
 } PLW;
+
+typedef struct {
+    WORK wu;             // offset 0x0, size 0x388
+    u32 *my_master;      // offset 0x388, size 0x4
+    s16 master_work_id;  // offset 0x38C, size 0x2
+    s16 master_id;       // offset 0x38E, size 0x2
+    s16 master_player;   // offset 0x390, size 0x2
+    s16 master_priority; // offset 0x392, size 0x2
+    u8 dm_refrect;       // offset 0x394, size 0x1
+    u8 refrected;        // offset 0x395, size 0x1
+    s16 free;            // offset 0x396, size 0x2
+    u32 master_ng_flag;  // offset 0x398, size 0x4
+    u32 master_ng_flag2; // offset 0x39C, size 0x4
+    u8 et_free[30];      // offset 0x3A0, size 0x1E
+} WORK_Other;
 
 typedef struct {
     // total size: 0x470
