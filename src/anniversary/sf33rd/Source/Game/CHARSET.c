@@ -150,7 +150,20 @@ void check_cm_extended_code(WORK *wk) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_dummy);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_roa);
+#else
+s32 comm_roa(WORK *wk, UNK_11 * /* unused */) {
+    if (wk->cmoa.pat == 0) {
+        wk->cmoa.koc = wk->now_koc;
+        wk->cmoa.ix = wk->char_index;
+        wk->cmoa.pat = 1;
+    }
+
+    set_char_move_init2(wk, wk->cmoa.koc, wk->cmoa.ix, wk->cmoa.pat, 0);
+    return 0;
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_end);
 
@@ -819,6 +832,12 @@ s32 comm_ifcom(WORK *, UNK_11 *);
 s32 comm_axjmp(WORK *, UNK_11 *);
 s32 comm_ayjmp(WORK *, UNK_11 *);
 s32 comm_ifs3(WORK *, UNK_11 *);
+
+// 0x1 - comm_roa
+// 0xC - comm_for
+// 0xD - comm_nex
+// 0x2A - comm_pa_y
+// 0x32 - comm_ixbw
 
 s32 (*const decode_chcmd[125])() = {
     comm_dummy, comm_roa,   comm_end,   comm_jmp,   comm_jpss,  comm_jsr,   comm_ret,   comm_sps,   comm_setr,
