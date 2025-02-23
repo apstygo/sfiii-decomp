@@ -12,6 +12,7 @@ extern PPGDataList ppgWarList;     // size: 0x8, address: 0x57B358
 extern Palette ppgAdxPal;          // size: 0x14, address: 0x57B360
 extern Palette ppgWarPal;          // size: 0x14, address: 0x57B380
 extern Texture ppgWarTex;          // size: 0x20, address: 0x57B3A0
+extern PPGDataList ppgTitleList;   // size: 0x8, address: 0x57B3C0
 extern Texture ppgTitleTex;        // size: 0x20, address: 0x57B3D0
 extern PPGDataList ppgOpnBgList;   // size: 0x8, address: 0x57B3F0
 extern Texture ppgOpnBgTex;        // size: 0x20, address: 0x57B400

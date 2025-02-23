@@ -3,6 +3,7 @@
 
 #include "types.h"
 
+extern s16 Opening_Now;            // size: 0x2, address: 0x579DB0
 extern u8 plsw_01[2];              // size: 0x4, address: 0x579DD0
 extern u8 plsw_00[2];              // size: 0x4, address: 0x579DD4
 extern u16 VS_Win_Record[2];       // size: 0x4, address: 0x579DD8

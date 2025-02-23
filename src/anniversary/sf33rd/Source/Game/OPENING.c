@@ -1,11 +1,21 @@
 #include "sf33rd/Source/Game/OPENING.h"
 #include "common.h"
+#include "sf33rd/AcrSDK/ps2/foundaps2.h"
+#include "sf33rd/Source/Common/MemMan.h"
+#include "sf33rd/Source/Common/PPGFile.h"
+#include "sf33rd/Source/Common/PPGWork.h"
+#include "sf33rd/Source/Game/GD3rd.h"
+#include "sf33rd/Source/Game/RAMCNT.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/op_sub.h"
 #include "sf33rd/Source/Game/sc_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
+
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", title00);
+
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", optsr_tbl);
 
 s16 op_obj_disp;
 s8 op_scrn_end;
@@ -73,7 +83,31 @@ s16 opening_demo() {
     return 0;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", TITLE_Init);
+void TITLE_Init() {
+    void *loadAdrs;
+    u32 loadSize;
+    s16 key;
+
+    mmDebWriteTag("\nMAIN TITLE\n\n");
+    Opening_Now = 0;
+    ppgTitleList.tex = &ppgTitleTex;
+    ppgTitleList.pal = NULL;
+    ppgSetupCurrentDataList(&ppgTitleList);
+    loadSize = load_it_use_any_key2(0x4E, &loadAdrs, &key, 2, 1);
+
+    if (loadSize == 0) {
+        flLogOut("メインタイトルのテクスチャが読み込めませんでした。\n");
+        while (1) {}
+    }
+
+    ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, 0x259, 1, 0, 0);
+    ppgSetupTexChunk_2nd(NULL, 0x259);
+    ppgSetupTexChunk_3rd(NULL, 0x259, 1);
+    Push_ramcnt_key(key);
+    ppgSourceDataReleased(NULL);
+    title_tex_flag = 1;
+    op_w.r_no_0 = 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", TITLE_Move);
 
@@ -120,14 +154,6 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", op_100_mo
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", op_101_move);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", op_102_move);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", title00);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", optsr_tbl);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", literal_220_00523068);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", literal_221_00523080);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", literal_264_005230B8);
 
