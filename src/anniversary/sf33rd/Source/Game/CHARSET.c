@@ -2,9 +2,14 @@
 #include "common.h"
 #include "sf33rd/Source/Game/EFFXX.h"
 #include "sf33rd/Source/Game/HITCHECK.h"
+#include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/PLS03.h"
 #include "sf33rd/Source/Game/Se_Data.h"
+
+#define LO_2_BYTES(_val) (((s16 *)&_val)[0])
+#define HI_2_BYTES(_val) (((s16 *)&_val)[1])
+#define WK_AS_PLW ((PLW *)wk)
 
 extern const u16 acatkoa_table[65];
 extern s32 (*const decode_chcmd[125])();
@@ -504,7 +509,7 @@ void check_cgd_patdat(WORK *wk) {
     }
 
     if (wk->work_id == 1) {
-        if ((((PLW *)wk)->spmv_ng_flag2 & 1) && (wk->cg_cancel & 8) && !(wk->kow & 0xF8)) {
+        if ((WK_AS_PLW->spmv_ng_flag2 & 1) && (wk->cg_cancel & 8) && !(wk->kow & 0xF8)) {
             if (wk->kow & 6) {
                 wk->cg_cancel &= 0xF7;
                 wk->cg_meoshi = 0;
@@ -516,7 +521,7 @@ void check_cgd_patdat(WORK *wk) {
             }
         }
 
-        if (((PLW *)wk)->spmv_ng_flag2 & 8) {
+        if (WK_AS_PLW->spmv_ng_flag2 & 8) {
             if (wk->kow & 0x60) {
                 wk->cg_cancel &= 0xBF;
             }
@@ -524,41 +529,45 @@ void check_cgd_patdat(WORK *wk) {
             wk->meoshi_hit_flag = 1;
         }
 
-        if (!(((PLW *)wk)->spmv_ng_flag2 & 2) && !(wk->kow & 0x60) && (wk->kow & 0xF8) && (wk->cg_cancel & 0x40)) {
+        if (!(WK_AS_PLW->spmv_ng_flag2 & 2) && !(wk->kow & 0x60) && (wk->kow & 0xF8) && (wk->cg_cancel & 0x40)) {
             wk->cg_cancel |= 0x60;
         }
 
         if (!(wk->kow & 0xF8) && (wk->routine_no[1] == 4) && (wk->routine_no[2] < 16)) {
             switch (plpat_rno_filter[wk->routine_no[2]]) {
             case 9:
-                if (wk->routine_no[3] == 1) {
-                case 1:
-                    if (!(((PLW *)wk)->spmv_ng_flag2 & 0x01000000)) {
-                        wk->cg_cancel |= 1;
-                    }
+                if (wk->routine_no[3] != 1) {
+                    break;
+                }
 
-                    if (!(((PLW *)wk)->spmv_ng_flag2 & 0x02000000)) {
-                        wk->cg_cancel |= 2;
-                    }
+                /* fallthrough */
 
-                    if (!(((PLW *)wk)->spmv_ng_flag2 & 0x100000)) {
-                        if (((PLW *)wk)->player_number == 4) {
-                            wk->cg_meoshi = chain_hidou_nm_ground_table[wk->kow & 7];
-                            wk->cg_cancel |= 8;
-                            return;
-                        }
+            case 1:
+                if (!(WK_AS_PLW->spmv_ng_flag2 & 0x01000000)) {
+                    wk->cg_cancel |= 1;
+                }
 
-                        wk->cg_meoshi = chain_normal_ground_table[wk->kow & 7];
+                if (!(WK_AS_PLW->spmv_ng_flag2 & 0x02000000)) {
+                    wk->cg_cancel |= 2;
+                }
+
+                if (!(WK_AS_PLW->spmv_ng_flag2 & 0x100000)) {
+                    if (WK_AS_PLW->player_number == 4) {
+                        wk->cg_meoshi = chain_hidou_nm_ground_table[wk->kow & 7];
                         wk->cg_cancel |= 8;
                         return;
                     }
+
+                    wk->cg_meoshi = chain_normal_ground_table[wk->kow & 7];
+                    wk->cg_cancel |= 8;
+                    return;
                 }
 
                 break;
 
             case 2:
-                if (!(((PLW *)wk)->spmv_ng_flag2 & 0x200000) && !hikusugi_check(wk)) {
-                    if (((PLW *)wk)->player_number == 7) {
+                if (!(WK_AS_PLW->spmv_ng_flag2 & 0x200000) && !hikusugi_check(wk)) {
+                    if (WK_AS_PLW->player_number == 7) {
                         wk->cg_meoshi = chain_hidou_nm_air_table[wk->kow & 7];
                         wk->cg_cancel |= 8;
                         return;
@@ -574,7 +583,35 @@ void check_cgd_patdat(WORK *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", check_xcopy_filter_se_req);
+u16 check_xcopy_filter_se_req(WORK *wk) {
+    u16 voif;
+
+    if ((voif = wk->cg_se) < 0x160) {
+        return voif;
+    }
+
+    if (wk->work_id != 1) {
+        if (LO_2_BYTES(WK_AS_PLW->spmv_ng_flag) != 1) {
+            return voif;
+        }
+
+        if ((u16)HI_2_BYTES(WK_AS_PLW->spmv_ng_flag) > 1) {
+            return voif;
+        }
+
+        if (plw[HI_2_BYTES(WK_AS_PLW->spmv_ng_flag)].metamorphose == 0) {
+            return voif;
+        }
+
+        return voif + 0x600;
+    }
+
+    if (WK_AS_PLW->metamorphose == 0) {
+        return voif;
+    }
+
+    return voif + 0x600;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", check_cgd_patdat2);
 
