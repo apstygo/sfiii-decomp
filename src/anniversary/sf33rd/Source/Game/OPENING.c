@@ -21,7 +21,57 @@ s16 op_sound_status;
 MVXY op_bg_mvxy[3];
 OP_W op_w;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", opening_demo);
+void OPBG_Init();
+s16 OPBG_Move();
+
+s16 opening_demo() {
+    switch (D_No[3]) {
+    case 0:
+        D_No[3] += 1;
+        OPBG_Init();
+        break;
+
+    case 1:
+        if (OPBG_Move(0)) {
+            D_No[3] += 1;
+            reset_dma_group(0x8C40);
+            purge_texcash_work(9);
+            TexRelease_OP();
+            TITLE_Init();
+            FadeInit();
+        }
+
+        break;
+
+    case 2:
+        TITLE_Move(0);
+
+        if (FadeIn(0, 4, 8) != 0) {
+            D_No[3] += 1;
+            op_timer0 = 300;
+        }
+
+        break;
+
+    case 3:
+        if (!Game_pause) {
+            if (--op_timer0 == 0) {
+                D_No[3] = 0x63;
+            }
+        }
+
+        TITLE_Move(1);
+        Disp_Copyright();
+        break;
+
+    default:
+        TITLE_Move(1);
+        Disp_Copyright();
+        return 1;
+    }
+
+    return 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", TITLE_Init);
 
