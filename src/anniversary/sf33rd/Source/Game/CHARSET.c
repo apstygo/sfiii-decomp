@@ -1,8 +1,16 @@
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "common.h"
+#include "sf33rd/Source/Game/EFFXX.h"
+#include "sf33rd/Source/Game/HITCHECK.h"
+#include "sf33rd/Source/Game/PLS02.h"
+#include "sf33rd/Source/Game/PLS03.h"
+#include "sf33rd/Source/Game/Se_Data.h"
 
 extern const u16 acatkoa_table[65];
-extern s32 (* const decode_chcmd[125])();
+extern s32 (*const decode_chcmd[125])();
+extern const s16 jphos_table[16];
+
+static u16 check_xcopy_filter_se_req(WORK *wk);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", set_char_move_init);
 
@@ -402,7 +410,169 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", setup_com
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", setup_comm_abbak);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", check_cgd_patdat);
+void check_cgd_patdat(WORK *wk) {
+    union {
+        s32 l; // offset 0x0, size 0x4
+        struct {
+            // total size: 0x4
+            s16 l; // offset 0x0, size 0x2
+            s16 h; // offset 0x2, size 0x2
+        } w;       // offset 0x0, size 0x4
+    } st;
+
+    u16 *seAdrs;
+    s16 *from_rom2;
+
+    setupCharTableData(wk, 0, 0);
+
+    switch (wk->cgd_type) {
+    case 6:
+        if (wk->cg_add_xy) {
+            from_rom2 = wk->step_xy_table + wk->cg_add_xy;
+            st.l = *from_rom2++;
+            st.l <<= 8;
+
+            if (wk->rl_flag) {
+                wk->xyz[0].cal += st.l;
+            } else {
+                wk->xyz[0].cal -= st.l;
+            }
+
+            st.l = *from_rom2;
+            st.l <<= 8;
+            wk->xyz[1].cal += st.l;
+        }
+
+        if (wk->cg_status & 0x80) {
+            wk->pat_status = wk->cg_status & 0x7F;
+        }
+
+        /* fallthrough */
+
+    case 4:
+        wk->cg_meoshi = wk->cg_hit_ix & 0x1FFF;
+        st.w.h = wk->cg_att_ix;
+        st.w.l = wk->cg_hit_ix;
+        wk->cg_att_ix >>= 6;
+        st.l *= 8;
+        wk->cg_hit_ix = st.w.h & 0x1FF;
+
+        if (wk->cg_att_ix) {
+            set_new_attnum(wk);
+        }
+
+        if (wk->cg_effect) {
+            effinitjptbl[wk->cg_effect](wk, wk->cg_eftype);
+        }
+
+        break;
+    }
+
+    wk->cg_jphos = jphos_table[wk->cg_olc_ix & 0xF];
+    wk->cg_olc_ix >>= 4;
+    wk->cg_flip = wk->cg_se & 3;
+    wk->cg_prio = (wk->cg_se & 0xF) >> 2;
+    wk->cg_se >>= 4;
+
+    if (wk->cg_se & 0x800) {
+        seAdrs = (u16 *)(wk->se_random_table + (wk->se_random_table[wk->cg_se & 0x7FF] / 4));
+        wk->cg_se = seAdrs[random_16()];
+    }
+
+    if (wk->cg_se) {
+        sound_effect_request[wk->cg_se](wk, check_xcopy_filter_se_req(wk));
+    }
+
+    if (wk->work_id == 1) {
+        if (wk->cg_rival == 0) {
+            wk->curr_rca = NULL;
+        } else {
+            wk->curr_rca = wk->rival_catch_tbl + (wk->cg_rival - 0x14 + wk[1].before);
+        }
+
+        wk->cg_olc = *(wk->olc_ix_table + wk->cg_olc_ix);
+    }
+
+    if (wk->work_id < 16) {
+        wk->cg_ja = *(wk->hit_ix_table + wk->cg_hit_ix);
+        set_jugde_area(wk);
+    }
+
+    if ((wk->cg_type != 0xFF) && (wk->cg_type & 0x80)) {
+        wk->cg_wca_ix = wk->cg_type & 0x7F;
+        wk->cg_type = 0;
+    }
+
+    if (wk->work_id == 1) {
+        if ((((PLW *)wk)->spmv_ng_flag2 & 1) && (wk->cg_cancel & 8) && !(wk->kow & 0xF8)) {
+            if (wk->kow & 6) {
+                wk->cg_cancel &= 0xF7;
+                wk->cg_meoshi = 0;
+            } else if (wk->cg_meoshi & 0x110) {
+                wk->cg_meoshi &= 0xF99F;
+            } else {
+                wk->cg_cancel &= 0xF7;
+                wk->cg_meoshi = 0;
+            }
+        }
+
+        if (((PLW *)wk)->spmv_ng_flag2 & 8) {
+            if (wk->kow & 0x60) {
+                wk->cg_cancel &= 0xBF;
+            }
+        } else if ((wk->kow & 0x60) && (wk->cg_cancel & 0x40)) {
+            wk->meoshi_hit_flag = 1;
+        }
+
+        if (!(((PLW *)wk)->spmv_ng_flag2 & 2) && !(wk->kow & 0x60) && (wk->kow & 0xF8) && (wk->cg_cancel & 0x40)) {
+            wk->cg_cancel |= 0x60;
+        }
+
+        if (!(wk->kow & 0xF8) && (wk->routine_no[1] == 4) && (wk->routine_no[2] < 16)) {
+            switch (plpat_rno_filter[wk->routine_no[2]]) {
+            case 9:
+                if (wk->routine_no[3] == 1) {
+                case 1:
+                    if (!(((PLW *)wk)->spmv_ng_flag2 & 0x01000000)) {
+                        wk->cg_cancel |= 1;
+                    }
+
+                    if (!(((PLW *)wk)->spmv_ng_flag2 & 0x02000000)) {
+                        wk->cg_cancel |= 2;
+                    }
+
+                    if (!(((PLW *)wk)->spmv_ng_flag2 & 0x100000)) {
+                        if (((PLW *)wk)->player_number == 4) {
+                            wk->cg_meoshi = chain_hidou_nm_ground_table[wk->kow & 7];
+                            wk->cg_cancel |= 8;
+                            return;
+                        }
+
+                        wk->cg_meoshi = chain_normal_ground_table[wk->kow & 7];
+                        wk->cg_cancel |= 8;
+                        return;
+                    }
+                }
+
+                break;
+
+            case 2:
+                if (!(((PLW *)wk)->spmv_ng_flag2 & 0x200000) && !hikusugi_check(wk)) {
+                    if (((PLW *)wk)->player_number == 7) {
+                        wk->cg_meoshi = chain_hidou_nm_air_table[wk->kow & 7];
+                        wk->cg_cancel |= 8;
+                        return;
+                    }
+
+                    wk->cg_meoshi = chain_normal_air_table[wk->kow & 7];
+                    wk->cg_cancel |= 8;
+                }
+
+                break;
+            }
+        }
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", check_xcopy_filter_se_req);
 
@@ -416,262 +586,152 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", set_jugde
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", get_char_data_zanzou);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", jphos_table);
+const s16 jphos_table[16] = { 0x0000, 0xFFF0, 0xFFF4, 0xFFF8, 0xFFFC, 0x0004, 0x0008, 0x000C,
+                              0x0010, 0x0014, 0x0018, 0x001C, 0x0020, 0x0024, 0x0028, 0x002C };
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", kezuri_pow_table);
 
-s32 comm_dummy(WORK*, UNK_11*);
-s32 comm_roa(WORK*, UNK_11*);
-s32 comm_end(WORK*, UNK_11*);
-s32 comm_jmp(WORK*, UNK_11*);
-s32 comm_jpss(WORK*, UNK_11*);
-s32 comm_jsr(WORK*, UNK_11*);
-s32 comm_ret(WORK*, UNK_11*);
-s32 comm_sps(WORK*, UNK_11*);
-s32 comm_setr(WORK*, UNK_11*);
-s32 comm_addr(WORK*, UNK_11*);
-s32 comm_if_l(WORK*, UNK_11*);
-s32 comm_djmp(WORK*, UNK_11*);
-s32 comm_for(WORK*, UNK_11*);
-s32 comm_nex(WORK*, UNK_11*);
-s32 comm_for2(WORK*, UNK_11*);
-s32 comm_nex2(WORK*, UNK_11*);
-s32 comm_rja(WORK*, UNK_11*);
-s32 comm_uja(WORK*, UNK_11*);
-s32 comm_rja2(WORK*, UNK_11*);
-s32 comm_uja2(WORK*, UNK_11*);
-s32 comm_rja3(WORK*, UNK_11*);
-s32 comm_uja3(WORK*, UNK_11*);
-s32 comm_rja4(WORK*, UNK_11*);
-s32 comm_uja4(WORK*, UNK_11*);
-s32 comm_rja5(WORK*, UNK_11*);
-s32 comm_uja5(WORK*, UNK_11*);
-s32 comm_rja6(WORK*, UNK_11*);
-s32 comm_uja6(WORK*, UNK_11*);
-s32 comm_rja7(WORK*, UNK_11*);
-s32 comm_uja7(WORK*, UNK_11*);
-s32 comm_rmja(WORK*, UNK_11*);
-s32 comm_umja(WORK*, UNK_11*);
-s32 comm_mdat(WORK*, UNK_11*);
-s32 comm_ydat(WORK*, UNK_11*);
-s32 comm_mpos(WORK*, UNK_11*);
-s32 comm_cafr(WORK*, UNK_11*);
-s32 comm_care(WORK*, UNK_11*);
-s32 comm_psxy(WORK*, UNK_11*);
-s32 comm_ps_x(WORK*, UNK_11*);
-s32 comm_ps_y(WORK*, UNK_11*);
-s32 comm_paxy(WORK*, UNK_11*);
-s32 comm_pa_x(WORK*, UNK_11*);
-s32 comm_pa_y(WORK*, UNK_11*);
-s32 comm_exec(WORK*, UNK_11*);
-s32 comm_rngc(WORK*, UNK_11*);
-s32 comm_mxyt(WORK*, UNK_11*);
-s32 comm_pjmp(WORK*, UNK_11*);
-s32 comm_hjmp(WORK*, UNK_11*);
-s32 comm_hclr(WORK*, UNK_11*);
-s32 comm_ixfw(WORK*, UNK_11*);
-s32 comm_ixbw(WORK*, UNK_11*);
-s32 comm_quax(WORK*, UNK_11*);
-s32 comm_quay(WORK*, UNK_11*);
-s32 comm_if_s(WORK*, UNK_11*);
-s32 comm_rapp(WORK*, UNK_11*);
-s32 comm_rapk(WORK*, UNK_11*);
-s32 comm_gets(WORK*, UNK_11*);
-s32 comm_s123(WORK*, UNK_11*);
-s32 comm_s456(WORK*, UNK_11*);
-s32 comm_a123(WORK*, UNK_11*);
-s32 comm_a456(WORK*, UNK_11*);
-s32 comm_stop(WORK*, UNK_11*);
-s32 comm_smhf(WORK*, UNK_11*);
-s32 comm_ngme(WORK*, UNK_11*);
-s32 comm_ngem(WORK*, UNK_11*);
-s32 comm_iflb(WORK*, UNK_11*);
-s32 comm_asxy(WORK*, UNK_11*);
-s32 comm_schx(WORK*, UNK_11*);
-s32 comm_schy(WORK*, UNK_11*);
-s32 comm_back(WORK*, UNK_11*);
-s32 comm_mvix(WORK*, UNK_11*);
-s32 comm_sajp(WORK*, UNK_11*);
-s32 comm_ccch(WORK*, UNK_11*);
-s32 comm_wset(WORK*, UNK_11*);
-s32 comm_wswk(WORK*, UNK_11*);
-s32 comm_wadd(WORK*, UNK_11*);
-s32 comm_wceq(WORK*, UNK_11*);
-s32 comm_wcne(WORK*, UNK_11*);
-s32 comm_wcgt(WORK*, UNK_11*);
-s32 comm_wclt(WORK*, UNK_11*);
-s32 comm_wadd2(WORK*, UNK_11*);
-s32 comm_wceq2(WORK*, UNK_11*);
-s32 comm_wcne2(WORK*, UNK_11*);
-s32 comm_wcgt2(WORK*, UNK_11*);
-s32 comm_wclt2(WORK*, UNK_11*);
-s32 comm_rapp2(WORK*, UNK_11*);
-s32 comm_rapk2(WORK*, UNK_11*);
-s32 comm_iflg(WORK*, UNK_11*);
-s32 comm_mpcy(WORK*, UNK_11*);
-s32 comm_epcy(WORK*, UNK_11*);
-s32 comm_imgs(WORK*, UNK_11*);
-s32 comm_imgc(WORK*, UNK_11*);
-s32 comm_rvxy(WORK*, UNK_11*);
-s32 comm_rv_x(WORK*, UNK_11*);
-s32 comm_rv_y(WORK*, UNK_11*);
-s32 comm_ccfl(WORK*, UNK_11*);
-s32 comm_myhp(WORK*, UNK_11*);
-s32 comm_emhp(WORK*, UNK_11*);
-s32 comm_exbgs(WORK*, UNK_11*);
-s32 comm_exbgc(WORK*, UNK_11*);
-s32 comm_atmf(WORK*, UNK_11*);
-s32 comm_chkwf(WORK*, UNK_11*);
-s32 comm_retmj(WORK*, UNK_11*);
-s32 comm_sstx(WORK*, UNK_11*);
-s32 comm_ssty(WORK*, UNK_11*);
-s32 comm_ngda(WORK*, UNK_11*);
-s32 comm_flip(WORK*, UNK_11*);
-s32 comm_kage(WORK*, UNK_11*);
-s32 comm_dspf(WORK*, UNK_11*);
-s32 comm_ifrlf(WORK*, UNK_11*);
-s32 comm_srlf(WORK*, UNK_11*);
-s32 comm_bgrlf(WORK*, UNK_11*);
-s32 comm_scmd(WORK*, UNK_11*);
-s32 comm_rljmp(WORK*, UNK_11*);
-s32 comm_ifs2(WORK*, UNK_11*);
-s32 comm_abbak(WORK*, UNK_11*);
-s32 comm_sse(WORK*, UNK_11*);
-s32 comm_s_chg(WORK*, UNK_11*);
-s32 comm_schg2(WORK*, UNK_11*);
-s32 comm_rhsja(WORK*, UNK_11*);
-s32 comm_uhsja(WORK*, UNK_11*);
-s32 comm_ifcom(WORK*, UNK_11*);
-s32 comm_axjmp(WORK*, UNK_11*);
-s32 comm_ayjmp(WORK*, UNK_11*);
-s32 comm_ifs3(WORK*, UNK_11*);
+s32 comm_dummy(WORK *, UNK_11 *);
+s32 comm_roa(WORK *, UNK_11 *);
+s32 comm_end(WORK *, UNK_11 *);
+s32 comm_jmp(WORK *, UNK_11 *);
+s32 comm_jpss(WORK *, UNK_11 *);
+s32 comm_jsr(WORK *, UNK_11 *);
+s32 comm_ret(WORK *, UNK_11 *);
+s32 comm_sps(WORK *, UNK_11 *);
+s32 comm_setr(WORK *, UNK_11 *);
+s32 comm_addr(WORK *, UNK_11 *);
+s32 comm_if_l(WORK *, UNK_11 *);
+s32 comm_djmp(WORK *, UNK_11 *);
+s32 comm_for(WORK *, UNK_11 *);
+s32 comm_nex(WORK *, UNK_11 *);
+s32 comm_for2(WORK *, UNK_11 *);
+s32 comm_nex2(WORK *, UNK_11 *);
+s32 comm_rja(WORK *, UNK_11 *);
+s32 comm_uja(WORK *, UNK_11 *);
+s32 comm_rja2(WORK *, UNK_11 *);
+s32 comm_uja2(WORK *, UNK_11 *);
+s32 comm_rja3(WORK *, UNK_11 *);
+s32 comm_uja3(WORK *, UNK_11 *);
+s32 comm_rja4(WORK *, UNK_11 *);
+s32 comm_uja4(WORK *, UNK_11 *);
+s32 comm_rja5(WORK *, UNK_11 *);
+s32 comm_uja5(WORK *, UNK_11 *);
+s32 comm_rja6(WORK *, UNK_11 *);
+s32 comm_uja6(WORK *, UNK_11 *);
+s32 comm_rja7(WORK *, UNK_11 *);
+s32 comm_uja7(WORK *, UNK_11 *);
+s32 comm_rmja(WORK *, UNK_11 *);
+s32 comm_umja(WORK *, UNK_11 *);
+s32 comm_mdat(WORK *, UNK_11 *);
+s32 comm_ydat(WORK *, UNK_11 *);
+s32 comm_mpos(WORK *, UNK_11 *);
+s32 comm_cafr(WORK *, UNK_11 *);
+s32 comm_care(WORK *, UNK_11 *);
+s32 comm_psxy(WORK *, UNK_11 *);
+s32 comm_ps_x(WORK *, UNK_11 *);
+s32 comm_ps_y(WORK *, UNK_11 *);
+s32 comm_paxy(WORK *, UNK_11 *);
+s32 comm_pa_x(WORK *, UNK_11 *);
+s32 comm_pa_y(WORK *, UNK_11 *);
+s32 comm_exec(WORK *, UNK_11 *);
+s32 comm_rngc(WORK *, UNK_11 *);
+s32 comm_mxyt(WORK *, UNK_11 *);
+s32 comm_pjmp(WORK *, UNK_11 *);
+s32 comm_hjmp(WORK *, UNK_11 *);
+s32 comm_hclr(WORK *, UNK_11 *);
+s32 comm_ixfw(WORK *, UNK_11 *);
+s32 comm_ixbw(WORK *, UNK_11 *);
+s32 comm_quax(WORK *, UNK_11 *);
+s32 comm_quay(WORK *, UNK_11 *);
+s32 comm_if_s(WORK *, UNK_11 *);
+s32 comm_rapp(WORK *, UNK_11 *);
+s32 comm_rapk(WORK *, UNK_11 *);
+s32 comm_gets(WORK *, UNK_11 *);
+s32 comm_s123(WORK *, UNK_11 *);
+s32 comm_s456(WORK *, UNK_11 *);
+s32 comm_a123(WORK *, UNK_11 *);
+s32 comm_a456(WORK *, UNK_11 *);
+s32 comm_stop(WORK *, UNK_11 *);
+s32 comm_smhf(WORK *, UNK_11 *);
+s32 comm_ngme(WORK *, UNK_11 *);
+s32 comm_ngem(WORK *, UNK_11 *);
+s32 comm_iflb(WORK *, UNK_11 *);
+s32 comm_asxy(WORK *, UNK_11 *);
+s32 comm_schx(WORK *, UNK_11 *);
+s32 comm_schy(WORK *, UNK_11 *);
+s32 comm_back(WORK *, UNK_11 *);
+s32 comm_mvix(WORK *, UNK_11 *);
+s32 comm_sajp(WORK *, UNK_11 *);
+s32 comm_ccch(WORK *, UNK_11 *);
+s32 comm_wset(WORK *, UNK_11 *);
+s32 comm_wswk(WORK *, UNK_11 *);
+s32 comm_wadd(WORK *, UNK_11 *);
+s32 comm_wceq(WORK *, UNK_11 *);
+s32 comm_wcne(WORK *, UNK_11 *);
+s32 comm_wcgt(WORK *, UNK_11 *);
+s32 comm_wclt(WORK *, UNK_11 *);
+s32 comm_wadd2(WORK *, UNK_11 *);
+s32 comm_wceq2(WORK *, UNK_11 *);
+s32 comm_wcne2(WORK *, UNK_11 *);
+s32 comm_wcgt2(WORK *, UNK_11 *);
+s32 comm_wclt2(WORK *, UNK_11 *);
+s32 comm_rapp2(WORK *, UNK_11 *);
+s32 comm_rapk2(WORK *, UNK_11 *);
+s32 comm_iflg(WORK *, UNK_11 *);
+s32 comm_mpcy(WORK *, UNK_11 *);
+s32 comm_epcy(WORK *, UNK_11 *);
+s32 comm_imgs(WORK *, UNK_11 *);
+s32 comm_imgc(WORK *, UNK_11 *);
+s32 comm_rvxy(WORK *, UNK_11 *);
+s32 comm_rv_x(WORK *, UNK_11 *);
+s32 comm_rv_y(WORK *, UNK_11 *);
+s32 comm_ccfl(WORK *, UNK_11 *);
+s32 comm_myhp(WORK *, UNK_11 *);
+s32 comm_emhp(WORK *, UNK_11 *);
+s32 comm_exbgs(WORK *, UNK_11 *);
+s32 comm_exbgc(WORK *, UNK_11 *);
+s32 comm_atmf(WORK *, UNK_11 *);
+s32 comm_chkwf(WORK *, UNK_11 *);
+s32 comm_retmj(WORK *, UNK_11 *);
+s32 comm_sstx(WORK *, UNK_11 *);
+s32 comm_ssty(WORK *, UNK_11 *);
+s32 comm_ngda(WORK *, UNK_11 *);
+s32 comm_flip(WORK *, UNK_11 *);
+s32 comm_kage(WORK *, UNK_11 *);
+s32 comm_dspf(WORK *, UNK_11 *);
+s32 comm_ifrlf(WORK *, UNK_11 *);
+s32 comm_srlf(WORK *, UNK_11 *);
+s32 comm_bgrlf(WORK *, UNK_11 *);
+s32 comm_scmd(WORK *, UNK_11 *);
+s32 comm_rljmp(WORK *, UNK_11 *);
+s32 comm_ifs2(WORK *, UNK_11 *);
+s32 comm_abbak(WORK *, UNK_11 *);
+s32 comm_sse(WORK *, UNK_11 *);
+s32 comm_s_chg(WORK *, UNK_11 *);
+s32 comm_schg2(WORK *, UNK_11 *);
+s32 comm_rhsja(WORK *, UNK_11 *);
+s32 comm_uhsja(WORK *, UNK_11 *);
+s32 comm_ifcom(WORK *, UNK_11 *);
+s32 comm_axjmp(WORK *, UNK_11 *);
+s32 comm_ayjmp(WORK *, UNK_11 *);
+s32 comm_ifs3(WORK *, UNK_11 *);
 
-s32 (* const decode_chcmd[125])() = {
-    comm_dummy,
-    comm_roa,
-    comm_end,
-    comm_jmp,
-    comm_jpss,
-    comm_jsr,
-    comm_ret,
-    comm_sps,
-    comm_setr,
-    comm_addr,
-    comm_if_l,
-    comm_djmp,
-    comm_for,
-    comm_nex,
-    comm_for2,
-    comm_nex2,
-    comm_rja,
-    comm_uja,
-    comm_rja2,
-    comm_uja2,
-    comm_rja3,
-    comm_uja3,
-    comm_rja4,
-    comm_uja4,
-    comm_rja5,
-    comm_uja5,
-    comm_rja6,
-    comm_uja6,
-    comm_rja7,
-    comm_uja7,
-    comm_rmja,
-    comm_umja,
-    comm_mdat,
-    comm_ydat,
-    comm_mpos,
-    comm_cafr,
-    comm_care,
-    comm_psxy,
-    comm_ps_x,
-    comm_ps_y,
-    comm_paxy,
-    comm_pa_x,
-    comm_pa_y,
-    comm_exec,
-    comm_rngc,
-    comm_mxyt,
-    comm_pjmp,
-    comm_hjmp,
-    comm_hclr,
-    comm_ixfw,
-    comm_ixbw,
-    comm_quax,
-    comm_quay,
-    comm_if_s,
-    comm_rapp,
-    comm_rapk,
-    comm_gets,
-    comm_s123,
-    comm_s456,
-    comm_a123,
-    comm_a456,
-    comm_stop,
-    comm_smhf,
-    comm_ngme,
-    comm_ngem,
-    comm_iflb,
-    comm_asxy,
-    comm_schx,
-    comm_schy,
-    comm_back,
-    comm_mvix,
-    comm_sajp,
-    comm_ccch,
-    comm_wset,
-    comm_wswk,
-    comm_wadd,
-    comm_wceq,
-    comm_wcne,
-    comm_wcgt,
-    comm_wclt,
-    comm_wadd2,
-    comm_wceq2,
-    comm_wcne2,
-    comm_wcgt2,
-    comm_wclt2,
-    comm_rapp2,
-    comm_rapk2,
-    comm_iflg,
-    comm_mpcy,
-    comm_epcy,
-    comm_imgs,
-    comm_imgc,
-    comm_rvxy,
-    comm_rv_x,
-    comm_rv_y,
-    comm_ccfl,
-    comm_myhp,
-    comm_emhp,
-    comm_exbgs,
-    comm_exbgc,
-    comm_atmf,
-    comm_chkwf,
-    comm_retmj,
-    comm_sstx,
-    comm_ssty,
-    comm_ngda,
-    comm_flip,
-    comm_kage,
-    comm_dspf,
-    comm_ifrlf,
-    comm_srlf,
-    comm_bgrlf,
-    comm_scmd,
-    comm_rljmp,
-    comm_ifs2,
-    comm_abbak,
-    comm_sse,
-    comm_s_chg,
-    comm_schg2,
-    comm_rhsja,
-    comm_uhsja,
-    comm_ifcom,
-    comm_axjmp,
-    comm_ayjmp,
-    comm_ifs3
+s32 (*const decode_chcmd[125])() = {
+    comm_dummy, comm_roa,   comm_end,   comm_jmp,   comm_jpss,  comm_jsr,   comm_ret,   comm_sps,   comm_setr,
+    comm_addr,  comm_if_l,  comm_djmp,  comm_for,   comm_nex,   comm_for2,  comm_nex2,  comm_rja,   comm_uja,
+    comm_rja2,  comm_uja2,  comm_rja3,  comm_uja3,  comm_rja4,  comm_uja4,  comm_rja5,  comm_uja5,  comm_rja6,
+    comm_uja6,  comm_rja7,  comm_uja7,  comm_rmja,  comm_umja,  comm_mdat,  comm_ydat,  comm_mpos,  comm_cafr,
+    comm_care,  comm_psxy,  comm_ps_x,  comm_ps_y,  comm_paxy,  comm_pa_x,  comm_pa_y,  comm_exec,  comm_rngc,
+    comm_mxyt,  comm_pjmp,  comm_hjmp,  comm_hclr,  comm_ixfw,  comm_ixbw,  comm_quax,  comm_quay,  comm_if_s,
+    comm_rapp,  comm_rapk,  comm_gets,  comm_s123,  comm_s456,  comm_a123,  comm_a456,  comm_stop,  comm_smhf,
+    comm_ngme,  comm_ngem,  comm_iflb,  comm_asxy,  comm_schx,  comm_schy,  comm_back,  comm_mvix,  comm_sajp,
+    comm_ccch,  comm_wset,  comm_wswk,  comm_wadd,  comm_wceq,  comm_wcne,  comm_wcgt,  comm_wclt,  comm_wadd2,
+    comm_wceq2, comm_wcne2, comm_wcgt2, comm_wclt2, comm_rapp2, comm_rapk2, comm_iflg,  comm_mpcy,  comm_epcy,
+    comm_imgs,  comm_imgc,  comm_rvxy,  comm_rv_x,  comm_rv_y,  comm_ccfl,  comm_myhp,  comm_emhp,  comm_exbgs,
+    comm_exbgc, comm_atmf,  comm_chkwf, comm_retmj, comm_sstx,  comm_ssty,  comm_ngda,  comm_flip,  comm_kage,
+    comm_dspf,  comm_ifrlf, comm_srlf,  comm_bgrlf, comm_scmd,  comm_rljmp, comm_ifs2,  comm_abbak, comm_sse,
+    comm_s_chg, comm_schg2, comm_rhsja, comm_uhsja, comm_ifcom, comm_axjmp, comm_ayjmp, comm_ifs3
 };
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", decode_if_lever);
