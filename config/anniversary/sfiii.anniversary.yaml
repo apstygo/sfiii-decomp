@@ -1690,7 +1690,7 @@ segments:
       - { type: bss, vram: 0x5E3450, name: sf33rd/Source/Game/HITCHECK }
       - { type: bss, vram: 0x5E3650, name: sf33rd/Source/Game/meta_col }
       - { type: bss, vram: 0x5E3D50, name: sf33rd/Source/Game/MTRANS }
-      - { type: bss, vram: 0x5E4150, name: sf33rd/Source/Game/OPENING }
+      - { type: .bss, vram: 0x5E4150, name: sf33rd/Source/Game/OPENING }
       - { type: bss, vram: 0x5E4480, name: sf33rd/Source/Game/PLCNT }
       - { type: bss, vram: 0x5E5600, name: sf33rd/Source/Game/RAMCNT }
       - { type: bss, vram: 0x5E5900, name: sf33rd/Source/Game/RANKING }

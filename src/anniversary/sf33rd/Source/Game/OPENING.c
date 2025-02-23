@@ -19,6 +19,7 @@ s16 op_end_flag;
 s16 op_demo_index;
 s16 op_sound_status;
 MVXY op_bg_mvxy[3];
+OP_W op_w;
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", opening_demo);
 

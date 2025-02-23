@@ -295,30 +295,30 @@ typedef struct {
     s16 dmcal_m;             // offset 0xA4, size 0x2
     s16 dmcal_d;             // offset 0xA6, size 0x2
     s8 weight_level;         // offset 0xA8, size 0x1
-    UNK11 cmoa;             // offset 0xAA, size 0x8
-    UNK11 cmsw;             // offset 0xB2, size 0x8
-    UNK11 cmlp;             // offset 0xBA, size 0x8
-    UNK11 cml2;             // offset 0xC2, size 0x8
-    UNK11 cmja;             // offset 0xCA, size 0x8
-    UNK11 cmj2;             // offset 0xD2, size 0x8
-    UNK11 cmj3;             // offset 0xDA, size 0x8
-    UNK11 cmj4;             // offset 0xE2, size 0x8
-    UNK11 cmj5;             // offset 0xEA, size 0x8
-    UNK11 cmj6;             // offset 0xF2, size 0x8
-    UNK11 cmj7;             // offset 0xFA, size 0x8
-    UNK11 cmms;             // offset 0x102, size 0x8
-    UNK11 cmmd;             // offset 0x10A, size 0x8
-    UNK11 cmyd;             // offset 0x112, size 0x8
-    UNK11 cmcf;             // offset 0x11A, size 0x8
-    UNK11 cmcr;             // offset 0x122, size 0x8
-    UNK11 cmbk;             // offset 0x12A, size 0x8
-    UNK11 cmb2;             // offset 0x132, size 0x8
-    UNK11 cmb3;             // offset 0x13A, size 0x8
-    UNK11 cmhs;             // offset 0x142, size 0x8
-    UNK11 cmr0;             // offset 0x14A, size 0x8
-    UNK11 cmr1;             // offset 0x152, size 0x8
-    UNK11 cmr2;             // offset 0x15A, size 0x8
-    UNK11 cmr3;             // offset 0x162, size 0x8
+    UNK11 cmoa;              // offset 0xAA, size 0x8
+    UNK11 cmsw;              // offset 0xB2, size 0x8
+    UNK11 cmlp;              // offset 0xBA, size 0x8
+    UNK11 cml2;              // offset 0xC2, size 0x8
+    UNK11 cmja;              // offset 0xCA, size 0x8
+    UNK11 cmj2;              // offset 0xD2, size 0x8
+    UNK11 cmj3;              // offset 0xDA, size 0x8
+    UNK11 cmj4;              // offset 0xE2, size 0x8
+    UNK11 cmj5;              // offset 0xEA, size 0x8
+    UNK11 cmj6;              // offset 0xF2, size 0x8
+    UNK11 cmj7;              // offset 0xFA, size 0x8
+    UNK11 cmms;              // offset 0x102, size 0x8
+    UNK11 cmmd;              // offset 0x10A, size 0x8
+    UNK11 cmyd;              // offset 0x112, size 0x8
+    UNK11 cmcf;              // offset 0x11A, size 0x8
+    UNK11 cmcr;              // offset 0x122, size 0x8
+    UNK11 cmbk;              // offset 0x12A, size 0x8
+    UNK11 cmb2;              // offset 0x132, size 0x8
+    UNK11 cmb3;              // offset 0x13A, size 0x8
+    UNK11 cmhs;              // offset 0x142, size 0x8
+    UNK11 cmr0;              // offset 0x14A, size 0x8
+    UNK11 cmr1;              // offset 0x152, size 0x8
+    UNK11 cmr2;              // offset 0x15A, size 0x8
+    UNK11 cmr3;              // offset 0x162, size 0x8
     s16 cmwk[32];            // offset 0x16A, size 0x40
     u32 *char_table[12];     // offset 0x1AC, size 0x30
     u32 *se_random_table;    // offset 0x1DC, size 0x4
@@ -1750,5 +1750,18 @@ typedef struct {
     s32 prio;             // offset 0x8, size 0x4
     OPTW_Small map[4][4]; // offset 0xC, size 0x100
 } OPBW;
+
+typedef struct {
+    // total size: 0x330
+    s8 r_no_0;     // offset 0x0, size 0x1
+    s8 r_no_1;     // offset 0x1, size 0x1
+    s8 r_no_2;     // offset 0x2, size 0x1
+    s8 old_rno;    // offset 0x3, size 0x1
+    s16 index;     // offset 0x4, size 0x2
+    s16 mv_ctr;    // offset 0x6, size 0x2
+    s16 free_work; // offset 0x8, size 0x2
+    s16 dummy;     // offset 0xA, size 0x2
+    OPBW bgw[3];   // offset 0xC, size 0x324
+} OP_W;
 
 #endif
