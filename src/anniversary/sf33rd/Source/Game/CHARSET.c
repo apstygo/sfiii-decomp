@@ -7,6 +7,7 @@
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/PLS03.h"
 #include "sf33rd/Source/Game/Se_Data.h"
+#include "sf33rd/Source/Game/workuser.h"
 
 #define LO_2_BYTES(_val) (((s16 *)&_val)[0])
 #define HI_2_BYTES(_val) (((s16 *)&_val)[1])
@@ -304,7 +305,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_hclr
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_ixfw);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_ixbw);
+s32 comm_ixbw(WORK *wk, UNK11 *ctc) {
+    if ((test_flag == 0) || (ixbfw_cut == 0)) {
+        wk->cg_ix -= (ctc->pat + 1) * wk->cgd_type;
+    }
+
+    return 1;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_quax);
 
