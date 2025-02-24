@@ -224,7 +224,9 @@ s16 OPBG_Move(s32 /* unused */) {
     return flag;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", sound_trg_init);
+void sound_trg_init() {
+    music_scene = music_time = 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", sound_trg_move);
 
