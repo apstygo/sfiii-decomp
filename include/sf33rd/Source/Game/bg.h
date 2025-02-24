@@ -5,17 +5,27 @@
 #include "types.h"
 
 extern s32 bgPalCodeOffset[8]; // size: 0x20, address: 0x578AA0
+extern u16 Screen_Switch;      // size: 0x2, address: 0x578B64
 
 extern BG bg_w; // size: 0x428, address: 0x595830
 
-void Bg_TexInit();       // Range: 0x16BA90 -> 0x16BB34
-void Pause_Family_On();  // Range: 0x170290 -> 0x170320
-void Bg_On_R(u32 s_prm); // Range: 0x170B00 -> 0x170B2C
-void Scrn_Renew();       // Range: 0x170BE0 -> 0x170BF0
-void Irl_Family();       // Range: 0x170BF0 -> 0x170CD0
-void Irl_Scrn();         // Range: 0x170CD0 -> 0x170E9C
-void Frame_Up(u16 x, u16 y, u16 add);
+void Bg_TexInit();
+void Pause_Family_On();
+void Bg_On_R(u32 s_prm);
+void Bg_Off_R(u16 s_prm);
+void Bg_On_W(s32 s_prm);
+void Bg_Off_W(u16 s_prm);
+void Scrn_Renew();
+void Irl_Family();
+void Irl_Scrn();
+void Frame_Up(u16 x, u16 y, s32 add);
 void Frame_Down(u16 x, u16 y, u16 add);
 void Zoom_Value_Set(u16 zadd);
+void scr_calc(u8 bgnm);
+void Family_Init();
+void Scrn_Pos_Init();
+void Scrn_Move_Set(s32 bgnm, s32 x, s32 y);
+void Zoomf_Init();
+void Family_Set_W(s32 fmnm, s32 x, s32 y);
 
 #endif

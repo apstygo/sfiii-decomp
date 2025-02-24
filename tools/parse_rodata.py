@@ -108,9 +108,9 @@ def generate_code(value: Any):
 def main():
     # Change these values
 
-    offset = 0x455010
-    decodable = StructDecodable([U16, U16, S16, S16, U32, U32, U32])
-    dimensions = [100]
+    offset = 0x423630
+    decodable = S16
+    dimensions = [12]
 
     generate_code(decode_array(decodable, offset, dimensions))
 

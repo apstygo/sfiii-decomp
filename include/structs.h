@@ -1842,4 +1842,10 @@ typedef struct {
     s16 mode;                // offset 0x62, size 0x2
 } MultiTexture;
 
+typedef struct {
+    // total size: 0x4
+    u16 bg_h_shift; // offset 0x0, size 0x2
+    u16 bg_v_shift; // offset 0x2, size 0x2
+} BackgroundParameters;
+
 #endif

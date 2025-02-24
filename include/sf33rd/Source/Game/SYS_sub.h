@@ -51,6 +51,7 @@ void All_Clear_ETC();                              // Range: 0x3A6530 -> 0x3A654
 void Setup_Net_Random_ix();                        // Range: 0x3A6550 -> 0x3A658C
 s32 Request_Fade(u16 fade_code);                   // Range: 0x3A6590 -> 0x3A6600
 s32 Check_Fade_Complete_SP();                      // Range: 0x3A6600 -> 0x3A6630
+s32 Check_Fade_Complete();                         // Range: 0x3A6630 -> 0x3A6678
 s32 Check_Ranking(s16 PL_id);                      // Range: 0x3A6680 -> 0x3A6CA0
 void Disp_Copyright();                             // Range: 0x3A7AA0 -> 0x3A7B74
 void All_Clear_Suicide();                          // Range: 0x3A85C0 -> 0x3A865C
