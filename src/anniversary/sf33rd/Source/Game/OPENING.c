@@ -47,9 +47,11 @@ MVXY op_bg_mvxy[3];
 OP_W op_w;
 
 void OPBG_Init();
-s16 OPBG_Move();
+s16 OPBG_Move(s32 /* unused */);
 void opening_init();
 void sound_trg_init();
+void OPBG_Trans();
+s16 oh_opening_demo();
 
 s16 opening_demo() {
     switch (D_No[3]) {
@@ -113,6 +115,7 @@ void TITLE_Init() {
     loadSize = load_it_use_any_key2(0x4E, &loadAdrs, &key, 2, 1);
 
     if (loadSize == 0) {
+        // Main title texture could not be loaded.
         flLogOut("メインタイトルのテクスチャが読み込めませんでした。\n");
         while (1) {}
     }
@@ -191,6 +194,7 @@ void OPBG_Init() {
     ppgSetupCurrentDataList(&ppgOpnBgList);
 
     if ((key = Search_ramcnt_type(0x1D)) == 0) {
+        // Opening demo texture has not been loaded.
         flLogOut("オープニングデモテクスチャが読み込まれていません。\n");
         while (1) {}
     }
@@ -212,7 +216,13 @@ void OPBG_Init() {
     Zoom_Value_Set(0x40);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", OPBG_Move);
+s16 OPBG_Move(s32 /* unused */) {
+    s16 flag = 0;
+
+    flag = oh_opening_demo();
+    OPBG_Trans();
+    return flag;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/OPENING", sound_trg_init);
 
