@@ -491,6 +491,48 @@ typedef struct {
 } WORK;
 
 typedef struct {
+    // total size: 0x2C
+    s16 kind_of_arts; // offset 0x0, size 0x2
+    u8 nmsa_g_ix;     // offset 0x2, size 0x1
+    u8 exsa_g_ix;     // offset 0x3, size 0x1
+    u8 exs2_g_ix;     // offset 0x4, size 0x1
+    u8 nmsa_a_ix;     // offset 0x5, size 0x1
+    u8 exsa_a_ix;     // offset 0x6, size 0x1
+    u8 exs2_a_ix;     // offset 0x7, size 0x1
+    s8 gauge_type;    // offset 0x8, size 0x1
+    s8 mp;            // offset 0x9, size 0x1
+    s8 ok;            // offset 0xA, size 0x1
+    s8 ex;            // offset 0xB, size 0x1
+    s8 ba;            // offset 0xC, size 0x1
+    s8 dtm_mul;       // offset 0xD, size 0x1
+    s8 mp_rno;        // offset 0xE, size 0x1
+    s8 mp_rno2;       // offset 0xF, size 0x1
+    s8 sa_rno;        // offset 0x10, size 0x1
+    s8 sa_rno2;       // offset 0x11, size 0x1
+    s8 ex_rno;        // offset 0x12, size 0x1
+    s8 gt2;           // offset 0x13, size 0x1
+    s8 saeff_ok;      // offset 0x14, size 0x1
+    s8 saeff_mp;      // offset 0x15, size 0x1
+    s16 gauge_len;    // offset 0x16, size 0x2
+    union {
+        s32 i; // offset 0x0, size 0x4
+        struct {
+            // total size: 0x4
+            s16 l;   // offset 0x0, size 0x2
+            s16 h;   // offset 0x2, size 0x2
+        } s;         // offset 0x0, size 0x4
+    } gauge;         // offset 0x18, size 0x4
+    s32 dtm;         // offset 0x1C, size 0x4
+    s16 store_max;   // offset 0x20, size 0x2
+    s16 store;       // offset 0x22, size 0x2
+    s16 id_arts;     // offset 0x24, size 0x2
+    u8 ex4th_full;   // offset 0x26, size 0x1
+    u8 ex4th_exec;   // offset 0x27, size 0x1
+    s16 total_gauge; // offset 0x28, size 0x2
+    s16 bacckup_g_h; // offset 0x2A, size 0x2
+} SA_WORK;
+
+typedef struct {
     // total size: 0x46C
     WORK wu; // offset 0x0, size 0x388
     struct /* @anon65 */ {
@@ -553,47 +595,7 @@ typedef struct {
         s16 char_ix; // offset 0x2, size 0x2
         s16 data_ix; // offset 0x4, size 0x2
     } *as;           // offset 0x3C0, size 0x4
-    struct /* @anon25 */ {
-        // total size: 0x2C
-        s16 kind_of_arts; // offset 0x0, size 0x2
-        u8 nmsa_g_ix;     // offset 0x2, size 0x1
-        u8 exsa_g_ix;     // offset 0x3, size 0x1
-        u8 exs2_g_ix;     // offset 0x4, size 0x1
-        u8 nmsa_a_ix;     // offset 0x5, size 0x1
-        u8 exsa_a_ix;     // offset 0x6, size 0x1
-        u8 exs2_a_ix;     // offset 0x7, size 0x1
-        s8 gauge_type;    // offset 0x8, size 0x1
-        s8 mp;            // offset 0x9, size 0x1
-        s8 ok;            // offset 0xA, size 0x1
-        s8 ex;            // offset 0xB, size 0x1
-        s8 ba;            // offset 0xC, size 0x1
-        s8 dtm_mul;       // offset 0xD, size 0x1
-        s8 mp_rno;        // offset 0xE, size 0x1
-        s8 mp_rno2;       // offset 0xF, size 0x1
-        s8 sa_rno;        // offset 0x10, size 0x1
-        s8 sa_rno2;       // offset 0x11, size 0x1
-        s8 ex_rno;        // offset 0x12, size 0x1
-        s8 gt2;           // offset 0x13, size 0x1
-        s8 saeff_ok;      // offset 0x14, size 0x1
-        s8 saeff_mp;      // offset 0x15, size 0x1
-        s16 gauge_len;    // offset 0x16, size 0x2
-        union /* @anon63 */ {
-            s32 i; // offset 0x0, size 0x4
-            struct /* @anon64 */ {
-                // total size: 0x4
-                s16 l;   // offset 0x0, size 0x2
-                s16 h;   // offset 0x2, size 0x2
-            } s;         // offset 0x0, size 0x4
-        } gauge;         // offset 0x18, size 0x4
-        s32 dtm;         // offset 0x1C, size 0x4
-        s16 store_max;   // offset 0x20, size 0x2
-        s16 store;       // offset 0x22, size 0x2
-        s16 id_arts;     // offset 0x24, size 0x2
-        u8 ex4th_full;   // offset 0x26, size 0x1
-        u8 ex4th_exec;   // offset 0x27, size 0x1
-        s16 total_gauge; // offset 0x28, size 0x2
-        s16 bacckup_g_h; // offset 0x2A, size 0x2
-    } *sa;               // offset 0x3C4, size 0x4
+    SA_WORK *sa;     // offset 0x3C4, size 0x4
     struct /* @anon27 */ {
         // total size: 0xA8
         s16 total;             // offset 0x0, size 0x2

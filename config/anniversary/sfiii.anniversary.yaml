@@ -753,7 +753,7 @@ segments:
       - [0x370620, data, sf33rd/Source/Game/Sound3rd]
       - [0x370CE0, data, data_370CE0] # PLS03?
       - [0x3753C0, data, data_3753C0]
-      - [0x375980, data, data_375980] # PLS02?
+      - [0x375980, .data, sf33rd/Source/Game/PLS02]
       - [0x375E80, data, data_375E80] # HITCHECK or HITEFPL?
       - [0x375FC0, data, data_375FC0]
       - [0x376200, data, data_376200]
