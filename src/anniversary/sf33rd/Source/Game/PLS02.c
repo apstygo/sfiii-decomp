@@ -15,6 +15,22 @@ const s16 random_tbl_16[64] = { 3,  8, 6,  9, 14, 13, 9,  5, 10, 14, 1,  7, 4,  
                                 11, 8, 0,  3, 11, 10, 1,  7, 11, 4,  5,  4, 13, 2,  11, 9, 7,  10, 1, 6,  12, 9,
                                 14, 0, 15, 2, 13, 1,  15, 8, 0,  6,  14, 3, 12, 8,  4,  5, 10, 2,  7, 12 };
 
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_32_ex);
+
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_16_ex);
+
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_32_com);
+
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_16_com);
+
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_32_ex_com);
+
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_16_ex_com);
+
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_16_bg);
+
+const s16 dir16_rl_conv[16] = { 0, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
+
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_to_mvxy_data);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", setup_move_data_easy);
@@ -90,7 +106,15 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_16_b
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", get_guard_direction);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", cal_attdir);
+s16 cal_attdir(WORK *wk) {
+    s16 resdir = wk->att.dir;
+
+    if (wk->rl_flag) {
+        resdir = dir16_rl_conv[resdir];
+    }
+
+    return resdir;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", cal_attdir_flip);
 
@@ -135,22 +159,6 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", setup_lvdir
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dead_voice_request);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dead_voice_request2);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_32_ex);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_16_ex);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_32_com);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_16_com);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_32_ex_com);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_16_ex_com);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_16_bg);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dir16_rl_conv);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dir16_hddm);
 
