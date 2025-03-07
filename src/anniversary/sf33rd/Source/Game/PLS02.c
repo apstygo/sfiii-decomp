@@ -1,4 +1,19 @@
+#include "sf33rd/Source/Game/PLS02.h"
 #include "common.h"
+#include "sf33rd/Source/Game/debug/Debug.h"
+#include "sf33rd/Source/Game/workuser.h"
+
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", asagh_zuru);
+
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", sel_hosei_tbl_ix);
+
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", satse);
+
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_32);
+
+const s16 random_tbl_16[64] = { 3,  8, 6,  9, 14, 13, 9,  5, 10, 14, 1,  7, 4,  15, 2,  0, 12, 15, 5, 13, 6,  3,
+                                11, 8, 0,  3, 11, 10, 1,  7, 11, 4,  5,  4, 13, 2,  11, 9, 7,  10, 1, 6,  12, 9,
+                                14, 0, 15, 2, 13, 1,  15, 8, 0,  6,  14, 3, 12, 8,  4,  5, 10, 2,  7, 12 };
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_to_mvxy_data);
 
@@ -48,7 +63,16 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_work_
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_32);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_16);
+s32 random_16() {
+    Random_ix16 += 1;
+
+    if (Debug_w[0x3B] == 0xE0) {
+        Random_ix16 = 0;
+    }
+
+    Random_ix16 &= 0x3F;
+    return random_tbl_16[Random_ix16];
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_32_ex);
 
@@ -111,16 +135,6 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", setup_lvdir
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dead_voice_request);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dead_voice_request2);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", asagh_zuru);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", sel_hosei_tbl_ix);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", satse);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_32);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_16);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_32_ex);
 
