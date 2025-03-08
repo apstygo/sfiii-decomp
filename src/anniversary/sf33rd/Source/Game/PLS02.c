@@ -1,5 +1,8 @@
 #include "sf33rd/Source/Game/PLS02.h"
 #include "common.h"
+#include "sf33rd/Source/Game/PLCNT.h"
+#include "sf33rd/Source/Game/SysDir.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
@@ -483,7 +486,48 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts_gauge_maxbit);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_super_arts_gauge);
+#else
+void add_super_arts_gauge(SA_WORK *wk, s16 ix, s16 asag, u8 mf) {
+    if (!test_flag && !mf) {
+        if ((wk->mp == -1) || (wk->ok == -1) || (wk->ex == -1)) {
+            return;
+        }
+
+        if (!pcon_dp_flag && !Bonus_Game_Flag && (sa_gauge_omake[omop_sa_gauge_ix[ix]] != 0) && (asag > 0) &&
+            (wk->store != wk->store_max)) {
+            asag = asag * 0x78 / 100;
+
+            if (save_w[Present_Mode].Battle_Number[Play_Type] == 0) {
+                asag = asag * 0x96 / 100;
+            }
+
+            asag = asag * sa_gauge_omake[omop_sa_gauge_ix[ix]] / 32;
+
+            if (asag == 0) {
+                asag = 1;
+            }
+
+            wk->gauge.s.h += asag;
+            wk->gauge.s.l = -1;
+
+            if (wk->gauge.s.h > wk->gauge_len) {
+                wk->store += 1;
+
+                if (wk->store < wk->store_max) {
+                    wk->gauge.s.h -= wk->gauge_len;
+                } else {
+                    wk->store = wk->store_max;
+                    wk->gauge.i = 0;
+                }
+
+                sa_gauge_flash[ix] |= 1;
+            }
+        }
+    }
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_buttobi_type);
 

@@ -130,6 +130,7 @@ extern u8 CC_Value[2];             // size: 0x2, address: 0x57A494
 extern u8 paring_bonus_r[2];       // size: 0x2, address: 0x57A4B0
 extern u8 paring_counter[2];       // size: 0x2, address: 0x57A4B4
 extern s8 Break_Com[2][20];        // size: 0x28, address: 0x57A4C0
+extern s8 sa_gauge_flash[2];       // size: 0x2, address: 0x57A4F8
 extern s8 No_Death;                // size: 0x1, address: 0x57A51C
 extern s8 PB_Music_Off;            // size: 0x1, address: 0x57A520
 extern s8 Round_Operator[2];       // size: 0x2, address: 0x57A54C
