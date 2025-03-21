@@ -1,5 +1,7 @@
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "common.h"
+#include "sf33rd/Source/Game/sc_sub.h"
+#include "sf33rd/Source/Game/workuser.h"
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Switch_Screen_Init);
 
@@ -131,7 +133,18 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", All_Clear
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Net_Random_ix);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Request_Fade);
+s32 Request_Fade(u16 fade_code) {
+    if (Fade_Flag == 0) {
+        Fade_Flag = 1;
+        Fade_R_No0 = Fade_R_No1 = 0;
+        Fade_Number = fade_code;
+        Forbid_Break = 1;
+        fade_cont_init();
+        return 1;
+    }
+
+    return 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Fade_Complete_SP);
 

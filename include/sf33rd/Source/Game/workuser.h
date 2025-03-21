@@ -35,6 +35,7 @@ extern s16 F_Timer[2];             // size: 0x4, address: 0x57A018
 extern s16 E_Timer;                // size: 0x2, address: 0x57A01C
 extern s16 D_Timer;                // size: 0x2, address: 0x57A028
 extern s16 G_Timer;                // size: 0x2, address: 0x57A02C
+extern u16 Fade_Number;            // size: 0x2, address: 0x57A030
 extern s16 Round_Level;            // size: 0x2, address: 0x57A038
 extern s16 Time_in_Time;           // size: 0x2, address: 0x57A03C
 extern s16 Control_Time;           // size: 0x2, address: 0x57A040
@@ -72,6 +73,8 @@ extern u8 F_No3[2];                // size: 0x2, address: 0x57A1CC
 extern u8 F_No2[2];                // size: 0x2, address: 0x57A1D0
 extern u8 F_No1[2];                // size: 0x2, address: 0x57A1D4
 extern u8 F_No0[2];                // size: 0x2, address: 0x57A1D8
+extern u8 Fade_R_No1;              // size: 0x1, address: 0x57A1EC
+extern u8 Fade_R_No0;              // size: 0x1, address: 0x57A1F0
 extern u8 PL_Wins[2];              // size: 0x2, address: 0x57A1F4
 extern u8 Cont_No[4];              // size: 0x4, address: 0x57A1F8
 extern u8 ixbfw_cut;               // size: 0x1, address: 0x57A1FC
