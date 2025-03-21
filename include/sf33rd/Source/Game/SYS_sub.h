@@ -57,5 +57,6 @@ void Disp_Copyright();                             // Range: 0x3A7AA0 -> 0x3A7B7
 void All_Clear_Suicide();                          // Range: 0x3A85C0 -> 0x3A865C
 void Clear_Break_Com(s16 PL_id);                   // Range: 0x3A8660 -> 0x3A86DC
 void Check_Off_Vib();                              // Range: 0x3A86E0 -> 0x3A86E8
+void njWaitVSync_with_N();
 
 #endif
