@@ -7,6 +7,7 @@ void Scrscreen_Init();
 void Sa_frame_Write();
 void SSPutStr(u16 x, u16 y, u8 atr, s8 *str);
 void SSPutStr2(u16 x, u16 y, u8 atr, s8 *str);
+s32 SSPutStrPro(u16 flag, u16 x, u16 y, u8 atr, u32 vtxcol, s8 *str);
 void FadeInit();
 s32 FadeOut(u8 type, u8 step, u8 priority);
 s32 FadeIn(u8 type, u8 step, u8 priority);
