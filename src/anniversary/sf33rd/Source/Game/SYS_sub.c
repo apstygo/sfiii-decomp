@@ -148,7 +148,15 @@ s32 Request_Fade(u16 fade_code) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Fade_Complete_SP);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Fade_Complete);
+s32 Check_Fade_Complete() {
+    if (Fade_Flag) {
+        fade_cont_main();
+        return 0;
+    }
+
+    Forbid_Break = 1;
+    return 1;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Ranking);
 

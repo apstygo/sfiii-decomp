@@ -16,5 +16,6 @@ void player_face_init();
 void player_face();
 void dispButtonImage2(s32 px, s32 py, s32 pz, s32 sx, s32 sy, s32 cl, s32 ix);
 void fade_cont_init();
+void fade_cont_main();
 
 #endif
