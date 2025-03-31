@@ -1,4 +1,7 @@
+#include "sf33rd/Source/Game/bg.h"
 #include "common.h"
+#include "sf33rd/Source/Game/DC_Ghost.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_TexInit);
 
@@ -36,7 +39,15 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", ppgCalScrPosit
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", scr_trans_sub2);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", scr_calc);
+void scr_calc(u8 bgnm) {
+    njUnitMatrix(NULL);
+    njScale(NULL, Frame_Zoom_X, Frame_Zoom_Y, 1.0f);
+    njScale(NULL, scr_sc, scr_sc, 1.0f);
+    njTranslate(NULL, 0.0f, 224.0f, 0.0f);
+    njScale(NULL, 1.0f, -1.0f, 1.0f);
+    njTranslate(NULL, (s16)-bg_prm[bgnm].bg_h_shift, (s16)-bg_prm[bgnm].bg_v_shift, 0.0f);
+    njGetMatrix(&BgMATRIX[bgnm + 1]);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", scr_calc2);
 
