@@ -2659,7 +2659,7 @@ void op_bg0_0016(s16 /* unused */) {
     switch (opw_ptr->r_no_0) {
     case 0:
         opw_ptr->r_no_0 += 1;
-        Bg_On_W(1U);
+        Bg_On_W(1);
         bgw_ptr->wxy[0].cal = 0x2000000;
         bgw_ptr->xy[1].cal = 0;
         op_scrn_end = 0;

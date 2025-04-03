@@ -1555,7 +1555,7 @@ segments:
       - { type: .sbss, vram: 0x578A20, name: sf33rd/Source/Game/AcrUtil }
       - { type: sbss, vram: 0x578A80, name: sf33rd/Source/Game/appear }
       - { type: sbss, vram: 0x578A9C, name: sf33rd/Source/Game/BCD }
-      - { type: sbss, vram: 0x578AA0, name: sf33rd/Source/Game/bg }
+      - { type: .sbss, vram: 0x578AA0, name: sf33rd/Source/Game/bg }
       - { type: sbss, vram: 0x578C20, name: sf33rd/Source/Game/bg_data }
       - { type: sbss, vram: 0x578CD0, name: sf33rd/Source/Game/CHARID }
       - { type: .sbss, vram: 0x578D20, name: sf33rd/Source/Game/CHARSET }
@@ -1678,7 +1678,7 @@ segments:
       - { type: bss, vram: 0x584C80, name: sf33rd/AcrSDK/common/memfound }
       - { type: .bss, vram: 0x594C80, name: sf33rd/AcrSDK/common/mlPAD }
       - { type: .bss, vram: 0x594EA0, name: sf33rd/AcrSDK/common/prilay }
-      - { type: bss, vram: 0x5956A0, name: sf33rd/Source/Game/bg }
+      - { type: .bss, vram: 0x5956A0, name: sf33rd/Source/Game/bg }
       - { type: bss, vram: 0x595C60, name: sf33rd/Source/Game/CHARID }
       - { type: bss, vram: 0x596560, name: sf33rd/Source/Game/cmb_win }
       - { type: bss, vram: 0x596680, name: sf33rd/Source/Game/cmd_data }

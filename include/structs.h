@@ -1850,4 +1850,39 @@ typedef struct {
     u16 bg_v_shift; // offset 0x2, size 0x2
 } BackgroundParameters;
 
+union POS_FLOAT {
+    s32 long_pos; // offset 0x0, size 0x4
+    struct {
+        // total size: 0x4
+        s16 l;  // offset 0x0, size 0x2
+        s16 h;  // offset 0x2, size 0x2
+    } word_pos; // offset 0x0, size 0x4
+};
+
+typedef struct {
+    // total size: 0x10
+    union POS_FLOAT scr_x;      // offset 0x0, size 0x4
+    union POS_FLOAT scr_x_buff; // offset 0x4, size 0x4
+    union POS_FLOAT scr_y;      // offset 0x8, size 0x4
+    union POS_FLOAT scr_y_buff; // offset 0xC, size 0x4
+} BG_POS;
+
+typedef struct {
+    // total size: 0x10
+    union POS_FLOAT family_x;      // offset 0x0, size 0x4
+    union POS_FLOAT family_x_buff; // offset 0x4, size 0x4
+    union POS_FLOAT family_y;      // offset 0x8, size 0x4
+    union POS_FLOAT family_y_buff; // offset 0xC, size 0x4
+} FM_POS;
+
+typedef struct {
+    // total size: 0x14
+    u8 bg_num;    // offset 0x0, size 0x1
+    s16 *rwd_ptr; // offset 0x4, size 0x4
+    s16 *brw_ptr; // offset 0x8, size 0x4
+    s16 rw_cnt;   // offset 0xC, size 0x2
+    s16 rwgbix;   // offset 0xE, size 0x2
+    s16 gbix;     // offset 0x10, size 0x2
+} RW_DATA;
+
 #endif
