@@ -1,7 +1,6 @@
 #ifndef VM_SUB_H
 #define VM_SUB_H
 
-#include "sf33rd/Source/Game/WORK_SYS.h"
 #include "types.h"
 
 u8 VM_Access_Request(u8 Request, u8 Drive);
