@@ -1394,7 +1394,7 @@ segments:
       - [0x472E90, sdata, sf33rd/Source/Game/EFF27]
       - [0x472ED0, sdata, sf33rd/Source/Game/eff35]
       - [0x472EF0, sdata, sf33rd/Source/Game/EFF44]
-      - [0x472F18, sdata, sf33rd/Source/Game/EFF48]
+      - [0x472F18, .sdata, sf33rd/Source/Game/EFF48]
       - [0x472F88, sdata, sf33rd/Source/Game/EFF60]
       - [0x472F98, sdata, sf33rd/Source/Game/EFF85]
       - [0x472FD4, sdata, sf33rd/Source/Game/EFF86]

@@ -1,4 +1,7 @@
+#define CHARSET_IMPL
 #include "sf33rd/Source/Game/CHARSET.h"
+#undef CHARSET_IMPL
+
 #include "common.h"
 #include "sf33rd/Source/Game/EFFXX.h"
 #include "sf33rd/Source/Game/Grade.h"

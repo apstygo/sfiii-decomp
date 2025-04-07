@@ -19360,3 +19360,5 @@ memzero_1w = 0x402680; // type:func
 memzero_1q = 0x402698; // type:func
 memset_1w = 0x4026B0; // type:func
 memset_1q = 0x4026C8; // type:func
+
+_op_char_table = 0x487DA8; // size:0x7A8

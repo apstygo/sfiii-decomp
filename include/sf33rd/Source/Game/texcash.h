@@ -12,5 +12,6 @@ void texture_cash_update();
 void make_texcash_work(s16 ix);
 void purge_texcash_work(s16 ix);
 void Clear_texcash_work();
+s16 get_my_trans_mode(s32 curr);
 
 #endif
