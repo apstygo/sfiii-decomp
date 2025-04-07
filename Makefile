@@ -11,6 +11,7 @@ export MAIN
 # Directories
 
 BIN_DIR := bin
+
 BUILD_DIR := build/$(VERSION)
 SRC_DIR := src/$(VERSION)
 ASM_DIR := asm/$(VERSION)
