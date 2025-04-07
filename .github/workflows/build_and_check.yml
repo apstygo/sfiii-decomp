@@ -3,16 +3,28 @@ name: Build and check
 on:
     push:
         branches: ["main"]
-    pull_request:
-        branches: ["main"]
+    pull_request_target:
     workflow_dispatch:
 
 jobs:
     build:
+        # Building and testing cannot work if the repository owner is not apstygo
+        # due to the missing secrets
+        if: github.repository == 'apstygo/sfiii-decomp'
         runs-on: ubuntu-22.04
         steps:
-            - uses: actions/checkout@v4
+            - name: Clone main repo (PR)
+              if: github.event_name == 'pull_request_target'
+              uses: actions/checkout@v4
               with:
+                ref: ${{ github.event.pull_request.head.sha }}
+                submodules: recursive
+
+            - name: Clone main repo
+              if: github.event_name != 'pull_request_target'
+              uses: actions/checkout@v4
+              with:
+                ref: ${{ github.ref }}
                 submodules: recursive
 
             - name: Install Python dependencies
