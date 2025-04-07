@@ -1,5 +1,6 @@
 #include "sf33rd/Source/Game/VM_SUB.h"
 #include "common.h"
+#include "sf33rd/Source/Game/vm.h"
 
 u8 VM_Access_Request(u8 Request, u8 Drive) {
     vm_w.Request = Request;
