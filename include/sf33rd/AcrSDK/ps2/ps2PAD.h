@@ -5,6 +5,7 @@
 #include "types.h"
 
 extern TARPAD tarpad_root[2]; // size: 0x68, address: 0x57B040
+extern PS2Slot ps2slot[2];
 
 s32 flPS2PADModuleInit();
 s32 tarPADInit();
