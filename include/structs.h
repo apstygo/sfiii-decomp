@@ -1162,6 +1162,40 @@ typedef struct {
 } FLPAD_CONFIG;
 
 typedef struct {
+    // total size: 0x8
+    s16 abut_on; // offset 0x0, size 0x2
+    s16 ast1_on; // offset 0x2, size 0x2
+    s16 ast2_on; // offset 0x4, size 0x2
+    u16 free;    // offset 0x6, size 0x2
+} PS2PAD_CONFIG;
+
+typedef union {
+    u8 pad_buffer[32]; // offset 0x0, size 0x20
+    struct {
+        // total size: 0x20
+        u8 ng;   // offset 0x0, size 0x1
+        u8 kind; // offset 0x1, size 0x1
+        u16 sw;  // offset 0x2, size 0x2
+        union {
+            struct /* @anon7 */ {
+                // total size: 0x4
+                s16 x; // offset 0x0, size 0x2
+                s16 y; // offset 0x2, size 0x2
+            } gun;     // offset 0x0, size 0x4
+            struct {
+                // total size: 0x4
+                u8 r_ax; // offset 0x0, size 0x1
+                u8 r_ay; // offset 0x1, size 0x1
+                u8 l_ax; // offset 0x2, size 0x1
+                u8 l_ay; // offset 0x3, size 0x1
+            } stick;     // offset 0x0, size 0x4
+        } pos;           // offset 0x4, size 0x4
+        u8 depth[12];    // offset 0x8, size 0xC
+        u8 free[12];     // offset 0x14, size 0xC
+    } ix;                // offset 0x0, size 0x20
+} PS2PAD_STATE;
+
+typedef struct {
     // total size: 0xC
     u8 order;    // offset 0x0, size 0x1
     u8 kind_req; // offset 0x1, size 0x1
@@ -1884,5 +1918,21 @@ typedef struct {
     s16 rwgbix;   // offset 0xE, size 0x2
     s16 gbix;     // offset 0x10, size 0x2
 } RW_DATA;
+
+typedef struct {
+    // total size: 0x18
+    u8 state;      // offset 0x0, size 0x1
+    u8 phase;      // offset 0x1, size 0x1
+    u8 port;       // offset 0x2, size 0x1
+    u8 slot;       // offset 0x3, size 0x1
+    u8 kind;       // offset 0x4, size 0x1
+    u8 vib;        // offset 0x5, size 0x1
+    u8 socket_id;  // offset 0x6, size 0x1
+    u8 pad_id;     // offset 0x7, size 0x1
+    u64 *buff;     // offset 0x8, size 0x4, supposed to be __int128*
+    u32 bprofile;  // offset 0xC, size 0x4
+    u32 vprofile;  // offset 0x10, size 0x4
+    u32 vib_timer; // offset 0x14, size 0x4
+} PS2Slot;
 
 #endif
