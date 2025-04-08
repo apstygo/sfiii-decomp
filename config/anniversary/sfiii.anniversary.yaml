@@ -1248,7 +1248,7 @@ segments:
       - [0x454AC0, rodata, sf33rd/Source/Game/ta_sub]
       - [0x454B90, rodata, sf33rd/Source/Game/texcash]
       - [0x455010, .rodata, sf33rd/Source/Game/texgroup]
-      - [0x455810, .rodata, sf33rd/Source/Game/VM_SUB]
+      - [0x455810, rodata, sf33rd/Source/Game/VM_DATA]
       - [0x455950, .rodata, sf33rd/Source/Game/vs_shell]
       - [0x458150, rodata, sf33rd/Source/Game/win_pl]
       - [0x4582C8, .rodata, sf33rd/Source/Compress/zlibApp]
