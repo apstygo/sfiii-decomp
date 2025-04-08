@@ -9,5 +9,6 @@ extern MultiTexture mts[24]; // size: 0x960, address: 0x6B4070
 void Init_load_on_memory_data();
 void shadow_drawing(WORK *wk, s16 bsy);
 void reset_dma_group(u16 num);
+s32 sort_push_request4(WORK *wk);
 
 #endif
