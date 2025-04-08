@@ -1,5 +1,6 @@
 #include "sf33rd/Source/Game/VM_SUB.h"
 #include "common.h"
+#include "sf33rd/Source/Game/VM_DATA.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/vm.h"
 
