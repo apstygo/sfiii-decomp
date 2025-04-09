@@ -24,6 +24,7 @@ extern s16 Max_vitality;           // size: 0x2, address: 0x579EA8
 extern s16 DE_X[2];                // size: 0x4, address: 0x579EB0
 extern s16 Random_ix32_ex;         // size: 0x2, address: 0x579EB4
 extern s16 Limit_Time;             // size: 0x2, address: 0x579EC0
+extern u16 Pattern_Index[2];       // size: 0x4, address: 0x579F54
 extern s16 Insert_Y;               // size: 0x2, address: 0x579F90
 extern s16 M_Timer;                // size: 0x2, address: 0x579FBC
 extern s16 Random_ix32;            // size: 0x2, address: 0x579FC0
@@ -82,6 +83,7 @@ extern u8 test_flag;               // size: 0x1, address: 0x57A200
 extern u8 Stop_Update_Score;       // size: 0x1, address: 0x57A204
 extern u8 Lamp_No;                 // size: 0x1, address: 0x57A210
 extern u8 Disp_Cockpit;            // size: 0x1, address: 0x57A218
+extern u8 CP_Index[2][8];          // size: 0x10, address: 0x57A230
 extern u8 Conclusion_Flag;         // size: 0x1, address: 0x57A248
 extern u8 Exit_Menu;               // size: 0x1, address: 0x57A24C
 extern u8 Play_Type;               // size: 0x1, address: 0x57A250
