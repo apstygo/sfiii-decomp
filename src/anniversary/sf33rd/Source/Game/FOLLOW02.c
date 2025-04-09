@@ -9,9 +9,9 @@ void Follow02_0001(PLW *wk);
 void Follow02_0002(PLW *wk);
 void Follow02_0003(PLW *wk);
 
-typedef void (*FOLLOW02_TBL)(PLW *wk);
+typedef void (*FOLLOW02_Func)(PLW *wk);
 
-const FOLLOW02_TBL Follow02_Tbl[4] = {
+const FOLLOW02_Func Follow02_Tbl[4] = {
     Follow02_0000,
     Follow02_0001,
     Follow02_0002,
