@@ -674,7 +674,7 @@ segments:
       - [0x2F59E0, c, sf33rd/AcrSDK/ps2/flps2etc]
       - [0x2F7B90, asm, sf33rd/AcrSDK/ps2/flps2math]
       - [0x2F8400, asm, sf33rd/AcrSDK/ps2/flps2ps] # Good first decomp
-      - [0x2F84D0, asm, sf33rd/AcrSDK/ps2/flps2vram]
+      - [0x2F84D0, c, sf33rd/AcrSDK/ps2/flps2vram]
       - [0x2FE130, c, sf33rd/AcrSDK/ps2/foundaps2]
       - [0x300130, c, sf33rd/AcrSDK/ps2/ps2PAD]
       - [0x302570, asm, sf33rd/AcrSDK/ps2/flps2asm]
@@ -837,7 +837,7 @@ segments:
       - [0x3C3C78, data, gcc/libc/mlock]
 
       - [0x3C3C80, data, sf33rd/AcrSDK/ps2/flps2debug]
-      - [0x3C3D10, data, sf33rd/AcrSDK/ps2/flps2vram]
+      - [0x3C3D10, .data, sf33rd/AcrSDK/ps2/flps2vram]
 
       - [0x3C4310, data, sdk/libdbc/libdbc]
       - [0x3C4328, data, sdk/libpad2/libpad2]
@@ -1325,7 +1325,7 @@ segments:
       - [0x45F500, .rodata, sf33rd/AcrSDK/ps2/flps2etc]
       - [0x45F5B0, rodata, sf33rd/AcrSDK/ps2/flPADUSR]
       - [0x45F648, rodata, sf33rd/AcrSDK/ps2/flps2shader]
-      - [0x45F660, rodata, sf33rd/AcrSDK/ps2/flps2vram]
+      - [0x45F660, .rodata, sf33rd/AcrSDK/ps2/flps2vram]
       - [0x45FAD0, .rodata, sf33rd/AcrSDK/ps2/foundaps2]
       - [0x45FC20, .rodata, sf33rd/AcrSDK/ps2/ps2PAD]
 
@@ -1471,7 +1471,7 @@ segments:
       - [0x474730, sdata, sf33rd/AcrSDK/ps2/flps2debug]
       - [0x474770, sdata, sf33rd/AcrSDK/ps2/flps2dma]
       - [0x4747A8, sdata, sf33rd/AcrSDK/ps2/flps2shader]
-      - [0x4747B0, sdata, sf33rd/AcrSDK/ps2/flps2vram]
+      - [0x4747B0, .sdata, sf33rd/AcrSDK/ps2/flps2vram]
       - [0x4749F0, .sdata, sf33rd/AcrSDK/ps2/foundaps2]
       - [0x4749F4, .sdata, sf33rd/AcrSDK/ps2/ps2PAD]
       - [0x474B40, sdata, sf33rd/Source/PS2/mc/mcsub]

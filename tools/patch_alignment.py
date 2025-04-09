@@ -14,6 +14,7 @@ skipped_rodata = {
     "CHARSET",
     "OPENING",
     "SYS_sub",
+    "flps2vram",
 }
 
 # (file, section, index of section within sections of this type) -> alignment
@@ -37,6 +38,8 @@ special_cases = {
     ("OPENING", ".rodata", 33): 16,
     ("pass00", ".rodata", 0): 16,
     ("aboutspr", ".rodata", 0): 16,
+    ("flps2vram", ".rodata", 10): 16,
+    ("flps2vram", ".rodata", 17): 16,
 
     ("PulPul", ".data", 0): 16,
 

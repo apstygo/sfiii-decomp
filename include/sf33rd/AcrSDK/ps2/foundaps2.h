@@ -5,10 +5,13 @@
 #include "structs.h"
 #include "types.h"
 
+extern s32 flDebugRTNum;                  // size: 0x4, address: 0x57AB3C
 extern u32 flDebugTrueTime[4];            // size: 0x10, address: 0x57AB50
 extern s32 flPS2FlipCancelFlag;           // size: 0x4, address: 0x57AB78
 extern u32 flPs2FBA;                      // size: 0x4, address: 0x57AB84
 extern s32 flClayNum;                     // size: 0x4, address: 0x57AB88
+extern s32 flVramStaticNum;               // size: 0x4, address: 0x57AE1C
+extern VRAMBlockHeader flVramStatic[3];   // size: 0x18, address: 0x57AE20
 extern s32 flPTNum;                       // size: 0x4, address: 0x57AE38
 extern FLPS2VIF1Control flPs2VIF1Control; // size: 0x3C, address: 0x57AE50
 extern FL_FMS flFMS;                      // size: 0x18, address: 0x57AEB0
