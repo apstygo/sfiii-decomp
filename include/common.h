@@ -48,4 +48,7 @@ void not_implemented(const s8* func) __dead2 {
 
 #endif
 
+#define LO_16_BITS(val) (val & 0xFFFF)
+#define HI_16_BITS(val) ((val & 0xFFFF0000) >> 16)
+
 #endif

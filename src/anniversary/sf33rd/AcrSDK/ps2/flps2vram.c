@@ -35,9 +35,11 @@ s32 flPS2LockTexture(Rect * /* unused */, FLTexture *lpflTexture, plContext *lpc
 s32 flPS2UnlockTexture(FLTexture *);
 s32 flPS2ReloadTexture(s32 count, u32 *texlist);
 static void Conv4to32(s32 width, s32 height, u8 *p_input, u8 *p_output);
-static void Conv8to32(s32 width, s32 height, u8 *p_input, u8 *p_output);
 static void PageConv4to32(u8 *p_input, u8 *p_output, s32 p_page_w);
 static void BlockConv4to32(u8 *p_input, u8 *p_output, s32 p_page_w);
+static void Conv8to32(s32 width, s32 height, u8 *p_input, u8 *p_output);
+static void PageConv8to32(u8 *p_input, u8 *p_output, s32 p_page_w);
+static void BlockConv8to32(u8 *p_input, u8 *p_output, s32 p_page_w);
 
 u16 flPS2GetStaticVramArea(u32 size) {
     s32 lp0;
@@ -78,7 +80,7 @@ u32 flCreateTextureHandle(plContext *bits, u32 flag) {
         return 0;
     }
 
-    lpflTexture = &flTexture[(th & 0xFFFF) - 1];
+    lpflTexture = &flTexture[LO_16_BITS(th) - 1];
     flPS2GetTextureInfoFromContext(bits, 1, th, flag);
 
     if (bits->ptr == NULL) {
@@ -105,7 +107,7 @@ s32 flPS2GetTextureInfoFromContext(plContext *bits, s32 bnum, u32 th, u32 flag) 
     s32 dh;
     plContext *lpcon;
 
-    lpflTexture = &flTexture[(th & 0xFFFF) - 1];
+    lpflTexture = &flTexture[LO_16_BITS(th) - 1];
 
     if (bnum > 1) {
         if (bnum > 7) {
@@ -218,7 +220,7 @@ s32 flPS2CreateTextureHandle(u32 th, u32 flag) {
     u32 dma_size;
     u32 dma_ptr;
 
-    lpflTexture = &flTexture[(th & 0xFFFF) - 1];
+    lpflTexture = &flTexture[LO_16_BITS(th) - 1];
 
     while (1) {
         switch (flag) {
@@ -388,7 +390,7 @@ u32 flCreatePaletteHandle(plContext *lpcontext, u32 flag) {
         return 0;
     }
 
-    lpflPalette = &flPalette[((ph & 0xFFFF0000) >> 0x10) - 1];
+    lpflPalette = &flPalette[HI_16_BITS(ph) - 1];
     flPS2GetPaletteInfoFromContext(lpcontext, ph, flag);
 
     if (lpcontext->ptr == NULL) {
@@ -1173,13 +1175,13 @@ s32 flPS2ReloadTexture(s32 count, u32 *texlist) {
 
         for (j = 0; j < 2; j++) {
             if (j == 0) {
-                if ((th & 0xFFFF) && ((th & 0xFFFF) < 0x100)) {
-                    lpflTexture = &flTexture[(th & 0xFFFF) - 1];
+                if (LO_16_BITS(th) && (LO_16_BITS(th) < 0x100)) {
+                    lpflTexture = &flTexture[LO_16_BITS(th) - 1];
                 } else {
                     continue;
                 }
-            } else if ((((th & 0xFFFF0000) >> 0x10) != 0) && (((th & 0xFFFF0000) >> 0x10) < 0x440)) {
-                lpflTexture = &flPalette[((th & 0xFFFF0000) >> 0x10) - 1];
+            } else if ((HI_16_BITS(th) != 0) && (HI_16_BITS(th) < 0x440)) {
+                lpflTexture = &flPalette[HI_16_BITS(th) - 1];
             } else {
                 continue;
             }
@@ -1619,13 +1621,7 @@ static void Conv4to32(s32 width, s32 height, u8 *p_input, u8 *p_output) {
     u8 *po;
     u8 input_page[8192];
 
-    // These fix a regswap but are otherwise redundant
-    (void)i;
-    (void)j;
-    (void)n_input_width;
-
-    n_page_w = (width - 1) / 128 + 1;
-    p_page_w = n_page_w;
+    n_page_w = p_page_w = (width - 1) / 128 + 1;
     n_page_h = (height - 1) / 128 + 1;
     n_input_width = 0x40;
     n_output_width = 0x100;
@@ -1666,48 +1662,524 @@ void PageConv4to32(u8 *p_input, u8 *p_output, s32 p_page_w) {
     for (i = 0; i < n_height; i++) {
         for (j = 0; j < n_width; j++) {
             nb = *tbl++;
-            pi = p_input + (i_size * (i * 0x10)) + (j * 0x10);
-            po = p_output + (p_page_w * (o_size * (idx32_v[nb] * 8))) + (idx32_h[nb] << 5);
+            pi = p_input + (i * 0x10 * i_size) + (j * 0x10);
+            po = p_output + (idx32_v[nb] * 8 * o_size * p_page_w) + (idx32_h[nb] << 5);
             BlockConv4to32(pi, po, p_page_w);
         }
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", BlockConv4to32);
+static void BlockConv4to32(u8 *p_input, u8 *p_output, s32 p_page_w) {
+    s32 i;
+    s32 j;
+    s32 k;
+    s32 cno;
+    s32 **pTbl;
+    s32 *tbl;
+    u8 *pIn;
+    u8 *pOut;
+    u8 ld;
+    u8 ud;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", Conv8to32);
+    pIn = p_input;
+    pOut = p_output;
+    pTbl = clm_tbl4_ptr;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", PageConv8to32);
+    for (k = 0; k < 4; k++) {
+        tbl = *pTbl++;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", BlockConv8to32);
+        for (i = 0; i < 2; i++) {
+            for (j = 0; j < 0x20; j++) {
+                cno = *tbl++;
+
+                if (!(cno & 1)) {
+                    ld = pIn[cno / 2] & 0xF;
+                } else {
+                    ld = (pIn[cno / 2] & 0xF0) >> 4;
+                }
+
+                cno = *tbl++;
+
+                if (!(cno & 1)) {
+                    ud = (pIn[cno / 2] & 0xF) * 0x10;
+                } else {
+                    ud = pIn[cno / 2] & 0xF0;
+                }
+
+                *pOut++ = ld | ud;
+            }
+
+            pOut += (p_page_w << 8) - 0x20;
+        }
+
+        pIn += 0x100;
+    }
+}
+
+static void Conv8to32(s32 width, s32 height, u8 *p_input, u8 *p_output) {
+    s32 i;
+    s32 j;
+    s32 k;
+    s32 n_page_h;
+    s32 n_page_w;
+    s32 p_page_w;
+    s32 n_input_width;
+    s32 n_output_width;
+    s32 n_input_height;
+    s32 n_output_height;
+    u8 *pi0;
+    u8 *pi1;
+    u8 *po;
+    u8 input_page[8192];
+
+    p_page_w = n_page_w = (width - 1) / 128 + 1;
+    n_page_h = (height - 1) / 64 + 1;
+    n_input_width = 0x80;
+    n_output_width = 0x100;
+    n_input_height = 0x40;
+    n_output_height = 0x20;
+
+    for (i = 0; i < n_page_h; i++) {
+        for (j = 0; j < n_page_w; j++) {
+            pi0 = p_input + (n_input_width * n_input_height * i * n_page_w) + (j * n_input_width);
+            pi1 = input_page;
+
+            for (k = 0; k < n_input_height; k++) {
+                memcpy(pi1, pi0, n_input_width);
+                pi0 += n_input_width * n_page_w;
+                pi1 += n_input_width;
+            }
+
+            po = p_output + (n_output_width * n_output_height * i * n_page_w) + (j * n_output_width);
+            PageConv8to32(input_page, po, p_page_w);
+        }
+    }
+}
+
+static void PageConv8to32(u8 *p_input, u8 *p_output, s32 p_page_w) {
+    s32 i;
+    s32 j;
+    s32 nb;
+    s32 *tbl;
+    u8 *pi;
+    u8 *po;
+    s32 n_width = 8;
+    s32 n_height = 4;
+    s32 i_size = 0x80;
+    s32 o_size = 0x100;
+
+    tbl = block_table8;
+
+    for (i = 0; i < n_height; i++) {
+        for (j = 0; j < n_width; j++) {
+            nb = *tbl++;
+            pi = p_input + (i * 0x10 * i_size) + (j * 0x10);
+            po = p_output + (idx32_v[nb] * 8 * o_size * p_page_w) + (idx32_h[nb] << 5);
+            BlockConv8to32(pi, po, p_page_w);
+        }
+    }
+}
+
+void BlockConv8to32(u8 *p_input, u8 *p_output, s32 p_page_w) {
+    s32 i;
+    s32 j;
+    s32 k;
+    s32 **pTbl;
+    s32 *tbl;
+    u8 *pIn = p_input;
+    u8 *pOut = p_output;
+
+    pTbl = clm_tbl8_ptr;
+
+    for (k = 0; k < 4; k++) {
+        tbl = *pTbl++;
+
+        for (i = 0; i < 2; i++) {
+            for (j = 0; j < 0x20; j++) {
+                *pOut++ = pIn[*tbl++];
+            }
+
+            pOut += (p_page_w << 8) - 0x20;
+        }
+
+        pIn += 0x200;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2VramInit);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2PullVramWork);
+LPVram *flPS2PullVramWork() {
+    s32 i;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2PushVramWork);
+    for (i = 0; i < VRAM_CONTROL_SIZE; i++) {
+        if (flVramControl[i].tbp == 0) {
+            flVramNum += 1;
+            return &flVramControl[i];
+        }
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2ChainVramWork);
+    return NULL;
+}
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", literal_1306_0055F9C0);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2GetVramSize);
+void flPS2PushVramWork(LPVram *lpVram) {
+    LPVram *lpParent = (LPVram *)lpVram->parent;
+    LPVram *lpChild = (LPVram *)lpVram->child;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", literal_1341_0055F9F0);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", literal_1342_0055FA20);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2AddVramList);
+    if (lpParent != 0) {
+        lpParent->child = (u32)lpChild;
+    } else if (lpChild != 0) {
+        flVramList = (LPVram *)lpChild;
+    } else {
+        flVramList = NULL;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2RewriteVramList);
+    if (lpChild != 0) {
+        lpChild->parent = (u32)lpParent;
+    }
+
+    if (lpVram->tex_ptr != NULL) {
+        lpVram->tex_ptr->vram_on_flag = 0;
+        lpVram->tex_ptr->wkVram = NULL;
+        lpVram->tex_ptr->flag = 4;
+    }
+
+    flMemset(lpVram, 0, sizeof(LPVram));
+    flVramNum -= 1;
+}
+
+void flPS2ChainVramWork(LPVram *lpParent, LPVram *lpVram) {
+    LPVram *lpChild = NULL;
+
+    if (lpParent != NULL) {
+        lpChild = (LPVram *)lpParent->child;
+        lpParent->child = (u32)lpVram;
+    } else if (flVramList == NULL) {
+        flVramList = lpVram;
+    } else {
+        lpChild = flVramList;
+        flVramList = lpVram;
+    }
+
+    lpVram->parent = (u32)lpParent;
+    lpVram->child = (u32)lpChild;
+
+    if (lpChild != 0) {
+        lpChild->parent = (u32)lpVram;
+    }
+}
+
+s16 flPS2GetVramSize() {
+    LPVram *lpVram = flVramList;
+    s16 size = 0;
+
+    while (lpVram != NULL) {
+        if (lpVram->tbp == 0) {
+            flPS2SystemError(0, "ERROR flPS2GetVramSize flps2vram.c 1");
+        }
+
+        size += lpVram->block_size;
+        lpVram = (LPVram *)lpVram->child;
+    }
+
+    return size;
+}
+
+s32 flPS2AddVramList(LPVram *lpVram, FLTexture *lpflTexture) {
+    s16 next_tbp;
+    LPVram *lpVramNew;
+
+    if (lpVram == NULL) {
+        if ((lpVramNew = flPS2PullVramWork(flVramControl, VRAM_CONTROL_SIZE)) == NULL) {
+            return 0;
+        }
+
+        flPS2ChainVramWork(lpVram, lpVramNew);
+        next_tbp = flPs2State.TextureStartAdrs;
+    } else {
+        if ((lpVramNew = flPS2PullVramWork(flVramControl, VRAM_CONTROL_SIZE)) == NULL) {
+            return 0;
+        }
+
+        flPS2ChainVramWork(lpVram, lpVramNew);
+        // Should probably use an alignment macro here
+        next_tbp =
+            ~(lpflTexture->block_align - 1) & (lpflTexture->block_align - 1 + (lpVram->tbp + lpVram->block_size));
+    }
+
+    if ((next_tbp >= 0) && (next_tbp < flPs2State.TextureStartAdrs)) {
+        flPS2SystemError(0, "ERROR flPS2AddVramList flps2vram.c 1");
+    }
+
+    if (next_tbp >= 0x4000) {
+        flPS2SystemError(0, "ERROR flPS2AddVramList flps2vram.c 2");
+    }
+
+    lpflTexture->tbp = next_tbp;
+    lpflTexture->vram_on_flag = 1;
+    lpflTexture->wkVram = lpVramNew;
+    lpVramNew->tex_ptr = lpflTexture;
+    lpVramNew->desc = lpflTexture->desc;
+    lpVramNew->flag = lpflTexture->flag;
+    lpVramNew->tbp = next_tbp;
+    lpVramNew->block_size = lpflTexture->block_size;
+    lpVramNew->block_align = lpflTexture->block_align;
+    return 1;
+}
+
+s32 flPS2RewriteVramList(LPVram *lpVram, FLTexture *lpflTexture) {
+    LPVram *lpVramNext;
+
+    if (lpVram == NULL) {
+        if ((lpVram = flPS2PullVramWork(flVramControl, VRAM_CONTROL_SIZE)) == NULL) {
+            return 0;
+        }
+
+        flPS2ChainVramWork(NULL, lpVram);
+        lpVram->tbp = flPs2State.TextureStartAdrs;
+    } else if (lpVram->child != 0) {
+        lpVramNext = (LPVram *)lpVram->child;
+
+        while ((lpVramNext->tbp - lpVram->tbp) < lpflTexture->block_size) {
+            flPS2PushVramWork((LPVram *)lpVramNext);
+
+            if (lpVram->child == 0) {
+                break;
+            }
+
+            lpVramNext = (LPVram *)lpVram->child;
+        }
+    }
+
+    if (lpVram->tex_ptr != NULL) {
+        lpVram->tex_ptr->vram_on_flag = 0;
+        lpVram->tex_ptr->wkVram = NULL;
+        lpVram->tex_ptr->flag = 4;
+    }
+
+    lpflTexture->tbp = lpVram->tbp;
+    lpflTexture->vram_on_flag = 1;
+    lpflTexture->wkVram = lpVram;
+    lpVram->tex_ptr = lpflTexture;
+    lpVram->desc = lpflTexture->desc;
+    lpVram->flag = lpflTexture->flag;
+    lpVram->block_size = lpflTexture->block_size;
+    lpVram->block_align = lpflTexture->block_align;
+    return 1;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2DeleteAllVramList);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2DeleteVramList);
+s32 flPS2DeleteVramList(FLTexture *lpflTexture) {
+    if (lpflTexture->vram_on_flag) {
+        flPS2PushVramWork(lpflTexture->wkVram);
+    }
+
+    return 1;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2PurgeTextureFromVRAM);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2PurgePaletteFromVRAM);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2GetVramFreeArea);
+s32 flPS2GetVramFreeArea(u32 *lpflhTexture, s32 tex_num) {
+    LPVram *lpVram;
+    FLTexture *lpflTexture;
+    FLTexture *lpflPalette;
+    u32 th;
+    s32 i;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2SearchVramSpace);
+    for (i = 0; i < tex_num; i++) {
+        th = *lpflhTexture++;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2SearchVramChange);
+        if (LO_16_BITS(th)) {
+            lpflTexture = &flTexture[LO_16_BITS(th) - 1];
+
+            if (lpflTexture->vram_on_flag == 0) {
+                if ((lpVram = flPS2SearchVramSpace(lpflTexture->block_size, lpflTexture->block_align)) ==
+                    LPVRAM_ERROR) {
+                    return 0;
+                }
+
+                if (flPS2AddVramList(lpVram, lpflTexture) == 0) {
+                    return 0;
+                }
+            }
+        }
+
+        if (HI_16_BITS(th) != 0) {
+            lpflPalette = &flPalette[HI_16_BITS(th) - 1];
+
+            if (lpflPalette->vram_on_flag == 0) {
+                if ((lpVram = flPS2SearchVramSpace(lpflPalette->block_size, lpflPalette->block_align)) ==
+                    LPVRAM_ERROR) {
+                    return 0;
+                }
+
+                if (flPS2AddVramList(lpVram, lpflPalette) == 0) {
+                    return 0;
+                }
+            }
+        }
+    }
+
+    return 1;
+}
+
+LPVram *flPS2SearchVramSpace(u32 size, u32 align) {
+    LPVram *lpVram = flVramList;
+    LPVram *lpChild;
+    u32 next_tbp;
+
+    if (lpVram == NULL) {
+        return NULL;
+    }
+
+    if ((lpVram->tbp != flPs2State.TextureStartAdrs) && ((lpVram->tbp - flPs2State.TextureStartAdrs) >= size)) {
+        return NULL;
+    }
+
+    while (1) {
+        lpChild = (LPVram *)lpVram->child;
+        next_tbp = lpVram->tbp + lpVram->block_size;
+        next_tbp = ~(align - 1) & (next_tbp + (align - 1)); // Should probably use an alignment macro here
+
+        if (lpChild == 0) {
+            if ((lpVram->tbp + lpVram->block_size) >= 0x4000) {
+                return LPVRAM_ERROR;
+            }
+
+            if ((next_tbp + size) >= 0x4000) {
+                return LPVRAM_ERROR;
+            }
+
+            return lpVram;
+        }
+
+        if ((next_tbp < lpChild->tbp) && ((lpChild->tbp - next_tbp) >= size)) {
+            return lpVram;
+        }
+
+        lpVram = (LPVram *)lpChild;
+    }
+}
+
+LPVram *flPS2SearchVramChange(FLTexture *lpflTexture, u32 *lpflhTexture, s32 tex_num) {
+    s32 i;
+    LPVram *lpVram;
+    LPVram *lpVramNext;
+    LPVram *lpVramKeep;
+    LPVram *lpVramOld;
+    FLTexture *lpPs2tex;
+    u32 th;
+    s32 loop_num = 0;
+    u32 next_tbp;
+
+    while (1) {
+        lpVram = flVramList;
+
+        if (lpVram == NULL) {
+            return NULL;
+        }
+
+        while (1) {
+            if ((loop_num != 0) || (lpVram->flag == 1) || (lpVram->flag == 4)) {
+                for (i = 0; i < tex_num; i++) {
+                    th = lpflhTexture[i];
+
+                    if (LO_16_BITS(th)) {
+                        lpPs2tex = &flTexture[LO_16_BITS(th) - 1];
+
+                        if (lpPs2tex == lpVram->tex_ptr) {
+                            goto block_38;
+                        }
+                    }
+
+                    if (HI_16_BITS(th)) {
+                        lpPs2tex = &flPalette[HI_16_BITS(th) - 1];
+
+                        if (lpPs2tex == lpVram->tex_ptr) {
+                            goto block_38;
+                        }
+                    }
+                }
+
+                next_tbp = ~(lpflTexture->block_align - 1) & (lpVram->tbp + (lpflTexture->block_align - 1));
+
+                if (lpVram->tbp == next_tbp) {
+                    if (lpVram->child == 0) {
+                        if ((0x4000 - next_tbp) >= lpflTexture->block_size) {
+                            return lpVram;
+                        }
+
+                        goto block_38;
+                    }
+
+                    lpVramKeep = lpVram;
+                    lpVramNext = (LPVram *)lpVram->child;
+
+                    while ((lpVramNext->tbp - next_tbp) < lpflTexture->block_size) {
+                        lpVram = lpVramNext;
+
+                        if ((loop_num == 0) && (lpVram->flag != 1)) {
+                            if (lpVram->flag != 4) {
+                                goto block_38;
+                            }
+                        }
+
+                        for (i = 0; i < tex_num; i++) {
+                            th = lpflhTexture[i];
+
+                            if (LO_16_BITS(th)) {
+                                lpPs2tex = &flTexture[LO_16_BITS(th) - 1];
+
+                                if (lpPs2tex == lpVram->tex_ptr) {
+                                    goto block_38;
+                                }
+                            }
+
+                            if (HI_16_BITS(th)) {
+                                lpPs2tex = &flPalette[HI_16_BITS(th) - 1];
+
+                                if (lpPs2tex == lpVram->tex_ptr) {
+                                    goto block_38;
+                                }
+                            }
+                        }
+
+                        if (lpVram->child == 0) {
+                            if ((0x4000 - next_tbp) < lpflTexture->block_size) {
+                                goto block_38;
+                            }
+
+                            return lpVramKeep;
+                        }
+
+                        lpVramNext = (LPVram *)lpVram->child;
+                    }
+
+                    return lpVramKeep;
+                }
+            }
+
+        block_38:
+            lpVramOld = lpVram;
+            lpVram = (LPVram *)lpVram->child;
+
+            if (lpVram == NULL) {
+                break;
+            }
+        }
+
+        if ((0x4000 - (lpVramOld->tbp + lpVramOld->block_size)) >= lpflTexture->block_size) {
+            return (LPVram *)1;
+        }
+
+        if (loop_num != 0) {
+            break;
+        }
+
+        loop_num += 1;
+    }
+
+    return LPVRAM_ERROR;
+}
