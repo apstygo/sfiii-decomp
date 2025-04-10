@@ -424,7 +424,7 @@ segments:
       - [0x14A1F0, asm, sf33rd/Source/Game/end_main]
       - [0x14B640, c, sf33rd/Source/Game/Entry]
       - [0x14FB00, asm, sf33rd/Source/Game/Flash_LP] # Good first decomp
-      - [0x14FE60, asm, sf33rd/Source/Game/FOLLOW02]
+      - [0x14FE60, c, sf33rd/Source/Game/FOLLOW02]
       - [0x150210, c, sf33rd/Source/Game/Game]
       - [0x153CC0, c, sf33rd/Source/Game/GameOver]
       - [0x1543B0, c, sf33rd/Source/Game/GD3rd]
@@ -1142,7 +1142,7 @@ segments:
       - [0x41F890, rodata, sf33rd/Source/Game/fl_com00]
       - [0x41FAA0, rodata, sf33rd/Source/Game/FL_COM02]
       - [0x41FCB0, rodata, sf33rd/Source/Game/Flash_LP]
-      - [0x41FCC0, rodata, sf33rd/Source/Game/FOLLOW02]
+      - [0x41FCC0, .rodata, sf33rd/Source/Game/FOLLOW02]
       - [0x41FCD0, .rodata, sf33rd/Source/Game/Game]
       - [0x41FD50, .rodata, sf33rd/Source/Game/GameOver]
       - [0x41FD70, .rodata, sf33rd/Source/Game/GD3rd]
