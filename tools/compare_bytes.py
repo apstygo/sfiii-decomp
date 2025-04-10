@@ -47,6 +47,15 @@ EXPECTED_ERRORS = {
     0xC12C4: 0x0002843C,
     0xC12C8: 0x0010843F,
     0xC12CC: 0x00000000,
+
+    # flps2vram: mismatched __LINE__'s in assert
+    0x2F86A4: 0x0000282D,
+    0x2F87C8: 0x0000282D,
+    0x2F8848: 0x0000282D,
+    0x2F8938: 0x0000282D,
+    0x2F9238: 0x0000282D,
+    0x2FB744: 0x0000282D,
+    0x2FB7CC: 0x0000282D,
 }
 
 def read_word(b: bytes, offset: int) -> int:
@@ -84,7 +93,6 @@ def main():
     # Compare bytes
 
     bad_offsets: list[int] = list()
-    unexpected_error = False
     misalign_offset: int | None = None
 
     range_end = min(
@@ -98,20 +106,18 @@ def main():
         word_b = read_word(bytes_b, offset)
 
         if word_a != word_b:
+            if offset in EXPECTED_ERRORS and EXPECTED_ERRORS[offset] == word_b:
+                continue
+
             bad_offsets.append(offset)
 
-            if offset not in EXPECTED_ERRORS or EXPECTED_ERRORS[offset] != word_b:
-                unexpected_error = True
-
-            if (word_a == 0 or word_b == 0) and misalign_offset == None and unexpected_error:
+            if (word_a == 0 or word_b == 0) and misalign_offset == None:
                 misalign_offset = offset
 
     success = True
 
     if not bad_offsets:
         print("Files match ✅")
-    elif not unexpected_error:
-        print("Files match ✅ (except for expected errors)")
     else:
         success = False
         max_printed_offsets = 20
@@ -123,12 +129,7 @@ def main():
             print("Diverging offsets:")
 
         for offset in bad_offsets[:max_printed_offsets]:
-            offset_str = f"    0x{offset:X}"
-
-            if offset in EXPECTED_ERRORS:
-                offset_str += " (expected)"
-
-            print(offset_str)
+            print(f"    0x{offset:X} (expected 0x{read_word(bytes_a, offset):X}, got 0x{read_word(bytes_b, offset):X})")
 
     if misalign_offset != None:
         print(f"Misalignment at 0x{misalign_offset:X}")

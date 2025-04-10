@@ -20,5 +20,11 @@ s32 flPS2DmaInterrupt(s32 ch);
 void flPS2DmaSend();
 s32 flPS2DmaWait();
 s32 flPS2DmaTerminate();
+u32 flPS2VIF1CalcEndLoadImageSize();
+void flPS2VIF1MakeEndLoadImage(u32 buff_ptr, u32 irq);
+u32 flPS2VIF1CalcLoadImageSize(u32 size);
+u32 flPS2VIF1MakeLoadImage(u32 buff_ptr, u32 irq, u32 data_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, s16 x, s16 y,
+                           s16 w, s16 h);
+void flPS2StoreImageB(u32 load_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, s16 x, s16 y, s16 w, s16 h);
 
 #endif

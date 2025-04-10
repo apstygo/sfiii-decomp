@@ -390,7 +390,7 @@ u32 flCreateTextureFromApx_mem(void *mem, u32 flag) {
     th = 0;
     ph = 0;
     th = flPS2GetTextureHandle();
-    lpflTexture = &flTexture[(th & 0xFFFF) - 1];
+    lpflTexture = &flTexture[LO_16_BITS(th) - 1];
     mip_num = plAPXGetMipmapTextureNum(mem) - 1;
 
     if (plAPXSetContextFromImage(&context[0], mem) == 0) {
@@ -458,7 +458,7 @@ u32 flCreateTextureFromApx_mem(void *mem, u32 flag) {
 
     if ((lpflTexture->format == 0x14) || (lpflTexture->format == 0x13)) {
         ph = flPS2GetPaletteHandle();
-        lpflPalette = &flPalette[((ph & 0xFFFF0000) >> 0x10) - 1];
+        lpflPalette = &flPalette[HI_16_BITS(ph) - 1];
         plAPXSetPaletteContextFromImage(&pal_context, mem);
         flPS2GetPaletteInfoFromContext(&pal_context, ph, flag);
         lpflPalette->mem_handle = flPS2GetSystemMemoryHandle(lpflPalette->size, 2);
@@ -511,7 +511,7 @@ u32 flCreateTextureFromTim2_mem(void *mem, u32 flag) {
     s32 tex_size;
 
     th = flPS2GetTextureHandle();
-    lpflTexture = &flTexture[(th & 0xFFFF) - 1];
+    lpflTexture = &flTexture[LO_16_BITS(th) - 1];
     mip_num = plTIM2GetMipmapTextureNum(mem);
 
     if (plTIM2SetContextFromImage(context, mem) == 0) {
@@ -579,7 +579,7 @@ u32 flCreateTextureFromTim2_mem(void *mem, u32 flag) {
 
     if ((lpflTexture->format == 0x14) || (lpflTexture->format == 0x13)) {
         ph = flPS2GetPaletteHandle();
-        lpflPalette = &flPalette[((ph & 0xFFFF0000) >> 0x10) - 1];
+        lpflPalette = &flPalette[HI_16_BITS(ph) - 1];
         plTIM2SetPaletteContextFromImage(&pal_context, mem);
         flPS2GetPaletteInfoFromContext(&pal_context, ph, flag);
         lpflPalette->mem_handle = flPS2GetSystemMemoryHandle(lpflPalette->size, 2);
@@ -651,7 +651,7 @@ u32 flCreateTextureFromBMP_mem(void *mem, u32 flag) {
     u8 b;
 
     th = flPS2GetTextureHandle();
-    lpflTexture = &flTexture[(th & 0xFFFF) - 1];
+    lpflTexture = &flTexture[LO_16_BITS(th) - 1];
     plBMPSetContextFromImage(&context, mem);
 
     if (context.bitdepth != 3) {
@@ -709,7 +709,7 @@ u32 flCreateTextureFromPIC_mem(void *mem, u32 flag) {
     FLTexture *lpflTexture;
 
     th = flPS2GetTextureHandle();
-    lpflTexture = &flTexture[(th & 0xFFFF) - 1];
+    lpflTexture = &flTexture[LO_16_BITS(th) - 1];
     plPICSetContextFromImage(&context, mem);
 
     if ((context.bitdepth != 3) && (context.bitdepth != 4)) {
