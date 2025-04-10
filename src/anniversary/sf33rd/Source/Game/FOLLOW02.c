@@ -23,74 +23,73 @@ void Follow02(PLW *wk) {
 }
 
 void Follow02_0000(PLW *wk) {
-    switch (*CP_Index[wk->wu.id]) {
+    switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x10);
-        return;
+        break;
 
     case 1:
         Normal_Attack(wk, 8, 0x20);
-        return;
+        break;
 
     case 2:
         Normal_Attack(wk, 8, 0x200);
-        return;
+        break;
 
     default:
         End_Pattern(wk);
-        return;
+        break;
     }
 }
 
 void Follow02_0001(PLW *wk) {
-
-    switch (*CP_Index[wk->wu.id]) {
+    switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x20);
-        return;
+        break;
 
     case 1:
         Command_Attack(wk, 2, 8, 0x1C, 8);
-        return;
+        break;
 
     default:
         End_Pattern(wk);
-        return;
+        break;
     }
 }
 
 void Follow02_0002(PLW *wk) {
-    switch (*CP_Index[wk->wu.id]) {
+    switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x10);
-        return;
+        break;
 
     case 1:
         Normal_Attack(wk, 8, 0x20);
-        return;
+        break;
 
     case 2:
         Normal_Attack(wk, 8, 0x200);
-        return;
+        break;
+
     default:
         End_Pattern(wk);
-        return;
+        break;
     }
 }
 
 void Follow02_0003(PLW *wk) {
-
-    switch (*CP_Index[wk->wu.id]) {
+    switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x20);
-        return;
+        break;
 
     case 1:
         Command_Attack(wk, 2, 8, 0x1C, 8);
-        return;
+        break;
 
     default:
         End_Pattern(wk);
-        return;
+        break;
     }
 }
