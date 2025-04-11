@@ -12,6 +12,20 @@ extern u32 flDebugTrueTime[4];            // size: 0x10, address: 0x57AB50
 extern s32 flPS2FlipCancelFlag;           // size: 0x4, address: 0x57AB78
 extern u32 flPs2FBA;                      // size: 0x4, address: 0x57AB84
 extern s32 flClayNum;                     // size: 0x4, address: 0x57AB88
+extern f32 flViewportLY;                  // size: 0x4, address: 0x57AB8C
+extern f32 flViewportLX;                  // size: 0x4, address: 0x57AB90
+extern f32 flViewportCY;                  // size: 0x4, address: 0x57AB94
+extern f32 flViewportCX;                  // size: 0x4, address: 0x57AB98
+extern f32 flViewportDH;                  // size: 0x4, address: 0x57AB9C
+extern f32 flViewportDW;                  // size: 0x4, address: 0x57ABA0
+extern f32 flViewportDY;                  // size: 0x4, address: 0x57ABA4
+extern f32 flViewportDX;                  // size: 0x4, address: 0x57ABA8
+extern MTX flPS2VIEWPORT;                 // size: 0x40, address: 0x57AC70
+extern MTX flPS2CLIPPROJ;                 // size: 0x40, address: 0x57ACB0
+extern MTX flPS2VIEWPROJ;                 // size: 0x40, address: 0x57ACF0
+extern MTX flACRVIEWPROJ;                 // size: 0x40, address: 0x57AD30
+extern MTX flACRVIEWPORT;                 // size: 0x40, address: 0x57AD70
+extern MTX flPS2INITMATRIX;               // size: 0x40, address: 0x57ADB0
 extern s32 flVramStaticNum;               // size: 0x4, address: 0x57AE1C
 extern VRAMBlockHeader flVramStatic[3];   // size: 0x18, address: 0x57AE20
 extern s32 flPTNum;                       // size: 0x4, address: 0x57AE38
@@ -28,6 +42,7 @@ extern s32 flHeight;                      // size: 0x4, address: 0x57AF3C
 extern s32 flWidth;                       // size: 0x4, address: 0x57AF40
 extern s32 flCTNum;                       // size: 0x4, address: 0x57AF44
 
+extern MTX flMATRIX[36];                        // size: 0x900, address: 0x6C4DD0
 extern FLTexture flPalette[1088];               // size: 0xFF00, address: 0x6C56D0
 extern FLTexture flTexture[256];                // size: 0x3C00, address: 0x6D55D0
 extern LPVram flVramControl[VRAM_CONTROL_SIZE]; // size: 0x9300, address: 0x6D91D0
