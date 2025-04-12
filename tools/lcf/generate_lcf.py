@@ -1,4 +1,5 @@
 import sys
+import re
 from dataclasses import dataclass
 from pathlib import Path
 import splat.scripts.split as split
@@ -225,6 +226,7 @@ def main():
 
         text = text.replace("xyzw ACC", "xyzw $ACC")
         text = text.replace("xyz ACC", "xyz $ACC")
+        text = re.sub(r"(?<!\$)\bQ\b", r"$Q", text)
 
         asm_file.write_text(text)
 
