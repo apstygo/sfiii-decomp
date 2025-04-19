@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+# Usage:
+# > tools/compare_bytes.py THIRD_U.BIN build/anniversary/THIRD_U.BIN 0x80 0x478A00 [--fix]
+
 import sys
 from pathlib import Path
 
@@ -74,6 +77,7 @@ def main():
     path_b = Path(sys.argv[2])
     start = 0
     end = sys.maxsize
+    should_print_fix = len(sys.argv) >= 6 and sys.argv[5] == "--fix"
 
     if len(sys.argv) >= 4:
         start = align_down(int(sys.argv[3], 16), 4)
@@ -133,6 +137,12 @@ def main():
 
     if misalign_offset != None:
         print(f"Misalignment at 0x{misalign_offset:X}")
+
+    if should_print_fix and bad_offsets:
+        print("\nAdd this to EXPECTED_ERRORS to suppress this error:")
+
+        for offset in bad_offsets:
+            print(f"0x{offset:X}: 0x{read_word(bytes_b, offset):6X},")
 
     if success:
         sys.exit(0)
