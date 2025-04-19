@@ -441,7 +441,7 @@ segments:
       - [0x16EBE0, c, sf33rd/Source/Game/menu]
       - [0x1802E0, asm, sf33rd/Source/Game/meta_col]
       - [0x180C00, asm, sf33rd/Source/Game/MMTMCNT] # Good first decomp
-      - [0x180ED0, asm, sf33rd/Source/Game/MTRANS]
+      - [0x180ED0, c, sf33rd/Source/Game/MTRANS]
       - [0x188DB0, asm, sf33rd/Source/Game/n_input]
       - [0x18ABF0, asm, sf33rd/Source/Game/Next_CPU]
       - [0x18F640, c, sf33rd/Source/Game/op_sub]
@@ -1155,7 +1155,7 @@ segments:
       - [0x422630, .rodata, sf33rd/Source/Game/menu]
       - [0x4228E8, rodata, sf33rd/Source/Game/meta_col]
       - [0x4228F0, rodata, sf33rd/Source/Game/MMTMCNT]
-      - [0x422C08, rodata, sf33rd/Source/Game/MTRANS]
+      - [0x422C08, .rodata, sf33rd/Source/Game/MTRANS]
       - [0x422EF0, rodata, sf33rd/Source/Game/n_input]
       - [0x422FB0, rodata, sf33rd/Source/Game/Next_CPU]
       - [0x423000, .rodata, sf33rd/Source/Game/OPENING]

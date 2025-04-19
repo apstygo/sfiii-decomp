@@ -1482,6 +1482,12 @@ typedef struct {
 } TEX_GRP_LD;
 
 typedef struct {
+    // total size: 0x5
+    u8 wh;     // offset 0x0, size 0x1
+    u8 dat[4]; // offset 0x1, size 0x4
+} TEX;
+
+typedef struct {
     // total size: 0x28
     u8 be;           // offset 0x0, size 0x1
     u8 type;         // offset 0x1, size 0x1
@@ -1706,6 +1712,25 @@ typedef struct {
     u32 texCode;   // offset 0x2C, size 0x4
     u32 id;        // offset 0x30, size 0x4
 } Sprite2;
+
+typedef struct {
+    // total size: 0x20
+    Sprite2 *chip; // offset 0x0, size 0x4
+    u16 sprTotal;  // offset 0x4, size 0x2
+    u16 sprMax;    // offset 0x6, size 0x2
+    s8 up[24];     // offset 0x8, size 0x18
+} SpriteChipSet;
+
+typedef struct {
+    // total size: 0x14
+    u16 num_of_1st; // offset 0x0, size 0x2
+    u16 apfn;       // offset 0x2, size 0x2
+    s16 conv;       // offset 0x4, size 0x2
+    s16 ix1st;      // offset 0x6, size 0x2
+    u32 use;        // offset 0x8, size 0x4
+    u32 to_tex;     // offset 0xC, size 0x4
+    u32 to_chd;     // offset 0x10, size 0x4
+} TexGroupData;
 
 typedef struct {
     // total size: 0x8
@@ -1955,5 +1980,13 @@ typedef struct {
     s16 tbp;        // offset 0x2, size 0x2
     u32 block_size; // offset 0x4, size 0x4
 } VRAMBlockHeader;
+
+typedef struct {
+    // total size: 0x8
+    s16 x;    // offset 0x0, size 0x2
+    s16 y;    // offset 0x2, size 0x2
+    u16 attr; // offset 0x4, size 0x2
+    u16 code; // offset 0x6, size 0x2
+} TileMapEntry;
 
 #endif

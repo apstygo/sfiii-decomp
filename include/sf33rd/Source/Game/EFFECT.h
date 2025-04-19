@@ -13,5 +13,6 @@ void effect_work_quick_init();
 void effect_work_kill_mod_plcol();
 void push_effect_work(WORK *wkhd);
 s16 pull_effect_work(s16 index);
+void work_init_zero(s32 *adrs_int, s32 xx);
 
 #endif

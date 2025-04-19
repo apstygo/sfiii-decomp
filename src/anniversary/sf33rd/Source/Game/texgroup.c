@@ -11,17 +11,6 @@
 #include "structs.h"
 
 typedef struct {
-    // total size: 0x14
-    u16 num_of_1st; // offset 0x0, size 0x2
-    u16 apfn;       // offset 0x2, size 0x2
-    s16 conv;       // offset 0x4, size 0x2
-    s16 ix1st;      // offset 0x6, size 0x2
-    u32 use;        // offset 0x8, size 0x4
-    u32 to_tex;     // offset 0xC, size 0x4
-    u32 to_chd;     // offset 0x10, size 0x4
-} TexGroupData;
-
-typedef struct {
     // total size: 0x8
     s16 x;    // offset 0x0, size 0x2
     s16 y;    // offset 0x2, size 0x2
