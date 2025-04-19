@@ -8,6 +8,8 @@
 #include <stdarg.h>
 #endif
 
+extern FLPAD *flpad_adr[2];
+
 void flPS2DebugStrClear();
 
 s32 flSetDebugMode(u32 flag) {
@@ -15,17 +17,15 @@ s32 flSetDebugMode(u32 flag) {
     return 1;
 }
 
-void flGetSystemTime(void) {
-    f32 sys_time;
-
-    sys_time = ((u32)(*(s32 *)0x10000000));
+f64 flGetSystemTime() {
+    f32 sys_time = *T0_COUNT;
     sys_time = ((1000.0f * sys_time) / 60.0f) / 240.0f;
-    fptodp(sys_time);
+    return sys_time;
 }
 
-void flPS2DebugInit(void) {
-    s32 var_s0;
+void flPS2DebugInit() {
     s32 len;
+    s32 i;
 
     flSetDebugMode(3);
     flDebugSysMemHandleNum = 0;
@@ -34,8 +34,8 @@ void flPS2DebugInit(void) {
     flDebugSysMemClay = 0;
     flDebugSysMemMotion = 0;
 
-    for (var_s0 = 0; var_s0 < 0x1000; var_s0++) {
-        flDebugSysMem[var_s0] = 0;
+    for (i = 0; i < 0x1000; i++) {
+        flDebugSysMem[i] = 0;
     }
 
     len = 0xE100;
@@ -50,7 +50,7 @@ void flPS2DebugInit(void) {
     flPS2DebugStrClear();
 }
 
-void flPS2DebugStrClear(void) {
+void flPS2DebugStrClear() {
     flDebugStrX = 0;
     flDebugStrY = 0;
     flDebugStrCtr = 0;
@@ -61,15 +61,10 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", flPS2De
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", flPrintL);
 
 s32 flPrintColor(u32 color) {
-    u8 a;
-    u8 r;
-    u8 g;
-    u8 b;
-
-    r = (color >> 16) & 0xFF;
-    g = (color >> 8) & 0xFF;
-    b = (color) & 0xFF;
-    a = (color >> 24) & 0xFF;
+    u8 r = (color >> 16) & 0xFF;
+    u8 g = (color >> 8) & 0xFF;
+    u8 b = (color) & 0xFF;
+    u8 a = (color >> 24) & 0xFF;
 
     r >>= 1;
     g >>= 1;
@@ -89,20 +84,20 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", flPS2Di
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", flPS2DrawProbar);
 
-void flPS2LoadCheckFlush(void) {
-    s32 var_s0;
+void flPS2LoadCheckFlush() {
+    s32 i;
     flLoadCheckCtr = 0;
     flLoadCheckTimeOld = 0;
 
-    for (var_s0 = 0; var_s0 < 0x14; var_s0++) {
-        flLoadCheckTime[var_s0] = 0;
+    for (i = 0; i < LOAD_CHECK_TIME_SIZE; i++) {
+        flLoadCheckTime[i] = 0;
     }
 }
 
 void flPS2SystemError(s32 error_level, s8 *format, ...) {
+    va_list args;
     s8 str[512];
     s32 len;
-    va_list args;
 
     flFlip(0);
     va_start(args, format);
@@ -110,7 +105,7 @@ void flPS2SystemError(s32 error_level, s8 *format, ...) {
     len = strlen(str);
 
     while (1) {
-        flPrintL(0xA, 0x14, "%s", str);
+        flPrintL(10, 20, "%s", str);
 
         if (error_level == 0) {
             flSetRenderState(FLRENDER_BACKCOLOR, 0xFF0000);
@@ -118,19 +113,15 @@ void flPS2SystemError(s32 error_level, s8 *format, ...) {
             flSetRenderState(FLRENDER_BACKCOLOR, 0xFF);
             flPrintL(0xA, 0x28, "PRESS 1P START BUTTON TO EXIT");
 
-            /*
             if (flpad_adr[0][0].sw_new & 0x8000) {
                 break;
             }
-            */
         }
 
         flFlip(0);
         flPADGetALL();
     }
 }
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_220_0055F210);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_376_0055F220);
 
@@ -171,7 +162,3 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", lite
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_394_0055F3A0);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_395_0055F3B8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_460_0055F3C0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_461_0055F3D0);

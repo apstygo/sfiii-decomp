@@ -4,6 +4,8 @@
 #include "structs.h"
 #include "types.h"
 
+#define LOAD_CHECK_TIME_SIZE (20)
+
 extern s32 flDebugSysMem[4096];    // size: 0x4000, address: 0x6C0DD0
 extern u32 flDebugSysMemMotion;    // size: 0x4, address: 0x57AB10
 extern u32 flDebugSysMemClay;      // size: 0x4, address: 0x57AB14
@@ -19,7 +21,7 @@ extern s32 flDebugStrX;
 extern s32 flDebugStrY;
 extern s32 flDebugStrCol;
 extern s32 flLoadCheckCtr;
-extern u32 flLoadCheckTime[20];
+extern u32 flLoadCheckTime[LOAD_CHECK_TIME_SIZE];
 extern s32 flLoadCheckTimeOld;
 
 void flPS2SystemError(s32 error_level, s8 *format, ...);

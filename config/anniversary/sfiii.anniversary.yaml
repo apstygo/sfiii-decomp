@@ -836,7 +836,7 @@ segments:
       - [0x3C3820, data, gcc/libc/mallocr]
       - [0x3C3C78, data, gcc/libc/mlock]
 
-      - [0x3C3C80, .data, sf33rd/AcrSDK/ps2/flps2debug]
+      - [0x3C3C80, data, sf33rd/AcrSDK/ps2/flps2debug]
       - [0x3C3D10, .data, sf33rd/AcrSDK/ps2/flps2vram]
 
       - [0x3C4310, data, sdk/libdbc/libdbc]
@@ -1468,7 +1468,7 @@ segments:
       - [0x474630, sdata, sf33rd/Source/Game/debug/Deb_Data]
       - [0x474650, .sdata, sf33rd/Source/Common/PPGFile]
       - [0x4746B0, sdata, sf33rd/AcrSDK/ps2/flps2render]
-      - [0x474730, .sdata, sf33rd/AcrSDK/ps2/flps2debug]
+      - [0x474730, sdata, sf33rd/AcrSDK/ps2/flps2debug]
       - [0x474770, sdata, sf33rd/AcrSDK/ps2/flps2dma]
       - [0x4747A8, sdata, sf33rd/AcrSDK/ps2/flps2shader]
       - [0x4747B0, .sdata, sf33rd/AcrSDK/ps2/flps2vram]
