@@ -8,6 +8,8 @@ import pickle
 import sys
 
 # Prints functions that the provided file depends on
+# Usage:
+# > python3 tools/dependency_analyzer.py src/anniversary/sf33rd/Source/Game/Game.c
 
 @dataclass
 class FuncMap:
@@ -20,6 +22,12 @@ FUNC_HEADER_PATTERN = re.compile(r"\w{8} <(\w+)>:")
 RELOC_PATTERN = re.compile(r"\s+\w+: \w+\s+(\w+)")
 CACHED_PATH = Path("temp/cached_func_map.pkl")
 
+def obj_path_to_source_path(obj_path: Path) -> Path:
+    components = str(obj_path).split("/")
+    components = components[2:] # Remove build/anniversary
+    components[-1] = components[-1].replace(".c.o", ".c").replace(".s.o", ".c")
+    return Path("/".join(components))
+
 def _build_func_map() -> FuncMap:
     build = Path("build")
     all_calls: dict[str, set[str]] = dict()
@@ -29,15 +37,15 @@ def _build_func_map() -> FuncMap:
     obj_files = [x for x in build.rglob("*.o") if "/data/" not in str(x)]
 
     for path in tqdm(obj_files):
-        filename = path.stem.split(".")[0]
+        file_path = str(obj_path_to_source_path(path))
         calls = extract_func_calls(path)
         all_calls |= calls
 
         funcs = list(map(lambda x: x[0], calls.items()))
-        file_to_funcs[filename] = funcs
+        file_to_funcs[file_path] = funcs
 
         for func in funcs:
-            func_to_file[func] = filename
+            func_to_file[func] = file_path
 
             if check_if_decompiled(func, path):
                 decompiled_funcs.add(func)
