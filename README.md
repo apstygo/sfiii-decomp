@@ -6,11 +6,13 @@ The project aims to recreate the source code from the existing binaries which wo
 
 ## Decomp progress
 
+<!-- PROGRESS-TABLE:START -->
 | Module   | Progress (size)   | Progress (func count)   |
 |----------|-------------------|-------------------------|
 | sf33rd   | 8.6%              | 6.7%                    |
 | cri      | 2.5%              | 3.5%                    |
 | sdk      | 0.0%              | 0.0%                    |
+<!-- PROGRESS-TABLE:END -->
 
 ## Where to start
 

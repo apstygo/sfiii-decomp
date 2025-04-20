@@ -1,16 +1,16 @@
-from colorama import init, Fore
-import shutil
-from math import floor
+# from colorama import init, Fore
+# import shutil
+# from math import floor
 from dependency_analyzer import build_func_map, FuncMap
 from dataclasses import dataclass
 from tabulate import tabulate
 
-PROGRESS_BAR_LEFT_EMPTY = chr(0xEE00)
-PROGRESS_BAR_MID_EMPTY = chr(0xEE01)
-PROGRESS_BAR_RIGHT_EMPTY = chr(0xEE02)
-PROGRESS_BAR_LEFT_FULL = chr(0xEE03)
-PROGRESS_BAR_MID_FULL = chr(0xEE04)
-PROGRESS_BAR_RIGHT_FULL = chr(0xEE05)
+# PROGRESS_BAR_LEFT_EMPTY = chr(0xEE00)
+# PROGRESS_BAR_MID_EMPTY = chr(0xEE01)
+# PROGRESS_BAR_RIGHT_EMPTY = chr(0xEE02)
+# PROGRESS_BAR_LEFT_FULL = chr(0xEE03)
+# PROGRESS_BAR_MID_FULL = chr(0xEE04)
+# PROGRESS_BAR_RIGHT_FULL = chr(0xEE05)
 
 @dataclass
 class ModuleMetrics:
@@ -27,52 +27,33 @@ class ModuleMetrics:
     def decompiled_func_percentage(self) -> float:
         return (self.decompiled_func_count / self.total_func_count) * 100
 
-def clamp(n, smallest, largest): 
-    return max(smallest, min(n, largest))
+# def clamp(n, smallest, largest): 
+#     return max(smallest, min(n, largest))
 
-def progress_bar(width: int, ratio: float) -> str:
-    filled = floor(width * ratio)
-    result = ""
+# def progress_bar(width: int, ratio: float) -> str:
+#     filled = floor(width * ratio)
+#     result = ""
 
-    if filled > 0:
-        result += PROGRESS_BAR_LEFT_FULL
-    else:
-        result += PROGRESS_BAR_LEFT_EMPTY
+#     if filled > 0:
+#         result += PROGRESS_BAR_LEFT_FULL
+#     else:
+#         result += PROGRESS_BAR_LEFT_EMPTY
 
-    result += PROGRESS_BAR_MID_FULL * clamp(filled - 1, 0, width - 2)
-    result += PROGRESS_BAR_MID_EMPTY * clamp(width - filled - 1, 0, width - 2)
+#     result += PROGRESS_BAR_MID_FULL * clamp(filled - 1, 0, width - 2)
+#     result += PROGRESS_BAR_MID_EMPTY * clamp(width - filled - 1, 0, width - 2)
 
-    if filled == width:
-        result += PROGRESS_BAR_RIGHT_FULL
-    else:
-        result += PROGRESS_BAR_RIGHT_EMPTY
+#     if filled == width:
+#         result += PROGRESS_BAR_RIGHT_FULL
+#     else:
+#         result += PROGRESS_BAR_RIGHT_EMPTY
 
-    return result
+#     return result
 
 def path_to_module_type(path: str) -> str:
     return path.split("/")[0]
 
-def main():
-    init(autoreset=True)
-
+def generate_progress_report() -> str:
     func_map = build_func_map()
-    
-    # Print results
-
-    # c_func_count = len(func_map.decompiled_funcs)
-    # total_func_count = len(func_map.func_to_file)
-    # asm_func_count = total_func_count - c_func_count
-    # ratio = c_func_count / total_func_count
-    # ratio_message = f"{ratio * 100:.1f}%"
-
-    # progress_bar_str = progress_bar(
-    #     width=shutil.get_terminal_size().columns - len(ratio_message) - 1,
-    #     ratio=ratio
-    # )
-
-    # print(Fore.GREEN + f"{c_func_count} functions decompiled")
-    # print(Fore.YELLOW + f"{asm_func_count} functions to go")
-    # print(ratio_message, progress_bar_str)
 
     # Collect metrics
 
@@ -106,7 +87,29 @@ def main():
             f"{metrics[module].decompiled_func_percentage:.1f}%"
         ))
 
-    md_table = tabulate(rows, headers=headers, tablefmt="github")
+    return tabulate(rows, headers=headers, tablefmt="github")
+
+def main():
+    # init(autoreset=True)
+    
+    # Print results
+
+    # c_func_count = len(func_map.decompiled_funcs)
+    # total_func_count = len(func_map.func_to_file)
+    # asm_func_count = total_func_count - c_func_count
+    # ratio = c_func_count / total_func_count
+    # ratio_message = f"{ratio * 100:.1f}%"
+
+    # progress_bar_str = progress_bar(
+    #     width=shutil.get_terminal_size().columns - len(ratio_message) - 1,
+    #     ratio=ratio
+    # )
+
+    # print(Fore.GREEN + f"{c_func_count} functions decompiled")
+    # print(Fore.YELLOW + f"{asm_func_count} functions to go")
+    # print(ratio_message, progress_bar_str)
+
+    md_table = generate_progress_report()
     print(md_table)
 
 if __name__ == "__main__":
