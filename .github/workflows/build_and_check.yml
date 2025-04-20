@@ -12,6 +12,8 @@ jobs:
         # due to the missing secrets
         if: github.repository == 'apstygo/sfiii-decomp'
         runs-on: ubuntu-22.04
+        permissions:
+          contents: write
         steps:
             - name: Clone main repo (PR)
               if: github.event_name == 'pull_request_target'

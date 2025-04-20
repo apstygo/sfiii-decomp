@@ -9,7 +9,7 @@ import sys
 
 # Prints functions that the provided file depends on. Expects file path relative to sources directory.
 # Usage:
-# > python3 tools/dependency_analyzer.py sf33rd/Source/Game/Game.c
+# > python3 tools/dependency_analyzer.py sf33rd/Source/Game/Game.c [--no-cache]
 
 @dataclass
 class FuncMap:
@@ -62,16 +62,17 @@ def _build_func_map() -> FuncMap:
         decompiled_funcs
     )
 
-def build_func_map() -> FuncMap:
-    if CACHED_PATH.exists():
+def build_func_map(no_cache: bool = False) -> FuncMap:
+    if not no_cache and CACHED_PATH.exists():
         with open(CACHED_PATH, "rb") as f:
             return pickle.load(f)
 
     else:
         func_map = _build_func_map()
 
-        with open(CACHED_PATH, "wb") as f:
-            pickle.dump(func_map, f)
+        if not no_cache:
+            with open(CACHED_PATH, "wb") as f:
+                pickle.dump(func_map, f)
 
         return func_map
     
@@ -188,7 +189,8 @@ def build_file_submap(
 
 def main():
     target_file = sys.argv[1]
-    func_map = build_func_map()
+    no_cache = len(sys.argv) > 2 and sys.argv[2] == "--no-cache"
+    func_map = build_func_map(no_cache=no_cache)
     target_submap = build_file_submap(target_file, func_map)
 
     # dot = create_dependency_graph(target_submap)

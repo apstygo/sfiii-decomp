@@ -52,8 +52,8 @@ class ModuleMetrics:
 def path_to_module_type(path: str) -> str:
     return path.split("/")[0]
 
-def generate_progress_report() -> str:
-    func_map = build_func_map()
+def generate_progress_report(no_cache: bool = False) -> str:
+    func_map = build_func_map(no_cache=no_cache)
 
     # Collect metrics
 
