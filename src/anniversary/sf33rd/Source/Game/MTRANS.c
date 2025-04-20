@@ -91,6 +91,7 @@ static s32 get_mltbuf32(MultiTexture *mt, u32 code, u32 palt, s32 *ret);
 static s32 get_mltbuf32_ext(MultiTexture *mt, u32 code, u32 palt);
 static s32 get_mltbuf32_ext_2(MultiTexture *mt, u32 code, u32 palt, s32 *ret, PatternInstance *cp);
 void makeup_tpu_free(s32 x16, s32 x32, PatternMap *map);
+static void lz_ext_p6_fx(u8 *srcptr, u8 *dstptr, u32 len);
 
 static void search_trsptr(u32 trstbl, s32 i, s32 n, s32 cods, s32 atrs, s32 codd, s32 atrd) {
     s32 j;
@@ -907,7 +908,6 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", check_patc
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", literal_1560_00522E40);
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", get_free_patcash_index);
 
-static void lz_ext_p6_fx(u8 *srcptr, u8 *dstptr, u32 len);
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", lz_ext_p6_fx);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", lz_ext_p6_cx);
