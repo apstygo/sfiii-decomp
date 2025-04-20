@@ -76,7 +76,7 @@ segments:
 
       # .text
 
-      - [0x000080, asm, crt0]
+      - [0x000080, asm, sdk/crt0]
       - [0x0002B0, asm, sdk/libgraph/graph001]
       - [0x000450, asm, sdk/libgraph/graph002]
       - [0x0004B8, asm, sdk/libgraph/graph011]
@@ -119,7 +119,7 @@ segments:
       - [0x00FC68, asm, sdk/libcdvd/cdvd036]
       - [0x00FD38, asm, sdk/libmc/libmc]
 
-      - [0x11538, asm, asm_11538] # libm (not from GCC, from MW?)
+      - [0x11538, asm, gcc/asm_11538] # libm (not from GCC, from MW?)
 
       - [0x015DE0, c, sf33rd/AcrSDK/common/fbms]
       - [0x016030, c, sf33rd/AcrSDK/common/memfound]

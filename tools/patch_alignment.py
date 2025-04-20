@@ -2,21 +2,6 @@ from elftools.elf.elffile import ELFFile
 from pathlib import Path
 import sys
 
-skipped_rodata = {
-    "foundaps2",
-    "GD3rd",
-    "init3rd",
-    "flADX",
-    "Entry",
-    "Game",
-    "DEMO00",
-    "PPGFile",
-    "CHARSET",
-    "OPENING",
-    "SYS_sub",
-    "flps2vram",
-}
-
 # (file, section, index of section within sections of this type) -> alignment
 special_cases = {
     ("menu", ".rodata", 3): 16,
@@ -26,16 +11,9 @@ special_cases = {
     ("menu", ".rodata", 20): 16,
     ("menu", ".rodata", 23): 16,
     ("flPADUSR", ".rodata", 0): 16,
-    ("Game", ".rodata", 2): 16,
     ("Demo_Dat", ".rodata", 0): 16,
     ("chren3rd", ".rodata", 0): 16,
     ("CHARSET", ".rodata", 11): 16,
-    ("OPENING", ".rodata", 20): 16,
-    ("OPENING", ".rodata", 22): 16,
-    ("OPENING", ".rodata", 25): 16,
-    ("OPENING", ".rodata", 28): 16,
-    ("OPENING", ".rodata", 31): 16,
-    ("OPENING", ".rodata", 33): 16,
     ("pass00", ".rodata", 0): 16,
     ("aboutspr", ".rodata", 0): 16,
     ("flps2vram", ".rodata", 10): 16,
@@ -76,6 +54,7 @@ def alignments(path: Path) -> list[tuple[int, int]]:
     with open(path, 'rb') as f:
         elf_file = ELFFile(f)
         elf_header = elf_file.header
+        is_c_file = str(path).split(".")[-2] == "c"
 
         alignments: list[tuple[int, int]] = list()
         
@@ -97,7 +76,7 @@ def alignments(path: Path) -> list[tuple[int, int]]:
             filename = path.stem.split(".")[0]
             section_key = (filename, section.name, section_indices[section.name])
 
-            if section.name == '.rodata' and filename in skipped_rodata and section_key not in special_cases:
+            if section.name == '.rodata' and is_c_file and section_key not in special_cases:
                 section_indices[section.name] += 1
                 continue
 

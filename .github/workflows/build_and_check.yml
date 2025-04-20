@@ -12,6 +12,8 @@ jobs:
         # due to the missing secrets
         if: github.repository == 'apstygo/sfiii-decomp'
         runs-on: ubuntu-22.04
+        permissions:
+          contents: write
         steps:
             - name: Clone main repo (PR)
               if: github.event_name == 'pull_request_target'
@@ -47,3 +49,13 @@ jobs:
 
             - name: Build and compare binaries
               run: make build -j
+
+            - name: Update progress in README
+              if: github.event_name != 'pull_request_target'
+              run: python3 tools/update_progress_in_readme.py
+
+            - name: Commit README changes
+              if: github.event_name != 'pull_request_target'
+              uses: stefanzweifel/git-auto-commit-action@v5
+              with:
+                commit_message: Update progress in README

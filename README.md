@@ -4,6 +4,16 @@ A work-in-progress decompilation of Street Fighter III: 3rd Strike for PlayStati
 
 The project aims to recreate the source code from the existing binaries which would allow to port the game to current platforms, preserve the game for future generations of fighting game players and to improve and expand upon the game.
 
+## Decomp progress
+
+<!-- PROGRESS-TABLE:START -->
+| Module   | Progress (size)   | Progress (func count)   |
+|----------|-------------------|-------------------------|
+| sf33rd   | 8.8%              | 6.7%                    |
+| cri      | 2.5%              | 3.5%                    |
+| sdk      | 0.0%              | 0.0%                    |
+<!-- PROGRESS-TABLE:END -->
+
 ## Where to start
 
 Visit [the Wiki](https://github.com/apstygo/sfiii-decomp/wiki) for instructions on how to [build](https://github.com/apstygo/sfiii-decomp/wiki/Building) and [decompile](https://github.com/apstygo/sfiii-decomp/wiki/Decompiling) and other useful resources.

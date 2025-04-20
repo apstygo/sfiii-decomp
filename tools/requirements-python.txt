@@ -8,3 +8,4 @@ cxxfilt
 dataclasses
 pyelftools
 graphviz
+tabulate
