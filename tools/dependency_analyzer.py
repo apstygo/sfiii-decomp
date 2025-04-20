@@ -7,9 +7,9 @@ from dataclasses import dataclass
 import pickle
 import sys
 
-# Prints functions that the provided file depends on
+# Prints functions that the provided file depends on. Expects file path relative to sources directory.
 # Usage:
-# > python3 tools/dependency_analyzer.py src/anniversary/sf33rd/Source/Game/Game.c
+# > python3 tools/dependency_analyzer.py sf33rd/Source/Game/Game.c
 
 @dataclass
 class FuncMap:
@@ -26,7 +26,7 @@ CACHED_PATH = Path("temp/cached_func_map.pkl")
 
 def obj_path_to_source_path(obj_path: Path) -> Path:
     components = str(obj_path).split("/")
-    components = components[2:] # Remove build/anniversary
+    components = components[4:] # drop build/anniversary/src/anniversary and build/anniversary/asm/anniversary
     components[-1] = components[-1].replace(".c.o", ".c").replace(".s.o", ".c")
     return Path("/".join(components))
 
