@@ -51,8 +51,11 @@ jobs:
               run: make build -j
 
             - name: Update progress in README
+              if: github.event_name != 'pull_request_target'
               run: python3 tools/update_progress_in_readme.py
 
-            - uses: stefanzweifel/git-auto-commit-action@v5
+            - name: Commit README changes
+              if: github.event_name != 'pull_request_target'
+              uses: stefanzweifel/git-auto-commit-action@v5
               with:
                 commit_message: Update progress in README
