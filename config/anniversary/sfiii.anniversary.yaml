@@ -747,7 +747,7 @@ segments:
       - [0x36F860, data, sf33rd/Source/Game/effe6]
       - [0x36F8F0, data, sf33rd/Source/Game/end_data]
       - [0x36F9F0, .data, sf33rd/Source/Game/EX_DATA]
-      - [0x370160, data, sf33rd/Source/Game/IOConv]
+      - [0x370160, .data, sf33rd/Source/Game/IOConv]
       - [0x370220, .data, sf33rd/Source/Game/OPENING]
       - [0x3703A0, data, sf33rd/Source/Game/PulPul]
       - [0x370620, data, sf33rd/Source/Game/Sound3rd]
@@ -1595,7 +1595,7 @@ segments:
       - { type: sbss, vram: 0x5790A0, name: sf33rd/Source/Game/Grade }
       - { type: sbss, vram: 0x5790F4, name: sf33rd/Source/Game/HITCHECK }
       - { type: .sbss, vram: 0x579220, name: sf33rd/Source/Game/init3rd }
-      - { type: sbss, vram: 0x579230, name: sf33rd/Source/Game/IOConv }
+      - { type: .sbss, vram: 0x579230, name: sf33rd/Source/Game/IOConv }
       - { type: sbss, vram: 0x57929C, name: sf33rd/Source/Game/LOSE_PL }
       - { type: sbss, vram: 0x5792A8, name: sf33rd/Source/Game/Manage }
       - { type: sbss, vram: 0x5792B0, name: sf33rd/Source/Game/menu }
