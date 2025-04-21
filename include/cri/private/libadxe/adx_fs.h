@@ -9,6 +9,5 @@ ADXF adxf_CreateAdxFs();
 s32 adxf_SetAfsFileInfo(ADXF adxf, s32 ptid, s32 flid);
 void ADXF_Close(ADXF adxf);
 s8 *ADXF_GetFnameFromPt(s32);
-// s32 ADXF_GetFnameRangeEx(s32, s32, s32, s32 *, s32 *, s32 *);
 
 #endif // ADX_FS_H
