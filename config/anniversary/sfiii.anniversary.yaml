@@ -428,7 +428,7 @@ segments:
       - [0x150210, c, sf33rd/Source/Game/Game]
       - [0x153CC0, c, sf33rd/Source/Game/GameOver]
       - [0x1543B0, c, sf33rd/Source/Game/GD3rd]
-      - [0x155C10, asm, sf33rd/Source/Game/Grade]
+      - [0x155C10, c, sf33rd/Source/Game/Grade]
       - [0x15E6F0, asm, sf33rd/Source/Game/HITCHECK]
       - [0x165100, asm, sf33rd/Source/Game/HITEFEF]
       - [0x1653F0, asm, sf33rd/Source/Game/HITEFPL]
@@ -1149,7 +1149,7 @@ segments:
       - [0x41FD50, .rodata, sf33rd/Source/Game/GameOver]
       - [0x41FD70, .rodata, sf33rd/Source/Game/GD3rd]
       - [0x420450, rodata, sf33rd/Source/Game/Getup]
-      - [0x421710, rodata, sf33rd/Source/Game/Grade]
+      - [0x421710, .rodata, sf33rd/Source/Game/Grade]
       - [0x421DA0, rodata, sf33rd/Source/Game/HITCHECK]
       - [0x422530, .rodata, sf33rd/Source/Game/init3rd]
       - [0x422560, rodata, sf33rd/Source/Game/LOSE_PL]
@@ -1592,7 +1592,7 @@ segments:
       - { type: .sbss, vram: 0x57903C, name: sf33rd/Source/Game/Entry }
       - { type: .sbss, vram: 0x579078, name: sf33rd/Source/Game/GameOver }
       - { type: .sbss, vram: 0x57907C, name: sf33rd/Source/Game/GD3rd }
-      - { type: sbss, vram: 0x5790A0, name: sf33rd/Source/Game/Grade }
+      - { type: .sbss, vram: 0x5790A0, name: sf33rd/Source/Game/Grade }
       - { type: sbss, vram: 0x5790F4, name: sf33rd/Source/Game/HITCHECK }
       - { type: .sbss, vram: 0x579220, name: sf33rd/Source/Game/init3rd }
       - { type: .sbss, vram: 0x579230, name: sf33rd/Source/Game/IOConv }
@@ -1688,7 +1688,7 @@ segments:
       - { type: .bss, vram: 0x5A8420, name: sf33rd/Source/Game/DC_Ghost }
       - { type: bss, vram: 0x5A9BA0, name: sf33rd/Source/Game/EFFECT }
       - { type: .bss, vram: 0x5E1CA0, name: sf33rd/Source/Game/GD3rd }
-      - { type: bss, vram: 0x5E2D70, name: sf33rd/Source/Game/Grade }
+      - { type: .bss, vram: 0x5E2D70, name: sf33rd/Source/Game/Grade }
       - { type: bss, vram: 0x5E3450, name: sf33rd/Source/Game/HITCHECK }
       - { type: bss, vram: 0x5E3650, name: sf33rd/Source/Game/meta_col }
       - { type: bss, vram: 0x5E3D50, name: sf33rd/Source/Game/MTRANS }
