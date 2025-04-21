@@ -52,21 +52,23 @@ typedef struct {
 } PAD_STICK;
 
 typedef struct {
+    // total size: 0x34
+    u8 state;           // offset 0x0, size 0x1
+    u8 anstate;         // offset 0x1, size 0x1
+    u16 kind;           // offset 0x2, size 0x2
+    u32 sw;             // offset 0x4, size 0x4
+    u32 sw_old;         // offset 0x8, size 0x4
+    u32 sw_new;         // offset 0xC, size 0x4
+    u32 sw_off;         // offset 0x10, size 0x4
+    u32 sw_chg;         // offset 0x14, size 0x4
+    u32 sw_repeat;      // offset 0x18, size 0x4
+    PAD_STICK stick[2]; // offset 0x1C, size 0x18
+} IOPad;
+
+typedef struct {
     // total size: 0x6C
-    struct {
-        // total size: 0x34
-        u8 state;           // offset 0x0, size 0x1
-        u8 anstate;         // offset 0x1, size 0x1
-        u16 kind;           // offset 0x2, size 0x2
-        u32 sw;             // offset 0x4, size 0x4
-        u32 sw_old;         // offset 0x8, size 0x4
-        u32 sw_new;         // offset 0xC, size 0x4
-        u32 sw_off;         // offset 0x10, size 0x4
-        u32 sw_chg;         // offset 0x14, size 0x4
-        u32 sw_repeat;      // offset 0x18, size 0x4
-        PAD_STICK stick[2]; // offset 0x1C, size 0x18
-    } data[2];              // offset 0x0, size 0x68
-    u16 sw[2];              // offset 0x68, size 0x4
+    IOPad data[2]; // offset 0x0, size 0x68
+    u16 sw[2];     // offset 0x68, size 0x4
 } IO;
 
 struct _TASK {

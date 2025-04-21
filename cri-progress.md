@@ -41,7 +41,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 
 - [ ] ADX_SetDecodeSteAsMonoSw
 
-### adx_errs
+### adx_errs ✅
 
 - [x] ADXERR_Init
 - [x] ADXERR_Finish
@@ -90,7 +90,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [ ] ADXT_Init
 - [ ] ADXT_Finish
 
-### adx_lsc
+### adx_lsc ✅
 
 - [x] ADXT_EntryAfs
 - [x] ADXT_StartSeamless
