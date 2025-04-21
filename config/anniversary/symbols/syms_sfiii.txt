@@ -10101,7 +10101,7 @@ ioconv_table = 0x004700E0; // size:0xC0
 literal_974_004701A0 = 0x004701A0; // size:0x178
 pulpara = 0x00470320; // size:0xD8
 pulreq = 0x00470400; // size:0x198
-bgm_tableDC = 0x004705A0; // size:0x220
+bgm_tableDC = 0x004705A0; // size:0x220 type:u16
 bgm_exdataDC = 0x004707C0; // size:0x180
 bgm_tableAC = 0x00470940; // size:0x220
 bgm_exdataAC = 0x00470B60; // size:0x100
@@ -10411,7 +10411,7 @@ __malloc_lock_owner = 0x004C3BF8; // size:0x4
 call_count = 0x004C3BFC; // size:0x4
 DrawProbar_data$407 = 0x004C3C00; // size:0x88
 column_tbl4 = 0x004C3C90; // size:0x400
-column_tbl8 = 0x004C4090; // size:0x200
+column_tbl8 = 0x004C4090; // size:0x200 can_be_referenced:False
 __ps2_libinfo___004C4290 = 0x004C4290; // size:0x10 type:asciz
 isInit_004C42A0 = 0x004C42A0; // size:0x4
 __ps2_libinfo___004C42A8 = 0x004C42A8; // size:0x10 type:asciz
@@ -14879,7 +14879,7 @@ literal_219_00559028 = 0x00559028; // size:0x8
 literal_220_00559030 = 0x00559030; // size:0x10
 literal_221_00559040 = 0x00559040; // size:0x12
 literal_222_00559058 = 0x00559058; // size:0xF
-literal_223_00559070 = 0x00559070; // size:0x10
+literal_223_00559070 = 0x00559070; // size:0x10 type:u32
 literal_224_00559080 = 0x00559080; // size:0x10
 literal_225_00559090 = 0x00559090; // size:0x10
 literal_226_005590A0 = 0x005590A0; // size:0x10
@@ -19304,3 +19304,62 @@ cseMemMapSetPhdAddr = 0x0019DDB0; // type:func
 cseSeStopAll = 0x00396780; // type:func
 cseSysSetMasterVolume = 0x00396850; // type:func
 cseSysSetMono = 0x003968D0; // type:func
+
+_asstbl_lv_0000 = 0x471F94; // size:0x1E0
+// _asstbl_lv_4400 = 0x4748D4; // size:0x1E0
+// _asstbl_lv_3400 = 0x473E84; // size:0x1E0
+// _asstbl_lv_2400 = 0x473434; // size:0x1E0
+// _asstbl_lv_4200 = 0x4748D4; // size:0x1E0
+// _asstbl_lv_3200 = 0x473E84; // size:0x1E0
+// _asstbl_lv_2200 = 0x473434; // size:0x1E0
+_asstbl_lv_4000 = 0x4748D4; // size:0x1E0
+_asstbl_lv_3000 = 0x473E84; // size:0x1E0
+_asstbl_lv_2000 = 0x473434; // size:0x1E0
+_asstbl_lv_1000 = 0x4729E4; // size:0x1E0
+_assadr_lv_9900 = 0x471E54; // size:0x140
+_asstbl_lv_D010 = 0x470CFC; // size:0x78
+_asstbl_lv_0010 = 0x472174; // size:0x870
+_asstbl_lv_1010 = 0x472BC4; // size:0x870
+// _asstbl_lv_4410 = 0x474AB4; // size:0x870
+// _asstbl_lv_4210 = 0x474AB4; // size:0x870
+_asstbl_lv_4010 = 0x474AB4; // size:0x870
+// _asstbl_lv_2410 = 0x473614; // size:0x870
+// _asstbl_lv_2210 = 0x473614; // size:0x870
+_asstbl_lv_2010 = 0x473614; // size:0x870
+// _asstbl_lv_3410 = 0x474064; // size:0x870
+// _asstbl_lv_3210 = 0x474064; // size:0x870
+_asstbl_lv_3010 = 0x474064; // size:0x870
+_asstbl_lv_E010 = 0x470C60; // size:0x78
+_asstbl_lv_B010 = 0x470CD8; // size:0x12
+_asstbl_lv_A010 = 0x470CEA; // size:0x12
+
+_exchange_pow_pl03_sa3 = 0x475340;
+_add_arts_gauge = 0x475900; // size:0x500
+_add_piyo_gauge = 0x475E00; // size:0x140
+
+frw = 0x5A9CA0; // size:0x38000
+adx_VS = 0x682F00; // size:0x3092A
+
+// crt0
+
+_args = 0x6E2EC0; // size:0x144
+_exit = 0x100218; // type:func
+_root = 0x100220; // type:func
+
+// flps2asm
+
+memcpy_1w = 0x4024F0; // type:func
+memcpy_4w = 0x402510; // type:func
+memcpy_2d = 0x402548; // type:func
+memcpy_1q = 0x402570; // type:func
+memcpy_8w = 0x402590; // type:func
+memcpy_4d = 0x4025E8; // type:func
+memcpy_2q = 0x402620; // type:func
+memcpy_4q = 0x402648; // type:func
+memzero_1w = 0x402680; // type:func
+memzero_1q = 0x402698; // type:func
+memset_1w = 0x4026B0; // type:func
+memset_1q = 0x4026C8; // type:func
+
+_etc_char_table = 0x481878; // size:0x3778
+_op_char_table = 0x487DA8; // size:0x7A8

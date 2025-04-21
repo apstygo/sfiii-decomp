@@ -68,7 +68,7 @@ typedef unsigned char			Uint8;		/* �����Ȃ��P�o�C�g���
 
 #ifndef _TYPEDEF_Sint8
 #define _TYPEDEF_Sint8
-typedef signed char				Sint8;		/* �������P�o�C�g���� */
+typedef char				    Sint8;		/* �������P�o�C�g���� */
 #endif
 
 #ifndef _TYPEDEF_Uint16

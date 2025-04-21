@@ -1,6 +1,6 @@
 from typing import Generic, TypeVar, Any, Iterable
 from functools import reduce
-from pprint import pprint
+import struct
 
 with open("THIRD_U.BIN", "rb") as f:
     binary = f.read()
@@ -29,12 +29,24 @@ class IntDecodable(Decodable):
     def size(self) -> int:
         return self.int_size
     
+class FloatDecodable(Decodable):
+    def __init__(self, size: int) -> None:
+        self.float_size = size
+        super().__init__()
+
+    def decode(self, data: bytes) -> float:
+        return struct.unpack("<f", data)[0]
+    
+    def size(self) -> int:
+        return self.float_size
+    
 U8 = IntDecodable(1, False)
 U16 = IntDecodable(2, False)
 U32 = IntDecodable(4, False)
 S8 = IntDecodable(1, True)
 S16 = IntDecodable(2, True)
 S32 = IntDecodable(4, True)
+F32 = FloatDecodable(4)
 
 class StructDecodable(Decodable):
     def __init__(self, members: list[Decodable]) -> None:
@@ -88,15 +100,17 @@ def generate_code(value: Any):
             generate_code(element)
 
         print("}", end="")
+    elif isinstance(value, float):
+        print(f"{value}f", end="")
     else:
         print(value, end="")
 
 def main():
     # Change these values
 
-    offset = 0x455010
-    decodable = StructDecodable([U16, U16, S16, S16, U32, U32, U32])
-    dimensions = [100]
+    offset = 0x423630
+    decodable = S16
+    dimensions = [12]
 
     generate_code(decode_array(decodable, offset, dimensions))
 

@@ -17,107 +17,108 @@ extern "C" {
 #endif
 
 /************************************************************************/
-/*      ’è”ƒ}ƒNƒ                                                      */
+/*      å®šæ•°ãƒžã‚¯ãƒ­                                                      */
 /*      Macro Constant                                                  */
 /************************************************************************/
-#define ADXPS2_VER	"2.33"		// "ADXPS2" Version number
+#define ADXPS2_VER "2.33" // "ADXPS2" Version number
 
-#define	ADXPS2_RDMODE_NOWAIT	(0)		/* ƒm[ƒEƒFƒCƒg“Ç‚Ýž‚Ýƒ‚[ƒh	*/
-#define	ADXPS2_RDMODE_WAIT		(1)		/* ƒEƒFƒCƒg“Ç‚Ýž‚Ýƒ‚[ƒh		*/
+#define ADXPS2_RDMODE_NOWAIT (0) /* ãƒŽãƒ¼ã‚¦ã‚§ã‚¤ãƒˆèª­ã¿è¾¼ã¿ãƒ¢ãƒ¼ãƒ‰	*/
+#define ADXPS2_RDMODE_WAIT (1)   /* ã‚¦ã‚§ã‚¤ãƒˆèª­ã¿è¾¼ã¿ãƒ¢ãƒ¼ãƒ‰		*/
 
-#define ADXPS2_PRIO_LOCK	 (1) /* ƒƒbƒNŽž‚ÌƒXƒŒƒbƒhƒvƒ‰ƒCƒIƒŠƒeƒB	*/
-#define ADXPS2_PRIO_SAFE	 (8) /* ƒZ[ƒtƒXƒŒƒbƒhƒvƒ‰ƒCƒIƒŠƒeƒB    	*/
-#define ADXPS2_PRIO_VSYNC	(16) /* VsyncƒT[ƒo—pƒXƒŒƒbƒhƒvƒ‰ƒCƒIƒŠƒeƒB	*/
-#define ADXPS2_PRIO_MAIN	(24) /* ’ÊíŽžƒƒCƒ“ƒXƒŒƒbƒhƒvƒ‰ƒCƒIƒŠƒeƒB	*/
-#define ADXPS2_PRIO_MWIDLE	(25) /*ƒAƒCƒhƒ‹ƒXƒŒƒbƒhƒvƒ‰ƒCƒIƒŠƒeƒB*/
+#define ADXPS2_PRIO_LOCK (1)    /* ãƒ­ãƒƒã‚¯æ™‚ã®ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ—ãƒ©ã‚¤ã‚ªãƒªãƒ†ã‚£	*/
+#define ADXPS2_PRIO_SAFE (8)    /* ã‚»ãƒ¼ãƒ•ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ—ãƒ©ã‚¤ã‚ªãƒªãƒ†ã‚£    	*/
+#define ADXPS2_PRIO_VSYNC (16)  /* Vsyncã‚µãƒ¼ãƒç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ—ãƒ©ã‚¤ã‚ªãƒªãƒ†ã‚£	*/
+#define ADXPS2_PRIO_MAIN (24)   /* é€šå¸¸æ™‚ãƒ¡ã‚¤ãƒ³ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ—ãƒ©ã‚¤ã‚ªãƒªãƒ†ã‚£	*/
+#define ADXPS2_PRIO_MWIDLE (25) /*ã‚¢ã‚¤ãƒ‰ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ—ãƒ©ã‚¤ã‚ªãƒªãƒ†ã‚£*/
 
-#define ADXPS2_DEBUG_LEVEL_ALL		(0)	/* ‘S‚Ä‚ÌƒfƒoƒbƒOo—Í‚ðs‚¤ 	*/
-#define ADXPS2_DEBUG_LEVEL_ERROR	(1)	/* ƒGƒ‰[‚Ì‚ÝƒfƒoƒbƒOo—Í‚ðs‚¤	*/
-#define ADXPS2_DEBUG_LEVEL_NOTHING	(2)	/* ƒfƒoƒbƒOo—Í‚ðs‚í‚È‚¢		*/
+#define ADXPS2_DEBUG_LEVEL_ALL (0)     /* å…¨ã¦ã®ãƒ‡ãƒãƒƒã‚°å‡ºåŠ›ã‚’è¡Œã† 	*/
+#define ADXPS2_DEBUG_LEVEL_ERROR (1)   /* ã‚¨ãƒ©ãƒ¼ã®ã¿ãƒ‡ãƒãƒƒã‚°å‡ºåŠ›ã‚’è¡Œã†	*/
+#define ADXPS2_DEBUG_LEVEL_NOTHING (2) /* ãƒ‡ãƒãƒƒã‚°å‡ºåŠ›ã‚’è¡Œã‚ãªã„		*/
 
-/*	ƒtƒ@ƒCƒ‹ƒLƒƒƒbƒVƒ…î•ñƒTƒCƒY‚ÌŒvŽZ									*/
+/*	ãƒ•ã‚¡ã‚¤ãƒ«ã‚­ãƒ£ãƒƒã‚·ãƒ¥æƒ…å ±ã‚µã‚¤ã‚ºã®è¨ˆç®—									*/
 /*	Calc size of file cache information									*/
-#define	ADXPS2_CALC_FCSIZE_DVD(nfile, maxflen)	(nfile*sizeof(ADXPS2_FC_DVD)+nfile*(maxflen+1))
-#define	ADXPS2_CALC_FCSIZE_HOST(nfile, maxflen)	(nfile*sizeof(ADXPS2_FC_HOST)+nfile*(maxflen+1))
+#define ADXPS2_CALC_FCSIZE_DVD(nfile, maxflen) (nfile * sizeof(ADXPS2_FC_DVD) + nfile * (maxflen + 1))
+#define ADXPS2_CALC_FCSIZE_HOST(nfile, maxflen) (nfile * sizeof(ADXPS2_FC_HOST) + nfile * (maxflen + 1))
 
-/*	ƒtƒ@ƒCƒ‹ƒLƒƒƒbƒVƒ…î•ñ‚ÉŠÖ‚·‚é‹K’è’l								*/
+/*	ãƒ•ã‚¡ã‚¤ãƒ«ã‚­ãƒ£ãƒƒã‚·ãƒ¥æƒ…å ±ã«é–¢ã™ã‚‹è¦å®šå€¤								*/
 /*	Default value for file cache information							*/
-#define	ADXPS2_DEF_NUM_FILE_DVD	 (40)	/* Number of file(for DVD)		*/
-#define	ADXPS2_DEF_NUM_FILE_HOST (13)	/* Number of file(for Host)	  	*/
-#define	ADXPS2_DEF_MAXFLEN_DVD	 (128)	/* File length of file(for DVD)	*/
-#define	ADXPS2_DEF_MAXFLEN_HOST  (128)	/* File length of file(for Host)*/
+#define ADXPS2_DEF_NUM_FILE_DVD (40)  /* Number of file(for DVD)		*/
+#define ADXPS2_DEF_NUM_FILE_HOST (13) /* Number of file(for Host)	  	*/
+#define ADXPS2_DEF_MAXFLEN_DVD (128)  /* File length of file(for DVD)	*/
+#define ADXPS2_DEF_MAXFLEN_HOST (128) /* File length of file(for Host)*/
 
-#define	ADXPS2_DEF_FCSIZE_DVD	(ADXPS2_CALC_FCSIZE_DVD(ADXPS2_DEF_NUM_FILE_DVD, ADXPS2_DEF_MAXFLEN_DVD))
-#define	ADXPS2_DEF_FCSIZE_HOST	(ADXPS2_CALC_FCSIZE_HOST(ADXPS2_DEF_NUM_FILE_HOST, ADXPS2_DEF_MAXFLEN_HOST))
+#define ADXPS2_DEF_FCSIZE_DVD (ADXPS2_CALC_FCSIZE_DVD(ADXPS2_DEF_NUM_FILE_DVD, ADXPS2_DEF_MAXFLEN_DVD))
+#define ADXPS2_DEF_FCSIZE_HOST (ADXPS2_CALC_FCSIZE_HOST(ADXPS2_DEF_NUM_FILE_HOST, ADXPS2_DEF_MAXFLEN_HOST))
 
 /************************************************************************/
-/*      ƒf[ƒ^Œ^                                                        */
+/*      ãƒ‡ãƒ¼ã‚¿åž‹                                                        */
 /*      Data type declaration                                           */
 /************************************************************************/
-/* DVDƒtƒ@ƒCƒ‹î•ñƒLƒƒƒbƒVƒ…											*/
+/* DVDãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±ã‚­ãƒ£ãƒƒã‚·ãƒ¥											*/
 /* DVD File information cache											*/
 typedef struct {
-	Sint32	lsn;								/* Logical Sector num 	*/
-	Sint32	size;								/* File size          	*/
+    Sint32 lsn;  /* Logical Sector num 	*/
+    Sint32 size; /* File size          	*/
 } ADXPS2_FC_DVD;
 
-/* HTCIƒtƒ@ƒCƒ‹î•ñƒLƒƒƒbƒVƒ…											*/
+/* HTCIãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±ã‚­ãƒ£ãƒƒã‚·ãƒ¥											*/
 /* HTCI File information cache											*/
 typedef struct {
-	Sint32	fd;									/* File descripter		*/
-	Sint32	size;								/* File size      		*/
+    Sint32 fd;   /* File descripter		*/
+    Sint32 size; /* File size      		*/
 } ADXPS2_FC_HOST;
 
-/*	DVDƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÌƒZƒbƒgƒAƒbƒvƒpƒ‰ƒ[ƒ^\‘¢‘Ì					*/
+/*	DVDãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ§‹é€ ä½“					*/
 /*	Parameter structure DVD setup function								*/
 typedef struct _adxps2_sprm_dvd {
-	Sint8	*rtdir;						/*	ƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ–¼		*/
-	Sint32	rdmode;						/*	“Ç‚Ýž‚Ýƒ‚[ƒh				*/
-	Sint32	nrtry;						/*	ƒŠƒgƒ‰ƒC‰ñ”(0:255‰ñ)		*/
-	Sint32	speed;						/*	‰ñ“]‘¬“x					*/
-	Sint32	dtype;						/*	ƒf[ƒ^ƒ^ƒCƒv(2048byte‚È‚Ç)	*/
+    Sint8 *rtdir;  /*	ãƒ«ãƒ¼ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå		*/
+    Sint32 rdmode; /*	èª­ã¿è¾¼ã¿ãƒ¢ãƒ¼ãƒ‰				*/
+    Sint32 nrtry;  /*	ãƒªãƒˆãƒ©ã‚¤å›žæ•°(0:255å›ž)		*/
+    Sint32 speed;  /*	å›žè»¢é€Ÿåº¦					*/
+    Sint32 dtype;  /*	ãƒ‡ãƒ¼ã‚¿ã‚¿ã‚¤ãƒ—(2048byteãªã©)	*/
 } ADXPS2_SPRM_DVD;
 
-/*	ƒzƒXƒgƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÌƒZƒbƒgƒAƒbƒvƒpƒ‰ƒ[ƒ^\‘¢‘Ì				*/
+/*	ãƒ›ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ§‹é€ ä½“				*/
 /*	Parameter structure Host setup function								*/
 typedef struct _adxps2_sprm_host {
-	Sint8	*rtdir;						/*	ƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ–¼		*/
-	Sint32	rdmode;						/*	“Ç‚Ýž‚Ýƒ‚[ƒh				*/
+    Sint8 *rtdir;  /*	ãƒ«ãƒ¼ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªå		*/
+    Sint32 rdmode; /*	èª­ã¿è¾¼ã¿ãƒ¢ãƒ¼ãƒ‰				*/
+    char pad[8];
 } ADXPS2_SPRM_HOST;
 
-/*** ˆÈ‰ºA‹Œƒo[ƒWƒ‡ƒ“ŒÝŠ·—p ***/
-/*	DVD/ƒzƒXƒgƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Ìƒtƒ@ƒCƒ‹î•ñƒLƒƒƒbƒVƒ…ƒpƒ‰ƒ[ƒ^\‘¢‘Ì	*/
+/*** ä»¥ä¸‹ã€æ—§ãƒãƒ¼ã‚¸ãƒ§ãƒ³äº’æ›ç”¨ ***/
+/*	DVD/ãƒ›ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±ã‚­ãƒ£ãƒƒã‚·ãƒ¥ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ§‹é€ ä½“	*/
 /*	Parameter structure DVD/Host file cache								*/
 typedef struct _adxps2_fcprm {
-	Sint8	*flist;						/*	ƒtƒ@ƒCƒ‹ƒŠƒXƒgƒtƒ@ƒCƒ‹–¼	*/
-	Sint32	maxflen;					/*	ƒtƒ@ƒCƒ‹–¼‚ÌÅ‘å’·			*/
-	Sint8	*fcbuf;						/*	ƒtƒ@ƒCƒ‹ƒLƒƒƒbƒVƒ…—Ìˆæ		*/
-	Sint32	fcsize;						/*	ƒtƒ@ƒCƒ‹ƒLƒƒƒbƒVƒ…ƒTƒCƒY	*/
+    Sint8 *flist;   /*	ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«å	*/
+    Sint32 maxflen; /*	ãƒ•ã‚¡ã‚¤ãƒ«åã®æœ€å¤§é•·			*/
+    Sint8 *fcbuf;   /*	ãƒ•ã‚¡ã‚¤ãƒ«ã‚­ãƒ£ãƒƒã‚·ãƒ¥é ˜åŸŸ		*/
+    Sint32 fcsize;  /*	ãƒ•ã‚¡ã‚¤ãƒ«ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚µã‚¤ã‚º	*/
 } ADXPS2_FCPRM;
 
-/*	PS2—pƒXƒŒƒbƒhƒpƒ‰ƒ[ƒ^\‘¢‘Ì		*/
+/*	PS2ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ§‹é€ ä½“		*/
 /*	Parameter structure of Thread Param	*/
 typedef struct {
-	int	prio_lock;		// Main Thread Lock priority
-	int	prio_safe;		// Safe Thread priority
-	int	prio_adx;		// ADX Thread priority
-	int	prio_main;		// Main Thread Normary priority
+    int prio_lock; // Main Thread Lock priority
+    int prio_safe; // Safe Thread priority
+    int prio_adx;  // ADX Thread priority
+    int prio_main; // Main Thread Normary priority
 } ADXPS2_TPRM;
 
 /***
-*       PS2 ê—pŠÖ”
-*       Functions for PS2
-***/
+ *       PS2 å°‚ç”¨é–¢æ•°
+ *       Functions for PS2
+ ***/
 
-/* $func$ DVDƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÌƒZƒbƒgƒAƒbƒv
- * [‘@Ž®] void ADXT_SetupDvdFs(ADXT_SPRM *sprm);
- * [“ü@—Í] sprm : DVD/Hostƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒZƒbƒgƒAƒbƒvƒpƒ‰ƒ[ƒ^\‘¢‘Ì
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] DVDƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÌƒZƒbƒgƒAƒbƒv‚·‚éB
- *			ƒtƒ@ƒCƒ‹‚ðƒLƒƒƒbƒVƒ“ƒO‚·‚éB
- *			ˆø”‚ÉNULL‚ðŽw’è‚·‚é‚ÆƒLƒƒƒbƒVƒ“ƒO‚µ‚È‚¢B
- *			ADX_InitŠÖ”‚æ‚è‚à‘O‚É1‰ñ‚¾‚¯ŒÄ‚Ô‚±‚ÆB
+/* $func$ DVDãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—
+ * [æ›¸ã€€å¼] void ADXT_SetupDvdFs(ADXT_SPRM *sprm);
+ * [å…¥ã€€åŠ›] sprm : DVD/Hostãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ§‹é€ ä½“
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] DVDãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ã™ã‚‹ã€‚
+ *			ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚­ãƒ£ãƒƒã‚·ãƒ³ã‚°ã™ã‚‹ã€‚
+ *			å¼•æ•°ã«NULLã‚’æŒ‡å®šã™ã‚‹ã¨ã‚­ãƒ£ãƒƒã‚·ãƒ³ã‚°ã—ãªã„ã€‚
+ *			ADX_Inité–¢æ•°ã‚ˆã‚Šã‚‚å‰ã«1å›žã ã‘å‘¼ã¶ã“ã¨ã€‚
  *  Setup of Dvd File Sysytem
  * [Inputs  ] None
  * [Outputs ] None
@@ -127,15 +128,15 @@ typedef struct {
  */
 void ADXPS2_SetupDvdFs(ADXPS2_SPRM_DVD *sprmd);
 
-/* $func$ ƒzƒXƒgƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÌƒZƒbƒgƒAƒbƒv
- * [‘@Ž®] void ADXT_SetupHostFs(ADXT_SPRM *sprm);
- * [“ü@—Í] sprm : DVD/Hostƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒZƒbƒgƒAƒbƒvƒpƒ‰ƒ[ƒ^\‘¢‘Ì
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒzƒXƒgƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÌƒZƒbƒgƒAƒbƒv‚·‚éB
- *			ƒtƒ@ƒCƒ‹‚ðƒLƒƒƒbƒVƒ“ƒO‚·‚éB
- *			ˆø”‚ÉNULL‚ðŽw’è‚·‚é‚ÆƒLƒƒƒbƒVƒ“ƒO‚µ‚È‚¢B
- *			ADX_InitŠÖ”‚æ‚è‚à‘O‚É1‰ñ‚¾‚¯ŒÄ‚Ô‚±‚ÆB
+/* $func$ ãƒ›ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—
+ * [æ›¸ã€€å¼] void ADXT_SetupHostFs(ADXT_SPRM *sprm);
+ * [å…¥ã€€åŠ›] sprm : DVD/Hostãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ§‹é€ ä½“
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ãƒ›ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ã™ã‚‹ã€‚
+ *			ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚­ãƒ£ãƒƒã‚·ãƒ³ã‚°ã™ã‚‹ã€‚
+ *			å¼•æ•°ã«NULLã‚’æŒ‡å®šã™ã‚‹ã¨ã‚­ãƒ£ãƒƒã‚·ãƒ³ã‚°ã—ãªã„ã€‚
+ *			ADX_Inité–¢æ•°ã‚ˆã‚Šã‚‚å‰ã«1å›žã ã‘å‘¼ã¶ã“ã¨ã€‚
  *  Setup of Host File Sysytem
  * [Inputs  ] None
  * [Outputs ] None
@@ -145,12 +146,12 @@ void ADXPS2_SetupDvdFs(ADXPS2_SPRM_DVD *sprmd);
  */
 void ADXPS2_SetupHostFs(ADXPS2_SPRM_HOST *sprmh);
 
-/* $func$ ƒƒ‚ƒŠƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÌƒZƒbƒgƒAƒbƒv
- * [‘@Ž®] void ADXPS2_SetupMemFs(void *sprm);
- * [“ü@—Í] sprm : –¢Žg—p (NULL)
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒƒ‚ƒŠƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚ÌƒZƒbƒgƒAƒbƒvB
+/* $func$ ãƒ¡ãƒ¢ãƒªãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—
+ * [æ›¸ã€€å¼] void ADXPS2_SetupMemFs(void *sprm);
+ * [å…¥ã€€åŠ›] sprm : æœªä½¿ç”¨ (NULL)
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ãƒ¡ãƒ¢ãƒªãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ã€‚
  *  Setup of Memory File Sysytem
  * [Inputs  ] sprm : unused. (NULL)
  * [Outputs ] None
@@ -160,66 +161,66 @@ void ADXPS2_SetupHostFs(ADXPS2_SPRM_HOST *sprmh);
  */
 void ADXPS2_SetupMemFs(void *prm);
 
-/*	ƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^‚ÌƒLƒƒƒbƒVƒ“ƒO(DVD—p)								*/
+/*	ãƒ•ã‚¡ã‚¤ãƒ«ãƒã‚¤ãƒ³ã‚¿ã®ã‚­ãƒ£ãƒƒã‚·ãƒ³ã‚°(DVDç”¨)								*/
 Sint32 ADXPS2_LoadFcacheDvd(ADXPS2_FCPRM *fcprm);
 
-/*	“Ç‚Ýž‚Ýƒ‚[ƒh‚ÌÝ’è(DVD—p)											*/
+/*	èª­ã¿è¾¼ã¿ãƒ¢ãƒ¼ãƒ‰ã®è¨­å®š(DVDç”¨) */
 void ADXPS2_SetRdModeDvd(ADXPS2_SPRM_DVD *sprmd);
 
-/*	ƒtƒ@ƒCƒ‹î•ñƒLƒƒƒbƒVƒ…‘¶Ý‚Ì”»’è(DVD—p)								*/
+/*	ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±ã‚­ãƒ£ãƒƒã‚·ãƒ¥å­˜åœ¨ã®åˆ¤å®š(DVDç”¨)								*/
 Sint32 ADXPS2_IsExistFcacheDvd(Sint8 *fname);
 
-/*	ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“ƒ‚[ƒh‚ÌÝ’è(Host—p)								*/
+/*	ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ãƒ¢ãƒ¼ãƒ‰ã®è¨­å®š(Hostç”¨)								*/
 void ADXPS2_SetRdModeHost(ADXPS2_SPRM_HOST *sprmh);
 
-/*	ƒtƒ@ƒCƒ‹ƒ|ƒCƒ“ƒ^‚ÌƒLƒƒƒbƒVƒ“ƒO(Host—p)								*/
+/*	ãƒ•ã‚¡ã‚¤ãƒ«ãƒã‚¤ãƒ³ã‚¿ã®ã‚­ãƒ£ãƒƒã‚·ãƒ³ã‚°(Hostç”¨)								*/
 Sint32 ADXPS2_LoadFcacheHost(ADXPS2_FCPRM *fcprm);
 
-/*	ƒtƒ@ƒCƒ‹î•ñƒLƒƒƒbƒVƒ…‘¶Ý‚Ì”»’è(Host—p)							*/
+/*	ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±ã‚­ãƒ£ãƒƒã‚·ãƒ¥å­˜åœ¨ã®åˆ¤å®š(Hostç”¨)							*/
 Sint32 ADXPS2_IsExistFcacheHost(Sint8 *fname);
 
-/*	ƒfƒoƒbƒOo—ÍƒŒƒxƒ‹‚ÌÝ’è											*/
+/*	ãƒ‡ãƒãƒƒã‚°å‡ºåŠ›ãƒ¬ãƒ™ãƒ«ã®è¨­å®š */
 void ADXPS2_SetOutputDebugLevel(Sint32 lv);
 
-/*	V-SYNCŠ„‚èž‚Ýˆ—													*/
-/*	ƒ†[ƒU[‚ÌV-SyncŠ„‚èž‚Ýˆ—‚©‚çŒÄ‚Ño‚·‚½‚ß‚ÌƒGƒ“ƒgƒŠB			*/
-/*	’ÊíŽg—p‚µ‚È‚¢B													*/
+/*	V-SYNCå‰²ã‚Šè¾¼ã¿å‡¦ç† */
+/*	ãƒ¦ãƒ¼ã‚¶ãƒ¼ã®V-Syncå‰²ã‚Šè¾¼ã¿å‡¦ç†ã‹ã‚‰å‘¼ã³å‡ºã™ãŸã‚ã®ã‚¨ãƒ³ãƒˆãƒªã€‚			*/
+/*	é€šå¸¸ä½¿ç”¨ã—ãªã„ã€‚ */
 int ADXPS2_VsyncCallback(int arg);
 
-/*	Š„‚èž‚Ýƒnƒ“ƒhƒ‰‚ð“o˜^‚µ‚È‚¨‚·										*/
+/*	å‰²ã‚Šè¾¼ã¿ãƒãƒ³ãƒ‰ãƒ©ã‚’ç™»éŒ²ã—ãªãŠã™										*/
 void ADXPS2_RestoreVsyncCallback(void);
 
-/*	ƒT[ƒo[‚ÌŽÀs														*/
-/*	’Êí‚ÍŽg—p‚µ‚È‚¢B													*/
-/*	ADXPS2_SetupUsvr‚ðŽg—pŒãAƒƒCƒ“ƒXƒŒƒbƒh‚©‚ç’èŠú“I‚ÉŽÀs‚·‚éB		*/
+/*	ã‚µãƒ¼ãƒãƒ¼ã®å®Ÿè¡Œ */
+/*	é€šå¸¸ã¯ä½¿ç”¨ã—ãªã„ã€‚ */
+/*	ADXPS2_SetupUsvrã‚’ä½¿ç”¨å¾Œã€ãƒ¡ã‚¤ãƒ³ã‚¹ãƒ¬ãƒƒãƒ‰ã‹ã‚‰å®šæœŸçš„ã«å®Ÿè¡Œã™ã‚‹ã€‚		*/
 void ADXPS2_ExecServer(void);
 
-/*** ˆÈ‰ºA‹Œƒo[ƒWƒ‡ƒ“ŒÝŠ·—p ***/
-/*	ƒXƒŒƒbƒh‚ÌƒZƒbƒgƒAƒbƒv												*/
-/*	ADXƒT[ƒoŠÖ”‚ðV-SyncŠ„‚èž‚Ý‚ÅŒÄ‚Ño‚·‚½‚ß‚ÌƒXƒŒƒbƒh‚Ì‰Šú‰»		*/
+/*** ä»¥ä¸‹ã€æ—§ãƒãƒ¼ã‚¸ãƒ§ãƒ³äº’æ›ç”¨ ***/
+/*	ã‚¹ãƒ¬ãƒƒãƒ‰ã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ— */
+/*	ADXã‚µãƒ¼ãƒé–¢æ•°ã‚’V-Syncå‰²ã‚Šè¾¼ã¿ã§å‘¼ã³å‡ºã™ãŸã‚ã®ã‚¹ãƒ¬ãƒƒãƒ‰ã®åˆæœŸåŒ–		*/
 void ADXPS2_SetupThrd(ADXPS2_TPRM *tprm);
 
-/*	ƒXƒŒƒbƒh‚ÌƒVƒƒƒbƒgƒ_ƒEƒ“											*/
+/*	ã‚¹ãƒ¬ãƒƒãƒ‰ã®ã‚·ãƒ£ãƒƒãƒˆãƒ€ã‚¦ãƒ³ */
 void ADXPS2_ShutdownThrd(void);
 
-/*	ƒXƒŒƒbƒh‚ÌƒƒbƒN													*/
+/*	ã‚¹ãƒ¬ãƒƒãƒ‰ã®ãƒ­ãƒƒã‚¯ */
 void ADXPS2_Lock(void);
 
-/*	ƒXƒŒƒbƒh‚ÌƒƒbƒN‰ðœ												*/
+/*	ã‚¹ãƒ¬ãƒƒãƒ‰ã®ãƒ­ãƒƒã‚¯è§£é™¤ */
 void ADXPS2_Unlock(void);
 
 /* Unused */
 void ADXPS2_SetupUsvr(void);
 void ADXPS2_Shutdown(void);
 
-/* $func$ ƒ{ƒCƒX‚ÌƒZƒbƒgƒAƒbƒv
- * [‘@Ž®] void ADXPS2_SetupVoice(Sint32 nste, Sint32 nmono);
- * [“ü@—Í] nste  : Ä¶‚·‚éƒXƒeƒŒƒI‚Ì”
- *          nmono : Ä¶‚·‚éƒ‚ƒmƒ‰ƒ‹‚Ì”
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] “ü—Í‚³‚ê‚½ƒXƒeƒŒƒIEƒ‚ƒmƒ‰ƒ‹‚Ì”‚É‡‚í‚¹‚ÄŽg—p‚·‚éƒ{ƒCƒX‚ð
- *			ƒZƒbƒgƒAƒbƒv‚·‚éB
+/* $func$ ãƒœã‚¤ã‚¹ã®ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—
+ * [æ›¸ã€€å¼] void ADXPS2_SetupVoice(Sint32 nste, Sint32 nmono);
+ * [å…¥ã€€åŠ›] nste  : å†ç”Ÿã™ã‚‹ã‚¹ãƒ†ãƒ¬ã‚ªã®æ•°
+ *          nmono : å†ç”Ÿã™ã‚‹ãƒ¢ãƒŽãƒ©ãƒ«ã®æ•°
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] å…¥åŠ›ã•ã‚ŒãŸã‚¹ãƒ†ãƒ¬ã‚ªãƒ»ãƒ¢ãƒŽãƒ©ãƒ«ã®æ•°ã«åˆã‚ã›ã¦ä½¿ç”¨ã™ã‚‹ãƒœã‚¤ã‚¹ã‚’
+ *			ã‚»ãƒƒãƒˆã‚¢ãƒƒãƒ—ã™ã‚‹ã€‚
  *  Setup voice resource
  * [Inputs  ] nste  : Number of stereo
  *            nmono : Number of monoral
@@ -230,29 +231,28 @@ void ADXPS2_Shutdown(void);
 void ADXPS2_SetupVoice(Sint32 nste, Sint32 nmono);
 
 /***
-*			PS2ê—pŠÖ”(ADXM)
-***/
+ *			PS2å°‚ç”¨é–¢æ•°(ADXM)
+ ***/
 
-/*	V-SyncŠ„‚èž‚Ýƒnƒ“ƒhƒ‰												*/
+/*	V-Syncå‰²ã‚Šè¾¼ã¿ãƒãƒ³ãƒ‰ãƒ© */
 int ADXPS2_ExecVint(int arg);
-/*	V-Sync‘Ò‚¿ŠÖ”														*/
+/*	V-Syncå¾…ã¡é–¢æ•° */
 void ADXPS2_WaitVsync(void);
-/*	V-Sync–ˆ‚ÉŒÄ‚Î‚ê‚éŠÖ”												*/
+/*	V-Syncæ¯Žã«å‘¼ã°ã‚Œã‚‹é–¢æ•° */
 Bool ADXPS2_ExecServerEx(void *obj);
 
-/* ƒƒCƒ“ƒXƒŒƒbƒh‚ÌƒXƒŠ[ƒv */
+/* ãƒ¡ã‚¤ãƒ³ã‚¹ãƒ¬ãƒƒãƒ‰ã®ã‚¹ãƒªãƒ¼ãƒ— */
 void ADXPS2_SleepMainThrd(void);
-/* ƒƒCƒ“ƒXƒŒƒbƒh‚Ì‹N° */
+/* ãƒ¡ã‚¤ãƒ³ã‚¹ãƒ¬ãƒƒãƒ‰ã®èµ·åºŠ */
 void ADXPS2_WakeupMainThrd(void);
-/*	ƒAƒCƒhƒ‹ƒXƒŒƒbƒh‚ÌƒŒƒWƒ…[ƒ€	*/
+/*	ã‚¢ã‚¤ãƒ‰ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ã®ãƒ¬ã‚¸ãƒ¥ãƒ¼ãƒ 	*/
 void ADXPS2_ResumeIdleThrd(void);
 
-
 /***
-*			ƒfƒoƒbƒO—p
-***/
+ *			ãƒ‡ãƒãƒƒã‚°ç”¨
+ ***/
 
-/*	EE-IOPŠÔ‚Ìƒf[ƒ^—¬—Êƒ`ƒFƒbƒNŠÖ”	*/
+/*	EE-IOPé–“ã®ãƒ‡ãƒ¼ã‚¿æµé‡ãƒã‚§ãƒƒã‚¯é–¢æ•°	*/
 Sint32 ADXPS2_GetNumDataSjtmp(ADXT adxt, Sint32 chno);
 Sint32 ADXPS2_GetNumRoomSjtmp(ADXT adxt, Sint32 chno);
 Sint32 ADXPS2_GetNumDataSjiop(ADXT adxt, Sint32 chno);
@@ -261,7 +261,6 @@ Sint32 ADXPS2_GetNumRoomSjiop(ADXT adxt, Sint32 chno);
 /* Dual Layer DVD */
 void ADXPS2_SetDvdLayer(Sint32 layer);
 Sint32 ADXPS2_GetDvdLayer(void);
-
 
 #ifdef __cplusplus
 }

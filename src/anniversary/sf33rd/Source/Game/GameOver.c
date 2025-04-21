@@ -1,5 +1,15 @@
-#include "unknown.h"
 #include "common.h"
+#include "sf33rd/Source/Game/SE.h"
+#include "sf33rd/Source/Game/SYS_sub.h"
+#include "sf33rd/Source/Game/Sel_Data.h"
+#include "sf33rd/Source/Game/Sound3rd.h"
+#include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/bg_data.h"
+#include "sf33rd/Source/Game/bg_sub.h"
+#include "sf33rd/Source/Game/debug/Debug.h"
+#include "sf33rd/Source/Game/effect_init.h"
+#include "sf33rd/Source/Game/sc_sub.h"
+#include "sf33rd/Source/Game/workuser.h"
 
 u8 GAME_OVER_X; // size: 0x1, address: 0x579078
 
@@ -9,11 +19,7 @@ void GameOver_3rd();
 void Setup_Result_OBJ();
 
 s16 Game_Over() {
-    void (* GameOver_Jmp_Tbl[3])() = {
-        GameOver_1st,
-        GameOver_2nd,
-        GameOver_3rd
-    };
+    void (*GameOver_Jmp_Tbl[3])() = { GameOver_1st, GameOver_2nd, GameOver_3rd };
 
     GAME_OVER_X = 0;
     Scene_Cut = Cut_Cut_Loser();
@@ -42,7 +48,7 @@ void GameOver_1st() {
         bg_mvxy.a[0].sp = 0xE0000;
         bg_mvxy.d[0].sp = 0;
         effect_A9_init(0x20, 5, 0x12, 0);
-        BGM_Request(0x3B);
+        BGM_Request(59);
         Next_Step = 0;
 
         effect_58_init(0xC, 1, 3);
@@ -56,7 +62,7 @@ void GameOver_1st() {
             Order_Timer[0x38] = 1;
             return;
         }
-        
+
         break;
 
     case 1:
@@ -65,14 +71,14 @@ void GameOver_1st() {
             G_Timer = 420; // 7 minutes?
             return;
         }
-        
+
         break;
 
     case 2:
         if (Scene_Cut) {
             G_Timer = 1;
         }
-        // fallthrough 
+        // fallthrough
 
     default:
         if (--G_Timer == 0) {
@@ -137,9 +143,9 @@ void GameOver_2nd() {
     case 4:
         if (FadeIn(1, 8, 8) != 0) {
             Forbid_Break = 0;
-            BGM_Request(0x36);
+            BGM_Request(54);
             Ignore_Entry[LOSER] = 0;
-            
+
             if ((E_Number[0][0] != 2) && (E_Number[1][0] != 2)) {
                 GO_No[1] += 2;
                 G_Timer = 60;
@@ -151,14 +157,14 @@ void GameOver_2nd() {
         }
 
         break;
-        
+
     case 5:
         if ((E_Number[0][0] != 2) && (E_Number[1][0] != 2)) {
             GO_No[1] += 1;
             G_Timer = 60;
             return;
         }
-        
+
         break;
 
     case 6:

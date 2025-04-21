@@ -2,8 +2,11 @@
 #define PRILAY_H
 
 #include "plcommon.h"
+#include "structs.h"
 #include "types.h"
-#include "unknown.h"
+
+extern void *(*plmalloc)(s32);
+extern void (*plfree)(void *);
 
 s32 plReport(s8 *format, ...);
 void plMemset(void *dst, u32 pat, s32 size);

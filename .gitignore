@@ -1,5 +1,6 @@
 # Python
 
+.venv
 venv
 __pycache__
 
@@ -24,3 +25,4 @@ bin
 build
 ctx.c
 .splache
+temp

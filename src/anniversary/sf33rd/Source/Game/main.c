@@ -1,9 +1,37 @@
 #include "sf33rd/Source/Game/main.h"
 #include "common.h"
-#include "gcc/memory.h"
+#include "sf33rd/AcrSDK/common/mlPAD.h"
+#include "sf33rd/AcrSDK/ps2/flps2debug.h"
+#include "sf33rd/AcrSDK/ps2/flps2etc.h"
+#include "sf33rd/AcrSDK/ps2/flps2render.h"
+#include "sf33rd/AcrSDK/ps2/foundaps2.h"
+#include "sf33rd/Source/Common/MemMan.h"
+#include "sf33rd/Source/Common/PPGFile.h"
+#include "sf33rd/Source/Common/PPGWork.h"
+#include "sf33rd/Source/Compress/zlibApp.h"
 #include "sf33rd/Source/Game/AcrUtil.h"
+#include "sf33rd/Source/Game/DC_Ghost.h"
+#include "sf33rd/Source/Game/EFFECT.h"
+#include "sf33rd/Source/Game/GD3rd.h"
+#include "sf33rd/Source/Game/IOConv.h"
+#include "sf33rd/Source/Game/MTRANS.h"
+#include "sf33rd/Source/Game/PLCNT.h"
+#include "sf33rd/Source/Game/RAMCNT.h"
+#include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/SYS_sub2.h"
-#include "unknown.h"
+#include "sf33rd/Source/Game/Sound3rd.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/color3rd.h"
+#include "sf33rd/Source/Game/debug/Debug.h"
+#include "sf33rd/Source/Game/init3rd.h"
+#include "sf33rd/Source/Game/texcash.h"
+#include "sf33rd/Source/Game/workuser.h"
+#include "sf33rd/Source/PS2/mc/knjsub.h"
+#include "sf33rd/Source/PS2/mc/mcsub.h"
+#include "sf33rd/Source/PS2/ps2Quad.h"
+#include "structs.h"
+#include <memory.h>
 
 void distributeScratchPadAddress();
 void MaskScreenEdge();
@@ -266,8 +294,8 @@ void njUserInit() {
     mmSystemInitialize();
     flGetFrame(&mpp_w.fmsFrame);
     seqsInitialize(mppMalloc(seqsGetUseMemorySize()));
-    ppg_Initialize(mppMalloc(0x60000U), 0x60000);
-    zlib_Initialize(mppMalloc(0x10000U), 0x10000);
+    ppg_Initialize(mppMalloc(0x60000), 0x60000);
+    zlib_Initialize(mppMalloc(0x10000), 0x10000);
     size = flGetSpace();
     mpp_w.ramcntBuff = mppMalloc(size);
     Init_ram_control_work(mpp_w.ramcntBuff, size);
@@ -312,7 +340,7 @@ void njUserInit() {
     Setup_Directory_Record_Data();
     sndInitialLoad();
     cpInitTask();
-    cpReadyTask(0, Init_Task);
+    cpReadyTask(INIT_TASK_NUM, Init_Task);
 }
 
 s32 njUserMain() {
@@ -331,7 +359,7 @@ s32 njUserMain() {
         cpLoopTask();
 
         if ((Game_pause != 0x81) && (Mode_Type == 1) && (Play_Mode == 1)) {
-            if ((plw[0].wu.operator == 0) && (CPU_Rec[0] == 0) && (Replay_Status[0] == 1)) {
+            if ((plw[0].wu.operator== 0) && (CPU_Rec[0] == 0) && (Replay_Status[0] == 1)) {
                 p1sw_0 = 0;
 
                 Check_Replay_Status(0, 1);
@@ -342,7 +370,7 @@ s32 njUserMain() {
                 }
             }
 
-            if ((plw[1].wu.operator == 0) && (CPU_Rec[1] == 0) && (Replay_Status[1] == 1)) {
+            if ((plw[1].wu.operator== 0) && (CPU_Rec[1] == 0) && (Replay_Status[1] == 1)) {
                 p2sw_0 = 0;
 
                 Check_Replay_Status(1, 1);

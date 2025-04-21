@@ -1,6 +1,6 @@
+#include "sf33rd/AcrSDK/common/memfound.h"
 #include "common.h"
 #include "sf33rd/AcrSDK/common/memmgr.h"
-#include "unknown.h"
 
 MEM_MGR sysmemmgr; // size: 0x28, address: 0x578980
 
@@ -8,12 +8,12 @@ void mflInit(void *mem_ptr, s32 memsize, s32 memalign) {
     plmemInit(&sysmemmgr, sysmemblock, 0x1000, mem_ptr, memsize, memalign, 1);
 }
 
-void mflGetSpace() {
-    plmemGetSpace(&sysmemmgr);
+u32 mflGetSpace() {
+    return plmemGetSpace(&sysmemmgr);
 }
 
-void mflGetFreeSpace() {
-    plmemGetFreeSpace(&sysmemmgr);
+u32 mflGetFreeSpace() {
+    return plmemGetFreeSpace(&sysmemmgr);
 }
 
 u32 mflRegisterS(s32 len) {

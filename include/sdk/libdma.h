@@ -1,7 +1,7 @@
 #ifndef _LIB_DMA_H_
 #define _LIB_DMA_H_
 
-#include "sdk/eeregs.h"
+#include <eeregs.h>
 
 typedef struct _sceDmaTag {
     unsigned short qwc;      /* transfer count */

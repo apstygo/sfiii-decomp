@@ -1,8 +1,8 @@
 #ifndef RESET_H
 #define RESET_H
 
+#include "structs.h"
 #include "types.h"
-#include "unknown.h"
 
 extern u8 Reset_Status[2];
 

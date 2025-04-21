@@ -1,8 +1,8 @@
 #ifndef ACRUTIL_H
 #define ACRUTIL_H
 
+#include "structs.h"
 #include "types.h"
-#include "unknown.h"
 
 void appViewSetItems(VPRM *prm);
 void appViewGetItems(VPRM *prm);

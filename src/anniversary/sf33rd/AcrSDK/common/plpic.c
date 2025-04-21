@@ -1,6 +1,5 @@
 #include "sf33rd/AcrSDK/common/plpic.h"
 #include "common.h"
-#include "unknown.h"
 
 typedef struct {
     // total size: 0x68

@@ -1,9 +1,32 @@
 #include "sf33rd/Source/Game/init3rd.h"
+#include "sf33rd/Source/Game/DEMO00.h"
+#include "sf33rd/Source/Game/DIR_DATA.h"
+#include "sf33rd/Source/Game/EFFECT.h"
+#include "sf33rd/Source/Game/Entry.h"
 #include "sf33rd/Source/Game/GD3rd.h"
+#include "sf33rd/Source/Game/Game.h"
+#include "sf33rd/Source/Game/PulPul.h"
 #include "sf33rd/Source/Game/Reset.h"
+#include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/SYS_sub2.h"
+#include "sf33rd/Source/Game/Sound3rd.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/aboutspr.h"
+#include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/bg_data.h"
+#include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/main.h"
+#include "sf33rd/Source/Game/sc_sub.h"
+#include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/texgroup.h"
+#include "sf33rd/Source/Game/workuser.h"
+#include "sf33rd/Source/PS2/mc/savesub.h"
+#include "sf33rd/Source/PS2/ps2Quad.h"
+#include "structs.h"
+
+#if !defined(TARGET_PS2)
+#include <string.h>
+#endif
 
 f32 Keep_Zoom_X;
 s8 Test_Cursor;
@@ -78,7 +101,15 @@ void Init_Task_1st(struct _TASK *task_ptr) {
     for (ix = 0; ix < 6; ix++) {
         system_dir[ix] = Dir_Default_Data;
         permission_player[ix] = Permission_PL_Data;
+
+#if defined(TARGET_PS2)
         save_w[ix].extra_option.contents = save_w[0].extra_option.contents;
+#else
+        memcpy(&save_w[ix].extra_option.contents,
+               &save_w[0].extra_option.contents,
+               sizeof(save_w[ix].extra_option.contents));
+#endif
+
         Direction_Working[ix] = 0;
         Vital_Handicap[ix][0] = 7;
         Vital_Handicap[ix][1] = 7;
@@ -96,7 +127,7 @@ void Init_Task_1st(struct _TASK *task_ptr) {
     Setup_Limit_Time();
     Keep_Zoom_X = Screen_Zoom_X;
     Reset_Bootrom = 1;
-    cpReadyTask(2, Reset_Task);
+    cpReadyTask(RESET_TASK_NUM, Reset_Task);
     Switch_Type = 0;
     Reset_Status[0] = 0;
     Reset_Status[1] = 0;
@@ -253,14 +284,14 @@ void Init_Task_Test2(struct _TASK *task_ptr) {
 }
 
 void Init_Task_End(struct _TASK *task_ptr) {
-    cpReadyTask(5, Game_Task);
+    cpReadyTask(GAME_TASK_NUM, Game_Task);
     task_ptr->r_no[0] += 1;
     task_ptr->r_no[1] = 0;
     G_No[0] = 1;
-    cpReadyTask(1, Entry_Task);
+    cpReadyTask(ENTRY_TASK_NUM, Entry_Task);
 
     if (Usage == 7) {
-        cpReadyTask(9, Debug_Task);
+        cpReadyTask(DEBUG_TASK_NUM, Debug_Task);
     }
 
     cpExitTask(0);

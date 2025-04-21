@@ -1,8 +1,11 @@
 import sys
+import re
 from dataclasses import dataclass
 from pathlib import Path
 import splat.scripts.split as split
 from splat.segtypes.linker_entry import LinkerEntry
+from pathlib import Path
+from ..convert_regs import convert_regs
 
 @dataclass
 class Run:
@@ -88,7 +91,7 @@ class LCFWriter:
         for run in runs:
             self.add_entries(run.entries, section)
 
-def main():
+def generate_lcf():
     config_path = Path(sys.argv[1])
     split.main(["config/anniversary/sfiii.anniversary.yaml"], modes="all", verbose=False)
     runs = split_into_runs(split.linker_writer.entries)
@@ -112,12 +115,14 @@ def main():
             del runs[0].entries[0]
 
         for run in text_runs:
-            is_lib_vib = "libvib" in str(run.entries[0].object_path)
+            path = str(run.entries[0].object_path)
+            is_lib_vib = "libvib" in path
+            is_cri = "cri" in path
             alignment = 0x4
 
             if run.is_game:
                 alignment = 0x10
-            elif is_lib_vib:
+            elif is_lib_vib or is_cri:
                 alignment = 0x8
 
             lcf.align_all(alignment)
@@ -185,14 +190,45 @@ def main():
         bss_runs = [x for x in runs if x.section == ".bss"]
 
         # lcf.align(0x80)
-        lcf.align_all(0x8)
-        lcf.add_runs(bss_runs, ".bss")
+        lcf.align_all(8)
+
+        for run in bss_runs:
+            for entry in run.entries:
+                lcf.add_entry(entry, ".bss")
+
+                if "cri" in str(entry.object_path):
+                    lcf.add_entry(entry, "COMMON")
 
         lcf.blank()
 
         # finalize
 
         lcf.align(0x80)
+
+def main():
+    generate_lcf()
+
+    # Patch asm
+
+    nonmatchings = Path("asm/anniversary/nonmatchings")
+
+    for asm_file in nonmatchings.rglob("*.s"):
+        text = asm_file.read_text()
+        is_cri = "cri" in str(asm_file).split("/")
+
+        if is_cri:
+            # spimdisasm adds `.section .rodata` before each rodata peace of CRI.
+            # But GNU as expects `.rdata` instead
+            text = text.replace(".section .rodata", ".rdata")
+
+            # GNU as expects numbered registers
+            text = convert_regs(text)
+
+        text = text.replace("xyzw ACC", "xyzw $ACC")
+        text = text.replace("xyz ACC", "xyz $ACC")
+        text = re.sub(r"(?<!\$)\bQ\b", r"$Q", text)
+
+        asm_file.write_text(text)
 
 if __name__ == "__main__":
     main()

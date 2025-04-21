@@ -2,12 +2,6 @@ from elftools.elf.elffile import ELFFile
 from pathlib import Path
 import sys
 
-skipped_rodata = {
-    "foundaps2",
-    "GD3rd",
-    "init3rd",
-}
-
 # (file, section, index of section within sections of this type) -> alignment
 special_cases = {
     ("menu", ".rodata", 3): 16,
@@ -16,16 +10,37 @@ special_cases = {
     ("menu", ".rodata", 16): 16,
     ("menu", ".rodata", 20): 16,
     ("menu", ".rodata", 23): 16,
-    ("sbss_5790A0", ".sbss", 0): 16,
-    ("rodata_422560", ".rodata", 0): 16,
-    ("sbss_579230", ".sbss", 0): 16,
+    ("flPADUSR", ".rodata", 0): 16,
+    ("Demo_Dat", ".rodata", 0): 16,
+    ("chren3rd", ".rodata", 0): 16,
+    ("CHARSET", ".rodata", 11): 16,
+    ("pass00", ".rodata", 0): 16,
+    ("aboutspr", ".rodata", 0): 16,
+    ("flps2vram", ".rodata", 10): 16,
+    ("flps2debug", ".rodata", 22): 16,
+
+    ("PulPul", ".data", 0): 16,
+
     ("VM_DATA", ".sdata", 0): 16,
     ("Demo_Dat", ".sdata", 0): 16,
     ("BBBSCOM", ".sdata", 0): 16,
-    ("sdata_473B70", ".sdata", 0): 16,
-    ("sdata_473CE0", ".sdata", 0): 16,
     ("win_pl", ".sdata", 0): 16,
     ("LOSE_PL", ".sdata", 0): 16,
+    ("eff05", ".sdata", 0): 16,
+    ("EFF48_more_sdata", ".sdata", 0): 16,
+
+    ("sbss_579878", ".sbss", 0): 8,
+    ("EFF45", ".sbss", 0): 16,
+    ("IOConv", ".sbss", 0): 16,
+    ("Grade", ".sbss", 0): 16,
+    ("Sound3rd", ".sbss", 0): 8,
+    ("mcsub", ".sbss", 0): 16,
+
+    ("bss_6BDA68", ".bss", 0): 8,
+    ("iopnotify", ".bss", 0): 8,
+    ("cri_cvfs", ".bss", 0): 8,
+    ("libdbc", ".bss", 0): 8,
+    ("libpad2", ".bss", 0): 8,
 }
 
 def alignment_to_bytes(alignment: int) -> bytes:
@@ -40,6 +55,7 @@ def alignments(path: Path) -> list[tuple[int, int]]:
     with open(path, 'rb') as f:
         elf_file = ELFFile(f)
         elf_header = elf_file.header
+        is_c_file = str(path).split(".")[-2] == "c"
 
         alignments: list[tuple[int, int]] = list()
         
@@ -49,30 +65,31 @@ def alignments(path: Path) -> list[tuple[int, int]]:
             ".text": 0,
             ".data": 0,
             ".rodata": 0,
+            ".bss": 0,
             ".sbss": 0,
             ".sdata": 0
         }
 
         for section_index, section in enumerate(elf_file.iter_sections()):
-            if section.name not in (".text", ".data", ".rodata", ".sbss", ".sdata"):
+            if section.name not in (".text", ".data", ".rodata", ".bss", ".sbss", ".sdata"):
                 continue
 
             filename = path.stem.split(".")[0]
+            section_key = (filename, section.name, section_indices[section.name])
 
-            if section.name == '.rodata' and filename in skipped_rodata:
+            if section.name == '.rodata' and is_c_file and section_key not in special_cases:
+                section_indices[section.name] += 1
                 continue
 
             header_offset = elf_header["e_shoff"] + section_index * elf_header["e_shentsize"]
             align_offset = header_offset + 8 * 4 # 8 is the index of alignment value
-
-            section_key = (filename, section.name, section_indices[section.name])
             section_alignment = 1
 
             if section_key in special_cases:
                 section_alignment = special_cases[section_key]
-            elif section.name in (".sbss", ".sdata"):
-                # Don't change alignment of .sbss/.sdata sections if not explicitly stated
-                continue
+            elif section.name in (".bss", ".sbss", ".sdata"):
+                # Don't change alignment of .bss/.sbss/.sdata sections if not explicitly stated
+                section_alignment = None
 
             alignments.append((align_offset, section_alignment))
             section_indices[section.name] += 1
@@ -88,6 +105,9 @@ def main():
 
     with open(path, "r+b") as f:
         for offset, alignment in aligns:
+            if not alignment:
+                continue
+
             f.seek(offset)
             f.write(alignment_to_bytes(alignment))
 

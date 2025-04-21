@@ -1,18 +1,35 @@
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "common.h"
-#include "gcc/malloc.h"
-#include "gcc/stdio.h"
-#include "gcc/string.h"
-#include "mw_stdarg.h"
-#include "sdk/eekernel.h"
-#include "sdk/libcdvd.h"
-#include "sdk/libdma.h"
-#include "sdk/libgraph.h"
-#include "sdk/libvu0.h"
-#include "sdk/sifdev.h"
-#include "sdk/sifprc.h"
+#include "sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX.h"
+#include "sf33rd/AcrSDK/MiddleWare/PS2/acrmw.h"
+#include "sf33rd/AcrSDK/common/fbms.h"
+#include "sf33rd/AcrSDK/common/memfound.h"
 #include "sf33rd/AcrSDK/common/mlPAD.h"
-#include "unknown.h"
+#include "sf33rd/AcrSDK/common/prilay.h"
+#include "sf33rd/AcrSDK/ps2/flps2asm.h"
+#include "sf33rd/AcrSDK/ps2/flps2debug.h"
+#include "sf33rd/AcrSDK/ps2/flps2dma.h"
+#include "sf33rd/AcrSDK/ps2/flps2etc.h"
+#include "sf33rd/AcrSDK/ps2/flps2render.h"
+#include "sf33rd/AcrSDK/ps2/flps2vram.h"
+#include "sf33rd/AcrSDK/ps2/ps2PAD.h"
+#include "structs.h"
+#include <eekernel.h>
+#include <libcdvd.h>
+#include <libdma.h>
+#include <libgraph.h>
+#include <libvu0.h>
+#include <sifdev.h>
+#include <sifprc.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#if defined(TARGET_PS2)
+#include "mw_stdarg.h"
+#else
+#include <stdarg.h>
+#endif
 
 static s32 system_work_init();
 static s32 system_hard_init();
@@ -142,7 +159,10 @@ void flPS2VSyncCallback() {
     }
 
     flmwVSyncCallback();
+
+#if defined(TARGET_PS2)
     ExitHandler();
+#endif
 }
 
 u32 flPS2CheckDbChangeFlag() {
@@ -182,7 +202,7 @@ void flPS2VramFullClear() {
     i = 0;
     handle = flPS2GetSystemMemoryHandle(0x40000, 0);
     lpBuff = flPS2GetSystemBuffAdrs(handle);
-    func_00402698(lpBuff, 0x4000);
+    memzero_1q(lpBuff, 0x4000);
 
     do {
         sceGsSetDefLoadImage(&Loadimage, 0, 16, 0, 0, i * 64, 0x400, 0x40);
@@ -323,7 +343,7 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
 
         flPs2State.ZBuffPageX = 0x40;
         flPs2State.ZBuffPageY = 0x40;
-        flPs2State.ZBuffMax = 65535.0f;
+        flPs2State.ZBuffMax = (f32)65535;
         break;
 
     case 3:
@@ -380,6 +400,7 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
         flFrameBuf.pixelformat.gl = 5;
         flFrameBuf.pixelformat.gm = 0x1F;
         break;
+
     case 3:
         flFrameBuf.pixelformat.rl = 8;
         flFrameBuf.pixelformat.rs = 0x10;
@@ -396,6 +417,7 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
         flFrameBuf.pixelformat.rs = 0;
         flFrameBuf.pixelformat.bs = 0x10;
         break;
+
     case 4:
         flFrameBuf.pixelformat.rl = 8;
         flFrameBuf.pixelformat.rs = 0x10;
@@ -426,10 +448,10 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
     flPS2DmaAddEndTag((u32)db1, qwc, 0, 0);
 
     qwc -= 1;
-    db0->giftag.I64[0] = (((s64)qwc | 0x8000) | (s64)0x10000000 << 32);
-    db0->giftag.I64[1] = 0xE;
-    db1->giftag.I64[0] = (((s64)qwc | 0x8000) | (s64)0x10000000 << 32);
-    db1->giftag.I64[1] = 0xE;
+    db0->giftag.I64[0] = SCE_GIF_SET_TAG(qwc, 1, 0, 0, 0, 1);
+    db0->giftag.I64[1] = SCE_GIF_PACKED_AD;
+    db1->giftag.I64[0] = SCE_GIF_SET_TAG(qwc, 1, 0, 0, 0, 1);
+    db1->giftag.I64[1] = SCE_GIF_PACKED_AD;
     db0->frame_1.I64[0] = SCE_GS_SET_FRAME_1(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 1);
     db0->frame_2.I64[0] = SCE_GS_SET_FRAME_2(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 1);
     db0->frame_1.I64[1] = SCE_GS_FRAME_1;
@@ -465,34 +487,34 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
 
     db0->dthe.I64[1] = SCE_GS_DTHE;
     db1->dthe.I64[1] = SCE_GS_DTHE;
-    db0->colclamp.I64[0] = 1;
-    db1->colclamp.I64[0] = 1;
+    db0->colclamp.I64[0] = SCE_GS_SET_COLCLAMP(1);
+    db1->colclamp.I64[0] = SCE_GS_SET_COLCLAMP(1);
     db0->colclamp.I64[1] = SCE_GS_COLCLAMP;
     db1->colclamp.I64[1] = SCE_GS_COLCLAMP;
 
     ds = &flPs2DrawStart;
-    qwc = 0x13;
+    qwc = 19;
     flPS2DmaAddEndTag((u32)ds, qwc, 1, 0);
 
     ds->dmatag.I32[2] = 0x13000000;
     ds->dmatag.I32[3] = qwc | 0x51000000;
 
     qwc -= 1;
-    ds->giftag.I64[0] = (s64)qwc | 0x8000 | ((s64)0x10000000 << 0x20); // SCE_GIF_SET_TAG?
-    ds->giftag.I64[1] = 0xE;                                           // SCE_GIF_PACKED_AD?
-    ds->clr_fba.I64[0] = 0;
+    ds->giftag.I64[0] = SCE_GIF_SET_TAG(qwc, 1, 0, 0, 0, 1);
+    ds->giftag.I64[1] = SCE_GIF_PACKED_AD;
+    ds->clr_fba.I64[0] = SCE_GS_SET_FBA_1(0);
     ds->clr_fba.I64[1] = SCE_GS_FBA_1;
-    ds->clr_scissor.I64[0] = 0;
+    ds->clr_scissor.I64[0] = SCE_GS_SET_SCISSOR_1(0, 0, 0, 0);
     ds->clr_scissor.I64[1] = SCE_GS_SCISSOR_1;
-    ds->clr_test.I64[0] = 0x30003;
+    ds->clr_test.I64[0] = SCE_GS_SET_TEST_1(1, 1, 0, 0, 0, 0, 3, 0);
     ds->clr_test.I64[1] = SCE_GS_TEST_1;
-    ds->clr_prim.I64[0] = 6;
+    ds->clr_prim.I64[0] = SCE_GS_SET_PRIM(6, 0, 0, 0, 0, 0, 0, 0, 0);
     ds->clr_prim.I64[1] = SCE_GS_PRIM;
-    ds->clr_rgbaq.I64[0] = 0;
+    ds->clr_rgbaq.I64[0] = SCE_GS_SET_RGBAQ(0, 0, 0, 0, 0);
     ds->clr_rgbaq.I64[1] = SCE_GS_RGBAQ;
-    ds->clr_xyz2_0.I64[0] = 0;
+    ds->clr_xyz2_0.I64[0] = SCE_GS_SET_XYZ2(0, 0, 0);
     ds->clr_xyz2_0.I64[1] = SCE_GS_XYZ2;
-    ds->clr_xyz2_1.I64[0] = 0;
+    ds->clr_xyz2_1.I64[0] = SCE_GS_SET_XYZ2(0, 0, 0);
     ds->clr_xyz2_1.I64[1] = SCE_GS_XYZ2;
     ds->acr_scissor_1.I64[0] = 0;
     ds->acr_scissor_1.I64[1] = SCE_GS_SCISSOR_1;
@@ -514,7 +536,7 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
     ds->acr_pabe.I64[1] = SCE_GS_PABE;
     ds->acr_prmodecont.I64[0] = 1;
     ds->acr_prmodecont.I64[1] = SCE_GS_PRMODECONT;
-    ds->acr_dimx.I64[0] = 0x71603524 | ((s64)0x60712435 << 0x20); // SCE_GS_SET_DIMX?
+    ds->acr_dimx.I64[0] = SCE_GS_SET_DIMX(4, 2, 5, 3, 0, 6, 1, 7, 5, 3, 4, 2, 1, 7, 0, 6);
     ds->acr_dimx.I64[1] = SCE_GS_DIMX;
     sceGsSyncVCallback((s32(*)(s32))flPS2VSyncCallback);
 }
@@ -630,7 +652,7 @@ void flPS2DrawPreparation() {
     ds->acr_fba_2.I64[0] = flPs2FBA;
 
     dst = (u32 *)flPS2GetSystemTmpBuff(sizeof(FLPS2DrawStart), 0x10);
-    func_00402570(ds, dst, 0x14);
+    memcpy_1q(ds, dst, 0x14);
     flPS2DmaAddQueue2(0, (u32)dst & 0xFFFFFFF, (u32)dst, &flPs2VIF1Control);
 }
 

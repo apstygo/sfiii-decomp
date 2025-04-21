@@ -1,8 +1,19 @@
 # sfiii-decomp
 
+![SF III Third Strike logo](3s_logo.webp)
+
 A work-in-progress decompilation of Street Fighter III: 3rd Strike for PlayStation 2.
 
 The project aims to recreate the source code from the existing binaries which would allow to port the game to current platforms, preserve the game for future generations of fighting game players and to improve and expand upon the game.
+
+## Decomp progress
+
+<!-- PROGRESS-TABLE:START -->
+| Module   | Progress (size)   | Progress (func count)   | Notes                                                                                          |
+|----------|-------------------|-------------------------|------------------------------------------------------------------------------------------------|
+| sf33rd   | 8.80%             | 6.76%                   | Game functions.                                                                                |
+| cri      | 6.84%             | 10.25%                  | CRI Middleware functions. For a full list of functions see [cri-progress.md](cri-progress.md). |
+<!-- PROGRESS-TABLE:END -->
 
 ## Where to start
 

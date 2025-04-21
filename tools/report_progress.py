@@ -1,43 +1,133 @@
-from pycparser import c_ast, parse_file
+# from colorama import init, Fore
+# import shutil
+# from math import floor
+from dependency_analyzer import build_func_map, FuncMap
+from dataclasses import dataclass
 from pathlib import Path
-from colorama import init, Fore
-import re
+import json
+from tabulate import tabulate
 
-class FuncDefVisitor(c_ast.NodeVisitor):
-    def __init__(self) -> None:
-        self.counter: int = 0
-        super().__init__()
+# PROGRESS_BAR_LEFT_EMPTY = chr(0xEE00)
+# PROGRESS_BAR_MID_EMPTY = chr(0xEE01)
+# PROGRESS_BAR_RIGHT_EMPTY = chr(0xEE02)
+# PROGRESS_BAR_LEFT_FULL = chr(0xEE03)
+# PROGRESS_BAR_MID_FULL = chr(0xEE04)
+# PROGRESS_BAR_RIGHT_FULL = chr(0xEE05)
 
-    def visit_FuncDef(self, node):
-        self.counter += 1
+@dataclass
+class ModuleMetrics:
+    total_size: int = 0
+    decompiled_size: int = 0
+    total_func_count: int = 0
+    decompiled_func_count: int = 0
+
+    @property
+    def decompiled_size_percentage(self) -> float:
+        return (self.decompiled_size / self.total_size) * 100
+
+    @property
+    def decompiled_func_percentage(self) -> float:
+        return (self.decompiled_func_count / self.total_func_count) * 100
+
+# def clamp(n, smallest, largest): 
+#     return max(smallest, min(n, largest))
+
+# def progress_bar(width: int, ratio: float) -> str:
+#     filled = floor(width * ratio)
+#     result = ""
+
+#     if filled > 0:
+#         result += PROGRESS_BAR_LEFT_FULL
+#     else:
+#         result += PROGRESS_BAR_LEFT_EMPTY
+
+#     result += PROGRESS_BAR_MID_FULL * clamp(filled - 1, 0, width - 2)
+#     result += PROGRESS_BAR_MID_EMPTY * clamp(width - filled - 1, 0, width - 2)
+
+#     if filled == width:
+#         result += PROGRESS_BAR_RIGHT_FULL
+#     else:
+#         result += PROGRESS_BAR_RIGHT_EMPTY
+
+#     return result
+
+def path_to_module_type(path: str) -> str:
+    return path.split("/")[0]
+
+def generate_progress_report(no_cache: bool = False) -> str:
+    func_map = build_func_map(no_cache=no_cache)
+    cri_funcs = json.loads(Path("cri-funcs.json").read_text())
+    cri_func_set = set()
+
+    for _, funcs in cri_funcs.items():
+        cri_func_set.update(funcs)
+
+    # Collect metrics
+
+    metrics = {
+        "sf33rd": ModuleMetrics(),
+        "cri": ModuleMetrics(),
+        "sdk": ModuleMetrics(),
+        "gcc": ModuleMetrics(),
+    }
+
+    for func, path in func_map.func_to_file.items():
+        module_type = path_to_module_type(path)
+        skip_func = module_type == "cri" and func not in cri_func_set
+
+        if skip_func:
+            continue
+
+        func_size = func_map.func_to_size[func]
+
+        metrics[module_type].total_func_count += 1
+        metrics[module_type].total_size += func_size
+
+        if func in func_map.decompiled_funcs:
+            metrics[module_type].decompiled_func_count += 1
+            metrics[module_type].decompiled_size += func_size
+
+    # Generate a markdown table
+
+    headers = ("Module", "Progress (size)", "Progress (func count)", "Notes")
+    rows = []
+
+    for module in ("sf33rd", "cri"):
+        rows.append([
+            module,
+            f"{metrics[module].decompiled_size_percentage:.2f}%",
+            f"{metrics[module].decompiled_func_percentage:.2f}%",
+            ""
+        ])
+
+    # Notes
+    rows[0][3] = "Game functions."
+    rows[1][3] = "CRI Middleware functions. For a full list of functions see [cri-progress.md](cri-progress.md)."
+
+    return tabulate(rows, headers=headers, tablefmt="github")
 
 def main():
-    init(autoreset=True)
+    # init(autoreset=True)
+    
+    # Print results
 
-    # Calculate C funcs
+    # c_func_count = len(func_map.decompiled_funcs)
+    # total_func_count = len(func_map.func_to_file)
+    # asm_func_count = total_func_count - c_func_count
+    # ratio = c_func_count / total_func_count
+    # ratio_message = f"{ratio * 100:.1f}%"
 
-    src_path = Path("src/anniversary/sf33rd")
-    v = FuncDefVisitor()
-    c_file_count = 0
+    # progress_bar_str = progress_bar(
+    #     width=shutil.get_terminal_size().columns - len(ratio_message) - 1,
+    #     ratio=ratio
+    # )
 
-    for src in src_path.rglob("*.c"):
-        c_file_count += 1
-        ast = parse_file(src, use_cpp=True, cpp_args=r'-Iinclude')
-        v.visit(ast)
+    # print(Fore.GREEN + f"{c_func_count} functions decompiled")
+    # print(Fore.YELLOW + f"{asm_func_count} functions to go")
+    # print(ratio_message, progress_bar_str)
 
-    # Calculate asm funcs
-
-    asm_path = Path("asm/anniversary/sf33rd")
-    asm_file_count = 0
-    asm_func_count = 0
-    asm_func_regex = re.compile(f"glabel")
-
-    for asm in asm_path.rglob("*.s"):
-        asm_file_count += 1
-        asm_func_count += len(asm_func_regex.findall(asm.read_text()))
-
-    print(Fore.GREEN + f"{v.counter} functions in {c_file_count} files decompiled")
-    print(Fore.YELLOW + f"{asm_func_count} functions in {asm_file_count} files to go")
+    md_table = generate_progress_report()
+    print(md_table)
 
 if __name__ == "__main__":
     main()

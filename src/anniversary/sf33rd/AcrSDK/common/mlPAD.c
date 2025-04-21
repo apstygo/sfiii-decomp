@@ -1,6 +1,8 @@
 #include "sf33rd/AcrSDK/common/mlPAD.h"
 #include "common.h"
-#include "unknown.h"
+#include "sf33rd/AcrSDK/ps2/flPADUSR.h"
+#include "sf33rd/AcrSDK/ps2/ps2PAD.h"
+#include "structs.h"
 
 const u8 fllever_flip_data[4][16] = {
     { 0x00, 0x01, 0x02, 0x00, 0x04, 0x05, 0x06, 0x00, 0x08, 0x09, 0x0A, 0x00, 0x00, 0x00, 0x00, 0x00 },
