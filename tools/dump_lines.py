@@ -106,7 +106,7 @@ def main():
                 string = "    "
 
                 if entry.line_number != 0:
-                    string += f"Line: {entry.line_number}"
+                    string += f"Line: {entry.line_number} ({entry.line_number - line_entries[0].line_number + 1})"
                 else:
                     string += f"Function end"
 

@@ -228,6 +228,9 @@ def main():
         text = text.replace("xyz ACC", "xyz $ACC")
         text = re.sub(r"(?<!\$)\bQ\b", r"$Q", text)
 
+        # This allows leaving some funcs that use this literal undecompiled
+        text = text.replace("literal_234_00522C90", "\"@98\"")
+
         asm_file.write_text(text)
 
 if __name__ == "__main__":
