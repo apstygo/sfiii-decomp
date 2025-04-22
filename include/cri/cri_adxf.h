@@ -179,6 +179,7 @@ typedef struct _adx_fs {
     Sint32 ofst; /*	�ǂݍ��݃t�@�C���ւ̃I�t�Z�b�g		*/
                  //	Sint8	fname[ADXF_FNAME_MAX];	/*	�t�@�C����							*/
     void *dir;
+    Uint8 pad[12];
 } ADX_FS;
 typedef ADX_FS *ADXF;
 #endif

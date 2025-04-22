@@ -90,7 +90,22 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_GetPtStatEx)
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_GetPtinfoSize);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_AllocAdxFs);
+ADXF adxf_AllocAdxFs() {
+    s32 i;
+    ADXF temp;
+    ADXF start = NULL;
+
+    for (i = 0; i < ADXF_OBJ_MAX; i++) {
+        temp = &adxf_obj[i];
+
+        if (!temp->used) {
+            start = temp;
+            break;
+        }
+    }
+
+    return start;
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A490);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_CreateAdxFs);
