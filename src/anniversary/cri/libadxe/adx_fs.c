@@ -1,6 +1,7 @@
 #include "common.h"
 #include <cri/cri_adxf.h>
 #include <cri/private/libadxe/adx_errs.h>
+#include <cri/private/libadxe/adx_fini.h>
 #include <cri/private/libadxe/adx_fs.h>
 #include <cri/private/libadxe/adx_stmc.h>
 
@@ -49,7 +50,17 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_LoadPtBothNw
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_CloseLdptnwHn);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_StopPtLd);
+void ADXF_StopPtLd() {
+    if ((adxf_ldptnw_hn == NULL) || (adxf_ldptnw_ptid < 0)) {
+        return;
+    }
+
+    if (ADXF_GetStat(adxf_ldptnw_hn) != ADXF_STAT_STOP) {
+        ADXF_Stop(adxf_ldptnw_hn);
+    }
+
+    adxf_CloseLdptnwHn();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_GetPtStat);
 
