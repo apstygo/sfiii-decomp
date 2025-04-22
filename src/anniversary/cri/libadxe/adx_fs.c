@@ -9,7 +9,24 @@
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_CALC_BYTE2SCT);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_SetCmdHstry);
+void adxf_SetCmdHstry(s32 ncall, s32 fg, s32 ptid, s32 flid, s32 type) {
+    ADXF_CMD_HSTRY *cmd_hstry;
+
+    adxf_hstry_no %= ADXF_CMD_HSTRY_MAX;
+    cmd_hstry = &adxf_cmd_hstry[adxf_hstry_no];
+
+    if (fg == 0) {
+        adxf_cmd_ncall[ncall]++;
+    }
+
+    adxf_hstry_no++;
+    cmd_hstry->cmdid = ncall;
+    cmd_hstry->fg = fg;
+    cmd_hstry->ncall = adxf_cmd_ncall[ncall];
+    cmd_hstry->prm[0] = ptid;
+    cmd_hstry->prm[1] = flid;
+    cmd_hstry->prm[2] = type;
+}
 
 void adxf_wait_1ms() {
     s32 i;
