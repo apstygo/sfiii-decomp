@@ -107,8 +107,36 @@ ADXF adxf_AllocAdxFs() {
     return start;
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A490);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_CreateAdxFs);
+ADXF adxf_CreateAdxFs() {
+    ADXF adxf;
+    ADXSTM stm;
+
+    adxf = adxf_AllocAdxFs();
+
+    if (adxf == NULL) {
+        return NULL;
+    }
+
+    stm = ADXSTM_Create(0, 0x100);
+    adxf->stm = stm;
+
+    if (stm == NULL) {
+        ADXERR_CallErrFunc1("E02111001:can't create stm handle (adxf_CreateAdxFs)");
+        return NULL;
+    }
+
+    adxf->stat = 1;
+    adxf->rqrdsct = 0x200;
+    adxf->used = 1;
+    adxf->rdstpos = 0;
+    adxf->rqsct = 0;
+    adxf->rdsct = 0;
+    adxf->sjflag = 0;
+    adxf->sj = NULL;
+    adxf->stopnw_flg = 0;
+
+    return adxf;
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A4C8);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_SetFileInfoEx);
