@@ -482,8 +482,14 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_GetNumReqSct
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A7F0);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_GetNumReadSct);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A820);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_GetStat);
+Sint32 ADXF_GetStat(ADXF adxf) {
+    if (adxf == NULL) {
+        ADXERR_CallErrFunc1("E9040832:'adxf' is NULL.(ADXF_GetStat)");
+        return ADXF_ERR_PRM;
+    }
+
+    return adxf->stat;
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A848);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A870);
