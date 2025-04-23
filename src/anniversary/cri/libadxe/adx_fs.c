@@ -402,7 +402,33 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A6C0);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A6E8);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_StopNw);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_ExecOne);
+void adxf_ExecOne(ADXF adxf) {
+    Sint32 stat;
+    Sint8 stopnw_flg;
+
+    if (adxf->stat == ADXF_STAT_READING) {
+        adxf->stat = ADXSTM_GetStat(adxf->stm);
+        adxf->rdsct = ADXSTM_Tell(adxf->stm) - adxf->skpos;
+
+        if ((u32)((u8)adxf->stat - 3) < 2) {
+            adxf->skpos = adxf->skpos + adxf->rdsct;
+            adxf_CloseSjStm(adxf);
+        }
+    }
+
+    stopnw_flg = adxf->stopnw_flg;
+
+    if (adxf->stopnw_flg == 1) {
+        stat = ADXSTM_GetStat(adxf->stm);
+
+        if (stat == stopnw_flg) {
+            adxf->rdsct = ADXSTM_Tell(adxf->stm) - adxf->skpos;
+            adxf_CloseSjStm(adxf);
+            adxf->stat = stat;
+            adxf->stopnw_flg = 0;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_ExecServer);
 
@@ -422,14 +448,14 @@ s32 ADXF_Tell(ADXF adxf) {
 s32 ADXF_GetFsizeSct(ADXF adxf) {
     if (adxf == NULL) {
         ADXERR_CallErrFunc1("E9040828:'adxf' is NULL.(ADXF_GetFsizeSct)\0\0");
-        return -3;
+        return ADXF_ERR_PRM;
     }
 
     if (adxf->fnsct > 0xFFFFE) {
         ADXSTM_OpenCvfs(adxf->stm);
 
         if (ADXSTM_GetStat(adxf->stm) == 4) {
-            return -5;
+            return ADXF_ERR_FSIZE;
         }
     }
 
