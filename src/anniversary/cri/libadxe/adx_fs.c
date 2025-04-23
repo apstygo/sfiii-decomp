@@ -192,6 +192,8 @@ ADXF ADXF_OpenAfs(s32 ptid, s32 flid) {
 }
 
 void adxf_CloseSjStm(ADXF adxf) {
+    SJ sj;
+
     if ((adxf->sj == NULL) || (adxf->sjflag != 0)) {
         return;
     }
@@ -200,8 +202,9 @@ void adxf_CloseSjStm(ADXF adxf) {
         ADXF_Ocbi(adxf->buf, adxf->bsize);
     }
 
-    SJ_Destroy(adxf->sj);
+    sj = adxf->sj;
     adxf->sj = NULL;
+    SJ_Destroy(sj);
 }
 
 void ADXF_Close(ADXF adxf) {
