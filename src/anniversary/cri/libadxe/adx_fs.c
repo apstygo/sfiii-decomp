@@ -143,7 +143,34 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_SetFileInfoE
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_Open);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_SetAfsFileInfo);
+s32 adxf_SetAfsFileInfo(ADX_FS *adxf, s32 ptid, s32 flid) {
+    Char8 fname[256];
+    void *dir;
+    s32 ofst;
+    s32 fnsct;
+
+    if (ADXF_GetFnameRangeEx(ptid, flid, fname, &dir, &ofst, &fnsct) < 0) {
+        return ADXF_ERR_PRM;
+    }
+
+    adxf->ofst = ofst;
+    adxf->dir = dir;
+    adxf->unk38 = ADXF_GetFnameFromPt(ptid);
+    adxf->skpos = 0;
+    adxf->unk40 = fnsct;
+    adxf->unk3C = ofst;
+
+    ADXSTM_BindFile(adxf->stm, adxf->unk38, adxf->dir, adxf->unk3C, adxf->unk40);
+
+    if (ADXSTM_GetStat(adxf->stm) == 4) {
+        ADXSTM_ReleaseFile(adxf->stm);
+        return ADXF_ERR_FATAL;
+    }
+
+    adxf->fnsct = fnsct;
+    adxf->fsize = fnsct << 11;
+    return ADXF_ERR_OK;
+}
 
 ADXF ADXF_OpenAfs(s32 ptid, s32 flid) {
     ADXF adxf;

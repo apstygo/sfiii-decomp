@@ -160,26 +160,28 @@ typedef void *ADXSTM;
 #ifndef ADXF_DEFINED
 #define ADXF_DEFINED
 typedef struct _adx_fs {
-    Sint8 used;       /*	�g�p�����ۂ�						*/
-    Sint8 stat;       /*	�n���h���̏��						*/
-    Sint8 sjflag;     /*	�O������ݒ肳�ꂽSJ���ۂ�			*/
-    Sint8 stopnw_flg; /*	��~�v���t���O						*/
-    ADXSTM stm;       /*	ADXSTM�n���h��						*/
-    SJ sj;            /*	�X�g���[���W���C���g				*/
-    Sint32 fnsct;     /*	�t�@�C���T�C�Y(�Z�N�^)				*/
-    Sint32 fsize;     /*	�t�@�C���T�C�Y(�o�C�g)				*/
-    Sint32 skpos;     /*	�A�N�Z�X�|�C���^�̈ʒu				*/
-    Sint32 rdstpos;   /*	�ǂݍ��݊J�n�ʒu					*/
-    Sint32 rqsct;     /*	�ǂݍ��ݗv���f�[�^��(�Z�N�^)		*/
-    Sint32 rdsct;     /*	�ǂݍ��񂾃f�[�^��(�Z�N�^)			*/
-    Sint8 *buf;       /*	�o�b�t�@�̃A�h���X(�o�C�g)			*/
-    Sint32 bsize;     /*	�o�b�t�@�̃T�C�Y(�o�C�g)			*/
-    Sint32 rqrdsct;   /*	���ۂɓǂݍ��ݗv��������(�Z�N�^)	*/
+    Sint8 used;       /* offset 0x0, size 0x1 */ /*	�g�p�����ۂ�						*/
+    Sint8 stat;       /* offset 0x1, size 0x1 */ /*	�n���h���̏��						*/
+    Sint8 sjflag;     /* offset 0x2, size 0x1 */ /*	�O������ݒ肳�ꂽSJ���ۂ�			*/
+    Sint8 stopnw_flg; /* offset 0x3, size 0x1 */ /*	��~�v���t���O						*/
+    ADXSTM stm;       /* offset 0x4, size 0x4 */ /*	ADXSTM�n���h��						*/
+    SJ sj;            /* offset 0x8, size 0x4 */ /*	�X�g���[���W���C���g				*/
+    Sint32 fnsct;     /* offset 0xC, size 0x4 */ /*	�t�@�C���T�C�Y(�Z�N�^)				*/
+    Sint32 fsize;     /* offset 0x10, size 0x4 */ /*	�t�@�C���T�C�Y(�o�C�g)				*/
+    Sint32 skpos;     /* offset 0x14, size 0x4 */ /*	�A�N�Z�X�|�C���^�̈ʒu				*/
+    Sint32 rdstpos;   /* offset 0x18, size 0x4 */ /*	�ǂݍ��݊J�n�ʒu					*/
+    Sint32 rqsct;     /* offset 0x1C, size 0x4 */ /*	�ǂݍ��ݗv���f�[�^��(�Z�N�^)		*/
+    Sint32 rdsct;     /* offset 0x20, size 0x4 */ /*	�ǂݍ��񂾃f�[�^��(�Z�N�^)			*/
+    Sint8 *buf;       /* offset 0x24, size 0x4 */ /*	�o�b�t�@�̃A�h���X(�o�C�g)			*/
+    Sint32 bsize;     /* offset 0x28, size 0x4 */ /*	�o�b�t�@�̃T�C�Y(�o�C�g)			*/
+    Sint32 rqrdsct;   /* offset 0x2C, size 0x4 */ /*	���ۂɓǂݍ��ݗv��������(�Z�N�^)	*/
     /*	ADXSTM_OpenRange -> ADXSTM_OpenFileRange(1999.8.19)	*/
-    Sint32 ofst; /*	�ǂݍ��݃t�@�C���ւ̃I�t�Z�b�g		*/
+    Sint32 ofst;      /* offset 0x30, size 0x4 */ /*	�ǂݍ��݃t�@�C���ւ̃I�t�Z�b�g		*/
                  //	Sint8	fname[ADXF_FNAME_MAX];	/*	�t�@�C����							*/
-    void *dir;
-    Uint8 pad[12];
+    void *dir;       /* offset 0x34, size 0x4 */ 
+    Char8* unk38;    /* offset 0x38, size 0x4 */ 
+    Sint32 unk3C;    /* offset 0x3C, size 0x4 */ 
+    Sint32 unk40;    /* offset 0x40, size 0x4 */ 
 } ADX_FS;
 typedef ADX_FS *ADXF;
 #endif
