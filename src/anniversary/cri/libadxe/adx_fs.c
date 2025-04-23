@@ -1,4 +1,5 @@
 #include "common.h"
+#include <cri/private/libadxe/adx_fs.h>
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_CALC_BYTE2SCT);
 
@@ -54,7 +55,23 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_Open);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_SetAfsFileInfo);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_OpenAfs);
+ADXF ADXF_OpenAfs(s32 ptid, s32 flid) {
+    ADXF adxf;
+
+    adxf_SetCmdHstry(2, 0, ptid, flid, -1);
+    
+    adxf = adxf_CreateAdxFs();
+    
+    if ((adxf != NULL) && (adxf_SetAfsFileInfo(adxf, ptid, flid) < 0)) {
+        ADXF_Close(adxf);
+        
+        adxf = NULL;
+    }
+    
+    adxf_SetCmdHstry(2, 1, ptid, flid, -1);
+    
+    return adxf;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_CloseSjStm);
 

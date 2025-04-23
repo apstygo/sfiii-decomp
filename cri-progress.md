@@ -65,7 +65,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [ ] adxf_AllocAdxFs
 - [ ] adxf_CreateAdxFs
 - [ ] adxf_SetAfsFileInfo
-- [ ] ADXF_OpenAfs
+- [x] ADXF_OpenAfs
 - [ ] adxf_CloseSjStm
 - [ ] ADXF_Close
 - [ ] ADXF_CloseAll
