@@ -229,7 +229,15 @@ void ADXF_Close(ADXF adxf) {
     adxf_SetCmdHstry(3, 1, (Sint32)adxf, -1, -1);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_CloseAll);
+void ADXF_CloseAll() {
+    Sint32 i;
+
+    for (i = 0; i < ADXF_OBJ_MAX; i++) {
+        if (adxf_obj[i].used == 1) {
+            ADXF_Close(&adxf_obj[i]);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_read_sj32);
 
