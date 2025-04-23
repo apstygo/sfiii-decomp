@@ -279,11 +279,73 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_ReadSj32);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_ReadSj);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A580);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A5A8);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A5D8);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A600);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_ReadNw32);
+Sint32 ADXF_ReadNw32(ADXF adxf, Sint32 nsct, void *buf) {
+    SJ sj;
+    SJ sjrbf;
+    Sint32 bsize;
+    Sint32 temp_v0_2;
+
+    adxf_SetCmdHstry(4, 0, adxf, nsct, buf);
+
+    if (adxf == 0) {
+        ADXERR_CallErrFunc1("E9040816:'adxf' is NULL.(ADXF_ReadNw32)");
+        return ADXF_ERR_PRM;
+    }
+
+    if (nsct < 0) {
+        ADXERR_CallErrFunc1("E9040817:'nsct' is negative.(ADXF_ReadNw32)");
+        return ADXF_ERR_PRM;
+    }
+
+    if (buf == NULL) {
+        ADXERR_CallErrFunc1("E9040818:'buf' is NULL.(ADXF_ReadNw32)");
+        return ADXF_ERR_PRM;
+    }
+
+    if (adxf->stat == ADXF_STAT_READING) {
+        return ADXF_ERR_OK;
+    }
+
+    if (adxf->sj != NULL) {
+        ADXERR_CallErrFunc1("E9040821:'sj' must be NULL.(ADXF_ReadNw32)\0\0");
+        return ADXF_ERR_FATAL;
+    }
+
+    bsize = nsct << 11;
+    sjrbf = SJRBF_Create(buf, bsize, 0);
+
+    if (sjrbf == NULL) {
+        return ADXF_ERR_INTERNAL;
+    }
+
+    ADXCRS_Lock();
+    adxf->buf = buf;
+    adxf->sj = sjrbf;
+    adxf->bsize = bsize;
+
+    if (adxf_ocbi_fg == 1) {
+        ADXF_Ocbi(buf, bsize);
+    }
+
+    ADXCRS_Unlock();
+    temp_v0_2 = adxf_read_sj32(adxf, nsct, adxf->sj);
+
+    if (temp_v0_2 <= 0) {
+        ADXCRS_Lock();
+        sj = adxf->sj;
+
+        if (sj != NULL) {
+            SJ_Destroy(sj);
+            adxf->sj = NULL;
+        }
+
+        ADXCRS_Unlock();
+    }
+
+    adxf->sjflag = 0;
+    adxf_SetCmdHstry(4, 1, adxf, nsct, buf);
+    return temp_v0_2;
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A630);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_ReadNw);
