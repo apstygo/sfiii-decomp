@@ -307,7 +307,7 @@ Sint32 ADXF_ReadNw32(ADXF adxf, Sint32 nsct, void *buf) {
     }
 
     if (adxf->sj != NULL) {
-        ADXERR_CallErrFunc1("E9040821:'sj' must be NULL.(ADXF_ReadNw32)\0\0");
+        ADXERR_CallErrFunc1("E9040821:'sj' must be NULL.(ADXF_ReadNw32)");
         return ADXF_ERR_FATAL;
     }
 
@@ -347,8 +347,14 @@ Sint32 ADXF_ReadNw32(ADXF adxf, Sint32 nsct, void *buf) {
     return temp_v0_2;
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A630);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_ReadNw);
+Sint32 ADXF_ReadNw(ADXF adxf, Sint32 nsct, void *buf) {
+    if ((Sint32)buf & 0x3F) {
+        ADXERR_CallErrFunc1("E0120401:'buf' isn't 64byte alignment.(ADXF_ReadNw)\0\0");
+        return ADXF_ERR_PRM;
+    }
+
+return ADXF_ReadNw32(adxf, nsct, buf);
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A668);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A690);
