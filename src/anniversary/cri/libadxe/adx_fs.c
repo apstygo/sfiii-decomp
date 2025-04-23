@@ -349,16 +349,51 @@ Sint32 ADXF_ReadNw32(ADXF adxf, Sint32 nsct, void *buf) {
 
 Sint32 ADXF_ReadNw(ADXF adxf, Sint32 nsct, void *buf) {
     if ((Sint32)buf & 0x3F) {
-        ADXERR_CallErrFunc1("E0120401:'buf' isn't 64byte alignment.(ADXF_ReadNw)\0\0");
+        ADXERR_CallErrFunc1("E0120401:'buf' isn't 64byte alignment.(ADXF_ReadNw)");
         return ADXF_ERR_PRM;
     }
 
-return ADXF_ReadNw32(adxf, nsct, buf);
+    return ADXF_ReadNw32(adxf, nsct, buf);
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A668);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A690);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_Stop);
+Sint32 ADXF_Stop(ADXF adxf) {
+    ADXSTM stm;
+
+    adxf_SetCmdHstry(5, 0, adxf, -1, -1);
+
+    if (adxf == NULL) {
+        ADXERR_CallErrFunc1("E9040822:'adxf' is NULL.(ADXF_Stop)");
+        return ADXF_ERR_PRM;
+    }
+
+    switch (adxf->stat) {
+    case 3:
+        adxf->stat = 1;
+        /* fallthrough */
+
+    case 1:
+        break;
+
+    default:
+        stm = adxf->stm;
+
+        if (stm == NULL) {
+            ADXERR_CallErrFunc1("E9040823:'adxf->stm' is NULL.(ADXF_Stop)\0\0\0\0");
+            return -1;
+        }
+
+        ADXSTM_Stop(stm);
+        ADXCRS_Lock();
+        adxf->rdsct = ADXSTM_Tell(adxf->stm) - adxf->skpos;
+        adxf_CloseSjStm(adxf);
+        adxf->stat = 1;
+        ADXCRS_Unlock();
+        adxf_SetCmdHstry(5, 1, adxf, -1, -1);
+        break;
+    }
+
+    return adxf->skpos;
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A6C0);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A6E8);
