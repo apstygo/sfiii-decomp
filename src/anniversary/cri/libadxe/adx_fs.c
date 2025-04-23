@@ -1,9 +1,11 @@
 #include "common.h"
 #include <cri/cri_adxf.h>
 #include <cri/private/libadxe/adx_errs.h>
+#include <cri/private/libadxe/adx_fcch.h>
 #include <cri/private/libadxe/adx_fini.h>
 #include <cri/private/libadxe/adx_fs.h>
 #include <cri/private/libadxe/adx_stmc.h>
+#include <cri/sj.h>
 
 // TODO: Remove trailing null bytes from string literals
 
@@ -187,7 +189,18 @@ ADXF ADXF_OpenAfs(s32 ptid, s32 flid) {
     return adxf;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_CloseSjStm);
+void adxf_CloseSjStm(ADXF adxf) {
+    if ((adxf->sj == NULL) || (adxf->sjflag != 0)) {
+        return;
+    }
+
+    if (adxf_ocbi_fg == 1) {
+        ADXF_Ocbi(adxf->buf, adxf->bsize);
+    }
+
+    SJ_Destroy(adxf->sj);
+    adxf->sj = NULL;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_Close);
 
