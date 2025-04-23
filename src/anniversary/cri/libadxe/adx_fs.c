@@ -6,6 +6,7 @@
 #include <cri/private/libadxe/adx_fs.h>
 #include <cri/private/libadxe/adx_stmc.h>
 #include <cri/sj.h>
+#include <memory.h>
 
 // TODO: Remove trailing null bytes from string literals
 
@@ -202,7 +203,31 @@ void adxf_CloseSjStm(ADXF adxf) {
     adxf->sj = NULL;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_Close);
+void ADXF_Close(ADXF adxf) {
+    ADXSTM stm;
+
+    adxf_SetCmdHstry(3, 0, (Sint32)adxf, -1, -1);
+
+    if (adxf == NULL) {
+        return;
+    }
+
+    if (adxf->stat == 2) {
+        ADXF_Stop(adxf);
+    }
+
+    stm = adxf->stm;
+
+    if (stm != NULL) {
+        adxf->used = 0;
+        adxf->stm = NULL;
+        ADXSTM_ReleaseFile(stm);
+        ADXSTM_Destroy(stm);
+    }
+
+    memset(adxf, 0, sizeof(ADX_FS));
+    adxf_SetCmdHstry(3, 1, (Sint32)adxf, -1, -1);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_CloseAll);
 
