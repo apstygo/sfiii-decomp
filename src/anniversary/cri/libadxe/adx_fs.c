@@ -430,7 +430,19 @@ void adxf_ExecOne(ADXF adxf) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_ExecServer);
+void ADXF_ExecServer() {
+    Sint32 i;
+
+    ADXCRS_Lock();
+
+    for (i = 0; i < ADXF_OBJ_MAX; i++) {
+        if (adxf_obj[i].used == 1) {
+            adxf_ExecOne(&adxf_obj[i]);
+        }
+    }
+
+    ADXCRS_Unlock();
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A718);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A740);
