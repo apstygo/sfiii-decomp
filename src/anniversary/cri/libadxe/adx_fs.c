@@ -491,9 +491,28 @@ Sint32 ADXF_GetStat(ADXF adxf) {
     return adxf->stat;
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A848);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A870);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_ChkPrmGfr);
+Sint32 adxf_ChkPrmGfr(Uint32 ptid, Sint32 flid) {
+    ADXF_PTINFO *ptinfo;
+
+    if (ptid >= ADXF_PART_MAX) {
+        ADXERR_CallErrFunc1("E9040828:'ptid' is range outside.");
+        return ADXF_ERR_PRM;
+    }
+
+    ptinfo = adxf_ptinfo[ptid];
+
+    if (ptinfo == NULL) {
+        ADXERR_CallErrFunc1("E9040828:'ptid' is range outside.");
+        return ADXF_ERR_PRM;
+    }
+
+    if ((flid < 0) || (flid >= ptinfo->nfile)) {
+        ADXERR_CallErrFunc1("E9040828:'flid' is range outside.\0\0\0\0");
+        return ADXF_ERR_PRM;
+    }
+
+    return ADXF_ERR_OK;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_GetFnameRange);
 
