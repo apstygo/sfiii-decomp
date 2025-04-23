@@ -1,5 +1,6 @@
 #include "common.h"
 #include <cri/cri_adxf.h>
+#include <cri/private/libadxe/adx_crs.h>
 #include <cri/private/libadxe/adx_errs.h>
 #include <cri/private/libadxe/adx_fcch.h>
 #include <cri/private/libadxe/adx_fini.h>
@@ -239,7 +240,37 @@ void ADXF_CloseAll() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_read_sj32);
+Sint32 adxf_read_sj32(ADXF adxf, s32 nsct, SJ sj) {
+    Sint32 rqsct;
+
+    if (ADXSTM_GetStat(adxf->stm) != 1) {
+        ADXSTM_Stop(adxf->stm);
+    }
+
+    ADXCRS_Lock();
+
+    adxf->rdsct = 0;
+    adxf->rdstpos = adxf->ofst + adxf->skpos;
+    adxf->rqsct = (nsct < (adxf->fnsct - adxf->skpos)) ? nsct : adxf->fnsct - adxf->skpos;
+
+    if (adxf->rqsct == 0) {
+        adxf->stat = ADXF_STAT_READEND;
+        rqsct = 0;
+    } else {
+        ADXSTM_SetEos(adxf->stm, -1);
+        ADXSTM_SetSj(adxf->stm, sj);
+        ADXSTM_SetReqRdSize(adxf->stm, adxf->rqrdsct);
+        adxf->stat = ADXF_STAT_READING;
+        adxf->stopnw_flg = 0;
+        ADXSTM_SetPause(adxf->stm, 0);
+        ADXSTM_Seek(adxf->stm, adxf->skpos);
+        ADXSTM_Start2(adxf->stm, adxf->rqsct);
+        rqsct = adxf->rqsct;
+    }
+
+    ADXCRS_Unlock();
+    return rqsct;
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A500);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A528);
