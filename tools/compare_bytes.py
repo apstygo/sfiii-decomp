@@ -63,6 +63,17 @@ EXPECTED_ERRORS = {
     # adx_fs::adxf_SetAfsFileInfo: two lines of asm swapped
     0x2CDB7C: 0x3C0024AE,
     0x2CDB80: 0x380022AE,
+
+    # adx_fs::ADXF_GetFnameRangeEx
+    0x2CE7A0: 0x2000B4FF,
+    0x2CE7A4: 0x2DA02001,
+    0x2CE7CC: 0x2D984000,
+    0x2CE7D0: 0x07006306,
+    0x2CE7E8: 0x000083AE,
+    0x2CE848: 0x0000428C,
+    0x2CE884: 0x00004294,
+    0x2CE888: 0x000082AE,
+    0x2CE8A4: 0x2D106002,
 }
 
 def read_word(b: bytes, offset: int) -> int:

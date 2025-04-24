@@ -516,7 +516,70 @@ Sint32 adxf_ChkPrmGfr(Uint32 ptid, Sint32 flid) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_GetFnameRange);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_GetFnameRangeEx);
+typedef struct {
+    /* 0x000 */ struct _adxf_ptinfo *next;
+    /* 0x004 */ Sint32 size;
+    /* 0x008 */ Sint32 nfile;
+    /* 0x00C */ Uint16 nentry;
+    /* 0x00E */ Sint8 type;
+    /* 0x00F */ Sint8 rev;
+    /* 0x010 */ Sint8 fname[ADXF_FNAME_MAX];
+    /* 0x110 */ void *curdir;
+    /* 0x114 */ Sint32 ofst;
+    /* 0x118 */ Uint16 top;
+    Uint16 file_sizes[0];
+} ADXF_PTINFO_SMALL; /* 0x11A */
+
+s32 ADXF_GetFnameRangeEx(s32 ptid, s32 flid, s8 *fname, void **dir, s32 *ofst, s32 *fnsct) {
+    ADXF_PTINFO *ptinfo;
+    s32 ret;
+    s32 nsct;
+    s32 i;
+    u32 offset;
+    u16 *p2;
+    u32 *p4;
+
+    ADXF_PTINFO_SMALL *small_ptinfo;
+
+    ret = adxf_ChkPrmGfr(ptid, flid);
+
+    if (ret < 0) {
+        *ofst = -1;
+        *fnsct = -1;
+        *dir = NULL;
+        return ret;
+    }
+
+    ptinfo = adxf_ptinfo[ptid];
+    small_ptinfo = (ADXF_PTINFO_SMALL *)ptinfo;
+
+    if (ptinfo->rev == 1) {
+        offset = ptinfo->top;
+        p4 = (u32 *)(ptinfo + 1);
+
+        for (i = 0; i < flid; i++) {
+            offset += p4[i];
+        }
+
+        nsct = p4[flid];
+    } else {
+        offset = small_ptinfo->top;
+        p2 = small_ptinfo->file_sizes;
+
+        for (i = 0; i < flid; i++) {
+            offset += p2[i];
+        }
+
+        nsct = p2[flid];
+    }
+
+    *fnsct = nsct;
+    strncpy(fname, ptinfo->fname, ADXF_FNAME_MAX);
+    *dir = ptinfo->curdir;
+    *ofst = ptinfo->ofst + offset;
+
+    return ret;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_GetFnameFromPt);
 
