@@ -581,7 +581,9 @@ s32 ADXF_GetFnameRangeEx(s32 ptid, s32 flid, s8 *fname, void **dir, s32 *ofst, s
     return ret;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_GetFnameFromPt);
+Char8 *ADXF_GetFnameFromPt(Sint32 ptid) {
+    return adxf_ptinfo[ptid]->fname;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_SetOcbiSw);
 
