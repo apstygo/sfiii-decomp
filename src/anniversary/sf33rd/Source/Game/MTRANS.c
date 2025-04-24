@@ -8,6 +8,7 @@
 #include "sf33rd/Source/Game/chren3rd.h"
 #include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
+#include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/texgroup.h"
 #include "structs.h"
 
@@ -95,6 +96,8 @@ static s32 get_mltbuf32_ext_2(MultiTexture *mt, u32 code, u32 palt, s32 *ret, Pa
 void makeup_tpu_free(s32 x16, s32 x32, PatternMap *map);
 static void lz_ext_p6_fx(u8 *srcptr, u8 *dstptr, u32 len);
 static void lz_ext_p6_cx(u8 *srcptr, u16 *dstptr, u32 len, u16 *palptr);
+static u16 x16_mapping_set(PatternMap *map, s32 code);
+static u16 x32_mapping_set(PatternMap *map, s32 code);
 
 static void search_trsptr(u32 trstbl, s32 i, s32 n, s32 cods, s32 atrs, s32 codd, s32 atrd) {
     s32 j;
@@ -975,11 +978,6 @@ void mlt_obj_trans_cp3(MultiTexture *mt, WORK *wk, s32 base_y) {
     s32 attr;
     s32 palt;
 
-    s32 spB0;
-    s32 spAC;
-    s32 spA8;
-    s32 spA4;
-
     ppgSetupCurrentDataList(&mt->texList);
 
     if (mt->ext) {
@@ -1054,20 +1052,15 @@ void mlt_obj_trans_cp3(MultiTexture *mt, WORK *wk, s32 base_y) {
                 DebugLine(x - (dw & ((s16)flip >> 0x10)), y + (dh & ((s16)(flip * 2) >> 16)), dw, dh);
             }
 
-            if (flip & 0x4000) {
-                spB0 = 1;
-            } else {
-                spB0 = 0;
-            }
-
-            if (flip & 0x8000) {
-                spAC = 1;
-            } else {
-                spAC = 0;
-            }
-
-            rnum = seqsStoreChip(
-                x - (dw * spAC), y + (dh * spB0), dw, dh, mt->mltgidx16, code, attr | palt, wk->my_clear_level, mt->id);
+            rnum = seqsStoreChip(x - (dw * BOOL(flip & 0x8000)),
+                                 y + (dh * BOOL(flip & 0x4000)),
+                                 dw,
+                                 dh,
+                                 mt->mltgidx16,
+                                 code,
+                                 attr | palt,
+                                 wk->my_clear_level,
+                                 mt->id);
             break;
 
         case 4:
@@ -1080,20 +1073,8 @@ void mlt_obj_trans_cp3(MultiTexture *mt, WORK *wk, s32 base_y) {
                 DebugLine(x - (dw & ((s16)flip >> 0x10)), y + (dh & ((s16)(flip * 2) >> 16)), dw, dh);
             }
 
-            if (flip & 0x4000) {
-                spA8 = 1;
-            } else {
-                spA8 = 0;
-            }
-
-            if (flip & 0x8000) {
-                spA4 = 1;
-            } else {
-                spA4 = 0;
-            }
-
-            rnum = seqsStoreChip(x - (dw * spA4),
-                                 y + (dh * spA8),
+            rnum = seqsStoreChip(x - (dw * BOOL(flip & 0x8000)),
+                                 y + (dh * BOOL(flip & 0x4000)),
                                  dw,
                                  dh,
                                  mt->mltgidx32,
@@ -1631,8 +1612,8 @@ static s32 get_mltbuf16(MultiTexture *mt, u32 code, u32 palt, s32 *ret) {
 }
 
 static s32 get_mltbuf32(MultiTexture *mt, u32 code, u32 palt, s32 *ret) {
-    s32 i;      // r18
-    s32 b = -1; // r16
+    s32 i;
+    s32 b = -1;
     PatternState *mc = mt->mltcsh32;
 
     i = mt->mltnum32;
@@ -1668,23 +1649,170 @@ static s32 get_mltbuf32(MultiTexture *mt, u32 code, u32 palt, s32 *ret) {
     }
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", literal_1366_00522D80);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", get_mltbuf16_ext_2);
+static s32 get_mltbuf16_ext_2(MultiTexture *mt, u32 code, u32 palt, s32 *ret, PatternInstance *cp) {
+    PatternState *mc = mt->mltcsh16;
+    s32 i;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", literal_1400_00522DC0);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", get_mltbuf32_ext_2);
+    for (i = 0; i < mt->tpu->x16; i++) {
+        if ((code == mc[mt->tpu->x16_used[i]].cs.code) && (palt == mc[mt->tpu->x16_used[i]].state)) {
+            *ret = mt->tpu->x16_used[i];
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", literal_1423_00522E00);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", get_mltbuf16_ext);
+            if (x16_mapping_set(&cp->map, *ret)) {
+                cp->x16 += 1;
+                mc[mt->tpu->x16_used[i]].time += 1;
+            }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", literal_1446_00522E20);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", get_mltbuf32_ext);
+            return 0;
+        }
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", x16_mapping_set);
+    if ((i != mt->mltnum16) && (mt->tpf->x16 != 0)) {
+        mt->tpf->x16 -= 1;
+        mt->tpu->x16_used[i] = mt->tpf->x16_free[mt->tpf->x16];
+        mt->tpu->x16 += 1;
+        mc[mt->tpu->x16_used[i]].cs.code = code;
+        mc[mt->tpu->x16_used[i]].state = palt;
+        *ret = mt->tpu->x16_used[i];
+        mc[mt->tpu->x16_used[i]].time = 1;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", x32_mapping_set);
+        if (x16_mapping_set(&cp->map, *ret)) {
+            cp->x16 += 1;
+        }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", makeup_tpu_free);
+        return 1;
+    }
+
+    // CG cache is full. x16 EXT2\n
+    flLogOut("ＣＧキャッシュが一杯になりました。×１６　ＥＸＴ２\n");
+    while (1) {}
+}
+
+static s32 get_mltbuf32_ext_2(MultiTexture *mt, u32 code, u32 palt, s32 *ret, PatternInstance *cp) {
+    PatternState *mc = mt->mltcsh32;
+    s32 i;
+
+    for (i = 0; i < mt->tpu->x32; i++) {
+        if ((code == mc[mt->tpu->x32_used[i]].cs.code) && (palt == mc[mt->tpu->x32_used[i]].state)) {
+            *ret = mt->tpu->x32_used[i];
+
+            if (x32_mapping_set(&cp->map, *ret)) {
+                cp->x32 += 1;
+                mc[mt->tpu->x32_used[i]].time += 1;
+            }
+
+            return 0;
+        }
+    }
+
+    if ((i != mt->mltnum32) && (mt->tpf->x32 != 0)) {
+        mt->tpf->x32 -= 1;
+        mt->tpu->x32_used[i] = mt->tpf->x32_free[mt->tpf->x32];
+        mt->tpu->x32 += 1;
+        mc[mt->tpu->x32_used[i]].cs.code = code;
+        mc[mt->tpu->x32_used[i]].state = palt;
+        *ret = mt->tpu->x32_used[i];
+        mc[mt->tpu->x32_used[i]].time += 1;
+
+        if (x32_mapping_set(&cp->map, *ret)) {
+            cp->x32 += 1;
+        }
+
+        return 1;
+    }
+
+    flLogOut("ＣＧキャッシュが一杯になりました。×３２　ＥＸＴ２\n");
+    while (1) {}
+}
+
+static s32 get_mltbuf16_ext(MultiTexture *mt, u32 code, u32 palt) {
+    PatternState *mc = mt->mltcsh16;
+    s32 i;
+
+    for (i = 0; i < tpu_free->x16; i++) {
+        if ((code == mc[tpu_free->x16_used[i]].cs.code) && (palt == mc[tpu_free->x16_used[i]].state)) {
+            return tpu_free->x16_used[i];
+        }
+    }
+
+    flLogOut("ＣＧ展開エラー　１６×１６\n");
+    while (1) {}
+}
+
+static s32 get_mltbuf32_ext(MultiTexture *mt, u32 code, u32 palt) {
+    PatternState *mc = mt->mltcsh32;
+    s32 i;
+
+    for (i = 0; i < tpu_free->x32; i++) {
+        if ((code == mc[tpu_free->x32_used[i]].cs.code) && (palt == mc[tpu_free->x32_used[i]].state)) {
+            return tpu_free->x32_used[i];
+        }
+    }
+
+    flLogOut("ＣＧ展開エラー　３２×３２\n");
+    while (1) {}
+}
+
+static u16 x16_mapping_set(PatternMap *map, s32 code) {
+    u16 num;
+    u16 flg;
+
+    flg = 0;
+    num = code & 0xF;
+
+    if (!((1 << (num)) & (map->x16_map[code / 256][(code % 256) / 16]))) {
+        map->x16_map[code / 256][(code % 256) / 16] |= (1 << num);
+        flg = 1;
+    }
+
+    return flg;
+}
+
+static u16 x32_mapping_set(PatternMap *map, s32 code) {
+    u16 flg = 0;
+    u8 num = code & 7;
+
+    if (!((map->x32_map[code / 64][(code % 64) / 8]) & (1 << num))) {
+        map->x32_map[code / 64][(code % 64) / 8] |= (1 << num);
+        flg = 1;
+    }
+
+    return flg;
+}
+
+void makeup_tpu_free(s32 x16, s32 x32, PatternMap *map) {
+    s16 i;
+    s16 j;
+    s16 k;
+
+    tpu_free->x16 = 0;
+    tpu_free->x32 = 0;
+
+    for (i = 0; i < x16; i++) {
+        for (j = 0; j < 16; j++) {
+            if (map->x16_map[i][j] != 0) {
+                for (k = 0; k < 16; k++) {
+                    if ((1 << k) & map->x16_map[i][j]) {
+                        tpu_free->x16_used[tpu_free->x16] = (i * 256) + (j * 16) + k;
+                        tpu_free->x16 += 1;
+                    }
+                }
+            }
+        }
+    }
+
+    for (i = 0; i < x32; i++) {
+        for (j = 0; j < 8; j++) {
+            if (map->x32_map[i][j] != 0) {
+                for (k = 0; k < 8; k++) {
+                    if (map->x32_map[i][j] & (1 << k)) {
+                        tpu_free->x32_used[tpu_free->x32] = (i * 64) + (j * 8) + k;
+                        tpu_free->x32 += 1;
+                    }
+                }
+            }
+        }
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", check_patcash_ex_trans);
 

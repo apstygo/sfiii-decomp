@@ -18,7 +18,7 @@ special_cases = {
     ("aboutspr", ".rodata", 0): 16,
     ("flps2vram", ".rodata", 10): 16,
     ("flps2debug", ".rodata", 22): 16,
-    ("MTRANS", ".rodata", 6): 16,
+    ("MTRANS", ".rodata", 10): 16,
 
     ("PulPul", ".data", 0): 16,
 
