@@ -59,27 +59,27 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [ ] ADXF_Init
 - [ ] ADXF_Finish
 
-### adx_fs
+### adx_fs ✅
 
-- [ ] adxf_SetCmdHstry
-- [ ] adxf_AllocAdxFs
-- [ ] adxf_CreateAdxFs
-- [ ] adxf_SetAfsFileInfo
-- [ ] ADXF_OpenAfs
-- [ ] adxf_CloseSjStm
-- [ ] ADXF_Close
-- [ ] ADXF_CloseAll
-- [ ] adxf_read_sj32
-- [ ] ADXF_ReadNw32
-- [ ] ADXF_ReadNw
-- [ ] ADXF_Stop
-- [ ] adxf_ExecOne
-- [ ] ADXF_ExecServer
-- [ ] ADXF_GetFsizeSct
-- [ ] ADXF_GetStat
-- [ ] adxf_ChkPrmGfr
-- [ ] ADXF_GetFnameRangeEx
-- [ ] ADXF_GetFnameFromPt
+- [x] adxf_SetCmdHstry
+- [x] adxf_AllocAdxFs
+- [x] adxf_CreateAdxFs
+- [x] adxf_SetAfsFileInfo
+- [x] ADXF_OpenAfs
+- [x] adxf_CloseSjStm
+- [x] ADXF_Close
+- [x] ADXF_CloseAll
+- [x] adxf_read_sj32
+- [x] ADXF_ReadNw32
+- [x] ADXF_ReadNw
+- [x] ADXF_Stop
+- [x] adxf_ExecOne
+- [x] ADXF_ExecServer
+- [x] ADXF_GetFsizeSct
+- [x] ADXF_GetStat
+- [x] adxf_ChkPrmGfr
+- [x] ADXF_GetFnameRangeEx
+- [x] ADXF_GetFnameFromPt
 
 ### adx_fsvr
 

@@ -1984,6 +1984,48 @@ typedef struct {
 } VRAMBlockHeader;
 
 typedef struct {
+    // total size: 0x4C
+    s16 offence_total;  // offset 0x0, size 0x2
+    s16 defence_total;  // offset 0x2, size 0x2
+    s16 tech_pts_total; // offset 0x4, size 0x2
+    s16 ex_point_total; // offset 0x6, size 0x2
+    s16 em_stun;        // offset 0x8, size 0x2
+    s16 max_combo;      // offset 0xA, size 0x2
+    s16 clean_hits;     // offset 0xC, size 0x2
+    s16 att_renew;      // offset 0xE, size 0x2
+    s16 guard_succ;     // offset 0x10, size 0x2
+    s16 vitality;       // offset 0x12, size: 0x2
+    s16 nml_blocking;   // offset 0x14, size: 0x2
+    s16 rpd_blocking;   // offset 0x16, size: 0x2
+    s16 grd_blocking;   // offset 0x18, size: 0x2
+    s16 def_free;       // offset 0x1A, size: 0x2
+    s16 first_attack;   // offset 0x1C, size: 0x2
+    s16 leap_attack;    // offset 0x1E, size: 0x2
+    s16 target_combo;   // offset 0x20, size: 0x2
+    s16 nml_nage;       // offset 0x22, size: 0x2
+    s16 grap_def;       // offset 0x24, size: 0x2
+    s16 quick_stand;    // offset 0x26, size: 0x2
+    s16 personal_act;   // offset 0x28, size: 0x2
+    s16 reversal;       // offset 0x2A, size: 0x2
+    s16 comwaza;        // offset 0x2C, size: 0x2
+    s16 sa_exec;        // offset 0x2E, size: 0x2
+    s16 tairyokusa;     // offset 0x30, size: 0x2
+    s16 kimarite;       // offset 0x32, size: 0x2
+    s16 renshou;        // offset 0x34, size: 0x2
+    s16 em_renshou;     // offset 0x36, size: 0x2
+    s16 app_nml_block;  // offset 0x38, size: 0x2
+    s16 app_rpd_block;  // offset 0x3A, size: 0x2
+    s16 app_grd_block;  // offset 0x3C, size: 0x2
+    s16 onaji_waza;     // offset 0x3E, size: 0x2
+    s16 grd_miss;       // offset 0x40, size: 0x2
+    s16 grd_mcnt;       // offset 0x42, size: 0x2
+    s16 grade;          // offset 0x44, size: 0x2
+    s16 round;          // offset 0x46, size: 0x2
+    s16 win_round;      // offset 0x48, size: 0x2
+    s16 no_lose;        // offset 0x4A, size: 0x2
+} GradeData;
+
+typedef struct {
     // total size: 0x8
     s16 x;    // offset 0x0, size 0x2
     s16 y;    // offset 0x2, size 0x2
