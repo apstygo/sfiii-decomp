@@ -132,7 +132,10 @@ void Init_bgm_work() {
     work_init_zero((s32 *)&bgm_req, 8);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", sound_all_off);
+void sound_all_off() {
+    sound_bgm_off();
+    spu_all_off();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", spu_all_off);
 
