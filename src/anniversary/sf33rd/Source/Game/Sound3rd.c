@@ -10,6 +10,8 @@
 #include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/PS2/CapSndEng/emlMemMap.h"
+#include "sf33rd/Source/PS2/CapSndEng/emlSndDrv.h"
+#include "sf33rd/Source/PS2/CapSndEng/emlTSB.h"
 #include "sf33rd/Source/PS2/cseDataFiles/SpuMap.h"
 #include "structs.h"
 #include <cri/ee/cri_mw.h>
@@ -144,7 +146,11 @@ void spu_all_off() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", cseSeStopAll);
+s32 cseSeStopAll() {
+    mlTsbStopAll();
+    mlSeStopAll();
+    return 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", sound_bgm_off);
 
