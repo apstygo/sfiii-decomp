@@ -2033,4 +2033,17 @@ typedef struct {
     u16 code; // offset 0x6, size 0x2
 } TileMapEntry;
 
+typedef struct {
+    // total size: 0xC
+    u16 cp3code; // offset 0x0, size 0x2
+    u16 free;    // offset 0x2, size 0x2
+    struct {
+        // total size: 0x8
+        s16 ptix; // offset 0x0, size 0x2
+        s16 bank; // offset 0x2, size 0x2
+        s16 port; // offset 0x4, size 0x2
+        s16 code; // offset 0x6, size 0x2
+    } rmc;        // offset 0x4, size 0x8
+} SoundPatch;     // Tentative name
+
 #endif
