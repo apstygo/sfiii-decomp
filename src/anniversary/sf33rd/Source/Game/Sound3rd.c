@@ -149,7 +149,15 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", SsReques
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", Standby_BGM);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", Go_BGM);
+void Go_BGM() {
+    SoundPatchConfig rmcode;
+
+    rmcode.ptix = 0x7F;
+    rmcode.bank = 3;
+    rmcode.port = 0;
+    rmcode.code = 0;
+    sound_request_for_dc(&rmcode, 0);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", SsBgmOff);
 
