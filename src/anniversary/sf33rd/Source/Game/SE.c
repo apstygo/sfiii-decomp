@@ -9,6 +9,10 @@
 u8 gSeqStatus[1];
 SoundPatch sdeb[SDEB_SIZE];
 
+s16 bgm_selectorDC[8] = { 0, 1, 2, 1, 2, 1, 2, 1 };
+s16 bgm_selectorAC[8] = { 0, 1, 0, 1, 0, 1, 0, 1 };
+s16 *bgm_selector[2] = { bgm_selectorDC, bgm_selectorAC };
+
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", BGM_Stage_Data);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", SE_Shock_Data);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Finish_SE_Data);

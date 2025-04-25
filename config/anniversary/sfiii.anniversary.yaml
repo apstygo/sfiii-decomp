@@ -1452,7 +1452,7 @@ segments:
       - [0x4740D0, .sdata, sf33rd/Source/Game/Reset]
       - [0x4740E0, sdata, sf33rd/Source/Game/Saver]
       - [0x4740F0, sdata, sf33rd/Source/Game/sc_sub]
-      - [0x474170, sdata, sf33rd/Source/Game/SE]
+      - [0x474170, .sdata, sf33rd/Source/Game/SE]
       - [0x4741A0, sdata, sf33rd/Source/Game/sel_pl]
       - [0x4742A0, sdata, sf33rd/Source/Game/Sound3rd]
       - [0x474368, sdata, sf33rd/Source/Game/spgauge]
