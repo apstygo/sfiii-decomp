@@ -113,7 +113,18 @@ void checkAdxFileLoaded() {
     adx_NowOnMemoryType = sys_w.bgm_type;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", Exit_sound_system);
+void Exit_sound_system() {
+    if (system_init_level & 2) {
+        ADXT_Destroy(adxt);
+        ADXT_Finish();
+        system_init_level &= ~2;
+    }
+
+    if (system_init_level & 1) {
+        spu_all_off();
+        system_init_level &= ~1;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", Init_bgm_work);
 
