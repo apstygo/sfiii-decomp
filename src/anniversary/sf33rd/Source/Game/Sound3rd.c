@@ -3,6 +3,7 @@
 #include "sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.h"
 #include "sf33rd/Source/Common/PPGFile.h"
+#include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/RAMCNT.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
@@ -126,7 +127,10 @@ void Exit_sound_system() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", Init_bgm_work);
+void Init_bgm_work() {
+    work_init_zero((s32 *)&bgm_exe, 22);
+    work_init_zero((s32 *)&bgm_req, 8);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", sound_all_off);
 
