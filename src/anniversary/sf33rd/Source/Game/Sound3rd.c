@@ -171,11 +171,20 @@ void setSeVolume() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", cseSysSetMasterVolume);
+s32 cseSysSetMasterVolume(s32 vol) {
+    return mlSysSetMasterVolume(vol);
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", setupSoundMode);
+void setupSoundMode() {
+    if (system_init_level & 2) {
+        cseSysSetMono(sys_w.sound_mode);
+        ADXT_SetOutputMono(sys_w.sound_mode);
+    }
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", cseSysSetMono);
+s32 cseSysSetMono(u32 mono_sw) {
+    return mlSysSetMono(mono_sw);
+}
 
 void sound_request_for_dc(SoundPatchConfig *rmc, s16 pan) {
     if (rmc->ptix != 0x7F) {

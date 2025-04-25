@@ -17,5 +17,6 @@ s32 cseMemMapSetPhdAddr(u32 bank, void *addr);
 // Defined in Sound3rd.c
 s32 cseSeStopAll();
 s32 cseSysSetMasterVolume(s32 vol);
+s32 cseSysSetMono(u32 mono_sw);
 
 #endif
