@@ -2,7 +2,9 @@
 #include "common.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.h"
 #include "structs.h"
+#include <cri/ee/cri_mw.h>
 
+extern ADXT adxt;
 extern BGMExecution bgm_exe;
 extern BGMRequest bgm_req;
 
@@ -118,7 +120,15 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", bgm_seam
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", bgm_volume_setup);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", adx_now_playing);
+s32 adx_now_playing() {
+    bgm_exe.state = ADXT_GetStat(adxt);
+
+    if ((bgm_exe.state == 3) || (bgm_exe.state == 4)) {
+        return 1;
+    }
+
+    return 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", adx_now_playend);
 
