@@ -2034,16 +2034,41 @@ typedef struct {
 } TileMapEntry;
 
 typedef struct {
+    // total size: 0x8
+    s16 ptix; // offset 0x0, size 0x2
+    s16 bank; // offset 0x2, size 0x2
+    s16 port; // offset 0x4, size 0x2
+    s16 code; // offset 0x6, size 0x2
+} SoundPatchConfig;
+
+typedef struct {
     // total size: 0xC
-    u16 cp3code; // offset 0x0, size 0x2
-    u16 free;    // offset 0x2, size 0x2
-    struct {
-        // total size: 0x8
-        s16 ptix; // offset 0x0, size 0x2
-        s16 bank; // offset 0x2, size 0x2
-        s16 port; // offset 0x4, size 0x2
-        s16 code; // offset 0x6, size 0x2
-    } rmc;        // offset 0x4, size 0x8
-} SoundPatch;     // Tentative name
+    u16 cp3code;          // offset 0x0, size 0x2
+    u16 free;             // offset 0x2, size 0x2
+    SoundPatchConfig rmc; // offset 0x4, size 0x8
+} SoundPatch;             // Tentative name
+
+typedef struct {
+    // total size: 0x8
+    s16 req;  // offset 0x0, size 0x2
+    s16 kind; // offset 0x2, size 0x2
+    s16 data; // offset 0x4, size 0x2
+    s16 code; // offset 0x6, size 0x2
+} BGMRequest;
+
+typedef struct {
+    // total size: 0x16
+    s16 kind;        // offset 0x0, size 0x2
+    s16 rno;         // offset 0x2, size 0x2
+    s16 code;        // offset 0x4, size 0x2
+    s16 timer;       // offset 0x6, size 0x2
+    s16 data;        // offset 0x8, size 0x2
+    s16 volume;      // offset 0xA, size 0x2
+    s16 state;       // offset 0xC, size 0x2
+    u16 ownData;     // offset 0xE, size 0x2
+    u16 nowSeamless; // offset 0x10, size 0x2
+    u16 exEntry;     // offset 0x12, size 0x2
+    u16 exIndex;     // offset 0x14, size 0x2
+} BGMExecution;
 
 #endif

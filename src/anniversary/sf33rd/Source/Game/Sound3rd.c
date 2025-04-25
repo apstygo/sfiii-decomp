@@ -1,5 +1,12 @@
 #include "sf33rd/Source/Game/Sound3rd.h"
 #include "common.h"
+#include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.h"
+#include "structs.h"
+
+extern BGMExecution bgm_exe;
+extern BGMRequest bgm_req;
+
+s32 adx_now_playing();
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", literal_398_00552610);
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", Init_sound_system);
@@ -32,7 +39,72 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", setupSou
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", cseSysSetMono);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", sound_request_for_dc);
+void sound_request_for_dc(SoundPatchConfig *rmc, s16 pan) {
+    if (rmc->ptix != 0x7F) {
+        if (pan < -0x20) {
+            pan = -0x20;
+        }
+
+        if (pan > 0x20) {
+            pan = 0x20;
+        }
+
+        if (rmc->code > 0x7F) {
+            rmc->port = 0;
+        }
+
+        cseTsbRequest(rmc->ptix, rmc->code, 2, 6, pan, 2, rmc->port);
+        return;
+    }
+
+    bgm_req.req = 1;
+
+    switch (bgm_req.kind = rmc->bank) {
+    case 5:
+        if (bgm_exe.kind == 5) {
+            bgm_req.req = 0;
+            break;
+        }
+
+    case 7:
+        bgm_req.data = rmc->port;
+        bgm_req.code = -1;
+        break;
+
+    case 9:
+        if ((adx_now_playing() != 0) && (bgm_exe.code == rmc->code)) {
+            bgm_req.kind = 7;
+            bgm_req.data = 0;
+            bgm_req.code = -1;
+            return;
+        }
+
+        bgm_req.kind = 4;
+        /* fallthrough */
+
+    case 2:
+    case 4:
+        bgm_req.data = 0;
+        bgm_req.code = rmc->code;
+        break;
+
+    case 6:
+        bgm_req.data = rmc->port;
+        bgm_req.code = rmc->code;
+        break;
+
+    case 0:
+    case 1:
+    case 3:
+    case 8:
+        bgm_req.data = 0;
+        bgm_req.code = -1;
+        /* fallthrough */
+
+    default:
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", BGM_Server);
 
