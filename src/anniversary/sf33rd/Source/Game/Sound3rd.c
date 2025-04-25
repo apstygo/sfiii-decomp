@@ -1,3 +1,5 @@
+#define SET_SE_VOLUME_DEFINED
+
 #include "sf33rd/Source/Game/Sound3rd.h"
 #include "common.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX.h"
@@ -160,7 +162,14 @@ void sound_bgm_off() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", setSeVolume);
+void setSeVolume() {
+    f32 vol;
+
+    if (system_init_level & 2) {
+        vol = (127.0f / 15.0f) * se_level;
+        cseSysSetMasterVolume(vol);
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", cseSysSetMasterVolume);
 
