@@ -24,6 +24,7 @@ s32 ppgGetUsingPaletteHandle(Palette *pch, s32 ixNums);
 s32 ppgCheckTextureNumber(Texture *tex, s32 num);
 s32 ppgReleasePaletteHandle(Palette *pch, s32 ixNum);
 s32 ppgReleaseTextureHandle(Texture *tch, s32 ixNum);
+s32 ppgSetupTexChunkSeqs(Texture *tch, PPGFileHeader *ppg, u8 *adrs, s32 ixNum1st, s32 ixNums, u32 attribute);
 s32 ppgRenewTexChunkSeqs(Texture *tch);
 
 #endif // PPGFILE_H

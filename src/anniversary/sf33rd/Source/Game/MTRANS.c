@@ -1814,22 +1814,211 @@ void makeup_tpu_free(s32 x16, s32 x32, PatternMap *map) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", check_patcash_ex_trans);
+static s16 check_patcash_ex_trans(PatternCollection *padr, u32 cg) {
+    s16 rnum = -1;
+    s16 i;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", literal_1560_00522E40);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", get_free_patcash_index);
+    for (i = 0; i < padr->kazu; i++) {
+        if (padr->adr[i]->cg.code == cg) {
+            rnum = i;
+            break;
+        }
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", lz_ext_p6_fx);
+    return rnum;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", lz_ext_p6_cx);
+static s32 get_free_patcash_index(PatternCollection *padr) {
+    s16 i;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", mlt_obj_trans_init);
+    for (i = 0; i < 0x40; i++) {
+        if (padr->patt[i].time == 0) {
+            return i;
+        }
+    }
+
+    flLogOut("ＣＧキャッシュバッファが一杯になりました。\n");
+    while (1) {}
+}
+
+static void lz_ext_p6_fx(u8 *srcptr, u8 *dstptr, u32 len) {
+    u8 *endptr = dstptr + len; // r19
+    u8 *tmpptr;                // r17
+    u32 tmp;                   // r16
+    u32 flg;                   // r18
+
+    while (dstptr < endptr) {
+        tmp = *srcptr++;
+
+        switch (tmp & 0xC0) {
+        case 0x0:
+            *dstptr++ = tmp;
+            break;
+
+        case 0x40:
+            tmp &= 0x3F;
+            tmpptr = (dstptr - (tmp >> 2)) - 1;
+            tmp = (tmp & 3) + 2;
+
+            while (tmp--) {
+                *dstptr++ = *tmpptr++;
+            }
+
+            break;
+
+        case 0x80:
+            tmp = ((tmp & 0x3F) << 8) | *srcptr++;
+            tmpptr = (dstptr - (tmp >> 6)) - 1;
+            tmp = (tmp & 0x3F) + 2;
+
+            while (tmp--) {
+                *dstptr++ = *tmpptr++;
+            }
+
+            break;
+
+        case 0xC0:
+            flg = tmp & 0x30;
+            tmp = (tmp & 0xF) + 2;
+
+            while (tmp--) {
+                *dstptr++ = flg | (*srcptr >> 4);
+                *dstptr++ = flg | (*srcptr++ & 0xF);
+            }
+
+            break;
+        }
+    }
+}
+
+static void lz_ext_p6_cx(u8 *srcptr, u16 *dstptr, u32 len, u16 *palptr) {
+    u16 *endptr = dstptr + len;
+    u16 *tmpptr;
+    u32 tmp;
+    u32 flg;
+
+    while (dstptr < endptr) {
+        tmp = *srcptr++;
+
+        switch (tmp & 0xC0) {
+        case 0x0:
+            *dstptr++ = palptr[tmp];
+            break;
+
+        case 0x40:
+            tmp &= 0x3F;
+            tmpptr = (dstptr - (tmp >> 2)) - 1;
+            tmp = (tmp & 3) + 2;
+
+            while (tmp--) {
+                *dstptr++ = *tmpptr++;
+            }
+
+            break;
+
+        case 0x80:
+            tmp = ((tmp & 0x3F) << 8) | *srcptr++;
+            tmpptr = (dstptr - (tmp >> 6)) - 1;
+            tmp = (tmp & 0x3F) + 2;
+
+            while (tmp--) {
+                *dstptr++ = *tmpptr++;
+            }
+
+            break;
+
+        case 0xC0:
+            flg = tmp & 0x30;
+            tmp = (tmp & 0xF) + 2;
+
+            while (tmp--) {
+                *dstptr++ = palptr[flg | (*srcptr >> 4)];
+                *dstptr++ = palptr[flg | (*srcptr++ & 0xF)];
+            }
+
+            break;
+        }
+    }
+}
+
+void mlt_obj_trans_init(MultiTexture *mt, s32 mode, u8 *adrs) {
+    PatternState *mc;
+    PPGFileHeader ppg;
+    s32 i;
+
+    ppg.width = ppg.height = 16;
+    ppg.compress = 0;
+    ppg.formARGB = 0x1555;
+    ppg.transNums = 0;
+    mt->texList.tex = &mt->tex;
+
+    switch (mode & 7) {
+    case 4:
+        ppg.pixel = 0x82;
+        mt->texList.pal = NULL;
+        break;
+
+    case 2:
+        ppg.pixel = 0x81;
+        mt->texList.pal = palGetChunkGhostCP3();
+        break;
+
+    default:
+        ppg.pixel = 0x81;
+        mt->texList.pal = palGetChunkGhostDC();
+        break;
+    }
+
+    mt->texList.tex->be = 0;
+    ppgSetupTexChunkSeqs(&mt->tex, &ppg, adrs, mt->mltgidx16, mt->mltnum, mt->attribute);
+
+    if (!(mode & 0x20)) {
+        mc = mt->mltcsh16;
+
+        for (i = 0; i < mt->mltnum16; i++) {
+            mc->time = 0;
+            mc->cs.code = -1;
+            mc++;
+        }
+
+        mc = mt->mltcsh32;
+
+        for (i = 0; i < mt->mltnum32; i++) {
+            mc->time = 0;
+            mc->cs.code = -1;
+            mc++;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", mlt_obj_trans_update);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", draw_box);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", DebugLine);
+static void DebugLine(f32 x, f32 y, f32 w, f32 h) {
+    Vec3 point[2];
+    PAL_CURSOR line;
+    PAL_CURSOR_P xy[4];
+    PAL_CURSOR_COL cc[4];
+
+    line.p = &xy[0];
+    line.col = &cc[0];
+    line.tex = NULL;
+    line.num = 4;
+    point[0].x = x;
+    point[0].y = y;
+    point[0].z = 1.0f;
+    point[1].x = x + w;
+    point[1].y = y - h;
+    point[1].z = 1.0f;
+    njCalcPoints(NULL, point, point, 2);
+    line.p[0].x = line.p[2].x = point[0].x;
+    line.p[1].x = line.p[3].x = point[1].x;
+    line.p[0].y = line.p[1].y = point[0].y;
+    line.p[2].y = line.p[3].y = point[1].y;
+    line.col[0].color = line.col[1].color = line.col[2].color = line.col[3].color = 0x80FFFFFF;
+    njDrawPolygon2D(&line, 4, PrioBase[1], 0x20);
+}
 
 void mlt_obj_melt2(MultiTexture *mt, u16 cg_number) {
     u32 *textbl;

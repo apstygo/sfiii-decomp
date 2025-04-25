@@ -13,5 +13,6 @@ void palCopyGhostDC(s32 ofs, s32 cnt, void *data); // Range: 0x19F700 -> 0x19F7C
 void palCreateGhost();                             // Range: 0x19F8D0 -> 0x19FB50
 void palUpdateGhostDC();                           // Range: 0x19FB70 -> 0x19FC6C
 Palette *palGetChunkGhostCP3();
+Palette *palGetChunkGhostDC();
 
 #endif
