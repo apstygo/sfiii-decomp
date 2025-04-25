@@ -8,6 +8,7 @@
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/RAMCNT.h"
+#include "sf33rd/Source/Game/SE.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/Game/main.h"
@@ -285,6 +286,8 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", SsAllNot
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", SsRequestPan);
 
+u16 remake_sound_code_for_DC(u32 code, SoundPatchConfig *rmcode);
+
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", literal_741_00552678);
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", remake_sound_code_for_DC);
 
@@ -304,22 +307,85 @@ void Go_BGM() {
     sound_request_for_dc(&rmcode, 0);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", SsBgmOff);
+void SsBgmOff() {
+    SoundPatchConfig rmcode;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", SsBgmFadeIn);
+    rmcode.ptix = 0x7F;
+    rmcode.bank = 1;
+    rmcode.port = 0;
+    rmcode.code = 0;
+    sound_request_for_dc(&rmcode, 0);
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", SsBgmFadeOut);
+void SsBgmFadeIn(u16 ReqNumber, u16 FadeSpeed) {
+    SoundPatchConfig rmcode;
+    s32 fade_time = 0x8000 / FadeSpeed;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", SsBgmControl);
+    if (!(remake_sound_code_for_DC(ReqNumber, &rmcode)) && (rmcode.ptix == 0x7F)) {
+        Store_Sound_Code(ReqNumber, &rmcode);
+        rmcode.bank = 6;
+        rmcode.port = fade_time;
+        sound_request_for_dc(&rmcode, 0);
+    }
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", SsBgmHalfVolume);
+void SsBgmFadeOut(u16 time) {
+    SoundPatchConfig rmcode;
+    s32 fade_time = 0x8000 / time;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", SE_cursor_move);
+    rmcode.ptix = 0x7F;
+    rmcode.bank = 5;
+    rmcode.code = 0;
+    rmcode.port = fade_time;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", SE_selected);
+    sound_request_for_dc(&rmcode, 0);
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", SE_dir_cursor_move);
+void SsBgmControl(s8 /* unused */, s8 VOLUME) {
+    SoundPatchConfig rmcode;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", SE_dir_selected);
+    rmcode.ptix = 0x7F;
+    rmcode.bank = 7;
+    rmcode.code = 0;
+    rmcode.port = VOLUME;
+
+    if (rmcode.port < -0x7F) {
+        rmcode.port = -0x7F;
+    }
+
+    if (rmcode.port > 0) {
+        rmcode.port = 0;
+    }
+
+    sound_request_for_dc(&rmcode, 0);
+}
+
+void SsBgmHalfVolume(s16 flag) {
+    SoundPatchConfig rmcode;
+
+    bgm_half_down = flag;
+    rmcode.ptix = 0x7F;
+    rmcode.bank = 7;
+    rmcode.code = 0;
+    rmcode.port = 0;
+
+    sound_request_for_dc(&rmcode, 0);
+}
+
+void SE_cursor_move() {
+    SsRequest(96);
+}
+
+void SE_selected() {
+    SsRequest(98);
+}
+
+void SE_dir_cursor_move() {
+    SsRequest(343);
+}
+
+void SE_dir_selected() {
+    SsRequest(98);
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", adx_volume);

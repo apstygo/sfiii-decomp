@@ -11,5 +11,6 @@ void BGM_Request_Code_Check(u16 Code);
 void BGM_Stop();
 void SE_All_Off();
 void Disp_Sound_Code();
+void Store_Sound_Code(u16 code, SoundPatchConfig *rmc);
 
 #endif

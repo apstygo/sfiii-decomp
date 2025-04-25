@@ -34,5 +34,6 @@ void SE_cursor_move();
 void SE_selected();
 void SE_dir_cursor_move();
 void SE_dir_selected();
+void SsBgmControl(s8 /* unused */, s8 VOLUME);
 
 #endif
