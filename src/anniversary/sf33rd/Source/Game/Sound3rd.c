@@ -40,7 +40,27 @@ void Init_sound_system() {
     system_init_level |= 1;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", sndCheckVTransStatus);
+s32 sndCheckVTransStatus(s32 type) {
+    s32 rnum = 0;
+
+    switch (type) {
+    case 0:
+        if (cseCheckVTransStatus(0) >= 0) {
+            rnum = 1;
+        }
+
+        break;
+
+    case 1:
+        if (cseCheckVTransStatus(1) >= 0) {
+            rnum = 1;
+        }
+
+        break;
+    }
+
+    return rnum;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", sndInitialLoad);
 
