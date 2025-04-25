@@ -14,4 +14,7 @@ s32 cseCheckVTransStatus(u32 vtrans_check_type);
 s32 cseTsbSetBankAddr(u32 bank, SoundEvent *addr);
 s32 cseMemMapSetPhdAddr(u32 bank, void *addr);
 
+// Defined in Sound3rd.c
+s32 cseSeStopAll();
+
 #endif

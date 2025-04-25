@@ -38,6 +38,7 @@ extern u8 adx_NowOnMemoryType;
 
 s32 cseMemMapInit(void *pSpuMemMap);
 s32 adx_now_playing();
+void spu_all_off();
 
 void Init_sound_system() {
     se_level = 15;
@@ -137,7 +138,11 @@ void sound_all_off() {
     spu_all_off();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", spu_all_off);
+void spu_all_off() {
+    if (system_init_level & 1) {
+        cseSeStopAll();
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", cseSeStopAll);
 
