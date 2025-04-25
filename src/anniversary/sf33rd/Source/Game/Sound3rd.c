@@ -2,6 +2,9 @@
 #include "common.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.h"
+#include "sf33rd/Source/Common/PPGFile.h"
+#include "sf33rd/Source/Game/GD3rd.h"
+#include "sf33rd/Source/Game/RAMCNT.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/Game/main.h"
@@ -23,11 +26,14 @@ extern BGMExecution bgm_exe;
 extern BGMRequest bgm_req;
 
 // bss
+extern u8 adx_VS[198954];
+extern u8 adx_EmSel[391168];
 extern s8 adx_stm_work[ADX_STM_WORK_SIZE];
 
 // sdata
 extern SoundEvent *cseTSBDataTable[21]; // has no size in .h
 extern s8 *csePHDDataTable[21];         // has no size in .h
+extern u8 adx_NowOnMemoryType;
 
 s32 cseMemMapInit(void *pSpuMemMap);
 s32 adx_now_playing();
@@ -81,7 +87,31 @@ s32 cseMemMapInit(void *pSpuMemMap) {
     return mlMemMapInit(pSpuMemMap);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", checkAdxFileLoaded);
+void checkAdxFileLoaded() {
+    u8 *adr;
+    s16 key;
+    u16 fnum;
+
+    if (adx_NowOnMemoryType == sys_w.bgm_type) {
+        return;
+    }
+
+    if (sys_w.bgm_type == 0) {
+        fnum = 89;
+    } else {
+        fnum = 90;
+    }
+
+    do {
+        key = load_it_use_any_key(fnum, 21, 0);
+    } while (key == 0);
+
+    adr = (u8 *)Get_ramcnt_address(key);
+    ppgSetupCmpChunk(adr, 0, adx_VS);
+    ppgSetupCmpChunk(adr, 1, adx_EmSel);
+    Push_ramcnt_key(key);
+    adx_NowOnMemoryType = sys_w.bgm_type;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", Exit_sound_system);
 
