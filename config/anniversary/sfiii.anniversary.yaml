@@ -1612,7 +1612,7 @@ segments:
       - { type: .sbss, vram: 0x579758, name: sf33rd/Source/Game/Reset }
       - { type: sbss, vram: 0x579760, name: sf33rd/Source/Game/sc_data }
       - { type: sbss, vram: 0x579778, name: sf33rd/Source/Game/sc_sub }
-      - { type: sbss, vram: 0x5797F0, name: sf33rd/Source/Game/SE }
+      - { type: .sbss, vram: 0x5797F0, name: sf33rd/Source/Game/SE }
       - { type: sbss, vram: 0x579854, name: sf33rd/Source/Game/sel_pl }
       - { type: .sbss, vram: 0x579868, name: sf33rd/Source/Game/SLOWF }
       - { type: sbss, vram: 0x579878, name: sf33rd/Source/Game/Sound3rd }

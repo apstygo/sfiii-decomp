@@ -6,7 +6,8 @@
 
 #define SDEB_SIZE 8
 
-extern SoundPatch sdeb[SDEB_SIZE]; // size: 0x60, address: 0x5797F0
+u8 gSeqStatus[1];
+SoundPatch sdeb[SDEB_SIZE];
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", BGM_Stage_Data);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", SE_Shock_Data);
