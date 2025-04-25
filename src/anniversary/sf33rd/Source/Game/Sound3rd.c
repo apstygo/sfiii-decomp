@@ -5,6 +5,7 @@
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/Game/main.h"
+#include "sf33rd/Source/PS2/CapSndEng/emlMemMap.h"
 #include "sf33rd/Source/PS2/cseDataFiles/SpuMap.h"
 #include "structs.h"
 #include <cri/ee/cri_mw.h>
@@ -76,7 +77,9 @@ void sndInitialLoad() {
     load_any_color(109, 20);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", cseMemMapInit);
+s32 cseMemMapInit(void *pSpuMemMap) {
+    return mlMemMapInit(pSpuMemMap);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", checkAdxFileLoaded);
 
