@@ -3,7 +3,9 @@
 #include "sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/Game/main.h"
+#include "sf33rd/Source/PS2/cseDataFiles/SpuMap.h"
 #include "structs.h"
 #include <cri/ee/cri_mw.h>
 
@@ -22,6 +24,11 @@ extern BGMRequest bgm_req;
 // bss
 extern s8 adx_stm_work[ADX_STM_WORK_SIZE];
 
+// sdata
+extern SoundEvent *cseTSBDataTable[21]; // has no size in .h
+extern s8 *csePHDDataTable[21];         // has no size in .h
+
+s32 cseMemMapInit(void *pSpuMemMap);
 s32 adx_now_playing();
 
 void Init_sound_system() {
@@ -62,7 +69,12 @@ s32 sndCheckVTransStatus(s32 type) {
     return rnum;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", sndInitialLoad);
+void sndInitialLoad() {
+    cseMemMapInit(SpuMap);
+    cseMemMapSetPhdAddr(0, *csePHDDataTable);
+    cseTsbSetBankAddr(0, *cseTSBDataTable);
+    load_any_color(109, 20);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", cseMemMapInit);
 

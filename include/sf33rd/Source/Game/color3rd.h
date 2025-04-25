@@ -14,5 +14,6 @@ void palCreateGhost();                             // Range: 0x19F8D0 -> 0x19FB5
 void palUpdateGhostDC();                           // Range: 0x19FB70 -> 0x19FC6C
 Palette *palGetChunkGhostCP3();
 Palette *palGetChunkGhostDC();
+void load_any_color(u16 ix, u8 kokey);
 
 #endif
