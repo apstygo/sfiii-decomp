@@ -1,17 +1,44 @@
 #include "sf33rd/Source/Game/Sound3rd.h"
 #include "common.h"
+#include "sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/main.h"
 #include "structs.h"
 #include <cri/ee/cri_mw.h>
 
+#define ADX_STM_WORK_SIZE 252388
+
+// sbss
+extern s16 se_level;
+extern s16 bgm_level;
+extern s16 bgm_half_down;
+extern s16 current_bgm;
+extern s16 bgm_seamless_always;
 extern ADXT adxt;
 extern BGMExecution bgm_exe;
 extern BGMRequest bgm_req;
 
+// bss
+extern s8 adx_stm_work[ADX_STM_WORK_SIZE];
+
 s32 adx_now_playing();
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", literal_398_00552610);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", Init_sound_system);
+void Init_sound_system() {
+    se_level = 15;
+    bgm_level = 15;
+    bgm_half_down = 0;
+    current_bgm = 0;
+    bgm_seamless_always = 0;
+    sys_w.sound_mode = 0;
+    sys_w.bgm_type = 0;
+    flAdxInitialize(NULL, "\\THIRD\\");
+    ADXT_Init();
+    adxt = ADXT_Create(2, adx_stm_work, ADX_STM_WORK_SIZE);
+    system_init_level |= 2;
+    cseInitSndDrv();
+    system_init_level |= 1;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", sndCheckVTransStatus);
 
@@ -123,7 +150,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", bgm_volu
 s32 adx_now_playing() {
     bgm_exe.state = ADXT_GetStat(adxt);
 
-    if ((bgm_exe.state == 3) || (bgm_exe.state == 4)) {
+    if ((bgm_exe.state == ADXT_STAT_PLAYING) || (bgm_exe.state == ADXT_STAT_DECEND)) {
         return 1;
     }
 
