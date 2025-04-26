@@ -886,7 +886,7 @@ segments:
       - [0x3D37B0, data, sf33rd/Source/PS2/cseDataFiles/TSB_PL17]
       - [0x3D3FD0, data, sf33rd/Source/PS2/cseDataFiles/TSB_PL18]
       - [0x3D47F0, data, sf33rd/Source/PS2/cseDataFiles/TSB_PL19]
-      - [0x3D5010, data, sf33rd/Source/PS2/cseDataFiles/TSB_SE]
+      - [0x3D5010, .data, sf33rd/Source/PS2/cseDataFiles/TSB_SE]
       - [0x3D6A10, .data, sf33rd/Source/Common/FileSizeAFS]
       - [0x3D8210, data, sf33rd/Source/PS2/mc/msgtblj]
       - [0x3D82A0, data, sf33rd/Source/PS2/mc/msgtble]

@@ -1,6 +1,7 @@
 from typing import Generic, TypeVar, Any, Iterable
 from functools import reduce
 import struct
+from dataclasses import dataclass
 
 with open("THIRD_U.BIN", "rb") as f:
     binary = f.read()
@@ -17,6 +18,9 @@ class Decodable(Generic[T]):
     def size(self) -> int:
         return 0
     
+    def alignment(self) -> int:
+        return 1
+    
 class IntDecodable(Decodable):
     def __init__(self, size: int, signed: bool) -> None:
         self.int_size = size
@@ -27,6 +31,9 @@ class IntDecodable(Decodable):
         return int.from_bytes(data, byteorder="little", signed=self.signed)
 
     def size(self) -> int:
+        return self.int_size
+    
+    def alignment(self) -> int:
         return self.int_size
     
 class FloatDecodable(Decodable):
@@ -40,6 +47,9 @@ class FloatDecodable(Decodable):
     def size(self) -> int:
         return self.float_size
     
+    def size(self) -> int:
+        return self.float_size
+    
 U8 = IntDecodable(1, False)
 U16 = IntDecodable(2, False)
 U32 = IntDecodable(4, False)
@@ -48,8 +58,13 @@ S16 = IntDecodable(2, True)
 S32 = IntDecodable(4, True)
 F32 = FloatDecodable(4)
 
+@dataclass
+class NamedValue:
+    name: str
+    value: Any
+
 class StructDecodable(Decodable):
-    def __init__(self, members: list[Decodable]) -> None:
+    def __init__(self, members: dict[str, Decodable]) -> None:
         self.members = members
         super().__init__()
 
@@ -57,15 +72,28 @@ class StructDecodable(Decodable):
         decoded_members = list()
         offset = 0
 
-        for member in self.members:
+        for name, member in self.members.items():
+            offset = self.__align(offset, member.alignment())
             end_offset = offset + member.size()
-            decoded_members.append(member.decode(data[offset:end_offset]))
+            value = member.decode(data[offset:end_offset])
+            decoded_members.append(NamedValue(name, value))
             offset += member.size()
 
         return decoded_members
     
     def size(self) -> int:
-        return sum([x.size() for x in self.members])
+        offset = 0
+        size = 0
+
+        for member in self.members.values():
+            offset = self.__align(offset, member.alignment())
+            size = offset + member.size()
+            offset = size
+
+        return size
+    
+    def __align(self, offset: int, alignment: int) -> int:
+        return ((offset + alignment - 1) // alignment) * alignment
     
 def decode_type(decodable: Decodable, offset: int) -> Any:
     end_offset = offset + decodable.size()
@@ -102,6 +130,9 @@ def generate_code(value: Any):
         print("}", end="")
     elif isinstance(value, float):
         print(f"{value}f", end="")
+    elif isinstance(value, NamedValue):
+        print(f".{value.name} = ", end="")
+        generate_code(value.value)
     else:
         print(value, end="")
 
