@@ -27,18 +27,19 @@
 #define ADX_STM_WORK_SIZE 252388
 
 // sbss
-extern s16 se_level;
-extern s16 bgm_level;
-extern s16 bgm_vol_mix;
-extern s16 bgm_vol_now;
-extern s16 bgm_fade_ix;
-extern s16 bgm_half_down;
-extern s16 current_bgm;
-extern s16 bgm_seamless_always;
-extern BGMFade bgm_fade;
-extern ADXT adxt;
-extern BGMExecution bgm_exe;
-extern BGMRequest bgm_req;
+s16 se_level;
+s16 bgm_level;
+s16 bgm_vol_mix;
+s16 bgm_vol_now;
+s16 bgm_fade_ix;
+s16 bgm_half_down;
+s16 current_bgm;
+s16 bgm_seamless_always;
+BGMFade bgm_fade;
+ADXT adxt;
+BGMExecution bgm_exe;
+BGMRequest bgm_req;
+s8 *sdbd[3];
 
 // bss
 extern u8 adx_VS[198954];

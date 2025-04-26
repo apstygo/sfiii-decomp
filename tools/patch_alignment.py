@@ -38,6 +38,7 @@ special_cases = {
     ("Grade", ".sbss", 0): 16,
     ("Sound3rd", ".sbss", 0): 8,
     ("mcsub", ".sbss", 0): 16,
+    ("spgauge", ".sbss", 0): 16,
 
     ("bss_6BDA68", ".bss", 0): 8,
     ("iopnotify", ".bss", 0): 8,

@@ -1615,7 +1615,7 @@ segments:
       - { type: .sbss, vram: 0x5797F0, name: sf33rd/Source/Game/SE }
       - { type: sbss, vram: 0x579854, name: sf33rd/Source/Game/sel_pl }
       - { type: .sbss, vram: 0x579868, name: sf33rd/Source/Game/SLOWF }
-      - { type: sbss, vram: 0x579878, name: sf33rd/Source/Game/Sound3rd }
+      - { type: .sbss, vram: 0x579878, name: sf33rd/Source/Game/Sound3rd }
       - { type: sbss, vram: 0x5798E0, name: sf33rd/Source/Game/spgauge }
       - { type: sbss, vram: 0x579980, name: sf33rd/Source/Game/staff }
       - { type: sbss, vram: 0x5799A0, name: sf33rd/Source/Game/stun }
