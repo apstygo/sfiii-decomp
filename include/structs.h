@@ -2072,6 +2072,34 @@ typedef struct {
 } BGMExecution;
 
 typedef struct {
+    // total size: 0x8
+    u16 numStart; // offset 0x0, size 0x2
+    u16 numEnd;   // offset 0x2, size 0x2
+    u16 numLoop;  // offset 0x4, size 0x2
+    s16 free;     // offset 0x6, size 0x2
+} BGMExecutionData;
+
+typedef struct {
+    // total size: 0x8
+    union {
+        s32 cal; // offset 0x0, size 0x4
+        struct {
+            // total size: 0x4
+            s16 low; // offset 0x0, size 0x2
+            s16 hi;  // offset 0x2, size 0x2
+        } dex;       // offset 0x0, size 0x4
+    } in;            // offset 0x0, size 0x4
+    s32 speed;       // offset 0x4, size 0x4
+} BGMFade;
+
+typedef struct {
+    // total size: 0x8
+    u16 data; // offset 0x0, size 0x2
+    s16 vol;  // offset 0x2, size 0x2
+    s32 fnum; // offset 0x4, size 0x4
+} BGMTableEntry;
+
+typedef struct {
     // total size: 0x20
     u8 cmd;       // offset 0x0, size 0x1
     u8 flags;     // offset 0x1, size 0x1

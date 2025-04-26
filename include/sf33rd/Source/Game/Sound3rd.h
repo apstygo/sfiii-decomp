@@ -26,7 +26,8 @@ s32 adx_now_playend();
 s32 bgmSkipCheck(s32 code);
 void SsAllNoteOff();
 void SsRequest(u16 ReqNumber);
-void Standby_BGM(s16 num);
+void SsRequest_CC(u16 num);
+void Standby_BGM(u16 num);
 void Go_BGM();
 void SsBgmFadeOut(u16 time);
 void SsBgmHalfVolume(s16 flag);
@@ -35,5 +36,6 @@ void SE_selected();
 void SE_dir_cursor_move();
 void SE_dir_selected();
 void SsBgmControl(s8 /* unused */, s8 VOLUME);
+void SsRequestPan(u16 reqNum, s16 start, s32 /* unused */, s32 /* unused */, s32 /* unused */);
 
 #endif

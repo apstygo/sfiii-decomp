@@ -1,6 +1,7 @@
 #ifndef SE_H
 #define SE_H
 
+#include "structs.h"
 #include "types.h"
 
 extern u8 gSeqStatus[1]; // size: 0x1, address: 0x579850
