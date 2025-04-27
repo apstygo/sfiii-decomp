@@ -12,6 +12,7 @@
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "structs.h"
 #include <eestruct.h>
+#include <libgraph.h>
 
 #if defined(TARGET_PS2)
 #include "mw_stdarg.h"
@@ -115,11 +116,11 @@ void flPS2DebugStrDisp() {
 
         flPS2SetTextureRegister(flhDebugStr, &texA, &tex1, work_ptr, work_ptr + 2, &miptbp1, &miptbp2, 0x20000);
 
-        *(work_ptr + 1) = 7;
-        *(work_ptr + 3) = 9;
+        work_ptr[1] = SCE_GS_TEX0_2;
+        work_ptr[3] = SCE_GS_CLAMP_2;
         work_ptr += 4;
-        *work_ptr++ = 0x316;
-        *work_ptr++ = 0;
+        *work_ptr++ = SCE_GS_SET_PRIM(SCE_GS_PRIM_SPRITE, 0, 1, 0, 0, 0, 1, 1, 0);
+        *work_ptr++ = SCE_GS_PRIM;
         giftag_keep_ptr = work_ptr;
         disp_ctr = 0;
         work_ptr += 2;
@@ -371,11 +372,33 @@ static void flPS2DrawProbar() {
     u32 keep_y;
     u32 col;
 
-    static u64 LoadProbar_data[8] = { 0x70000003, 0x0, 0x4400000000008001, 0x5510, 0x246, 0x0, 0x0, 0x0 };
+    static u64 LoadProbar_data[8] = { 0x70000003,
+                                      0x0,
+                                      SCE_GIF_SET_TAG(1, 1, 0, 0, SCE_GIF_REGLIST, 4),
+                                      SCE_GS_PRIM | SCE_GS_RGBAQ << 4 | SCE_GS_XYZ2 << 8 | SCE_GS_XYZ2 << 12,
+                                      SCE_GS_SET_PRIM(SCE_GS_PRIM_SPRITE, 0, 0, 2, 0, 0, 2, 0, 0),
+                                      0x0,
+                                      0x0,
+                                      0x0 };
 
-    static u64 DrawProbar_data[17] = { 0x70000008, 0x0,  0x1000000000008002, 0xE,       0x3000F, 0x48,
-                                       0x0,        0x41, 0x7400000000008001, 0x5515510, 0x246,   0x1FF0000FF,
-                                       0x0,        0x0,  0x1FFFF0000,        0x0,       0x0 };
+    static u64 DrawProbar_data[17] = { 0x70000008,
+                                       0x0,
+                                       SCE_GIF_SET_TAG(2, 1, 0, 0, SCE_GIF_PACKED, 1),
+                                       SCE_GIF_PACKED_AD,
+                                       0x3000F,
+                                       SCE_GS_TEST_2,
+                                       0x0,
+                                       SCE_GS_SCISSOR_2,
+                                       SCE_GIF_SET_TAG(1, 1, 0, 0, SCE_GIF_REGLIST, 7),
+                                       SCE_GS_PRIM | SCE_GS_RGBAQ << 4 | SCE_GS_XYZ2 << 8 | SCE_GS_XYZ2 << 12 |
+                                           SCE_GS_RGBAQ << 16 | SCE_GS_XYZ2 << 20 | SCE_GS_XYZ2 << 24,
+                                       SCE_GS_SET_PRIM(SCE_GS_PRIM_SPRITE, 0, 0, 2, 0, 0, 2, 0, 0),
+                                       SCE_GS_SET_RGBAQ(0xFF, 0, 0, 0xFF, 1),
+                                       0x0,
+                                       0x0,
+                                       SCE_GS_SET_RGBAQ(0, 0, 0xFF, 0xFF, 1),
+                                       0x0,
+                                       0x0 };
 
     data_ptr = (u64 *)SPR;
     memcpy_1q(&DrawProbar_data, (void *)SPR, 9);
