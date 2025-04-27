@@ -1,9 +1,11 @@
 #include "sf33rd/AcrSDK/ps2/flps2debug.h"
 #include "common.h"
+#include "sf33rd/AcrSDK/common/memfound.h"
 #include "sf33rd/AcrSDK/common/mlPAD.h"
 #include "sf33rd/AcrSDK/ps2/flps2dma.h"
 #include "sf33rd/AcrSDK/ps2/flps2etc.h"
 #include "sf33rd/AcrSDK/ps2/flps2render.h"
+#include "sf33rd/AcrSDK/ps2/flps2shader.h"
 #include "sf33rd/AcrSDK/ps2/flps2vram.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "structs.h"
@@ -16,6 +18,8 @@
 #endif
 
 void flPS2DebugStrClear();
+static void flPS2DrawProbar();
+void flPS2LoadCheckFlush();
 
 s32 flSetDebugMode(u32 flag) {
     flDebugFlag = flag;
@@ -246,47 +250,115 @@ s32 flPrintColor(u32 color) {
     return 1;
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_376_0055F220);
+void flPS2DispSystemInfo(s32 x, s32 y) {
+    u32 max_size;
+    u32 now_size;
+    s32 i;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_377_0055F230);
+    if (flPs2State.InterlaceMode == 2) {
+        for (i = 0; i < DEBUG_TRUE_TIME_SIZE; i++) {
+            flDebugTrueTime[i] >>= 1;
+            flDebugTrueTimeFree[i] >>= 1;
+        }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_378_0055F250);
+        flDebugEndRenderTime >>= 1;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_379_0055F270);
+        while ((u32)i < flLoadCheckCtr && i < LOAD_CHECK_TIME_SIZE) {
+            flLoadCheckTime[i] >>= 1;
+            i += 1;
+        }
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_380_0055F298);
+    if (flDebugFlag & 1) {
+        flPrintColor(0xFFFFFFFF);
+        flPrintL(x, y++, "USR MEM = %fMB", (flGetSpace() / 1024.0f) / 1024.0f);
+        flPrintL(x,
+                 y++,
+                 "SYS MEM = %fMB / %fMB / %08x",
+                 (mflGetFreeSpace() / 1024.0f) / 1024.0f,
+                 (mflGetSpace() / 1024.0f) / 1024.0f,
+                 flDebugSysMemHandleNum);
+        flPrintL(x,
+                 y++,
+                 "0x%08x, 0x%08x, 0x%08x, 0x%08x",
+                 flDebugSysMemEtc,
+                 flDebugSysMemTexture,
+                 flDebugSysMemClay,
+                 flDebugSysMemMotion);
+        max_size = 0x4000 - flPs2State.TextureStartAdrs;
+        now_size = flPS2GetVramSize();
+        flPrintL(x,
+                 y++,
+                 "VRAM = %d / %d, DMA = %d/%d, FPS = %d",
+                 now_size,
+                 max_size,
+                 flDebugDINum,
+                 flDebugAQNum,
+                 flPs2State.FrameCount);
+        flPrintL(x, y++, "TH = %d, %d", flCTNum, flVramNum);
+        flPrintL(x, y++, "PH = %d", flPTNum);
+        flPrintL(x, y++, "CLAY = %d", flClayNum);
+        flPrintL(x, y++, "EC = %d, %d", flDebugECNum, flDebugErrECNum);
+        flPrintL(x, y++, "RT = %d", flDebugRTNum);
+        flPrintL(x, y++, "UT = %d", flDebugUTNum);
+        flPrintL(x, y++, "MC = %d", flDebugMCNum);
+        flPrintL(x, y++, "VERT = %d", flDebugVERTNum);
+        flPrintL(x, y++, "POLY = %d", flDebugPOLYNum);
+        flPrintL(x, y++, "MATERIAL = %d", flDebugMATERIALNum);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_381_0055F2A8);
+        if (flPs2State.NowVu1Code == -1) {
+            flPrintL(x, y++, "MICRO CODE = %d SIZE = %d", flPs2State.NowVu1Code, flPs2State.NowVu1Size);
+        } else {
+            flPrintL(x, y++, "MICRO CODE = %s SIZE = %d", vu1_debug_str[flPs2State.NowVu1Code], flPs2State.NowVu1Size);
+        }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_382_0055F2B0);
+        flPrintL(x,
+                 y++,
+                 "TIME = %d, %d, %d, %d, %d",
+                 flDebugTrueTime[0],
+                 flDebugTrueTime[1],
+                 flDebugTrueTime[2],
+                 flDebugTrueTime[3],
+                 flDebugEndRenderTime);
+        flPrintL(x,
+                 y++,
+                 "FREE TIME = %d, %d, %d, %d",
+                 flDebugTrueTimeFree[0],
+                 flDebugTrueTimeFree[1],
+                 flDebugTrueTimeFree[2],
+                 flDebugTrueTimeFree[3]);
+        flPrintL(x, y++, "RENDER SIZE = 0x%08x", flPs2State.SystemTmpBuffNow - flPs2State.SystemTmpBuffStartAdrs);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_383_0055F2C0);
+        flPrintColor(0xFFFFFFFF);
+        i = 0;
+        y += 1;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_384_0055F2D0);
+        while (i < (u32)flLoadCheckCtr && i < 20) {
+            flPrintL(x + ((i >> 4) * 10), y + (i & 0xF), "%04d", flLoadCheckTime[i]);
+            i += 1;
+        }
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_385_0055F2D8);
+    if (flDebugFlag & 2) {
+        flPS2DrawProbar();
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_386_0055F2E0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_387_0055F2E8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_388_0055F2F8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_389_0055F308);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_390_0055F320);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_391_0055F340);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_392_0055F360);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_393_0055F380);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_394_0055F3A0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", literal_395_0055F3B8);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", flPS2DispSystemInfo);
+    flDebugECNum = 0;
+    flDebugErrECNum = 0;
+    flDebugUTNum = 0;
+    flDebugRTNum = 0;
+    flDebugMCNum = 0;
+    flDebugVERTNum = 0;
+    flDebugPOLYNum = 0;
+    flDebugMATERIALNum = 0;
+    flDebugAQNum = 0;
+    flDebugDINum = 0;
+    flDebugTrueTimeFree[0] = 0;
+    flDebugTrueTimeFree[1] = 0;
+    flDebugTrueTimeFree[2] = 0;
+    flDebugTrueTimeFree[3] = 0;
+    flPS2LoadCheckFlush();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", flPS2DrawProbar);
 
