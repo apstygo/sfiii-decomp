@@ -2,8 +2,10 @@
 #include "common.h"
 #include "sf33rd/AcrSDK/common/memfound.h"
 #include "sf33rd/AcrSDK/common/mlPAD.h"
+#include "sf33rd/AcrSDK/ps2/flps2asm.h"
 #include "sf33rd/AcrSDK/ps2/flps2dma.h"
 #include "sf33rd/AcrSDK/ps2/flps2etc.h"
+#include "sf33rd/AcrSDK/ps2/flps2ps.h"
 #include "sf33rd/AcrSDK/ps2/flps2render.h"
 #include "sf33rd/AcrSDK/ps2/flps2shader.h"
 #include "sf33rd/AcrSDK/ps2/flps2vram.h"
@@ -333,7 +335,7 @@ void flPS2DispSystemInfo(s32 x, s32 y) {
         i = 0;
         y += 1;
 
-        while (i < (u32)flLoadCheckCtr && i < 20) {
+        while (i < (u32)flLoadCheckCtr && i < LOAD_CHECK_TIME_SIZE) {
             flPrintL(x + ((i >> 4) * 10), y + (i & 0xF), "%04d", flLoadCheckTime[i]);
             i += 1;
         }
@@ -360,7 +362,68 @@ void flPS2DispSystemInfo(s32 x, s32 y) {
     flPS2LoadCheckFlush();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", flPS2DrawProbar);
+static void flPS2DrawProbar() {
+    u32 work;
+    s16 x;
+    s16 y;
+    u64 *data_ptr;
+    u32 i;
+    u32 keep_y;
+    u32 col;
+
+    static u64 LoadProbar_data[8] = { 0x70000003, 0x0, 0x4400000000008001, 0x5510, 0x246, 0x0, 0x0, 0x0 };
+
+    static u64 DrawProbar_data[17] = { 0x70000008, 0x0,  0x1000000000008002, 0xE,       0x3000F, 0x48,
+                                       0x0,        0x41, 0x7400000000008001, 0x5515510, 0x246,   0x1FF0000FF,
+                                       0x0,        0x0,  0x1FFFF0000,        0x0,       0x0 };
+
+    data_ptr = (u64 *)SPR;
+    memcpy_1q(&DrawProbar_data, (void *)SPR, 9);
+    *(data_ptr + 6) = SCE_GS_SET_SCISSOR_2(0, flWidth - 1, 0, flHeight - 1);
+    work = (flDebugTrueTime[3] * 2) / (flPs2State.FrameCount + 1);
+    x = flPS2ConvScreenX(0);
+    y = flPS2ConvScreenY(0);
+    *(data_ptr + 12) =
+        SCE_GS_SET_XYZ2((flPs2State.D2dOffsetX + x) * 16, (flPs2State.D2dOffsetY + y) * 16, (u32)flPs2State.ZBuffMax);
+    x = flPS2ConvScreenX(8);
+    y = flPS2ConvScreenY(work);
+    *(data_ptr + 13) =
+        SCE_GS_SET_XYZ2((flPs2State.D2dOffsetX + x) * 16, (flPs2State.D2dOffsetY + y) * 16, (u32)flPs2State.ZBuffMax);
+    work = (flDebugEndRenderTime * 2) / (flPs2State.FrameCount + 1);
+    x = flPS2ConvScreenX(8);
+    y = flPS2ConvScreenY(0);
+    *(data_ptr + 15) =
+        SCE_GS_SET_XYZ2((flPs2State.D2dOffsetX + x) * 16, (flPs2State.D2dOffsetY + y) * 16, (u32)flPs2State.ZBuffMax);
+    x = flPS2ConvScreenX(16);
+    y = flPS2ConvScreenY(work);
+    *(data_ptr + 16) =
+        SCE_GS_SET_XYZ2((flPs2State.D2dOffsetX + x) * 16, (flPs2State.D2dOffsetY + y) * 16, (u32)flPs2State.ZBuffMax);
+    flPS2psAddQueue((QWORD *)data_ptr);
+
+    if (!flLoadCheckCtr) {
+        return;
+    }
+
+    memcpy_1q(&LoadProbar_data, (void *)SPR, 4);
+    i = 0;
+    keep_y = 0;
+
+    do {
+        col = flPS2ConvColor(flLoadCheckColor[i], 1);
+        *(data_ptr + 5) = SCE_GS_SET_RGBAQ((col >> 16) & 0xFF, (col >> 8) & 0xFF, col & 0xFF, (col >> 0x18) & 0xFF, 1);
+        x = flPS2ConvScreenX(16);
+        y = flPS2ConvScreenY(keep_y);
+        *(data_ptr + 6) = SCE_GS_SET_XYZ2(
+            (flPs2State.D2dOffsetX + x) * 16, (flPs2State.D2dOffsetY + y) * 16, (u32)flPs2State.ZBuffMax);
+        x = flPS2ConvScreenX(24);
+        keep_y += (flLoadCheckTime[i] * 2) / (flPs2State.FrameCount + 1);
+        y = flPS2ConvScreenY(keep_y);
+        *(data_ptr + 7) = SCE_GS_SET_XYZ2(
+            (flPs2State.D2dOffsetX + x) * 16, (flPs2State.D2dOffsetY + y) * 16, (u32)flPs2State.ZBuffMax);
+        flPS2psAddQueue((QWORD *)data_ptr);
+        i += 1;
+    } while (i < (u32)flLoadCheckCtr);
+}
 
 void flPS2LoadCheckFlush() {
     s32 i;

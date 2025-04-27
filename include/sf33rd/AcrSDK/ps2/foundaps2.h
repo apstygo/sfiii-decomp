@@ -9,6 +9,7 @@
 #define LOAD_CHECK_TIME_SIZE 20
 #define DEBUG_TRUE_TIME_SIZE 4
 
+extern u32 flLoadCheckColor[20];                      // size: 0x50, address: 0x57AA50
 extern u32 flLoadCheckTime[LOAD_CHECK_TIME_SIZE];     // size: 0x4, address: 0x57AAA0
 extern s32 flLoadCheckTimeOld;                        // size: 0x4, address: 0x57AAF0
 extern s32 flLoadCheckCtr;                            // size: 0x4, address: 0x57AAF4

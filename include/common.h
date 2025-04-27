@@ -6,6 +6,7 @@
 #define NULL 0
 #define REINTERPRET_AS_U32(_num) (*(u32 *)&(_num))
 #define BOOL(_expr) ((_expr) ? 1 : 0)
+#define SPR 0x70000000
 
 // Compilation with GNU C Compilier means we are compiling CRI
 #if defined(__GNUC__) && !defined(M2CTX) && !defined(TARGET_SDL2)
@@ -42,7 +43,7 @@ __asm__(".include \"include/cri_macro.inc\"\n");
 #include <stdio.h>
 #include <stdlib.h>
 
-void not_implemented(const s8* func) __dead2 {
+void not_implemented(const s8 *func) __dead2 {
     fprintf(stderr, "Function not implemented: %s\n", func);
     abort();
 }

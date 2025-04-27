@@ -53,9 +53,11 @@ class FloatDecodable(Decodable):
 U8 = IntDecodable(1, False)
 U16 = IntDecodable(2, False)
 U32 = IntDecodable(4, False)
+U64 = IntDecodable(8, False)
 S8 = IntDecodable(1, True)
 S16 = IntDecodable(2, True)
 S32 = IntDecodable(4, True)
+S64 = IntDecodable(8, True)
 F32 = FloatDecodable(4)
 
 @dataclass
