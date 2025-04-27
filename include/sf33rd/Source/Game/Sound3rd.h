@@ -1,11 +1,14 @@
 #ifndef SOUND3RD_H
 #define SOUND3RD_H
 
+#include "structs.h"
 #include "types.h"
 
 extern s16 bgm_level;
 extern s16 se_level;
 extern s8 *sdbd[3];
+extern SoundEvent *cseTSBDataTable[];
+extern s8 *csePHDDataTable[];
 
 void Init_sound_system();
 s32 sndCheckVTransStatus(s32 type);

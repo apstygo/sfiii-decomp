@@ -20,7 +20,7 @@
 #include "sf33rd/Source/PS2/CapSndEng/emlMemMap.h"
 #include "sf33rd/Source/PS2/CapSndEng/emlSndDrv.h"
 #include "sf33rd/Source/PS2/CapSndEng/emlTSB.h"
-#include "sf33rd/Source/PS2/cseDataFiles/SpuMap.h"
+#include "sf33rd/Source/PS2/cseDataFiles/CSEData.h"
 #include "structs.h"
 #include <cri/ee/cri_mw.h>
 
@@ -107,11 +107,20 @@ BGMExecutionData bgm_exdataAC[32] = {
 };
 
 // sdata
-extern SoundEvent *cseTSBDataTable[21]; // has no size in .h
-extern s8 *csePHDDataTable[21];         // has no size in .h
-extern u8 adx_NowOnMemoryType;
-extern BGMTableEntry *bgm_table[2];
-extern BGMExecutionData *bgm_exdata[2];
+SoundEvent *cseTSBDataTable[21] = { TSB_SE,   TSB_PL00, TSB_PL01, TSB_PL02, TSB_PL03, TSB_PL04, TSB_PL05,
+                                    TSB_PL06, TSB_PL07, TSB_PL08, TSB_PL09, TSB_PL10, TSB_PL11, TSB_PL12,
+                                    TSB_PL13, TSB_PL14, TSB_PL15, TSB_PL16, TSB_PL17, TSB_PL18, TSB_PL19 };
+
+s8 *csePHDDataTable[21] = { PHD_SE,   PHD_PL00, PHD_PL01, PHD_PL02, PHD_PL03, PHD_PL04, PHD_PL05,
+                            PHD_PL06, PHD_PL07, PHD_PL08, PHD_PL09, PHD_PL10, PHD_PL11, PHD_PL12,
+                            PHD_PL13, PHD_PL14, PHD_PL15, PHD_PL16, PHD_PL17, PHD_PL18, PHD_PL19 };
+
+u8 adx_NowOnMemoryType = 0xFF;
+
+BGMTableEntry *bgm_table[2] = { bgm_tableDC, bgm_tableAC };
+BGMExecutionData *bgm_exdata[2] = { bgm_exdataDC, bgm_exdataAC };
+
+// Forward decls
 
 s32 cseMemMapInit(void *pSpuMemMap);
 s32 adx_now_playing();
@@ -121,7 +130,6 @@ void SsBgmOff();
 void bgm_play_request(s32 filenum, s32 flag);
 void bgm_seamless_clear();
 s32 bgm_separate_check();
-// u16 remake_sound_code_for_DC(u32 code, SoundPatchConfig *rmcode);
 
 extern const s16 adx_volume[128];
 
