@@ -186,7 +186,45 @@ void flPS2DebugStrDisp() {
     flPS2DebugStrClear();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", flPrintL);
+s32 flPrintL(s32 posi_x, s32 posi_y, const s8 *format, ...) {
+    s8 *va_ptr;
+    s8 code;
+    s8 str[512];
+    s32 len;
+    s32 i;
+    RenderBuffer *buff_ptr;
+
+    va_list args;
+
+    buff_ptr = flPS2GetSystemBuffAdrs(flDebugStrHan);
+    buff_ptr += flDebugStrCtr;
+
+    va_start(args, format);
+    vsprintf(str, format, args);
+    len = strlen(str);
+
+    if (flDebugStrCtr + len >= 0x12C0) {
+        len = 0x12C0 - flDebugStrCtr;
+    }
+
+    for (i = 0; i < len; i++) {
+        code = str[i];
+
+        // code != 0x20 skips spaces
+        if ((code >= 0x10) && (code < 0x80) && (code != 0x20)) {
+            buff_ptr->x = posi_x * 8;
+            buff_ptr->y = posi_y * 8;
+            buff_ptr->code = code;
+            buff_ptr->col = flDebugStrCol;
+            buff_ptr++;
+            flDebugStrCtr += 1;
+        }
+
+        posi_x += 1;
+    }
+
+    return 1;
+}
 
 s32 flPrintColor(u32 color) {
     u8 r = (color >> 16) & 0xFF;
