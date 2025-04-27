@@ -1,8 +1,13 @@
 #include "sf33rd/AcrSDK/ps2/flps2debug.h"
 #include "common.h"
 #include "sf33rd/AcrSDK/common/mlPAD.h"
+#include "sf33rd/AcrSDK/ps2/flps2dma.h"
+#include "sf33rd/AcrSDK/ps2/flps2etc.h"
+#include "sf33rd/AcrSDK/ps2/flps2render.h"
+#include "sf33rd/AcrSDK/ps2/flps2vram.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "structs.h"
+#include <eestruct.h>
 
 #if defined(TARGET_PS2)
 #include "mw_stdarg.h"
@@ -56,7 +61,130 @@ void flPS2DebugStrClear() {
     flDebugStrCtr = 0;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", flPS2DebugStrDisp);
+void flPS2DebugStrDisp() {
+    RenderBuffer *buff_ptr;
+    u64 *work_ptr;
+    u64 *keep_ptr;
+    u64 *buff_end_ptr;
+    u64 *giftag_keep_ptr;
+    u32 code;
+    u32 disp_ctr;
+    s32 length;
+    s32 lp0;
+    u32 col;
+    u32 colold;
+    s16 x1;
+    s16 y1;
+    s16 x2;
+    s16 y2;
+    s16 u1;
+    s16 v1;
+    s16 u2;
+    s16 v2;
+    u64 texA;
+    u64 tex1;
+    u64 miptbp1;
+    u64 miptbp2;
+    u64 rgbaq;
+
+    buff_ptr = flPS2GetSystemBuffAdrs(flDebugStrHan);
+    colold = 0;
+    flReloadTexture(1, &flhDebugStr);
+    flPS2SendRenderState_TEX1(0x10000, 1);
+    work_ptr = (u64 *)((flPs2State.SystemTmpBuffNow + 0xF) & ~0xF);
+    keep_ptr = work_ptr;
+    buff_end_ptr = (u64 *)flPs2State.SystemTmpBuffEndAdrs;
+    length = buff_end_ptr - work_ptr;
+
+    if (length >= 16) {
+        work_ptr += 2;
+        *work_ptr++ = SCE_GIF_SET_TAG(6, 1, 0, 0, SCE_GIF_PACKED, 1);
+        *work_ptr++ = SCE_GIF_PACKED_AD;
+        *work_ptr++ = SCE_GS_SET_TEX1_2(0, 0, 0, 0, 0, 0, 0);
+        *work_ptr++ = SCE_GS_TEX1_2;
+        *work_ptr++ = SCE_GS_SET_TEST_2(1, 7, 0, 0, 0, 0, 1, 1);
+        *work_ptr++ = SCE_GS_TEST_2;
+        *work_ptr++ = SCE_GS_SET_SCISSOR_2(0, flWidth - 1, 0, flHeight - 1);
+        *work_ptr++ = SCE_GS_SCISSOR_2;
+
+        flPS2SetTextureRegister(flhDebugStr, &texA, &tex1, work_ptr, work_ptr + 2, &miptbp1, &miptbp2, 0x20000);
+
+        *(work_ptr + 1) = 7;
+        *(work_ptr + 3) = 9;
+        work_ptr += 4;
+        *work_ptr++ = 0x316;
+        *work_ptr++ = 0;
+        giftag_keep_ptr = work_ptr;
+        disp_ctr = 0;
+        work_ptr += 2;
+        length = buff_end_ptr - work_ptr;
+
+        for (lp0 = 0; lp0 < flDebugStrCtr; lp0++) {
+            length -= 6;
+
+            if (length < 0) {
+                break;
+            }
+
+            disp_ctr += 1;
+            code = buff_ptr->code;
+            col = buff_ptr->col;
+            buff_ptr->code = 0;
+
+            if (colold != col) {
+                rgbaq = SCE_GS_SET_RGBAQ((col >> 16) & 0xFF, (col >> 8) & 0xFF, col & 0xFF, (col >> 0x18) & 0xFF, 1);
+                colold = col;
+            }
+
+            x1 = buff_ptr->x;
+            y1 = buff_ptr->y;
+            x2 = x1 + 8;
+            y2 = y1 + 8;
+
+            if (flPs2State.InterlaceMode == 0) {
+                y1 >>= 1;
+                y2 >>= 1;
+            }
+
+            u1 = (code % 16) * 8;
+            v1 = (code / 16) * 8;
+            u2 = u1 + 8;
+            v2 = v1 + 8;
+
+            *work_ptr++ = rgbaq;
+            *work_ptr++ = SCE_GS_SET_UV(u1 * 16, v1 * 16);
+            *work_ptr++ = SCE_GS_SET_XYZ2(
+                (flPs2State.D2dOffsetX + x1) * 16, (flPs2State.D2dOffsetY + y1) * 16, (u32)flPs2State.ZBuffMax);
+            *work_ptr++ = SCE_GS_SET_UV(u2 * 16, v2 * 16);
+            *work_ptr++ = SCE_GS_SET_XYZ2(
+                (flPs2State.D2dOffsetX + x2) * 16, (flPs2State.D2dOffsetY + y2) * 16, (u32)flPs2State.ZBuffMax);
+
+            *work_ptr++ = 0;
+            buff_ptr++;
+        }
+
+        flPs2State.SystemTmpBuffNow = (u32)work_ptr;
+
+        if (disp_ctr != 0) {
+            *giftag_keep_ptr++ = SCE_GIF_SET_TAG(disp_ctr, 1, 0, 0, SCE_GIF_REGLIST, 6);
+            *giftag_keep_ptr++ =
+                SCE_GS_RGBAQ | SCE_GS_UV << 4 | SCE_GS_XYZ2 << 8 | SCE_GS_UV << 12 | SCE_GS_XYZ2 << 16 | 0xE << 20;
+        } else {
+            work_ptr = giftag_keep_ptr;
+        }
+
+        length = (work_ptr - keep_ptr) >> 1;
+        work_ptr = keep_ptr;
+
+        *work_ptr = length + 0x6FFFFFFF;
+        ((u32 *)work_ptr)[0] |= 0x80000000;
+        ((u32 *)work_ptr)[2] = 0x13000000;
+        ((u32 *)work_ptr)[3] = (length - 1) | 0x51000000;
+        flPS2DmaAddQueue2(0, ((u32)keep_ptr & 0xFFFFFFF) | 0x40000000, (u32)keep_ptr, &flPs2VIF1Control);
+    }
+
+    flPS2DebugStrClear();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2debug", flPrintL);
 

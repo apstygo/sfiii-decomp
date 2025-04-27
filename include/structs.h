@@ -2121,4 +2121,12 @@ typedef struct {
     s16 link;     // offset 0x1E, size 0x2
 } SoundEvent;     // Tentative name
 
+typedef struct {
+    // total size: 0xC
+    u16 x;    // offset 0x0, size 0x2
+    u16 y;    // offset 0x2, size 0x2
+    u32 code; // offset 0x4, size 0x4
+    u32 col;  // offset 0x8, size 0x4
+} RenderBuffer;
+
 #endif
