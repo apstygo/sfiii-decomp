@@ -16,6 +16,7 @@ extern PPGDataList ppgTitleList;   // size: 0x8, address: 0x57B3C0
 extern Texture ppgTitleTex;        // size: 0x20, address: 0x57B3D0
 extern PPGDataList ppgOpnBgList;   // size: 0x8, address: 0x57B3F0
 extern Texture ppgOpnBgTex;        // size: 0x20, address: 0x57B400
+extern PPGDataList ppgScrList;     // size: 0x8, address: 0x57B438
 
 void ppgWorkInitializeApprication();
 void ppgPurgeFromVRAM(s32 type);
