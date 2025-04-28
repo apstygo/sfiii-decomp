@@ -4,8 +4,9 @@
 #include "structs.h"
 
 // bss
-extern u16 colPalBuffDC[1024];
-extern Col3rd_W col3rd_w;
+u16 colPalBuffDC[1024];
+u16 ColorRAM[512][64];
+Col3rd_W col3rd_w;
 
 // forward decls
 void palConvRowTim2CI8Clut(u16 *src, u16 *dst, s32 size);

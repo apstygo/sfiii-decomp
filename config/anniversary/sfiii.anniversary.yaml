@@ -1684,7 +1684,7 @@ segments:
       - { type: bss, vram: 0x595C60, name: sf33rd/Source/Game/CHARID }
       - { type: bss, vram: 0x596560, name: sf33rd/Source/Game/cmb_win }
       - { type: bss, vram: 0x596680, name: sf33rd/Source/Game/cmd_data }
-      - { type: bss, vram: 0x597B60, name: sf33rd/Source/Game/color3rd }
+      - { type: .bss, vram: 0x597B60, name: sf33rd/Source/Game/color3rd }
       - { type: .bss, vram: 0x5A8420, name: sf33rd/Source/Game/DC_Ghost }
       - { type: bss, vram: 0x5A9BA0, name: sf33rd/Source/Game/EFFECT }
       - { type: .bss, vram: 0x5E1CA0, name: sf33rd/Source/Game/GD3rd }

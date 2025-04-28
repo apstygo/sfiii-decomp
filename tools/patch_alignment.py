@@ -46,6 +46,7 @@ special_cases = {
     ("cri_cvfs", ".bss", 0): 8,
     ("libdbc", ".bss", 0): 8,
     ("libpad2", ".bss", 0): 8,
+    ("color3rd", ".bss", 2): 32,
 }
 
 def alignment_to_bytes(alignment: int) -> bytes:
