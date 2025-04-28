@@ -17,13 +17,30 @@ typedef struct {
     u8 fade_prio;  // offset 0x4, size 0x1
 } FadeData;
 
+typedef struct {
+    // total size: 0x4
+    u8 atr;  // offset 0x0, size 0x1
+    u8 page; // offset 0x1, size 0x1
+    u8 cx;   // offset 0x2, size 0x1
+    u8 cy;   // offset 0x3, size 0x1
+} SAFrame;
+
 // sdata
-extern u8 ascProData[128];
+u8 ascProData[128] = { 0, 18, 0, 0, 0,  0, 0,  0,  0,  0, 0,  0, 0, 0,  0,  0,  0, 0, 0,  0,  0,  0,  0, 0,  0, 0,
+                       0, 0,  0, 0, 0,  0, 34, 19, 18, 0, 0,  0, 0, 34, 34, 34, 1, 1, 34, 1,  34, 0,  0, 18, 0, 0,
+                       0, 0,  0, 0, 0,  0, 34, 34, 17, 0, 17, 0, 0, 0,  0,  0,  0, 0, 0,  0,  0,  34, 0, 0,  0, 0,
+                       0, 0,  0, 0, 0,  0, 0,  0,  0,  0, 0,  0, 0, 17, 0,  17, 1, 0, 34, 0,  0,  0,  0, 0,  0, 0,
+                       0, 34, 2, 0, 34, 0, 0,  0,  0,  0, 16, 0, 0, 0,  0,  0,  0, 0, 0,  18, 35, 33, 0, 33 };
+
+// bss
+SAFrame sa_frame[3][48];
 
 // sbss
-extern Polygon scrscrntex[4];
-extern u8 FadeLimit;
-extern FadeData fd_dat;
+Polygon scrscrntex[4];
+u8 WipeLimit;
+u8 FadeLimit;
+s16 Hnc_Num;
+FadeData fd_dat;
 
 // forward decls
 s32 SSGetDrawSizePro(const s8 *str);
