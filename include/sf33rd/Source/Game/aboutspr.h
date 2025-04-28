@@ -5,6 +5,7 @@
 #include "types.h"
 
 extern MultiTexture mts[24]; // size: 0x960, address: 0x6B4070
+extern MTS_OK mts_ok[24];
 
 void Init_load_on_memory_data();
 void shadow_drawing(WORK *wk, s16 bsy);

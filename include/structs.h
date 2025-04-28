@@ -2138,4 +2138,14 @@ typedef struct {
     u32 upBits;     // offset 0xAC, size 0x4
 } Col3rd_W;
 
+typedef struct {
+    // total size: 0xC
+    s16 be;    // offset 0x0, size 0x2
+    s16 mincg; // offset 0x2, size 0x2
+    s16 min16; // offset 0x4, size 0x2
+    s16 min32; // offset 0x6, size 0x2
+    s16 key0;  // offset 0x8, size 0x2
+    s16 key1;  // offset 0xA, size 0x2
+} MTS_OK;
+
 #endif

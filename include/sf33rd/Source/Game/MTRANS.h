@@ -13,5 +13,6 @@ void seqsBeforeProcess();
 void seqsAfterProcess();
 u32 seqsGetUseMemorySize();
 void mlt_obj_melt2(MultiTexture *mt, u16 cg_number);
+void mlt_obj_trans_init(MultiTexture *mt, s32 mode, u8 *adrs);
 
 #endif

@@ -15,5 +15,7 @@ u32 Get_ramcnt_address(s16 key);
 s16 Search_ramcnt_type(u8 kokey);
 s16 Pull_ramcnt_key(u32 memreq, u8 kokey, u8 group, u8 frre);
 u32 Get_size_data_ramcnt_key(s16 key);
+s32 Test_ramcnt_key(s16 key);
+void Push_ramcnt_key_original(s16 key);
 
 #endif
