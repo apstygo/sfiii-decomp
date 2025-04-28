@@ -223,14 +223,14 @@ typedef union {
         s16 l; // offset 0x0, size 0x2
         s16 h; // offset 0x2, size 0x2
     } real;    // offset 0x0, size 0x4
-} UNK_13;
+} UNK13;
 
 typedef struct {
     // total size: 0x18
-    UNK_13 a[2]; // offset 0x0, size 0x8
-    UNK_13 d[2]; // offset 0x8, size 0x8
-    s16 kop[2];  // offset 0x10, size 0x4
-    u16 index;   // offset 0x14, size 0x2
+    UNK13 a[2]; // offset 0x0, size 0x8
+    UNK13 d[2]; // offset 0x8, size 0x8
+    s16 kop[2]; // offset 0x10, size 0x4
+    u16 index;  // offset 0x14, size 0x2
 } MVXY;
 
 typedef union {

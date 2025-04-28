@@ -1,5 +1,8 @@
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "common.h"
+#include "sf33rd/Source/Game/aboutspr.h"
+#include "sf33rd/Source/Game/bg_data.h"
+#include "structs.h"
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", sync_fam_set3);
 
@@ -9,19 +12,47 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", range_x_ch
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", range_y_check);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", add_x_sub);
+void add_x_sub(WORK_Other *ewk) {
+    ewk->wu.xyz[0].cal += ewk->wu.mvxy.a[0].sp;
+    ewk->wu.mvxy.a[0].sp += ewk->wu.mvxy.d[0].sp;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", add_x_sub2);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", add_y_sub);
+void add_y_sub(WORK_Other *ewk) {
+    ewk->wu.xyz[1].cal += ewk->wu.mvxy.a[1].sp;
+    ewk->wu.mvxy.a[1].sp += ewk->wu.mvxy.d[1].sp;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", add_y_sub2);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", obr_no_disp_check);
+s32 obr_no_disp_check() {
+    if (aku_flag | akebono_flag | sa_pa_flag | seraph_flag) {
+        return 1;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", disp_pos_trans_entry);
+    return 0;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", disp_pos_trans_entry5);
+void disp_pos_trans_entry(WORK_Other *ewk) {
+    if (obr_no_disp_check()) {
+        return;
+    }
+
+    ewk->wu.position_x = ewk->wu.xyz[0].disp.pos & 0xFFFF;
+    ewk->wu.position_y = ewk->wu.xyz[1].disp.pos & 0xFFFF;
+    sort_push_request4(&ewk->wu);
+}
+
+void disp_pos_trans_entry5(WORK_Other *ewk) {
+    if (obr_no_disp_check()) {
+        return;
+    }
+
+    ewk->wu.position_x = ewk->wu.xyz[0].disp.pos & 0xFFFF;
+    ewk->wu.position_y = ewk->wu.xyz[1].disp.pos & 0xFFFF;
+    sort_push_request4(&ewk->wu);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", disp_pos_trans_entry_r);
 
