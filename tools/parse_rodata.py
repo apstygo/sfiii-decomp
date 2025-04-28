@@ -2,6 +2,7 @@ from typing import Generic, TypeVar, Any, Iterable
 from functools import reduce
 import struct
 from dataclasses import dataclass
+from string_at_offset import read_string
 
 with open("THIRD_U.BIN", "rb") as f:
     binary = f.read()
@@ -47,8 +48,17 @@ class FloatDecodable(Decodable):
     def size(self) -> int:
         return self.float_size
     
-    def size(self) -> int:
+    def alignment(self) -> int:
         return self.float_size
+    
+class StringDecodable(IntDecodable):
+    def __init__(self) -> None:
+        super().__init__(size=4, signed=False)
+
+    def decode(self, data: bytes) -> str:
+        vram_offset = super().decode(data)
+        file_offset = vram_offset - 0x100000 + 0x80
+        return read_string(binary, file_offset)[1:-1]
     
 U8 = IntDecodable(1, False)
 U16 = IntDecodable(2, False)
@@ -135,6 +145,8 @@ def generate_code(value: Any):
     elif isinstance(value, NamedValue):
         print(f".{value.name} = ", end="")
         generate_code(value.value)
+    elif isinstance(value, str):
+        print(f"\"{value}\"", end="")
     else:
         print(value, end="")
 
