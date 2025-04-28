@@ -3,10 +3,21 @@
 #include "sf33rd/AcrSDK/common/plcommon.h"
 #include "structs.h"
 
+typedef struct {
+    // total size: 0x1C00
+    u16 col[2][28][64]; // offset 0x0, size 0x1C00
+} COL;
+
 // bss
 u16 colPalBuffDC[1024];
 u16 ColorRAM[512][64];
 Col3rd_W col3rd_w;
+
+// sbss
+COL *plcol[2];
+PixelFormat palFormRam;
+PixelFormat palFormSrc;
+s32 palFormConv;
 
 // forward decls
 void palConvRowTim2CI8Clut(u16 *src, u16 *dst, s32 size);
