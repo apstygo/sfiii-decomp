@@ -4,6 +4,12 @@
 #include "sf33rd/Source/Game/bg_data.h"
 #include "structs.h"
 
+// sdata
+s16 eff_hit_data[4][4] = { { -67, 59, 13, 29 }, { 31, 95, 24, 15 }, { 4, 123, 28, 15 }, { 20, 15, 67, 37 } };
+
+// sbss
+s16 eff_hit_flag[11];
+
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", sync_fam_set3);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", range_x_check);

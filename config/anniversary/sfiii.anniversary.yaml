@@ -1457,7 +1457,7 @@ segments:
       - [0x4742A0, .sdata, sf33rd/Source/Game/Sound3rd]
       - [0x474368, sdata, sf33rd/Source/Game/spgauge]
       - [0x474378, sdata, sf33rd/Source/Game/SYS_sub]
-      - [0x474390, sdata, sf33rd/Source/Game/ta_sub]
+      - [0x474390, .sdata, sf33rd/Source/Game/ta_sub]
       - [0x4743B0, sdata, sf33rd/Source/Game/TATE00]
       - [0x474420, sdata, sf33rd/Source/Game/texcash]
       - [0x474494, .sdata, sf33rd/Source/Game/texgroup]
@@ -1621,7 +1621,7 @@ segments:
       - { type: sbss, vram: 0x5799A0, name: sf33rd/Source/Game/stun }
       - { type: sbss, vram: 0x5799C0, name: sf33rd/Source/Game/SYS_sub }
       - { type: sbss, vram: 0x5799D0, name: sf33rd/Source/Game/SysDir }
-      - { type: sbss, vram: 0x579A70, name: sf33rd/Source/Game/ta_sub }
+      - { type: .sbss, vram: 0x579A70, name: sf33rd/Source/Game/ta_sub }
       - { type: sbss, vram: 0x579A88, name: sf33rd/Source/Game/texcash }
       - { type: sbss, vram: 0x579AA0, name: sf33rd/Source/Game/VITAL }
       - { type: .sbss, vram: 0x579AB0, name: sf33rd/Source/Game/Win }
