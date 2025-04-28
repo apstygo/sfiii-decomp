@@ -2129,4 +2129,13 @@ typedef struct {
     u32 col;  // offset 0x8, size 0x4
 } RenderBuffer;
 
+typedef struct {
+    // total size: 0xB0
+    Palette palDC;  // offset 0x0, size 0x14
+    Palette palCP3; // offset 0x14, size 0x14
+    s16 req[32][2]; // offset 0x28, size 0x80
+    s16 reqNum;     // offset 0xA8, size 0x2
+    u32 upBits;     // offset 0xAC, size 0x4
+} Col3rd_W;
+
 #endif
