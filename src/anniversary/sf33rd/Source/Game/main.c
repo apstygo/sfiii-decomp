@@ -212,14 +212,14 @@ void AcrMain() {
 }
 
 void distributeScratchPadAddress() {
-    dctex_linear = (s16 *)0x70000800;
-    texcash_melt_buffer = (u8 *)0x70001000;
-    tpu_free = (TPU *)0x70002000;
+    dctex_linear = (s16 *)(SPR + 0x800);
+    texcash_melt_buffer = (u8 *)(SPR + 0x1000);
+    tpu_free = (TexturePoolUsed *)(SPR + 0x2000);
 }
 
 void MaskScreenEdge() {
     VPRM prm;
-    float pos[8];
+    f32 pos[8];
 
     appViewGetItems(&prm);
 

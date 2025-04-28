@@ -1622,7 +1622,7 @@ segments:
       - { type: sbss, vram: 0x5799C0, name: sf33rd/Source/Game/SYS_sub }
       - { type: sbss, vram: 0x5799D0, name: sf33rd/Source/Game/SysDir }
       - { type: .sbss, vram: 0x579A70, name: sf33rd/Source/Game/ta_sub }
-      - { type: sbss, vram: 0x579A88, name: sf33rd/Source/Game/texcash }
+      - { type: .sbss, vram: 0x579A88, name: sf33rd/Source/Game/texcash }
       - { type: sbss, vram: 0x579AA0, name: sf33rd/Source/Game/VITAL }
       - { type: .sbss, vram: 0x579AB0, name: sf33rd/Source/Game/Win }
       - { type: sbss, vram: 0x579AB4, name: sf33rd/Source/Game/win_pl }

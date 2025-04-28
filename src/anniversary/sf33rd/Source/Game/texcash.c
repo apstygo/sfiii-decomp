@@ -55,8 +55,9 @@ s8 *texcash_name[29] = { "    16x16 (tm)  32x32 (tm) GIX      (mn.nw)",
                          "--.--" };
 
 // sbss
-extern u8 *texcash_melt_buffer;
-extern s16 mts_ob_curr_stage;
+u8 *texcash_melt_buffer;
+TexturePoolUsed *tpu_free;
+s16 mts_ob_curr_stage;
 
 // forward decls
 extern const s16 mts_OB_page[22][2];
