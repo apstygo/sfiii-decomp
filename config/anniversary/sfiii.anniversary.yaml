@@ -606,7 +606,7 @@ segments:
       - [0x2E37F0, asm, cri/libadxe/sj_utl]
       - [0x2E3B00, asm, cri/libadxe/sjr_clt]
       - [0x2E3F28, asm, cri/libadxe/sjx]
-      - [0x2E45F0, asm, cri/libadxe/svm] # This file is a guess
+      - [0x2E45F0, c, cri/libadxe/svm] # This file is a guess
 
       - [0x2E5250, c, sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX]
       - [0x2E5430, c, sf33rd/Source/Game/main]
