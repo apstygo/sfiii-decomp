@@ -831,7 +831,7 @@ segments:
       - [0x3C2700, data, cri/libadxe/sj_utl]
       - [0x3C28D8, data, cri/libadxe/sjr_clt]
       - [0x3C28E0, data, cri/libadxe/sjx]
-      - [0x3C3450, data, cri/libadxe/svm]
+      - [0x3C3450, .data, cri/libadxe/svm]
 
       - [0x3C3520, data, gcc/libc/impure]
       - [0x3C3818, data, gcc/libc/locale]
