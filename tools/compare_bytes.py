@@ -83,6 +83,11 @@ EXPECTED_ERRORS = {
     0x422D6C: 0xB582DC82,
     0x422D70: 0xA282DC82,
     0x422D74: 0xB582BD00,
+
+    # eff36::effect_36_init: minor swap
+    0xDD0B4: 0x00004384,
+    0xDD0B8: 0x3E020286,
+    0xDD0BC: 0x21104300,
 }
 
 def read_word(b: bytes, offset: int) -> int:

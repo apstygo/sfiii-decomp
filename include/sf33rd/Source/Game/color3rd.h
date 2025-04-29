@@ -4,16 +4,17 @@
 #include "structs.h"
 #include "types.h"
 
-extern u16 ColorRAM[512][64]; // size: 0x10000, address: 0x597C10
+extern u16 ColorRAM[512][64];
 
-void q_ldreq_color_data(REQ *curr);                // Range: 0x19D800 -> 0x19DD7C
-void set_hitmark_color();                          // Range: 0x19DE70 -> 0x19E010
-void init_color_trans_req();                       // Range: 0x19F600 -> 0x19F694
-void palCopyGhostDC(s32 ofs, s32 cnt, void *data); // Range: 0x19F700 -> 0x19F7C0
-void palCreateGhost();                             // Range: 0x19F8D0 -> 0x19FB50
-void palUpdateGhostDC();                           // Range: 0x19FB70 -> 0x19FC6C
+void q_ldreq_color_data(REQ *curr);
+void set_hitmark_color();
+void init_color_trans_req();
+void palCopyGhostDC(s32 ofs, s32 cnt, void *data);
+void palCreateGhost();
+void palUpdateGhostDC();
 Palette *palGetChunkGhostCP3();
 Palette *palGetChunkGhostDC();
 void load_any_color(u16 ix, u8 kokey);
+// void push_color_trans_req(s16 from_col, s16 to_col);
 
 #endif
