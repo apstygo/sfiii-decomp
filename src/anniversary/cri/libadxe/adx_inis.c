@@ -37,24 +37,24 @@ void ADXT_VsyncProc() {
     ADXT_ExecServer();
 }
 
-Sint32 adxt_exec_main_thrd() {
+Sint32 adxt_exec_main_thrd(void *object) {
     LSC_ExecServer();
     return 0;
 }
 
-Sint32 adxt_exec_main_nothrd() {
-    adxt_exec_tsvr(0);
-    adxt_exec_fssvr(0);
-    adxt_exec_main_thrd(0);
+Sint32 adxt_exec_main_nothrd(void *object) {
+    adxt_exec_tsvr(NULL);
+    adxt_exec_fssvr(NULL);
+    adxt_exec_main_thrd(NULL);
     return 0;
 }
 
-Sint32 adxt_exec_tsvr() {
+Sint32 adxt_exec_tsvr(void *object) {
     ADXT_ExecServer();
     return 0;
 }
 
-Sint32 adxt_exec_fssvr() {
+Sint32 adxt_exec_fssvr(void *object) {
     ADXT_ExecFsSvr();
     return 0;
 }
@@ -82,11 +82,11 @@ void ADXT_Init() {
         is_thread_setup = ADXM_IsSetupThrd();
 
         if ((is_thread_setup == 1) && (adxt_vsync_svr_flag == is_thread_setup)) {
-            SVM_SetCbSvrId(2, 1, &adxt_exec_tsvr, 0);
-            adxt_svr_fs_id = SVM_SetCbSvr(4, &adxt_exec_fssvr, 0);
-            adxt_svr_main_id = SVM_SetCbSvr(5, adxt_exec_main_thrd, 0);
+            SVM_SetCbSvrId(2, 1, adxt_exec_tsvr, NULL);
+            adxt_svr_fs_id = SVM_SetCbSvr(4, adxt_exec_fssvr, NULL);
+            adxt_svr_main_id = SVM_SetCbSvr(5, adxt_exec_main_thrd, NULL);
         } else {
-            adxt_svr_main_id = SVM_SetCbSvr(5, adxt_exec_main_nothrd, 0);
+            adxt_svr_main_id = SVM_SetCbSvr(5, adxt_exec_main_nothrd, NULL);
         }
 
         adxt_vsync_cnt = 0;
