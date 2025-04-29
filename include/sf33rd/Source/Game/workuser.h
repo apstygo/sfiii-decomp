@@ -115,6 +115,7 @@ extern u8 SC_No[4];                // size: 0x4, address: 0x57A388
 extern u8 Bonus_Type;              // size: 0x1, address: 0x57A3B4
 extern s8 Stock_Com_Arts[2];       // size: 0x2, address: 0x57A3C4
 extern u8 End_PL;                  // size: 0x1, address: 0x57A3C8
+extern s8 EXE_obroll;              // size: 0x1, address 0x57A3CC
 extern s8 Stage_Cheap_Finish[2];   // size: 0x2, address: 0x57A3D0
 extern s8 Stage_Perfect_Finish[2]; // size: 0x2, address: 0x57A3D4
 extern s8 Stage_Lost_Round[2];     // size: 0x2, address: 0x57A3D8

@@ -10,6 +10,7 @@ extern MTS_OK mts_ok[24];
 void Init_load_on_memory_data();
 void shadow_drawing(WORK *wk, s16 bsy);
 void reset_dma_group(u16 num);
+s32 sort_push_request(WORK *wk);
 s32 sort_push_request4(WORK *wk);
 
 #endif

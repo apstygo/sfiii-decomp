@@ -15,6 +15,8 @@ extern s8 aku_flag;        // size: 0x1, address: 0x578C68
 extern s8 seraph_flag;     // size: 0x1, address: 0x578C6C
 extern s8 akebono_flag;    // size: 0x1, address: 0x578C70
 extern MVXY bg_mvxy;       // size: 0x18, address: 0x578C80
+extern s16 chase_y;        // size: 0x2, address: 0x578CA0
+extern s16 chase_x;        // size: 0x2, address: 0x578CA4
 extern BGW *bgw_ptr;       // size: 0x4, address: 0x578CB8
 extern s8 bg_app_stop;     // size: 0x1, address: 0x578CBC
 extern s16 bg_stop;        // size: 0x2, address: 0x578CC0
