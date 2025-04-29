@@ -10,14 +10,15 @@
 #include <cri/private/libadxe/svm.h>
 
 // data
-extern Char8 *volatile adxt_build;
-extern Sint32 adxt_init_cnt;
-extern Sint32 adxt_vsync_svr_flag;
-extern Sint32 adxt_vsync_cnt;
-extern Sint32 adxt_svr_main_id;
-extern Sint32 adxt_svr_fs_id;
-extern Sint32 volatile adxt_vsync_cnt;
-extern ADX_TALK adxt_obj; // Should be an array of ADX_TALK
+Char8 *volatile adxt_build = "\nADXT/PS2EE Ver.9.00 Build:Sep 18 2003 10:00:00\n";
+Char8 adxt_obj_mark[13] = { 'M', 'A', 'R', 'K', ':', 'a', 'd', 'x', 't', '_', 'o', 'b', 'j' };
+Sint32 adxt_init_cnt = 0;
+Sint32 adxt_svr_id = 0;
+Sint32 adxt_svr_main_id = 0;
+Sint32 adxt_vsync_svr_flag = 1;
+Sint32 adxt_svr_fs_id = 0;
+Sint32 volatile adxt_vsync_cnt = 0;
+Char8 adxt_obj[0xC40] = { 0 }; // Should be an array of ADX_TALK
 
 void ADXT_ConfigVsyncSvr(Sint32 flag) {
     adxt_vsync_svr_flag = flag;
@@ -122,5 +123,3 @@ void ADXT_Finish() {
         dtx_send_sw = 1;
     }
 }
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_inis", D_0055A8C8);

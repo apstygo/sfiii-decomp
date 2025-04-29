@@ -802,7 +802,7 @@ segments:
       - [0x3A7B50, data, cri/libadxe/adx_fini]
       - [0x3A84D0, data, cri/libadxe/adx_fs]
       - [0x3AA628, data, cri/libadxe/adx_fsvr]
-      - [0x3AA630, data, cri/libadxe/adx_inis]
+      - [0x3AA630, .data, cri/libadxe/adx_inis]
       - [0x3AB2A0, data, cri/libadxe/adx_mps2]
       - [0x3B2BE0, data, cri/libadxe/adx_sjd]
       - [0x3B35E8, data, cri/libadxe/adx_stmc]
