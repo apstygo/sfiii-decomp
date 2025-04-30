@@ -18,7 +18,7 @@ Sint32 adxt_svr_main_id = 0;
 Sint32 adxt_vsync_svr_flag = 1;
 Sint32 adxt_svr_fs_id = 0;
 Sint32 volatile adxt_vsync_cnt = 0;
-Char8 adxt_obj[0xC40] = { 0 }; // Should be an array of ADX_TALK
+ADX_TALK adxt_obj[ADXT_MAX_OBJ] = { 0 };
 
 void ADXT_ConfigVsyncSvr(Sint32 flag) {
     adxt_vsync_svr_flag = flag;

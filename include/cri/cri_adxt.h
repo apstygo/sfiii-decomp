@@ -2,7 +2,7 @@
 #define	_ADXT_H_INCLUDED
 /****************************************************************************/
 /*																			*/
-/*			$title$ ‚`‚c‚wƒf[ƒ^Ä¶ ƒ‰ƒCƒuƒ‰ƒŠ								*/
+/*			$title$ ï¼¡ï¼¤ï¼¸ãƒ‡ãƒ¼ã‚¿å†ç”Ÿ ãƒ©ã‚¤ãƒ–ãƒ©ãƒª								*/
 /*					ADXT (ADX TALK) Library									*/
 /*																			*/
 /*				1997.2.25		written M.Oshimi							*/
@@ -15,21 +15,21 @@
 #include "cri/ee/cri_xpt.h"
 #include "sj.h"
 
-/*	ƒXƒgƒŠ[ƒ€ƒRƒ“ƒgƒ[ƒ‰				*/
+/*	ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©				*/
 /*	Stream Controller					*/
 #ifndef ADXSTM_DEFINED
 #define ADXSTM_DEFINED
 typedef	void	*ADXSTM;
 #endif
 
-/*	ƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒgƒfƒR[ƒ_		*/
+/*	ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆãƒ‡ã‚³ãƒ¼ãƒ€		*/
 /*	Stream Joint decoder				*/
 #ifndef ADXSJD_DEFINED
 #define ADXSJD_DEFINED
 typedef void	*ADXSJD;
 #endif
 
-/*	ƒI[ƒfƒBƒIƒŒƒ“ƒ_ƒ‰					*/
+/*	ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒ¬ãƒ³ãƒ€ãƒ©					*/
 /*	Audio Renderer						*/
 #ifndef ADXRNA_DEFINED
 #define ADXRNA_DEFINED
@@ -44,26 +44,26 @@ typedef void	*ADXRNA;
 #endif
 
 /****************************************************************************/
-/*		’è”ƒ}ƒNƒ															*/
+/*		å®šæ•°ãƒã‚¯ãƒ­															*/
 /*		MACRO CONSTANT														*/
 /****************************************************************************/
 
-/*	Å‘å“¯”­‰¹”						*/
+/*	æœ€å¤§åŒæ™‚ç™ºéŸ³æ•°						*/
 /*	Maximum number of ADXT handle		*/
 //	2001.09.14	S.Hosaka
-//	ƒoƒ“ƒhƒ‹”‚ğ8->16
+//	ãƒãƒ³ãƒ‰ãƒ«æ•°ã‚’8->16
 //#define	ADXT_MAX_OBJ		(8)
 #define	ADXT_MAX_OBJ		(16)
 
-/*	Å‘åƒf[ƒ^ƒTƒCƒY					*/
+/*	æœ€å¤§ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚º					*/
 /*	Maximum data size					*/
 #define	ADXT_MAX_DATASIZE	(0x40000000)
 
-/*	“ü—Íƒoƒbƒtƒ@‚ÌƒGƒLƒXƒgƒ‰—Ìˆæ‚Ì‘å‚«‚³	*/
+/*	å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã®ã‚¨ã‚­ã‚¹ãƒˆãƒ©é ˜åŸŸã®å¤§ãã•	*/
 /*	Size of Extra area in input buffer		*/
 #define ADXT_IBUF_XLEN (36)
 
-/*	ADX Talk ‚Ìo—Íƒoƒbƒtƒ@‚Ì‘å‚«‚³@iƒTƒ“ƒvƒ‹’PˆÊj	*/
+/*	ADX Talk ã®å‡ºåŠ›ãƒãƒƒãƒ•ã‚¡ã®å¤§ãã•ã€€ï¼ˆã‚µãƒ³ãƒ—ãƒ«å˜ä½ï¼‰	*/
 /*	Output buffer size of ADX Talk (unit:sample)		*/
 #define	ADXT_OBUF_SIZE	(0x2000)
 #define DECODE_AHX
@@ -73,15 +73,15 @@ typedef void	*ADXRNA;
 #define	ADXT_OBUF_DIST	(0x2020)
 #endif
 
-/*	Å‘åƒTƒ“ƒvƒŠƒ“ƒOü”g”				*/
+/*	æœ€å¤§ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æ³¢æ•°				*/
 /*	Maximum sampling frequency			*/
 #define	ADXT_MAX_SFREQ	(48000)
 
-/*	ADX Talk‚ÌÄ¶•û®	(ADXT_CALC_WORKƒ}ƒNƒ‚Åg—p)		*/
+/*	ADX Talkã®å†ç”Ÿæ–¹å¼	(ADXT_CALC_WORKãƒã‚¯ãƒ­ã§ä½¿ç”¨)		*/
 /*	Play method of ADX Talk (used 'ADXT_CALC_WORK' macro)	*/
-#define ADXT_PLY_MEM	(0)			/*	ƒƒ‚ƒŠ‚©‚ç‚ÌÄ¶					*/
+#define ADXT_PLY_MEM	(0)			/*	ãƒ¡ãƒ¢ãƒªã‹ã‚‰ã®å†ç”Ÿ					*/
 									/*	Play memory data					*/
-#define ADXT_PLY_STM	(1)			/*	CD‚©‚ç‚ÌƒXƒgƒŠ[ƒ€Ä¶				*/
+#define ADXT_PLY_STM	(1)			/*	CDã‹ã‚‰ã®ã‚¹ãƒˆãƒªãƒ¼ãƒ å†ç”Ÿ				*/
 									/*	Stream play from CD-ROM				*/
 
 #define ADXT_CALC_IBUFSIZE0(nch, sfreq)	(25000*(nch)*((sfreq)/1000)/44)
@@ -101,192 +101,196 @@ typedef void	*ADXRNA;
 #define ADXT_CALC_WORK(nch, stmflg, nstm, sfreq)	\
 	(ADXT_CALC_IBUFSIZE(nch, nstm, sfreq)*(stmflg) + ADXT_CALC_OBUFSIZE(nch) + 64)
 
-/*	ƒf[ƒ^—e—Ê‚ÌŒvZ		*/
+/*	ãƒ‡ãƒ¼ã‚¿å®¹é‡ã®è¨ˆç®—		*/
 /*	Calc ADX Data size		*/
 #define	ADXT_CalcDataLen(sec, nch, sfreq)	((sec)*(nch)*(sfreq)*18/32 + 256)
 
-/* AHXƒ[ƒN—ÌˆæƒTƒCƒY		*/
+/* AHXãƒ¯ãƒ¼ã‚¯é ˜åŸŸã‚µã‚¤ã‚º		*/
 /* Work size of AHX 		*/
 #define ADXT_WORKSIZE_AHX	(12288)		/* 12KB */
 
-/*	“ü—Íƒoƒbƒtƒ@‚Ö‚Ì“Ç‚İ‚İ—Ê						*/
+/*	å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã¸ã®èª­ã¿è¾¼ã¿é‡						*/
 /*	Number of sectors to read into the input buffer	*/
 #define ADXT_MAX_CDBSCT		(75)
 #define ADXT_MIN_CDBSCT		(65)
 #define ADXT_PREP_RDSCT		(25)
 
-/*	$define$ ADX Talk‚Ì“®ìó‘Ô(ADXT_STAT_`)	*/
+/*	$define$ ADX Talkã®å‹•ä½œçŠ¶æ…‹(ADXT_STAT_ï½)	*/
 /*	Status of ADX Talk							*/
-#define	ADXT_STAT_STOP		(0)		/*	’â~’† 								*/
+#define	ADXT_STAT_STOP		(0)		/*	åœæ­¢ä¸­ 								*/
 									/*	During standstill					*/
-#define ADXT_STAT_DECINFO	(1)		/*	‚`‚c‚w ‚Ìƒwƒbƒ_î•ñæ“¾’†			*/
+#define ADXT_STAT_DECINFO	(1)		/*	ï¼¡ï¼¤ï¼¸ ã®ãƒ˜ãƒƒãƒ€æƒ…å ±å–å¾—ä¸­			*/
 									/*	Getting header information			*/
-#define ADXT_STAT_PREP		(2)		/*	Ä¶€”õ’† 							*/
+#define ADXT_STAT_PREP		(2)		/*	å†ç”Ÿæº–å‚™ä¸­ 							*/
 									/*	During play preparation				*/
-#define ADXT_STAT_PLAYING	(3)		/*	ƒfƒR[ƒh•Ä¶’† 					*/
+#define ADXT_STAT_PLAYING	(3)		/*	ãƒ‡ã‚³ãƒ¼ãƒ‰ï¼†å†ç”Ÿä¸­ 					*/
 									/*	During decode and play				*/
-#define ADXT_STAT_DECEND	(4)		/*	ƒfƒR[ƒhI—¹ 						*/
+#define ADXT_STAT_DECEND	(4)		/*	ãƒ‡ã‚³ãƒ¼ãƒ‰çµ‚äº† 						*/
 									/*	Decode end							*/
-#define ADXT_STAT_PLAYEND	(5)		/*	Ä¶I—¹ 							*/
+#define ADXT_STAT_PLAYEND	(5)		/*	å†ç”Ÿçµ‚äº† 							*/
 									/*	Play end							*/
-#define ADXT_STAT_ERROR		(6)		/*	“Ç‚İ‚İƒGƒ‰[”­¶					*/
+#define ADXT_STAT_ERROR		(6)		/*	èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿ					*/
 									/*	Read-in error outbreak state		*/
 
-/*	$define$ ADX Talk‚ÌƒGƒ‰[ƒR[ƒh@(ADXT_ERR_`)	*/
+/*	$define$ ADX Talkã®ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã€€(ADXT_ERR_ï½)	*/
 /*	Error code of ADX Talk							*/
-#define	ADXT_ERR_OK			(0)		/*	³í 								*/
+#define	ADXT_ERR_OK			(0)		/*	æ­£å¸¸ 								*/
 									/*	Normality							*/
-#define ADXT_ERR_SHRTBUF	(-1)	/*	“ü—Íƒoƒbƒtƒ@ƒGƒ“ƒvƒeƒB				*/
+#define ADXT_ERR_SHRTBUF	(-1)	/*	å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã‚¨ãƒ³ãƒ—ãƒ†ã‚£				*/
 									/*	The input buffer is empty			*/
-#define ADXT_ERR_SNDBLK		(-2)	/*	ƒTƒEƒ“ƒhƒuƒƒbƒNƒGƒ‰[				*/
+#define ADXT_ERR_SNDBLK		(-2)	/*	ã‚µã‚¦ãƒ³ãƒ‰ãƒ–ãƒ­ãƒƒã‚¯ã‚¨ãƒ©ãƒ¼				*/
 									/*	Error of sound block				*/
 
-/*	$define$ ƒtƒBƒ‹ƒ^ƒ‚[ƒh	(ADXT_FLTMODE_`)		*/
+/*	$define$ ãƒ•ã‚£ãƒ«ã‚¿ãƒ¢ãƒ¼ãƒ‰	(ADXT_FLTMODE_ï½)		*/
 /*	Filter mode										*/
-#define	ADXT_FLTMODE_CPU	(0)		/*	‚b‚o‚t‚É‚æ‚é“WŠJƒ‚[ƒh				*/
+#define	ADXT_FLTMODE_CPU	(0)		/*	ï¼£ï¼°ï¼µã«ã‚ˆã‚‹å±•é–‹ãƒ¢ãƒ¼ãƒ‰				*/
 									/*	by CPU								*/
-#define	ADXT_FLTMODE_SCSP	(1)		/*	AICA-DSP‚É‚æ‚é“WŠJƒ‚[ƒh			*/
+#define	ADXT_FLTMODE_SCSP	(1)		/*	AICA-DSPã«ã‚ˆã‚‹å±•é–‹ãƒ¢ãƒ¼ãƒ‰			*/
 									/*	by AICA-DSP							*/
 
-/*	$define$ Ä¶ƒ‚[ƒh	(ADXT_PMODE_`)				*/
+/*	$define$ å†ç”Ÿãƒ¢ãƒ¼ãƒ‰	(ADXT_PMODE_ï½)				*/
 /*	Play mode										*/
-#define	ADXT_PMODE_FNAME	(0)		/*	ƒtƒ@ƒCƒ‹–¼‚Ü‚½‚Í FID ‚É‚æ‚éw’è		*/
+#define	ADXT_PMODE_FNAME	(0)		/*	ãƒ•ã‚¡ã‚¤ãƒ«åã¾ãŸã¯ FID ã«ã‚ˆã‚‹æŒ‡å®š		*/
 									/*	Play specified file name or file ID	*/
-#define	ADXT_PMODE_AFS		(1)		/*	AFS ‚É‚æ‚éw’è						*/
+#define	ADXT_PMODE_AFS		(1)		/*	AFS ã«ã‚ˆã‚‹æŒ‡å®š						*/
 									/*	Play specified AFS file				*/
-#define	ADXT_PMODE_MEM		(2)		/*	ƒƒ‚ƒŠÄ¶							*/
+#define	ADXT_PMODE_MEM		(2)		/*	ãƒ¡ãƒ¢ãƒªå†ç”Ÿ							*/
 									/*	Play data from memory				*/
-#define	ADXT_PMODE_SJ		(3)		/*	ƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒgÄ¶			*/
+#define	ADXT_PMODE_SJ		(3)		/*	ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆå†ç”Ÿ			*/
 									/*	Play data from StreamJoint			*/
-#define	ADXT_PMODE_SLFILE	(4)		/*	ƒV[ƒ€ƒŒƒX˜A‘±Ä¶iƒtƒ@ƒCƒ‹j		*/
+#define	ADXT_PMODE_SLFILE	(4)		/*	ã‚·ãƒ¼ãƒ ãƒ¬ã‚¹é€£ç¶šå†ç”Ÿï¼ˆãƒ•ã‚¡ã‚¤ãƒ«ï¼‰		*/
 									/*	Seamless continuous play from file	*/
 
-/*	$define$ ƒGƒ‰[ƒŠƒJƒo[ƒ‚[ƒh	(ADXT_RMODE_`)	*/
+/*	$define$ ã‚¨ãƒ©ãƒ¼ãƒªã‚«ãƒãƒ¼ãƒ¢ãƒ¼ãƒ‰	(ADXT_RMODE_ï½)	*/
 /*	Mode of error recovery							*/
-#define	ADXT_RMODE_NOACT	(0)		/*	ƒŠƒJƒo[ˆ—‚µ‚È‚¢					*/
+#define	ADXT_RMODE_NOACT	(0)		/*	ãƒªã‚«ãƒãƒ¼å‡¦ç†ã—ãªã„					*/
 									/*	Do not recover						*/
-#define	ADXT_RMODE_STOP		(1)		/*	©“®’â~							*/
+#define	ADXT_RMODE_STOP		(1)		/*	è‡ªå‹•åœæ­¢							*/
 									/*	Automatic stop						*/
-#define	ADXT_RMODE_REPLAY	(2)		/*	©“®ÄƒvƒŒƒC						*/
+#define	ADXT_RMODE_REPLAY	(2)		/*	è‡ªå‹•å†ãƒ—ãƒ¬ã‚¤						*/
 									/*	Automatic replay					*/
 
-/*	ƒpƒ“ƒ|ƒbƒg‚Ìİ’è’l		*/
+/*	ãƒ‘ãƒ³ãƒãƒƒãƒˆã®è¨­å®šå€¤		*/
 /*	Panpot parameter		*/
 #define	ADXT_PAN_LEFT		(-15)
 #define	ADXT_PAN_CENTER		(0)
 #define	ADXT_PAN_RIGHT		(15)
-#define	ADXT_PAN_AUTO		(-128)	/*	MONO/STE ‚É‚æ‚Á‚Ä©“®“I‚ÉØ‚è‘Ö‚¦‚é	*/
+#define	ADXT_PAN_AUTO		(-128)	/*	MONO/STE ã«ã‚ˆã£ã¦è‡ªå‹•çš„ã«åˆ‡ã‚Šæ›¿ãˆã‚‹	*/
 									/*	Changes automatically by data		*/
 
-/*	ƒXƒeƒŒƒIÄ¶‚Ìƒ`ƒƒƒ“ƒlƒ‹”Ô†		*/
+/*	ã‚¹ãƒ†ãƒ¬ã‚ªå†ç”Ÿæ™‚ã®ãƒãƒ£ãƒ³ãƒãƒ«ç•ªå·		*/
 /*	Channel number playing stereo data	*/
 /*	ADXT_CH_L:left, ADXT_CH_R:right		*/
 #define	ADXT_CH_L			(0)
 #define	ADXT_CH_R			(1)
 
-/*	Å‘åÄ¶ƒ`ƒƒƒ“ƒlƒ‹”				*/
+/*	æœ€å¤§å†ç”Ÿãƒãƒ£ãƒ³ãƒãƒ«æ•°				*/
 /*	Maximum number of play channel		*/
 #define	ADXT_MAX_NCH		(2)
 
-/*	ƒT[ƒoŠÖ”‚ÌŒÄ‚Ño‚³‚ê‚é•p“x‚Ì‹K’è’l@60i‰ñ/•bj				*/
+/*	ã‚µãƒ¼ãƒé–¢æ•°ã®å‘¼ã³å‡ºã•ã‚Œã‚‹é »åº¦ã®è¦å®šå€¤ã€€60ï¼ˆå›/ç§’ï¼‰				*/
 /*	Default value of frequency called server function(times/sec)	*/
 #define ADXT_DEF_SVRFREQ	(60)
 
 /*	Default value of output volume(dB)	*/
 #define	ADXT_DEF_OUTVOL		(0)
 
-/*	“ü—Íƒoƒbƒtƒ@‚Ì‰ºŒÀ’l (ƒGƒ‰[ˆ——pA’PˆÊƒoƒCƒgj				*/
+/*	å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã®ä¸‹é™å€¤ (ã‚¨ãƒ©ãƒ¼å‡¦ç†ç”¨ã€å˜ä½ãƒã‚¤ãƒˆï¼‰				*/
 /*	Minimum data in the input buffer(byte) (for coping with error)	*/
 #define	ADXT_MIN_BUFDATA	(64)
 
-/*	ƒGƒ‰[”»•ÊŠÔ@i’PˆÊ:•b)			*/
+/*	ã‚¨ãƒ©ãƒ¼åˆ¤åˆ¥æ™‚é–“ã€€ï¼ˆå˜ä½:ç§’)			*/
 /*	Error distinction time(sec)			*/
 #define	ADXT_EWAIT_PLY		(5)
 #define	ADXT_EWAIT_NOTPLY	(20)
 
-/*	ƒCƒ“ƒfƒbƒNƒX‚ÌÅ‘å”				*/
+/*	ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã®æœ€å¤§æ•°				*/
 /*	Maximum number of index				*/
 #define	ADXT_MAX_IDX		(0xFFFF)
 
-/*	ADXƒtƒH[ƒ}ƒbƒgƒ^ƒCƒv				*/
+/*	ADXãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆã‚¿ã‚¤ãƒ—				*/
 /*	Format type of ADX					*/
 #define ADXT_FMT_ADX		(1)
 #define ADXT_FMT_AHX		(2)
 
 /****************************************************************************/
-/*		ƒf[ƒ^Œ^															*/
+/*		ãƒ‡ãƒ¼ã‚¿å‹															*/
 /*      Data type declaration												*/
 /****************************************************************************/
 
-/*	ADX Talk ƒIƒuƒWƒFƒNƒg\‘¢‘Ì		*/
+/*	ADX Talk ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆæ§‹é€ ä½“		*/
 /*	Structure of ADX Talk object	*/
 typedef struct _adx_talk {
-	Sint8	used;						/*	g—p’†‚©”Û‚©					*/
-	Sint8	stat;						/*	“®ìó‘Ô						*/
-	Sint8	pmode;						/*	Ä¶ƒ‚[ƒh						*/
-	Sint8	maxnch;						/*	Å‘åÄ¶ƒ`ƒƒƒ“ƒlƒ‹”			*/
-	ADXSJD	sjd;						/*	ADXƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒgƒfƒR[ƒ_	*/
-	ADXSTM	stm;						/*	“ü—ÍƒXƒgƒŠ[ƒ€ƒRƒ“ƒgƒ[ƒ‰		*/
-	ADXRNA	rna;						/*	ƒI[ƒfƒBƒIƒŒƒ“ƒ_ƒ‰				*/
-	SJ		sjf;						/*	ƒtƒ@ƒCƒ‹“ü—ÍƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒg*/
-	SJ		sji;						/*	“ü—ÍƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒg		*/
-	SJ		sjo[ADXT_MAX_NCH];			/*	o—ÍƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒg		*/
-	Sint8	*ibuf;						/*	“ü—Íƒoƒbƒtƒ@					*/
-	Sint32	ibuflen;					/*	“ü—Íƒoƒbƒtƒ@ƒTƒCƒYiƒoƒCƒg’PˆÊ)	*/
-	Sint32	ibufxlen;					/*	“ü—Íƒoƒbƒtƒ@ƒGƒNƒXƒgƒ‰ƒTƒCƒY	*/
-	Sint16	*obuf;						/*	o—Íƒoƒbƒtƒ@					*/
-	Sint32	obufsize;					/*	o—Íƒoƒbƒtƒ@ƒTƒCƒYiƒTƒ“ƒvƒ‹j	*/
-	Sint32	obufdist;					/*	o—Íƒoƒbƒtƒ@ŠÔŠuiƒTƒ“ƒvƒ‹j	*/
-	Sint32	svrfreq;					/*	ƒT[ƒoŠÖ”ŒÄ‚Ño‚µ•p“x			*/
-	Sint16	maxsct;						/*	“ü—Íƒoƒbƒtƒ@“à‚ÌÅ‚ƒZƒNƒ^”	*/
-	Sint16	minsct;						/*	“ü—Íƒoƒbƒtƒ@“à‚ÌÅ’áƒZƒNƒ^”	*/
-	Sint16	outvol;						/*	o—Íƒ{ƒŠƒ…[ƒ€					*/
-	Sint16	outpan[ADXT_MAX_NCH];		/*	o—Íƒpƒ“ƒ|ƒbƒg‚Ìİ’è’l			*/
-	Sint32	maxdecsmpl;					/*	Å‘åƒfƒR[ƒhƒTƒ“ƒvƒ‹”			*/
-	Sint32	lpcnt;						/*	ƒ‹[ƒvƒJƒEƒ“ƒ^					*/
-	Sint32	lp_skiplen;					/*	ƒ‹[ƒvƒXƒLƒbƒvƒoƒCƒg”			*/
-	Sint32	trp;						/*	ƒgƒ‰ƒ“ƒXƒ|[ƒY—Ê (ƒZƒ“ƒg)		*/
-	Sint32	wpos;						/*	ƒƒfƒBƒAã‚Ì‘‚«‚İˆÊ’u		*/
-	Sint32	mofst;						/*	ƒƒfƒBƒAã‚ÌƒIƒtƒZƒbƒg			*/
-	Sint16	ercode;						/*	ƒGƒ‰[ƒR[ƒh					*/
-	Sint32	edecpos;					/*	ƒGƒ‰[ŒŸo—pƒfƒR[ƒhˆÊ’u		*/
-	Sint16	edeccnt;					/*	ƒfƒR[ƒhˆÊ’uƒJƒEƒ“ƒ^			*/
-	Sint16	eshrtcnt;					/*	“ü—ÍÊŞ¯Ì§´İÌßÃ¨°¶³İÀ			*/
-	Sint8	lpflg;						/*	ƒ‹[ƒv‚·‚é‚©”Û‚©				*/
-	Sint8	autorcvr;					/*	©“®“I‚ÉƒGƒ‰[•œ‹A‚·‚é‚©”Û‚©	*/
-	Sint8	fltmode;					/*	ƒtƒBƒ‹ƒ^ƒ‚[ƒh					*/
-	Sint8	execflag;					/*	ƒT[ƒo‚ğÀs‚·‚é‚©”Û‚©			*/
-	Sint8	pstwait_flag;				/*	‰¹ºo—ÍŠJn‘Ò‚¿ƒtƒ‰ƒO			*/
-	Sint8	pstready_flag;				/*	‰¹ºo—Í€”õŠ®—¹ƒtƒ‰ƒO			*/
-	Sint8	pause_flag;					/*	ˆê’â~ƒtƒ‰ƒO					*/
-	void	*amp;						/*	U•’ŠoŠí						*/
-	SJ		ampsji[ADXT_MAX_NCH];		/*	U•’Šo—p“ü—ÍSJ				*/
-	SJ		ampsjo[ADXT_MAX_NCH];		/*	U•’Šo—po—ÍSJ				*/
-	Sint32	time_ofst;					/*	‚ÌƒIƒtƒZƒbƒg				*/
-	Sint32	lesct;						/*	ƒ‹[ƒvÄ¶‚ÌÅIƒZƒNƒ^”Ô†	*/
-	Sint32	trpnsmpl;					/*			ƒgƒ‰ƒbƒvƒTƒ“ƒvƒ‹”Ô†	*/
-	void	*lsc;						/*	˜AŒ‹ƒXƒgƒŠ[ƒ€ƒRƒ“ƒgƒ[ƒ‰		*/
-	Sint8	lnkflg;						/*	˜AŒ‹Ä¶ƒtƒ‰ƒO					*/
-	Sint8	rsv;						/*	—\–ñ							*/
-	Sint16	rsv2;						/*	—\–ñ‚Q							*/
-	Uint32 tvofst;						/*	ƒXƒ^[ƒgŠÔƒIƒtƒZƒbƒg			*/
-	Uint32 svcnt;						/*	ƒXƒ^[ƒgV-SyncƒJƒEƒ“ƒg			*/
+	Sint8	used;						/*	ä½¿ç”¨ä¸­ã‹å¦ã‹					*/
+	Sint8	stat;						/*	å‹•ä½œçŠ¶æ…‹						*/
+	Sint8	pmode;						/*	å†ç”Ÿãƒ¢ãƒ¼ãƒ‰						*/
+	Sint8	maxnch;						/*	æœ€å¤§å†ç”Ÿãƒãƒ£ãƒ³ãƒãƒ«æ•°			*/
+	ADXSJD	sjd;						/*	ADXã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆãƒ‡ã‚³ãƒ¼ãƒ€	*/
+	ADXSTM	stm;						/*	å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©		*/
+	ADXRNA	rna;						/*	ã‚ªãƒ¼ãƒ‡ã‚£ã‚ªãƒ¬ãƒ³ãƒ€ãƒ©				*/
+	SJ		sjf;						/*	ãƒ•ã‚¡ã‚¤ãƒ«å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆ*/
+	SJ		sji;						/*	å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆ		*/
+	SJ		sjo[ADXT_MAX_NCH];			/*	å‡ºåŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆ		*/
+	Sint8	*ibuf;						/*	å…¥åŠ›ãƒãƒƒãƒ•ã‚¡					*/
+	Sint32	ibuflen;					/*	å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºï¼ˆãƒã‚¤ãƒˆå˜ä½)	*/
+	Sint32	ibufxlen;					/*	å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã‚¨ã‚¯ã‚¹ãƒˆãƒ©ã‚µã‚¤ã‚º	*/
+	Sint16	*obuf;						/*	å‡ºåŠ›ãƒãƒƒãƒ•ã‚¡					*/
+	Sint32	obufsize;					/*	å‡ºåŠ›ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚ºï¼ˆã‚µãƒ³ãƒ—ãƒ«ï¼‰	*/
+	Sint32	obufdist;					/*	å‡ºåŠ›ãƒãƒƒãƒ•ã‚¡é–“éš”ï¼ˆã‚µãƒ³ãƒ—ãƒ«ï¼‰	*/
+	Sint32	svrfreq;					/*	ã‚µãƒ¼ãƒé–¢æ•°å‘¼ã³å‡ºã—é »åº¦			*/
+	Sint16	maxsct;						/*	å…¥åŠ›ãƒãƒƒãƒ•ã‚¡å†…ã®æœ€é«˜ã‚»ã‚¯ã‚¿æ•°	*/
+	Sint16	minsct;						/*	å…¥åŠ›ãƒãƒƒãƒ•ã‚¡å†…ã®æœ€ä½ã‚»ã‚¯ã‚¿æ•°	*/
+	Sint16	outvol;						/*	å‡ºåŠ›ãƒœãƒªãƒ¥ãƒ¼ãƒ 					*/
+	Sint16	outpan[ADXT_MAX_NCH];		/*	å‡ºåŠ›ãƒ‘ãƒ³ãƒãƒƒãƒˆã®è¨­å®šå€¤			*/
+	Sint16  unk46;
+	Sint32	maxdecsmpl;					/*	æœ€å¤§ãƒ‡ã‚³ãƒ¼ãƒ‰ã‚µãƒ³ãƒ—ãƒ«æ•°			*/
+	Sint32	lpcnt;						/*	ãƒ«ãƒ¼ãƒ—ã‚«ã‚¦ãƒ³ã‚¿					*/
+	Sint32	lp_skiplen;					/*	ãƒ«ãƒ¼ãƒ—ã‚¹ã‚­ãƒƒãƒ—ãƒã‚¤ãƒˆæ•°			*/
+	Sint32	trp;						/*	ãƒˆãƒ©ãƒ³ã‚¹ãƒãƒ¼ã‚ºé‡ (ã‚»ãƒ³ãƒˆ)		*/
+	Sint32	wpos;						/*	ãƒ¡ãƒ‡ã‚£ã‚¢ä¸Šã®æ›¸ãè¾¼ã¿ä½ç½®		*/
+	Sint32	mofst;						/*	ãƒ¡ãƒ‡ã‚£ã‚¢ä¸Šã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ			*/
+	Sint16	ercode;						/*	ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰					*/
+	Sint32	edecpos;					/*	ã‚¨ãƒ©ãƒ¼æ¤œå‡ºç”¨ãƒ‡ã‚³ãƒ¼ãƒ‰ä½ç½®		*/
+	Sint16	edeccnt;					/*	ãƒ‡ã‚³ãƒ¼ãƒ‰ä½ç½®ã‚«ã‚¦ãƒ³ã‚¿			*/
+	Sint16	eshrtcnt;					/*	å…¥åŠ›ï¾Šï¾ï½¯ï¾Œï½§ï½´ï¾ï¾Œï¾Ÿï¾ƒï½¨ï½°ï½¶ï½³ï¾ï¾€			*/
+	Sint8	lpflg;						/*	ãƒ«ãƒ¼ãƒ—ã™ã‚‹ã‹å¦ã‹				*/
+	Sint8	autorcvr;					/*	è‡ªå‹•çš„ã«ã‚¨ãƒ©ãƒ¼å¾©å¸°ã™ã‚‹ã‹å¦ã‹	*/
+	Sint8	fltmode;					/*	ãƒ•ã‚£ãƒ«ã‚¿ãƒ¢ãƒ¼ãƒ‰					*/
+	Sint8	execflag;					/*	ã‚µãƒ¼ãƒã‚’å®Ÿè¡Œã™ã‚‹ã‹å¦ã‹			*/
+	Sint8	pstwait_flag;				/*	éŸ³å£°å‡ºåŠ›é–‹å§‹å¾…ã¡ãƒ•ãƒ©ã‚°			*/
+	Sint8	pstready_flag;				/*	éŸ³å£°å‡ºåŠ›æº–å‚™å®Œäº†ãƒ•ãƒ©ã‚°			*/
+	Sint8	pause_flag;					/*	ä¸€æ™‚åœæ­¢ãƒ•ãƒ©ã‚°					*/
+	void	*amp;						/*	æŒ¯å¹…æŠ½å‡ºå™¨						*/
+	SJ		ampsji[ADXT_MAX_NCH];		/*	æŒ¯å¹…æŠ½å‡ºç”¨å…¥åŠ›SJ				*/
+	SJ		ampsjo[ADXT_MAX_NCH];		/*	æŒ¯å¹…æŠ½å‡ºç”¨å‡ºåŠ›SJ				*/
+	Sint32	time_ofst;					/*	æ™‚åˆ»ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ				*/
+	Sint32	lesct;						/*	ãƒ«ãƒ¼ãƒ—å†ç”Ÿæ™‚ã®æœ€çµ‚ã‚»ã‚¯ã‚¿ç•ªå·	*/
+	Sint32	trpnsmpl;					/*			ãƒˆãƒ©ãƒƒãƒ—ã‚µãƒ³ãƒ—ãƒ«ç•ªå·	*/
+	void	*lsc;						/*	é€£çµã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©		*/
+	Sint8	lnkflg;						/*	é€£çµå†ç”Ÿãƒ•ãƒ©ã‚°					*/
+	Sint8	rsv;						/*	äºˆç´„							*/
+	Sint16	rsv2;						/*	äºˆç´„ï¼’							*/
+	Uint32 tvofst;						/*	ã‚¹ã‚¿ãƒ¼ãƒˆæ™‚é–“ã‚ªãƒ•ã‚»ãƒƒãƒˆ			*/
+	Uint32 svcnt;						/*	ã‚¹ã‚¿ãƒ¼ãƒˆV-Syncã‚«ã‚¦ãƒ³ãƒˆ			*/
 	// 2001.11.14 oshimi
-	Uint32 decofst;						/*	ƒg[ƒ^ƒ‹ƒfƒR[ƒhƒIƒtƒZƒbƒg		*/
+	Uint32 decofst;						/*	ãƒˆãƒ¼ã‚¿ãƒ«ãƒ‡ã‚³ãƒ¼ãƒ‰ã‚ªãƒ•ã‚»ãƒƒãƒˆ		*/
 	#ifdef __EE__
-	Sint32	flush_nsmpl;				/*	ƒtƒ‰ƒbƒVƒ…‚É‘}“ü‚µ‚½ƒTƒ“ƒvƒ‹”	*/
+	Sint32	flush_nsmpl;				/*	ãƒ•ãƒ©ãƒƒã‚·ãƒ¥æ™‚ã«æŒ¿å…¥ã—ãŸã‚µãƒ³ãƒ—ãƒ«æ•°	*/
 	#endif
+	Sint8  padCE[2];
+    Sint8* unkB0;
+    Sint8  padB4[16];
 } ADX_TALK;
 typedef	ADX_TALK	*ADXT;
 
-/*	ƒCƒ“ƒfƒbƒNƒXƒf[ƒ^	*/
+/*	ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãƒ‡ãƒ¼ã‚¿	*/
 /*	Index data			*/
 typedef struct _adxt_idx {
 	Uint16 nidx;
 	Uint16 top;
 } ADXT_IDX;
 
-/*	ƒXƒŒƒbƒhƒpƒ‰ƒ[ƒ^\‘¢‘Ì		*/
+/*	ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ§‹é€ ä½“		*/
 /*	Parameter structure of Thread Param	*/
 typedef struct {
 	int	prio_lock;		// Lock Thread priority
@@ -296,7 +300,7 @@ typedef struct {
 	int	prio_mwidle;	// Middleware Idle Thread priority
 } ADXM_TPRM;
 
-/*	ƒXƒŒƒbƒhƒpƒ‰ƒ[ƒ^\‘¢‘Ì(Šg’£”Å)				*/
+/*	ã‚¹ãƒ¬ãƒƒãƒ‰ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿æ§‹é€ ä½“(æ‹¡å¼µç‰ˆ)				*/
 /*	Parameter structure of Extended Thread Param	*/
 typedef struct {
 	int	prio_lock;		// Lock Thread priority
@@ -308,7 +312,7 @@ typedef struct {
 	int	prio_usridle;	// User Idle Thread priority
 } ADXM_TPRM_EX;
 
-/*	ADXƒwƒbƒ_î•ñ\‘¢‘Ì					*/
+/*	ADXãƒ˜ãƒƒãƒ€æƒ…å ±æ§‹é€ ä½“					*/
 /*	Parameter structure of ADX header	*/
 typedef struct {
 	Sint32 fmt;			// Format type (ADX/AHX)
@@ -322,7 +326,7 @@ typedef struct {
 } ADXHINFO;
 
 /****************************************************************************/
-/*		ŠÖ”‚ÌéŒ¾															*/
+/*		é–¢æ•°ã®å®£è¨€															*/
 /*      Function Declaration												*/
 /****************************************************************************/
 
@@ -330,13 +334,13 @@ typedef struct {
 extern "C" {
 #endif
 
-/* $func$ ADX Talk ‚Ì‰Šú‰»
- * [‘@®] void ADXT_Init(void);
- * [“ü@—Í] ‚È‚µ
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ADX Talk ‚ğ‰Šú‰»‚·‚éB
- *			•Ï”—Ìˆæ‚Ì‰Šú‰»‚ğs‚¤B
+/* $func$ ADX Talk ã®åˆæœŸåŒ–
+ * [æ›¸ã€€å¼] void ADXT_Init(void);
+ * [å…¥ã€€åŠ›] ãªã—
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ADX Talk ã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
+ *			å¤‰æ•°é ˜åŸŸã®åˆæœŸåŒ–ã‚’è¡Œã†ã€‚
  *  Initialization of ADX Talk
  * [Inputs  ] None
  * [Outputs ] None
@@ -345,12 +349,12 @@ extern "C" {
  */
 void ADXT_Init(void);
 
-/* $func$ ADX Talk‚ÌI—¹
- * [‘@®] void ADXT_Finish(void);
- * [“ü@—Í] ‚È‚µ
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ADX Talk ‚ÌI—¹ˆ—‚ğ‚·‚éB
+/* $func$ ADX Talkã®çµ‚äº†
+ * [æ›¸ã€€å¼] void ADXT_Finish(void);
+ * [å…¥ã€€åŠ›] ãªã—
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ADX Talk ã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
  *  Termination of ADX Talk
  * [Inputs  ] None
  * [Outputs ] None
@@ -359,12 +363,12 @@ void ADXT_Init(void);
  */
 void ADXT_Finish(void);
 
-/*	$func$ ‚·‚×‚Ä‚ÌADXTƒnƒ“ƒhƒ‹‚ÌÁ‹
- * [‘@®] void ADXT_DestroyAll(void);
- * [“ü@—Í] ‚È‚µ
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ‚·‚×‚Ä‚ÌADXTƒnƒ“ƒhƒ‹‚ğÁ‹‚·‚éB
+/*	$func$ ã™ã¹ã¦ã®ADXTãƒãƒ³ãƒ‰ãƒ«ã®æ¶ˆå»
+ * [æ›¸ã€€å¼] void ADXT_DestroyAll(void);
+ * [å…¥ã€€åŠ›] ãªã—
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ã™ã¹ã¦ã®ADXTãƒãƒ³ãƒ‰ãƒ«ã‚’æ¶ˆå»ã™ã‚‹ã€‚
  * [Inputs  ] None
  * [Outputs ] None
  * [Return  ] None
@@ -372,12 +376,12 @@ void ADXT_Finish(void);
  */
 void ADXT_DestroyAll(void);
 
-/*	$func$ ‚·‚×‚Ä‚ÌADXT‚ÆADXFƒnƒ“ƒhƒ‹‚ÌÁ‹
- * [‘@®] void ADXT_CloseAllHandles(void);
- * [“ü@—Í] ‚È‚µ
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ‚·‚×‚Ä‚ÌADXTƒnƒ“ƒhƒ‹‚ÆADXFƒnƒ“ƒhƒ‹‚ğÁ‹‚·‚éB
+/*	$func$ ã™ã¹ã¦ã®ADXTã¨ADXFãƒãƒ³ãƒ‰ãƒ«ã®æ¶ˆå»
+ * [æ›¸ã€€å¼] void ADXT_CloseAllHandles(void);
+ * [å…¥ã€€åŠ›] ãªã—
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ã™ã¹ã¦ã®ADXTãƒãƒ³ãƒ‰ãƒ«ã¨ADXFãƒãƒ³ãƒ‰ãƒ«ã‚’æ¶ˆå»ã™ã‚‹ã€‚
  * [Inputs  ] None
  * [Outputs ] None
  * [Return  ] None
@@ -385,15 +389,15 @@ void ADXT_DestroyAll(void);
  */
 void ADXT_CloseAllHandles(void);
 
-/*	$func$ ADXTƒnƒ“ƒhƒ‹ ‚Ì¶¬
- * [‘@®] ADXT ADXT_Create(Sint32 maxnch, void *work, Sint32 worksize);
- * [“ü@—Í] maxnch	: Å‘åÄ¶ƒ`ƒƒƒ“ƒlƒ‹”iƒ‚ƒmƒ‰ƒ‹‚Ì‚İ‚PFƒXƒeƒŒƒI‚Qj
- *			work	: ƒ[ƒN—Ìˆæ
- *			worksize: ƒ[ƒN—Ìˆæ‚ÌƒTƒCƒY
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ADXTƒnƒ“ƒhƒ‹
- * [‹@@”\] ADXTƒnƒ“ƒhƒ‹‚ğ¶¬‚·‚éB
- *			work—Ìˆæ‚ÌƒTƒCƒY‚ÍAADXT_CALC_WORKƒ}ƒNƒ‚É‚æ‚Á‚Ä‹‚ß‚éB
+/*	$func$ ADXTãƒãƒ³ãƒ‰ãƒ« ã®ç”Ÿæˆ
+ * [æ›¸ã€€å¼] ADXT ADXT_Create(Sint32 maxnch, void *work, Sint32 worksize);
+ * [å…¥ã€€åŠ›] maxnch	: æœ€å¤§å†ç”Ÿãƒãƒ£ãƒ³ãƒãƒ«æ•°ï¼ˆãƒ¢ãƒãƒ©ãƒ«ã®ã¿ï¼‘ï¼šã‚¹ãƒ†ãƒ¬ã‚ªï¼’ï¼‰
+ *			work	: ãƒ¯ãƒ¼ã‚¯é ˜åŸŸ
+ *			worksize: ãƒ¯ãƒ¼ã‚¯é ˜åŸŸã®ã‚µã‚¤ã‚º
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [æ©Ÿã€€èƒ½] ADXTãƒãƒ³ãƒ‰ãƒ«ã‚’ç”Ÿæˆã™ã‚‹ã€‚
+ *			worké ˜åŸŸã®ã‚µã‚¤ã‚ºã¯ã€ADXT_CALC_WORKãƒã‚¯ãƒ­ã«ã‚ˆã£ã¦æ±‚ã‚ã‚‹ã€‚
  *  Creation of ADXT handle
  * [Inputs  ] maxnch  : Number of maximum channels(monoral:1, stereo:2)
  *			  work    : Working area
@@ -405,12 +409,12 @@ void ADXT_CloseAllHandles(void);
  */
 ADXT ADXT_Create(Sint32 maxnch, void *work, Sint32 worksize);
 
-/* $func$ ADXTƒnƒ“ƒhƒ‹ ‚ÌÁ‹
- * [‘@®] void ADXT_Destroy(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] w’è‚³‚ê‚½ ADXTƒnƒ“ƒhƒ‹‚ğÁ‹‚·‚éB
+/* $func$ ADXTãƒãƒ³ãƒ‰ãƒ« ã®æ¶ˆå»
+ * [æ›¸ã€€å¼] void ADXT_Destroy(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] æŒ‡å®šã•ã‚ŒãŸ ADXTãƒãƒ³ãƒ‰ãƒ«ã‚’æ¶ˆå»ã™ã‚‹ã€‚
  *  Destroy of ADXT handle
  * [Inputs  ] adxt   : ADXT handle
  * [Outputs ] None
@@ -419,15 +423,15 @@ ADXT ADXT_Create(Sint32 maxnch, void *work, Sint32 worksize);
  */
 void ADXT_Destroy(ADXT adxt);
 
-/* $func$ FID w’è‚É‚æ‚éÄ¶‚ÌŠJn
- * [‘@®] void ADXT_StartAfs(ADXT adxt, Sint32 patid, Sint32 fid);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			patid	: ƒp[ƒeƒBƒVƒ‡ƒ“¯•Êq
- *			fid		: ƒtƒ@ƒCƒ‹¯•Êq
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒp[ƒeƒBƒVƒ‡ƒ“¯•Êq‚Æƒtƒ@ƒCƒ‹¯•Êq‚Åw’è‚³‚ê‚½‚`‚c‚wƒtƒ@ƒCƒ‹‚Ì
- *			Ä¶‚ğŠJn‚·‚éB
+/* $func$ FID æŒ‡å®šã«ã‚ˆã‚‹å†ç”Ÿã®é–‹å§‹
+ * [æ›¸ã€€å¼] void ADXT_StartAfs(ADXT adxt, Sint32 patid, Sint32 fid);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			patid	: ãƒ‘ãƒ¼ãƒ†ã‚£ã‚·ãƒ§ãƒ³è­˜åˆ¥å­
+ *			fid		: ãƒ•ã‚¡ã‚¤ãƒ«è­˜åˆ¥å­
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ãƒ‘ãƒ¼ãƒ†ã‚£ã‚·ãƒ§ãƒ³è­˜åˆ¥å­ã¨ãƒ•ã‚¡ã‚¤ãƒ«è­˜åˆ¥å­ã§æŒ‡å®šã•ã‚ŒãŸï¼¡ï¼¤ï¼¸ãƒ•ã‚¡ã‚¤ãƒ«ã®
+ *			å†ç”Ÿã‚’é–‹å§‹ã™ã‚‹ã€‚
  *  Play start of ADX data by specified file ID
  * [Inputs  ] adxt	: ADXT handl
  *			  patid	: Partition ID
@@ -438,13 +442,13 @@ void ADXT_Destroy(ADXT adxt);
  */
 void ADXT_StartAfs(ADXT adxt, Sint32 patid, Sint32 fid);
 
-/* $func$ ƒtƒ@ƒCƒ‹–¼w’è‚É‚æ‚éÄ¶‚ÌŠJn
- * [‘@®] void ADXT_StartFname(ADXT adxt, Sint8 *fname);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			fname	: ƒtƒ@ƒCƒ‹–¼
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] fname ‚Åw’è‚³‚ê‚½‚`‚c‚wƒtƒ@ƒCƒ‹‚ÌÄ¶‚ğŠJn‚·‚éB
+/* $func$ ãƒ•ã‚¡ã‚¤ãƒ«åæŒ‡å®šã«ã‚ˆã‚‹å†ç”Ÿã®é–‹å§‹
+ * [æ›¸ã€€å¼] void ADXT_StartFname(ADXT adxt, Sint8 *fname);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			fname	: ãƒ•ã‚¡ã‚¤ãƒ«å
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] fname ã§æŒ‡å®šã•ã‚ŒãŸï¼¡ï¼¤ï¼¸ãƒ•ã‚¡ã‚¤ãƒ«ã®å†ç”Ÿã‚’é–‹å§‹ã™ã‚‹ã€‚
  *  Play start of ADX data specified file name
  * [Inputs  ] adxt	: ADXT handle
  *			  fname	: File name
@@ -454,13 +458,13 @@ void ADXT_StartAfs(ADXT adxt, Sint32 patid, Sint32 fid);
  */
 void ADXT_StartFname(ADXT adxt, Char8 *fname);
 
-/* $func$ ƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒg‚É‚æ‚éÄ¶‚ÌŠJn
- * [‘@®] void ADXT_StartSj(ADXT adxt, SJ sj);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			sj		: ƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒg
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒg‚©‚ç“¾‚ç‚ê‚éƒf[ƒ^‚ğÄ¶‚·‚éB
+/* $func$ ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆã«ã‚ˆã‚‹å†ç”Ÿã®é–‹å§‹
+ * [æ›¸ã€€å¼] void ADXT_StartSj(ADXT adxt, SJ sj);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			sj		: ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆ
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆã‹ã‚‰å¾—ã‚‰ã‚Œã‚‹ãƒ‡ãƒ¼ã‚¿ã‚’å†ç”Ÿã™ã‚‹ã€‚
  *  Play start of ADX data from Stream Joint
  * [Inputs  ] adxt	: ADXT handle
  *			  sj	: Stream Joint
@@ -470,13 +474,13 @@ void ADXT_StartFname(ADXT adxt, Char8 *fname);
  */
 void ADXT_StartSj(ADXT adxt, SJ sj);
 
-/* $func$ ƒƒ‚ƒŠw’è‚É‚æ‚éÄ¶‚ÌŠJn
- * [‘@®] void ADXT_StartMem(ADXT adxt, void *adxdat);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			adxdat	: ‚`‚c‚wƒf[ƒ^‚ÌƒAƒhƒŒƒX
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] adxdat‚Åw’è‚³‚ê‚½‚`‚c‚wƒf[ƒ^‚ğÄ¶‚·‚éB
+/* $func$ ãƒ¡ãƒ¢ãƒªæŒ‡å®šã«ã‚ˆã‚‹å†ç”Ÿã®é–‹å§‹
+ * [æ›¸ã€€å¼] void ADXT_StartMem(ADXT adxt, void *adxdat);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			adxdat	: ï¼¡ï¼¤ï¼¸ãƒ‡ãƒ¼ã‚¿ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] adxdatã§æŒ‡å®šã•ã‚ŒãŸï¼¡ï¼¤ï¼¸ãƒ‡ãƒ¼ã‚¿ã‚’å†ç”Ÿã™ã‚‹ã€‚
  *  Play start of ADX data on memory
  * [Inputs  ] adxt	: ADXT handle
  *			  adxdat: Address of ADX data
@@ -486,14 +490,14 @@ void ADXT_StartSj(ADXT adxt, SJ sj);
  */
 void ADXT_StartMem(ADXT adxt, void *adxdat);
 
-/* $func$ ƒƒ‚ƒŠw’è‚É‚æ‚éÄ¶‚ÌŠJn
- * [‘@®] void ADXT_StartMem2(ADXT adxt, void *adxdat, Sint32 datlen);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			adxdat	: ‚`‚c‚wƒf[ƒ^‚ÌƒAƒhƒŒƒX
- *			datlen	: ‚`‚c‚wƒf[ƒ^‚Ì‘å‚«‚³
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] adxdata ‚Åw’è‚³‚ê‚½‚`‚c‚wƒf[ƒ^‚ğÄ¶‚·‚éB
+/* $func$ ãƒ¡ãƒ¢ãƒªæŒ‡å®šã«ã‚ˆã‚‹å†ç”Ÿã®é–‹å§‹
+ * [æ›¸ã€€å¼] void ADXT_StartMem2(ADXT adxt, void *adxdat, Sint32 datlen);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			adxdat	: ï¼¡ï¼¤ï¼¸ãƒ‡ãƒ¼ã‚¿ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+ *			datlen	: ï¼¡ï¼¤ï¼¸ãƒ‡ãƒ¼ã‚¿ã®å¤§ãã•
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] adxdata ã§æŒ‡å®šã•ã‚ŒãŸï¼¡ï¼¤ï¼¸ãƒ‡ãƒ¼ã‚¿ã‚’å†ç”Ÿã™ã‚‹ã€‚
  *  Play start of ADX data on memory (TYPE 2)
  * [Inputs  ] adxt	: ADXT handle
  *			  adxdat: Address of ADX data
@@ -504,14 +508,14 @@ void ADXT_StartMem(ADXT adxt, void *adxdat);
  */
 void ADXT_StartMem2(ADXT adxt, void *adxdat, Sint32 datlen);
 
-/* $func$ ƒƒ‚ƒŠw’è‚É‚æ‚éÄ¶‚ÌŠJn
- * [‘@®] void ADXT_StartMemIdx(ADXT adxt, void *acx, Sint32 no);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			acx		: ‚`‚b‚wƒf[ƒ^‚ÌƒAƒhƒŒƒX
- *			no		: ƒCƒ“ƒfƒbƒNƒX”Ô†
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] acx ‚Åw’è‚³‚ê‚½‚`‚b‚wƒf[ƒ^‚Ìno”Ô–Ú‚Ìƒf[ƒ^‚ğÄ¶‚·‚éB
+/* $func$ ãƒ¡ãƒ¢ãƒªæŒ‡å®šã«ã‚ˆã‚‹å†ç”Ÿã®é–‹å§‹
+ * [æ›¸ã€€å¼] void ADXT_StartMemIdx(ADXT adxt, void *acx, Sint32 no);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			acx		: ï¼¡ï¼£ï¼¸ãƒ‡ãƒ¼ã‚¿ã®ã‚¢ãƒ‰ãƒ¬ã‚¹
+ *			no		: ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ç•ªå·
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] acx ã§æŒ‡å®šã•ã‚ŒãŸï¼¡ï¼£ï¼¸ãƒ‡ãƒ¼ã‚¿ã®noç•ªç›®ã®ãƒ‡ãƒ¼ã‚¿ã‚’å†ç”Ÿã™ã‚‹ã€‚
  *  Play start of ACX data
  * [Inputs  ] adxt	: ADXT handle
  *			  acx	: Address of ACX data
@@ -522,12 +526,12 @@ void ADXT_StartMem2(ADXT adxt, void *adxdat, Sint32 datlen);
  */
 void ADXT_StartMemIdx(ADXT adxt, void *acx, Sint32 no);
 
-/* $func$ Ä¶‚Ì’â~
- * [‘@®] void ADXT_Stop(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ‚`‚c‚w‚ÌÄ¶‚ğ’â~‚·‚éB
+/* $func$ å†ç”Ÿã®åœæ­¢
+ * [æ›¸ã€€å¼] void ADXT_Stop(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ï¼¡ï¼¤ï¼¸ã®å†ç”Ÿã‚’åœæ­¢ã™ã‚‹ã€‚
  *  Play stop
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -536,18 +540,18 @@ void ADXT_StartMemIdx(ADXT adxt, void *acx, Sint32 no);
  */
 void ADXT_Stop(ADXT adxt);
 
-/* $func$ ó‘Ô‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetStat( ADXT adxt );
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] Œ»İ‚Ì ADXTƒnƒ“ƒhƒ‹‚Ìó‘Ô‚ğ•\‚·’è”
- * 				ADXT_STAT_STOP	 :	’â~’†
- *				ADXT_STAT_DECINFO:	‚`‚c‚w ‚Ìƒwƒbƒ_î•ñæ“¾’†
- *				ADXT_STAT_PREP	 :	Ä¶€”õ’†
- *				ADXT_STAT_PLAYING:	ƒfƒR[ƒh•Ä¶’†
- *				ADXT_STAT_DECEND :	ƒfƒR[ƒhI—¹
- *				ADXT_STAT_PLAYEND:	Ä¶I—¹
- * [‹@@”\] Œ»İ‚ÌADXTƒnƒ“ƒhƒ‹‚Ìó‘Ô‚ğæ“¾‚·‚éB
+/* $func$ çŠ¶æ…‹ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetStat( ADXT adxt );
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ç¾åœ¨ã® ADXTãƒãƒ³ãƒ‰ãƒ«ã®çŠ¶æ…‹ã‚’è¡¨ã™å®šæ•°
+ * 				ADXT_STAT_STOP	 :	åœæ­¢ä¸­
+ *				ADXT_STAT_DECINFO:	ï¼¡ï¼¤ï¼¸ ã®ãƒ˜ãƒƒãƒ€æƒ…å ±å–å¾—ä¸­
+ *				ADXT_STAT_PREP	 :	å†ç”Ÿæº–å‚™ä¸­
+ *				ADXT_STAT_PLAYING:	ãƒ‡ã‚³ãƒ¼ãƒ‰ï¼†å†ç”Ÿä¸­
+ *				ADXT_STAT_DECEND :	ãƒ‡ã‚³ãƒ¼ãƒ‰çµ‚äº†
+ *				ADXT_STAT_PLAYEND:	å†ç”Ÿçµ‚äº†
+ * [æ©Ÿã€€èƒ½] ç¾åœ¨ã®ADXTãƒãƒ³ãƒ‰ãƒ«ã®çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹ã€‚
  *  Get status
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -556,13 +560,13 @@ void ADXT_Stop(ADXT adxt);
  */
 Sint32 ADXT_GetStat(ADXT adxt);
 
-/* $func$ ƒTƒ“ƒvƒ‹’PˆÊ‚Å‚ÌÄ¶‚Ìæ“¾
- * [‘@®] void ADXT_GetTime( ADXT adxt, Sint32 *ncount, Sint32 *tscale );
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ncount	: Ä¶ƒTƒ“ƒvƒ‹”
- *			tscale	: ƒTƒ“ƒvƒŠƒ“ƒOü”g” [ Hz ]
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒTƒ“ƒvƒ‹’PˆÊ‚ÅÄ¶‚ğæ“¾‚·‚éB
+/* $func$ ã‚µãƒ³ãƒ—ãƒ«å˜ä½ã§ã®å†ç”Ÿæ™‚åˆ»ã®å–å¾—
+ * [æ›¸ã€€å¼] void ADXT_GetTime( ADXT adxt, Sint32 *ncount, Sint32 *tscale );
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ncount	: å†ç”Ÿã‚µãƒ³ãƒ—ãƒ«æ•°
+ *			tscale	: ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æ³¢æ•° [ Hz ]
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ã‚µãƒ³ãƒ—ãƒ«å˜ä½ã§å†ç”Ÿæ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
  *  Get play time by sample unit
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] ncount: Number of play sample
@@ -572,12 +576,12 @@ Sint32 ADXT_GetStat(ADXT adxt);
  */
 void ADXT_GetTime(ADXT adxt, Sint32 *ncount, Sint32 *tscale);
 
-/* $func$ ÀŠÔ‚Å‚ÌÄ¶‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetTimeReal(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] Ä¶ [ 1/100sec ]
- * [‹@@”\] ÀŠÔ‚ÅÄ¶‚ğæ“¾‚·‚éB
+/* $func$ å®Ÿæ™‚é–“ã§ã®å†ç”Ÿæ™‚åˆ»ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetTimeReal(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] å†ç”Ÿæ™‚åˆ» [ 1/100sec ]
+ * [æ©Ÿã€€èƒ½] å®Ÿæ™‚é–“ã§å†ç”Ÿæ™‚åˆ»ã‚’å–å¾—ã™ã‚‹ã€‚
  *  Get play time in real time
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -586,14 +590,14 @@ void ADXT_GetTime(ADXT adxt, Sint32 *ncount, Sint32 *tscale);
  */
 Sint32 ADXT_GetTimeReal(ADXT adxt);
 
-/* $func$ ‰¹ºƒf[ƒ^‚Ì‘ƒTƒ“ƒvƒ‹”‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetNumSmpl( ADXT adxt );
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‰¹ºƒf[ƒ^‚Ì‘ƒTƒ“ƒvƒ‹”
- * [‹@@”\] Ä¶’†‚Ì ‚`‚c‚w ƒf[ƒ^‚Ì‘ƒTƒ“ƒvƒ‹”‚ğæ“¾‚·‚éB
- * [”õ@l] ó‘Ô‚ªAÄ¶€”õ’†(ADXT_STAT_PREP)‚©‚çÄ¶I—¹(ADXT_STAT_PLAYEND)
- *			‚Ü‚Å‚Ì‚Éæ“¾‰Â”\B
+/* $func$ éŸ³å£°ãƒ‡ãƒ¼ã‚¿ã®ç·ã‚µãƒ³ãƒ—ãƒ«æ•°ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetNumSmpl( ADXT adxt );
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] éŸ³å£°ãƒ‡ãƒ¼ã‚¿ã®ç·ã‚µãƒ³ãƒ—ãƒ«æ•°
+ * [æ©Ÿã€€èƒ½] å†ç”Ÿä¸­ã® ï¼¡ï¼¤ï¼¸ ãƒ‡ãƒ¼ã‚¿ã®ç·ã‚µãƒ³ãƒ—ãƒ«æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+ * [å‚™ã€€è€ƒ] çŠ¶æ…‹ãŒã€å†ç”Ÿæº–å‚™ä¸­(ADXT_STAT_PREP)ã‹ã‚‰å†ç”Ÿçµ‚äº†(ADXT_STAT_PLAYEND)
+ *			ã¾ã§ã®æ™‚ã«å–å¾—å¯èƒ½ã€‚
  *  Get a general sample number of sound data
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -604,14 +608,14 @@ Sint32 ADXT_GetTimeReal(ADXT adxt);
  */
 Sint32 ADXT_GetNumSmpl(ADXT adxt);
 
-/* $func$ ‰¹ºƒf[ƒ^‚ÌƒTƒ“ƒvƒŠƒ“ƒOü”g”‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetSfreq(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‰¹ºƒf[ƒ^‚ÌƒTƒ“ƒvƒŠƒ“ƒOü”g”
- * [‹@@”\] Ä¶’†‚Ì ƒTƒ“ƒvƒŠƒ“ƒOü”g”‚ğ‹‚ß‚éB
- * [”õ@l] ó‘Ô‚ªAÄ¶€”õ’†(ADXT_STAT_PREP)‚©‚çÄ¶I—¹(ADXT_STAT_PLAYEND)
- *			‚Ü‚Å‚Ì‚Éæ“¾‰Â”\B
+/* $func$ éŸ³å£°ãƒ‡ãƒ¼ã‚¿ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æ³¢æ•°ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetSfreq(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] éŸ³å£°ãƒ‡ãƒ¼ã‚¿ã®ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æ³¢æ•°
+ * [æ©Ÿã€€èƒ½] å†ç”Ÿä¸­ã® ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æ³¢æ•°ã‚’æ±‚ã‚ã‚‹ã€‚
+ * [å‚™ã€€è€ƒ] çŠ¶æ…‹ãŒã€å†ç”Ÿæº–å‚™ä¸­(ADXT_STAT_PREP)ã‹ã‚‰å†ç”Ÿçµ‚äº†(ADXT_STAT_PLAYEND)
+ *			ã¾ã§ã®æ™‚ã«å–å¾—å¯èƒ½ã€‚
  *  Get sampling frequecy
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -622,52 +626,52 @@ Sint32 ADXT_GetNumSmpl(ADXT adxt);
  */
 Sint32 ADXT_GetSfreq(ADXT adxt);
 
-/* $func$ ‰¹ºƒf[ƒ^‚Ìƒ`ƒƒƒ“ƒlƒ‹”‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetNumChan(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‰¹ºƒf[ƒ^‚Ìƒ`ƒƒƒ“ƒlƒ‹”‚Ìæ“¾
- * [‹@@”\] Ä¶’†‚Ì‰¹º‚Ìƒ`ƒƒƒ“ƒlƒ‹”‚ğ‹‚ß‚éB
- * [”õ@l] ó‘Ô‚ªAÄ¶€”õ’†(ADXT_STAT_PREP)‚©‚çÄ¶I—¹(ADXT_STAT_PLAYEND)
- *			‚Ü‚Å‚Ì‚Éæ“¾‰Â”\B
+/* $func$ éŸ³å£°ãƒ‡ãƒ¼ã‚¿ã®ãƒãƒ£ãƒ³ãƒãƒ«æ•°ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetNumChan(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] éŸ³å£°ãƒ‡ãƒ¼ã‚¿ã®ãƒãƒ£ãƒ³ãƒãƒ«æ•°ã®å–å¾—
+ * [æ©Ÿã€€èƒ½] å†ç”Ÿä¸­ã®éŸ³å£°ã®ãƒãƒ£ãƒ³ãƒãƒ«æ•°ã‚’æ±‚ã‚ã‚‹ã€‚
+ * [å‚™ã€€è€ƒ] çŠ¶æ…‹ãŒã€å†ç”Ÿæº–å‚™ä¸­(ADXT_STAT_PREP)ã‹ã‚‰å†ç”Ÿçµ‚äº†(ADXT_STAT_PLAYEND)
+ *			ã¾ã§ã®æ™‚ã«å–å¾—å¯èƒ½ã€‚
  */
 Sint32 ADXT_GetNumChan(ADXT adxt);
 
-/* $func$ ƒwƒbƒ_’·‚Ìæ“¾
- * [‘@®] Sint32 Sint32 ADXT_GetHdrLen(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‰¹ºƒf[ƒ^‚Ìƒwƒbƒ_’·
- * [‹@@”\] Ä¶’†‚Ì‰¹º‚Ìƒwƒbƒ_’·‚ğ‹‚ß‚éB
- * [”õ@l] ó‘Ô‚ªAÄ¶€”õ’†(ADXT_STAT_PREP)‚©‚çÄ¶I—¹(ADXT_STAT_PLAYEND)
- *			‚Ü‚Å‚Ì‚Éæ“¾‰Â”\B
+/* $func$ ãƒ˜ãƒƒãƒ€é•·ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 Sint32 ADXT_GetHdrLen(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] éŸ³å£°ãƒ‡ãƒ¼ã‚¿ã®ãƒ˜ãƒƒãƒ€é•·
+ * [æ©Ÿã€€èƒ½] å†ç”Ÿä¸­ã®éŸ³å£°ã®ãƒ˜ãƒƒãƒ€é•·ã‚’æ±‚ã‚ã‚‹ã€‚
+ * [å‚™ã€€è€ƒ] çŠ¶æ…‹ãŒã€å†ç”Ÿæº–å‚™ä¸­(ADXT_STAT_PREP)ã‹ã‚‰å†ç”Ÿçµ‚äº†(ADXT_STAT_PLAYEND)
+ *			ã¾ã§ã®æ™‚ã«å–å¾—å¯èƒ½ã€‚
  */
 Sint32 ADXT_GetHdrLen(ADXT adxt);
 
-/* $func$ ‰¹ºƒf[ƒ^‚Ì—Êq‰»‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetFmtBps(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‰¹ºƒf[ƒ^‚Ì—Êq‰»ƒrƒbƒg”
- * [‹@@”\] Ä¶’†‚Ì‰¹º‚Ì—Êq‰»ƒrƒbƒg”‚ğ‹‚ß‚éB
- * [”õ@l] ó‘Ô‚ªAÄ¶€”õ’†(ADXT_STAT_PREP)‚©‚çÄ¶I—¹(ADXT_STAT_PLAYEND)
- *			‚Ü‚Å‚Ì‚Éæ“¾‰Â”\B
+/* $func$ éŸ³å£°ãƒ‡ãƒ¼ã‚¿ã®é‡å­åŒ–ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetFmtBps(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] éŸ³å£°ãƒ‡ãƒ¼ã‚¿ã®é‡å­åŒ–ãƒ“ãƒƒãƒˆæ•°
+ * [æ©Ÿã€€èƒ½] å†ç”Ÿä¸­ã®éŸ³å£°ã®é‡å­åŒ–ãƒ“ãƒƒãƒˆæ•°ã‚’æ±‚ã‚ã‚‹ã€‚
+ * [å‚™ã€€è€ƒ] çŠ¶æ…‹ãŒã€å†ç”Ÿæº–å‚™ä¸­(ADXT_STAT_PREP)ã‹ã‚‰å†ç”Ÿçµ‚äº†(ADXT_STAT_PLAYEND)
+ *			ã¾ã§ã®æ™‚ã«å–å¾—å¯èƒ½ã€‚
  */
 Sint32 ADXT_GetFmtBps(ADXT adxt);
 
-/*	$func$ ƒpƒ“ƒ|ƒbƒg‚Ìİ’è
- * [‘@®] void ADXT_SetOutPan(ADXT adxt, Sint32 ch, Sint32 pan);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			ch		: ƒ`ƒƒƒlƒ‹”Ô† (0, 1)
+/*	$func$ ãƒ‘ãƒ³ãƒãƒƒãƒˆã®è¨­å®š
+ * [æ›¸ã€€å¼] void ADXT_SetOutPan(ADXT adxt, Sint32 ch, Sint32 pan);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			ch		: ãƒãƒ£ãƒãƒ«ç•ªå· (0, 1)
  *						ADXT_CH_L=0, ADXT_CH_R=1
- *			pan		: ƒpƒ“İ’è’l (-15`+15, -128)
+ *			pan		: ãƒ‘ãƒ³è¨­å®šå€¤ (-15ï½+15, -128)
  *						ADXT_PAN_LEFT=-15, ADXT_PAN_CENTER=0
  *						ADXT_PAN_RIGHT=15, ADXT_PAN_AUTO=-128
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] o—Íƒpƒ“ƒ|ƒbƒg‚ğİ’è‚·‚éB
- *			AUTO ‚Ìê‡‚ÍAADX ƒf[ƒ^‚ªƒ‚ƒmƒ‰ƒ‹‚©ƒXƒeƒŒƒI‚©‚É‚æ‚Á‚Ä©“®“I‚É
- *			ƒpƒ“‚ªİ’è‚³‚ê‚éB
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] å‡ºåŠ›ãƒ‘ãƒ³ãƒãƒƒãƒˆã‚’è¨­å®šã™ã‚‹ã€‚
+ *			AUTO ã®å ´åˆã¯ã€ADX ãƒ‡ãƒ¼ã‚¿ãŒãƒ¢ãƒãƒ©ãƒ«ã‹ã‚¹ãƒ†ãƒ¬ã‚ªã‹ã«ã‚ˆã£ã¦è‡ªå‹•çš„ã«
+ *			ãƒ‘ãƒ³ãŒè¨­å®šã•ã‚Œã‚‹ã€‚
  *  Set panpot
  * [Inputs  ] adxt	: ADXT handle
  *			  ch	: Channel number(ADXT_CH_L:0, ADXT_CH_R:1)
@@ -682,14 +686,14 @@ Sint32 ADXT_GetFmtBps(ADXT adxt);
  */
 void ADXT_SetOutPan(ADXT adxt, Sint32 ch, Sint32 pan);
 
-/*	$func$ ƒpƒ“ƒ|ƒbƒg‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetOutPan(ADXT adxt, Sint32 ch);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			ch		: ƒ`ƒƒƒlƒ‹”Ô† (0, 1)
+/*	$func$ ãƒ‘ãƒ³ãƒãƒƒãƒˆã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetOutPan(ADXT adxt, Sint32 ch);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			ch		: ãƒãƒ£ãƒãƒ«ç•ªå· (0, 1)
  *						ADXT_CH_L=0, ADXT_CH_R=1
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ƒpƒ“ƒ|ƒbƒg‚Ìİ’è’l
- * [‹@@”\] o—Íƒpƒ“ƒ|ƒbƒg‚ğæ“¾‚·‚éB
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãƒ‘ãƒ³ãƒãƒƒãƒˆã®è¨­å®šå€¤
+ * [æ©Ÿã€€èƒ½] å‡ºåŠ›ãƒ‘ãƒ³ãƒãƒƒãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
  *  Get panpot
  * [Inputs  ] adxt	: ADXT handle
  *			  ch	: Channel number(ADXT_CH_L:0, ADXT_CH_R:1)
@@ -699,17 +703,17 @@ void ADXT_SetOutPan(ADXT adxt, Sint32 ch, Sint32 pan);
  */
 Sint32 ADXT_GetOutPan(ADXT adxt, Sint32 ch);
 
-/*	$func$ o—Íƒ{ƒŠƒ…[ƒ€‚Ìİ’è
- * [‘@®] void ADXT_SetOutVol(ADXT adxt, Sint32 vol);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			vol		: Œ¸ŠƒŒƒxƒ‹@(0:-0dB, -960:-96dB)
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] o—Íƒ{ƒŠƒ…[ƒ€‚ğİ’è‚·‚éB
- *			vol‚Ìİ’è’l	0    :  -0dB  Œ¸Š‚È‚µ
- *						-30  :  -3dB  –ñ70%
- *						-60  :  -6dB  –ñ50%
- *						-960 : -96dB  Å‘å‚ÌŒ¸Š—Ê
+/*	$func$ å‡ºåŠ›ãƒœãƒªãƒ¥ãƒ¼ãƒ ã®è¨­å®š
+ * [æ›¸ã€€å¼] void ADXT_SetOutVol(ADXT adxt, Sint32 vol);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			vol		: æ¸›è¡°ãƒ¬ãƒ™ãƒ«ã€€(0:-0dB, -960:-96dB)
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] å‡ºåŠ›ãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’è¨­å®šã™ã‚‹ã€‚
+ *			volã®è¨­å®šå€¤	0    :  -0dB  æ¸›è¡°ãªã—
+ *						-30  :  -3dB  ç´„70%
+ *						-60  :  -6dB  ç´„50%
+ *						-960 : -96dB  æœ€å¤§ã®æ¸›è¡°é‡
  *  Set volume
  * [Inputs  ] adxt	: ADXT handle
  *			  vol	: Volume (0:-dB, -960:-96dB)
@@ -723,12 +727,12 @@ Sint32 ADXT_GetOutPan(ADXT adxt, Sint32 ch);
  */
 void ADXT_SetOutVol(ADXT adxt, Sint32 vol);
 
-/*	$func$ o—Íƒ{ƒŠƒ…[ƒ€‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetOutVol(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] o—Íƒ{ƒŠƒ…[ƒ€‚Ìİ’è’l@(0:-0dB ` -960:-96dB)
- * [‹@@”\] o—Íƒ{ƒŠƒ…[ƒ€‚ğæ“¾‚·‚éB
+/*	$func$ å‡ºåŠ›ãƒœãƒªãƒ¥ãƒ¼ãƒ ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetOutVol(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] å‡ºåŠ›ãƒœãƒªãƒ¥ãƒ¼ãƒ ã®è¨­å®šå€¤ã€€(0:-0dB ï½ -960:-96dB)
+ * [æ©Ÿã€€èƒ½] å‡ºåŠ›ãƒœãƒªãƒ¥ãƒ¼ãƒ ã‚’å–å¾—ã™ã‚‹ã€‚
  *  Get volume
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -737,15 +741,15 @@ void ADXT_SetOutVol(ADXT adxt, Sint32 vol);
  */
 Sint32 ADXT_GetOutVol(ADXT adxt);
 
-/*	$func$ ƒT[ƒoŠÖ”‚ÌŒÄ‚Ño‚µ•p“x‚Ìİ’è	(‚P•b“–‚½‚è‚ÌŒÄ‚Ño‚µ‰ñ”)
- * [‘@®] void ADXT_SetSvrFreq(ADXT adxt, Sint32 freq);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			freq	: ƒT[ƒoŠÖ”‚ÌŒÄ‚Ño‚µ•p“x (‚P•b“–‚½‚è‚ÌŒÄ‚Ño‚µ‰ñ”)
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒT[ƒoŠÖ”(ADXT_ExecServerŠÖ”)‚ÌŒÄ‚Ño‚µ•p“x‚Ìİ’è‚·‚éB
- *			ƒfƒtƒHƒ‹ƒg‚Å‚ÍA60‚ªİ’è‚³‚ê‚Ä‚¢‚éB
- *			’ÊíAİ’è‚·‚é•K—v‚Í‚È‚¢B
+/*	$func$ ã‚µãƒ¼ãƒé–¢æ•°ã®å‘¼ã³å‡ºã—é »åº¦ã®è¨­å®š	(ï¼‘ç§’å½“ãŸã‚Šã®å‘¼ã³å‡ºã—å›æ•°)
+ * [æ›¸ã€€å¼] void ADXT_SetSvrFreq(ADXT adxt, Sint32 freq);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			freq	: ã‚µãƒ¼ãƒé–¢æ•°ã®å‘¼ã³å‡ºã—é »åº¦ (ï¼‘ç§’å½“ãŸã‚Šã®å‘¼ã³å‡ºã—å›æ•°)
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ã‚µãƒ¼ãƒé–¢æ•°(ADXT_ExecServeré–¢æ•°)ã®å‘¼ã³å‡ºã—é »åº¦ã®è¨­å®šã™ã‚‹ã€‚
+ *			ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã§ã¯ã€60ãŒè¨­å®šã•ã‚Œã¦ã„ã‚‹ã€‚
+ *			é€šå¸¸ã€è¨­å®šã™ã‚‹å¿…è¦ã¯ãªã„ã€‚
  *  Set the frequency called server function(times/sec)
  * [Inputs  ] adxt	: ADXT handle
  *			  freq	: Frequency called server function(times/sec)
@@ -756,17 +760,17 @@ Sint32 ADXT_GetOutVol(ADXT adxt);
  */
 void ADXT_SetSvrFreq(ADXT adxt, Sint32 freq);
 
-/*	$func$ Ä“Ç‚İ‚İŠJnŠÔ‚Ìİ’è
- * [‘@®] void ADXT_SetReloadTime(ADXT adxt,float time,Sint32 nch,Sint32 sfreq);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			time	: Ä“Ç‚İ‚İŠJnŠÔ
- *			nch		: ƒ`ƒƒƒ“ƒlƒ‹”
- *			sfreq	: ƒTƒ“ƒvƒŠƒ“ƒOü”g”
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] “ü—Íƒoƒbƒtƒ@‚Ö‚ÌÄ“Ç‚İ‚İŠJnŠÔ‚ğİ’è‚·‚éB
- *			“ü—Íƒoƒbƒtƒ@“à‚Ìƒf[ƒ^—Ê‚ª time •b‚æ‚è­‚È‚­‚È‚é‚ÆƒfƒBƒXƒN‚©‚ç
- *			ƒf[ƒ^‚ğ“Ç‚İ‚ŞB
+/*	$func$ å†èª­ã¿è¾¼ã¿é–‹å§‹æ™‚é–“ã®è¨­å®š
+ * [æ›¸ã€€å¼] void ADXT_SetReloadTime(ADXT adxt,float time,Sint32 nch,Sint32 sfreq);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			time	: å†èª­ã¿è¾¼ã¿é–‹å§‹æ™‚é–“
+ *			nch		: ãƒãƒ£ãƒ³ãƒãƒ«æ•°
+ *			sfreq	: ã‚µãƒ³ãƒ—ãƒªãƒ³ã‚°å‘¨æ³¢æ•°
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã¸ã®å†èª­ã¿è¾¼ã¿é–‹å§‹æ™‚é–“ã‚’è¨­å®šã™ã‚‹ã€‚
+ *			å…¥åŠ›ãƒãƒƒãƒ•ã‚¡å†…ã®ãƒ‡ãƒ¼ã‚¿é‡ãŒ time ç§’ã‚ˆã‚Šå°‘ãªããªã‚‹ã¨ãƒ‡ã‚£ã‚¹ã‚¯ã‹ã‚‰
+ *			ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€ã€‚
  *  Set the time of start sector to reload
  * [Inputs  ] adxt	: ADXT handle
  *			  time  : start remain time
@@ -780,15 +784,15 @@ void ADXT_SetSvrFreq(ADXT adxt, Sint32 freq);
  */
 void ADXT_SetReloadTime(ADXT adxt, float time, Sint32 nch, Sint32 sfreq);
 
-/*	$func$ Ä“Ç‚İ‚İŠJnƒZƒNƒ^”‚Ìİ’è
- * [‘@®] void ADXT_SetReloadSct(ADXT adxt, Sint32 minsct);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			minsct	: Ä“Ç‚İ‚İŠJnƒZƒNƒ^”
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] “ü—Íƒoƒbƒtƒ@‚Ö‚ÌÄ“Ç‚İ‚İŠJnƒZƒNƒ^”‚ğİ’è‚·‚éB
- *			“ü—Íƒoƒbƒtƒ@“à‚Ìƒf[ƒ^—Ê‚ª minsct ƒZƒNƒ^‚æ‚è­‚È‚­‚È‚é‚ÆƒfƒBƒXƒN
- *			‚©‚çƒf[ƒ^‚ğ“Ç‚İ‚ŞB
+/*	$func$ å†èª­ã¿è¾¼ã¿é–‹å§‹ã‚»ã‚¯ã‚¿æ•°ã®è¨­å®š
+ * [æ›¸ã€€å¼] void ADXT_SetReloadSct(ADXT adxt, Sint32 minsct);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			minsct	: å†èª­ã¿è¾¼ã¿é–‹å§‹ã‚»ã‚¯ã‚¿æ•°
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã¸ã®å†èª­ã¿è¾¼ã¿é–‹å§‹ã‚»ã‚¯ã‚¿æ•°ã‚’è¨­å®šã™ã‚‹ã€‚
+ *			å…¥åŠ›ãƒãƒƒãƒ•ã‚¡å†…ã®ãƒ‡ãƒ¼ã‚¿é‡ãŒ minsct ã‚»ã‚¯ã‚¿ã‚ˆã‚Šå°‘ãªããªã‚‹ã¨ãƒ‡ã‚£ã‚¹ã‚¯
+ *			ã‹ã‚‰ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€ã€‚
  *  Set the number of start sector to reload
  * [Inputs  ] adxt	: ADXT handle
  *			  minsct: start sector number
@@ -800,12 +804,12 @@ void ADXT_SetReloadTime(ADXT adxt, float time, Sint32 nch, Sint32 sfreq);
  */
 void ADXT_SetReloadSct(ADXT adxt, Sint32 minsct);
 
-/*	$func$ “ü—Íƒoƒbƒtƒ@“à‚ÌƒZƒNƒ^”‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetNumSctIbuf(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ƒZƒNƒ^”
- * [‹@@”\] “ü—Íƒoƒbƒtƒ@‚É“Ç‚İ‚Ü‚ê‚Ä‚¢‚éƒZƒNƒ^”‚ğæ“¾‚·‚éB
+/*	$func$ å…¥åŠ›ãƒãƒƒãƒ•ã‚¡å†…ã®ã‚»ã‚¯ã‚¿æ•°ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetNumSctIbuf(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ã‚»ã‚¯ã‚¿æ•°
+ * [æ©Ÿã€€èƒ½] å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã«èª­ã¿è¾¼ã¾ã‚Œã¦ã„ã‚‹ã‚»ã‚¯ã‚¿æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
  *  Get the amount of data stored in input buffer(sector)
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -814,23 +818,23 @@ void ADXT_SetReloadSct(ADXT adxt, Sint32 minsct);
  */
 Sint32 ADXT_GetNumSctIbuf(ADXT adxt);
 
-/*	$func$ o—Íƒoƒbƒtƒ@“à‚ÌƒTƒ“ƒvƒ‹”‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetNumSmplObuf(ADXT adxt, Sint32 chno);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			chno	: ƒ`ƒƒƒ“ƒlƒ‹”Ô†
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ƒTƒ“ƒvƒ‹”
- * [‹@@”\] o—Íƒoƒbƒtƒ@“à‚ÌƒTƒ“ƒvƒ‹”‚ğæ“¾‚·‚éB
+/*	$func$ å‡ºåŠ›ãƒãƒƒãƒ•ã‚¡å†…ã®ã‚µãƒ³ãƒ—ãƒ«æ•°ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetNumSmplObuf(ADXT adxt, Sint32 chno);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			chno	: ãƒãƒ£ãƒ³ãƒãƒ«ç•ªå·
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ã‚µãƒ³ãƒ—ãƒ«æ•°
+ * [æ©Ÿã€€èƒ½] å‡ºåŠ›ãƒãƒƒãƒ•ã‚¡å†…ã®ã‚µãƒ³ãƒ—ãƒ«æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
  */
 Sint32 ADXT_GetNumSmplObuf(ADXT adxt, Sint32 chno);
 
-/*	$func$ “ü—Íƒoƒbƒtƒ@“àÄ¶ŠÔ
- * [‘@®] float ADXT_GetIbufRemainTime(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] Ä¶‰Â”\ŠÔ@(’PˆÊF•b)
- * [‹@@”\] “ü—Íƒoƒbƒtƒ@‚É‚ ‚éƒf[ƒ^‚ÅÄ¶‰Â”\‚ÈŠÔ‚ğæ“¾‚·‚éB
- *			ADXƒf[ƒ^‚Ì‚İ‘Î‰B
+/*	$func$ å…¥åŠ›ãƒãƒƒãƒ•ã‚¡å†…å†ç”Ÿæ™‚é–“
+ * [æ›¸ã€€å¼] float ADXT_GetIbufRemainTime(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] å†ç”Ÿå¯èƒ½æ™‚é–“ã€€(å˜ä½ï¼šç§’)
+ * [æ©Ÿã€€èƒ½] å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã«ã‚ã‚‹ãƒ‡ãƒ¼ã‚¿ã§å†ç”Ÿå¯èƒ½ãªæ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
+ *			ADXãƒ‡ãƒ¼ã‚¿ã®ã¿å¯¾å¿œã€‚
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
  * [Return  ] Playable time (sec)
@@ -839,14 +843,14 @@ Sint32 ADXT_GetNumSmplObuf(ADXT adxt, Sint32 chno);
  */
 float ADXT_GetIbufRemainTime(ADXT adxt);
 
-/*	$func$ “ü—Íƒoƒbƒtƒ@‚É\•ª‚Èƒf[ƒ^‚ª‚ ‚é‚©”Û‚©‚ÌŒŸ¸
- * [‘@®] Sint32 ADXT_IsIbufSafety(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] TRUE(1):\•ª‚Èƒf[ƒ^‚ª‚ ‚éAFALSE(0):ƒf[ƒ^•s‘«
- * [‹@@”\] “ü—Íƒoƒbƒtƒ@‚É\•ª‚Èƒf[ƒ^‚ª‚ ‚é‚©”Û‚©‚ğŒŸ¸‚·‚éB
- *			ADXT_SetReloadSctŠÖ”‚É‚æ‚Á‚Äw’è‚³‚ê‚½Ä“Ç‚İ‚İŠJnƒZƒNƒ^”ˆÈã‚Ì
- *			ƒf[ƒ^‚ª“ü—Íƒoƒbƒtƒ@“à‚É‘¶İ‚·‚éê‡ATRUE‚ª•Ô‚³‚ê‚éB
+/*	$func$ å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã«ååˆ†ãªãƒ‡ãƒ¼ã‚¿ãŒã‚ã‚‹ã‹å¦ã‹ã®æ¤œæŸ»
+ * [æ›¸ã€€å¼] Sint32 ADXT_IsIbufSafety(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] TRUE(1):ååˆ†ãªãƒ‡ãƒ¼ã‚¿ãŒã‚ã‚‹ã€FALSE(0):ãƒ‡ãƒ¼ã‚¿ä¸è¶³
+ * [æ©Ÿã€€èƒ½] å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ã«ååˆ†ãªãƒ‡ãƒ¼ã‚¿ãŒã‚ã‚‹ã‹å¦ã‹ã‚’æ¤œæŸ»ã™ã‚‹ã€‚
+ *			ADXT_SetReloadScté–¢æ•°ã«ã‚ˆã£ã¦æŒ‡å®šã•ã‚ŒãŸå†èª­ã¿è¾¼ã¿é–‹å§‹ã‚»ã‚¯ã‚¿æ•°ä»¥ä¸Šã®
+ *			ãƒ‡ãƒ¼ã‚¿ãŒå…¥åŠ›ãƒãƒƒãƒ•ã‚¡å†…ã«å­˜åœ¨ã™ã‚‹å ´åˆã€TRUEãŒè¿”ã•ã‚Œã‚‹ã€‚
  *  Check whether the input buffer is having enough data or not
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -857,19 +861,19 @@ float ADXT_GetIbufRemainTime(ADXT adxt);
  */
 Sint32 ADXT_IsIbufSafety(ADXT adxt);
 
-/*	$func$ ƒGƒ‰[ƒŠƒJƒoƒŠ[ƒ‚[ƒh‚Ìw’è
- * [‘@®] void ADXT_SetAutoRcvr(ADXT adxt, Sint32 rmode);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			rmode	: ƒGƒ‰[ƒŠƒJƒoƒŠ[‚Ì•û–@
+/*	$func$ ã‚¨ãƒ©ãƒ¼ãƒªã‚«ãƒãƒªãƒ¼ãƒ¢ãƒ¼ãƒ‰ã®æŒ‡å®š
+ * [æ›¸ã€€å¼] void ADXT_SetAutoRcvr(ADXT adxt, Sint32 rmode);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			rmode	: ã‚¨ãƒ©ãƒ¼ãƒªã‚«ãƒãƒªãƒ¼ã®æ–¹æ³•
  *					  ADXT_RMODE_NOACT, ADXT_RMODE_STOP, ADXT_RMODE_REPLAY
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒGƒ‰[ƒŠƒJƒoƒŠ[‚Ì•û–@‚ğİ’è‚·‚éB
- *			ADXT_RMODE_NOACT : ƒGƒ‰[ƒŠƒJƒoƒŠ[‚µ‚È‚¢
- *			ADXT_RMODE_STOP  : ©“®“I‚É’â~‚µA“®ìó‘Ô‚ªADXT_STAT_STOP‚É‚È‚éB
- *			ADXT_RMODE_REPLAY: CD‚©‚ç‚Ìƒf[ƒ^‚Ì‹Ÿ‹‹‚ª“rØ‚ê‚½‚Æ‚«‚ÉA©“®“I‚É
- *							   ƒtƒ@ƒCƒ‹‚Ìæ“ª‚©‚çÄ¶‚·‚éB
- *							   ‚»‚Ì‘¼‚Ìê‡‚ÍA©“®“I‚É’â~‚µ‚·‚éB
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ã‚¨ãƒ©ãƒ¼ãƒªã‚«ãƒãƒªãƒ¼ã®æ–¹æ³•ã‚’è¨­å®šã™ã‚‹ã€‚
+ *			ADXT_RMODE_NOACT : ã‚¨ãƒ©ãƒ¼ãƒªã‚«ãƒãƒªãƒ¼ã—ãªã„
+ *			ADXT_RMODE_STOP  : è‡ªå‹•çš„ã«åœæ­¢ã—ã€å‹•ä½œçŠ¶æ…‹ãŒADXT_STAT_STOPã«ãªã‚‹ã€‚
+ *			ADXT_RMODE_REPLAY: CDã‹ã‚‰ã®ãƒ‡ãƒ¼ã‚¿ã®ä¾›çµ¦ãŒé€”åˆ‡ã‚ŒãŸã¨ãã«ã€è‡ªå‹•çš„ã«
+ *							   ãƒ•ã‚¡ã‚¤ãƒ«ã®å…ˆé ­ã‹ã‚‰å†ç”Ÿã™ã‚‹ã€‚
+ *							   ãã®ä»–ã®å ´åˆã¯ã€è‡ªå‹•çš„ã«åœæ­¢ã—ã™ã‚‹ã€‚
  *  Set a mode of error recovery
  * [Inputs  ] adxt	: ADXT handle
  *			  rmode	: Method of error recovery
@@ -885,12 +889,12 @@ Sint32 ADXT_IsIbufSafety(ADXT adxt);
  */
 void ADXT_SetAutoRcvr(ADXT adxt, Sint32 rmode);
 
-/*	$func$ Ä¶‚ªI—¹‚µ‚½‚©”Û‚©‚ÌŒŸ¸
- * [‘@®] Sint32 ADXT_IsCompleted(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] TRUE(1):Ä¶I—¹AFALSE(0):Ä¶’†
- * [‹@@”\] Ä¶‚ªI—¹‚µ‚½‚©”Û‚©‚ğ’²‚×‚éB
+/*	$func$ å†ç”ŸãŒçµ‚äº†ã—ãŸã‹å¦ã‹ã®æ¤œæŸ»
+ * [æ›¸ã€€å¼] Sint32 ADXT_IsCompleted(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] TRUE(1):å†ç”Ÿçµ‚äº†ã€FALSE(0):å†ç”Ÿä¸­
+ * [æ©Ÿã€€èƒ½] å†ç”ŸãŒçµ‚äº†ã—ãŸã‹å¦ã‹ã‚’èª¿ã¹ã‚‹ã€‚
  *  Check whether the play finished or not
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -899,13 +903,13 @@ void ADXT_SetAutoRcvr(ADXT adxt, Sint32 rmode);
  */
 Sint32 ADXT_IsCompleted(ADXT adxt);
 
-/*	$func$ Šeƒnƒ“ƒhƒ‹‚ÌƒT[ƒoŠÖ”@i“à•”ó‘Ô‚ÌXV)
- * [‘@®] void ADXT_ExecHndl(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] Šeƒnƒ“ƒhƒ‹‚Ì“à•”ó‘Ô‚ğXV‚·‚éB
- *			ADXT_ExecServer“à‚©‚çŒÄ‚Ño‚³‚ê‚éB
+/*	$func$ å„ãƒãƒ³ãƒ‰ãƒ«ã®ã‚µãƒ¼ãƒé–¢æ•°ã€€ï¼ˆå†…éƒ¨çŠ¶æ…‹ã®æ›´æ–°)
+ * [æ›¸ã€€å¼] void ADXT_ExecHndl(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] å„ãƒãƒ³ãƒ‰ãƒ«ã®å†…éƒ¨çŠ¶æ…‹ã‚’æ›´æ–°ã™ã‚‹ã€‚
+ *			ADXT_ExecServerå†…ã‹ã‚‰å‘¼ã³å‡ºã•ã‚Œã‚‹ã€‚
  *  Server function of each handle
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -915,13 +919,13 @@ Sint32 ADXT_IsCompleted(ADXT adxt);
  */
 void ADXT_ExecHndl(ADXT adxt);
 
-/*	$func$ ƒT[ƒoŠÖ”@i“à•”ó‘Ô‚ÌXV)
- * [‘@®] void ADXT_ExecServer(void);
- * [“ü@—Í] ‚È‚µ
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒ‰ƒCƒuƒ‰ƒŠ‚Ì“à•”ó‘Ô‚ğXV‚·‚éB
- *			V-Sync –ˆ‚ÉŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
+/*	$func$ ã‚µãƒ¼ãƒé–¢æ•°ã€€ï¼ˆå†…éƒ¨çŠ¶æ…‹ã®æ›´æ–°)
+ * [æ›¸ã€€å¼] void ADXT_ExecServer(void);
+ * [å…¥ã€€åŠ›] ãªã—
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®å†…éƒ¨çŠ¶æ…‹ã‚’æ›´æ–°ã™ã‚‹ã€‚
+ *			V-Sync æ¯ã«å‘¼ã³å‡ºã•ãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
  *  Server function
  * [Inputs  ] None
  * [Outputs ] None
@@ -930,14 +934,14 @@ void ADXT_ExecHndl(ADXT adxt);
  */
 void ADXT_ExecServer(void);
 
-/*	$func$ ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒT[ƒoŠÖ”@i“à•”ó‘Ô‚ÌXV)
- * [‘@®] void ADXT_ExecFsSvr(void);
- * [“ü@—Í] ‚È‚µ
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒ‰ƒCƒuƒ‰ƒŠ‚Ì“à•”ó‘Ô‚ğXV‚·‚éB
- *			V-Sync –ˆ‚ÉŒÄ‚Ño‚³‚È‚¯‚ê‚Î‚È‚ç‚È‚¢B
- *			—Dæ“x‚ğADXT_ExecServer‚æ‚è‚à’á‚­‚·‚éB
+/*	$func$ ãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã‚µãƒ¼ãƒé–¢æ•°ã€€ï¼ˆå†…éƒ¨çŠ¶æ…‹ã®æ›´æ–°)
+ * [æ›¸ã€€å¼] void ADXT_ExecFsSvr(void);
+ * [å…¥ã€€åŠ›] ãªã—
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã®å†…éƒ¨çŠ¶æ…‹ã‚’æ›´æ–°ã™ã‚‹ã€‚
+ *			V-Sync æ¯ã«å‘¼ã³å‡ºã•ãªã‘ã‚Œã°ãªã‚‰ãªã„ã€‚
+ *			å„ªå…ˆåº¦ã‚’ADXT_ExecServerã‚ˆã‚Šã‚‚ä½ãã™ã‚‹ã€‚
  *  File System Server function
  * [Inputs  ] None
  * [Outputs ] None
@@ -946,12 +950,12 @@ void ADXT_ExecServer(void);
  */
 void ADXT_ExecFsSvr(void);
 
-/*	$func$ ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒT[ƒo‚ªˆ—’†‚©”Û‚©
- * [‘@®] Sint32 ADXT_IsActiveFsSvr(void);
- * [“ü@—Í] ‚È‚µ
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] TRUE:ˆ—’†^FALSE:ˆ—‚µ‚Ä‚¢‚È‚¢
- * [‹@@”\] ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€ƒT[ƒo‚ªˆ—’†‚©”Û‚©‚ğƒ`ƒFƒbƒN‚·‚éB
+/*	$func$ ãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã‚µãƒ¼ãƒãŒå‡¦ç†ä¸­ã‹å¦ã‹
+ * [æ›¸ã€€å¼] Sint32 ADXT_IsActiveFsSvr(void);
+ * [å…¥ã€€åŠ›] ãªã—
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] TRUE:å‡¦ç†ä¸­ï¼FALSE:å‡¦ç†ã—ã¦ã„ãªã„
+ * [æ©Ÿã€€èƒ½] ãƒ•ã‚¡ã‚¤ãƒ«ã‚·ã‚¹ãƒ†ãƒ ã‚µãƒ¼ãƒãŒå‡¦ç†ä¸­ã‹å¦ã‹ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚
  *  Check active File System Server function
  * [Inputs  ] None
  * [Outputs ] None
@@ -960,12 +964,12 @@ void ADXT_ExecFsSvr(void);
  */
 Sint32 ADXT_IsActiveFsSvr(void);
 
-/*	$func$ ƒGƒ‰[ƒR[ƒh‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetErrCode(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒGƒ‰[ƒR[ƒh‚ğæ“¾‚·‚éB
+/*	$func$ ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetErrCode(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’å–å¾—ã™ã‚‹ã€‚
  *  Get error code
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -974,12 +978,12 @@ Sint32 ADXT_IsActiveFsSvr(void);
  */
 Sint32 ADXT_GetErrCode(ADXT adxt);
 
-/*	$func$ ƒGƒ‰[ƒR[ƒh‚ÌƒNƒŠƒA
- * [‘@®] void ADXT_ClearErrCode(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒGƒ‰[ƒR[ƒh‚ğƒNƒŠƒA‚·‚éB
+/*	$func$ ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã®ã‚¯ãƒªã‚¢
+ * [æ›¸ã€€å¼] void ADXT_ClearErrCode(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹ã€‚
  *  Clear error code
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -988,12 +992,12 @@ Sint32 ADXT_GetErrCode(ADXT adxt);
  */
 void ADXT_ClearErrCode(ADXT adxt);
 
-/*	$func$ ƒ‹[ƒv‚µ‚½‰ñ”‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetLpCnt(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ƒ‹[ƒv‚µ‚½‰ñ”
- * [‹@@”\] ƒ‹[ƒv‚µ‚½‰ñ”‚ğæ“¾‚·‚éB
+/*	$func$ ãƒ«ãƒ¼ãƒ—ã—ãŸå›æ•°ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetLpCnt(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãƒ«ãƒ¼ãƒ—ã—ãŸå›æ•°
+ * [æ©Ÿã€€èƒ½] ãƒ«ãƒ¼ãƒ—ã—ãŸå›æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
  *  Get the number of times played a loop
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -1002,15 +1006,15 @@ void ADXT_ClearErrCode(ADXT adxt);
  */
 Sint32 ADXT_GetLpCnt(ADXT adxt);
 
-/*	$func$ ƒ‹[ƒvƒtƒ‰ƒO‚Ìİ’è
- * [‘@®] void ADXT_SetLpFlg(ADXT adxt, Sint32 flg);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			flg		: 1=ƒ‹[ƒv‚·‚éA0=ƒ‹[ƒv‚µ‚È‚¢
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒ‹[ƒv‚·‚é‚©”Û‚©‚ğİ’è‚·‚éB
- *			Ä¶’†‚ÍAƒ‹[ƒv‚ğ‰ğœ‚·‚é‚±‚Æ‚Ì‚İ‰Â”\B
- *			Ä“xAƒ‹[ƒv‚ğİ’è‚·‚é‚ÍAÄ¶ŠJn’¼‘O‚Éİ’è‚·‚é‚±‚ÆB
+/*	$func$ ãƒ«ãƒ¼ãƒ—ãƒ•ãƒ©ã‚°ã®è¨­å®š
+ * [æ›¸ã€€å¼] void ADXT_SetLpFlg(ADXT adxt, Sint32 flg);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			flg		: 1=ãƒ«ãƒ¼ãƒ—ã™ã‚‹ã€0=ãƒ«ãƒ¼ãƒ—ã—ãªã„
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ãƒ«ãƒ¼ãƒ—ã™ã‚‹ã‹å¦ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
+ *			å†ç”Ÿä¸­ã¯ã€ãƒ«ãƒ¼ãƒ—ã‚’è§£é™¤ã™ã‚‹ã“ã¨ã®ã¿å¯èƒ½ã€‚
+ *			å†åº¦ã€ãƒ«ãƒ¼ãƒ—ã‚’è¨­å®šã™ã‚‹æ™‚ã¯ã€å†ç”Ÿé–‹å§‹ç›´å‰ã«è¨­å®šã™ã‚‹ã“ã¨ã€‚
  *  Set the loop flag
  * [Inputs  ] adxt	: ADXT handle
  *			  flg	: 1=loop, 0=not loop
@@ -1023,12 +1027,12 @@ Sint32 ADXT_GetLpCnt(ADXT adxt);
  */
 void ADXT_SetLpFlg(ADXT adxt, Sint32 flg);
 
-/*	$func$ “ü—ÍƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒg‚Ìæ“¾
- * [‘@®] SJ ADXT_GetInputSj(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒgƒnƒ“ƒhƒ‹
- * [‹@@”\] “ü—Í—pƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒg‚ğæ“¾‚·‚éB
+/*	$func$ å…¥åŠ›ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆã®å–å¾—
+ * [æ›¸ã€€å¼] SJ ADXT_GetInputSj(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆãƒãƒ³ãƒ‰ãƒ«
+ * [æ©Ÿã€€èƒ½] å…¥åŠ›ç”¨ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆã‚’å–å¾—ã™ã‚‹ã€‚
  *  Get input Stream Joint
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -1037,13 +1041,13 @@ void ADXT_SetLpFlg(ADXT adxt, Sint32 flg);
  */
 SJ ADXT_GetInputSj(ADXT adxt);
 
-/*	$func$ ‰¹ºo—ÍŠJn‘Ò‚¿‚Ìİ’è
- * [‘@®] void ADXT_SetWaitPlayStart(ADXT adxt, Sint32 flg);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			flg		: 1=ƒEƒFƒCƒg‚·‚éA0=‰¹ºo—Í‚ğ‘¦À‚ÉŠJn‚·‚é
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ‰¹º‚Ìo—Í‚ÌŠJn‘Ò‚¿‚ğİ’è‚·‚éB
+/*	$func$ éŸ³å£°å‡ºåŠ›é–‹å§‹å¾…ã¡ã®è¨­å®š
+ * [æ›¸ã€€å¼] void ADXT_SetWaitPlayStart(ADXT adxt, Sint32 flg);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			flg		: 1=ã‚¦ã‚§ã‚¤ãƒˆã™ã‚‹ã€0=éŸ³å£°å‡ºåŠ›ã‚’å³åº§ã«é–‹å§‹ã™ã‚‹
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] éŸ³å£°ã®å‡ºåŠ›ã®é–‹å§‹å¾…ã¡ã‚’è¨­å®šã™ã‚‹ã€‚
  *  Set waiting for starting to output the sound
  * [Inputs  ] adxt	: ADXT handle
  *			  flg	: 1=waits, 0=starts to output sound
@@ -1053,12 +1057,12 @@ SJ ADXT_GetInputSj(ADXT adxt);
  */
 void ADXT_SetWaitPlayStart(ADXT adxt, Sint32 flg);
 
-/*	$func$ ‰¹ºo—ÍŠJn€”õŠ®—¹‚©”Û‚©‚Ì”»’è
- * [‘@®] Sint32 ADXT_IsReadyPlayStart(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] 1:€”õŠ®—¹^0:€”õ’†
- * [‹@@”\] ‰¹ºo—ÍŠJn‚Ì€”õ‚ªŠ®—¹‚©”Û‚©‚ğ”»’è‚·‚éB
+/*	$func$ éŸ³å£°å‡ºåŠ›é–‹å§‹æº–å‚™å®Œäº†ã‹å¦ã‹ã®åˆ¤å®š
+ * [æ›¸ã€€å¼] Sint32 ADXT_IsReadyPlayStart(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] 1:æº–å‚™å®Œäº†ï¼0:æº–å‚™ä¸­
+ * [æ©Ÿã€€èƒ½] éŸ³å£°å‡ºåŠ›é–‹å§‹ã®æº–å‚™ãŒå®Œäº†ã‹å¦ã‹ã‚’åˆ¤å®šã™ã‚‹ã€‚
  *  Check whether preparations completion
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -1067,13 +1071,13 @@ void ADXT_SetWaitPlayStart(ADXT adxt, Sint32 flg);
  */
 Sint32 ADXT_IsReadyPlayStart(ADXT adxt);
 
-/*	$func$ ˆê’â~‚Ìİ’è
- * [‘@®] void ADXT_Pause(ADXT adxt, Sint32 sw);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			sw		: 1=ˆê’â~A0=ÄŠJ
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ˆê’â~‚·‚é‚©”Û‚©‚ğİ’è‚·‚éB
+/*	$func$ ä¸€æ™‚åœæ­¢ã®è¨­å®š
+ * [æ›¸ã€€å¼] void ADXT_Pause(ADXT adxt, Sint32 sw);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			sw		: 1=ä¸€æ™‚åœæ­¢ã€0=å†é–‹
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ä¸€æ™‚åœæ­¢ã™ã‚‹ã‹å¦ã‹ã‚’è¨­å®šã™ã‚‹ã€‚
  *  Pause/Continue
  * [Inputs  ] adxt	: ADXT handle
  *			  sw	: 1=pause, 0=continue
@@ -1084,12 +1088,12 @@ Sint32 ADXT_IsReadyPlayStart(ADXT adxt);
  */
 void ADXT_Pause(ADXT adxt, Sint32 sw);
 
-/*	$func$ ˆê’â~ó‘Ô‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetStatPause(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ˆê’â~ó‘Ô 1=ˆê’â~A0=”ñˆê’â~
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ˆê’â~ó‘Ô‚ğæ“¾‚·‚éB
+/*	$func$ ä¸€æ™‚åœæ­¢çŠ¶æ…‹ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetStatPause(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ä¸€æ™‚åœæ­¢çŠ¶æ…‹ 1=ä¸€æ™‚åœæ­¢ã€0=éä¸€æ™‚åœæ­¢
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ä¸€æ™‚åœæ­¢çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹ã€‚
  *  Pause/Continue
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] 1=pause, 0=not pause
@@ -1098,33 +1102,33 @@ void ADXT_Pause(ADXT adxt, Sint32 sw);
  */
 Sint32 ADXT_GetStatPause(ADXT adxt);
 
-/*	$func$ ƒ_ƒCƒŒƒNƒgƒZƒ“ƒhƒŒƒxƒ‹‚Ìİ’è
- * [‘@®] void ADXT_SetDrctLvl(ADXT adxt, Sint32 drctlvl)
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			drctlvl	: ƒ_ƒCƒŒƒNƒgƒZƒ“ƒhƒŒƒxƒ‹@(0dB ` -45dB)
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒ_ƒCƒŒƒNƒgƒZƒ“ƒhƒŒƒxƒ‹‚ğİ’è‚·‚éB
+/*	$func$ ãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆã‚»ãƒ³ãƒ‰ãƒ¬ãƒ™ãƒ«ã®è¨­å®š
+ * [æ›¸ã€€å¼] void ADXT_SetDrctLvl(ADXT adxt, Sint32 drctlvl)
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			drctlvl	: ãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆã‚»ãƒ³ãƒ‰ãƒ¬ãƒ™ãƒ«ã€€(0dB ï½ -45dB)
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆã‚»ãƒ³ãƒ‰ãƒ¬ãƒ™ãƒ«ã‚’è¨­å®šã™ã‚‹ã€‚
  */
 void ADXT_SetDrctLvl(ADXT adxt, Sint32 drctlvl);
 
-/*	$func$ ƒ_ƒCƒŒƒNƒgƒZƒ“ƒhƒŒƒxƒ‹‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetDrctLvl(ADXT adxt)
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ƒ_ƒCƒŒƒNƒgƒZƒ“ƒhƒŒƒxƒ‹@(0dB ` -45dB)
- * [‹@@”\] ƒ_ƒCƒŒƒNƒgƒZƒ“ƒhƒŒƒxƒ‹‚ğæ“¾‚·‚éB
+/*	$func$ ãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆã‚»ãƒ³ãƒ‰ãƒ¬ãƒ™ãƒ«ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetDrctLvl(ADXT adxt)
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆã‚»ãƒ³ãƒ‰ãƒ¬ãƒ™ãƒ«ã€€(0dB ï½ -45dB)
+ * [æ©Ÿã€€èƒ½] ãƒ€ã‚¤ãƒ¬ã‚¯ãƒˆã‚»ãƒ³ãƒ‰ãƒ¬ãƒ™ãƒ«ã‚’å–å¾—ã™ã‚‹ã€‚
  */
 Sint32 ADXT_GetDrctLvl(ADXT adxt);
 
-/*	$func$ ƒGƒtƒFƒNƒ^‚Ìİ’è
- * [‘@®] void ADXT_SetFx(ADXT adxt, Sint32 fxch, Sint32 fxlvl);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			fxch	: ƒGƒtƒFƒNƒ^‚Ì“ü—Íƒ`ƒƒƒ“ƒlƒ‹”Ô† (0`15)
- *			fxlvl	: ƒGƒtƒFƒNƒ^‚Ì“ü—ÍƒŒƒxƒ‹@(0dB ` -45dB)
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒGƒtƒFƒNƒ^‚Ö‚Ìo—Í‚ğİ’è‚·‚éB
+/*	$func$ ã‚¨ãƒ•ã‚§ã‚¯ã‚¿ã®è¨­å®š
+ * [æ›¸ã€€å¼] void ADXT_SetFx(ADXT adxt, Sint32 fxch, Sint32 fxlvl);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			fxch	: ã‚¨ãƒ•ã‚§ã‚¯ã‚¿ã®å…¥åŠ›ãƒãƒ£ãƒ³ãƒãƒ«ç•ªå· (0ï½15)
+ *			fxlvl	: ã‚¨ãƒ•ã‚§ã‚¯ã‚¿ã®å…¥åŠ›ãƒ¬ãƒ™ãƒ«ã€€(0dB ï½ -45dB)
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ã‚¨ãƒ•ã‚§ã‚¯ã‚¿ã¸ã®å‡ºåŠ›ã‚’è¨­å®šã™ã‚‹ã€‚
  *  Set the effect
  * [Inputs  ] adxt	: ADXT handle
  *			  fxch	: Input channel number to Effector (0-15)
@@ -1135,13 +1139,13 @@ Sint32 ADXT_GetDrctLvl(ADXT adxt);
  */
 void ADXT_SetFx(ADXT adxt, Sint32 fxch, Sint32 fxlvl);
 
-/*	$func$ ƒGƒtƒFƒNƒ^İ’è’l‚Ìæ“¾
- * [‘@®] void ADXT_GetFx(ADXT adxt, Sint32 *fxch, Sint32 *fxlvl);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] fxch	: ƒGƒtƒFƒNƒ^‚Ö‚Ì“ü—Íƒ`ƒƒƒ“ƒlƒ‹”Ô† (0`15)
- *			fxlvl	: ƒGƒtƒFƒNƒ^‚Ì“ü—ÍƒŒƒxƒ‹@(0dB ` -45dB)
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒGƒtƒFƒNƒ^‚Ìİ’è’l‚ğæ“¾‚·‚éB
+/*	$func$ ã‚¨ãƒ•ã‚§ã‚¯ã‚¿è¨­å®šå€¤ã®å–å¾—
+ * [æ›¸ã€€å¼] void ADXT_GetFx(ADXT adxt, Sint32 *fxch, Sint32 *fxlvl);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] fxch	: ã‚¨ãƒ•ã‚§ã‚¯ã‚¿ã¸ã®å…¥åŠ›ãƒãƒ£ãƒ³ãƒãƒ«ç•ªå· (0ï½15)
+ *			fxlvl	: ã‚¨ãƒ•ã‚§ã‚¯ã‚¿ã®å…¥åŠ›ãƒ¬ãƒ™ãƒ«ã€€(0dB ï½ -45dB)
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ã‚¨ãƒ•ã‚§ã‚¯ã‚¿ã®è¨­å®šå€¤ã‚’å–å¾—ã™ã‚‹ã€‚
  *  Get the effect value
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] fxch	: Input channel number to Effector(0-15)
@@ -1151,14 +1155,14 @@ void ADXT_SetFx(ADXT adxt, Sint32 fxch, Sint32 fxlvl);
  */
 void ADXT_GetFx(ADXT adxt, Sint32 *fxch, Sint32 *fxlvl);
 
-/*	$func$ ƒtƒBƒ‹ƒ^‚Ìİ’è
- * [‘@®] void ADXT_SetFilter(ADXT adxt, Sint32 coff, Sint32 q);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			coff	: ƒJƒbƒgƒIƒtü”g”
- *			q		: ë‰s“x
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒtƒBƒ‹ƒ^‚Ö‚Ìo—Í‚ğİ’è‚·‚éB
+/*	$func$ ãƒ•ã‚£ãƒ«ã‚¿ã®è¨­å®š
+ * [æ›¸ã€€å¼] void ADXT_SetFilter(ADXT adxt, Sint32 coff, Sint32 q);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			coff	: ã‚«ãƒƒãƒˆã‚ªãƒ•å‘¨æ³¢æ•°
+ *			q		: å°–é‹­åº¦
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ãƒ•ã‚£ãƒ«ã‚¿ã¸ã®å‡ºåŠ›ã‚’è¨­å®šã™ã‚‹ã€‚
  *  Set the filter
  * [Inputs  ] adxt	: ADXT handle
  *			  coff	: Cut off frequency
@@ -1169,13 +1173,13 @@ void ADXT_GetFx(ADXT adxt, Sint32 *fxch, Sint32 *fxlvl);
  */
 void ADXT_SetFilter(ADXT adxt, Sint32 coff, Sint32 q);
 
-/*	$func$ ƒtƒBƒ‹ƒ^İ’è’l‚Ìæ“¾
- * [‘@®] void ADXT_GetFilter(ADXT adxt, Sint32 *coff, Sint32 *q);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] coff	: ƒJƒbƒgƒIƒtü”g”
- *			q		: ë‰s“x
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒtƒBƒ‹ƒ^‚Ö‚Ìo—Í’l‚ğæ“¾‚·‚éB
+/*	$func$ ãƒ•ã‚£ãƒ«ã‚¿è¨­å®šå€¤ã®å–å¾—
+ * [æ›¸ã€€å¼] void ADXT_GetFilter(ADXT adxt, Sint32 *coff, Sint32 *q);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] coff	: ã‚«ãƒƒãƒˆã‚ªãƒ•å‘¨æ³¢æ•°
+ *			q		: å°–é‹­åº¦
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ãƒ•ã‚£ãƒ«ã‚¿ã¸ã®å‡ºåŠ›å€¤ã‚’å–å¾—ã™ã‚‹ã€‚
  *  Get the filter value
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] coff	: Cut off frequency
@@ -1185,14 +1189,14 @@ void ADXT_SetFilter(ADXT adxt, Sint32 coff, Sint32 q);
  */
 void ADXT_GetFilter(ADXT adxt, Sint32 *coff, Sint32 *q);
 
-/*	$func$ ƒgƒ‰ƒ“ƒXƒ|[ƒY‚Ìİ’è
- * [‘@®] void ADXT_SetTranspose(ADXT adxt, Sint32 transps, Sint32 detune);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			transps	: ƒgƒ‰ƒ“ƒXƒ|[ƒY—Ê
- *			detune	: ƒfƒ`ƒ…[ƒ“—Ê
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒgƒ‰ƒ“ƒXƒ|[ƒY‚ğİ’è‚·‚éB
+/*	$func$ ãƒˆãƒ©ãƒ³ã‚¹ãƒãƒ¼ã‚ºã®è¨­å®š
+ * [æ›¸ã€€å¼] void ADXT_SetTranspose(ADXT adxt, Sint32 transps, Sint32 detune);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			transps	: ãƒˆãƒ©ãƒ³ã‚¹ãƒãƒ¼ã‚ºé‡
+ *			detune	: ãƒ‡ãƒãƒ¥ãƒ¼ãƒ³é‡
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ãƒˆãƒ©ãƒ³ã‚¹ãƒãƒ¼ã‚ºã‚’è¨­å®šã™ã‚‹ã€‚
  *  Set transpose
  * [Inputs  ] adxt		: ADXT handle
  *			  transps	: Amount of transpose
@@ -1203,13 +1207,13 @@ void ADXT_GetFilter(ADXT adxt, Sint32 *coff, Sint32 *q);
  */
 void ADXT_SetTranspose(ADXT adxt, Sint32 transps, Sint32 detune);
 
-/*	$func$ ƒgƒ‰ƒ“ƒXƒ|[ƒY‚Ìæ“¾
- * [‘@®] void ADXT_GetTranspose(ADXT adxt, Sint32 *transps, Sint32 *detune);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] transps	: ƒgƒ‰ƒ“ƒXƒ|[ƒY—Ê
- *			detune	: ƒfƒ`ƒ…[ƒ“—Ê
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒgƒ‰ƒ“ƒXƒ|[ƒY—Ê‚ğæ“¾‚·‚éB
+/*	$func$ ãƒˆãƒ©ãƒ³ã‚¹ãƒãƒ¼ã‚ºã®å–å¾—
+ * [æ›¸ã€€å¼] void ADXT_GetTranspose(ADXT adxt, Sint32 *transps, Sint32 *detune);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] transps	: ãƒˆãƒ©ãƒ³ã‚¹ãƒãƒ¼ã‚ºé‡
+ *			detune	: ãƒ‡ãƒãƒ¥ãƒ¼ãƒ³é‡
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ãƒˆãƒ©ãƒ³ã‚¹ãƒãƒ¼ã‚ºé‡ã‚’å–å¾—ã™ã‚‹ã€‚
  *  Get tanspose
  * [Inputs  ] adxt		: ADXT handle
  * [Outputs ] transps	: Amount of transpose
@@ -1219,14 +1223,14 @@ void ADXT_SetTranspose(ADXT adxt, Sint32 transps, Sint32 detune);
  */
 void ADXT_GetTranspose(ADXT adxt, Sint32 *transps, Sint32 *detune);
 
-/*	$func$ ƒGƒ‰[ŠÖ”‚Ì“o˜^
- * [‘@®] void ADXT_EntryErrFunc(void (*func)(void *obj, Sint8 *msg),
+/*	$func$ ã‚¨ãƒ©ãƒ¼é–¢æ•°ã®ç™»éŒ²
+ * [æ›¸ã€€å¼] void ADXT_EntryErrFunc(void (*func)(void *obj, Sint8 *msg),
  *																void *obj);
- * [“ü@—Í] func	: ƒGƒ‰[ˆ—ŠÖ”
- *			obj		: ƒGƒ‰[ˆ—ŠÖ”‚Ì‘æ1ˆø”
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒGƒ‰[ˆ—ŠÖ”‚ğ“o˜^‚·‚éB
+ * [å…¥ã€€åŠ›] func	: ã‚¨ãƒ©ãƒ¼å‡¦ç†é–¢æ•°
+ *			obj		: ã‚¨ãƒ©ãƒ¼å‡¦ç†é–¢æ•°ã®ç¬¬1å¼•æ•°
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ã‚¨ãƒ©ãƒ¼å‡¦ç†é–¢æ•°ã‚’ç™»éŒ²ã™ã‚‹ã€‚
  *  Entry error callback function
  * [Inputs  ] func	: Error handling function
  *			  obj	: First argument of error handling function
@@ -1236,13 +1240,13 @@ void ADXT_GetTranspose(ADXT adxt, Sint32 *transps, Sint32 *detune);
  */
 void ADXT_EntryErrFunc(void (*func)(void *obj, Sint8 *msg), void *obj);
 
-/*	$func$ ‰¹ºƒf[ƒ^‚Ì•úŠü
- * [‘@®] Sint32 ADXT_DiscardSmpl(ADXT adxt, Sint32 nsmpl)
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			nsmpl	: ƒTƒ“ƒvƒ‹”
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] Ì‚Ä‚½ƒTƒ“ƒvƒ‹”
- * [‹@@”\] ƒfƒR[ƒh‚µ‚½‰¹ºƒf[ƒ^‚ğÌ‚Ä‚éB
+/*	$func$ éŸ³å£°ãƒ‡ãƒ¼ã‚¿ã®æ”¾æ£„
+ * [æ›¸ã€€å¼] Sint32 ADXT_DiscardSmpl(ADXT adxt, Sint32 nsmpl)
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			nsmpl	: ã‚µãƒ³ãƒ—ãƒ«æ•°
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] æ¨ã¦ãŸã‚µãƒ³ãƒ—ãƒ«æ•°
+ * [æ©Ÿã€€èƒ½] ãƒ‡ã‚³ãƒ¼ãƒ‰ã—ãŸéŸ³å£°ãƒ‡ãƒ¼ã‚¿ã‚’æ¨ã¦ã‚‹ã€‚
  *  Discard sound data
  * [Inputs  ] adxt	: ADXT handle
  *			  nsmpl	: Number of sample
@@ -1252,45 +1256,45 @@ void ADXT_EntryErrFunc(void (*func)(void *obj, Sint8 *msg), void *obj);
  */
 Sint32 ADXT_DiscardSmpl(ADXT adxt, Sint32 nsmpl);
 
-/*	ƒŠƒgƒ‰ƒC‰ñ”‚Ìİ’è	*/
+/*	ãƒªãƒˆãƒ©ã‚¤å›æ•°ã®è¨­å®š	*/
 void ADXT_SetNumRetry(Sint32 num);
 
-/* ƒwƒbƒ_î•ñ‚Ìæ“¾ */
+/* ãƒ˜ãƒƒãƒ€æƒ…å ±ã®å–å¾— */
 void ADXT_GetHdrInfo(Sint8 *buf, Sint32 bsize, ADXHINFO *hinfo);
 
-/*	$func$ ƒtƒ@ƒCƒ‹“Ç‚İ‚İƒXƒe[ƒ^ƒX‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetStatRead(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] 1=“Ç‚İ‚İ’†/“Ç‚İ‚İ€”õ’†A0=”ñ“Ç‚İ‚İ’†/”ñ“Ç‚İ‚İ€”õ’†
- * [‹@@”\] “Ç‚İ‚İó‘Ô‚ğæ“¾‚·‚é
+/*	$func$ ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿è¾¼ã¿ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetStatRead(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] 1=èª­ã¿è¾¼ã¿ä¸­/èª­ã¿è¾¼ã¿æº–å‚™ä¸­ã€0=éèª­ã¿è¾¼ã¿ä¸­/éèª­ã¿è¾¼ã¿æº–å‚™ä¸­
+ * [æ©Ÿã€€èƒ½] èª­ã¿è¾¼ã¿çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹
  */
 Sint32 ADXT_GetStatRead(ADXT adxt);
 
 /***
-*			ƒtƒBƒ‹ƒ^ì¬—pƒR[ƒ‹ƒoƒbƒN
+*			ãƒ•ã‚£ãƒ«ã‚¿ä½œæˆç”¨ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯
 *
-*			ƒfƒR[ƒh‚·‚é–ˆ‚É“o˜^‚³‚ê‚½ŠÖ”‚ªŒÄ‚Ño‚³‚ê‚éB
+*			ãƒ‡ã‚³ãƒ¼ãƒ‰ã™ã‚‹æ¯ã«ç™»éŒ²ã•ã‚ŒãŸé–¢æ•°ãŒå‘¼ã³å‡ºã•ã‚Œã‚‹ã€‚
 *			(*user_flt_cbf)(void *obj, Sint32 ch, void *data, Sint32 dtlen);
-*			obj:	ADXT_EntryFltFuncŠÖ”‚Ì‘æ‚Rˆø”
-*			ch:		ƒ`ƒƒƒ“ƒlƒ‹”Ô†@(0:¶, 1:‰E)
-*			data:	“WŠJ‚³‚ê‚½ƒf[ƒ^ (ADX‚Ìê‡‚ÍA16bitPCM)
-*			dtlen:	“WŠJ‚³‚ê‚½ƒf[ƒ^‚ÌƒoƒCƒg”
-*			¦@U•’Šo‹@”\‚Æ‚Í‹¤—p‚Å‚«‚È‚¢B
+*			obj:	ADXT_EntryFltFuncé–¢æ•°ã®ç¬¬ï¼“å¼•æ•°
+*			ch:		ãƒãƒ£ãƒ³ãƒãƒ«ç•ªå·ã€€(0:å·¦, 1:å³)
+*			data:	å±•é–‹ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ (ADXã®å ´åˆã¯ã€16bitPCM)
+*			dtlen:	å±•é–‹ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ã®ãƒã‚¤ãƒˆæ•°
+*			â€»ã€€æŒ¯å¹…æŠ½å‡ºæ©Ÿèƒ½ã¨ã¯å…±ç”¨ã§ããªã„ã€‚
 **/
 
-/*	ƒtƒBƒ‹ƒ^ƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì“o˜^	*/
+/*	ãƒ•ã‚£ãƒ«ã‚¿ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã®ç™»éŒ²	*/
 void ADXT_EntryFltFunc(ADXT adxt,
 		void (*f)(void *obj, Sint32 ch, void *data, Sint32 dtlen), void *obj);
 
-/* $func$ ƒfƒR[ƒhƒTƒ“ƒvƒ‹”‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetDecNumSmpl(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ƒfƒR[ƒh‚µ‚½‰¹ºƒf[ƒ^‚Ì‘ƒTƒ“ƒvƒ‹”
- * [‹@@”\] ƒfƒR[ƒh‚µ‚½‰¹ºƒf[ƒ^‚Ì‘ƒTƒ“ƒvƒ‹”‚ğæ“¾‚·‚éB
- * [”õ@l] ó‘Ô‚ªAÄ¶€”õ’†(ADXT_STAT_PREP)‚©‚çÄ¶I—¹(ADXT_STAT_PLAYEND)
- *			‚Ü‚Å‚Ì‚Éæ“¾‰Â”\B
+/* $func$ ãƒ‡ã‚³ãƒ¼ãƒ‰ã‚µãƒ³ãƒ—ãƒ«æ•°ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetDecNumSmpl(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãƒ‡ã‚³ãƒ¼ãƒ‰ã—ãŸéŸ³å£°ãƒ‡ãƒ¼ã‚¿ã®ç·ã‚µãƒ³ãƒ—ãƒ«æ•°
+ * [æ©Ÿã€€èƒ½] ãƒ‡ã‚³ãƒ¼ãƒ‰ã—ãŸéŸ³å£°ãƒ‡ãƒ¼ã‚¿ã®ç·ã‚µãƒ³ãƒ—ãƒ«æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+ * [å‚™ã€€è€ƒ] çŠ¶æ…‹ãŒã€å†ç”Ÿæº–å‚™ä¸­(ADXT_STAT_PREP)ã‹ã‚‰å†ç”Ÿçµ‚äº†(ADXT_STAT_PLAYEND)
+ *			ã¾ã§ã®æ™‚ã«å–å¾—å¯èƒ½ã€‚
  *  Get a decoded sample number of sound data
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -1302,25 +1306,25 @@ void ADXT_EntryFltFunc(ADXT adxt,
 Sint32 ADXT_GetDecNumSmpl(ADXT adxt);
 
 /***
-*		ƒV[ƒ€ƒŒƒX˜A‘±Ä¶‹@”\
+*		ã‚·ãƒ¼ãƒ ãƒ¬ã‚¹é€£ç¶šå†ç”Ÿæ©Ÿèƒ½
 *
-*		Eƒ‹[ƒvİ’è‚Ì–³‚¢’Pƒ‚ÈADX ƒf[ƒ^‚Ì‚İ˜A‘±Ä¶‰Â”\
-*		EÅ‘å16ƒtƒ@ƒCƒ‹‚Ü‚Å“o˜^‰Â”\
+*		ãƒ»ãƒ«ãƒ¼ãƒ—è¨­å®šã®ç„¡ã„å˜ç´”ãªADX ãƒ‡ãƒ¼ã‚¿ã®ã¿é€£ç¶šå†ç”Ÿå¯èƒ½
+*		ãƒ»æœ€å¤§16ãƒ•ã‚¡ã‚¤ãƒ«ã¾ã§ç™»éŒ²å¯èƒ½
 *
 ***/
 
-/*	Å‘å“o˜^ƒtƒ@ƒCƒ‹”									*/
+/*	æœ€å¤§ç™»éŒ²ãƒ•ã‚¡ã‚¤ãƒ«æ•°									*/
 /*	Number of maximum files to entry 					*/
 #define	ADXT_MAX_ENTRY_FILES		(16)
 
-/*	$func$ ƒV[ƒ€ƒŒƒX˜A‘±Ä¶ƒtƒ@ƒCƒ‹‚Ì“o˜^
- * [‘@®] void ADXT_EntryFname(ADXT adxt, Sint8 *fname)
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			fname	: ƒtƒ@ƒCƒ‹–¼
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒV[ƒ€ƒŒƒX˜A‘±Ä¶—p‚Ìƒtƒ@ƒCƒ‹‚ğ“o˜^‚·‚éB
- *			ƒ‹[ƒvİ’è‚Ì‚È‚¢’Pƒ‚ÈADXƒf[ƒ^‚Ì‚İ“o˜^‚Å‚«‚éB
+/*	$func$ ã‚·ãƒ¼ãƒ ãƒ¬ã‚¹é€£ç¶šå†ç”Ÿãƒ•ã‚¡ã‚¤ãƒ«ã®ç™»éŒ²
+ * [æ›¸ã€€å¼] void ADXT_EntryFname(ADXT adxt, Sint8 *fname)
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			fname	: ãƒ•ã‚¡ã‚¤ãƒ«å
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ã‚·ãƒ¼ãƒ ãƒ¬ã‚¹é€£ç¶šå†ç”Ÿç”¨ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç™»éŒ²ã™ã‚‹ã€‚
+ *			ãƒ«ãƒ¼ãƒ—è¨­å®šã®ãªã„å˜ç´”ãªADXãƒ‡ãƒ¼ã‚¿ã®ã¿ç™»éŒ²ã§ãã‚‹ã€‚
  *  Entry file for seamless continuous play
  * [Inputs  ] adxt	: ADXT handle
  *			  fname	: ADX File name
@@ -1331,15 +1335,15 @@ Sint32 ADXT_GetDecNumSmpl(ADXT adxt);
  */
 void ADXT_EntryFname(ADXT adxt, Char8 *fname);
 
-/*	$func$ ƒV[ƒ€ƒŒƒX˜A‘±Ä¶ƒTƒuƒtƒ@ƒCƒ‹‚Ì“o˜^
- * [‘@®] void ADXT_EntryAfs(ADXT adxt, Sint32 patid, Sint32 fid)
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			patid	: ƒp[ƒeƒBƒVƒ‡ƒ“ID
- *			fid		: ƒtƒ@ƒCƒ‹ID
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒV[ƒ€ƒŒƒX˜A‘±Ä¶—p‚ÌƒTƒuƒtƒ@ƒCƒ‹‚ğ“o˜^‚·‚éB
- *			ƒ‹[ƒvİ’è‚Ì‚È‚¢’Pƒ‚ÈADXƒf[ƒ^‚Ì‚İ“o˜^‚Å‚«‚éB
+/*	$func$ ã‚·ãƒ¼ãƒ ãƒ¬ã‚¹é€£ç¶šå†ç”Ÿã‚µãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã®ç™»éŒ²
+ * [æ›¸ã€€å¼] void ADXT_EntryAfs(ADXT adxt, Sint32 patid, Sint32 fid)
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			patid	: ãƒ‘ãƒ¼ãƒ†ã‚£ã‚·ãƒ§ãƒ³ID
+ *			fid		: ãƒ•ã‚¡ã‚¤ãƒ«ID
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ã‚·ãƒ¼ãƒ ãƒ¬ã‚¹é€£ç¶šå†ç”Ÿç”¨ã®ã‚µãƒ–ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç™»éŒ²ã™ã‚‹ã€‚
+ *			ãƒ«ãƒ¼ãƒ—è¨­å®šã®ãªã„å˜ç´”ãªADXãƒ‡ãƒ¼ã‚¿ã®ã¿ç™»éŒ²ã§ãã‚‹ã€‚
  *  Entry file for seamless continuous play
  * [Inputs  ] adxt	: ADXT handle
  *			  patid	: Partition ID
@@ -1351,12 +1355,12 @@ void ADXT_EntryFname(ADXT adxt, Char8 *fname);
  */
 void ADXT_EntryAfs(ADXT adxt, Sint32 patid, Sint32 fid);
 
-/*	$func$ ƒV[ƒ€ƒŒƒX˜A‘±Ä¶‚ÌŠJn
- * [‘@®] void ADXT_StartSeamless(ADXT adxt)
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒV[ƒ€ƒŒƒX˜A‘±Ä¶‚ğŠJn‚·‚éB
+/*	$func$ ã‚·ãƒ¼ãƒ ãƒ¬ã‚¹é€£ç¶šå†ç”Ÿã®é–‹å§‹
+ * [æ›¸ã€€å¼] void ADXT_StartSeamless(ADXT adxt)
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ã‚·ãƒ¼ãƒ ãƒ¬ã‚¹é€£ç¶šå†ç”Ÿã‚’é–‹å§‹ã™ã‚‹ã€‚
  *  Start seamless continuous play
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -1365,14 +1369,14 @@ void ADXT_EntryAfs(ADXT adxt, Sint32 patid, Sint32 fid);
  */
 void ADXT_StartSeamless(ADXT adxt);
 
-/*	$func$ ƒV[ƒ€ƒŒƒXƒ‹[ƒvÄ¶‚Ìİ’è
- * [‘@®] void ADXT_SetSeamlessLp(ADXT adxt, Sint32 flg)
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			flg		: 0-ƒ‹[ƒvÄ¶‚µ‚È‚¢,1-ƒ‹[ƒvÄ¶‚·‚é
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] Œ»İA“o˜^‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹‚ğŒJ‚è•Ô‚µÄ¶‚·‚éB
- *			ƒtƒ@ƒCƒ‹‚Ì‚·‚×‚Ä‚Ìƒf[ƒ^‚ğ“Ç‚İI‚í‚é‚Æ©“®“I‚ÉÄ“x“o˜^‚³‚ê‚éB
+/*	$func$ ã‚·ãƒ¼ãƒ ãƒ¬ã‚¹ãƒ«ãƒ¼ãƒ—å†ç”Ÿã®è¨­å®š
+ * [æ›¸ã€€å¼] void ADXT_SetSeamlessLp(ADXT adxt, Sint32 flg)
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			flg		: 0-ãƒ«ãƒ¼ãƒ—å†ç”Ÿã—ãªã„,1-ãƒ«ãƒ¼ãƒ—å†ç”Ÿã™ã‚‹
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ç¾åœ¨ã€ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç¹°ã‚Šè¿”ã—å†ç”Ÿã™ã‚‹ã€‚
+ *			ãƒ•ã‚¡ã‚¤ãƒ«ã®ã™ã¹ã¦ã®ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿çµ‚ã‚ã‚‹ã¨è‡ªå‹•çš„ã«å†åº¦ç™»éŒ²ã•ã‚Œã‚‹ã€‚
  *  Set seamless loop play
  * [Inputs  ] adxt	: ADXT handle
  *			  flg	: 0-Off, 1-On
@@ -1382,13 +1386,13 @@ void ADXT_StartSeamless(ADXT adxt);
  */
 void ADXT_SetSeamlessLp(ADXT adxt, Sint32 flg);
 
-/*	$func$ ƒV[ƒ€ƒŒƒXƒ‹[ƒvÄ¶‚ÌŠJn
- * [‘@®] void ADXT_StartFnameLp(ADXT adxt, Sint8 *fname)
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			fname	: ƒtƒ@ƒCƒ‹–¼
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ğŒJ‚è•Ô‚µÄ¶‚·‚éB
+/*	$func$ ã‚·ãƒ¼ãƒ ãƒ¬ã‚¹ãƒ«ãƒ¼ãƒ—å†ç”Ÿã®é–‹å§‹
+ * [æ›¸ã€€å¼] void ADXT_StartFnameLp(ADXT adxt, Sint8 *fname)
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			fname	: ãƒ•ã‚¡ã‚¤ãƒ«å
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç¹°ã‚Šè¿”ã—å†ç”Ÿã™ã‚‹ã€‚
  *  Start seamless loop play
  * [Inputs  ] adxt	: ADXT handle
  *			  fname	: ADX File Name
@@ -1398,12 +1402,12 @@ void ADXT_SetSeamlessLp(ADXT adxt, Sint32 flg);
  */
 void ADXT_StartFnameLp(ADXT adxt, Char8 *fname);
 
-/*	$func$ ƒV[ƒ€ƒŒƒX˜A‘±Ä¶‚Ì‰ğœ
- * [‘@®] void ADXT_ReleaseSeamless(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒV[ƒ€ƒŒƒX˜A‘±Ä¶‚Ì‰ğœ‚·‚éB
+/*	$func$ ã‚·ãƒ¼ãƒ ãƒ¬ã‚¹é€£ç¶šå†ç”Ÿã®è§£é™¤
+ * [æ›¸ã€€å¼] void ADXT_ReleaseSeamless(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ã‚·ãƒ¼ãƒ ãƒ¬ã‚¹é€£ç¶šå†ç”Ÿã®è§£é™¤ã™ã‚‹ã€‚
  *  Release seamless continuous play
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -1412,12 +1416,12 @@ void ADXT_StartFnameLp(ADXT adxt, Char8 *fname);
  */
 void ADXT_ReleaseSeamless(ADXT adxt);
 
-/*	$func$ “o˜^ƒtƒ@ƒCƒ‹”‚Ìæ“¾
- * [‘@®] Sint32 ADXT_GetNumFiles(ADXT adxt)
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] “o˜^‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹”
- * [‹@@”\] “o˜^‚³‚ê‚Ä‚¢‚éƒtƒ@ƒCƒ‹”‚ğæ“¾‚·‚éB
+/*	$func$ ç™»éŒ²ãƒ•ã‚¡ã‚¤ãƒ«æ•°ã®å–å¾—
+ * [æ›¸ã€€å¼] Sint32 ADXT_GetNumFiles(ADXT adxt)
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«æ•°
+ * [æ©Ÿã€€èƒ½] ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«æ•°ã‚’å–å¾—ã™ã‚‹ã€‚
  *  Get number of entried files
  * [Inputs  ] adxt	: ADXT handle
  * [Outputs ] None
@@ -1426,90 +1430,90 @@ void ADXT_ReleaseSeamless(ADXT adxt);
  */
 Sint32 ADXT_GetNumFiles(ADXT adxt);
 
-/*	˜AŒ‹Ä¶‚Ìİ’è@(1:‚·‚éA0:‚µ‚È‚¢)	*/
+/*	é€£çµå†ç”Ÿã®è¨­å®šã€€(1:ã™ã‚‹ã€0:ã—ãªã„)	*/
 void ADXT_SetLnkSw(ADXT adxt, Sint32 sw);
 
-/*	˜AŒ‹Ä¶‚Ìæ“¾@(1:‚·‚éA0:‚µ‚È‚¢)	*/
+/*	é€£çµå†ç”Ÿã®å–å¾—ã€€(1:ã™ã‚‹ã€0:ã—ãªã„)	*/
 Sint32 ADXT_GetLnkSw(ADXT adxt);
 
-/*	ƒtƒ@ƒCƒ‹‚Ì“o˜^‚ğƒŠƒZƒbƒg(STOPó‘Ô‚Å‚Ì‚İ—LŒø)	*/
+/*	ãƒ•ã‚¡ã‚¤ãƒ«ã®ç™»éŒ²ã‚’ãƒªã‚»ãƒƒãƒˆ(STOPçŠ¶æ…‹ã§ã®ã¿æœ‰åŠ¹)	*/
 void ADXT_ResetEntry(ADXT adxt);
 
 /***
-*			U•’Šo‹@”\
+*			æŒ¯å¹…æŠ½å‡ºæ©Ÿèƒ½
 ***/
 
-/*	U•æ“¾—pì‹Æ—Ìˆæ‚Ì‘å‚«‚³‚ÌŒvZ	*/
+/*	æŒ¯å¹…å–å¾—ç”¨ä½œæ¥­é ˜åŸŸã®å¤§ãã•ã®è¨ˆç®—	*/
 Sint32 ADXT_CalcAmpWork(Sint32 maxnch);
-/*	U•æ“¾—pì‹Æ—Ìˆæ‚Ìİ’è	*/
+/*	æŒ¯å¹…å–å¾—ç”¨ä½œæ¥­é ˜åŸŸã®è¨­å®š	*/
 void ADXT_SetAmpWork(ADXT adxt, void *work, Sint32 wksize);
-/*	U•‚Ìæ“¾	*/
+/*	æŒ¯å¹…ã®å–å¾—	*/
 Sint32 ADXT_GetAmplitude(ADXT adxt, Sint32 ch);
-/*	U•‚Ìæ“¾ (ƒIƒtƒZƒbƒgw’è•t‚«)	*/
+/*	æŒ¯å¹…ã®å–å¾— (æ™‚åˆ»ã‚ªãƒ•ã‚»ãƒƒãƒˆæŒ‡å®šä»˜ã)	*/
 Sint32 ADXT_GetAmplitude2(ADXT adxt, Sint32 ch, Sint32 msec, Sint32 *msec2);
 
-/*	ƒwƒbƒ_î•ñ‚Ì‹­§‘}“ü	*/
+/*	ãƒ˜ãƒƒãƒ€æƒ…å ±ã®å¼·åˆ¶æŒ¿å…¥	*/
 void ADXT_InsertHdrSfa(ADXT adxt, Sint32 nch, Sint32 sfreq, Sint32 nsmpl);
-/*	ƒ^ƒCƒ€ƒIƒtƒZƒbƒg‚Ìİ’è	*/
+/*	ã‚¿ã‚¤ãƒ ã‚ªãƒ•ã‚»ãƒƒãƒˆã®è¨­å®š	*/
 void ADXT_SetTimeOfst(ADXT adxt, Sint32 ofst);
 
 /***
-*			Sofdec—pŠg’£ŠÖ”
+*			Sofdecç”¨æ‹¡å¼µé–¢æ•°
 ***/
 
-/*	V-SyncŠ„‚è‚İ—pŠÖ”			*/
-/*	ShinobiŠÂ‹«‚Å‚ÍA‰Šú‰»‚ÉŠ„‚è‚İ‚É©“®“I‚É“o˜^‚³‚ê‚é‚Ì‚ÅA		*/
-/*	g—p‚µ‚Ü‚¹‚ñBNaomiŠÂ‹«‚ÅSofdec Movie‚ğÄ¶‚·‚éê‡‚É‚ÍA			*/
-/*	‚±‚ÌŠÖ”‚ğV-SyncŠ„‚è‚İ‚©‚çÀs‚µ‚Ä‚­‚¾‚³‚¢B						*/
+/*	V-Syncå‰²ã‚Šè¾¼ã¿ç”¨é–¢æ•°			*/
+/*	Shinobiç’°å¢ƒã§ã¯ã€åˆæœŸåŒ–æ™‚ã«å‰²ã‚Šè¾¼ã¿ã«è‡ªå‹•çš„ã«ç™»éŒ²ã•ã‚Œã‚‹ã®ã§ã€		*/
+/*	ä½¿ç”¨ã—ã¾ã›ã‚“ã€‚Naomiç’°å¢ƒã§Sofdec Movieã‚’å†ç”Ÿã™ã‚‹å ´åˆã«ã¯ã€			*/
+/*	ã“ã®é–¢æ•°ã‚’V-Syncå‰²ã‚Šè¾¼ã¿ã‹ã‚‰å®Ÿè¡Œã—ã¦ãã ã•ã„ã€‚						*/
 void ADXT_VsyncProc(void);
 
-/*	‚Ì’PˆÊ‚Ìİ’è@(0:Sfreq(Audio), 1:V-Sync(NTSC), 2:V-sync(PAL)	*/
+/*	æ™‚åˆ»ã®å˜ä½ã®è¨­å®šã€€(0:Sfreq(Audio), 1:V-Sync(NTSC), 2:V-sync(PAL)	*/
 void ADXT_SetTimeMode(Sint32 mode);
 
-/* ADXƒwƒbƒ_‚Ì”»’è */
+/* ADXãƒ˜ãƒƒãƒ€ã®åˆ¤å®š */
 Sint32 ADXT_IsHeader(Sint8 *adr, Sint32 siz, Sint32 *hdrsiz);
 
-/* ADXI—¹ƒR[ƒh‚Ì”»’è */
+/* ADXçµ‚äº†ã‚³ãƒ¼ãƒ‰ã®åˆ¤å®š */
 Sint32 ADXT_IsEndcode(Sint8 *adr, Sint32 siz, Sint32 *endsiz);
 /*
-	adr   FI—¹”»’èƒ|ƒCƒ“ƒ^(ADXƒf[ƒ^‚Ì36ƒoƒCƒg‹«ŠE)
-	siz   FI—¹”»’èƒTƒCƒY (”»’è‚É•K—v‚ÈƒTƒCƒY‚Í‚X”ƒoƒCƒg
-			‚©‚à‚µ‚ê‚Ü‚¹‚ñ‚ªAƒtƒ@ƒCƒ‹ƒŠ[ƒh‚µ‚ÄAƒoƒbƒtƒ@‚É
-			’~Ï‚³‚ê‚Ä‚¢‚éƒTƒCƒY‚ğ“ü—Í‚µ‚Ü‚·)
-	ndsizFI—¹ƒR[ƒhƒTƒCƒYiƒtƒbƒ^ƒTƒCƒYj
+	adr   ï¼šçµ‚äº†åˆ¤å®šãƒã‚¤ãƒ³ã‚¿(ADXãƒ‡ãƒ¼ã‚¿ã®36ãƒã‚¤ãƒˆå¢ƒç•Œ)
+	siz   ï¼šçµ‚äº†åˆ¤å®šã‚µã‚¤ã‚º (åˆ¤å®šã«å¿…è¦ãªã‚µã‚¤ã‚ºã¯é«˜ã€…æ•°ãƒã‚¤ãƒˆ
+			ã‹ã‚‚ã—ã‚Œã¾ã›ã‚“ãŒã€ãƒ•ã‚¡ã‚¤ãƒ«ãƒªãƒ¼ãƒ‰ã—ã¦ã€ãƒãƒƒãƒ•ã‚¡ã«
+			è“„ç©ã•ã‚Œã¦ã„ã‚‹ã‚µã‚¤ã‚ºã‚’å…¥åŠ›ã—ã¾ã™)
+	ndsizï¼šçµ‚äº†ã‚³ãƒ¼ãƒ‰ã‚µã‚¤ã‚ºï¼ˆãƒ•ãƒƒã‚¿ã‚µã‚¤ã‚ºï¼‰
 */
 
-/* –³‰¹ƒf[ƒ^‚Ì‹­§‘}“ü */
+/* ç„¡éŸ³ãƒ‡ãƒ¼ã‚¿ã®å¼·åˆ¶æŒ¿å…¥ */
 Sint32 ADXT_InsertSilence(ADXT adxt, Sint32 nch, Sint32 nsmpl);
 /*
-	nsmpl @F‘}“ü—v‹ƒTƒ“ƒvƒ‹” [sample/1ch]
-	ŠÖ”’l  F‘}“üÀsƒTƒ“ƒvƒ‹” (0 ` nsmpl)
-			  ADXT“ü—Í—pSJ‚É\•ª‚È‹ó‚«‚ª‚ ‚ê‚Î nsmpl ‚Ì’[”‚ğ
-			  Ø‚èÌ‚Ä‚½’l‚ª•Ô‚éB
+	nsmpl ã€€ï¼šæŒ¿å…¥è¦æ±‚ã‚µãƒ³ãƒ—ãƒ«æ•° [sample/1ch]
+	é–¢æ•°å€¤  ï¼šæŒ¿å…¥å®Ÿè¡Œã‚µãƒ³ãƒ—ãƒ«æ•° (0 ï½ nsmpl)
+			  ADXTå…¥åŠ›ç”¨SJã«ååˆ†ãªç©ºããŒã‚ã‚Œã° nsmpl ã®ç«¯æ•°ã‚’
+			  åˆ‡ã‚Šæ¨ã¦ãŸå€¤ãŒè¿”ã‚‹ã€‚
 */
 
-/*			‹­§ƒ‚ƒmƒ‰ƒ‹o—ÍƒXƒCƒbƒ`‚Ìİ’è	
-[‘  ®]	void ADXT_SetOutputMono(Sint32 flag);
-[ˆø  ”]	Sint32 flag		‹­§ƒ‚ƒmƒ‰ƒ‹o—Íƒtƒ‰ƒO(OFF:0, ON:1)
-[–ß‚è’l]	‚È‚µ					
-[‹@  ”\]	ƒXƒeƒŒƒIƒf[ƒ^‚ğ‹­§“I‚Éƒ‚ƒmƒ‰ƒ‹ƒf[ƒ^‚Æ‚µ‚Äo—Í‚·‚éB
-[”õ@l]	
+/*			å¼·åˆ¶ãƒ¢ãƒãƒ©ãƒ«å‡ºåŠ›ã‚¹ã‚¤ãƒƒãƒã®è¨­å®š	
+[æ›¸  å¼]	void ADXT_SetOutputMono(Sint32 flag);
+[å¼•  æ•°]	Sint32 flag		å¼·åˆ¶ãƒ¢ãƒãƒ©ãƒ«å‡ºåŠ›ãƒ•ãƒ©ã‚°(OFF:0, ON:1)
+[æˆ»ã‚Šå€¤]	ãªã—					
+[æ©Ÿ  èƒ½]	ã‚¹ãƒ†ãƒ¬ã‚ªãƒ‡ãƒ¼ã‚¿ã‚’å¼·åˆ¶çš„ã«ãƒ¢ãƒãƒ©ãƒ«ãƒ‡ãƒ¼ã‚¿ã¨ã—ã¦å‡ºåŠ›ã™ã‚‹ã€‚
+[å‚™ã€€è€ƒ]	
 */
 void ADXT_SetOutputMono(Sint32 flag);
 
 /***
-*		AHX —pŠÖ”
+*		AHX ç”¨é–¢æ•°
 *		Functions for AHX
 ***/
 
-/*	$func$ AHX‚Ì‘g‚İ‚İ
- * [‘@®] void ADXT_AttachAhx(ADXT adxt, void *work, Sint32 worksize);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- *			work	: AHXƒ[ƒN—Ìˆæ
- *			worksize: AHXƒ[ƒN—Ìˆæ‚ÌƒTƒCƒY
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] AHX‚Ì‘g‚İ‚İ‚ğs‚¢AAHX‚Ì—˜—p‚ğ‰Â”\‚É‚·‚éB
+/*	$func$ AHXã®çµ„ã¿è¾¼ã¿
+ * [æ›¸ã€€å¼] void ADXT_AttachAhx(ADXT adxt, void *work, Sint32 worksize);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ *			work	: AHXãƒ¯ãƒ¼ã‚¯é ˜åŸŸ
+ *			worksize: AHXãƒ¯ãƒ¼ã‚¯é ˜åŸŸã®ã‚µã‚¤ã‚º
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] AHXã®çµ„ã¿è¾¼ã¿ã‚’è¡Œã„ã€AHXã®åˆ©ç”¨ã‚’å¯èƒ½ã«ã™ã‚‹ã€‚
  *  Attach AHX
  * [Inputs  ] adxt    : ADXT handle
  *			  work    : Working area for AHX
@@ -1520,12 +1524,12 @@ void ADXT_SetOutputMono(Sint32 flag);
  */
 void ADXT_AttachAhx(ADXT adxt, void *work, Sint32 worksize);
 
-/*	$func$ AHX‚Ì•ª—£
- * [‘@®] void ADXT_DetachAhx(ADXT adxt);
- * [“ü@—Í] adxt	: ADXTƒnƒ“ƒhƒ‹
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] AHX‚ğ•ª—£‚µAAHX‚Ì—˜—p‚ğ‚â‚ß‚éB
+/*	$func$ AHXã®åˆ†é›¢
+ * [æ›¸ã€€å¼] void ADXT_DetachAhx(ADXT adxt);
+ * [å…¥ã€€åŠ›] adxt	: ADXTãƒãƒ³ãƒ‰ãƒ«
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] AHXã‚’åˆ†é›¢ã—ã€AHXã®åˆ©ç”¨ã‚’ã‚„ã‚ã‚‹ã€‚
  *  Detach AHX
  * [Inputs  ] adxt    : ADXT handle
  * [Outputs ] None
@@ -1541,74 +1545,74 @@ void ADXT_SetKeyString(ADXT adxt, Char8 *str);
 void ADXT_SetDefKeyString(Char8 *str);
 
 /***
-*		ADXƒ}ƒl[ƒWƒƒŠÖ”
+*		ADXãƒãƒãƒ¼ã‚¸ãƒ£é–¢æ•°
 *		ADX Manager Functions
 ***/
 
-/*	ADXƒXƒŒƒbƒh‚Ì‰Šú‰»					*/
+/*	ADXã‚¹ãƒ¬ãƒƒãƒ‰ã®åˆæœŸåŒ–					*/
 /*	Initialization of ADX Thread 		*/
 void ADXM_SetupThrd(ADXM_TPRM *tprm);
-/*	ADXƒXƒŒƒbƒh‚ÌI—¹ˆ—				*/
+/*	ADXã‚¹ãƒ¬ãƒƒãƒ‰ã®çµ‚äº†å‡¦ç†				*/
 /*	Termination of ADX Thread Extended 	*/
 void ADXM_ShutdownThrd(void);
 
-/*	ADXƒXƒŒƒbƒh‚Ì‰Šú‰»(Šg’£”Å)				*/
+/*	ADXã‚¹ãƒ¬ãƒƒãƒ‰ã®åˆæœŸåŒ–(æ‹¡å¼µç‰ˆ)				*/
 /*	Initialization of ADX Thread Extended 	*/
 void ADXM_SetupThrdEx(ADXM_TPRM_EX *tprm);
-/*	ADXƒXƒŒƒbƒh‚ÌI—¹ˆ—(Šg’£”Å)			*/
+/*	ADXã‚¹ãƒ¬ãƒƒãƒ‰ã®çµ‚äº†å‡¦ç†(æ‹¡å¼µç‰ˆ)			*/
 /*	Termination of ADX Thread Extended 		*/
 void ADXM_ShutdownThrdEx(void);
 
-/*	ƒ†[ƒUVSYNCƒXƒŒƒbƒh‚Ö‚ÌŠÖ”“o˜^				*/
+/*	ãƒ¦ãƒ¼ã‚¶VSYNCã‚¹ãƒ¬ãƒƒãƒ‰ã¸ã®é–¢æ•°ç™»éŒ²				*/
 /*	Set callback function on UsrVsync Thread	*/
 void ADXM_SetCbUsrVsync(Bool (*func)(void *obj), void *obj);
-/*	ƒ†[ƒUƒAƒCƒhƒ‹ƒXƒŒƒbƒh‚Ö‚ÌŠÖ”“o˜^			*/
+/*	ãƒ¦ãƒ¼ã‚¶ã‚¢ã‚¤ãƒ‰ãƒ«ã‚¹ãƒ¬ãƒƒãƒ‰ã¸ã®é–¢æ•°ç™»éŒ²			*/
 /*	Set callback function on UsrIdle Thread		*/
 void ADXM_SetCbUsrIdle(Bool (*func)(void *obj), void *obj);
-/*	ƒ†[ƒUƒAƒCƒhƒ‹ƒT[ƒo‚Ì‹æØ‚èˆ—						*/
+/*	ãƒ¦ãƒ¼ã‚¶ã‚¢ã‚¤ãƒ‰ãƒ«ã‚µãƒ¼ãƒã®åŒºåˆ‡ã‚Šå‡¦ç†						*/
 /*	Execution UsrIdle Thread for termination of function	*/
 void ADXM_GotoUsrIdleBdr(void);
-/*	UsrVsyncƒT[ƒoŠÖ”‚ÌÀs	*/
+/*	UsrVsyncã‚µãƒ¼ãƒé–¢æ•°ã®å®Ÿè¡Œ	*/
 /*	Execution UsrVsync Server	*/
 Sint32 ADXM_ExecSvrUsrVsync(void);
-/*	UsrIdleƒT[ƒoŠÖ”‚ÌÀs		*/
+/*	UsrIdleã‚µãƒ¼ãƒé–¢æ•°ã®å®Ÿè¡Œ		*/
 /*	Execution UsrIdle Server	*/
 Sint32 ADXM_ExecSvrUsrIdle(void);
 
-/*	ƒGƒ‰[ŠÖ”‚Ì“o˜^								*/
+/*	ã‚¨ãƒ©ãƒ¼é–¢æ•°ã®ç™»éŒ²								*/
 void ADXM_SetCbErr(void (*fn)(void *obj, Char8 *emsg), void *obj);
-/*	•‰‰×‘ª’è—pŠÖ”	*/
+/*	è² è·æ¸¬å®šç”¨é–¢æ•°	*/
 void ADXM_SetCbSleepMwIdle(void (*fn)(void *), void *obj);
-/*	ƒXƒŒƒbƒh‰Šú‰»‚ªs‚í‚ê‚½‚©”Û‚©‚Ì”»’è	*/
+/*	ã‚¹ãƒ¬ãƒƒãƒ‰åˆæœŸåŒ–ãŒè¡Œã‚ã‚ŒãŸã‹å¦ã‹ã®åˆ¤å®š	*/
 Bool ADXM_IsSetupThrd(void);
 
-/*	ƒXƒŒƒbƒh‚ÌƒƒbƒN	*/
+/*	ã‚¹ãƒ¬ãƒƒãƒ‰ã®ãƒ­ãƒƒã‚¯	*/
 void ADXM_Lock(void);
-/*	ƒXƒŒƒbƒh‚ÌƒAƒ“ƒƒbƒN	*/
+/*	ã‚¹ãƒ¬ãƒƒãƒ‰ã®ã‚¢ãƒ³ãƒ­ãƒƒã‚¯	*/
 void ADXM_Unlock(void);
-/* ƒƒbƒNƒŒƒxƒ‹‚Ìæ“¾ */
+/* ãƒ­ãƒƒã‚¯ãƒ¬ãƒ™ãƒ«ã®å–å¾— */
 Sint32 ADXM_GetLockLevel(void);
 
-/*	V-Sync‘Ò‚¿ŠÖ”	*/
+/*	V-Syncå¾…ã¡é–¢æ•°	*/
 void ADXM_WaitVsync(void);
 
-/*	V-SyncŠ„‚è‚İƒnƒ“ƒhƒ‰	*/
+/*	V-Syncå‰²ã‚Šè¾¼ã¿ãƒãƒ³ãƒ‰ãƒ©	*/
 Sint32 ADXM_ExecVint(Sint32 arg);
 
-/*	ƒƒCƒ“ƒXƒŒƒbƒh‚ÅŒÄ‚Ño‚·ŠÖ”	*/
+/*	ãƒ¡ã‚¤ãƒ³ã‚¹ãƒ¬ãƒƒãƒ‰ã§å‘¼ã³å‡ºã™é–¢æ•°	*/
 Sint32 ADXM_ExecMain(void);
 
 /***
-*		ADXM_SetupThrd‚ğÀs‚µ‚È‚¢‚Æ‚«‚Ég—p‚·‚éŠÖ”
+*		ADXM_SetupThrdã‚’å®Ÿè¡Œã—ãªã„ã¨ãã«ä½¿ç”¨ã™ã‚‹é–¢æ•°
 ***/
-/*	Vsync–ˆ‚ÉŒÄ‚Ño‚·ŠÖ”	*/
+/*	Vsyncæ¯ã«å‘¼ã³å‡ºã™é–¢æ•°	*/
 Sint32 ADXM_ExecSvrVsync(void);
-/*	ƒƒCƒ“ƒ‹[ƒv“à‚ÅŒÄ‚Ño‚·ŠÖ”	*/
+/*	ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—å†…ã§å‘¼ã³å‡ºã™é–¢æ•°	*/
 Sint32 ADXM_ExecSvrMain(void);
-/*	ƒ~ƒhƒ‹ƒEƒFƒA—pƒXƒŒƒbƒh‚ÅŒÄ‚Ño‚·ŠÖ”	*/
+/*	ãƒŸãƒ‰ãƒ«ã‚¦ã‚§ã‚¢ç”¨ã‚¹ãƒ¬ãƒƒãƒ‰ã§å‘¼ã³å‡ºã™é–¢æ•°	*/
 Sint32 ADXM_ExecSvrMwIdle(void);
 
-/*	‚·‚×‚Ä‚ÌƒT[ƒoˆ—‚ğŒÄ‚Ño‚·ŠÖ”	*/
+/*	ã™ã¹ã¦ã®ã‚µãƒ¼ãƒå‡¦ç†ã‚’å‘¼ã³å‡ºã™é–¢æ•°	*/
 Sint32 ADXM_ExecSvrAll(void);
 
 #ifdef __cplusplus
