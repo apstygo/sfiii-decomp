@@ -48,7 +48,7 @@ void ADXT_EntryAfs(ADXT adxt, s32 patid, s32 fid) {
         return;
     }
 
-    if (ADXF_GetFnameRangeEx(patid, fid, adxt[1].sjd, &st.sp10, &st.sp14, &st.sp18) == 0) {
+    if (ADXF_GetFnameRangeEx(patid, fid, adxt->unkB0, &st.sp10, &st.sp14, &st.sp18) == 0) {
         LSC_EntryFileRange(lsc, ADXF_GetFnameFromPt(patid), st.sp10, st.sp14, st.sp18);
         return;
     }
