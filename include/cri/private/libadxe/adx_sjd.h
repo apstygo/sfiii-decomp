@@ -6,5 +6,6 @@
 #include <cri/sj.h>
 
 ADXSJD ADXSJD_Create(SJ, Sint32, SJ *);
+void ADXSJD_Start(ADXSJD);
 
 #endif

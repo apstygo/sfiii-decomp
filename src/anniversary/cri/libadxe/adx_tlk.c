@@ -1,5 +1,6 @@
 #include "common.h"
 #include <cri/cri_adxt.h>
+#include <cri/private/libadxe/adx_amp.h>
 #include <cri/private/libadxe/adx_crs.h>
 #include <cri/private/libadxe/adx_errs.h>
 #include <cri/private/libadxe/adx_inis.h>
@@ -11,6 +12,9 @@
 
 // data
 extern Sint32 adxt_def_svrfreq;
+extern void (*ahxdetachfunc)(ADXT);
+extern void (*ac3detachfunc)(ADXT);
+extern void (*pl2detachfunc)(ADXT);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B460);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B480);
@@ -137,20 +141,149 @@ ADXT ADXT_Create(Sint32 maxnch, void *work, Sint32 worksize) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_Create3D);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", adxt_detach_ahx);
+void adxt_detach_ahx(ADXT adxt) {
+    if (ahxdetachfunc != NULL) {
+        ahxdetachfunc(adxt);
+    }
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", adxt_detach_ac3);
+void adxt_detach_ac3(ADXT adxt) {
+    if (ac3detachfunc != NULL) {
+        ac3detachfunc(adxt);
+    }
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", adxt_detach_pl2);
+void adxt_detach_pl2(ADXT adxt) {
+    if (pl2detachfunc != NULL) {
+        pl2detachfunc(adxt);
+    }
+}
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B4E0);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_Destroy);
+void ADXT_Destroy(ADXT adxt) {
+    Sint32 i;
+    ADXRNA rna;
+    ADXSJD sjd;
+    ADXSTM stm;
+    ADXLSC lsc;
+    SJ sjf;
+    void *amp;
+    SJ sj;
+    SJ ampsj;
+
+    if (adxt == NULL) {
+        ADXERR_CallErrFunc1("E02080805 ADXT_Destroy: parameter error");
+        return;
+    }
+
+    adxt_detach_ahx(adxt);
+    adxt_detach_ac3(adxt);
+    adxt_detach_pl2(adxt);
+
+    if (adxt->used == 1) {
+        ADXT_Stop(adxt);
+    }
+
+    rna = adxt->rna;
+
+    if (rna != NULL) {
+        adxt->rna = NULL;
+        ADXRNA_Destroy(rna);
+    }
+
+    sjd = adxt->sjd;
+
+    if (sjd != NULL) {
+        adxt->sjd = NULL;
+        ADXSJD_Destroy(sjd);
+    }
+
+    stm = adxt->stm;
+
+    if (stm != NULL) {
+        adxt->stm = NULL;
+        ADXSTM_EntryEosFunc(stm, 0, 0);
+        ADXSTM_Destroy(stm);
+    }
+
+    lsc = adxt->lsc;
+
+    if (lsc != NULL) {
+        adxt->lsc = NULL;
+        LSC_Destroy(lsc);
+    }
+
+    ADXCRS_Lock();
+
+    sjf = adxt->sjf;
+
+    if (sjf != NULL) {
+        adxt->sjf = NULL;
+        SJ_Destroy(sjf);
+    }
+
+    for (i = 0; i < adxt->maxnch; i++) {
+        sj = adxt->sjo[i];
+
+        if (sj != NULL) {
+            adxt->sjo[i] = NULL;
+            SJ_Destroy(sj);
+        }
+
+        ampsj = adxt->ampsji[i];
+
+        if (ampsj != NULL) {
+            adxt->ampsji[i] = NULL;
+            SJ_Destroy(ampsj);
+        }
+
+        ampsj = adxt->ampsjo[i];
+
+        if (ampsj != NULL) {
+            adxt->ampsjo[i] = NULL;
+            SJ_Destroy(ampsj);
+        }
+    }
+
+    amp = adxt->amp;
+
+    if (amp != NULL) {
+        adxt->amp = NULL;
+        ADXAMP_Destroy(amp);
+    }
+
+    memset(adxt, 0, sizeof(ADX_TALK));
+    adxt->used = 0;
+
+    ADXCRS_Unlock();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_DestroyAll);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_CloseAllHandles);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", adxt_start_sj);
+void adxt_start_sj(ADXT adxt, SJ sj) {
+    Sint32 i;
+
+    for (i = 0; i < adxt->maxnch; i++) {
+        SJ_Reset(adxt->sjo[i]);
+    }
+
+    ADXSJD_SetInSj(adxt->sjd, sj);
+    adxt->sji = sj;
+    ADXSJD_Start(adxt->sjd);
+    adxt->stat = 1;
+    adxt->lesct = 0x7FFFFFFF;
+    adxt->trpnsmpl = -1;
+    adxt->lpcnt = 0;
+    adxt->pstready_flag = 0;
+    adxt->tvofst = 0;
+    adxt->decofst = 0;
+    adxt->svcnt = adxt_vsync_cnt;
+
+    if (adxt->amp != NULL) {
+        ADXAMP_Start(adxt->amp);
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", adxt_start_stm);
 

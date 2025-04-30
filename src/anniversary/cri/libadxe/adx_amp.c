@@ -5,7 +5,7 @@
 #include <memory.h>
 
 s32 adxsmp_init_cnt = 0;
-ADXAMP adxamp_obj[16] = { 0 };
+ADXAMP_OBJ adxamp_obj[16] = { 0 };
 
 void ADXAMP_Init() {
     if (adxsmp_init_cnt == 0) {
@@ -23,17 +23,17 @@ void ADXAMP_Finish() {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_amp", ADXAMP_Create);
 
-void ADXAMP_Destroy(ADXAMP *amp) {
+void ADXAMP_Destroy(ADXAMP amp) {
     if (amp != NULL) {
         ADXCRS_Lock();
-        memset(amp, 0, sizeof(ADXAMP));
+        memset(amp, 0, sizeof(ADXAMP_OBJ));
         ADXCRS_Unlock();
     }
 }
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_amp", ADXAMP_GetStat);
 
-void ADXAMP_Start(ADXAMP *amp) {
+void ADXAMP_Start(ADXAMP amp) {
     s32 i;
     SJ sj;
     SJCK ck;
@@ -63,7 +63,7 @@ void ADXAMP_Start(ADXAMP *amp) {
     amp->unk1 = 2;
 }
 
-void ADXAMP_Stop(ADXAMP *amp) {
+void ADXAMP_Stop(ADXAMP amp) {
     amp->unk1 = 0;
 }
 

@@ -221,65 +221,65 @@ typedef void	*ADXRNA;
 /*	ADX Talk オブジェクト構造体		*/
 /*	Structure of ADX Talk object	*/
 typedef struct _adx_talk {
-	Sint8	used;						/*	使用中か否か					*/
-	Sint8	stat;						/*	動作状態						*/
-	Sint8	pmode;						/*	再生モード						*/
-	Sint8	maxnch;						/*	最大再生チャンネル数			*/
-	ADXSJD	sjd;						/*	ADXストリームジョイントデコーダ	*/
-	ADXSTM	stm;						/*	入力ストリームコントローラ		*/
-	ADXRNA	rna;						/*	オーディオレンダラ				*/
-	SJ		sjf;						/*	ファイル入力ストリームジョイント*/
-	SJ		sji;						/*	入力ストリームジョイント		*/
-	SJ		sjo[ADXT_MAX_NCH];			/*	出力ストリームジョイント		*/
-	Sint8	*ibuf;						/*	入力バッファ					*/
-	Sint32	ibuflen;					/*	入力バッファサイズ（バイト単位)	*/
-	Sint32	ibufxlen;					/*	入力バッファエクストラサイズ	*/
-	Sint16	*obuf;						/*	出力バッファ					*/
-	Sint32	obufsize;					/*	出力バッファサイズ（サンプル）	*/
-	Sint32	obufdist;					/*	出力バッファ間隔（サンプル）	*/
-	Sint32	svrfreq;					/*	サーバ関数呼び出し頻度			*/
-	Sint16	maxsct;						/*	入力バッファ内の最高セクタ数	*/
-	Sint16	minsct;						/*	入力バッファ内の最低セクタ数	*/
-	Sint16	outvol;						/*	出力ボリューム					*/
-	Sint16	outpan[ADXT_MAX_NCH];		/*	出力パンポットの設定値			*/
-	Sint16  unk46;
-	Sint32	maxdecsmpl;					/*	最大デコードサンプル数			*/
-	Sint32	lpcnt;						/*	ループカウンタ					*/
-	Sint32	lp_skiplen;					/*	ループスキップバイト数			*/
-	Sint32	trp;						/*	トランスポーズ量 (セント)		*/
-	Sint32	wpos;						/*	メディア上の書き込み位置		*/
-	Sint32	mofst;						/*	メディア上のオフセット			*/
-	Sint16	ercode;						/*	エラーコード					*/
-	Sint32	edecpos;					/*	エラー検出用デコード位置		*/
-	Sint16	edeccnt;					/*	デコード位置カウンタ			*/
-	Sint16	eshrtcnt;					/*	入力ﾊﾞｯﾌｧｴﾝﾌﾟﾃｨｰｶｳﾝﾀ			*/
-	Sint8	lpflg;						/*	ループするか否か				*/
-	Sint8	autorcvr;					/*	自動的にエラー復帰するか否か	*/
-	Sint8	fltmode;					/*	フィルタモード					*/
-	Sint8	execflag;					/*	サーバを実行するか否か			*/
-	Sint8	pstwait_flag;				/*	音声出力開始待ちフラグ			*/
-	Sint8	pstready_flag;				/*	音声出力準備完了フラグ			*/
-	Sint8	pause_flag;					/*	一時停止フラグ					*/
-	void	*amp;						/*	振幅抽出器						*/
-	SJ		ampsji[ADXT_MAX_NCH];		/*	振幅抽出用入力SJ				*/
-	SJ		ampsjo[ADXT_MAX_NCH];		/*	振幅抽出用出力SJ				*/
-	Sint32	time_ofst;					/*	時刻のオフセット				*/
-	Sint32	lesct;						/*	ループ再生時の最終セクタ番号	*/
-	Sint32	trpnsmpl;					/*			トラップサンプル番号	*/
-	void	*lsc;						/*	連結ストリームコントローラ		*/
-	Sint8	lnkflg;						/*	連結再生フラグ					*/
-	Sint8	rsv;						/*	予約							*/
-	Sint16	rsv2;						/*	予約２							*/
-	Uint32 tvofst;						/*	スタート時間オフセット			*/
-	Uint32 svcnt;						/*	スタートV-Syncカウント			*/
-	// 2001.11.14 oshimi
-	Uint32 decofst;						/*	トータルデコードオフセット		*/
-	#ifdef __EE__
-	Sint32	flush_nsmpl;				/*	フラッシュ時に挿入したサンプル数	*/
-	#endif
-	Sint8  padCE[2];
-    Sint8* unkB0;
-    Sint8  padB4[16];
+	/* 0x00 */ Sint8	used;						/*	使用中か否か					*/
+	/* 0x01 */ Sint8	stat;						/*	動作状態						*/
+	/* 0x02 */ Sint8	pmode;						/*	再生モード						*/
+	/* 0x03 */ Sint8	maxnch;						/*	最大再生チャンネル数			*/
+	/* 0x04 */ ADXSJD	sjd;						/*	ADXストリームジョイントデコーダ	*/
+	/* 0x08 */ ADXSTM	stm;						/*	入力ストリームコントローラ		*/
+	/* 0x0C */ ADXRNA	rna;						/*	オーディオレンダラ				*/
+	/* 0x10 */ SJ		sjf;						/*	ファイル入力ストリームジョイント*/
+	/* 0x14 */ SJ		sji;						/*	入力ストリームジョイント		*/
+	/* 0x18 */ SJ		sjo[ADXT_MAX_NCH];			/*	出力ストリームジョイント		*/
+	/* 0x20 */ Sint8	*ibuf;						/*	入力バッファ					*/
+	/* 0x24 */ Sint32	ibuflen;					/*	入力バッファサイズ（バイト単位)	*/
+	/* 0x28 */ Sint32	ibufxlen;					/*	入力バッファエクストラサイズ	*/
+	/* 0x2C */ Sint16	*obuf;						/*	出力バッファ					*/
+	/* 0x30 */ Sint32	obufsize;					/*	出力バッファサイズ（サンプル）	*/
+	/* 0x34 */ Sint32	obufdist;					/*	出力バッファ間隔（サンプル）	*/
+	/* 0x00 */ Sint32	svrfreq;					/*	サーバ関数呼び出し頻度			*/
+	/* 0x3C */ Sint16	maxsct;						/*	入力バッファ内の最高セクタ数	*/
+	/* 0x3E */ Sint16	minsct;						/*	入力バッファ内の最低セクタ数	*/
+	/* 0x40 */ Sint16	outvol;						/*	出力ボリューム					*/
+	/* 0x42 */ Sint16	outpan[ADXT_MAX_NCH];		/*	出力パンポットの設定値			*/
+	/* 0x46 */ Sint16   unk46;
+	/* 0x00 */ Sint32	maxdecsmpl;					/*	最大デコードサンプル数			*/
+	/* 0x00 */ Sint32	lpcnt;						/*	ループカウンタ					*/
+	/* 0x00 */ Sint32	lp_skiplen;					/*	ループスキップバイト数			*/
+	/* 0x00 */ Sint32	trp;						/*	トランスポーズ量 (セント)		*/
+	/* 0x00 */ Sint32	wpos;						/*	メディア上の書き込み位置		*/
+	/* 0x00 */ Sint32	mofst;						/*	メディア上のオフセット			*/
+	/* 0x00 */ Sint16	ercode;						/*	エラーコード					*/
+	/* 0x00 */ Sint32	edecpos;					/*	エラー検出用デコード位置		*/
+	/* 0x00 */ Sint16	edeccnt;					/*	デコード位置カウンタ			*/
+	/* 0x00 */ Sint16	eshrtcnt;					/*	入力ﾊﾞｯﾌｧｴﾝﾌﾟﾃｨｰｶｳﾝﾀ			*/
+	/* 0x00 */ Sint8	lpflg;						/*	ループするか否か				*/
+	/* 0x00 */ Sint8	autorcvr;					/*	自動的にエラー復帰するか否か	*/
+	/* 0x00 */ Sint8	fltmode;					/*	フィルタモード					*/
+	/* 0x00 */ Sint8	execflag;					/*	サーバを実行するか否か			*/
+	/* 0x00 */ Sint8	pstwait_flag;				/*	音声出力開始待ちフラグ			*/
+	/* 0x00 */ Sint8	pstready_flag;				/*	音声出力準備完了フラグ			*/
+	/* 0x00 */ Sint8	pause_flag;					/*	一時停止フラグ					*/
+	/* 0x00 */ void	*amp;						/*	振幅抽出器						*/
+	/* 0x00 */ SJ		ampsji[ADXT_MAX_NCH];		/*	振幅抽出用入力SJ				*/
+	/* 0x00 */ SJ		ampsjo[ADXT_MAX_NCH];		/*	振幅抽出用出力SJ				*/
+	/* 0x00 */ Sint32	time_ofst;					/*	時刻のオフセット				*/
+	/* 0x00 */ Sint32	lesct;						/*	ループ再生時の最終セクタ番号	*/
+	/* 0x00 */ Sint32	trpnsmpl;					/*			トラップサンプル番号	*/
+	/* 0x00 */ void	*lsc;						/*	連結ストリームコントローラ		*/
+	/* 0x00 */ Sint8	lnkflg;						/*	連結再生フラグ					*/
+	/* 0x00 */ Sint8	rsv;						/*	予約							*/
+	/* 0x00 */ Sint16	rsv2;						/*	予約２							*/
+	/* 0x00 */ Uint32 tvofst;						/*	スタート時間オフセット			*/
+	/* 0x00 */ Uint32 svcnt;						/*	スタートV-Syncカウント			*/
+    										// 2001.11.14 oshimi
+	/* 0x00 */ Uint32 decofst;						/*	トータルデコードオフセット		*/
+	/* 0x00 */ #ifdef __EE__
+	/* 0x00 */ Sint32	flush_nsmpl;				/*	フラッシュ時に挿入したサンプル数	*/
+	/* 0x00 */ #endif
+	/* 0x00 */ Sint8  padCE[2];
+    /* 0x00 */ Sint8* unkB0;
+    /* 0x00 */ Sint8  padB4[16];
 } ADX_TALK;
 typedef	ADX_TALK	*ADXT;
 
