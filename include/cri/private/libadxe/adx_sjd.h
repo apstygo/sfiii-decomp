@@ -7,5 +7,15 @@
 
 ADXSJD ADXSJD_Create(SJ, Sint32, SJ *);
 void ADXSJD_Start(ADXSJD);
+void ADXSJD_Stop(ADXSJD);
+Sint32 ADXSJD_GetDecNumSmpl(ADXSJD);
+Sint32 ADXSJD_GetOutBps(ADXSJD);
+Sint32 ADXSJD_GetSfreq(ADXSJD);
+Sint32 ADXSJD_GetTotalNumSmpl(ADXSJD);
+Sint32 ADXSJD_GetOutBps(ADXSJD);
+Sint32 ADXSJD_GetSfreq(ADXSJD);
+Sint32 ADXSJD_GetTotalNumSmpl(ADXSJD);
+Sint32 ADXSJD_GetDefOutVol(ADXSJD);
+void ADXSJD_SetLnkSw(ADXSJD sjd, Sint32 sw);
 
 #endif

@@ -3,6 +3,6 @@
 
 #include <cri/cri_xpts.h>
 
-void ADXT_SetDefSvrFreq(Sint32);
+void ADXT_SetDefSvrFreq(Sint32 freq);
 
 #endif

@@ -88,6 +88,13 @@ EXPECTED_ERRORS = {
     0xDD0B4: 0x00004384,
     0xDD0B8: 0x3E020286,
     0xDD0BC: 0x21104300,
+
+    # adx_tlk::ADXT_GetTime: instruction order
+    0x2D44B0: 0x0045D426,
+    0x2D44B4: 0x0000A58F,
+    0x2D44B8: 0x0400A68F,
+    0x2D44BC: 0x000061C6,
+    0x2D44C0: 0x60088046,
 }
 
 def read_word(b: bytes, offset: int) -> int:

@@ -2,6 +2,7 @@
 #include <cri/cri_adxt.h>
 #include <cri/private/libadxe/adx_amp.h>
 #include <cri/private/libadxe/adx_crs.h>
+#include <cri/private/libadxe/adx_dcd3.h>
 #include <cri/private/libadxe/adx_errs.h>
 #include <cri/private/libadxe/adx_inis.h>
 #include <cri/private/libadxe/adx_rnap.h>
@@ -11,10 +12,16 @@
 #include <cri/sj.h>
 
 // data
+extern Sint32 adxt_time_mode;
 extern Sint32 adxt_def_svrfreq;
 extern void (*ahxdetachfunc)(ADXT);
 extern void (*ac3detachfunc)(ADXT);
+extern void (*ac3stopfunc)(ADXT);
 extern void (*pl2detachfunc)(ADXT);
+extern Sint32 adxt_time_adjust_cnt;
+extern Sint32 adxt_time_adjust_sw;
+extern Sint32 adxt_time_unit;
+extern Float32 adxt_diff_av;
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B460);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B480);
@@ -290,24 +297,164 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", adxt_start_stm);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B508);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_StartSj);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_StopWithoutLsc);
+void ADXT_StopWithoutLsc(ADXT adxt) {
+    SJ sj;
+    ADXAMP amp;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B530);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_Stop);
+    ADXCRS_Lock();
+    ADXRNA_SetTransSw(adxt->rna, 0);
+    ADXRNA_SetPlaySw(adxt->rna, 0);
+    PS2RNA_SetDiscardSw(adxt->rna, 1);
+    ADXSJD_Stop(adxt->sjd);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B558);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetStat);
+    if (adxt->pmode == 2) {
+        sj = adxt->sji;
+
+        if (sj != NULL) {
+            adxt->sji = NULL;
+            SJ_Destroy(sj);
+        }
+    }
+
+    amp = adxt->amp;
+
+    if (amp != NULL) {
+        ADXAMP_Stop(amp);
+    }
+
+    adxt->sji = NULL;
+    adxt->stat = 0;
+    adxt->unkCE = 0;
+    ADXCRS_Unlock();
+}
+
+void ADXT_Stop(ADXT adxt) {
+    ADXSTM stm;
+    SJ sj;
+
+    if (adxt == NULL) {
+        ADXERR_CallErrFunc1("E02080813 ADXT_Stop: parameter error");
+        return;
+    }
+
+    if (ac3stopfunc != NULL) {
+        ADXSJD_Stop(adxt->sjd);
+        ac3stopfunc(adxt);
+    }
+
+    stm = adxt->stm;
+
+    if (stm != NULL) {
+        ADXSTM_ReleaseFileNw(stm);
+    }
+
+    if (adxt->pmode == 4) {
+        LSC_Stop(adxt->lsc);
+        sj = adxt->sji;
+
+        if (sj != NULL) {
+            SJ_Reset(sj);
+        }
+    }
+
+    ADXT_StopWithoutLsc(adxt);
+}
+
+Sint32 ADXT_GetStat(ADXT adxt) {
+    if (adxt == NULL) {
+        ADXERR_CallErrFunc1("E02080814 ADXT_GetStat: parameter error");
+        return ADXT_ERR_SHRTBUF;
+    }
+
+    return adxt->stat;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_SetTimeMode);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetTimeSfreq);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetTimeSfreq2);
+void ADXT_GetTimeSfreq2(ADXT adxt, Sint32 *ncount, Sint32 *tscale) {
+    Uint8 stat = adxt->stat;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", adxt_time_adjust_trap);
+    if ((Uint32)(stat - 3) < 2) {
+        *tscale = ADXSJD_GetSfreq(adxt->sjd);
+        *ncount = (ADXSJD_GetDecNumSmpl(adxt->sjd) - (ADXRNA_GetNumData(adxt->rna) + ADXT_GetNumSmplObuf(adxt, 0))) +
+                  adxt->decofst;
+    } else if (adxt->stat == ADXT_STAT_PLAYEND) {
+        *ncount = ADXSJD_GetTotalNumSmpl(adxt->sjd);
+        *tscale = ADXSJD_GetSfreq(adxt->sjd);
+        *ncount *= (16 / ADXSJD_GetOutBps(adxt->sjd));
+        *ncount += adxt->decofst;
+    } else {
+        *ncount = 0;
+        *tscale = 1;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B580);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetTime);
+    *ncount += adxt->time_ofst;
+}
+
+void adxt_time_adjust_trap() {
+    adxt_time_adjust_cnt += 1;
+}
+
+void ADXT_GetTime(ADX_TALK *adxt, Sint32 *ncount, Sint32 *tscale) {
+    Sint32 sp0;
+    Sint32 sp4;
+    Sint32 var_v0;
+    Sint32 temp_s1;
+    Uint8 stat;
+    Sint32 temp;
+
+    if ((adxt == NULL) || (ncount == NULL) || (tscale == NULL)) {
+        ADXERR_CallErrFunc1("E02080815 ADXT_GetTime: parameter error");
+        return;
+    }
+
+    if (adxt_time_mode == 0) {
+        ADXT_GetTimeSfreq2(adxt, ncount, tscale);
+        return;
+    }
+
+    adxt_diff_av = 0.0f;
+    stat = adxt->stat;
+
+    if ((Uint32)(stat - 3) < 2) {
+        if (adxt->pause_flag == 0) {
+            var_v0 = ((adxt_vsync_cnt - adxt->svcnt) * 0x64) + adxt->tvofst;
+        } else {
+            var_v0 = adxt->tvofst;
+        }
+
+        *ncount = var_v0;
+        ADXT_GetTimeSfreq2(adxt, &sp0, &sp4);
+        adxt_diff_av = (((Float32)sp0 / sp4) - ((Float32)*ncount / adxt_time_unit)) * 1000.0f;
+
+        if ((adxt_diff_av > 60.0f) || (adxt_diff_av < -60.0f)) {
+            if (adxt_time_adjust_sw == 1) {
+                temp_s1 = adxt_time_mode;
+                adxt_time_mode = 0;
+                ADXT_GetTime(adxt, &sp0, &sp4);
+                adxt_time_mode = temp_s1;
+                adxt_time_adjust_trap();
+            }
+
+            adxt->tvofst = (Float32)sp0 / sp4 * adxt_time_unit;
+            adxt->svcnt = adxt_vsync_cnt;
+        }
+    } else if (adxt->stat == ADXT_STAT_PLAYEND) {
+        sp0 = ADXSJD_GetTotalNumSmpl(adxt->sjd);
+        sp4 = ADXSJD_GetSfreq(adxt->sjd);
+        sp0 *= (0x10 / ADXSJD_GetOutBps(adxt->sjd));
+        *ncount = (Float32)sp0 / sp4 * adxt_time_unit;
+        temp = adxt->tvofst + 1;
+        *ncount += temp;
+    } else {
+        *ncount = 0;
+    }
+
+    *ncount += adxt->time_ofst;
+    *tscale = adxt_time_unit;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetTimeReal);
 
@@ -339,8 +486,15 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_SetOutBalan
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B758);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetOutBalance);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B788);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_SetOutVol);
+void ADXT_SetOutVol(ADXT adxt, Sint32 vol) {
+    if (adxt == NULL) {
+        ADXERR_CallErrFunc1("E02080823 ADXT_SetOutVol: parameter error\0\0\0\0");
+        return;
+    }
+
+    adxt->outvol = vol;
+    ADXRNA_SetOutVol(adxt->rna, adxt->outvol + ADXSJD_GetDefOutVol(adxt->sjd));
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B7B8);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetOutVol);
@@ -351,7 +505,9 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetDefOutPa
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetDataId);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_SetDefSvrFreq);
+void ADXT_SetDefSvrFreq(Sint32 freq) {
+    adxt_def_svrfreq = freq;
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B7E8);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_SetSvrFreq);
@@ -365,8 +521,22 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_SetReloadSc
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B878);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetNumSctIbuf);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B8A8);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetNumSmplObuf);
+Sint32 ADXT_GetNumSmplObuf(ADXT adxt, Sint32 chno) {
+    SJ sj;
+
+    if ((adxt == NULL) || (chno < 0)) {
+        ADXERR_CallErrFunc1("E02080837 ADXT_GetNumSmplObuf: parameter error");
+        return ADXT_ERR_SHRTBUF;
+    }
+
+    sj = adxt->sjo[chno];
+
+    if (sj != NULL) {
+        return SJ_GetNumData(sj, 1) / 2;
+    }
+
+    return ADXT_ERR_OK;
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B8D8);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetIbufRemainTime);
@@ -404,11 +574,52 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_SetWaitPlay
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055BA98);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_IsReadyPlayStart);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055BAD0);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_Pause);
+void ADXT_Pause(ADXT adxt, Sint32 sw) {
+    Sint32 ncount;
+    Sint32 tscale;
+    Sint32 time_mode_temp;
+    Sint8 stat;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055BAF8);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetStatPause);
+    if (adxt == NULL) {
+        ADXERR_CallErrFunc1("E02080846 ADXT_Pause: parameter error");
+        return;
+    }
+
+    stat = adxt->stat;
+
+    if (sw == adxt->pause_flag) {
+        return;
+    }
+
+    ADXCRS_Lock();
+    adxt->pause_flag = sw;
+
+    if ((Uint8)(stat - 3) < 2) {
+        if (sw == 1) {
+            ADXRNA_SetPlaySw(adxt->rna, 0);
+        } else {
+            ADXRNA_SetPlaySw(adxt->rna, 1);
+            adxt->svcnt = adxt_vsync_cnt;
+        }
+
+        time_mode_temp = adxt_time_mode;
+        adxt_time_mode = 0;
+        ADXT_GetTime(adxt, &ncount, &tscale);
+        adxt_time_mode = time_mode_temp;
+        adxt->tvofst = (Float32)ncount / tscale * adxt_time_unit;
+    }
+
+    ADXCRS_Unlock();
+}
+
+Sint32 ADXT_GetStatPause(ADXT adxt) {
+    if (adxt == NULL) {
+        ADXERR_CallErrFunc1("E02080847 ADXT_GetStatPause: parameter error");
+        return 0;
+    }
+
+    return adxt->pause_flag;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_PauseAll);
 
@@ -454,7 +665,16 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_DiscardSmpl
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_SetTimeOfst);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_SetLnkSw);
+void ADXT_SetLnkSw(ADXT adxt, Sint32 sw) {
+    ADXSJD sjd;
+
+    adxt->lnkflg = sw;
+    sjd = adxt->sjd;
+
+    if (sjd != NULL) {
+        ADXSJD_SetLnkSw(sjd, sw);
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetLnkSw);
 
@@ -469,7 +689,9 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_IsEndcode);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_InsertSilence);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_SetOutputMono);
+void ADXT_SetOutputMono(Sint32 flag) {
+    ADX_SetDecodeSteAsMonoSw(flag);
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055BB58);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_SetKeyString);
