@@ -68,7 +68,7 @@ typedef unsigned char			Uint8;		/* 符号なし１バイト整数 */
 
 #ifndef _TYPEDEF_Sint8
 #define _TYPEDEF_Sint8
-typedef signed char				Sint8;		/* 符号つき１バイト整数 */
+typedef /* signed */ char				Sint8;		/* 符号つき１バイト整数 */
 #endif
 
 #ifndef _TYPEDEF_Uint16
