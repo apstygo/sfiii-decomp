@@ -1,19 +1,20 @@
 #include "common.h"
 #include <cri/private/libadxe/adx_bsc.h>
 #include <cri/private/libadxe/adx_xpnd.h>
+#include <cri/private/libadxe/structs.h>
 
-#define ADXB_MAX_OBJ 0x10
+#define ADXB_MAX_OBJ 16
 
 s8 *skg_build = "\nSKG/PS2EE Ver.0.64 Build:Sep 18 2003 09:59:56\n";
-s32 skg_init_count = 0;
-s32 skg_err_func = 0;
-s32 skg_err_obj = 0;
-s32 ahxsetextfunc = 0;
-s32 pl2encodefunc = 0;
+Sint32 skg_init_count = 0;
+Sint32 skg_err_func = 0;
+Sint32 skg_err_obj = 0;
+Sint32 ahxsetextfunc = 0;
+Sint32 pl2encodefunc = 0;
 void (*pl2resetfunc)() = NULL;
-s16 adxb_def_k0 = 0;
-s16 adxb_def_km = 0;
-s16 adxb_def_ka = 0;
+Sint16 adxb_def_k0 = 0;
+Sint16 adxb_def_km = 0;
+Sint16 adxb_def_ka = 0;
 ADXB_OBJ adxb_obj[ADXB_MAX_OBJ] = { 0 };
 
 void ADXB_Destroy(ADXB);
@@ -26,7 +27,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", SKG_EntryErrFunc
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", SKG_CallErrFunc);
 
-s32 SKG_Init() {
+Sint32 SKG_Init() {
     skg_init_count += 1;
     return 0;
 }
@@ -53,17 +54,26 @@ void ADXB_Finish() {
     memset(&adxb_obj, 0, sizeof(adxb_obj));
 }
 
-s32 adxb_DefGetWr(ADXB_UNK_0 *arg0, s32 *arg1, s32 *arg2, s32 *arg3);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", adxb_DefGetWr);
+Sint32 adxb_DefGetWr(void *object, Sint32 *arg1, Sint32 *arg2, Sint32 *arg3) {
+    ADXB adxb = (ADXB)object;
+    Sint32 ret = adxb->unk3C;
+    *arg1 = adxb->unk8C;
+    *arg2 = adxb->unk40 - adxb->unk8C;
+    *arg3 = adxb->unk18 - adxb->unk88;
+    return ret;
+}
 
-void adxb_DefAddWr(ADXB_UNK_0 *arg0, s32 arg1, s32 arg2);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", adxb_DefAddWr);
+void adxb_DefAddWr(void *object, Sint32 arg1, Sint32 arg2) {
+    ADXB adxb = (ADXB)object;
+    adxb->unk8C += arg2;
+    adxb->unk88 += arg2;
+}
 
-ADXB ADXB_Create(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
+ADXB ADXB_Create(Sint32 arg0, Sint32 arg1, Sint32 arg2, Sint32 arg3) {
     ADXB adxb;
     ADXB chk_adxb;
     ADXPD adxpd;
-    s32 i;
+    Sint32 i;
 
     chk_adxb = &adxb_obj[0];
 
@@ -92,13 +102,13 @@ ADXB ADXB_Create(s32 arg0, s32 arg1, s32 arg2, s32 arg3) {
     adxb->unk3C = arg1;
     adxb->unk40 = arg2;
     adxb->unk44 = arg3;
-    adxb->unk78 = &adxb_DefGetWr;
-    adxb->unk80 = &adxb_DefAddWr;
-    adxb->unk7C = adxb;
+    adxb->get_wr = adxb_DefGetWr;
+    adxb->unk80 = adxb_DefAddWr;
+    adxb->object = adxb;
     adxb->unk84 = adxb;
     adxb->unkC8 = 0;
     adxb->unkDC = 0;
-    adxb->unkDE = -0x80;
+    adxb->unkDE = -0x80; // pan auto
     adxb->unkE0 = -0x80;
     memset(&adxb->adxb_unk_1, 0, sizeof(ADXB_UNK_1));
     return adxb;
@@ -124,9 +134,9 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_DecodeHeade
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_DecodeHeader);
 
-void ADXB_EntryGetWrFunc(ADXB arg0, s32 arg1, s32 arg2) {
-    arg0->unk78 = arg1;
-    arg0->unk7C = arg2;
+void ADXB_EntryGetWrFunc(ADXB adxb, Sint32 (*get_wr)(void *, Sint32 *, Sint32 *, Sint32 *), void *object) {
+    adxb->get_wr = get_wr;
+    adxb->object = object;
 }
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_EntryAddWrFunc);
@@ -135,18 +145,24 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetPcmBuf);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetFormat);
 
-s32 ADXB_GetSfreq(ADXB adxb) {
+Sint32 ADXB_GetSfreq(ADXB adxb) {
     return adxb->unk14;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetNumChan);
+Sint32 ADXB_GetNumChan(ADXB adxb) {
+    if (adxb->unkE == 1 && adxb->unkE4 != 0) {
+        return 2;
+    }
+
+    return adxb->unkE;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetFmtBps);
 
-s32 ADXB_GetOutBps(ADXB adxb) {
-    s16 temp_a1;
-    s16 temp_v1;
-    s32 var_v0;
+Sint32 ADXB_GetOutBps(ADXB adxb) {
+    Sint16 temp_a1;
+    Sint16 temp_v1;
+    Sint32 var_v0;
 
     temp_a1 = adxb->unk98;
 
@@ -176,7 +192,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetBlkSmpl)
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetBlkLen);
 
-s32 ADXB_GetTotalNumSmpl(ADXB adxb) {
+Sint32 ADXB_GetTotalNumSmpl(ADXB adxb) {
     return adxb->unk18;
 }
 
@@ -194,11 +210,11 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetLpEndPos
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetLpEndOfst);
 
-s32 ADXB_GetAinfLen(ADXB adxb) {
+Sint32 ADXB_GetAinfLen(ADXB adxb) {
     return adxb->unkC8;
 }
 
-s16 ADXB_GetDefOutVol(ADXB adxb) {
+Sint16 ADXB_GetDefOutVol(ADXB adxb) {
     return adxb->unkDC;
 }
 

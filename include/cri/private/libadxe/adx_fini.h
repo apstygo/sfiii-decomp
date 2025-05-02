@@ -1,8 +1,8 @@
 #ifndef ADX_FINI_H
 #define ADX_FINI_H
 
-#include "types.h"
 #include <cri/cri_adxf.h>
+#include <cri/cri_xpts.h>
 
 extern ADX_FS adxf_obj[ADXF_OBJ_MAX];
 extern ADXF_PTINFO *adxf_ptinfo[ADXF_PART_MAX];

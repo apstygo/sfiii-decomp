@@ -103,6 +103,14 @@ EXPECTED_ERRORS = {
     0x2D17C8: 0x0000A3AE,
     0x2D17E8: 0x0000C4AE,
     0x2D180C: 0x0000E2AE,
+
+    # adx_bsc::adxb_DefGetWr
+    0x2C9080: 0x8C00838C,
+    0x2C9088: 0x0000A3AC,
+    0x2C909C: 0x8800858C,
+    0x2C90A0: 0x1800838C,
+    0x2C90A4: 0x23186500,
+    0x2C90AC: 0x0000E3AC,
 }
 
 def read_word(b: bytes, offset: int) -> int:
