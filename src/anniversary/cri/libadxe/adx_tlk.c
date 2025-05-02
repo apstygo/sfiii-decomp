@@ -1,5 +1,4 @@
 #include "common.h"
-#include <cri/cri_adxt.h>
 #include <cri/private/libadxe/adx_amp.h>
 #include <cri/private/libadxe/adx_crs.h>
 #include <cri/private/libadxe/adx_dcd3.h>
@@ -9,6 +8,9 @@
 #include <cri/private/libadxe/adx_sjd.h>
 #include <cri/private/libadxe/adx_stmc.h>
 #include <cri/private/libadxe/lsc.h>
+#include <cri/private/libadxe/structs.h>
+
+#include <cri/cri_adxt.h>
 #include <cri/sj.h>
 
 // data
