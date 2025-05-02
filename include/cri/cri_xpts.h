@@ -107,15 +107,15 @@ typedef unsigned long			Uint64;		/* 符号なし８バイト整数 */
 typedef signed long				Sint64;		/* 符号つき８バイト整数 */
 #endif
 
-#ifndef _TYPEDEF_Uint128
-#define _TYPEDEF_Uint128					/* 符号なし16バイト整数 */
-typedef unsigned int			Uint128 __attribute__ ((mode (TI)));
-#endif
+// #ifndef _TYPEDEF_Uint128
+// #define _TYPEDEF_Uint128					/* 符号なし16バイト整数 */
+// typedef unsigned int			Uint128 __attribute__ ((mode (TI)));
+// #endif
 
-#ifndef _TYPEDEF_Sint128
-#define _TYPEDEF_Sint128					/* 符号つき16バイト整数 */
-typedef int						Sint128 __attribute__ ((mode (TI)));
-#endif
+// #ifndef _TYPEDEF_Sint128
+// #define _TYPEDEF_Sint128					/* 符号つき16バイト整数 */
+// typedef int						Sint128 __attribute__ ((mode (TI)));
+// #endif
 
 #endif	/* endif XPT_TGT_EE */
 

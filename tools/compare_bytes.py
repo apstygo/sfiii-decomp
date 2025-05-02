@@ -95,6 +95,14 @@ EXPECTED_ERRORS = {
     0x2D44B8: 0x0400A68F,
     0x2D44BC: 0x000061C6,
     0x2D44C0: 0x60088046,
+
+    # adx_sjd::adxsjd_get_wr: (a1, a2, a3) regswap
+    0x2D1740: 0x2DA8A000,
+    0x2D1748: 0x2DB0C000,
+    0x2D1750: 0x2DB8E000,
+    0x2D17C8: 0x0000A3AE,
+    0x2D17E8: 0x0000C4AE,
+    0x2D180C: 0x0000E2AE,
 }
 
 def read_word(b: bytes, offset: int) -> int:

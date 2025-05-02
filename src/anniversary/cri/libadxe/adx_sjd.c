@@ -1,10 +1,33 @@
 #include "common.h"
+#include <cri/private/libadxe/adx_bsc.h>
+#include <cri/private/libadxe/adx_sjd.h>
+#include <cri/private/libadxe/sj_rbf.h>
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_Init);
+#include <cri/cri_xpts.h>
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_Finish);
+// data
+extern ADXSJD_OBJ adxsjd_obj[ADXSJD_MAX_OBJ];
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", adxsjd_clear);
+void ADXSJD_Init() {
+    ADXB_Init();
+    memset(adxsjd_obj, 0, sizeof(adxsjd_obj));
+}
+
+void ADXSJD_Finish() {
+    memset(adxsjd_obj, 0, sizeof(adxsjd_obj));
+}
+
+void adxsjd_clear(ADXSJD sjd) {
+    sjd->unk3C = -1;
+    sjd->unk38 = SJCK_LEN_MAX;
+    sjd->unk98 = 0;
+    sjd->unk2C = 0;
+    sjd->unk30 = 0;
+    sjd->unk34 = 0;
+    sjd->unk40 = 0;
+    sjd->unk44 = 0;
+    sjd->unk3 = 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_Create);
 
@@ -26,7 +49,43 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_Stop);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", adxsjd_decode_prep);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", adxsjd_get_wr);
+Sint32 adxsjd_get_wr(ADXSJD sjd, Sint32 *arg1, Sint32 *arg2, Sint32 *arg3) {
+    Sint32 temp_v0_3;
+    Sint32 i;
+    Sint32 var_v0;
+    SJ first_sj;
+    SJ *sj;
+    SJCK *chunk_p;
+    Sint32 a0;
+
+    first_sj = sjd->sj[0];
+    sj = sjd->sj;
+    chunk_p = sjd->chunks;
+
+    for (i = 0; i < ADXB_GetNumChan(sjd->adxb); i++) {
+        SJ_GetChunk(sj[i], 0, 0x4000, &chunk_p[i]);
+    }
+
+    *arg1 = (Sint32)(sjd->chunks[0].data - SJRBF_GetBufPtr(first_sj)) / 2;
+
+    a0 = sjd->unk38;
+    temp_v0_3 = sjd->chunks[0].len / 2;
+
+    if (temp_v0_3 < a0) {
+        a0 = temp_v0_3;
+    }
+
+    *arg2 = a0;
+
+    if (sjd->unk3C >= 0) {
+        var_v0 = sjd->unk3C - sjd->unk40;
+    } else {
+        var_v0 = 0x1FFFFFFF;
+    }
+
+    *arg3 = var_v0;
+    return ADXB_GetPcmBuf(sjd->adxb);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", adxsjd_decexec_start);
 
