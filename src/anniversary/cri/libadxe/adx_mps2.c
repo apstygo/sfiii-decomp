@@ -5,16 +5,40 @@
 #include <cri/ee/cri_xpt.h>
 #include <eekernel.h>
 
+INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", D_0055AA98);
+
 // data
+#if defined(TARGET_PS2)
+extern Char8 *adxps2_build;
 extern Sint32 adxm_init_level;
+extern Sint32 adxm_init_ex;
+extern Sint32 adxm_save_tprm[12];
+extern Sint32 adxm_lock_level;
+extern Sint32 adxm_goto_border_flag;
+extern Sint32 adxm_vsyncproc_exec_flag;
+extern Sint32 adxm_usrvsyncproc_exec_flag;
+extern Sint32 adxm_fsproc_exec_flag;
+extern Sint32 adxm_mwidleproc_exec_flag;
+extern Sint32 adxm_usridleproc_exec_flag;
+extern Sint32 adxm_waiting_main_th_flag;
+extern Sint64 adxm_safe_cnt;
+extern Sint64 adxm_usrvsync_cnt;
+extern Sint64 adxm_vsync_cnt;
+extern Sint64 adxm_fs_cnt;
+extern Sint64 adxm_mwidle_cnt;
+extern Sint64 adxm_usridle_cnt;
+extern Sint64 adxm_vint_cnt;
 extern Sint32 volatile adxm_id_safe;
+extern Sint32 volatile adxm_id_usrvsync;
 extern Sint32 volatile adxm_id_vsync;
 extern Sint32 volatile adxm_id_fs;
 extern Sint32 volatile adxm_id_main;
 extern Sint32 volatile adxm_id_mwidle;
+extern Sint32 volatile adxm_id_usridle;
 extern Sint64 volatile adxm_safe_loop;
 extern Sint64 volatile adxm_safe_exit;
 extern Sint64 volatile adxm_usrvsync_loop;
+extern Sint64 volatile adxm_usrvsync_exit;
 extern Sint64 volatile adxm_vsync_loop;
 extern Sint64 volatile adxm_vsync_exit;
 extern Sint64 volatile adxm_fs_loop;
@@ -22,7 +46,73 @@ extern Sint64 volatile adxm_fs_exit;
 extern Sint64 volatile adxm_mwidle_loop;
 extern Sint64 volatile adxm_mwidle_exit;
 extern Sint64 volatile adxm_usridle_loop;
+extern Sint64 volatile adxm_usridle_exit;
+extern Sint32 adxps2_exec_svr;
+extern Sint32 adxps2_exec_vint;
+extern Sint32 adxm_old_cbf;
+extern Sint16 adxm_debug_bgcl;
+extern Sint32 adxm_stack_safe[0x200];
+extern Sint32 adxm_stack_usrvsync[0x400];
+extern Sint32 adxm_stack_vsync[0x400];
+extern Sint32 adxm_stack_fs[0x400];
+extern Sint32 adxm_stack_mwidle[0x800];
+extern Sint32 adxm_stack_usridle[0x800];
+extern Sint32 adxm_cur_prio;
+extern Sint32 adxm_cur_tid;
 extern Sint32 adxm_main_prio_def;
+#else
+Char8 *adxps2_build = "\nADXPS2 Ver.2.46 Build:Sep 18 2003 10:00:02\n";
+Sint32 adxm_init_level = 0;
+Sint32 adxm_init_ex = 0;
+Sint32 adxm_save_tprm[12] = { 0 };
+Sint32 adxm_lock_level = 0;
+Sint32 adxm_goto_border_flag = 0;
+Sint32 adxm_vsyncproc_exec_flag = 0;
+Sint32 adxm_usrvsyncproc_exec_flag = 0;
+Sint32 adxm_fsproc_exec_flag = 0;
+Sint32 adxm_mwidleproc_exec_flag = 0;
+Sint32 adxm_usridleproc_exec_flag = 0;
+Sint32 adxm_waiting_main_th_flag = 0;
+Sint64 adxm_safe_cnt = 0;
+Sint64 adxm_usrvsync_cnt = 0;
+Sint64 adxm_vsync_cnt = 0;
+Sint64 adxm_fs_cnt = 0;
+Sint64 adxm_mwidle_cnt = 0;
+Sint64 adxm_usridle_cnt = 0;
+Sint64 adxm_vint_cnt = 0;
+Sint32 volatile adxm_id_safe = 0;
+Sint32 volatile adxm_id_usrvsync = 0;
+Sint32 volatile adxm_id_vsync = 0;
+Sint32 volatile adxm_id_fs = 0;
+Sint32 volatile adxm_id_main = 0;
+Sint32 volatile adxm_id_mwidle = 0;
+Sint32 volatile adxm_id_usridle = 0;
+Sint64 volatile adxm_safe_loop = 0;
+Sint64 volatile adxm_safe_exit = 0;
+Sint64 volatile adxm_usrvsync_loop = 0;
+Sint64 volatile adxm_usrvsync_exit = 0;
+Sint64 volatile adxm_vsync_loop = 0;
+Sint64 volatile adxm_vsync_exit = 0;
+Sint64 volatile adxm_fs_loop = 0;
+Sint64 volatile adxm_fs_exit = 0;
+Sint64 volatile adxm_mwidle_loop = 0;
+Sint64 volatile adxm_mwidle_exit = 0;
+Sint64 volatile adxm_usridle_loop = 0;
+Sint64 volatile adxm_usridle_exit = 0;
+Sint32 adxps2_exec_svr = 0;
+Sint32 adxps2_exec_vint = 0;
+Sint32 adxm_old_cbf = 0;
+Sint16 adxm_debug_bgcl = 0;
+Sint32 adxm_stack_safe[0x200] = { 0 };
+Sint32 adxm_stack_usrvsync[0x400] = { 0 };
+Sint32 adxm_stack_vsync[0x400] = { 0 };
+Sint32 adxm_stack_fs[0x400] = { 0 };
+Sint32 adxm_stack_mwidle[0x800] = { 0 };
+Sint32 adxm_stack_usridle[0x800] = { 0 };
+Sint32 adxm_cur_prio = 0;
+Sint32 adxm_cur_tid = 0;
+Sint32 adxm_main_prio_def = 0;
+#endif
 
 // forward decls
 void adxm_ShutdownFsThrd();
@@ -35,6 +125,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", _adxm_lock);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", _adxm_unlock);
 
+INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", D_0055AAC8);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", adxm_goto_svr_border);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", adxm_goto_mwidle_border);
@@ -67,6 +158,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", adxm_SuspendThr
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", adxm_SetupSafeThrd);
 
+INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", D_0055AAF8);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", adxm_SetupUsrVsyncThrd);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", adxm_SetupVsyncThrd);
@@ -75,6 +167,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", adxm_SetupFsThr
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", adxm_SetupMwIdleThrd);
 
+INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", D_0055AB38);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", adxm_SetupUsrIdleThrd);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", adxm_IsSetupThrdEx);
@@ -237,11 +330,3 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", ADXM_SetCbUsrVs
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", ADXM_SetCbUsrIdle);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", ADXM_GotoUsrIdleBdr);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", D_0055AA98);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", D_0055AAC8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", D_0055AAF8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", D_0055AB38);
