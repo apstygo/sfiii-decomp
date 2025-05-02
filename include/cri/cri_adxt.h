@@ -277,10 +277,13 @@ typedef struct _adx_talk {
 	/* 0x00 */ #ifdef __EE__
 	/* 0x00 */ Sint32	flush_nsmpl;				/*	フラッシュ時に挿入したサンプル数	*/
 	/* 0x00 */ #endif
-	/* 0x00 */ Sint8  unkCE;
-	/* 0x00 */ Sint8  padCF[1];
-    /* 0x00 */ Sint8* unkB0;
-    /* 0x00 */ Sint8  padB4[16];
+	/* 0x00 */ Sint8  unkAC;
+	/* 0x00 */ Sint8  padAD[1];
+    /* 0x00 */ Char8* unkB0;
+    /* 0x00 */ Sint32 padB4;
+    /* 0x00 */ Sint32 padB8;
+    /* 0x00 */ Sint32 padBC;
+    /* 0x00 */ Sint32 padC0;
 } ADX_TALK;
 typedef	ADX_TALK	*ADXT;
 

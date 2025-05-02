@@ -326,7 +326,7 @@ void ADXT_StopWithoutLsc(ADXT adxt) {
 
     adxt->sji = NULL;
     adxt->stat = 0;
-    adxt->unkCE = 0;
+    adxt->unkAC = 0;
     ADXCRS_Unlock();
 }
 
