@@ -6,13 +6,13 @@
 
 // These should go in their own headers
 
-s32 LSC_GetNumStm(void *);
-s32 LSC_EntryFname(void *);
-void LSC_EntryFileRange(void *, s8 *, s32, s32, s32);
-void LSC_SetFlowLimit(void *, s32);
+Sint32 LSC_GetNumStm(void *);
+Sint32 LSC_EntryFname(void *);
+void LSC_EntryFileRange(void *, s8 *, Sint32, Sint32, Sint32);
+void LSC_SetFlowLimit(void *, Sint32);
 void LSC_Start(void *);
 void LSC_Stop(void *);
-void LSC_SetLpFlg(void *, s32);
+void LSC_SetLpFlg(void *, Sint32);
 void LSC_ResetEntry(void *);
 
 void ADXT_StopWithoutLsc();
@@ -31,16 +31,12 @@ void ADXT_EntryFname(ADXT adxt, s8 *fname) {
     }
 }
 
-void ADXT_EntryAfs(ADXT adxt, s32 patid, s32 fid) {
-    typedef struct {
-        s8 sp;
-        char pad[12];
-        s32 sp10;
-        s32 sp14;
-        s32 sp18;
-    } Stack;
+void ADXT_EntryAfs(ADXT adxt, Sint32 patid, Sint32 fid) {
+    Char8 error[16];
+    void* dir;
+    Sint32 ofst;
+    Sint32 fnsct;
 
-    Stack st;
     void *lsc = adxt->lsc;
 
     if (adxt == NULL) {
@@ -48,13 +44,13 @@ void ADXT_EntryAfs(ADXT adxt, s32 patid, s32 fid) {
         return;
     }
 
-    if (ADXF_GetFnameRangeEx(patid, fid, adxt->unkB0, &st.sp10, &st.sp14, &st.sp18) == 0) {
-        LSC_EntryFileRange(lsc, ADXF_GetFnameFromPt(patid), st.sp10, st.sp14, st.sp18);
+    if (ADXF_GetFnameRangeEx(patid, fid, adxt->unkB0, &dir, &ofst, &fnsct) == 0) {
+        LSC_EntryFileRange(lsc, ADXF_GetFnameFromPt(patid), dir, ofst, fnsct);
         return;
     }
 
-    ADXERR_ItoA2(patid, fid, &st.sp, 0x10);
-    ADXERR_CallErrFunc2("E0071301 ADXT_EntryAfs: can't entry ", &st.sp);
+    ADXERR_ItoA2(patid, fid, error, 16);
+    ADXERR_CallErrFunc2("E0071301 ADXT_EntryAfs: can't entry ", error);
 }
 
 void ADXT_StartSeamless(ADXT adxt) {
@@ -78,7 +74,7 @@ void ADXT_StartSeamless(ADXT adxt) {
     ADXT_SetLnkSw(adxt, 1);
 }
 
-void ADXT_SetSeamlessLp(ADXT adxt, s32 flg) {
+void ADXT_SetSeamlessLp(ADXT adxt, Sint32 flg) {
     if (adxt == NULL) {
         ADXERR_CallErrFunc1("E02080851 ADXT_SetSeamlessLp: parameter error");
         return;
@@ -106,7 +102,7 @@ void ADXT_ReleaseSeamless(ADXT adxt) {
     // Do nothing
 }
 
-s32 ADXT_GetNumFiles(ADXT adxt) {
+Sint32 ADXT_GetNumFiles(ADXT adxt) {
     if (adxt == NULL) {
         ADXERR_CallErrFunc1("E02080854 ADXT_GetNumFiles: parameter error");
         return -1;

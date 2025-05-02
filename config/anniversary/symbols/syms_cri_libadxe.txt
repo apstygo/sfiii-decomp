@@ -276,8 +276,8 @@ ADXT_GetNumFiles = 0x003CEFE0; // type:func
 ADXT_ResetEntry = 0x003CF018; // type:func
 
 
-adxm_lock = 0x003CF058; // type:func
-adxm_unlock = 0x003CF0E0; // type:func
+_adxm_lock = 0x003CF058; // type:func
+_adxm_unlock = 0x003CF0E0; // type:func
 adxm_goto_svr_border = 0x003CF150; // type:func
 adxm_goto_mwidle_border = 0x003CF228; // type:func
 adxm_goto_usridle_border = 0x003CF250; // type:func
