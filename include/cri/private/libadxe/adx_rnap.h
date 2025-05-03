@@ -6,9 +6,11 @@
 #include <cri/sj.h>
 
 ADXRNA ADXRNA_Create(SJ *, Sint32);
+void ADXRNA_Destroy(ADXRNA rna);
 void ADXRNA_EntryErrFunc(void (*)(void *, Char8 *), void *);
 Sint32 ADXRNA_GetNumData(ADXRNA);
 void ADXRNA_SetOutVol(ADXRNA, Sint32);
 void ADXRNA_SetPlaySw(ADXRNA, Sint32);
+void ADXRNA_SetTransSw(ADXRNA rna, Sint32 sw);
 
 #endif

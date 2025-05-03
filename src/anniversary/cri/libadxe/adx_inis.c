@@ -78,7 +78,7 @@ void ADXT_Init() {
         SVM_Init();
         ADXRNA_EntryErrFunc(adxini_rnaerr_cbfn, NULL);
         LSC_EntryErrFunc(adxini_lscerr_cbfn, NULL);
-        memset(&adxt_obj, 0, 0xC40);
+        memset(adxt_obj, 0, sizeof(adxt_obj));
         is_thread_setup = ADXM_IsSetupThrd();
 
         if ((is_thread_setup == 1) && (adxt_vsync_svr_flag == is_thread_setup)) {
