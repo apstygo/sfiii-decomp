@@ -264,50 +264,50 @@ void win_lose_work_clear() {
 }
 
 void cal_bg_speed_data_x(s16 bg_num, s16 tm, s16 unk) {
-    MotionState item;
+    MotionState ms;
 
     bg_w.bgw[bg_num].chase_xy[0].disp.low = 0;
-    item.timer = tm;
-    item.timer2 = ((item.timer * (item.timer - 1)) / 2) + item.timer;
-    item.x.ps.h = chase_x - bg_w.bgw[bg_num].chase_xy[0].disp.pos;
-    item.x.ps.l = 0;
+    ms.timer = tm;
+    ms.timer2 = ((ms.timer * (ms.timer - 1)) / 2) + ms.timer;
+    ms.x.ps.h = chase_x - bg_w.bgw[bg_num].chase_xy[0].disp.pos;
+    ms.x.ps.l = 0;
 
-    if (!item.timer) {
-        item.amx = 0;
-        item.dlx = 0;
-        item.spx = 0;
+    if (!ms.timer) {
+        ms.amx = 0;
+        ms.dlx = 0;
+        ms.spx = 0;
     } else {
-        item.amx = item.x.pl % item.timer2;
-        item.spx = item.dlx = item.x.pl / item.timer2;
+        ms.amx = ms.x.pl % ms.timer2;
+        ms.spx = ms.dlx = ms.x.pl / ms.timer2;
     }
 
-    bg_mvxy.a[0].sp = item.spx;
-    bg_mvxy.d[0].sp = item.dlx;
-    bg_w.bgw[bg_num].chase_xy[0].cal += item.amx;
+    bg_mvxy.a[0].sp = ms.spx;
+    bg_mvxy.d[0].sp = ms.dlx;
+    bg_w.bgw[bg_num].chase_xy[0].cal += ms.amx;
     bg_mvxy.kop[0] = 0;
 }
 
 void cal_bg_speed_data_y(s16 bg_num, s16 tm, s16 unk) {
-    MotionState item;
+    MotionState ms;
 
     bg_w.bgw[bg_num].chase_xy[1].disp.low = 0;
-    item.timer = tm;
-    item.timer2 = ((item.timer * (item.timer - 1)) / 2) + item.timer;
-    item.y.ps.h = chase_y - bg_w.bgw[bg_num].chase_xy[1].disp.pos;
-    item.y.ps.l = 0;
+    ms.timer = tm;
+    ms.timer2 = ((ms.timer * (ms.timer - 1)) / 2) + ms.timer;
+    ms.y.ps.h = chase_y - bg_w.bgw[bg_num].chase_xy[1].disp.pos;
+    ms.y.ps.l = 0;
 
-    if (!item.timer) {
-        item.amy = 0;
-        item.dly = 0;
-        item.spy = 0;
+    if (!ms.timer) {
+        ms.amy = 0;
+        ms.dly = 0;
+        ms.spy = 0;
     } else {
-        item.amy = item.y.pl % item.timer2;
-        item.spy = item.dly = item.y.pl / item.timer2;
+        ms.amy = ms.y.pl % ms.timer2;
+        ms.spy = ms.dly = ms.y.pl / ms.timer2;
     }
 
-    bg_mvxy.a[1].sp = item.spy;
-    bg_mvxy.d[1].sp = item.dly;
-    bg_w.bgw[bg_num].chase_xy[1].cal += item.amy;
+    bg_mvxy.a[1].sp = ms.spy;
+    bg_mvxy.d[1].sp = ms.dly;
+    bg_w.bgw[bg_num].chase_xy[1].cal += ms.amy;
     bg_mvxy.kop[1] = 0;
 }
 

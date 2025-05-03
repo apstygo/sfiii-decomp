@@ -2140,35 +2140,30 @@ typedef struct {
     s16 key1;  // offset 0xA, size 0x2
 } MTS_OK;
 
+typedef union {
+    s32 pl; // offset 0x0, size 0x4
+    struct {
+        // total size: 0x4
+        s16 l; // offset 0x0, size 0x2
+        s16 h; // offset 0x2, size 0x2,
+
+    } ps; // offset 0x0, size 0x4
+} S32Split;
+
 typedef struct {
     // total size: 0x2C
     s32 timer;  // offset 0x0, size 0x4
     s32 timer2; // offset 0x4, size 0x4
-    union {
-        s32 pl; // offset 0x0, size 0x4
-        struct {
-            // total size: 0x4
-            s16 l; // offset 0x0, size 0x2
-            s16 h; // offset 0x2, size 0x2,
-
-        } ps; // offset 0x0, size 0x4
-    } x;      // offset 0x8, size 0x4
-    union {
-        s32 pl; // offset 0x0, size 0x4
-        struct {
-            // total size: 0x4
-            s16 l; // offset 0x0, size 0x2
-            s16 h; // offset 0x2, size 0x2
-        } ps;      // offset 0x0, size 0x4
-    } y;           // offset 0xC, size 0x4
-    s32 spx;       // offset 0x10, size 0x4
-    s32 dlx;       // offset 0x14, size 0x4
-    s32 spy;       // offset 0x18, size 0x4
-    s32 dly;       // offset 0x1C, size 0x4
-    s32 amx;       // offset 0x20, size 0x4
-    s32 amy;       // offset 0x24, size 0x4
-    char swx;      // offset 0x28, size 0x1
-    char swy;      // offset 0x29, size 0x1
+    S32Split x; // offset 0x8, size 0x4
+    S32Split y; // offset 0xC, size 0x4
+    s32 spx;    // offset 0x10, size 0x4
+    s32 dlx;    // offset 0x14, size 0x4
+    s32 spy;    // offset 0x18, size 0x4
+    s32 dly;    // offset 0x1C, size 0x4
+    s32 amx;    // offset 0x20, size 0x4
+    s32 amy;    // offset 0x24, size 0x4
+    char swx;   // offset 0x28, size 0x1
+    char swy;   // offset 0x29, size 0x1
 } MotionState;
 
 #endif
