@@ -1,4 +1,5 @@
 #include "common.h"
+#include <cri/private/libadxe/adx_bahx.h>
 #include <cri/private/libadxe/adx_bsc.h>
 #include <cri/private/libadxe/adx_sjd.h>
 #include <cri/private/libadxe/sj_rbf.h>
@@ -64,7 +65,7 @@ ADXSJD ADXSJD_Create(SJ sj, Sint32 maxnch, SJ *sjo) {
     }
 
     ADXB_EntryGetWrFunc(sjd->adxb, adxsjd_get_wr, sjd);
-    sjd->unk8 = sj;
+    sjd->sji = sj;
     sjd->maxnch = maxnch;
 
     for (y = 0; y < maxnch; y++) {
@@ -102,7 +103,11 @@ void ADXSJD_Destroy(ADXSJD sjd) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetStat);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_SetInSj);
+void ADXSJD_SetInSj(ADXSJD sjd, SJ sj) {
+    sjd->sji = sj;
+    ADXB_SetAhxInSj(sjd->adxb, sj);
+    ADXB_SetAc3InSj(sjd->adxb, sj);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_SetOutSj);
 

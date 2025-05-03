@@ -69,7 +69,7 @@ typedef struct {
     Sint8 maxnch;
     Sint8 unk3;
     ADXB adxb;
-    SJ unk8;
+    SJ sji;
     SJ sjo[2];
     Char8 pad14[8];
     SJCK chunks[2];

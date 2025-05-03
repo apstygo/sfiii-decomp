@@ -1,20 +1,22 @@
 #include "common.h"
 #include <cri/private/libadxe/adx_bsc.h>
 
-void (*ac3setsjifunc)(s32) = NULL;
-s32 ac3termsupplyfunc = 0;
-s32 ac3execfunc = 0;
-s32 padding = 0; // This padding was added manually
-void (*ahxsetsjifunc)() = NULL;
-s32 ahxsetdecsmplfunc = 0;
-s32 ahxtermsupplyfunc = 0;
-s32 ahxexecfunc = 0;
+#include <cri/sj.h>
 
-void ADXB_SetAc3InSj(ADXB adxb) {
-    s32 unkBC = adxb->unkBC;
+void (*ac3setsjifunc)(Sint32, SJ) = NULL;
+Sint32 ac3termsupplyfunc = 0;
+Sint32 ac3execfunc = 0;
+Sint32 padding = 0; // This padding was added manually
+void (*ahxsetsjifunc)(Sint32, SJ) = NULL;
+Sint32 ahxsetdecsmplfunc = 0;
+Sint32 ahxtermsupplyfunc = 0;
+Sint32 ahxexecfunc = 0;
+
+void ADXB_SetAc3InSj(ADXB adxb, SJ sj) {
+    Sint32 unkBC = adxb->unkBC;
 
     if (unkBC != 0) {
-        ac3setsjifunc(unkBC);
+        ac3setsjifunc(unkBC, sj);
     }
 }
 
@@ -28,11 +30,11 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bahx", ADXB_DecodeHead
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bahx", ADXB_CheckAc3);
 
-void ADXB_SetAhxInSj(ADXB adxb) {
-    s32 unkB0 = adxb->unkB0;
+void ADXB_SetAhxInSj(ADXB adxb, SJ sj) {
+    Sint32 unkB0 = adxb->unkB0;
 
     if (unkB0 != 0) {
-        ahxsetsjifunc(unkB0);
+        ahxsetsjifunc(unkB0, sj);
     }
 }
 
