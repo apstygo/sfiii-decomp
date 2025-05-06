@@ -8,6 +8,7 @@ void Sa_frame_Write();
 void SSPutStr(u16 x, u16 y, u8 atr, s8 *str);
 void SSPutStr2(u16 x, u16 y, u8 atr, s8 *str);
 s32 SSPutStrPro(u16 flag, u16 x, u16 y, u8 atr, u32 vtxcol, s8 *str);
+void scfont_sqput(u16 x, u16 y, u8 atr, u8 page, u8 cx1, u8 cy1, u8 cx2, u8 cy2, u16 priority);
 void FadeInit();
 s32 FadeOut(u8 type, u8 step, u8 priority);
 s32 FadeIn(u8 type, u8 step, u8 priority);

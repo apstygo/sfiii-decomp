@@ -10,6 +10,7 @@ extern u16 VS_Win_Record[2];       // size: 0x4, address: 0x579DD8
 extern u16 IO_Result;              // size: 0x2, address: 0x579DDC
 extern u16 Keep_Grade[2];          // size: 0x4, address: 0x579DE0
 extern s16 Cont_Timer;             // size: 0x2, address: 0x579E18
+extern s16 Lamp_Timer;             // size: 0x2, address: 0x579E1C
 extern u16 Result_Timer[2];        // size: 0x4, address: 0x579E30
 extern s16 Offset_BG_X[6];         // size: 0xC, address: 0x579E38
 extern s16 Target_BG_X[6];         // size: 0xC, address: 0x579E48
@@ -62,6 +63,8 @@ extern u8 reset_NG_flag;           // size: 0x1, address: 0x57A0B8
 extern s8 Menu_Max;                // size: 0x1, address: 0x57A0BC
 extern s8 Menu_Page;               // size: 0x1, address: 0x57A0C0
 extern u8 Mode_Type;               // size: 0x1, address: 0x57A0C4
+extern u8 sync_win_type[2][4];     // size: 0x8, address: 0x57A0C8 
+extern u8 flash_win_type[2][4];    // size: 0x8, address: 0x57A0D0
 extern s8 Menu_Cursor_Move;        // size: 0x1, address: 0x57A0D8
 extern u8 Play_Game;               // size: 0x1, address: 0x57A0DC
 extern u8 Disappear_LOGO;          // size: 0x1, address: 0x57A0E4
@@ -81,6 +84,8 @@ extern u8 Cont_No[4];              // size: 0x4, address: 0x57A1F8
 extern u8 ixbfw_cut;               // size: 0x1, address: 0x57A1FC
 extern u8 test_flag;               // size: 0x1, address: 0x57A200
 extern u8 Stop_Update_Score;       // size: 0x1, address: 0x57A204
+extern u8 Lamp_Color;              // size: 0x1, address: 0x57A208
+extern u8 Lamp_Index;              // size: 0x1, address: 0x57A20C
 extern u8 Lamp_No;                 // size: 0x1, address: 0x57A210
 extern u8 Disp_Cockpit;            // size: 0x1, address: 0x57A218
 extern u8 CP_Index[2][8];          // size: 0x10, address: 0x57A230
