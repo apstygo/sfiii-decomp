@@ -8,6 +8,7 @@
 #include <cri/private/libadxe/adx_sjd.h>
 #include <cri/private/libadxe/adx_stmc.h>
 #include <cri/private/libadxe/lsc.h>
+#include <cri/private/libadxe/ps2_rna.h>
 #include <cri/private/libadxe/structs.h>
 
 #include <cri/cri_adxt.h>

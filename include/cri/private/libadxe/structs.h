@@ -110,4 +110,55 @@ typedef struct {
 
 typedef ADXAMP_OBJ *ADXAMP;
 
+// PS2PSJ
+
+typedef struct {
+    Sint8 unk0;
+    char pad1[3];
+    Sint32 unk4;
+    SJ unk8;
+    Sint32 unkC;
+    SJCK chunk;
+} PS2PSJ_OBJ;
+
+typedef PS2PSJ_OBJ *PS2PSJ;
+
+// ADXRNA
+
+typedef struct {
+    Sint8 unk0;
+    Sint32 maxnch;
+    PS2PSJ psj[2];
+    Sint32 dtr[2];
+    SJ sjo[2];
+    Sint32 unk20;
+    Sint32 unk24;
+    Sint32 unk28;
+    Sint32 unk2C;
+    Sint8 unk30;
+    Sint8 unk31;
+    Sint8 unk32;
+    Sint8 unk33;
+    char pad34[8];
+    Sint32 unk3C;
+    Sint32 unk40;
+    Sint32 unk44[2];
+    Sint32 unk4C[2];
+    Sint32 unk54;
+    Sint32 unk58;
+    Sint8 unk5C;
+    Sint8 unk5D;
+    Sint8 unk5E;
+    Sint8 unk5F;
+    char pad60[4];
+} ADXRNA_OBJ;
+
+typedef ADXRNA_OBJ *ADXRNA;
+
+#define ADXRNA_DEFINED
+
+// ADXDTX
+
+typedef void *ADXDTX;
+
 #endif

@@ -19,9 +19,21 @@ int sceRead(int fd, void *buf, int nbyte);
 int sceWrite(int fd, const void *buf, int nbyte);
 int sceLseek(int fd, int offset, int where);
 
-int sceSifInitIopHeap();
 int sceSifRebootIop(const char *img);
 int sceSifSyncIop();
+
+int sceSifInitIopHeap(void);
+void *sceSifAllocIopHeap(unsigned int);
+int sceSifFreeIopHeap(void *);
+int sceSifLoadIopHeap(const char *, void *);
+void *sceSifAllocSysMemory(int, unsigned int, void *);
+int sceSifFreeSysMemory(void *);
+
+unsigned int sceSifQueryMemSize(void);
+unsigned int sceSifQueryMaxFreeMemSize(void);
+unsigned int sceSifQueryTotalFreeMemSize(void);
+void *sceSifQueryBlockTopAddress(void *);
+unsigned int sceSifQueryBlockSize(void *);
 
 int sceSifLoadModule(const char *filename, int args, const char *argp);
 

@@ -1,6 +1,8 @@
 #ifndef _eekernel_h_
 #define _eekernel_h_
 
+#include "mw_stdarg.h"
+
 #define ExitHandler() asm("sync.l; ei")
 
 struct ThreadParam {
@@ -61,5 +63,10 @@ int iSuspendThread(int);
 int ResumeThread(int);
 int iResumeThread(int);
 int DelayThread(u_int);
+
+void scePrintf(const char *fmt, ...);
+void sceVprintf(const char *fmt, va_list ap);
+int sceSnprintf(char *buffer, size_t count, const char *fmt, ...);
+int sceVsnprintf(char *buffer, size_t count, const char *fmt, va_list ap);
 
 #endif

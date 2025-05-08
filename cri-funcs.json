@@ -291,6 +291,8 @@
         "ps2rna_finish_psj",
         "ps2rna_get_psj",
         "ps2rna_release_psj",
+        "ps2rna_rcvcbf",
+        "ps2rna_sndcbf",
         "PS2RNA_Init",
         "PS2RNA_InitIopSnd",
         "PS2RNA_FinishIopSnd",
