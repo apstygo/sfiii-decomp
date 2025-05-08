@@ -1,6 +1,6 @@
 #include "common.h"
-#include <cri/cri_adxt.h>
-#include <cri/ee/cri_mw.h>
+#include <cri/private/libadxe/structs.h> // This import shouldn't be necessary, but right now it is
+
 #include <cri/private/libadxe/adx_crs.h>
 #include <cri/private/libadxe/adx_errs.h>
 #include <cri/private/libadxe/adx_rnap.h>
@@ -8,6 +8,9 @@
 #include <cri/private/libadxe/dtx.h>
 #include <cri/private/libadxe/lsc_err.h>
 #include <cri/private/libadxe/svm.h>
+
+#include <cri/cri_adxt.h>
+#include <cri/ee/cri_mw.h>
 
 // data
 Char8 *volatile adxt_build = "\nADXT/PS2EE Ver.9.00 Build:Sep 18 2003 10:00:00\n";

@@ -6,5 +6,6 @@
 
 Sint32 DTR_Create(SJ, Sint32);
 void DTR_Destroy(Sint32);
+void DTR_Stop(Sint32);
 
 #endif

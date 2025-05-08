@@ -419,7 +419,23 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", PS2RNA_Start);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", PS2RNA_Stop);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", PS2RNA_SetTransSw);
+void PS2RNA_SetTransSw(ADXRNA rna, Sint32 sw) {
+    Sint32 i;
+    Sint32 v1;
+
+    rna->unk5C = sw;
+    v1 = rna->unk32;
+
+    if (sw == 1) {
+        return;
+    }
+
+    for (i = 0; i < v1; i++) {
+        DTR_Stop(rna->dtr[i]);
+        rna->unk5D = 1;
+        rna->unk5C = 0;
+    }
+}
 
 void PS2RNA_SetPlaySw(ADXRNA rna, Sint32 sw) {
     rna->unk30 = sw;
