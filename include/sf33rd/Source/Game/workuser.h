@@ -31,6 +31,7 @@ extern s16 Random_ix32;            // size: 0x2, address: 0x579FC0
 extern s16 Random_ix16;            // size: 0x2, address: 0x579FC4
 extern s16 Unit_Of_Timer;          // size: 0x2, address: 0x579FEC
 extern s16 Sel_Arts_Complete[2];   // size: 0x4, address: 0x57A000
+extern s16 Sel_PL_Complete[2];     // size: 0x4, address: 0x57A004
 extern s16 ENTRY_X;                // size: 0x2, address: 0x57A014
 extern s16 F_Timer[2];             // size: 0x4, address: 0x57A018
 extern s16 E_Timer;                // size: 0x2, address: 0x57A01C
@@ -45,6 +46,7 @@ extern u8 Pause_Type;              // size: 0x1, address: 0x57A048
 extern u8 CPU_Rec[2];              // size: 0x2, address: 0x57A04C
 extern u8 Forbid_Reset;            // size: 0x1, address: 0x57A050
 extern u8 CPU_Time_Lag[2];         // size: 0x2, address: 0x57A054
+extern s8 Training_Cursor;         // size: 0x1, address: 0x57A060
 extern u8 Decide_ID;               // size: 0x1, address: 0x57A064
 extern u8 Reset_Bootrom;           // size: 0x1, address: 0x57A068
 extern s8 Menu_Page_Buff;          // size: 0x1, address: 0x57A06C
@@ -93,6 +95,7 @@ extern u8 Game_difficulty;         // size: 0x1, address: 0x57A25C
 extern u8 Game_pause;              // size: 0x1, address: 0x57A260
 extern u8 Menu_Suicide[4];         // size: 0x4, address: 0x57A264
 extern u8 Connect_Status;          // size: 0x1, address: 0x57A268
+extern s8 Training_Index;          // size: 0x1, address: 0x57A26C
 extern s8 Cursor_Y_Pos[2][4];      // size: 0x8, address: 0x57A278
 extern u8 M_No[4];                 // size: 0x4, address: 0x57A29C
 extern u8 D_No[4];                 // size: 0x4, address: 0x57A2A0
