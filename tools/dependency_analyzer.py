@@ -6,6 +6,7 @@ from graphviz import Digraph
 from dataclasses import dataclass
 import pickle
 import sys
+import math
 
 # Prints functions that the provided file depends on. Expects file path relative to sources directory.
 # Usage:
@@ -198,14 +199,22 @@ def main():
 
     sorted_items = sorted(target_submap.file_to_funcs.items(), key=lambda x: x[0])
 
+    total_decomped = 0
+    total_functions = 0
     for filename, funcs in sorted_items:
+        total_functions += len(funcs)
         print(filename)
 
         for func in funcs:
             func_status = "✅" if func in func_map.decompiled_funcs else ""
-            print("   ", func, func_status)
+            if func_status == "✅":
+                total_decomped += 1
+        
 
+            print("   ", func, func_status)
         print()
+
+    print(f"{target_file} DECOMPILATION PERCENTAGE: ", round(total_decomped / total_functions * 100, 2))
 
 if __name__ == "__main__":
     main()
