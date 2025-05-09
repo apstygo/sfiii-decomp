@@ -32,7 +32,6 @@ special_cases = {
     ("eff05", ".sdata", 0): 16,
     ("EFF48_more_sdata", ".sdata", 0): 16,
     ("sel_pl", ".sdata", 0): 16,
-    ("menu", ".sdata", 0): 16,
 
     ("sbss_579878", ".sbss", 0): 8,
     ("EFF45", ".sbss", 0): 16,

@@ -2959,109 +2959,111 @@ void Menu_Select(struct _TASK *task_ptr) {
     s16 ix;
     s16 oldy;
 
-    if (Check_Pad_in_Pause(task_ptr) == 0) {
-        switch (task_ptr->r_no[2]) {
-        case 0:
-            Pause_1st_Sub(task_ptr);
-            return;
+    if (Check_Pad_in_Pause(task_ptr) != 0) {
+        return;
+    }
 
+    switch (task_ptr->r_no[2]) {
+    case 0:
+        Pause_1st_Sub(task_ptr);
+        break;
+
+    case 1:
+        task_ptr->r_no[2]++;
+        Menu_Common_Init();
+        Menu_Cursor_Y[0] = Cursor_Y_Pos[0][0];
+        Menu_Suicide[0] = 0;
+        Menu_Suicide[1] = 0;
+        Menu_Suicide[2] = 0;
+        effect_10_init(0, 0, 0, 0, 0, 0x14, 0xC);
+        effect_10_init(0, 0, 2, 2, 0, 0x16, 0x10);
+        switch (Mode_Type) {
         case 1:
-            task_ptr->r_no[2]++;
-            Menu_Common_Init();
-            *Menu_Cursor_Y = Cursor_Y_Pos[0][0];
-            Menu_Suicide[0] = 0;
-            Menu_Suicide[1] = 0;
-            Menu_Suicide[2] = 0;
-            effect_10_init(0, 0, 0, 0, 0, 0x14, 0xC);
-            effect_10_init(0, 0, 2, 2, 0, 0x16, 0x10);
-            switch (Mode_Type) {
-            case 1:
-                effect_10_init(0, 0, 1, 5, 0, 0x10, 0xE);
-                return;
-
-            case 5:
-                effect_10_init(0, 0, 1, 4, 0, 0x15, 0xE);
-                return;
-
-            default:
-                effect_10_init(0, 0, 1, 1, 0, 0x11, 0xE);
-                return;
-            }
+            effect_10_init(0, 0, 1, 5, 0, 0x10, 0xE);
             break;
 
-        case 2:
-            oldy = Menu_Cursor_Y[0];
-            IO_Result = MC_Move_Sub(Check_Menu_Lever(Pause_ID, 0), 0, 2, 0xFF);
-            switch (IO_Result) {
+        case 5:
+            effect_10_init(0, 0, 1, 4, 0, 0x15, 0xE);
+            break;
 
-            case 0x200:
+        default:
+            effect_10_init(0, 0, 1, 1, 0, 0x11, 0xE);
+            break;
+        }
+        break;
+
+    case 2:
+        oldy = Menu_Cursor_Y[0];
+        IO_Result = MC_Move_Sub(Check_Menu_Lever(Pause_ID, 0), 0, 2, 0xFF);
+        switch (IO_Result) {
+
+        case 0x200:
+            task_ptr->r_no[2] = 0;
+            Menu_Suicide[0] = 1;
+            SE_selected();
+            break;
+
+        case 0x100:
+            switch (Menu_Cursor_Y[0]) {
+
+            case 0:
                 task_ptr->r_no[2] = 0;
                 Menu_Suicide[0] = 1;
                 SE_selected();
-                return;
+                break;
 
-            case 0x100:
-                switch (Menu_Cursor_Y[0]) {
-
-                case 0:
-                    task_ptr->r_no[2] = 0;
-                    Menu_Suicide[0] = 1;
-                    SE_selected();
-                    return;
+            case 1:
+                SE_selected();
+                switch (Mode_Type) {
 
                 case 1:
-                    SE_selected();
-                    switch (Mode_Type) {
+                    task_ptr->r_no[1] = 3;
+                    task_ptr->r_no[2] = 0;
+                    task_ptr->r_no[3] = 0;
 
-                    case 1:
-                        task_ptr->r_no[1] = 3U;
-                        task_ptr->r_no[2] = 0;
-                        task_ptr->r_no[3] = 0;
-
-                        for (ix = 0; ix < 4; ix++) {
-                            Menu_Suicide[ix] = 1;
-                        }
-
-                        cpExitTask(6U);
-                        cpExitTask(4U);
-                        BGM_Stop();
-                        return;
-
-                    case 5:
-                        task_ptr->r_no[0] = 0xC;
-                        task_ptr->r_no[1] = 0;
-                        return;
-
-                    default:
-                        Menu_Suicide[0] = 1;
-                        Menu_Suicide[1] = 1;
-                        Menu_Suicide[2] = 1;
-                        Menu_Suicide[3] = 0;
-                        task_ptr->r_no[1]++;
-                        task_ptr->r_no[2] = 0U;
-                        task[4].r_no[2] = 3;
-                        return;
+                    for (ix = 0; ix < 4; ix++) {
+                        Menu_Suicide[ix] = 1;
                     }
+
+                    cpExitTask(SAVER_TASK_NUM);
+                    cpExitTask(PAUSE_TASK_NUM);
+                    BGM_Stop();
                     break;
 
-                case 2:
-                    task_ptr->r_no[2]++;
+                case 5:
+                    task_ptr->r_no[0] = 0xC;
+                    task_ptr->r_no[1] = 0;
+                    break;
+
+                default:
                     Menu_Suicide[0] = 1;
-                    Menu_Cursor_Y[0] = 1;
-                    effect_10_init(0, 0, 3, 3, 1, 0x13, 0xC);
-                    effect_10_init(0, 1, 0, 0, 1, 0x14, 0xF);
-                    effect_10_init(0, 1, 1, 1, 1, 0x1A, 0xF);
-                    SE_selected();
-                    return;
+                    Menu_Suicide[1] = 1;
+                    Menu_Suicide[2] = 1;
+                    Menu_Suicide[3] = 0;
+                    task_ptr->r_no[1]++;
+                    task_ptr->r_no[2] = 0U;
+                    task[4].r_no[2] = 3;
+                    break;
                 }
+                break;
+
+            case 2:
+                task_ptr->r_no[2]++;
+                Menu_Suicide[0] = 1;
+                Menu_Cursor_Y[0] = 1;
+                effect_10_init(0, 0, 3, 3, 1, 0x13, 0xC);
+                effect_10_init(0, 1, 0, 0, 1, 0x14, 0xF);
+                effect_10_init(0, 1, 1, 1, 1, 0x1A, 0xF);
+                SE_selected();
                 break;
             }
             break;
-
-        case 3:
-            Yes_No_Cursor_Move_Sub(task_ptr);
-            break;
         }
+        break;
+
+    case 3:
+        Yes_No_Cursor_Move_Sub(task_ptr);
+        break;
     }
 }
 
@@ -3101,6 +3103,7 @@ void Button_Config_in_Game(struct _TASK *task_ptr) {
         Button_Config_Sub(1);
         Button_Exit_Check_in_Game(task_ptr, 1);
         Save_Game_Data();
+        break;
     }
 }
 
@@ -3169,7 +3172,7 @@ void Disp_Auto_Save2(struct _TASK *task_ptr) {
 void DAS2_4th(struct _TASK *task_ptr) {
     if (SaveMove() <= 0) {
         G_No[2] = 6;
-        cpExitTask(3);
+        cpExitTask(MENU_TASK_NUM);
         task[1].condition = 1;
     }
 }
@@ -3186,19 +3189,16 @@ s32 VS_Result_Select_Sub(struct _TASK *task_ptr, s16 PL_id) {
 
     if (Menu_Cursor_X[PL_id] == 0) {
         After_VS_Move_Sub(sw, PL_id, 2);
+
         if (VS_Result_Move_Sub(task_ptr, PL_id) != 0) {
             Pause_ID = PL_id;
             return 1;
         }
-        goto block_5;
-    }
-
-    if (sw == 0x200) {
+    } else if (sw == 0x200) {
         IO_Result = 0x200;
         VS_Result_Move_Sub(task_ptr, PL_id);
     }
 
-block_5:
     return 0;
 }
 
@@ -3233,6 +3233,7 @@ void Save_Replay(struct _TASK *task_ptr) {
             IO_Result = 0x200;
             Save_Replay_MC_Sub(task_ptr, 0);
         }
+        break;
     }
 }
 
@@ -3338,7 +3339,6 @@ void Training_Menu(struct _TASK *task_ptr) {
 }
 
 void Training_Init(struct _TASK *task_ptr) {
-
     ToneDown(0x80, 2);
     Menu_Init(task_ptr);
     task_ptr->r_no[1] = Mode_Type - 2;
@@ -3381,7 +3381,7 @@ void Button_Config_Tr(struct _TASK *task_ptr) {
         Menu_Common_Init();
         Menu_Cursor_Y[0] = 0;
         Menu_Cursor_Y[1] = 0;
-        *Menu_Suicide = 1;
+        Menu_Suicide[0] = 1;
         Training_Index = 5;
         Copy_Key_Disp_Work();
         Setup_Button_Sub(6, 5, 1);
@@ -3480,7 +3480,7 @@ void Character_Change(struct _TASK *task_ptr) {
                     Operator_Status[ix] = 1;
                 }
 
-                cpExitTask(3);
+                cpExitTask(MENU_TASK_NUM);
             }
             break;
         }
@@ -3539,40 +3539,39 @@ void End_Replay_Menu(struct _TASK *task_ptr) {
 
     switch (task_ptr->r_no[1]) {
     case 0:
-        if (Allow_a_battle_f != 0) {
-            task_ptr->r_no[1] += 1;
-            Pause_ID = Decide_ID;
-            Pause_Down = 1;
-            Game_pause = 0x81;
-            effect_A3_init(1, 0x16, 0x63, 0, 3, 0x82, 0x48, 1);
-            effect_A3_init(1, 0x16, 0x63, 1, 3, 0x88, 0x58, 1);
-            Order[0x8A] = 3;
-            Order_Timer[0x8A] = 1;
-            effect_66_init(0x8A, 0xA, 2, 7, -1, -1, -0x3FF6);
+        if (Allow_a_battle_f == 0) {
+            break;
+        }
 
-        case 1:
-            task_ptr->r_no[1] += 1;
-            Menu_Common_Init();
-            Menu_Cursor_Y[0] = 0;
+        task_ptr->r_no[1] += 1;
+        Pause_ID = Decide_ID;
+        Pause_Down = 1;
+        Game_pause = 0x81;
+        effect_A3_init(1, 0x16, 0x63, 0, 3, 0x82, 0x48, 1);
+        effect_A3_init(1, 0x16, 0x63, 1, 3, 0x88, 0x58, 1);
+        Order[0x8A] = 3;
+        Order_Timer[0x8A] = 1;
+        effect_66_init(0x8A, 0xA, 2, 7, -1, -1, -0x3FF6);
+        /* fallthrough */
 
-            for (ix = 0; ix < 4; ix++) {
-                Menu_Suicide[ix] = 0;
-            }
+    case 1:
+        task_ptr->r_no[1] += 1;
+        Menu_Common_Init();
+        Menu_Cursor_Y[0] = 0;
 
-            effect_10_init(0, 0, 0, 4, 0, 0x14, 0xE);
-            effect_10_init(0, 6, 1, 2, 0, 0x16, 0x10);
-            return;
+        for (ix = 0; ix < 4; ix++) {
+            Menu_Suicide[ix] = 0;
+        }
 
-        case 2:
-            MC_Move_Sub(Check_Menu_Lever(Pause_ID, 0), 0, 1, 0xFF);
+        effect_10_init(0, 0, 0, 4, 0, 0x14, 0xE);
+        effect_10_init(0, 6, 1, 2, 0, 0x16, 0x10);
+        break;
 
-            switch (IO_Result) {
-            case 0x100:
-                break;
-            default:
-                goto block_10;
-            }
+    case 2:
+        MC_Move_Sub(Check_Menu_Lever(Pause_ID, 0), 0, 1, 0xFF);
 
+        switch (IO_Result) {
+        case 0x100:
             switch (Menu_Cursor_Y[0]) {
             case 0:
                 task_ptr->r_no[0] = 0xC;
@@ -3583,7 +3582,7 @@ void End_Replay_Menu(struct _TASK *task_ptr) {
                 }
 
                 SE_selected();
-                return;
+                break;
 
             case 1:
                 task_ptr->r_no[1] += 1;
@@ -3593,27 +3592,27 @@ void End_Replay_Menu(struct _TASK *task_ptr) {
                 effect_10_init(0, 0, 3, 3, 1, 0x13, 0xE);
                 effect_10_init(0, 1, 0, 0, 1, 0x14, 0x10);
                 effect_10_init(0, 1, 1, 1, 1, 0x1A, 0x10);
-                return;
-            }
-
-            break;
-
-        case 3:
-            ans = Yes_No_Cursor_Move_Sub(task_ptr);
-            switch (ans) {
-
-            case 1:
-                task_ptr->r_no[1] = 1;
-                return;
-
-            case -1:
-                Menu_Suicide[3] = 1;
                 break;
             }
+
             break;
         }
-    }
 
-block_10:
-    return;
+        break;
+
+    case 3:
+        ans = Yes_No_Cursor_Move_Sub(task_ptr);
+
+        switch (ans) {
+        case 1:
+            task_ptr->r_no[1] = 1;
+            break;
+
+        case -1:
+            Menu_Suicide[3] = 1;
+            break;
+        }
+
+        break;
+    }
 }
