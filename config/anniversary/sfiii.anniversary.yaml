@@ -423,7 +423,7 @@ segments:
       - [0x149C50, asm, sf33rd/Source/Game/end_9]
       - [0x14A1F0, asm, sf33rd/Source/Game/end_main]
       - [0x14B640, c, sf33rd/Source/Game/Entry]
-      - [0x14FB00, c, sf33rd/Source/Game/Flash_LP] # Good first decomp
+      - [0x14FB00, c, sf33rd/Source/Game/Flash_LP]
       - [0x14FE60, c, sf33rd/Source/Game/FOLLOW02]
       - [0x150210, c, sf33rd/Source/Game/Game]
       - [0x153CC0, c, sf33rd/Source/Game/GameOver]

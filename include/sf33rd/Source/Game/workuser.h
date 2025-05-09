@@ -63,7 +63,7 @@ extern u8 reset_NG_flag;           // size: 0x1, address: 0x57A0B8
 extern s8 Menu_Max;                // size: 0x1, address: 0x57A0BC
 extern s8 Menu_Page;               // size: 0x1, address: 0x57A0C0
 extern u8 Mode_Type;               // size: 0x1, address: 0x57A0C4
-extern u8 sync_win_type[2][4];     // size: 0x8, address: 0x57A0C8 
+extern u8 sync_win_type[2][4];     // size: 0x8, address: 0x57A0C8
 extern u8 flash_win_type[2][4];    // size: 0x8, address: 0x57A0D0
 extern s8 Menu_Cursor_Move;        // size: 0x1, address: 0x57A0D8
 extern u8 Play_Game;               // size: 0x1, address: 0x57A0DC
