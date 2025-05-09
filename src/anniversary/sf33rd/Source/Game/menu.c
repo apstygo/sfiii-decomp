@@ -103,6 +103,23 @@ void Go_Back_MC(struct _TASK *task_ptr);
 u16 Memory_Card_Move_Sub_LR(u16 sw, s16 cursor_id);
 u16 After_VS_Move_Sub(u16 sw, s16 cursor_id, s16 menu_max);
 s32 VS_Result_Move_Sub(struct _TASK *task_ptr, s16 PL_id);
+void DAS_1st(struct _TASK *task_ptr);
+void DAS_2nd(struct _TASK *task_ptr);
+void DAS_3rd(struct _TASK *task_ptr);
+void DAS_4th(struct _TASK *task_ptr);
+void DAS2_4th(struct _TASK *task_ptr);
+void Training_Init(struct _TASK *task_ptr);
+void Menu_Select(struct _TASK *task_ptr);
+void Button_Config_in_Game(struct _TASK *task_ptr);
+void Character_Change(struct _TASK *task_ptr);
+void Pad_Come_Out(struct _TASK *task_ptr);
+void Normal_Training(struct _TASK *task_ptr);
+void Blocking_Training(struct _TASK *task_ptr);
+void Dummy_Setting(struct _TASK *task_ptr);
+void Training_Option(struct _TASK *task_ptr);
+void Button_Config_Tr(struct _TASK *task_ptr);
+void Blocking_Tr_Option(struct _TASK *task_ptr);
+void Menu_Init(struct _TASK *task_ptr);
 
 typedef void (*MenuFunc)(struct _TASK *);
 
@@ -120,6 +137,7 @@ const MenuFunc Menu_Jmp_Tbl[16] = {
 extern u8 control_pl_rno; // size: 0x1, address: 0x5792B0
 extern u8 control_player; // size: 0x1, address: 0x5792B4
 extern u8 r_no_plus;      // size: 0x1, address: 0x5792B8
+extern const LetterData training_letter_data[6];
 
 void Menu_Task(struct _TASK *task_ptr) {
     if (nowSoftReset()) {
@@ -2932,7 +2950,10 @@ u16 Check_Menu_Lever(u8 PL_id, s16 type) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Suspend_Menu);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", In_Game);
+void In_Game(struct _TASK *task_ptr) {
+    void (*In_Game_Jmp_Tbl[5])() = { Menu_Init, Menu_Select, Button_Config_in_Game, Character_Change, Pad_Come_Out };
+    In_Game_Jmp_Tbl[task_ptr->r_no[1]](task_ptr);
+}
 
 void Menu_Select(struct _TASK *task_ptr) {
     s16 ix;
@@ -3097,7 +3118,10 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", bg_etc_write
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Wait_Load_Save);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Disp_Auto_Save);
+void Disp_Auto_Save(struct _TASK *task_ptr) {
+    void (*Auto_Save_Jmp_Tbl[4])() = { DAS_1st, DAS_2nd, DAS_3rd, DAS_4th };
+    Auto_Save_Jmp_Tbl[task_ptr->r_no[1]](task_ptr);
+}
 
 void DAS_1st(struct _TASK *task_ptr) {
     FadeOut(1, 0xFF, 8);
@@ -3137,7 +3161,10 @@ void DAS_4th(struct _TASK *task_ptr) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Disp_Auto_Save2);
+void Disp_Auto_Save2(struct _TASK *task_ptr) {
+    void (*Auto_Save2_Jmp_Tbl[4])() = { DAS_1st, DAS_2nd, DAS_3rd, DAS2_4th };
+    Auto_Save2_Jmp_Tbl[task_ptr->r_no[1]](task_ptr);
+}
 
 void DAS2_4th(struct _TASK *task_ptr) {
     if (SaveMove() <= 0) {
@@ -3300,11 +3327,19 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Reset_Traini
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Reset_Replay);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Training_Menu);
+void Training_Menu(struct _TASK *task_ptr) {
+    void (*Training_Jmp_Tbl[8])() = { Training_Init,   Normal_Training,  Blocking_Training, Dummy_Setting,
+                                      Training_Option, Button_Config_Tr, Character_Change,  Blocking_Tr_Option };
+    Training_Jmp_Tbl[task_ptr->r_no[1]](task_ptr);
+    Akaobi();
+    ToneDown(0xAA, 2);
+    SSPutStr_Bigger(
+        training_letter_data[Training_Index].pos_x, 0x16, 9, training_letter_data[Training_Index].menu, 1.5, 2, 1);
+}
 
 void Training_Init(struct _TASK *task_ptr) {
 
-    ToneDown(0x80U, 2U);
+    ToneDown(0x80, 2);
     Menu_Init(task_ptr);
     task_ptr->r_no[1] = Mode_Type - 2;
     Pause_Down = 1;
@@ -3460,12 +3495,125 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Wait_Replay_
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", After_Replay);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Menu_Sub_case1);
+s32 Menu_Sub_case1(struct _TASK *task_ptr) {
+    FadeOut(1, 0xFF, 8);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Back_to_Mode_Select);
+    if ((task_ptr->timer -= 1) == 0) {
+        task_ptr->r_no[2] += 1;
+        FadeInit();
+        return 1;
+    }
+
+    return 0;
+}
+
+void Back_to_Mode_Select(struct _TASK *task_ptr) {
+    s16 ix;
+
+    FadeOut(1, 0xFF, 8);
+    G_No[0] = 2;
+    G_No[1] = 0xC;
+    G_No[2] = 0;
+    G_No[3] = 0;
+    E_No[0] = 1;
+    E_No[1] = 2;
+    E_No[2] = 2;
+    E_No[3] = 0;
+    System_all_clear_Level_B();
+    Menu_Init(task_ptr);
+
+    for (ix = 0; ix < 4; ix++) {
+        task_ptr->r_no[ix] = 0;
+    }
+
+    BGM_Request_Code_Check(0x41);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Extra_Option);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Ex_Move_Sub_LR);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", End_Replay_Menu);
+void End_Replay_Menu(struct _TASK *task_ptr) {
+    s16 ix;
+    s16 ans;
+
+    switch (task_ptr->r_no[1]) {
+    case 0:
+        if (Allow_a_battle_f != 0) {
+            task_ptr->r_no[1] += 1;
+            Pause_ID = Decide_ID;
+            Pause_Down = 1;
+            Game_pause = 0x81;
+            effect_A3_init(1, 0x16, 0x63, 0, 3, 0x82, 0x48, 1);
+            effect_A3_init(1, 0x16, 0x63, 1, 3, 0x88, 0x58, 1);
+            Order[0x8A] = 3;
+            Order_Timer[0x8A] = 1;
+            effect_66_init(0x8A, 0xA, 2, 7, -1, -1, -0x3FF6);
+
+        case 1:
+            task_ptr->r_no[1] += 1;
+            Menu_Common_Init();
+            Menu_Cursor_Y[0] = 0;
+
+            for (ix = 0; ix < 4; ix++) {
+                Menu_Suicide[ix] = 0;
+            }
+
+            effect_10_init(0, 0, 0, 4, 0, 0x14, 0xE);
+            effect_10_init(0, 6, 1, 2, 0, 0x16, 0x10);
+            return;
+
+        case 2:
+            MC_Move_Sub(Check_Menu_Lever(Pause_ID, 0), 0, 1, 0xFF);
+
+            switch (IO_Result) {
+            case 0x100:
+                break;
+            default:
+                goto block_10;
+            }
+
+            switch (Menu_Cursor_Y[0]) {
+            case 0:
+                task_ptr->r_no[0] = 0xC;
+                task_ptr->r_no[1] = 0;
+
+                for (ix = 0; ix < 4; ix++) {
+                    Menu_Suicide[ix] = 1;
+                }
+
+                SE_selected();
+                return;
+
+            case 1:
+                task_ptr->r_no[1] += 1;
+                SE_selected();
+                Menu_Suicide[0] = 1;
+                Menu_Cursor_Y[0] = 1;
+                effect_10_init(0, 0, 3, 3, 1, 0x13, 0xE);
+                effect_10_init(0, 1, 0, 0, 1, 0x14, 0x10);
+                effect_10_init(0, 1, 1, 1, 1, 0x1A, 0x10);
+                return;
+            }
+
+            break;
+
+        case 3:
+            ans = Yes_No_Cursor_Move_Sub(task_ptr);
+            switch (ans) {
+
+            case 1:
+                task_ptr->r_no[1] = 1;
+                return;
+
+            case -1:
+                Menu_Suicide[3] = 1;
+                break;
+            }
+            break;
+        }
+    }
+
+block_10:
+    return;
+}

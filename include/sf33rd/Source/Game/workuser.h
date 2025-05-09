@@ -95,7 +95,7 @@ extern u8 Game_difficulty;         // size: 0x1, address: 0x57A25C
 extern u8 Game_pause;              // size: 0x1, address: 0x57A260
 extern u8 Menu_Suicide[4];         // size: 0x4, address: 0x57A264
 extern u8 Connect_Status;          // size: 0x1, address: 0x57A268
-extern s8 Training_Index;          // size: 0x1, address: 0x57A26C
+extern u8 Training_Index;          // size: 0x1, address: 0x57A26C
 extern s8 Cursor_Y_Pos[2][4];      // size: 0x8, address: 0x57A278
 extern u8 M_No[4];                 // size: 0x4, address: 0x57A29C
 extern u8 D_No[4];                 // size: 0x4, address: 0x57A2A0
