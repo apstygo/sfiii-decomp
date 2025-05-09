@@ -4,7 +4,8 @@
 #include "structs.h"
 #include "types.h"
 
-extern u8 Lamp_Flash_Data[][2] = {{0x07, 0x6f}, {0x1e, 0x03}}; // size: 0x4, address: 0x51FC30 //Exclusive
+
+extern const u8 Lamp_Flash_Data[2][2]; // size: 0x4, address: 0x51FC30
 
 void Flash_Lamp();
 

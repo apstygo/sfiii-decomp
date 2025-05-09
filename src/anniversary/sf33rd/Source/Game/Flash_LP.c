@@ -5,6 +5,8 @@
 #include "sf33rd/Source/Game/SysDir.h"
 #include "sf33rd/Source/Game/sc_data.h"
 
+extern const u8 Lamp_Flash_Data[2][2] = {{0x07, 0x6f}, {0x1e, 0x03}};
+
 void Flash_Lamp(void) {
     unsigned char ix; // r16 (s0)
     unsigned char ix2p; // r19 (s3)
@@ -63,5 +65,3 @@ void Flash_Lamp(void) {
         } 
     }
 }
-
-//INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Flash_LP", Lamp_Flash_Data);
