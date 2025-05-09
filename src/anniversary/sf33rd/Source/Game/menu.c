@@ -110,7 +110,7 @@ typedef struct {
     s8 *menu;  // offset 0x4, size 0x4
 } LetterData;
 
-const MenuFunc Menu_Jmp_Tbl[16] = {
+const MenuFunc Menu_Jmp_Tbl[14] = {
     After_Title,   In_Game,      Wait_Load_Save,  Wait_Replay_Check, Disp_Auto_Save, Suspend_Menu, Wait_Replay_Load,
     Training_Menu, After_Replay, Disp_Auto_Save2, Wait_Pause_in_Tr,  Reset_Training, Reset_Replay, End_Replay_Menu,
 };

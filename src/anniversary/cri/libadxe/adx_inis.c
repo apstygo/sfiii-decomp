@@ -14,7 +14,7 @@
 
 // data
 Char8 *volatile adxt_build = "\nADXT/PS2EE Ver.9.00 Build:Sep 18 2003 10:00:00\n";
-Char8 adxt_obj_mark[13] = { 'M', 'A', 'R', 'K', ':', 'a', 'd', 'x', 't', '_', 'o', 'b', 'j' };
+Char8 adxt_obj_mark[16] = { 'M', 'A', 'R', 'K', ':', 'a', 'd', 'x', 't', '_', 'o', 'b', 'j' };
 Sint32 adxt_init_cnt = 0;
 Sint32 adxt_svr_id = 0;
 Sint32 adxt_svr_main_id = 0;

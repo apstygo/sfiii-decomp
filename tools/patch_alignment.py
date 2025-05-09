@@ -4,12 +4,8 @@ import sys
 
 # (file, section, index of section within sections of this type) -> alignment
 special_cases = {
-    ("menu", ".rodata", 3): 16,
-    ("menu", ".rodata", 7): 16,
     ("menu", ".rodata", 9): 16,
     ("menu", ".rodata", 16): 16,
-    ("menu", ".rodata", 20): 16,
-    ("menu", ".rodata", 23): 16,
     ("flPADUSR", ".rodata", 0): 16,
     ("Demo_Dat", ".rodata", 0): 16,
     ("chren3rd", ".rodata", 0): 16,

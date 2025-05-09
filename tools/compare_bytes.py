@@ -5,6 +5,7 @@
 
 import sys
 from pathlib import Path
+from analyze_xmap import analyze as analyze_xmap_issues
 
 EXPECTED_ERRORS = {
     # Weird call misalignment issue.
@@ -187,8 +188,11 @@ def main():
         for offset in bad_offsets[:max_printed_offsets]:
             print(f"    0x{offset:X} (expected 0x{read_word(bytes_a, offset):X}, got 0x{read_word(bytes_b, offset):X})")
 
-    if misalign_offset != None:
-        print(f"Misalignment at 0x{misalign_offset:X}")
+        print()
+        analyze_xmap_issues()
+
+    # if misalign_offset != None:
+    #     print(f"Misalignment at 0x{misalign_offset:X}")
 
     if should_print_fix and bad_offsets:
         print("\nAdd this to EXPECTED_ERRORS to suppress this error:")
