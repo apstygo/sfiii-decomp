@@ -123,13 +123,34 @@ typedef struct {
 
 typedef PS2PSJ_OBJ *PS2PSJ;
 
+// DTR
+
+typedef struct {
+    // total size: 0x40
+    Sint8 unk0; // state or used?
+    Sint8 unk1;
+    Sint8 unk2;
+    SJ unk4;
+    SJ unk8;
+    SJCK unkC;
+    SJCK unk14;
+    char pad1C[16];
+    Sint32 unk2C;
+    Sint32 unk30;
+    Sint32 unk34;
+    Sint32 unk38;
+    Sint32 unk3C;
+} DTR_OBJ;
+
+typedef DTR_OBJ *DTR;
+
 // ADXRNA
 
 typedef struct {
     Sint8 unk0;
     Sint32 maxnch;
     PS2PSJ psj[2];
-    Sint32 dtr[2];
+    DTR dtr[2];
     SJ sjo[2];
     Sint32 unk20;
     Sint32 unk24;

@@ -1,5 +1,16 @@
 #include "common.h"
 #include <cri/private/libadxe/dtr.h>
+#include <cri/private/libadxe/structs.h>
+
+#include <cri/cri_xpts.h>
+#include <cri/sj.h>
+#include <eekernel.h>
+#include <sif.h>
+
+#define DTR_MAX_OBJ 32
+
+// data
+extern DTR_OBJ dtr_obj[DTR_MAX_OBJ];
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtr", D_0055CDD0);
 
@@ -21,11 +32,64 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtr", DTR_Init);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtr", DTR_Finish);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtr", D_0055CF18);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtr", DTR_Create);
+DTR DTR_Create(SJ sj, Sint32 arg1) {
+    DTR dtr;
+    Sint32 i;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtr", DTR_Destroy);
+    SJCRS_Lock();
+
+    for (i = 0; i < DTR_MAX_OBJ; i++) {
+        dtr = &dtr_obj[i];
+
+        if (dtr->unk0 == 0) {
+            break;
+        }
+    }
+
+    if (i == DTR_MAX_OBJ) {
+        scePrintf("i:%d DTR_MAX_OBJ:%d\n", i, DTR_MAX_OBJ);
+        dtr = NULL;
+    } else {
+        memset(dtr, 0, sizeof(DTR_OBJ));
+        dtr->unk1 = 0;
+        dtr->unk38 = 0x40;
+        dtr->unk4 = sj;
+        dtr->unk8 = arg1;
+        dtr->unk2 = 0;
+        dtr->unk30 = 1;
+        dtr->unk0 = 1;
+        dtr->unk34 = 0;
+    }
+
+    SJCRS_Unlock();
+    return dtr;
+}
+
+void DTR_Destroy(DTR dtr) {
+    SJCRS_Lock();
+    dtr->unk0 = 0;
+    SJCRS_Unlock();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtr", DTR_Start);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtr", DTR_Stop);
+void DTR_Stop(DTR dtr) {
+    dtr->unk1 = 0;
+
+    if (dtr->unk2 != 1) {
+        return;
+    }
+
+    while (sceSifDmaStat(dtr->unk2C) >= 0) {
+        // Do nothing
+    }
+
+    SJ_PutChunk(dtr->unk4, 0, &dtr->unkC);
+    dtr->unkC.data = NULL;
+    dtr->unkC.len = 0;
+    SJ_PutChunk(dtr->unk8, 1, &dtr->unk14);
+    dtr->unk14.data = NULL;
+    dtr->unk2 = 0;
+    dtr->unk14.len = 0;
+    dtr->unk3C += dtr->unkC.len;
+}
