@@ -812,7 +812,7 @@ segments:
       - [0x3B4598, data, cri/libadxe/adx_xpnd]
       - [0x3B4960, data, cri/libadxe/cri_cvfs]
       - [0x3B4970, data, cri/libadxe/cri_srd]
-      - [0x3B49E8, data, cri/libadxe/dtr]
+      - [0x3B49E8, .data, cri/libadxe/dtr]
       - [0x3B51F0, data, cri/libadxe/dtx]
       - [0x3B59C0, data, cri/libadxe/dvci]
       - [0x3B66B0, data, cri/libadxe/dvci_sub]

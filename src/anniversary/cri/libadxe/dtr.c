@@ -10,9 +10,9 @@
 #define DTR_MAX_OBJ 32
 
 // data
-extern DTR_OBJ dtr_obj[DTR_MAX_OBJ];
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtr", D_0055CDD0);
+Char8 *dtr_build = "\nDTR Ver.1.03 Build:Sep 18 2003 10:00:10\n\0\0\0\0";
+Sint32 dtr_init_cnt = 0;
+DTR_OBJ dtr_obj[DTR_MAX_OBJ] = { 0 };
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtr", D_0055CE00);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtr", D_0055CE20);
