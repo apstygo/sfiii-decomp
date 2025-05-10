@@ -566,7 +566,7 @@ segments:
       - [0x2CB978, asm, cri/libadxe/adx_dcd3]
       - [0x2CC078, asm, cri/libadxe/adx_dcd5]
       - [0x2CC9D8, c, cri/libadxe/adx_errs]
-      - [0x2CCCC8, asm, cri/libadxe/adx_fcch]
+      - [0x2CCCC8, c, cri/libadxe/adx_fcch]
       - [0x2CCCE8, asm, cri/libadxe/adx_fini]
       - [0x2CCE70, c, cri/libadxe/adx_fs]
       - [0x2CE990, asm, cri/libadxe/adx_fsvr]
