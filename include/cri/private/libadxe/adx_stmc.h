@@ -2,6 +2,7 @@
 #define ADX_STMC_H
 
 #include <cri/cri_xpts.h>
+#include <cri/sj.h>
 
 typedef void *ADXSTM;
 
