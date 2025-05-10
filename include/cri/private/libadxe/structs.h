@@ -197,9 +197,9 @@ typedef struct {
     Sint32 *unk14;
     void *unk18;
     Sint32 unk1C;
-    RcvCbf unk20;
+    RcvCbf rcvcbf;
     Sint32 unk24;
-    SndCbf unk28;
+    SndCbf sndcbf;
     Sint32 unk2C;
     sceSifDmaData dma_data;
     Sint32 unk40;

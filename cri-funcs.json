@@ -231,6 +231,8 @@
     "dtx": [
         "dtx_create_rmt",
         "dtx_destroy_rmt",
+        "dtx_def_rcvcbf",
+        "dtx_def_sndcbf",
         "DTX_Create",
         "DTX_Destroy",
         "DTX_SetRcvCbf",
