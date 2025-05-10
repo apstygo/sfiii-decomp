@@ -3387,12 +3387,14 @@ void Button_Config_Tr(struct _TASK *task_ptr) {
         Setup_Button_Sub(6, 5, 1);
         pp_operator_check_flag(0);
         break;
+
     case 1:
         Button_Config_Sub(0);
         Button_Exit_Check_in_Tr(task_ptr, 0);
         Button_Config_Sub(1);
         Button_Exit_Check_in_Tr(task_ptr, 1);
         Save_Game_Data();
+        break;
     }
 }
 
