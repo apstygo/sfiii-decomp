@@ -16,8 +16,8 @@ Sint32 dtx_proc_init_flag = 0;
 Sint32 dtx_send_sw = 1;
 
 // bss
-extern Sint32 dtx_rpc_rcv_buf[64];
-extern Sint32 dtx_rpc_snd_buf[64];
+Sint32 dtx_rpc_rcv_buf[64];
+Sint32 dtx_rpc_snd_buf[64];
 
 // forward declarations
 void DTX_ExecServer();
