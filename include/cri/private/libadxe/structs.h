@@ -3,6 +3,7 @@
 
 #include <cri/cri_xpts.h>
 #include <cri/sj.h>
+#include <sif.h>
 
 // ADXPD
 
@@ -178,8 +179,32 @@ typedef ADXRNA_OBJ *ADXRNA;
 
 #define ADXRNA_DEFINED
 
-// ADXDTX
+// DTX
 
-typedef void *ADXDTX;
+typedef void (*RcvCbf)(void *, void *, Sint32);
+typedef void (*SndCbf)(void *, void *, Sint32);
+
+typedef struct {
+    // total size: 0x44
+    Sint8 unk0; // used or state
+    Sint8 unk1;
+    Sint8 unk2;
+    Sint8 unk3;
+    Sint32 unk4;
+    Sint32 unk8;
+    void *unkC;
+    Sint32 unk10;
+    Sint32 *unk14;
+    void *unk18;
+    Sint32 unk1C;
+    RcvCbf unk20;
+    Sint32 unk24;
+    SndCbf unk28;
+    Sint32 unk2C;
+    sceSifDmaData dma_data;
+    Sint32 unk40;
+} DTX_OBJ;
+
+typedef DTX_OBJ *DTX;
 
 #endif

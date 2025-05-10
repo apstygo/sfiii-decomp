@@ -1,45 +1,260 @@
 #include "common.h"
 #include <cri/private/libadxe/dtx.h>
+#include <cri/private/libadxe/structs.h>
+#include <cri/private/libadxe/svm.h>
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtx", D_0055CF30);
+#include <eekernel.h>
+#include <sif.h>
+#include <sifrpc.h>
+
+#define DTX_MAX_OBJ 8
+
+// data
+Char8 *dtx_build = "\nDTX Ver.1.04 Build:Sep 18 2003 10:00:10\n";
+Sint32 dtx_rpc_id = 0x90000200;
+Sint32 dtx_proc_init_flag = 0;
+Sint32 dtx_send_sw = 1;
+
+// bss
+extern Sint32 dtx_rpc_rcv_buf[64];
+extern Sint32 dtx_rpc_snd_buf[64];
+
+// forward declarations
+void DTX_ExecServer();
+extern DTX_OBJ dtx_clnt[DTX_MAX_OBJ];
+extern sceSifClientData dtx_cd;
+extern Sint32 dtx_init_cnt;
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", dtx_rpc_func);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", dtx_svr_proc);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", dtx_create_rmt);
+Sint32 dtx_create_rmt(Sint32 id, void *eewk, void *iopwk, Sint32 wklen) {
+    dtx_rpc_snd_buf[0] = id;
+    dtx_rpc_snd_buf[1] = eewk;
+    dtx_rpc_snd_buf[2] = iopwk;
+    dtx_rpc_snd_buf[3] = wklen;
+    sceSifCallRpc(&dtx_cd, 2, 0, dtx_rpc_snd_buf, 4 * 4, dtx_rpc_rcv_buf, 1 * 4, 0, 0);
+    return dtx_rpc_rcv_buf[0];
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", dtx_destroy_rmt);
+void dtx_destroy_rmt(Sint32 arg0) {
+    dtx_rpc_snd_buf[0] = arg0;
+    sceSifCallRpc(&dtx_cd, 3, 0, dtx_rpc_snd_buf, 1 * 4, dtx_rpc_rcv_buf, 0, 0, 0);
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", dtx_def_rcvcbf);
+void dtx_def_rcvcbf(void *arg0, void *arg1, Sint32 arg2) {
+    static Sint32 cnt = 0;
+    cnt += 1;
+}
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtx", D_0055CF60);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", dtx_def_sndcbf);
+void dtx_def_sndcbf(void *arg0, void *arg1, Sint32 arg2) {
+    static Sint32 cnt = 0;
+    Sint32 i;
+
+    for (i = 0; i < arg2; i++) {
+        ((Sint8 *)arg1)[i] = -0x56;
+    }
+
+    sprintf(arg1, "Hello from EE (%d)", cnt);
+    cnt += 1;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", DTX_Open);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", DTX_Close);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtx", D_0055CF78);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtx", D_0055CF98);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtx", D_0055CFB8);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtx", D_0055CFD0);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtx", D_0055CFE8);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", DTX_Create);
+DTX DTX_Create(Sint32 id, void *eewk, void *iopwk, Sint32 wklen) {
+    DTX dtx;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", DTX_Destroy);
+    if ((Uint32)eewk & 0x3F) {
+        scePrintf("eewk is not alignment 64 byte\n");
+        return NULL;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", DTX_SetRcvCbf);
+    if ((Uint32)iopwk & 0x1F) {
+        scePrintf("iopwk is not alignment 32 byte\n");
+        return NULL;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", DTX_SetSndCbf);
+    if (wklen & 0x3F) {
+        scePrintf("wklen=%d is not 64*N\n", wklen);
+        return NULL;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", DTX_ExecHndl);
+    if ((Uint32)id >= DTX_MAX_OBJ) {
+        scePrintf("illeagal ID (%d) \n", id);
+        return NULL;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtx", D_0055D010);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", DTX_Init);
+    dtx = &dtx_clnt[id];
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", DTX_Finish);
+    if (dtx->unk0 != 0) {
+        return NULL;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", DTX_CallUrpc);
+    dtx->unk4 = dtx_create_rmt(id, eewk, iopwk, wklen);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", DTX_ExecServer);
+    if (dtx->unk4 == 0) {
+        scePrintf("DTX_Create: can't create DTX of server\n");
+        return NULL;
+    }
+
+    dtx->unk10 = wklen - 0x40;
+    dtx->unk1C = wklen;
+    dtx->unk18 = iopwk;
+    dtx->unk14 = ((Uint32)eewk + dtx->unk10) | 0x20000000;
+    dtx->unk8 = 0;
+    dtx->unkC = eewk;
+    dtx->unk1 = 0;
+    memset(eewk, 0, dtx->unk10);
+    SyncDCache(dtx->unkC, dtx->unkC + dtx->unk10 + 0x3F);
+    InvalidDCache(dtx->unkC, dtx->unkC + dtx->unk10 + 0x3F);
+    dtx->unk20 = dtx_def_rcvcbf;
+    dtx->unk28 = dtx_def_sndcbf;
+    dtx->unk24 = 0;
+    dtx->unk2C = 0;
+    dtx->unk2 = 1;
+    dtx->unk0 = 1;
+
+    return dtx;
+}
+
+void DTX_Destroy(DTX dtx) {
+    dtx->unk2 = 0;
+
+    while (dtx->unk1 == 1) {
+        DTX_ExecServer();
+    }
+
+    dtx_destroy_rmt(dtx->unk4);
+    memset(dtx, 0, sizeof(DTX_OBJ));
+}
+
+void DTX_SetRcvCbf(DTX dtx, void (*func)(), void *object) {
+    dtx->unk20 = func;
+    dtx->unk24 = object;
+}
+
+void DTX_SetSndCbf(DTX dtx, void (*func)(), void *object) {
+    dtx->unk28 = func;
+    dtx->unk2C = object;
+}
+
+void DTX_ExecHndl(DTX dtx) {
+    Sint32 static cnt = 0;
+    cnt += 1;
+
+    if ((dtx->unk1 == 1) && (dtx->unk8 < dtx->unk14[0xF])) {
+        InvalidDCache(dtx->unkC, dtx->unkC + dtx->unk10 - 1);
+        dtx->unk20(dtx->unk24, dtx->unkC, dtx->unk10);
+        dtx->unk8 = dtx->unk14[0xF];
+        dtx->unk1 = 0;
+    }
+
+    if (dtx->unk1 == 0 && dtx->unk2 == 1 && dtx_send_sw == 1) {
+        dtx->unk28(dtx->unk2C, dtx->unkC, dtx->unk10);
+        dtx->unk8 += 1;
+        dtx->unk14[0xF] = dtx->unk8;
+        SyncDCache(dtx->unkC, dtx->unkC + dtx->unk10 - 1);
+        InvalidDCache(dtx->unkC, dtx->unkC + dtx->unk10 + 0x3F);
+        dtx->dma_data.data = (s32)dtx->unkC & 0x0FFFFFFF;
+        dtx->dma_data.addr = dtx->unk18;
+        dtx->dma_data.size = dtx->unk1C;
+        dtx->dma_data.mode = 0;
+        dtx->unk40 = sceSifSetDma(&dtx->dma_data, 1);
+        dtx->unk1 = 1;
+    }
+}
+
+void DTX_Init() {
+    Sint32 x;
+    Sint32 y;
+
+    if (dtx_init_cnt == 0) {
+        while (1) {
+            if (sceSifBindRpc(&dtx_cd, dtx_rpc_id, 0) < 0) {
+                scePrintf("E0092101: DTX_Init bind errr\n");
+                while (1) {}
+            }
+
+            if (dtx_cd.serve != NULL) {
+                break;
+            }
+
+            y = -1;
+            x = 0xFFFF;
+
+            while (x != y) {
+                x -= 4;
+            }
+        }
+    }
+
+    dtx_init_cnt += 1;
+}
+
+void DTX_Finish() {
+    DTX dtx;
+    s32 i;
+
+    dtx_init_cnt -= 1;
+
+    if (dtx_init_cnt != 0) {
+        return;
+    }
+
+    for (i = 0; i < DTX_MAX_OBJ; i++) {
+        dtx = &dtx_clnt[i];
+
+        if (dtx->unk0 == 1) {
+            DTX_Destroy(dtx);
+        }
+    }
+}
+
+Sint32 DTX_CallUrpc(Sint32 arg0, Sint32 *args, Sint32 arg_num, Sint32 *arg3, Sint32 arg4) {
+    Sint32 i;
+
+    SVM_Lock();
+
+    for (i = 0; i < arg_num; i++) {
+        dtx_rpc_snd_buf[i] = args[i];
+    }
+
+    sceSifCallRpc(&dtx_cd, arg0 + 0x400, 0, dtx_rpc_snd_buf, arg_num * 4, dtx_rpc_rcv_buf, arg4 * 4, 0, 0);
+
+    for (i = 0; i < arg4; i++) {
+        arg3[i] = dtx_rpc_rcv_buf[i];
+    }
+
+    SVM_Unlock();
+    return dtx_rpc_rcv_buf[0];
+}
+
+void DTX_ExecServer() {
+    DTX dtx;
+    Sint32 i;
+
+    SJCRS_Lock();
+
+    for (i = 0; i < DTX_MAX_OBJ; i++) {
+        dtx = &dtx_clnt[i];
+
+        if (dtx->unk0 == 1) {
+            DTX_ExecHndl(dtx);
+        }
+    }
+
+    SJCRS_Unlock();
+}
+
+// more data
+Sint32 dtx_init_cnt = 0;
+DTX_OBJ dtx_clnt[DTX_MAX_OBJ] = { 0 };
+DTX_OBJ dtx_svr[DTX_MAX_OBJ] = { 0 };
+sceSifClientData dtx_cd = { 0 };
+Char8 dtx_sd[0x44] = { 0 };
+Char8 dtx_svrbuf[0x100] = { 0 };
+Char8 dtx_urpc_fn[0x100] = { 0 };
+Char8 dtx_urpc_obj[0x100] = { 0 };

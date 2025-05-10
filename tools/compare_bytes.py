@@ -198,7 +198,7 @@ def main():
         print("\nAdd this to EXPECTED_ERRORS to suppress this error:")
 
         for offset in bad_offsets:
-            print(f"0x{offset:X}: 0x{read_word(bytes_b, offset):6X},")
+            print(f"0x{offset:X}: 0x{read_word(bytes_b, offset):08X},")
 
     if success:
         sys.exit(0)
