@@ -1,7 +1,7 @@
-#include <cri/private/libadxe/sj_utl.h>
 #include "common.h"
+#include <cri/private/libadxe/sj_utl.h>
 
-void SJ_SplitChunk(SJCK* ck, s32 nbyte, SJCK* ck1, SJCK* ck2) {
+void SJ_SplitChunk(SJCK *ck, s32 nbyte, SJCK *ck1, SJCK *ck2) {
     *ck1 = *ck;
     ck2->len = ck1->len;
     if (nbyte < ck1->len) {
