@@ -1,21 +1,19 @@
 #ifndef ADX_STMC_H
 #define ADX_STMC_H
 
+#include <cri/private/libadxe/structs.h>
+
 #include <cri/cri_xpts.h>
 #include <cri/sj.h>
 
-typedef void *ADXSTM;
-
-#define ADXSTM_DEFINED
-
-ADXSTM ADXSTM_Create(Sint32, Sint32);
+ADXSTM ADXSTM_Create(SJ, Sint32);
 Sint32 ADXSTM_GetFileSct(ADXSTM stm);
 Sint32 ADXSTM_OpenCvfs(ADXSTM stm);
 Sint32 ADXSTM_GetStat(ADXSTM stm);
-Sint32 ADXSTM_ReleaseFile(ADXSTM stm);
-Sint32 ADXSTM_BindFile(ADXSTM, Char8 *, void *, Sint32, Sint32);
+void ADXSTM_BindFile(ADXSTM stm, Char8 *fname, void *dir, Sint32 arg3, Sint32 arg4);
+void ADXSTM_ReleaseFile(ADXSTM stm);
 void ADXSTM_SetSj(ADXSTM stm, SJ sj);
-void ADXSTM_Start(ADXSTM stm);
+Sint32 ADXSTM_Start(ADXSTM stm);
 void ADXSTM_Stop(ADXSTM stm);
 void ADXSTM_Destroy(ADXSTM stm);
 

@@ -207,4 +207,43 @@ typedef struct {
 
 typedef DTX_OBJ *DTX;
 
+// ADXSTM
+
+typedef struct {
+    Sint8 unk0;
+    Sint8 stat;
+    Sint8 unk2;
+    Sint8 unk3;
+    SJ unk4;
+    Sint32 cvfs;
+    Sint32 unkC;
+    Sint32 unk10;
+    Sint32 stream_length;
+    Sint32 unk18;
+    Sint32 unk1C;
+    Sint32 unk20;
+    SJCK unk24;
+    Sint32 unk2C;
+    Sint32 eos;
+    Uint32 unk34;
+    void (*eos_callback)(void *);
+    void *eos_callback_context;
+    Sint32 unk40;
+    Sint8 unk44;
+    Sint8 unk45;
+    Sint8 unk46;
+    Sint8 unk47;
+    Sint8 unk48;
+    Sint8 unk49;
+    char pad4A[6];
+    Char8 *fname;
+    void *dir;
+    Sint32 current_position;
+    Uint32 unk5C;
+} ADXSTM_OBJ;
+
+typedef ADXSTM_OBJ *ADXSTM;
+
+#define ADXSTM_DEFINED
+
 #endif

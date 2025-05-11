@@ -216,10 +216,8 @@ def main():
                 total_decomped_funcs += 1
 
             total_bytes += func_map.func_to_size[func]
-
-        
-
             print("   ", func, func_status)
+
         print()
 
     print(f"{target_file} COUNT DECOMPILATION PERCENTAGE: {total_decomped_funcs / total_functions * 100:.2f}")

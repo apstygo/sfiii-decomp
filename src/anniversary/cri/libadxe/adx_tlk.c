@@ -81,7 +81,7 @@ ADXT ADXT_Create(Sint32 maxnch, void *work, Sint32 worksize) {
         return NULL;
     }
 
-    adxt->stm = ADXSTM_Create((Sint32)adxt->sjf, 0);
+    adxt->stm = ADXSTM_Create(adxt->sjf, 0);
 
     if (adxt->stm == NULL) {
         ADXT_Destroy(adxt);
