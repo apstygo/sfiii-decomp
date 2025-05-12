@@ -14,5 +14,6 @@ void SVM_SetCbLock(void (*func)(void *), void *object);
 void SVM_SetCbUnlock(void (*func)(void *), void *object);
 void SVM_Finish();
 Sint32 SVM_ExecSvrMain();
+Sint32 SVM_TestAndSet(Sint32 *mem);
 
 #endif

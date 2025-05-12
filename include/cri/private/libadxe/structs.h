@@ -212,24 +212,24 @@ typedef DTX_OBJ *DTX;
 typedef struct {
     Sint8 unk0;
     Sint8 stat;
-    Sint8 unk2;
+    Sint8 read_flg;
     Sint8 unk3;
     SJ unk4;
     Sint32 cvfs;
     Sint32 unkC;
-    Sint32 unk10;
-    Sint32 stream_length;
+    Sint32 file_len;
+    Sint32 file_sct;
     Sint32 unk18;
     Sint32 unk1C;
     Sint32 unk20;
     SJCK unk24;
-    Sint32 unk2C;
+    Sint32 req_rd_size;
     Sint32 eos;
     Uint32 unk34;
     void (*eos_callback)(void *);
     void *eos_callback_context;
     Sint32 unk40;
-    Sint8 unk44;
+    Sint8 pause;
     Sint8 unk45;
     Sint8 unk46;
     Sint8 unk47;
@@ -238,7 +238,7 @@ typedef struct {
     char pad4A[6];
     Char8 *fname;
     void *dir;
-    Sint32 current_position;
+    Sint32 cur_ofst;
     Uint32 unk5C;
 } ADXSTM_OBJ;
 

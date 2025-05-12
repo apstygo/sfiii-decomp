@@ -1,11 +1,14 @@
 #include "common.h"
-#include <cri/cri_adxf.h>
+#include <cri/private/libadxe/structs.h>
+
 #include <cri/private/libadxe/adx_crs.h>
 #include <cri/private/libadxe/adx_errs.h>
 #include <cri/private/libadxe/adx_fcch.h>
 #include <cri/private/libadxe/adx_fini.h>
 #include <cri/private/libadxe/adx_fs.h>
 #include <cri/private/libadxe/adx_stmc.h>
+
+#include <cri/cri_adxf.h>
 #include <cri/sj.h>
 #include <memory.h>
 

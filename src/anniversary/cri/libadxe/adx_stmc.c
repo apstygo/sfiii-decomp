@@ -9,15 +9,17 @@
 #include <cri/sj.h>
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define ADXSTMF_MAX_OBJ 40
 
 // data
 extern Sint32 adxstmf_rtim_ofst;
 extern Sint32 adxstmf_rtim_num;
 extern Sint32 adxstmf_nrml_ofst;
 extern Sint32 adxstmf_nrml_num;
+extern Sint32 volatile adxstmf_execsvr_flg;
 extern Sint32 adxstmf_num_rtry;
 extern Sint32 adxstm_sj_internal_error_cnt;
-extern ADXSTM_OBJ adxstmf_obj[40];
+extern ADXSTM_OBJ adxstmf_obj[ADXSTMF_MAX_OBJ];
 
 // forward declarations
 void ADXSTM_StopNw();
@@ -52,23 +54,23 @@ void ADXSTMF_SetupHandleMember(ADXSTM arg0, Sint32 offset, Sint32 arg2, Sint32 a
     }
 
     arg0->stat = 1;
-    arg0->unk2 = 0;
+    arg0->read_flg = 0;
     arg0->unk4 = arg4;
     arg0->cvfs = offset;
     arg0->unkC = arg2;
-    arg0->unk2C = 0x200;
+    arg0->req_rd_size = 0x200;
     arg0->unk5C = 0xFFFFF;
-    arg0->stream_length = length;
+    arg0->file_sct = length;
     arg0->eos = length;
-    arg0->current_position = 0;
-    arg0->unk10 = arg3;
+    arg0->cur_ofst = 0;
+    arg0->file_len = arg3;
 
     if (arg4 != NULL) {
         arg0->unk1C = arg0->unk18 = arg0->unk40 = SJ_GetNumData(arg4, 0) + SJ_GetNumData(arg4, 1);
     }
 
     arg0->unk0 = 1;
-    arg0->unk44 = 0;
+    arg0->pause = 0;
     ADXCRS_Unlock();
 }
 
@@ -136,8 +138,8 @@ void ADXSTM_Destroy(ADXSTM stm) {
 void ADXSTM_BindFileNw(ADXSTM stm, Char8 *fname, void *dir, Sint32 arg3, Sint32 arg4) {
     SVM_Lock();
     stm->unkC = arg3;
-    stm->unk10 = arg4 << 11;
-    stm->stream_length = arg4;
+    stm->file_len = arg4 << 11;
+    stm->file_sct = arg4;
     stm->fname = fname;
     stm->dir = dir;
     stm->unk45 = 1;
@@ -180,13 +182,13 @@ Sint32 ADXSTM_GetStat(ADXSTM stm) {
 };
 
 Sint32 ADXSTM_Seek(ADXSTM stm, Sint32 offset) {
-    stm->current_position = offset;
+    stm->cur_ofst = offset;
 
-    if (stm->stream_length < offset) {
-        stm->current_position = stm->stream_length;
+    if (stm->file_sct < offset) {
+        stm->cur_ofst = stm->file_sct;
     }
 
-    return stm->current_position;
+    return stm->cur_ofst;
 }
 
 Sint32 ADXSTM_Tell(ADXSTM stm) {
@@ -194,20 +196,20 @@ Sint32 ADXSTM_Tell(ADXSTM stm) {
         return 0;
     }
 
-    return stm->current_position;
+    return stm->cur_ofst;
 }
 
 void adxstm_start_sub(ADXSTM stm) {
     stm->unk34 = 0;
     stm->unk3 = 0;
 
-    if (stm->stream_length == 0) {
+    if (stm->file_sct == 0) {
         stm->stat = 3;
     } else {
         stm->stat = 2;
     }
 
-    stm->unk2 = 0;
+    stm->read_flg = 0;
     stm->unk24.data = NULL;
     stm->unk24.len = 0;
     stm->unk47 = 1;
@@ -232,7 +234,7 @@ Sint32 ADXSTM_Start2(ADXSTM stm, Sint32 arg1) {
 void ADXSTM_StopNw(ADXSTM stm) {
     SVM_Lock();
 
-    if (stm->stat == 2 && stm->unk2 == 1) {
+    if (stm->stat == 2 && stm->read_flg == 1) {
         stm->unk48 = 1;
 
         if (stm->unk47 == 1) {
@@ -262,7 +264,7 @@ void ADXSTM_SetEos(ADXSTM stm, Sint32 eos) {
     if (eos >= 0) {
         stm->eos = eos;
     } else {
-        stm->eos = stm->stream_length;
+        stm->eos = stm->file_sct;
     }
 }
 
@@ -283,35 +285,35 @@ void adxstmf_stat_exec(ADXSTM stm) {
     cvFs_stat = cvFsGetStat(stm->cvfs);
     SVM_Lock();
 
-    if (stm->unk2 == 1) {
+    if (stm->read_flg == 1) {
         if (cvFs_stat == 1) {
-            stm->unk2 = 0;
+            stm->read_flg = 0;
             SVM_Unlock();
             temp_s0_5 = stm->unk20 << 11;
             SJ_SplitChunk(&stm->unk24, temp_s0_5, &chunk_0, &chunk_1);
             SJ_PutChunk(sj, 1, &chunk_0);
             SJ_UngetChunk(sj, 0, &chunk_1);
-            stm->current_position += stm->unk20;
+            stm->cur_ofst += stm->unk20;
 
             stm->unk34 += temp_s0_5;
             stm->unk24.len = 0;
             stm->unk24.data = NULL;
-            stream_len = stm->stream_length;
+            stream_len = stm->file_sct;
 
-            if (stm->current_position == stm->eos) {
+            if (stm->cur_ofst == stm->eos) {
                 if (stm->eos_callback != NULL) {
                     stm->eos_callback(stm->eos_callback_context);
                 }
             }
 
-            if (stm->current_position >= stream_len || ((stm->unk34 >> 11) >= stm->unk5C && stm->unk5C <= 0xFFFFE)) {
+            if (stm->cur_ofst >= stream_len || ((stm->unk34 >> 11) >= stm->unk5C && stm->unk5C <= 0xFFFFE)) {
                 stm->stat = 3;
             }
 
             stm->unk3 = 0;
             return;
         } else if (cvFs_stat == 3) {
-            stm->unk2 = 0;
+            stm->read_flg = 0;
             SVM_Unlock();
             SJ_UngetChunk(sj, 0, &stm->unk24);
             stm->unk24.data = NULL;
@@ -322,45 +324,45 @@ void adxstmf_stat_exec(ADXSTM stm) {
         }
 
     } else {
-        stm->unk2 = 1;
+        stm->read_flg = 1;
         stm->unk24.data = NULL;
         stm->unk24.len = 0;
 
         SVM_Unlock();
 
-        if (stm->unk44 == 1) {
-            stm->unk2 = 0;
+        if (stm->pause == 1) {
+            stm->read_flg = 0;
             return;
         }
 
         if (stm->unk48 == 1) {
-            stm->unk2 = 0;
+            stm->read_flg = 0;
             return;
         }
-        if (stm->stream_length == 0) {
+        if (stm->file_sct == 0) {
             stm->stat = 3;
             stm->unk20 = 0;
-            stm->unk2 = 0;
+            stm->read_flg = 0;
             return;
         }
 
         if (sj == NULL || sj->vtbl == NULL) {
-            stm->unk2 = 0;
+            stm->read_flg = 0;
             adxstm_sj_internal_error();
             return;
         }
 
         if ((stm->unk40 - SJ_GetNumData(sj, 0)) >= stm->unk1C) {
-            stm->unk2 = 0;
+            stm->read_flg = 0;
             return;
         }
 
         SJ_GetChunk(sj, 0, stm->unk18, &chunk_1);
         len = chunk_1.len / 2048;
-        len = MIN(len, stm->eos - stm->current_position);
-        len = MIN(len, stm->stream_length - stm->current_position);
-        len = MIN(len, stm->unk2C);
-        cvFsSeek(stm->cvfs, stm->unkC + stm->current_position, 0);
+        len = MIN(len, stm->eos - stm->cur_ofst);
+        len = MIN(len, stm->file_sct - stm->cur_ofst);
+        len = MIN(len, stm->req_rd_size);
+        cvFsSeek(stm->cvfs, stm->unkC + stm->cur_ofst, 0);
         stm->unk20 = cvFsReqRd(stm->cvfs, len, chunk_1.data);
         stm->unk24.data = chunk_1.data;
         stm->unk24.len = chunk_1.len;
@@ -372,7 +374,7 @@ void adxstmf_stat_exec(ADXSTM stm) {
         SJ_UngetChunk(sj, 0, &stm->unk24);
         stm->unk24.data = NULL;
         stm->unk24.len = 0;
-        stm->unk2 = 0;
+        stm->read_flg = 0;
 
         if (cvFsGetStat(stm->cvfs) != 3) {
             return;
@@ -392,7 +394,7 @@ void ADXSTMF_ExecHndl(ADXSTM stm) {
     Sint32 cvfs;
     Sint32 cur_pos;
 
-    if (stm->unk2 == 0) {
+    if (stm->read_flg == 0) {
         if (stm->unk48 == 1) {
             stm->unk48 = 0;
 
@@ -434,17 +436,17 @@ void ADXSTMF_ExecHndl(ADXSTM stm) {
                 cur_pos = cvFsTell(stm->cvfs);
                 cvFsSeek(stm->cvfs, 0, 0);
 
-                if (stm->unk10 == 0x7FFFF800) {
-                    stm->stream_length = cur_pos;
-                    stm->unk10 = stm->stream_length << 11;
+                if (stm->file_len == 0x7FFFF800) {
+                    stm->file_sct = cur_pos;
+                    stm->file_len = stm->file_sct << 11;
                 } else {
                     if (stm->unkC > cur_pos) {
                         stm->unkC = cur_pos;
                     }
 
-                    if ((stm->stream_length + stm->unkC) > cur_pos) {
-                        stm->stream_length = cur_pos - stm->unkC;
-                        stm->unk10 = stm->stream_length << 11;
+                    if ((stm->file_sct + stm->unkC) > cur_pos) {
+                        stm->file_sct = cur_pos - stm->unkC;
+                        stm->file_len = stm->file_sct << 11;
                     }
                 }
 
@@ -465,7 +467,24 @@ void ADXSTMF_ExecHndl(ADXSTM stm) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_ExecServer);
+void ADXSTM_ExecServer() {
+    ADXSTM stm;
+    Sint32 i;
+
+    if (SVM_TestAndSet(&adxstmf_execsvr_flg) == 0) {
+        return;
+    }
+
+    for (i = 0; i < ADXSTMF_MAX_OBJ; i++) {
+        stm = &adxstmf_obj[i];
+
+        if (stm->unk0 == 1) {
+            ADXSTMF_ExecHndl(stm);
+        }
+    }
+
+    adxstmf_execsvr_flg = 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_GetCurOfst);
 
@@ -475,7 +494,10 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_GetSj);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_SetBufSize);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_SetReqRdSize);
+Sint32 ADXSTM_SetReqRdSize(ADXSTM stm, Sint32 size) {
+    stm->req_rd_size = size;
+    return 1;
+}
 
 void ADXSTM_EntryErrFunc() {
     // Do nothing
@@ -483,9 +505,13 @@ void ADXSTM_EntryErrFunc() {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_GetFileLen);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_GetFileSct);
+Sint32 ADXSTM_GetFileSct(ADXSTM stm) {
+    return stm->file_sct;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_SetPause);
+void ADXSTM_SetPause(ADXSTM stm, Sint8 sw) {
+    stm->pause = sw;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_GetPause);
 
