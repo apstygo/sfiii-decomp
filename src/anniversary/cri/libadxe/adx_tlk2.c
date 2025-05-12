@@ -56,7 +56,7 @@ void ADXT_StartFname(ADXT adxt, Char8 *fname) {
     adxt->padBC = 0;
     adxt->stat = 1;
     adxt->unkAC = 1;
-    adxt->pmode = 0;
+    adxt->pmode = ADXT_PMODE_FNAME;
     ADXT_SetLnkSw(adxt, 0);
 }
 
