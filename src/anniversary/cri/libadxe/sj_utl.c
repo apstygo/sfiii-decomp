@@ -1,18 +1,22 @@
 #include "common.h"
+#include <cri/cri_xpts.h>
 #include <cri/private/libadxe/sj_utl.h>
 
-void SJ_SplitChunk(SJCK *ck, s32 nbyte, SJCK *ck1, SJCK *ck2) {
+void SJ_SplitChunk(SJCK* ck, Sint32 nbyte, SJCK* ck1, SJCK* ck2) {
     *ck1 = *ck;
     ck2->len = ck1->len;
+
     if (nbyte < ck1->len) {
         ck1->len = nbyte;
     }
-    ck2->len = ck2->len - ck1->len;
+
+    ck2->len -= ck1->len;
+
     if (ck2->len == 0) {
         ck2->data = NULL;
-        return;
+    } else {
+        ck2->data = ck1->data + ck1->len;
     }
-    ck2->data = &ck1->data[ck1->len];
 }
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sj_utl", sj_val_to_hexstr);
