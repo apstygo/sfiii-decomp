@@ -12,14 +12,14 @@
 #define ADXSTMF_MAX_OBJ 40
 
 // data
-extern Sint32 adxstmf_rtim_ofst;
-extern Sint32 adxstmf_rtim_num;
-extern Sint32 adxstmf_nrml_ofst;
-extern Sint32 adxstmf_nrml_num;
-extern Sint32 volatile adxstmf_execsvr_flg;
-extern Sint32 adxstmf_num_rtry;
-extern Sint32 adxstm_sj_internal_error_cnt;
-extern ADXSTM_OBJ adxstmf_obj[ADXSTMF_MAX_OBJ];
+Sint32 adxstmf_rtim_ofst = 0;
+Sint32 adxstmf_rtim_num = 16;
+Sint32 adxstmf_nrml_ofst = 16;
+Sint32 adxstmf_nrml_num = 24;
+Sint32 volatile adxstmf_execsvr_flg = 0;
+Sint32 adxstmf_num_rtry = 0xFFFFFFFF;
+Sint32 adxstm_sj_internal_error_cnt = 0;
+ADXSTM_OBJ adxstmf_obj[ADXSTMF_MAX_OBJ] = { 0 };
 
 // forward declarations
 void ADXSTM_StopNw();
