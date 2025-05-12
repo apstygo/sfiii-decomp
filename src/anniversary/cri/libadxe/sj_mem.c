@@ -1,4 +1,6 @@
 #include "common.h"
+#include <cri/private/libadxe/sj_err.h>
+
 #include <cri/cri_xpts.h>
 #include <cri/sj.h>
 
@@ -22,7 +24,6 @@ typedef SJMEM_OBJ *SJMEM;
 
 // forward decls
 void SJMEM_Reset(SJMEM sjmem);
-void SJMEM_Error(void *obj, Sint32 ecode);
 void SJMEM_Destroy(SJMEM sjmem);
 UUID *SJMEM_GetUuid(SJMEM sjmem);
 void SJMEM_Reset(SJMEM sjmem);
@@ -54,8 +55,9 @@ const UUID sjmem_uuid = {
     .Data1 = 0xDD9EEE41, .Data2 = 0x1679, .Data3 = 0x11D2, .Data4 = { 0x93, 0x6C, 0x00, 0x60, 0x08, 0x94, 0x48, 0xBC }
 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/sj_mem", D_0055E630);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sj_mem", SJMEM_Error);
+void SJMEM_Error(void *obj, Sint32 ecode) {
+    SJERR_CallErr("SJMEM Error");
+}
 
 void SJMEM_Init() {
     if (sjmem_init_cnt == 0) {

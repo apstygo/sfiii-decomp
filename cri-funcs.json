@@ -312,6 +312,7 @@
         "SJCRS_Unlock"
     ],
     "sj_mem": [
+        "SJMEM_Error",
         "SJMEM_Init",
         "SJMEM_Finish",
         "SJMEM_Create",
