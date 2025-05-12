@@ -222,7 +222,7 @@ def main():
             text = text.replace(".section .rodata", ".rdata")
 
             # GNU as expects numbered registers
-            text = convert_regs(text)
+            text = convert_regs(text, named_regs=False)
 
         text = text.replace("xyzw ACC", "xyzw $ACC")
         text = text.replace("xyz ACC", "xyz $ACC")
