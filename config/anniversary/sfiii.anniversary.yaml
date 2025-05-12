@@ -825,7 +825,7 @@ segments:
       - [0x3B92B0, data, cri/libadxe/ps2_rna]
       - [0x3BD5C0, data, cri/libadxe/rna_crs]
       - [0x3BD5C8, data, cri/libadxe/sj_crs]
-      - [0x3BD5D0, data, cri/libadxe/sj_mem]
+      - [0x3BD5D0, .data, cri/libadxe/sj_mem]
       - [0x3BDA88, data, cri/libadxe/sj_rbf]
       - [0x3C1AC8, data, cri/libadxe/sj_uni]
       - [0x3C2700, data, cri/libadxe/sj_utl]

@@ -20,14 +20,35 @@ typedef SJMEM_OBJ *SJMEM;
 #define MAX(a, b) ((a) < (b) ? (b) : (a))
 #define SJMEM_MAX_OBJ 32
 
-// data
-extern SJ_IF sjmem_vtbl;
-extern Sint32 sjmem_init_cnt;
-extern SJMEM_OBJ sjmem_obj[SJMEM_MAX_OBJ];
-
 // forward decls
 void SJMEM_Reset(SJMEM sjmem);
 void SJMEM_Error(void *obj, Sint32 ecode);
+void SJMEM_Destroy(SJMEM sjmem);
+UUID *SJMEM_GetUuid(SJMEM sjmem);
+void SJMEM_Reset(SJMEM sjmem);
+void SJMEM_GetChunk(SJMEM sjmem, Sint32 id, Sint32 nbyte, SJCK *ck);
+void SJMEM_UngetChunk(SJMEM sjmem, Sint32 id, SJCK *ck);
+void SJMEM_PutChunk(SJMEM sjmem, Sint32 id, SJCK *ck);
+Sint32 SJMEM_GetNumData(SJMEM sjmem, Sint32 id);
+Sint32 SJMEM_IsGetChunk(SJMEM sjmem, Sint32 id, Sint32 nbyte, Sint32 *rbyte);
+void SJMEM_EntryErrFunc(SJMEM sjmem, void (*func)(void *obj, Sint32 ecode), void *obj);
+
+// data
+SJ_IF sjmem_vtbl = { .QueryInterface = NULL,
+                     .AddRef = NULL,
+                     .Release = NULL,
+                     .Destroy = SJMEM_Destroy,
+                     .GetUuid = SJMEM_GetUuid,
+                     .Reset = SJMEM_Reset,
+                     .GetChunk = SJMEM_GetChunk,
+                     .UngetChunk = SJMEM_UngetChunk,
+                     .PutChunk = SJMEM_PutChunk,
+                     .GetNumData = SJMEM_GetNumData,
+                     .IsGetChunk = SJMEM_IsGetChunk,
+                     .EntryErrFunc = SJMEM_EntryErrFunc };
+
+Sint32 sjmem_init_cnt = 0;
+SJMEM_OBJ sjmem_obj[SJMEM_MAX_OBJ] = { 0 };
 
 const UUID sjmem_uuid = {
     .Data1 = 0xDD9EEE41, .Data2 = 0x1679, .Data3 = 0x11D2, .Data4 = { 0x93, 0x6C, 0x00, 0x60, 0x08, 0x94, 0x48, 0xBC }
