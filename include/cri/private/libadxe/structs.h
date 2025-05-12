@@ -214,9 +214,9 @@ typedef struct {
     Sint8 stat;
     Sint8 read_flg;
     Sint8 unk3;
-    SJ unk4;
+    SJ sj;
     Sint32 cvfs;
-    Sint32 unkC;
+    Sint32 unkC; // some offset
     Sint32 file_len;
     Sint32 file_sct;
     Sint32 unk18;

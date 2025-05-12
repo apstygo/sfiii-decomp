@@ -41,40 +41,40 @@ void ADXSTM_Finish() {
     // Do nothing
 }
 
-void ADXSTMF_SetupHandleMember(ADXSTM arg0, Sint32 offset, Sint32 arg2, Sint32 arg3, SJ arg4) {
-    Sint32 length;
+void ADXSTMF_SetupHandleMember(ADXSTM stm, Sint32 offset, Sint32 arg2, Sint32 file_len, SJ sj) {
+    Sint32 file_sct;
 
     ADXCRS_Lock();
 
-    length = arg3 / 2048;
+    file_sct = file_len / 2048;
 
-    // This rounds length up
-    if (arg3 - length * 2048 > 0) {
-        length += 1;
+    // This rounds file_sct up
+    if (file_len - file_sct * 2048 > 0) {
+        file_sct += 1;
     }
 
-    arg0->stat = 1;
-    arg0->read_flg = 0;
-    arg0->unk4 = arg4;
-    arg0->cvfs = offset;
-    arg0->unkC = arg2;
-    arg0->req_rd_size = 0x200;
-    arg0->unk5C = 0xFFFFF;
-    arg0->file_sct = length;
-    arg0->eos = length;
-    arg0->cur_ofst = 0;
-    arg0->file_len = arg3;
+    stm->stat = 1;
+    stm->read_flg = 0;
+    stm->sj = sj;
+    stm->cvfs = offset;
+    stm->unkC = arg2;
+    stm->req_rd_size = 0x200;
+    stm->unk5C = 0xFFFFF;
+    stm->file_sct = file_sct;
+    stm->eos = file_sct;
+    stm->cur_ofst = 0;
+    stm->file_len = file_len;
 
-    if (arg4 != NULL) {
-        arg0->unk1C = arg0->unk18 = arg0->unk40 = SJ_GetNumData(arg4, 0) + SJ_GetNumData(arg4, 1);
+    if (sj != NULL) {
+        stm->unk1C = stm->unk18 = stm->unk40 = SJ_GetNumData(sj, 0) + SJ_GetNumData(sj, 1);
     }
 
-    arg0->unk0 = 1;
-    arg0->pause = 0;
+    stm->unk0 = 1;
+    stm->pause = 0;
     ADXCRS_Unlock();
 }
 
-ADXSTM ADXSTMF_CreateCvfsRt(Sint32 arg0, Sint32 offset, Sint32 arg2, SJ arg3) {
+ADXSTM ADXSTMF_CreateCvfsRt(Sint32 arg0, Sint32 offset, Sint32 file_len, SJ sj) {
     ADXSTM stm = NULL;
     Sint32 i;
 
@@ -90,11 +90,11 @@ ADXSTM ADXSTMF_CreateCvfsRt(Sint32 arg0, Sint32 offset, Sint32 arg2, SJ arg3) {
         return NULL;
     }
 
-    ADXSTMF_SetupHandleMember(stm, arg0, offset, arg2, arg3);
+    ADXSTMF_SetupHandleMember(stm, arg0, offset, file_len, sj);
     return stm;
 }
 
-ADXSTM ADXSTMF_CreateCvfs(Sint32 arg0, Sint32 offset, Sint32 arg2, SJ arg3) {
+ADXSTM ADXSTMF_CreateCvfs(Sint32 arg0, Sint32 offset, Sint32 file_len, SJ sj) {
     ADXSTM stm = NULL;
     Sint32 i;
 
@@ -110,7 +110,7 @@ ADXSTM ADXSTMF_CreateCvfs(Sint32 arg0, Sint32 offset, Sint32 arg2, SJ arg3) {
         return NULL;
     }
 
-    ADXSTMF_SetupHandleMember(stm, arg0, offset, arg2, arg3);
+    ADXSTMF_SetupHandleMember(stm, arg0, offset, file_len, sj);
     return stm;
 }
 
@@ -135,19 +135,19 @@ void ADXSTM_Destroy(ADXSTM stm) {
     }
 }
 
-void ADXSTM_BindFileNw(ADXSTM stm, Char8 *fname, void *dir, Sint32 arg3, Sint32 arg4) {
+void ADXSTM_BindFileNw(ADXSTM stm, Char8 *fname, void *dir, Sint32 arg3, Sint32 file_sct) {
     SVM_Lock();
     stm->unkC = arg3;
-    stm->file_len = arg4 << 11;
-    stm->file_sct = arg4;
+    stm->file_len = file_sct << 11;
+    stm->file_sct = file_sct;
     stm->fname = fname;
     stm->dir = dir;
     stm->unk45 = 1;
     SVM_Unlock();
 }
 
-void ADXSTM_BindFile(ADXSTM stm, Char8 *fname, void *dir, Sint32 arg3, Sint32 arg4) {
-    ADXSTM_BindFileNw(stm, fname, dir, arg3, arg4);
+void ADXSTM_BindFile(ADXSTM stm, Char8 *fname, void *dir, Sint32 arg3, Sint32 file_sct) {
+    ADXSTM_BindFileNw(stm, fname, dir, arg3, file_sct);
 
     do {
         ADXT_ExecFsSvr();
@@ -281,7 +281,7 @@ void adxstmf_stat_exec(ADXSTM stm) {
     Sint32 temp_s0_5;
     Sint32 stream_len;
 
-    sj = stm->unk4;
+    sj = stm->sj;
     cvFs_stat = cvFsGetStat(stm->cvfs);
     SVM_Lock();
 
@@ -523,7 +523,14 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_GetFsize
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_GetFsizeByte);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_SetSj);
+void ADXSTM_SetSj(ADXSTM stm, SJ sj) {
+    stm->sj = sj;
+    ADXCRS_Lock();
+    stm->unk40 = SJ_GetNumData(sj, 0) + SJ_GetNumData(sj, 1);
+    ADXCRS_Unlock();
+    stm->unk18 = stm->unk40;
+    stm->unk1C = stm->unk40;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_SetRdSct);
 
@@ -533,4 +540,21 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXT_SetNumRetr
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_GetReadFlg);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_OpenCvfs);
+void ADXSTM_OpenCvfs(ADXSTM stm) {
+    if (stm->fname == NULL) {
+        return;
+    }
+
+    if (stm->cvfs != NULL) {
+        return;
+    }
+
+    stm->unk45 = 1;
+
+    do {
+        if (SVM_TestAndSet(&adxstmf_execsvr_flg) == 1) {
+            ADXSTMF_ExecHndl(stm);
+            adxstmf_execsvr_flg = 0;
+        }
+    } while (stm->unk45 != 0);
+}

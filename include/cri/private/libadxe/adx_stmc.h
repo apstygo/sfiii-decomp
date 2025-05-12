@@ -8,7 +8,7 @@
 
 ADXSTM ADXSTM_Create(SJ, Sint32);
 Sint32 ADXSTM_GetFileSct(ADXSTM stm);
-Sint32 ADXSTM_OpenCvfs(ADXSTM stm);
+void ADXSTM_OpenCvfs(ADXSTM stm);
 Sint32 ADXSTM_GetStat(ADXSTM stm);
 void ADXSTM_BindFile(ADXSTM stm, Char8 *fname, void *dir, Sint32 arg3, Sint32 arg4);
 void ADXSTM_ReleaseFile(ADXSTM stm);
