@@ -600,7 +600,7 @@ segments:
       - [0x2E2208, asm, cri/libadxe/rna_crs]
       - [0x2E2258, asm, cri/libadxe/sj_crs]
       - [0x2E2298, asm, cri/libadxe/sj_err] # This file is a guess
-      - [0x2E22B0, asm, cri/libadxe/sj_mem]
+      - [0x2E22B0, c, cri/libadxe/sj_mem]
       - [0x2E27E8, asm, cri/libadxe/sj_rbf]
       - [0x2E3010, asm, cri/libadxe/sj_uni]
       - [0x2E37F0, asm, cri/libadxe/sj_utl]
@@ -1301,7 +1301,7 @@ segments:
       - [0x45DAE8, rodata, cri/libadxe/lsc_svr]
       - [0x45DB40, rodata, cri/libadxe/pl2enc]
       - [0x45E148, .rodata, cri/libadxe/ps2_rna]
-      - [0x45E6A0, rodata, cri/libadxe/sj_mem]
+      - [0x45E6A0, .rodata, cri/libadxe/sj_mem]
       - [0x45E6C0, rodata, cri/libadxe/sj_rbf]
       - [0x45E710, rodata, cri/libadxe/sj_uni]
       - [0x45E730, rodata, cri/libadxe/sjr_clt]

@@ -315,7 +315,15 @@
         "SJMEM_Init",
         "SJMEM_Finish",
         "SJMEM_Create",
-        "SJMEM_Reset"
+        "SJMEM_Destroy",
+        "SJMEM_GetUuid",
+        "SJMEM_EntryErrFunc",
+        "SJMEM_Reset",
+        "SJMEM_GetNumData",
+        "SJMEM_GetChunk",
+        "SJMEM_PutChunk",
+        "SJMEM_UngetChunk",
+        "SJMEM_IsGetChunk"
     ],
     "sj_rbf": [
         "SJRBF_Init",
