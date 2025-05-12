@@ -598,8 +598,8 @@ segments:
       - [0x2DFD90, asm, cri/libadxe/pl2enc] # This file is a guess
       - [0x2E0998, c, cri/libadxe/ps2_rna]
       - [0x2E2208, asm, cri/libadxe/rna_crs]
-      - [0x2E2258, asm, cri/libadxe/sj_crs]
-      - [0x2E2298, asm, cri/libadxe/sj_err] # This file is a guess
+      - [0x2E2258, c, cri/libadxe/sj_crs]
+      - [0x2E2298, c, cri/libadxe/sj_err] # This file is a guess
       - [0x2E22B0, c, cri/libadxe/sj_mem]
       - [0x2E27E8, asm, cri/libadxe/sj_rbf]
       - [0x2E3010, asm, cri/libadxe/sj_uni]
