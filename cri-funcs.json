@@ -327,10 +327,19 @@
         "SJMEM_IsGetChunk"
     ],
     "sj_rbf": [
+        "SJRBF_Error",
         "SJRBF_Init",
         "SJRBF_Finish",
         "SJRBF_Create",
+        "SJRBF_Destroy",
+        "SJRBF_GetUuid",
+        "SJRBF_EntryErrFunc",
         "SJRBF_Reset",
+        "SJRBF_GetNumData",
+        "SJRBF_GetChunk",
+        "SJRBF_PutChunk",
+        "SJRBF_UngetChunk",
+        "SJRBF_IsGetChunk",
         "SJRBF_GetBufPtr",
         "SJRBF_GetBufSize",
         "SJRBF_GetXtrSize"

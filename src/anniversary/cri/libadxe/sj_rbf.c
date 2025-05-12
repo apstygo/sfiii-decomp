@@ -5,22 +5,22 @@
 #include <cri/cri_xpts.h>
 
 typedef struct {
-    SJ_OBJ sj;
-    Sint32 used;
-    UUID *uuid;
-    Sint32 unkC;
-    Sint32 unk10;
-    Sint32 unk14;
-    Sint32 unk18;
-    Sint8 *buf;
-    Sint32 bsize;
-    Sint32 xsize;
-    Sint32 unk28;
-    Sint32 unk2C;
-    Sint32 unk30;
-    Sint32 unk34;
-    void (*err_func)(void *obj, Sint32 ecode);
-    void *err_obj;
+    SJ_OBJ sj;                                 // 0x00
+    Sint32 used;                               // 0x04
+    UUID *uuid;                                // 0x08
+    Sint32 unkC;                               // 0x0C
+    Sint32 unk10;                              // 0x10
+    Sint32 unk14;                              // 0x14
+    Sint32 unk18;                              // 0x18
+    Sint8 *buf;                                // 0x1C
+    Sint32 bsize;                              // 0x20
+    Sint32 xsize;                              // 0x24
+    Sint32 unk28;                              // 0x28
+    Sint32 unk2C;                              // 0x2C
+    Sint32 unk30;                              // 0x30
+    Sint32 unk34;                              // 0x34
+    void (*err_func)(void *obj, Sint32 ecode); // 0x38
+    void *err_obj;                             // 0x3C
 } SJRBF_OBJ;
 
 typedef SJRBF_OBJ *SJRBF;
@@ -32,14 +32,34 @@ typedef SJRBF_OBJ *SJRBF;
 
 // forward decls
 void SJRBF_Reset(SJRBF sjrbf);
+void SJRBF_Destroy(SJRBF sjrbf);
+UUID *SJRBF_GetUuid(SJRBF sjrbf);
+void SJRBF_Reset(SJRBF sjrbf);
+void SJRBF_GetChunk(SJRBF sjrbf, Sint32 id, Sint32 nbyte, SJCK *ck);
+void SJRBF_UngetChunk(SJRBF sjrbf, Sint32 id, SJCK *ck);
+void SJRBF_PutChunk(SJRBF sjrbf, Sint32 id, SJCK *ck);
+Sint32 SJRBF_GetNumData(SJRBF sjrbf, Sint32 id);
+Sint32 SJRBF_IsGetChunk(SJRBF sjrbf, Sint32 id, Sint32 nbyte, Sint32 *rbyte);
+void SJRBF_EntryErrFunc(SJRBF sjrbf, void (*func)(void *obj, Sint32 ecode), void *obj);
 
 // data
-extern Char8 *volatile sj_build;
-extern SJ_IF sjrbf_vtbl;
-extern Sint32 sjrbf_init_cnt;
-extern SJRBF_OBJ sjrbf_obj[SJRBF_MAX_OBJ];
+Char8 *volatile sj_build = "\nSJ/PS2EE Ver.6.18 Build:Sep 18 2003 09:59:52\n";
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/sj_rbf", D_0055E640);
+SJ_IF sjrbf_vtbl = { .QueryInterface = NULL,
+                     .AddRef = NULL,
+                     .Release = NULL,
+                     .Destroy = SJRBF_Destroy,
+                     .GetUuid = SJRBF_GetUuid,
+                     .Reset = SJRBF_Reset,
+                     .GetChunk = SJRBF_GetChunk,
+                     .UngetChunk = SJRBF_UngetChunk,
+                     .PutChunk = SJRBF_PutChunk,
+                     .GetNumData = SJRBF_GetNumData,
+                     .IsGetChunk = SJRBF_IsGetChunk,
+                     .EntryErrFunc = SJRBF_EntryErrFunc };
+
+Sint32 sjrbf_init_cnt = 0;
+SJRBF_OBJ sjrbf_obj[SJRBF_MAX_OBJ] = { 0 };
 
 const UUID sjrbf_uuid = {
     .Data1 = 0x3B9A9E81, .Data2 = 0x0DBB, .Data3 = 0x11D2, .Data4 = { 0xA6, 0xBF, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 }
@@ -177,17 +197,135 @@ void SJRBF_GetChunk(SJRBF sjrbf, Sint32 id, Sint32 nbyte, SJCK *ck) {
     SJCRS_Unlock();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sj_rbf", SJRBF_PutChunk);
+void SJRBF_PutChunk(SJRBF sjrbf, Sint32 id, SJCK *ck) {
+    Sint32 temp_a2_4;
+    Sint32 temp_a3;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sj_rbf", SJRBF_UngetChunk);
+    if ((ck->len <= 0) || (ck->data == NULL)) {
+        return;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sj_rbf", SJRBF_IsGetChunk);
+    SJCRS_Lock();
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sj_rbf", SJRBF_GetBufPtr);
+    if (id == 1) {
+        temp_a3 = ck->data - sjrbf->buf;
+        sjrbf->unkC += ck->len;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sj_rbf", SJRBF_GetBufSize);
+        if (temp_a3 < sjrbf->xsize) {
+            memcpy(sjrbf->buf + (sjrbf->bsize + temp_a3), ck->data, MIN(ck->len, sjrbf->xsize - temp_a3));
+        }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sj_rbf", SJRBF_GetXtrSize);
+        temp_a3 = (ck->data - sjrbf->buf) + ck->len;
+
+        if (sjrbf->bsize < temp_a3) {
+            temp_a2_4 = MIN(ck->len, temp_a3 - sjrbf->bsize);
+            memcpy(sjrbf->buf, sjrbf->buf + (temp_a3 - temp_a2_4), temp_a2_4);
+        }
+
+        sjrbf->unk34 += ck->len;
+    } else if (id == 0) {
+        sjrbf->unk10 += ck->len;
+        sjrbf->unk2C += ck->len;
+    } else {
+        ck->len = 0;
+        ck->data = NULL;
+
+        if (sjrbf->err_func != NULL) {
+            sjrbf->err_func(sjrbf->err_obj, SJ_ERR_PRM);
+        }
+    }
+
+    SJCRS_Unlock();
+}
+
+void SJRBF_UngetChunk(SJRBF sjrbf, Sint32 id, SJCK *ck) {
+    Sint32 a;
+    Sint32 b;
+
+    if ((ck->len <= 0) || (ck->data == NULL)) {
+        return;
+    }
+
+    SJCRS_Lock();
+
+    if (id == 0) {
+        a = (sjrbf->unk14 + sjrbf->bsize - ck->len) % sjrbf->bsize;
+        b = (Sint32)(ck->data - sjrbf->buf) % sjrbf->bsize;
+
+        if (a == b) {
+            sjrbf->unk14 = a;
+            sjrbf->unk10 += ck->len;
+        } else {
+            if (sjrbf->err_func != NULL) {
+                sjrbf->err_func(sjrbf->err_obj, SJ_ERR_PRM);
+            }
+        }
+
+        sjrbf->unk28 -= ck->len;
+    } else if (id == 1) {
+        a = (sjrbf->unk18 + sjrbf->bsize - ck->len) % sjrbf->bsize;
+        b = (Sint32)(ck->data - sjrbf->buf) % sjrbf->bsize;
+
+        if (a == b) {
+            sjrbf->unk18 = a;
+            sjrbf->unkC += ck->len;
+        } else {
+            if (sjrbf->err_func != NULL) {
+                sjrbf->err_func(sjrbf->err_obj, SJ_ERR_PRM);
+            }
+        }
+
+        sjrbf->unk30 -= ck->len;
+    } else {
+        ck->len = 0;
+        ck->data = NULL;
+
+        if (sjrbf->err_func != NULL) {
+            sjrbf->err_func(sjrbf->err_obj, SJ_ERR_PRM);
+        }
+    }
+
+    SJCRS_Unlock();
+}
+
+Sint32 SJRBF_IsGetChunk(SJRBF sjrbf, Sint32 id, Sint32 nbyte, Sint32 *rbyte) {
+    Sint32 unk;
+
+    SJCRS_Lock();
+
+    if (id == 0) {
+        unk = MIN(sjrbf->unk10, sjrbf->bsize - sjrbf->unk14 + sjrbf->xsize);
+        unk = MIN(unk, nbyte);
+    } else if (id == 1) {
+        unk = MIN(sjrbf->unkC, sjrbf->bsize - sjrbf->unk18 + sjrbf->xsize);
+        unk = MIN(unk, nbyte);
+    } else {
+        unk = 0;
+
+        if (sjrbf->err_func != NULL) {
+            sjrbf->err_func(sjrbf->err_obj, SJ_ERR_PRM);
+        }
+    }
+
+    *rbyte = unk;
+    SJCRS_Unlock();
+    return unk == nbyte;
+}
+
+Sint32 SJRBF_GetBufPtr(SJ sj) {
+    SJRBF sjrbf = (SJRBF)sj;
+    return sjrbf->buf;
+};
+
+Sint32 SJRBF_GetBufSize(SJ sj) {
+    SJRBF sjrbf = (SJRBF)sj;
+    return sjrbf->bsize;
+};
+
+Sint32 SJRBF_GetXtrSize(SJ sj) {
+    SJRBF sjrbf = (SJRBF)sj;
+    return sjrbf->xsize;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sj_rbf", SJRBF_SetFlowCnt);
 
