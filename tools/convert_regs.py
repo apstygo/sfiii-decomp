@@ -38,16 +38,24 @@ SUBSTITUTIONS = (
     ("$31", "$ra"),
 )
 
-def convert_regs(asm: str) -> str:
-    for new, old in reversed(SUBSTITUTIONS):
+def convert_regs(asm: str, named_regs: bool) -> str:
+    for numeric, named in reversed(SUBSTITUTIONS):
+        old = numeric if named_regs else named
+        new = named if named_regs else numeric
         asm = asm.replace(old, new)
 
     return asm
 
 def main():
     asm_path = Path(sys.argv[1])
+
+    named_regs = True
+
+    if len(sys.argv) > 2 and sys.argv[2] == "--numeric":
+        named_regs = False
+
     asm = asm_path.read_text()
-    asm = convert_regs(asm)
+    asm = convert_regs(asm, named_regs=named_regs)
     print(asm)
 
 if __name__ == "__main__":
