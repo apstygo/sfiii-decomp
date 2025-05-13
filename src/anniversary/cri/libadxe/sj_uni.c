@@ -29,11 +29,32 @@ typedef SJUNI_OBJ *SJUNI;
 
 // forward decls
 void SJUNI_Reset(SJUNI sjuni);
+void SJUNI_Destroy(SJUNI sjuni);
+UUID *SJUNI_GetUuid(SJUNI sjuni);
+void SJUNI_Reset(SJUNI sjuni);
+void SJUNI_GetChunk(SJUNI sjuni, Sint32 id, Sint32 nbyte, SJCK *ck);
+void SJUNI_UngetChunk(SJUNI sjuni, Sint32 id, SJCK *ck);
+void SJUNI_PutChunk(SJUNI sjuni, Sint32 id, SJCK *ck);
+Sint32 SJUNI_GetNumData(SJUNI sjuni, Sint32 id);
+Sint32 SJUNI_IsGetChunk(SJUNI sjuni, Sint32 id, Sint32 nbyte, Sint32 *rbyte);
+void SJUNI_EntryErrFunc(SJUNI sjuni, void (*func)(void *obj, Sint32 ecode), void *obj);
 
 // data
-extern SJ_IF sjuni_vtbl;
-extern Sint32 sjuni_init_cnt;
-extern SJUNI_OBJ sjuni_obj[SJUNI_MAX_OBJ];
+SJ_IF sjuni_vtbl = { .QueryInterface = NULL,
+                     .AddRef = NULL,
+                     .Release = NULL,
+                     .Destroy = SJUNI_Destroy,
+                     .GetUuid = SJUNI_GetUuid,
+                     .Reset = SJUNI_Reset,
+                     .GetChunk = SJUNI_GetChunk,
+                     .UngetChunk = SJUNI_UngetChunk,
+                     .PutChunk = SJUNI_PutChunk,
+                     .GetNumData = SJUNI_GetNumData,
+                     .IsGetChunk = SJUNI_IsGetChunk,
+                     .EntryErrFunc = SJUNI_EntryErrFunc };
+
+Sint32 sjuni_init_cnt = 0;
+SJUNI_OBJ sjuni_obj[SJUNI_MAX_OBJ] = { 0 };
 
 const UUID sjuni_uuid = {
     .Data1 = 0x2E534FA3, .Data2 = 0xAF97, .Data3 = 0x11D2, .Data4 = { 0xA5, 0x27, 0x00, 0x60, 0x08, 0x94, 0x48, 0xBC }
@@ -186,7 +207,7 @@ void SJUNI_GetChunk(SJUNI sjuni, Sint32 id, Sint32 nbyte, SJCK *ck) {
     SJCRS_Unlock();
 }
 
-void SJUNI_PutChunk(SJUNI sjuni, s32 id, SJCK *ck) {
+void SJUNI_PutChunk(SJUNI sjuni, Sint32 id, SJCK *ck) {
     SJUNI_CK *last;
     SJUNI_CK *cur;
     SJUNI_CK **next_of_last;

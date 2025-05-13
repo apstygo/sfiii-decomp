@@ -827,7 +827,7 @@ segments:
       - [0x3BD5C8, data, cri/libadxe/sj_crs]
       - [0x3BD5D0, .data, cri/libadxe/sj_mem]
       - [0x3BDA88, .data, cri/libadxe/sj_rbf]
-      - [0x3C1AC8, data, cri/libadxe/sj_uni]
+      - [0x3C1AC8, .data, cri/libadxe/sj_uni]
       - [0x3C2700, data, cri/libadxe/sj_utl] # this TU's data only pertains to functions that aren't used by the game
       - [0x3C28D8, data, cri/libadxe/sjr_clt]
       - [0x3C28E0, data, cri/libadxe/sjx]
