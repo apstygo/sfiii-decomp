@@ -20,6 +20,7 @@ extern s32 flDebugStrY;                       // size: 0x4, address: 0x57AB6C
 extern u32 flDebugStrHan;                     // size: 0x4, address: 0x57AB70
 extern u32 flhDebugStr;                       // size: 0x4, address: 0x57AB74
 
+f64 flGetSystemTime();
 void flPS2SystemError(s32 error_level, s8 *format, ...);
 s32 flSetDebugMode(u32 flag);
 void flPS2DebugInit();

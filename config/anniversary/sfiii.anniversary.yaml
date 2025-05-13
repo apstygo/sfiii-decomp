@@ -1469,7 +1469,7 @@ segments:
       - [0x4745D8, sdata, sf33rd/Source/Game/debug/Debug]
       - [0x474630, sdata, sf33rd/Source/Game/debug/Deb_Data]
       - [0x474650, .sdata, sf33rd/Source/Common/PPGFile]
-      - [0x4746B0, sdata, sf33rd/AcrSDK/ps2/flps2render]
+      - [0x4746B0, .sdata, sf33rd/AcrSDK/ps2/flps2render]
       - [0x474730, .sdata, sf33rd/AcrSDK/ps2/flps2debug]
       - [0x474770, sdata, sf33rd/AcrSDK/ps2/flps2dma]
       - [0x4747A8, sdata, sf33rd/AcrSDK/ps2/flps2shader]
