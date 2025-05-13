@@ -2,7 +2,7 @@
 #define _SJ_H_INCLUDED
 /****************************************************************************/
 /*																			*/
-/*					ƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒgƒ‰ƒCƒuƒ‰ƒŠƒwƒbƒ_					*/
+/*					ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆãƒ©ã‚¤ãƒ–ãƒ©ãƒªãƒ˜ãƒƒãƒ€					*/
 /*						 SJ (Stream Joint) Library							*/
 /*																			*/
 /*				 1998.4.14			written by M.Oshimi						*/
@@ -14,19 +14,19 @@
 #include "cri/ee/cri_xpt.h"
 
 /***********************************************************************
- *		ˆ—ƒ}ƒNƒ
+ *		å‡¦ç†ãƒã‚¯ãƒ­
  *		Process MACRO
  ***********************************************************************/
 
-/* ®”ƒAƒhƒŒƒX‚Ìƒ|ƒCƒ“ƒ^Œ^‚Ö‚Ì•ÏŠ· */
+/* æ•´æ•°ã‚¢ãƒ‰ãƒ¬ã‚¹ã®ãƒã‚¤ãƒ³ã‚¿å‹ã¸ã®å¤‰æ› */
 #define SJ_VOID_PTR(adr)	((void *)(adr))
 
-/* ‰ºˆÊnƒrƒbƒg‚ğƒ[ƒ‚É‚·‚é
- * @1,2,8,16ƒrƒbƒg‚Ìê‡ASH‚ÍA–Ú“I‚ÌƒŒƒWƒXƒ^‚¾‚¯g—p‚µ‚Ä2–½—ß‚Åˆ—
- * ‚Å‚«‚é‚Ì‚ÅAƒVƒtƒgˆ—‚É‚·‚éB
- * @3`7ƒrƒbƒg‚Ìê‡ASH‚ÍA-128‚Ü‚Å‚Í–½—ßƒR[ƒh‚ÉƒCƒ~ƒfƒBƒGƒCƒgƒf[ƒ^
- * ‚ğŠi”[‚Å‚«‚é‚Ì‚ÅAƒ}ƒXƒNˆ—‚É‚·‚éB1–½—ß‚Ü‚½‚Í2–½—ßB
- * @‚»‚Ì‘¼‚Ìê‡Aó‹µ‚É‰‚¶‚ÄÅ“K‚Æ‚ÍŒÀ‚ç‚È‚¢‚ªAƒVƒtƒgˆ—‚É‚µ‚Ä‚¨‚­B
+/* ä¸‹ä½nãƒ“ãƒƒãƒˆã‚’ã‚¼ãƒ­ã«ã™ã‚‹
+ * ã€€1,2,8,16ãƒ“ãƒƒãƒˆã®å ´åˆã€SHã¯ã€ç›®çš„ã®ãƒ¬ã‚¸ã‚¹ã‚¿ã ã‘ä½¿ç”¨ã—ã¦2å‘½ä»¤ã§å‡¦ç†
+ * ã§ãã‚‹ã®ã§ã€ã‚·ãƒ•ãƒˆå‡¦ç†ã«ã™ã‚‹ã€‚
+ * ã€€3ï½7ãƒ“ãƒƒãƒˆã®å ´åˆã€SHã¯ã€-128ã¾ã§ã¯å‘½ä»¤ã‚³ãƒ¼ãƒ‰ã«ã‚¤ãƒŸãƒ‡ã‚£ã‚¨ã‚¤ãƒˆãƒ‡ãƒ¼ã‚¿
+ * ã‚’æ ¼ç´ã§ãã‚‹ã®ã§ã€ãƒã‚¹ã‚¯å‡¦ç†ã«ã™ã‚‹ã€‚1å‘½ä»¤ã¾ãŸã¯2å‘½ä»¤ã€‚
+ * ã€€ãã®ä»–ã®å ´åˆã€çŠ¶æ³ã«å¿œã˜ã¦æœ€é©ã¨ã¯é™ã‚‰ãªã„ãŒã€ã‚·ãƒ•ãƒˆå‡¦ç†ã«ã—ã¦ãŠãã€‚
  */
 #define SJ_OFF_LSB(val, n)	((((Uint32)(val)) >> (n)) << (n))
 #define SJ_OFF_LSB1(val)	((((Uint32)(val)) >> (1)) << (1))
@@ -39,52 +39,52 @@
 #define SJ_OFF_LSB8(val)	((((Uint32)(val)) >> (8)) << (8))
 #define SJ_OFF_LSB16(val)	((((Uint32)(val)) >> (16)) << (16))
 
-/* ƒ|ƒCƒ“ƒ^‚ğ2,4,8,16,32byte‹«ŠE‚Ü‚Å–ß‚·i’ˆÓFŒ‹‰Ê‚Í(void*)Œ^j */
+/* ãƒã‚¤ãƒ³ã‚¿ã‚’2,4,8,16,32byteå¢ƒç•Œã¾ã§æˆ»ã™ï¼ˆæ³¨æ„ï¼šçµæœã¯(void*)å‹ï¼‰ */
 #define SJ_BACK_BND2(ptr)	SJ_VOID_PTR(SJ_OFF_LSB1(ptr))
 #define SJ_BACK_BND4(ptr)	SJ_VOID_PTR(SJ_OFF_LSB2(ptr))
 #define SJ_BACK_BND8(ptr)	SJ_VOID_PTR(SJ_OFF_LSB3(ptr))
 #define SJ_BACK_BND16(ptr)	SJ_VOID_PTR(SJ_OFF_LSB4(ptr))
 #define SJ_BACK_BND32(ptr)	SJ_VOID_PTR(SJ_OFF_LSB5(ptr))
 
-/* ƒ|ƒCƒ“ƒ^‚ğ2,4,8,16,32byte‹«ŠE‚Ü‚Åi‚ß‚éi’ˆÓFŒ‹‰Ê‚Í(void*)Œ^j */
+/* ãƒã‚¤ãƒ³ã‚¿ã‚’2,4,8,16,32byteå¢ƒç•Œã¾ã§é€²ã‚ã‚‹ï¼ˆæ³¨æ„ï¼šçµæœã¯(void*)å‹ï¼‰ */
 #define SJ_FORE_BND2(ptr)	SJ_BACK_BND2( ((Uint32)(ptr)) +  1)
 #define SJ_FORE_BND4(ptr)	SJ_BACK_BND4( ((Uint32)(ptr)) +  3)
 #define SJ_FORE_BND8(ptr)	SJ_BACK_BND8( ((Uint32)(ptr)) +  7)
 #define SJ_FORE_BND16(ptr)	SJ_BACK_BND16(((Uint32)(ptr)) + 15)
 #define SJ_FORE_BND32(ptr)	SJ_BACK_BND32(((Uint32)(ptr)) + 31)
 
-/* 32byte‹«ŠE‚Ì—ÌˆæŠm•Û‚Ì‚½‚ß‚ÉA—ÌˆæƒTƒCƒY‚ğ…‘‚µ‚·‚é */
+/* 32byteå¢ƒç•Œã®é ˜åŸŸç¢ºä¿ã®ãŸã‚ã«ã€é ˜åŸŸã‚µã‚¤ã‚ºã‚’æ°´å¢—ã—ã™ã‚‹ */
 #define SJ_SIZ_BND32(siz)	((siz) + 32)
 
-/* SJƒoƒbƒtƒ@ƒAƒhƒŒƒX‚Ì32ƒoƒCƒg‹«ŠE‚Ìæ“¾ */
+/* SJãƒãƒƒãƒ•ã‚¡ã‚¢ãƒ‰ãƒ¬ã‚¹ã®32ãƒã‚¤ãƒˆå¢ƒç•Œã®å–å¾— */
 #define	SJ_ADR_BND32(adr)	SJ_FORE_BND32(adr)
 
-/* ‹«ŠE“à‚Ìæ’[‚ÆŒÂ”‚©‚çI’[‚ğ‹‚ß‚é */
+/* å¢ƒç•Œå†…ã®å…ˆç«¯ã¨å€‹æ•°ã‹ã‚‰çµ‚ç«¯ã‚’æ±‚ã‚ã‚‹ */
 #define SJ_GET_ENDPOS(bgn, num)		((bgn) + (num) - 1)
 
-/* ‹«ŠE“à‚ÌŒÂ”i‹«ŠE’lFbgn <= endj */
+/* å¢ƒç•Œå†…ã®å€‹æ•°ï¼ˆå¢ƒç•Œå€¤ï¼šbgn <= endï¼‰ */
 #define SJ_INNER_NUM(bgn, end)		((end) - (bgn) + 1)
 
-/* ‹«ŠE“à‚Ì”»’èi‹«ŠE’lFbgn <= x <= endj */
+/* å¢ƒç•Œå†…ã®åˆ¤å®šï¼ˆå¢ƒç•Œå€¤ï¼šbgn <= x <= endï¼‰ */
 #define SJ_IS_INNER(x, bgn, end) ( ((x) >= (bgn)) && ((x) <= (end)) )
 
 /***********************************************************************
- *		ƒf[ƒ^Œ^
+ *		ãƒ‡ãƒ¼ã‚¿å‹
  *		Data type declaration
  ***********************************************************************/
 
-/*	ƒf[ƒ^ƒ‰ƒCƒ“‚Ì’è‹`		*/
+/*	ãƒ‡ãƒ¼ã‚¿ãƒ©ã‚¤ãƒ³ã®å®šç¾©		*/
 /*	Data line definition	*/
-#define	SJ_LIN_FREE	(0)			/*	ƒtƒŠ[ƒ`ƒƒƒ“ƒNƒ‰ƒCƒ“				*/
+#define	SJ_LIN_FREE	(0)			/*	ãƒ•ãƒªãƒ¼ãƒãƒ£ãƒ³ã‚¯ãƒ©ã‚¤ãƒ³				*/
 								/*	Free chunk line						*/
-#define	SJ_LIN_DATA	(1)			/*	ƒf[ƒ^ƒ`ƒƒƒ“ƒNƒ‰ƒCƒ“				*/
+#define	SJ_LIN_DATA	(1)			/*	ãƒ‡ãƒ¼ã‚¿ãƒãƒ£ãƒ³ã‚¯ãƒ©ã‚¤ãƒ³				*/
 								/*	Data chunk line						*/
 
 #define SJ_ERR_FATAL		(-1)
 #define SJ_ERR_INTERNAL		(-2)
 #define SJ_ERR_PRM			(-3)
 
-/*	ƒ`ƒƒƒ“ƒN‚ÌãŒÀƒTƒCƒY	*/
+/*	ãƒãƒ£ãƒ³ã‚¯ã®ä¸Šé™ã‚µã‚¤ã‚º	*/
 /*	Maximum size of chunk	*/
 #define	SJCK_LEN_MAX		(0x7fffffff)
 
@@ -99,22 +99,22 @@ typedef struct _UUID {
 #define uuid_t UUID
 #endif
 
-/*	ƒf[ƒ^ƒ`ƒƒƒ“ƒN	*/
+/*	ãƒ‡ãƒ¼ã‚¿ãƒãƒ£ãƒ³ã‚¯	*/
 /*	Data chunk		*/
 #ifndef SJCK_DEFINED
 #define SJCK_DEFINED
 typedef struct {
-	Sint8 *data;				/*	ŠJnƒAƒhƒŒƒX						*/
+	Sint8 *data;				/*	é–‹å§‹ã‚¢ãƒ‰ãƒ¬ã‚¹						*/
 								/*	Begin address						*/
-	Sint32 len;					/*	ƒoƒCƒg”							*/
+	Sint32 len;					/*	ãƒã‚¤ãƒˆæ•°							*/
 								/*	Size of chunk length				*/
 } SJCK;
 #endif
 
-/*	ƒ‰ƒCƒuƒ‰ƒŠƒnƒ“ƒhƒ‹	*/
+/*	ãƒ©ã‚¤ãƒ–ãƒ©ãƒªãƒãƒ³ãƒ‰ãƒ«	*/
 /*	SJ handle			*/
 typedef struct {
-	struct _sj_vtbl *vtbl;		/*	ƒCƒ“ƒ^ƒtƒF[ƒX						*/
+	struct _sj_vtbl *vtbl;		/*	ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹						*/
 								/*	Interfaces							*/
 } SJ_OBJ;
 #ifndef SJ_DEFINED
@@ -122,79 +122,79 @@ typedef struct {
 typedef SJ_OBJ *SJ;
 #endif
 
-/*	ƒCƒ“ƒ^ƒtƒF[ƒXŠÖ”  				*/
+/*	ã‚¤ãƒ³ã‚¿ãƒ•ã‚§ãƒ¼ã‚¹é–¢æ•°  				*/
 /*	Interface functions					*/
 typedef struct _sj_vtbl {
 	void (*QueryInterface)();		/*		for COM compatibility			*/
 	void (*AddRef)();				/*		for COM compatibility			*/
 	void (*Release)();				/*		for COM compatibility			*/
-	void (*Destroy)(SJ sj);			/*		ƒnƒ“ƒhƒ‹‚ÌÁ‹					*/
+	void (*Destroy)(SJ sj);			/*		ãƒãƒ³ãƒ‰ãƒ«ã®æ¶ˆå»					*/
 									/*		Destroys specified SJ handle	*/
-	UUID *(*GetUuid)(SJ sj);		/*		UUID‚Ìæ“¾						*/
+	UUID *(*GetUuid)(SJ sj);		/*		UUIDã®å–å¾—						*/
 									/*		Get a UUID						*/
-	void (*Reset)(SJ sj);			/*		ƒŠƒZƒbƒg						*/
+	void (*Reset)(SJ sj);			/*		ãƒªã‚»ãƒƒãƒˆ						*/
 									/*		Resets SJ						*/
-	/*	ƒ`ƒƒƒ“ƒN‚Ìæ“¾	(FIFO‚Ìæ“ª‚©‚çæ“¾)								*/
+	/*	ãƒãƒ£ãƒ³ã‚¯ã®å–å¾—	(FIFOã®å…ˆé ­ã‹ã‚‰å–å¾—)								*/
 	/*	Get a chunk	(Get chunk from top of FIFO)							*/
 	void (*GetChunk)(SJ sj, Sint32 id, Sint32 nbyte, SJCK *ck);
-	/*	ƒ`ƒƒƒ“ƒN‚ğ–ß‚·@(FIFO‚Ìæ“ª‚É‘}“ü)									*/
+	/*	ãƒãƒ£ãƒ³ã‚¯ã‚’æˆ»ã™ã€€(FIFOã®å…ˆé ­ã«æŒ¿å…¥)									*/
 	/*	Unget a chunk	(Insert chunk in top of FIFO)						*/
 	void (*UngetChunk)(SJ sj, Sint32 id, SJCK *ck);
-	/*	ƒ`ƒƒƒ“ƒN‚ğ‘}“ü	(FIFO‚ÌÅŒã‚É‘}“ü)									*/
+	/*	ãƒãƒ£ãƒ³ã‚¯ã‚’æŒ¿å…¥	(FIFOã®æœ€å¾Œã«æŒ¿å…¥)									*/
 	/*	Put a chunk	(Insert chunk in last of FIFO)							*/
 	void (*PutChunk)(SJ sj, Sint32 id, SJCK *ck);
-	/*	æ“¾‚Å‚«‚éƒf[ƒ^‚ÌƒoƒCƒg”‚Ìæ“¾									*/
+	/*	å–å¾—ã§ãã‚‹ãƒ‡ãƒ¼ã‚¿ã®ãƒã‚¤ãƒˆæ•°ã®å–å¾—									*/
 	/*	Get the data number which can be got								*/
 	Sint32 (*GetNumData)(SJ sj, Sint32 id);
-	/*	ƒ`ƒƒƒ“ƒN‚Ìæ“¾‰Â”\‚Ì”»’è											*/
+	/*	ãƒãƒ£ãƒ³ã‚¯ã®å–å¾—å¯èƒ½ã®åˆ¤å®š											*/
 	/*	Check whether can get chunk											*/
 	Sint32 (*IsGetChunk)(SJ sj, Sint32 id, Sint32 nbyte, Sint32 *rbyte);
-	/*	ƒGƒ‰[”­¶‚É‹N“®‚·‚éŠÖ”‚Ì“o˜^									*/
+	/*	ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæ™‚ã«èµ·å‹•ã™ã‚‹é–¢æ•°ã®ç™»éŒ²									*/
 	/*	Entry error callback function										*/
 	void (*EntryErrFunc)(SJ sj,
 					void (*func)(void *obj, Sint32 ecode), void *obj);
 } SJ_IF;
 typedef SJ_IF *SJIF;
 
-/*	ƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒg‚ÌÁ‹												*/
+/*	ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆã®æ¶ˆå»												*/
 /*	Destroys specified SJ handle											*/
 #define SJ_Destroy(sj) \
 		(*(sj)->vtbl->Destroy)(sj)
-/*	ƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒg‚ÌƒŠƒZƒbƒg											*/
+/*	ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆã®ãƒªã‚»ãƒƒãƒˆ											*/
 /*	Resets SJ																*/
 #define SJ_Reset(sj) \
 		(*(sj)->vtbl->Reset)(sj)
-/*	ƒ`ƒƒƒ“ƒN‚Ìæ“¾															*/
+/*	ãƒãƒ£ãƒ³ã‚¯ã®å–å¾—															*/
 /*	Get a chunk																*/
 #define SJ_GetChunk(sj, id, nbyte, ck) \
 		(*(sj)->vtbl->GetChunk)(sj, id, nbyte, ck)
-/*	ƒ`ƒƒƒ“ƒN‚ğ–ß‚·															*/
+/*	ãƒãƒ£ãƒ³ã‚¯ã‚’æˆ»ã™															*/
 /*	Unget a chunk 															*/
 #define SJ_UngetChunk(sj, id, ck) \
 		(*(sj)->vtbl->UngetChunk)(sj, id, ck)
-/*	ƒ`ƒƒƒ“ƒN‚ğ‘}“ü															*/
+/*	ãƒãƒ£ãƒ³ã‚¯ã‚’æŒ¿å…¥															*/
 /*	Put a chunk																*/
 #define SJ_PutChunk(sj, id, ck) \
 		(*(sj)->vtbl->PutChunk)(sj, id, ck)
-/*	æ“¾‰Â”\‚Èƒf[ƒ^‚ÌƒoƒCƒg”‚ğ‹‚ß‚é										*/
+/*	å–å¾—å¯èƒ½ãªãƒ‡ãƒ¼ã‚¿ã®ãƒã‚¤ãƒˆæ•°ã‚’æ±‚ã‚ã‚‹										*/
 /*	Get the data number which can be got									*/
 #define SJ_GetNumData(sj, id) \
 		(*(sj)->vtbl->GetNumData)(sj, id)
-/*	ƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒgUUID‚Ìæ“¾ (UUID‚Ö‚ÌƒAƒhƒŒƒX)						*/
+/*	ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆUUIDã®å–å¾— (UUIDã¸ã®ã‚¢ãƒ‰ãƒ¬ã‚¹)						*/
 /*	Get a UUID																*/
 #define SJ_GetUuid(sj) \
 		(*(sj)->vtbl->GetUuid)(sj)
-/*	ƒGƒ‰[”­¶‚É‹N“®‚·‚éƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì“o˜^							*/
+/*	ã‚¨ãƒ©ãƒ¼ç™ºç”Ÿæ™‚ã«èµ·å‹•ã™ã‚‹ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã®ç™»éŒ²							*/
 /*	Entry error callback function											*/
 #define SJ_EntryErrFunc(sj, f, o) \
 		(*(sj)->vtbl->EntryErrFunc)(sj, f, o)
-/*	ƒ`ƒƒƒ“ƒN‚Ìæ“¾‰Â”\‚Ì”»’è 												*/
+/*	ãƒãƒ£ãƒ³ã‚¯ã®å–å¾—å¯èƒ½ã®åˆ¤å®š 												*/
 /*	Check whether can get chunk												*/
 #define SJ_IsGetChunk(sj, id, nbyte, rbyte) \
 			(*(sj)->vtbl->IsGetChunk)(sj, id, nbyte, rbyte)
 
 /****************************************************************************
- *		ŠÖ”‚ÌéŒ¾
+ *		é–¢æ•°ã®å®£è¨€
  *		Function Declaration
  ****************************************************************************/
 
@@ -202,20 +202,20 @@ typedef SJ_IF *SJIF;
 extern	"C" {
 #endif
 
-/*	$func$ ƒ`ƒƒƒ“ƒN‚Ì•ª‰ğ
- * [‘@®] void SJ_SplitChunk(SJCK *ck, Sint32 nbyte,
+/*	$func$ ãƒãƒ£ãƒ³ã‚¯ã®åˆ†è§£
+ * [æ›¸ã€€å¼] void SJ_SplitChunk(SJCK *ck, Sint32 nbyte,
  *													SJCK *ck1, SJCK *ck2);
- * [“ü@—Í] ck		: •ª‰ğ‘ÎÛ‚Æ‚È‚éƒ`ƒƒƒ“ƒN
- *			nbyte	: ck1 ‚ÌƒoƒCƒg”
- * [o@—Í] ck1		: •ª‰ğ‚³‚ê‚½‘O”¼‚Ìƒ`ƒƒƒ“ƒN
- *			ck2		: •ª‰ğ‚³‚ê‚½Œã”¼‚Ìƒ`ƒƒƒ“ƒN
- * [ŠÖ”’l] ck2	ƒ`ƒƒƒ“ƒN‚ÌƒoƒCƒg”
- * [‹@@”\] ckƒ`ƒƒƒ“ƒN‚ğck1ƒ`ƒƒƒ“ƒN‚Æck2ƒ`ƒƒƒ“ƒN‚É•ª‰ğ‚·‚éB
- *			ck1ƒ`ƒƒƒ“ƒN‚ÍAnbyte ‚Ì’·‚³‚É‚È‚éB
- *			ck1ƒ`ƒƒƒ“ƒN‚Ì‘å‚«‚³‚ªAnbyte ‚É–‚½‚È‚¢ê‡‚ÍA•ª‰ğ‚³‚ê‚¸A
- *			ck2ƒ`ƒƒƒ“ƒN‚Ì’·‚³‚ÍA0‚Æ‚È‚éB
- *			ck1‚Æck‚ÍA“¯‚¶‚à‚Ì‚ğw’è‚µ‚Ä‚à—Ç‚¢B
- *			’P‚É•ª‰ğ‚·‚éê‡‚ÍAˆÈ‰º‚Ì‚æ‚¤‚É‹Lq‚·‚éB
+ * [å…¥ã€€åŠ›] ck		: åˆ†è§£å¯¾è±¡ã¨ãªã‚‹ãƒãƒ£ãƒ³ã‚¯
+ *			nbyte	: ck1 ã®ãƒã‚¤ãƒˆæ•°
+ * [å‡ºã€€åŠ›] ck1		: åˆ†è§£ã•ã‚ŒãŸå‰åŠã®ãƒãƒ£ãƒ³ã‚¯
+ *			ck2		: åˆ†è§£ã•ã‚ŒãŸå¾ŒåŠã®ãƒãƒ£ãƒ³ã‚¯
+ * [é–¢æ•°å€¤] ck2	ãƒãƒ£ãƒ³ã‚¯ã®ãƒã‚¤ãƒˆæ•°
+ * [æ©Ÿã€€èƒ½] ckãƒãƒ£ãƒ³ã‚¯ã‚’ck1ãƒãƒ£ãƒ³ã‚¯ã¨ck2ãƒãƒ£ãƒ³ã‚¯ã«åˆ†è§£ã™ã‚‹ã€‚
+ *			ck1ãƒãƒ£ãƒ³ã‚¯ã¯ã€nbyte ã®é•·ã•ã«ãªã‚‹ã€‚
+ *			ck1ãƒãƒ£ãƒ³ã‚¯ã®å¤§ãã•ãŒã€nbyte ã«æº€ãŸãªã„å ´åˆã¯ã€åˆ†è§£ã•ã‚Œãšã€
+ *			ck2ãƒãƒ£ãƒ³ã‚¯ã®é•·ã•ã¯ã€0ã¨ãªã‚‹ã€‚
+ *			ck1ã¨ckã¯ã€åŒã˜ã‚‚ã®ã‚’æŒ‡å®šã—ã¦ã‚‚è‰¯ã„ã€‚
+ *			å˜ã«åˆ†è§£ã™ã‚‹å ´åˆã¯ã€ä»¥ä¸‹ã®ã‚ˆã†ã«è¨˜è¿°ã™ã‚‹ã€‚
  *				SJ_SplitChunk(&ck, 100, &ck, &ck2);
  *  
  * [Inputs  ] ck	: Target chunk
@@ -228,21 +228,21 @@ extern	"C" {
 void SJ_SplitChunk(SJCK *ck, Sint32 nbyte, SJCK *ck1, SJCK *ck2);
 
 /***
-*		ƒ^ƒO‘€ìŠÖ”
-*			ƒ^ƒOƒtƒH[ƒ}ƒbƒg
-*				0-6		ƒ^ƒO•¶š—ñ
+*		ã‚¿ã‚°æ“ä½œé–¢æ•°
+*			ã‚¿ã‚°ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆ
+*				0-6		ã‚¿ã‚°æ–‡å­—åˆ—
 *				7		0(=\0)
-*				8-14	ƒf[ƒ^’· (‚P‚Ui•¶š—ñ)
+*				8-14	ãƒ‡ãƒ¼ã‚¿é•· (ï¼‘ï¼–é€²æ–‡å­—åˆ—)
 *				15		0(=\0)
 ***/
 
-/*	$func$ ƒ^ƒO‚Ì¶¬
- * [‘@®] void SJ_MakeTag(SJCK *ck, char *tag);
- * [“ü@—Í] ck		: ƒ^ƒO‚ğ¶¬‚·‚éƒ`ƒƒƒ“ƒN
- *			tag		: ƒ^ƒO•¶š—ñ
- * [o@—Í] ‚È‚µ
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ckƒ`ƒƒƒ“ƒN“à‚Éƒ^ƒO‚ğ¶¬‚·‚éBƒ^ƒO‚Ì‚Â’·‚³‚Íck.len-16ƒoƒCƒg‚Æ‚È‚éB
+/*	$func$ ã‚¿ã‚°ã®ç”Ÿæˆ
+ * [æ›¸ã€€å¼] void SJ_MakeTag(SJCK *ck, char *tag);
+ * [å…¥ã€€åŠ›] ck		: ã‚¿ã‚°ã‚’ç”Ÿæˆã™ã‚‹ãƒãƒ£ãƒ³ã‚¯
+ *			tag		: ã‚¿ã‚°æ–‡å­—åˆ—
+ * [å‡ºã€€åŠ›] ãªã—
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ckãƒãƒ£ãƒ³ã‚¯å†…ã«ã‚¿ã‚°ã‚’ç”Ÿæˆã™ã‚‹ã€‚ã‚¿ã‚°ã®æŒã¤é•·ã•ã¯ck.len-16ãƒã‚¤ãƒˆã¨ãªã‚‹ã€‚
  * [Inputs  ] ck	: Target chunk
  *			  tag	: TAG strings
  * [Outputs ] none
@@ -251,12 +251,12 @@ void SJ_SplitChunk(SJCK *ck, Sint32 nbyte, SJCK *ck1, SJCK *ck2);
  */
 void SJ_MakeTag(SJCK *ck, char *tag);
 
-/*	$func$ ƒ^ƒO‚Ì“à—e‚Ìæ“¾
- * [‘@®] void SJ_GetTagContent(Sint8 *tag, SJCK *cko);
- * [“ü@—Í] tag		: ƒ^ƒO•¶š—ñ
- * [o@—Í] ck		: ƒ^ƒO‚Ì“à—e‚Æ‚È‚éƒ`ƒƒƒ“ƒN
- * [ŠÖ”’l] ‚È‚µ
- * [‹@@”\] ƒ^ƒO‚©‚ç‚»‚Ì“à—e‚ğ¦‚·ƒ`ƒƒƒ“ƒN‚ğæ“¾‚·‚éB
+/*	$func$ ã‚¿ã‚°ã®å†…å®¹ã®å–å¾—
+ * [æ›¸ã€€å¼] void SJ_GetTagContent(Sint8 *tag, SJCK *cko);
+ * [å…¥ã€€åŠ›] tag		: ã‚¿ã‚°æ–‡å­—åˆ—
+ * [å‡ºã€€åŠ›] ck		: ã‚¿ã‚°ã®å†…å®¹ã¨ãªã‚‹ãƒãƒ£ãƒ³ã‚¯
+ * [é–¢æ•°å€¤] ãªã—
+ * [æ©Ÿã€€èƒ½] ã‚¿ã‚°ã‹ã‚‰ãã®å†…å®¹ã‚’ç¤ºã™ãƒãƒ£ãƒ³ã‚¯ã‚’å–å¾—ã™ã‚‹ã€‚
  * [Inputs  ] tag	: TAG strings
  * [Outputs ] ck	: chunk
  * [Return  ] None
@@ -264,18 +264,18 @@ void SJ_MakeTag(SJCK *ck, char *tag);
  */
 void SJ_GetTagContent(Sint8 *tag, SJCK *cko);
 
-/*	$func$ ƒ^ƒO‚ÌŒŸõ
- * [‘@®] Sint8 *SJ_SearchTag(SJCK *cki, Char8 *kw, Char8 *endkw, SJCK *cko);
- * [“ü@—Í] cki		: ŒŸõ‘ÎÛ‚Æ‚È‚éƒ`ƒƒƒ“ƒN
- *			kw		: –Ú“I‚Æ‚·‚éƒ^ƒO‚ÌƒL[ƒ[ƒh
- *			endkw	: ‚±‚ÌƒL[ƒ[ƒh‚ğ‚Âƒ^ƒO‚ğŒ©‚Â‚¯‚½‚Æ‚«‚ÍŒŸõ‚ğ’†’f‚·‚éB
- *					  NULL‚ªw’è‚³‚ê‚½‚Æ‚«‚ÍAŒŸõ‚ğ’†’f‚µ‚È‚¢B
- * [o@—Í] ck		: ƒ^ƒO‚Ì“à—e‚Æ‚È‚éƒ`ƒƒƒ“ƒNB
- *					  Œ©‚Â‚©‚ç‚È‚©‚Á‚½‚Æ‚«‚ÍAcko->data=NULL, cko->len=0‚Æ‚È‚éB
- * [ŠÖ”’l] Œ©‚Â‚©‚Á‚½ƒ^ƒO‚ÌƒAƒhƒŒƒXBŒ©‚Â‚©‚ç‚È‚©‚Á‚½‚Æ‚«‚ÍNULL‚ª•Ô‚éB
- * [‹@@”\] ƒ^ƒO‚©‚ç‚»‚Ì“à—e‚ğ¦‚·ƒ`ƒƒƒ“ƒN‚ğæ“¾‚·‚éB
+/*	$func$ ã‚¿ã‚°ã®æ¤œç´¢
+ * [æ›¸ã€€å¼] Sint8 *SJ_SearchTag(SJCK *cki, Char8 *kw, Char8 *endkw, SJCK *cko);
+ * [å…¥ã€€åŠ›] cki		: æ¤œç´¢å¯¾è±¡ã¨ãªã‚‹ãƒãƒ£ãƒ³ã‚¯
+ *			kw		: ç›®çš„ã¨ã™ã‚‹ã‚¿ã‚°ã®ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰
+ *			endkw	: ã“ã®ã‚­ãƒ¼ãƒ¯ãƒ¼ãƒ‰ã‚’æŒã¤ã‚¿ã‚°ã‚’è¦‹ã¤ã‘ãŸã¨ãã¯æ¤œç´¢ã‚’ä¸­æ–­ã™ã‚‹ã€‚
+ *					  NULLãŒæŒ‡å®šã•ã‚ŒãŸã¨ãã¯ã€æ¤œç´¢ã‚’ä¸­æ–­ã—ãªã„ã€‚
+ * [å‡ºã€€åŠ›] ck		: ã‚¿ã‚°ã®å†…å®¹ã¨ãªã‚‹ãƒãƒ£ãƒ³ã‚¯ã€‚
+ *					  è¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸã¨ãã¯ã€cko->data=NULL, cko->len=0ã¨ãªã‚‹ã€‚
+ * [é–¢æ•°å€¤] è¦‹ã¤ã‹ã£ãŸã‚¿ã‚°ã®ã‚¢ãƒ‰ãƒ¬ã‚¹ã€‚è¦‹ã¤ã‹ã‚‰ãªã‹ã£ãŸã¨ãã¯NULLãŒè¿”ã‚‹ã€‚
+ * [æ©Ÿã€€èƒ½] ã‚¿ã‚°ã‹ã‚‰ãã®å†…å®¹ã‚’ç¤ºã™ãƒãƒ£ãƒ³ã‚¯ã‚’å–å¾—ã™ã‚‹ã€‚
  * [Inputs  ] cki	: chunk for searching
- *			@kw	: Keyword of tag
+ *			ã€€kw	: Keyword of tag
  *			  endkw : Serach end keyword
  * [Outputs ] cko	: target chunk
  * [Return  ] tag
@@ -285,79 +285,79 @@ Sint8 *SJ_SearchTag(SJCK *cki, Char8 *kw, Char8 *endkw, SJCK *cko);
 
 
 /***
-*		ƒŠƒ“ƒOƒoƒbƒtƒ@ƒ^ƒCƒv‚ÌƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒg
+*		ãƒªãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡ã‚¿ã‚¤ãƒ—ã®ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆ
 *		Stream joint of Ring buffer types
 ***/
 
-/*	‰Šú‰»																	*/
+/*	åˆæœŸåŒ–																	*/
 /*	Initialize																*/
 void SJRBF_Init(void);
-/*	I—¹ˆ—																*/
+/*	çµ‚äº†å‡¦ç†																*/
 /*	Finish																	*/
 void SJRBF_Finish(void);
-/*	ƒŠƒ“ƒOƒoƒbƒtƒ@‚Ì¶¬													*/
+/*	ãƒªãƒ³ã‚°ãƒãƒƒãƒ•ã‚¡ã®ç”Ÿæˆ													*/
 /*	Create a Ring buffer													*/
 SJ SJRBF_Create(Sint8 *buf, Sint32 bsize, Sint32 xsize);
 
 /***
-*		ƒƒ‚ƒŠƒ^ƒCƒv‚ÌƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒg
+*		ãƒ¡ãƒ¢ãƒªã‚¿ã‚¤ãƒ—ã®ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆ
 *		Stream joint of Memory buffer types
 ***/
 
-/*	‰Šú‰»																	*/
+/*	åˆæœŸåŒ–																	*/
 /*	Initialize																*/
 void SJMEM_Init(void);
-/*	I—¹ˆ—																*/
+/*	çµ‚äº†å‡¦ç†																*/
 /*	Finish																	*/
 void SJMEM_Finish(void);
-/*	ƒƒ‚ƒŠƒXƒgƒŠ[ƒ€‚Ì¶¬													*/
+/*	ãƒ¡ãƒ¢ãƒªã‚¹ãƒˆãƒªãƒ¼ãƒ ã®ç”Ÿæˆ													*/
 /*	Create a Memory buffer													*/
 SJ SJMEM_Create(Sint8 *data, Sint32 bsize);
 
 /***
-*		”Ä—pƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒg
+*		æ±ç”¨ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆ
 *		General Stream joint		
 ***/
 
-/*	ƒ`ƒƒƒ“ƒN‚ÌŒ‹‡ƒ‚[ƒh		*/
+/*	ãƒãƒ£ãƒ³ã‚¯ã®çµåˆãƒ¢ãƒ¼ãƒ‰		*/
 /*	Combination mode of chunk	*/
 #define	SJUNI_MODE_SEPA			(0)
 #define	SJUNI_MODE_JOIN			(1)
 
 #define	SJUNI_CALC_WORK(nck)	((nck)*16)
 
-/*	‰Šú‰»																	*/
+/*	åˆæœŸåŒ–																	*/
 /*	Initialize																*/
 void SJUNI_Init(void);
-/*	I—¹ˆ—																*/
+/*	çµ‚äº†å‡¦ç†																*/
 /*	Finish																	*/
 void SJUNI_Finish(void);
-/*	”Ä—pƒXƒgƒŠ[ƒ€ƒWƒ‡ƒCƒ“ƒg‚Ì¶¬											*/
+/*	æ±ç”¨ã‚¹ãƒˆãƒªãƒ¼ãƒ ã‚¸ãƒ§ã‚¤ãƒ³ãƒˆã®ç”Ÿæˆ											*/
 /*	Create a Stream joint													*/
 SJ SJUNI_Create(Sint32 mode, Sint8 *work, Sint32 wksize);
-/*	ƒ`ƒƒƒ“ƒN”‚Ìæ“¾														*/
+/*	ãƒãƒ£ãƒ³ã‚¯æ•°ã®å–å¾—														*/
 /*	Get chunk number														*/
 Sint32 SJUNI_GetNumChunk(SJ sj, Sint32 id);
-/*	ƒ`ƒFƒCƒ“ƒv[ƒ‹”‚Ìæ“¾													*/
+/*	ãƒã‚§ã‚¤ãƒ³ãƒ—ãƒ¼ãƒ«æ•°ã®å–å¾—													*/
 /*	Get Chain pool	number													*/
 Sint32 SJUNI_GetNumChainPool(SJ sj);
 
 #if 0
-/*	GetChunkŠÖ”‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì“o˜^						*/
+/*	GetChunké–¢æ•°ãŒå‘¼ã°ã‚ŒãŸã¨ãã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã®ç™»éŒ²						*/
 void SJUNI_EntryGetFunc(SJ sj, Sint32 id, void (*f)(void *o, SJCK *ck), void *o);
-/*	PutChunkŠÖ”‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì“o˜^						*/
+/*	PutChunké–¢æ•°ãŒå‘¼ã°ã‚ŒãŸã¨ãã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã®ç™»éŒ²						*/
 void SJUNI_EntryPutFunc(SJ sj, Sint32 id, void (*f)(void *o, SJCK *ck), void *o);
-/*	UngetChunkŠÖ”‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”‚Ì“o˜^					*/
+/*	UngetChunké–¢æ•°ãŒå‘¼ã°ã‚ŒãŸã¨ãã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ã®ç™»éŒ²					*/
 void SJUNI_EntryUngetFunc(SJ sj, Sint32 id, void (*f)(void *o, SJCK *ck), void *o);
 #endif
 
 /***
-*		‹¤’ÊŠÖ”
+*		å…±é€šé–¢æ•°
 ***/
 
-/*	ƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“‚Ö‚Ìi“ü	*/
+/*	ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã¸ã®é€²å…¥	*/
 void SJCRS_Lock(void);
-/*	ƒNƒŠƒeƒBƒJƒ‹ƒZƒNƒVƒ‡ƒ“‚©‚ç‚Ì’Eo	*/
+/*	ã‚¯ãƒªãƒ†ã‚£ã‚«ãƒ«ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã‹ã‚‰ã®è„±å‡º	*/
 void SJCRS_Unlock(void);
 
 #ifdef		__cplusplus

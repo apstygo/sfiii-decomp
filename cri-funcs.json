@@ -345,10 +345,19 @@
         "SJRBF_GetXtrSize"
     ],
     "sj_uni": [
+        "SJUNI_Error",
         "SJUNI_Init",
         "SJUNI_Finish",
         "SJUNI_Create",
-        "SJUNI_Reset"
+        "SJUNI_Destroy",
+        "SJUNI_GetUuid",
+        "SJUNI_EntryErrFunc",
+        "SJUNI_Reset",
+        "SJUNI_GetNumData",
+        "SJUNI_GetChunk",
+        "SJUNI_PutChunk",
+        "SJUNI_UngetChunk",
+        "SJUNI_IsGetChunk"
     ],
     "sj_utl": [
         "SJ_SplitChunk"

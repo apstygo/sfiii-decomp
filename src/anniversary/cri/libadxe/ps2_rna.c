@@ -98,7 +98,7 @@ void ps2rna_init_psj() {
             while (1) {}
         }
 
-        psj->unk8 = SJUNI_Create(1, ps2psj_sjuni_eewk[i], 0x100);
+        psj->unk8 = SJUNI_Create(SJUNI_MODE_JOIN, ps2psj_sjuni_eewk[i], 0x100);
 
         if (psj->unk8 == NULL) {
             scePrintf("E0110104: ps2rna_init_psj: can't creat SJUNI_Creaet\n");
