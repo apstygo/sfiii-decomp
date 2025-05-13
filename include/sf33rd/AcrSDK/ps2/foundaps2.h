@@ -27,6 +27,8 @@ extern s32 flDebugECNum;                              // size: 0x4, address: 0x5
 extern u32 flDebugEndRenderTime;                      // size: 0x4, address: 0x57AB4C
 extern u32 flDebugTrueTime[DEBUG_TRUE_TIME_SIZE];     // size: 0x10, address: 0x57AB50
 extern s32 flPS2FlipCancelFlag;                       // size: 0x4, address: 0x57AB78
+extern f32 flPS2FrameTexScaleY;                       // size: 0x4 address: 0x57AB7C
+extern f32 flPS2FrameTexScaleX;                       // size: 0x4, address: 0x57AB80
 extern u32 flPs2FBA;                                  // size: 0x4, address: 0x57AB84
 extern s32 flClayNum;                                 // size: 0x4, address: 0x57AB88
 extern f32 flViewportLY;                              // size: 0x4, address: 0x57AB8C
@@ -49,10 +51,14 @@ extern s32 flPTNum;                                   // size: 0x4, address: 0x5
 extern s32 flVramNum;                                 // size: 0x4, address: 0x57AE3C
 extern LPVram *flVramList;                            // size: 0x4, address: 0x57AE40
 extern FLPS2VIF1Control flPs2VIF1Control;             // size: 0x3C, address: 0x57AE50
+extern u32 flFogColor;                                // size: 0x4, address: 0x57AE9C
 extern FL_FMS flFMS;                                  // size: 0x18, address: 0x57AEB0
 extern u32 flSystemRenderOperation;                   // size: 0x4, address: 0x57AEC8
 extern u32 flSystemRenderState;                       // size: 0x4, address: 0x57AECC
 extern u32 flLoadCount;                               // size: 0x4, address: 0x57AED8
+extern f32 flLoadReserve;                             // size: 0x4, address: 0x57AEDC
+extern f64 flLoadAmount;                              // size: 0x8, address: 0x57AEE0
+extern f64 flLoadNow;                                 // size: 0x8, address: 0x57AED0
 extern plContext flFrameBuf;                          // size: 0x48, address: 0x57AEF0
 extern s32 flFrame;                                   // size: 0x4, address: 0x57AF38
 extern s32 flHeight;                                  // size: 0x4, address: 0x57AF3C
