@@ -604,7 +604,7 @@ segments:
       - [0x2E27E8, c, cri/libadxe/sj_rbf]
       - [0x2E3010, c, cri/libadxe/sj_uni]
       - [0x2E37F0, c, cri/libadxe/sj_utl]
-      - [0x2E3B00, asm, cri/libadxe/sjr_clt]
+      - [0x2E3B00, c, cri/libadxe/sjr_clt]
       - [0x2E3F28, asm, cri/libadxe/sjx]
       - [0x2E45F0, c, cri/libadxe/svm] # This file is a guess
 
@@ -829,7 +829,7 @@ segments:
       - [0x3BDA88, .data, cri/libadxe/sj_rbf]
       - [0x3C1AC8, .data, cri/libadxe/sj_uni]
       - [0x3C2700, data, cri/libadxe/sj_utl] # this TU's data only pertains to functions that aren't used by the game
-      - [0x3C28D8, data, cri/libadxe/sjr_clt]
+      - [0x3C28D8, .data, cri/libadxe/sjr_clt]
       - [0x3C28E0, data, cri/libadxe/sjx]
       - [0x3C3450, .data, cri/libadxe/svm]
 
@@ -1304,7 +1304,7 @@ segments:
       - [0x45E6A0, .rodata, cri/libadxe/sj_mem]
       - [0x45E6C0, .rodata, cri/libadxe/sj_rbf]
       - [0x45E710, .rodata, cri/libadxe/sj_uni]
-      - [0x45E730, rodata, cri/libadxe/sjr_clt]
+      - [0x45E730, .rodata, cri/libadxe/sjr_clt]
       - [0x45E760, rodata, cri/libadxe/sjx]
       - [0x45E810, .rodata, cri/libadxe/svm]
 
