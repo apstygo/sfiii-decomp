@@ -2,6 +2,7 @@
 #define EFFF6_H
 
 #include "types.h"
+#include "structs.h"
 
 struct EFFF6_ETC {
     // total size: 0x18
