@@ -518,5 +518,3 @@ const EFFF6_ETC efff6_etc_data[61] = {
     { .dir = 0, .limit_x_pos = 0, .limit_y_pos = 0, .zoom_v = 127, .sp_x_a = 0, .sp_x_d = 0, .sp_y_a = 0, .sp_y_d = 0 },
     { .dir = 0, .limit_x_pos = 0, .limit_y_pos = 0, .zoom_v = 127, .sp_x_a = 0, .sp_x_d = 0, .sp_y_a = 0, .sp_y_d = 0 }
 }; // size: 0x5B8, address: 0x515560
-
-// INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/efff6", efff6_etc_data);
