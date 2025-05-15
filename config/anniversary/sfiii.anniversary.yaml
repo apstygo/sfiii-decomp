@@ -563,7 +563,7 @@ segments:
       - [0x2CA5D0, asm, cri/libadxe/adx_bwav]
       - [0x2CAE70, c, cri/libadxe/adx_crs]
       - [0x2CAEB0, asm, cri/libadxe/adx_dcd]
-      - [0x2CB978, asm, cri/libadxe/adx_dcd3]
+      - [0x2CB978, c, cri/libadxe/adx_dcd3]
       - [0x2CC078, asm, cri/libadxe/adx_dcd5]
       - [0x2CC9D8, c, cri/libadxe/adx_errs]
       - [0x2CCCC8, c, cri/libadxe/adx_fcch]
