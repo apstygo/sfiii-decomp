@@ -246,4 +246,13 @@ typedef ADXSTM_OBJ *ADXSTM;
 
 #define ADXSTM_DEFINED
 
+// LSC
+
+typedef struct {
+    Sint8 used;
+    char pad1[0x237];
+} LSC_OBJ;
+
+typedef LSC_OBJ *LSC;
+
 #endif
