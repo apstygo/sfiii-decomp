@@ -605,7 +605,7 @@ segments:
       - [0x2E3010, c, cri/libadxe/sj_uni]
       - [0x2E37F0, c, cri/libadxe/sj_utl]
       - [0x2E3B00, c, cri/libadxe/sjr_clt]
-      - [0x2E3F28, asm, cri/libadxe/sjx]
+      - [0x2E3F28, c, cri/libadxe/sjx]
       - [0x2E45F0, c, cri/libadxe/svm] # This file is a guess
 
       - [0x2E5250, c, sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX]
@@ -1305,7 +1305,7 @@ segments:
       - [0x45E6C0, .rodata, cri/libadxe/sj_rbf]
       - [0x45E710, .rodata, cri/libadxe/sj_uni]
       - [0x45E730, .rodata, cri/libadxe/sjr_clt]
-      - [0x45E760, rodata, cri/libadxe/sjx]
+      - [0x45E760, .rodata, cri/libadxe/sjx]
       - [0x45E810, .rodata, cri/libadxe/svm]
 
       - [0x45E9C0, .rodata, sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX]

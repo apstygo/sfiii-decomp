@@ -369,6 +369,8 @@
         "SJRMT_Finish"
     ],
     "sjx": [
+        "sjx_rcvcbf",
+        "sjx_sndcbf",
         "SJX_Init",
         "SJX_Finish",
         "SJX_Create",
