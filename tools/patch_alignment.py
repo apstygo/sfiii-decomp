@@ -10,6 +10,7 @@ special_cases = {
     ("Demo_Dat", ".rodata", 0): 16,
     ("chren3rd", ".rodata", 0): 16,
     ("CHARSET", ".rodata", 11): 16,
+    ("EFFF8", ".rodata", 0): 16,
     ("pass00", ".rodata", 0): 16,
     ("aboutspr", ".rodata", 0): 16,
     ("flps2vram", ".rodata", 10): 16,
