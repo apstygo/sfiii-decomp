@@ -135,7 +135,7 @@ void ADXSTM_Destroy(ADXSTM stm) {
     }
 }
 
-void ADXSTM_BindFileNw(ADXSTM stm, Char8 *fname, void *dir, Sint32 arg3, Sint32 file_sct) {
+void ADXSTM_BindFileNw(ADXSTM stm, const Char8 *fname, void *dir, Sint32 arg3, Sint32 file_sct) {
     SVM_Lock();
     stm->unkC = arg3;
     stm->file_len = file_sct << 11;
@@ -146,7 +146,7 @@ void ADXSTM_BindFileNw(ADXSTM stm, Char8 *fname, void *dir, Sint32 arg3, Sint32 
     SVM_Unlock();
 }
 
-void ADXSTM_BindFile(ADXSTM stm, Char8 *fname, void *dir, Sint32 arg3, Sint32 file_sct) {
+void ADXSTM_BindFile(ADXSTM stm, const Char8 *fname, void *dir, Sint32 arg3, Sint32 file_sct) {
     ADXSTM_BindFileNw(stm, fname, dir, arg3, file_sct);
 
     do {

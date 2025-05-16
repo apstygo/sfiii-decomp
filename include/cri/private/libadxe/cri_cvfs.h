@@ -3,7 +3,7 @@
 
 #include <cri/cri_xpts.h>
 
-Sint32 cvFsOpen(Char8 *, void *, Sint32);
+void *cvFsOpen(const Char8 *fname, void *arg1, Sint32 arg2);
 void cvFsClose(Sint32);
 void cvFsSeek(Sint32, Sint32, Sint32);
 Sint32 cvFsTell(Sint32);

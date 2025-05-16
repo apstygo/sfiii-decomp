@@ -1,10 +1,76 @@
 #include "common.h"
 
+#include <cri/cri_xpts.h>
+
+#define CVFS_DEVICE_MAX 32
+#define CVFS_HANDLE_MAX 40
+#define CVFS_MAX_NAME_LENGTH 0x129
+
+typedef struct {
+    void (*ExecServer)();                               // 0x00
+    void (*EntryErrFunc)();                             // 0x04
+    Sint32 (*GetFileSize)();                            // 0x08
+    void (*unkC)();                                     // 0x0C
+    Sint32 (*Open)(Char8 *device_name, void *, Sint32); // 0x10
+    void (*Close)(Sint32);                              // 0x14
+    Sint32 (*Seek)(Sint32);                             // 0x18
+    Sint32 (*Tell)(Sint32);                             // 0x1C
+    Sint32 (*ReqRd)(Sint32);                            // 0x20
+    void (*unk24)();                                    // 0x24
+    void (*StopTr)();                                   // 0x28
+    Sint32 (*GetStat)(Sint32);                          // 0x2C
+    void (*GetSctLen)();                                // 0x30
+    void (*unk34)();                                    // 0x34
+    void (*GetNumTr)();                                 // 0x38
+    void (*unk3C)();                                    // 0x3C
+    void (*IsExistFile)();                              // 0x40
+    void (*unk44)();                                    // 0x44
+    void (*unk48)();                                    // 0x48
+    void (*unk4C)();                                    // 0x4C
+    void (*unk50)();                                    // 0x50
+    void (*unk54)();                                    // 0x54
+    void (*unk58)();                                    // 0x58
+    void (*unk5C)();                                    // 0x5C
+    Sint32 (*OptFn1)();                                 // 0x60
+    void (*unk64)();                                    // 0x64
+} CVFSDevice;
+
+typedef struct {
+    CVFSDevice *device;
+    Sint32 unk4;
+} CVFSHandle;
+
+typedef struct {
+    CVFSDevice *device;
+    Char8 name[12];
+} CVFSNamedDevice;
+
+extern void (*cvfs_errfn)(void *, const Char8 *);
+extern void *cvfs_errobj;
+
+extern Char8 D_006BDDB8[];
+extern Char8 D_006BDDA8[0x10];
+extern CVFSNamedDevice D_006BDBA8[CVFS_DEVICE_MAX]; // cvfs_named_devices
+extern CVFSHandle D_006BDA68[CVFS_HANDLE_MAX];      // cvfs_handles
+
+// forward decls
+void getDevName(Char8 *filename, Char8 *device_name, const Char8 *full_path);
+CVFSHandle *allocCvFsHn();
+void releaseCvFsHn(CVFSHandle *handle);
+void getDefDev(Char8 *arg0);
+void addDevName(const Char8 *device_name, Char8 *out);
+
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BD88);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsCallUsrErrFn);
+void cvFsCallUsrErrFn(void *object, const Char8 *msg, Sint32 arg2) {
+    if (cvfs_errfn != NULL) {
+        cvfs_errfn(cvfs_errobj, msg);
+    }
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsError);
+void cvFsError(const Char8 *msg) {
+    cvFsCallUsrErrFn(&cvfs_errobj, msg, 0);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsInit);
 
@@ -17,9 +83,29 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsAddDev);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", addDevice);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", getDevice);
+CVFSDevice *getDevice(const Char8 *name) {
+    Sint32 len = strlen(name);
+    Uint32 i;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", toUpperStr);
+    for (i = 0; i < CVFS_DEVICE_MAX; i++) {
+        if (strncmp(name, &D_006BDBA8[i].name, len) == 0) {
+            return D_006BDBA8[i].device;
+        }
+    }
+
+    return 0;
+}
+
+void toUpperStr(Char8 *str) {
+    Uint32 len = strlen(str);
+    Sint32 i;
+
+    for (i = 0; i < len + 1; i++) {
+        if (str[i] >= 'a' && str[i] <= 'z') {
+            str[i] -= ('a' - 'A');
+        }
+    }
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BE38);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsDelDev);
@@ -30,40 +116,237 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsSetDefDev);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", isExistDev);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsGetDefDev);
+Char8 *cvFsGetDefDev() {
+    return D_006BDDA8;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", variousProc);
+CVFSDevice *variousProc(Char8 *filename, Char8 *device_name, const Char8 *full_path) {
+    CVFSDevice *device;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BEB0);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BED0);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BF18);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BF38);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BF50);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsOpen);
+    if (*filename == 0) {
+        getDefDev(filename);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", allocCvFsHn);
+        if (*filename == 0) {
+            return NULL;
+        }
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", releaseCvFsHn);
+    addDevName(filename, device_name);
+    device = getDevice(filename);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", getDevName);
+    if (device == NULL) {
+        getDefDev(filename);
+        device = getDevice(filename);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", getDefDev);
+        if (device == NULL) {
+            return NULL;
+        }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BF68);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BF88);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsClose);
+        strcpy(device_name, full_path);
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BFA0);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BFC0);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsTell);
+    return device;
+}
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BFD8);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BFF8);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsSeek);
+CVFSHandle *cvFsOpen(const Char8 *fname, void *arg1, Sint32 arg2) {
+    Char8 filename[CVFS_MAX_NAME_LENGTH + 1];
+    Char8 device_name[CVFS_MAX_NAME_LENGTH + 1];
+    CVFSHandle *fs_hn;
+    CVFSDevice *device;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055C010);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055C030);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsReqRd);
+    if (fname == NULL) {
+        cvFsError("cvFsOpen #1:illegal file name");
+        return NULL;
+    }
+
+    getDevName(filename, device_name, fname);
+
+    if (*device_name == 0) {
+        // Looks like this one should be "cvFsOpen #2:illegal device name"
+        cvFsError("cvFsOpen #1:illegal file name");
+        return NULL;
+    }
+
+    fs_hn = allocCvFsHn();
+
+    if (fs_hn == NULL) {
+        cvFsError("cvFsOpen #3:failed handle alloced\0\0\0\0\0\0\0cvFsOpen #2:illegal device name");
+        return NULL;
+    }
+
+    device = variousProc(filename, device_name, fname);
+    fs_hn->device = device;
+
+    if (device == 0) {
+        releaseCvFsHn(fs_hn);
+        cvFsError("cvFsOpen #4:device not found");
+        return NULL;
+    }
+
+    if (device->Open != NULL) {
+        fs_hn->unk4 = device->Open(device_name, arg1, arg2);
+    } else {
+        releaseCvFsHn(fs_hn);
+        cvFsError("cvFsOpen #5:vtbl error");
+        return NULL;
+    }
+
+    if (fs_hn->unk4 == 0) {
+        releaseCvFsHn(fs_hn);
+        cvFsError("cvFsOpen #6:open failed");
+        return NULL;
+    }
+
+    return fs_hn;
+}
+
+CVFSHandle *allocCvFsHn() {
+    Sint32 i;
+
+    for (i = 0; i < CVFS_HANDLE_MAX; i++) {
+        if (D_006BDA68[i].unk4 == 0) {
+            break;
+        }
+    }
+
+    if (i == CVFS_HANDLE_MAX) {
+        return NULL;
+    }
+
+    return &D_006BDA68[i];
+}
+
+void releaseCvFsHn(CVFSHandle *handle) {
+    handle->unk4 = 0;
+    handle->device = NULL;
+}
+
+/// @brief Parses a device-qualified path.
+/// @param[out] filename Destination for the filename (after the colon).
+/// @param[out] device_name Destination for the device name (before the colon).
+/// @param[in] full_path Input string in the form "device:file".
+void getDevName(Char8 *filename, Char8 *device_name, const Char8 *full_path) {
+    Char8 *dev_name = device_name;
+    Sint32 i;
+    Sint32 j;
+
+    if (full_path == NULL) {
+        return;
+    }
+
+    i = 0;
+
+    while (i < CVFS_MAX_NAME_LENGTH && full_path[i] != ':' && full_path[i] != '\0') {
+        filename[i] = full_path[i];
+        i++;
+    }
+
+    if (full_path[i] == '\0') {
+        filename[i] = '\0';
+        memcpy(device_name, filename, strlen(filename) + 1);
+        filename[0] = '\0';
+        return;
+    }
+
+    filename[i] = '\0';
+    i += 1;
+
+    if (i == 2) {
+        filename[0] = '\0';
+        i = 0;
+    }
+
+    j = i;
+
+    while (j < CVFS_MAX_NAME_LENGTH && full_path[j] != '\0') {
+        device_name[j - i] = full_path[j];
+        j++;
+    }
+
+    device_name[j - i] = '\0';
+    toUpperStr(filename);
+}
+
+void getDefDev(Char8 *arg0) {
+    Sint32 len = strlen(D_006BDDA8);
+
+    if (*D_006BDDA8 == 0) {
+        *arg0 = 0;
+        return;
+    }
+
+    memcpy(arg0, D_006BDDA8, len + 1);
+}
+
+void cvFsClose(CVFSHandle *fs_handle) {
+    if (fs_handle == NULL) {
+        cvFsError("cvFsClose #1:handle error");
+        return;
+    }
+
+    if (fs_handle->device->Close != NULL) {
+        fs_handle->device->Close(fs_handle->unk4);
+    } else {
+        cvFsError("cvFsClose #2:vtbl error");
+        return;
+    }
+
+    releaseCvFsHn(fs_handle);
+}
+
+Sint32 cvFsTell(CVFSHandle *fs_handle) {
+    Sint32 offset;
+
+    if (fs_handle == NULL) {
+        cvFsError("cvFsTell #1:handle error");
+        return 0;
+    }
+
+    if (fs_handle->device->Tell != NULL) {
+        offset = fs_handle->device->Tell(fs_handle->unk4);
+    } else {
+        offset = 0;
+        cvFsError("cvFsTell #2:vtbl error");
+    }
+
+    return offset;
+}
+
+Sint32 cvFsSeek(CVFSHandle *fs_handle) {
+    Sint32 offset;
+
+    if (fs_handle == NULL) {
+        cvFsError("cvFsSeek #1:handle error");
+        return 0;
+    }
+
+    if (fs_handle->device->Seek != NULL) {
+        offset = fs_handle->device->Seek(fs_handle->unk4);
+    } else {
+        offset = 0;
+        cvFsError("cvFsSeek #2:vtbl error");
+    }
+
+    return offset;
+}
+
+Sint32 cvFsReqRd(CVFSHandle *fs_handle) {
+    Sint32 ret;
+
+    if (fs_handle == NULL) {
+        cvFsError("cvFsReqRd #1:handle error");
+        return 0;
+    }
+
+    if (fs_handle->device->ReqRd != NULL) {
+        ret = fs_handle->device->ReqRd(fs_handle->unk4);
+    } else {
+        ret = 0;
+        cvFsError("cvFsReqRd #2:vtbl error");
+    }
+
+    return ret;
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055C048);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055C068);
@@ -73,11 +356,35 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055C080);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055C0A0);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsStopTr);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsExecServer);
+void cvFsExecServer() {
+    CVFSDevice *device;
+    Sint32 i;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055C0C0);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055C0E0);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsGetStat);
+    for (i = 0; i < CVFS_DEVICE_MAX; i++) {
+        device = D_006BDBA8[i].device;
+
+        if (device != NULL && device->ExecServer != NULL) {
+            device->ExecServer();
+        }
+    }
+}
+
+Sint32 cvFsGetStat(CVFSHandle *fs_handle) {
+    Sint32 stat = 3;
+
+    if (fs_handle == NULL) {
+        cvFsError("cvFsGetStat #1:handle error");
+        return 3;
+    }
+
+    if (fs_handle->device->GetStat != NULL) {
+        stat = fs_handle->device->GetStat(fs_handle->unk4);
+    } else {
+        cvFsError("cvFsGetStat #2:vtbl error\0\0\0\0");
+    }
+
+    return stat;
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055C100);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055C150);
@@ -183,10 +490,35 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055C998);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055C9C0);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsSetDefVol);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", isNeedDevName);
+Sint32 isNeedDevName(Char8 *device_name) {
+    CVFSDevice *device = getDevice(device_name);
+    Sint32 ret;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055C9E8);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", addDevName);
+    if (device == NULL) {
+        return 0;
+    }
+
+    if (device->OptFn1 != NULL) {
+        ret = device->OptFn1(0, 0x64, 0, 0);
+    } else {
+        return 0;
+    }
+
+    return ret;
+}
+
+void addDevName(const Char8 *device_name, Char8 *out) {
+    Char8 *name_to_add = device_name;
+
+    if (name_to_add == NULL) {
+        name_to_add = cvFsGetDefDev();
+    }
+
+    if (isNeedDevName(name_to_add) == 1) {
+        strcpy(D_006BDDB8, out);
+        sprintf(out, "%s:%s", name_to_add, D_006BDDB8);
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsIsExistDevice);
 

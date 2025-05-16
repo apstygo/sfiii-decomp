@@ -1118,3 +1118,5 @@ svm_lock_callback = 0x006C0520; // size:0x8
 svm_unlock_callback = 0x006C0528; // size:0x8
 svm_error_callback = 0x006C0530; // size:0x8
 svm_test_and_set_callback = 0x006C0538; // size:0x4
+
+D_006BDBA8 = 0x006BDBA8; // size:0x200

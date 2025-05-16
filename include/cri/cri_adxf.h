@@ -178,10 +178,10 @@ typedef struct _adx_fs {
     /*	ADXSTM_OpenRange -> ADXSTM_OpenFileRange(1999.8.19)	*/
     Sint32 ofst;      /* offset 0x30, size 0x4 */ /*	�ǂݍ��݃t�@�C���ւ̃I�t�Z�b�g		*/
                  //	Sint8	fname[ADXF_FNAME_MAX];	/*	�t�@�C����							*/
-    void *dir;       /* offset 0x34, size 0x4 */ 
-    Char8* unk38;    /* offset 0x38, size 0x4 */ 
-    Sint32 unk3C;    /* offset 0x3C, size 0x4 */ 
-    Sint32 unk40;    /* offset 0x40, size 0x4 */ 
+    void *dir;             /* offset 0x34, size 0x4 */ 
+    const Char8* unk38;    /* offset 0x38, size 0x4 */ 
+    Sint32 unk3C;          /* offset 0x3C, size 0x4 */ 
+    Sint32 unk40;          /* offset 0x40, size 0x4 */ 
 } ADX_FS;
 typedef ADX_FS *ADXF;
 #endif

@@ -236,7 +236,7 @@ typedef struct {
     Sint8 unk48;
     Sint8 unk49;
     char pad4A[6];
-    Char8 *fname;
+    const Char8 *fname;
     void *dir;
     Sint32 cur_ofst;
     Uint32 unk5C;
