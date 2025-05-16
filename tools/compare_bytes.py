@@ -152,8 +152,8 @@ EXPECTED_ERRORS = {
     
     # efff6::effect_F6_init: lh operand swap
     0x11DB9C: 0x00004384,
-	0x11DBA0: 0x3E020286,
-	0x11DBA4: 0x21104300,
+    0x11DBA0: 0x3E020286,
+    0x11DBA4: 0x21104300,
 }
 
 def read_word(b: bytes, offset: int) -> int:

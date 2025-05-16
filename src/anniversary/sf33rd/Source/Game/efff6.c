@@ -29,11 +29,12 @@ void effect_F6_move(WORK_Other *ewk) {
         break;
     default:
         push_effect_work(&ewk->wu);
+        break;
     }
 }
 
 void efff6_move(WORK_Other *ewk) {
-    switch (ewk->wu.routine_no[2]) { /* irregular */
+    switch (ewk->wu.routine_no[2]) {
     case 0:
         ewk->wu.routine_no[2] += 1;
         ewk->wu.disp_flag = 1;
@@ -56,6 +57,7 @@ void efff6_move(WORK_Other *ewk) {
     case 1:
         efff6_move_common(ewk);
         disp_pos_trans_entry5(ewk);
+        break;
     }
 }
 
@@ -64,38 +66,38 @@ void efff6_move_common(WORK_Other *ewk) {
 
     switch (ewk->wu.routine_no[3]) {
     case 0:
-        switch (ewk->wu.direction) { /* switch 1; irregular */
-        case 0x20:                   /* switch 1 */
+        switch (ewk->wu.direction) {
+        case 0x20:
             add_x_sub(ewk);
             if (ewk->wu.xyz[0].disp.pos <= ewk->wu.old_rno[3]) {
                 ewk->wu.routine_no[3] += 1;
                 ewk->wu.xyz[0].disp.pos = ewk->wu.old_rno[3];
             }
-            /* fallthrough*/
+            break;
         default:
             break;
-        case 0x10: /* switch 1 */
+        case 0x10:
             add_x_sub(ewk);
             if (ewk->wu.xyz[0].disp.pos >= ewk->wu.old_rno[3]) {
                 ewk->wu.routine_no[3] += 1;
                 ewk->wu.xyz[0].disp.pos = ewk->wu.old_rno[3];
             }
             break;
-        case 0x200: /* switch 1 */
+        case 0x200:
             add_y_sub(ewk);
             if (ewk->wu.xyz[1].disp.pos <= ewk->wu.old_rno[4]) {
                 ewk->wu.routine_no[3] += 1;
                 ewk->wu.xyz[1].disp.pos = ewk->wu.old_rno[4];
             }
             break;
-        case 0x100: /* switch 1 */
+        case 0x100:
             add_y_sub(ewk);
             if (ewk->wu.xyz[1].disp.pos >= ewk->wu.old_rno[4]) {
                 ewk->wu.routine_no[3] += 1;
                 ewk->wu.xyz[1].disp.pos = ewk->wu.old_rno[4];
             }
             break;
-        case 0x120: /* switch 1 */
+        case 0x120:
             work = 0;
             if (ewk->wu.xyz[0].disp.pos > ewk->wu.old_rno[3]) {
                 add_x_sub(ewk);
@@ -113,7 +115,7 @@ void efff6_move_common(WORK_Other *ewk) {
                 ewk->wu.routine_no[3] += 1;
             }
             break;
-        case 0x220: /* switch 1 */
+        case 0x220:
             work = 0;
             if (ewk->wu.xyz[0].disp.pos > ewk->wu.old_rno[3]) {
                 add_x_sub(ewk);
@@ -131,7 +133,7 @@ void efff6_move_common(WORK_Other *ewk) {
                 ewk->wu.routine_no[3] += 1;
             }
             break;
-        case 0x110: /* switch 1 */
+        case 0x110:
             work = 0;
             if (ewk->wu.xyz[0].disp.pos < ewk->wu.old_rno[3]) {
                 add_x_sub(ewk);
@@ -149,7 +151,7 @@ void efff6_move_common(WORK_Other *ewk) {
                 ewk->wu.routine_no[3] += 1;
             }
             break;
-        case 0x210: /* switch 1 */
+        case 0x210:
             work = 0;
             if (ewk->wu.xyz[0].disp.pos < ewk->wu.old_rno[3]) {
                 add_x_sub(ewk);
@@ -166,17 +168,16 @@ void efff6_move_common(WORK_Other *ewk) {
             if (work == 0x11) {
                 ewk->wu.routine_no[3] += 1;
             }
-            /* fallthrough*/
+            break;
         }
-        /* fallthrough*/
+        break;
     case 1:
         break;
     }
 }
 
 void efff6_move01(WORK_Other *ewk) {
-
-    switch (ewk->wu.routine_no[2]) { /* irregular */
+    switch (ewk->wu.routine_no[2]) {
     case 0:
         ewk->wu.routine_no[2] += 1;
         ewk->wu.disp_flag = 1;
@@ -206,6 +207,7 @@ void efff6_move01(WORK_Other *ewk) {
     case 2:
         efff6_move_common(ewk);
         disp_pos_trans_entry5(ewk);
+        break;
     }
 }
 
