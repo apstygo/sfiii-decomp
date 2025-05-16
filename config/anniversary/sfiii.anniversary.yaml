@@ -667,7 +667,7 @@ segments:
       - [0x2EE838, asm, gcc/libc/writer]
       - [0x2EE898, asm, gcc/libc/wsetup]
 
-      - [0x2EE9B0, asm, sf33rd/AcrSDK/ps2/flps2render]
+      - [0x2EE9B0, c, sf33rd/AcrSDK/ps2/flps2render]
       - [0x2F22F0, asm, sf33rd/AcrSDK/ps2/flps2d3d] # Good first decomp
       - [0x2F2300, c, sf33rd/AcrSDK/ps2/flps2debug]
       - [0x2F3DD0, asm, sf33rd/AcrSDK/ps2/flps2dma]
@@ -1320,7 +1320,7 @@ segments:
       - [0x45EDB0, rodata, gcc/libc/vfiprintf]
       - [0x45EFA0, rodata, gcc/libc/vfprintf]
 
-      - [0x45F1B0, rodata, sf33rd/AcrSDK/ps2/flps2render]
+      - [0x45F1B0, .rodata, sf33rd/AcrSDK/ps2/flps2render]
       - [0x45F290, .rodata, sf33rd/AcrSDK/ps2/flps2debug]
       - [0x45F470, rodata, sf33rd/AcrSDK/ps2/flps2dma]
       - [0x45F500, .rodata, sf33rd/AcrSDK/ps2/flps2etc]
@@ -1468,7 +1468,7 @@ segments:
       - [0x4745D8, sdata, sf33rd/Source/Game/debug/Debug]
       - [0x474630, sdata, sf33rd/Source/Game/debug/Deb_Data]
       - [0x474650, .sdata, sf33rd/Source/Common/PPGFile]
-      - [0x4746B0, sdata, sf33rd/AcrSDK/ps2/flps2render]
+      - [0x4746B0, .sdata, sf33rd/AcrSDK/ps2/flps2render]
       - [0x474730, .sdata, sf33rd/AcrSDK/ps2/flps2debug]
       - [0x474770, sdata, sf33rd/AcrSDK/ps2/flps2dma]
       - [0x4747A8, sdata, sf33rd/AcrSDK/ps2/flps2shader]
