@@ -45,7 +45,7 @@ typedef struct {
     Char8 name[12];
 } CVFSNamedDevice;
 
-Char8 *cvfs_build = "\nCVFS/PS2EE Ver.2.34 Build:Sep 18 2003 10:00:09\n";
+Char8 *cvfs_build = "\nCVFS/PS2EE Ver.2.34 Build:Sep 18 2003 10:00:09\n\0\0\0\0";
 void (*cvfs_errfn)(void *, const Char8 *) = NULL;
 void *cvfs_errobj = NULL;
 Sint32 cvfs_init_cnt = 0;
