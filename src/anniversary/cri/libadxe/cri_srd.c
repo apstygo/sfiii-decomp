@@ -27,24 +27,26 @@ typedef struct {
 
 typedef SRD_OBJ *SRD;
 
-extern SRD_OBJ srd_obj;                     // 7
-extern Sint32 srd_enter_fg;                 // 70
-extern Sint32 srd_dvd_exec_locked;          // 74
-extern Sint32 srd_hst_exec_locked;          // 78
-extern Sint32 volatile srd_geterror_locked; // 82
-extern Sint32 volatile srd_geterror_call;   // 86
-extern Sint32 volatile srd_debug_geterror;  // 94
-extern Sint32 volatile srd_debug_rdbg_cnt;  // 98
-extern Sint32 volatile srd_debug_rded_cnt;  // 102
-extern Sint32 volatile srd_history_pre;     // 114
-extern Sint32 volatile srd_history;         // 118
-extern Sint32 srd_filesystem64;             // 122
-extern Sint32 srd_host_lock;                // 126
+SRD_OBJ srd_obj = { 0 };
+Char8 *srd_build = "\nSRD/PS2EE Ver.2.18a Build:Sep 18 2003 10:00:14\n\0\0\0\0";
+Sint32 srd_enter_fg = 0;
+Sint32 srd_dvd_exec_locked = 0;
+Sint32 srd_hst_exec_locked = 0;
+Sint32 volatile srd_geterror_locked = 0;
+Sint32 volatile srd_geterror_call = 1;
+Sint32 srd_wait_svr_cnt = 0;
+Sint32 volatile srd_debug_geterror = 0;
+Sint32 volatile srd_debug_rdbg_cnt = 0;
+Sint32 volatile srd_debug_rded_cnt = 0;
+Sint32 srd_create_cnt = 0;
+Sint32 srd_destroy_cnt = 0;
+Sint32 volatile srd_history_pre = 0;
+Sint32 volatile srd_history = 0;
+Sint32 srd_filesystem64 = 0;
+Sint32 srd_host_lock = 0;
 
 // forward decls
 void SRD_SetHistory(Sint32 arg0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CA40);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", srd_reset_obj);
 
