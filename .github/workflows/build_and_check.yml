@@ -1,10 +1,11 @@
-name: Build and check
+name: Build and check (PS2)
 
 on:
     push:
-        branches: ["main"]
+        branches: [ "main" ]
     pull_request_target:
     workflow_dispatch:
+
 
 jobs:
     build:
@@ -13,53 +14,53 @@ jobs:
         if: github.repository == 'apstygo/sfiii-decomp'
         runs-on: ubuntu-22.04
         permissions:
-          contents: write
+            contents: write
         steps:
-            - name: Clone main repo (PR)
-              if: github.event_name == 'pull_request_target'
-              uses: actions/checkout@v4
-              with:
+          - name: Clone main repo (PR)
+            if: github.event_name == 'pull_request_target'
+            uses: actions/checkout@v4
+            with:
                 ref: ${{ github.event.pull_request.head.sha }}
                 submodules: recursive
 
-            - name: Clone main repo
-              if: github.event_name != 'pull_request_target'
-              uses: actions/checkout@v4
-              with:
+          - name: Clone main repo
+            if: github.event_name != 'pull_request_target'
+            uses: actions/checkout@v4
+            with:
                 ref: ${{ github.ref }}
                 submodules: recursive
 
-            - name: Install Python dependencies
-              run: pip install -r tools/requirements-python.txt
+          - name: Install Python dependencies
+            run: pip install -r tools/requirements-python.txt
 
-            - name: Enable i386 architecture and install Linux dependencies
-              run: |
+          - name: Enable i386 architecture and install Linux dependencies
+            run: |
                 sudo dpkg --add-architecture i386
                 sudo apt-get update
                 sudo apt-get install -y $(cat tools/requirements-debian.txt)
 
-            - name: Setup build tools
-              run: make setup_tools
-            
-            - name: Decrypt original ELF's binary
-              run: openssl enc -d -aes-256-cbc -in encrypted.bin -out THIRD_U.BIN -pass pass:${{ secrets.BIN_PASSWORD }}
+          - name: Setup build tools
+            run: make setup_tools
 
-            - name: Split the binary
-              run: make split
+          - name: Decrypt original ELF's binary
+            run: openssl enc -d -aes-256-cbc -in encrypted.bin -out THIRD_U.BIN -pass pass:${{ secrets.BIN_PASSWORD }}
 
-            - name: Build and compare binaries
-              run: make build -j
+          - name: Split the binary
+            run: make split
 
-            - name: Update progress in README
-              if: github.event_name != 'pull_request_target'
-              run: python3 tools/update_progress_in_readme.py
+          - name: Build and compare binaries
+            run: make build -j
 
-            - name: Update CRI progress
-              if: github.event_name != 'pull_request_target'
-              run: python3 tools/update_cri_progress.py
+          - name: Update progress in README
+            if: github.event_name != 'pull_request_target'
+            run: python3 tools/update_progress_in_readme.py
 
-            - name: Commit progress updates
-              if: github.event_name != 'pull_request_target'
-              uses: stefanzweifel/git-auto-commit-action@v5
-              with:
+          - name: Update CRI progress
+            if: github.event_name != 'pull_request_target'
+            run: python3 tools/update_cri_progress.py
+
+          - name: Commit progress updates
+            if: github.event_name != 'pull_request_target'
+            uses: stefanzweifel/git-auto-commit-action@v5
+            with:
                 commit_message: Update progress

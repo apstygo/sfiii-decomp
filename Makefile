@@ -1,16 +1,35 @@
+PLATFORM ?= ps2
+VERSION ?= anniversary
+
+OS := $(shell uname -s)
+
+ifeq ($(OS)_$(PLATFORM),Darwin_ps2)
+$(error Can't build for PS2 on macOS. Did you mean 'make PLATFORM=macos'?)
+endif
+
+ifneq ($(OS),Darwin)
+ifeq ($(PLATFORM),macos)
+$(error Can't build for macOS on a non-macOS machine.)
+endif
+endif
+
 # Binaries
 
-VERSION ?= anniversary
-MAIN := THIRD_U.BIN
+ifeq ($(PLATFORM),ps2)
+	MAIN := THIRD_U.BIN
+else
+	MAIN := sf33rd
+endif
 
 # Export so that Python could see those
+export PLATFORM
 export VERSION
 export MAIN
 
 # Directories
 
 BIN_DIR := bin
-BUILD_DIR := build/$(VERSION)
+BUILD_DIR := build/$(VERSION)/$(PLATFORM)
 SRC_DIR := src/$(VERSION)
 ASM_DIR := asm/$(VERSION)
 INCLUDE_DIR := include
@@ -66,16 +85,18 @@ GAME_O_FILES := $(addprefix $(BUILD_DIR)/,$(GAME_O_FILES))
 CRI_O_FILES := $(patsubst %.c,%.c.o,$(CRI_C_FILES))
 CRI_O_FILES := $(addprefix $(BUILD_DIR)/,$(CRI_O_FILES))
 
-ALL_O_FILES := $(ASM_O_FILES) $(GAME_O_FILES) $(CRI_O_FILES)
+ifeq ($(PLATFORM),ps2)
+	ALL_O_FILES := $(GAME_O_FILES) $(CRI_O_FILES) $(ASM_O_FILES)
+else
+	ALL_O_FILES := $(GAME_O_FILES) $(CRI_O_FILES)
+endif
 
 LINKER_SCRIPT := $(BUILD_DIR)/$(MAIN).lcf
 
 COMPILER_TAR := mwcps2-3.0b52-030722.tar.gz
 EE_COMPILER_TAR := ee-gcc2.96.tar.xz
 
-# Rules
-
-build: $(MAIN_TARGET)
+# Etc. rules
 
 split:
 	$(GENERATE_LCF) $(LINKER_SCRIPT)
@@ -86,7 +107,11 @@ clean: ##@ clean extracted files, assets, and build artifacts
 	git clean -fdx $(BUILD_DIR)/
 	git clean -fdx .splache
 
-setup_tools: $(MWCCPS2) $(WIBO) $(EEGCC)
+# Build
+
+build: $(MAIN_TARGET)
+
+ifeq ($(PLATFORM),ps2)
 
 $(MAIN_TARGET): $(ALL_O_FILES) $(LINKER_SCRIPT)
 	@$(LD) $(LD_FLAGS) -o $@ \
@@ -109,6 +134,23 @@ $(CRI_O_FILES): $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)
 	$(EEGCC_PATHS) $(EEGCC) $< -o $@ $(EEGCC_FLAGS)
 
+else
+
+$(MAIN_TARGET): $(ALL_O_FILES)
+
+$(BUILD_DIR)/%.c.o: %.c
+	@mkdir -p $(dir $@)
+
+	clang -c $< -o $@ $(SDL2_INCLUDES) \
+		-DTARGET_SDL2 -DXPT_TGT_EE \
+		-Wno-c2x-extensions -Wno-int-conversion -Wno-incompatible-function-pointer-types -w -std=c99
+
+endif
+
+# Tools
+
+setup_tools: $(MWCCPS2) $(WIBO) $(EEGCC)
+
 $(WIBO):
 	@mkdir -p $(BIN_DIR)
 	wget -O $@ https://github.com/decompals/wibo/releases/download/0.6.13/wibo
@@ -121,13 +163,3 @@ $(MWCCPS2):
 $(EEGCC):
 	@mkdir -p $(BIN_DIR)
 	wget -O- https://github.com/decompme/compilers/releases/download/compilers/$(EE_COMPILER_TAR) | tar xJv -C $(BIN_DIR)
-
-build_macos:
-# For now we pass -c flag to compile without linking.
-# Add this instead of -c to compile and link.
-# -o $(BUILD_DIR)/sf33rd
-
-	clang -c $(GAME_C_FILES) $(CRI_C_FILES) \
-		$(SDL2_INCLUDES) \
-		-DTARGET_SDL2 -DXPT_TGT_EE \
-		-Wno-c2x-extensions -Wno-int-conversion -Wno-incompatible-function-pointer-types -w -std=c99
