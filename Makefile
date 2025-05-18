@@ -96,6 +96,8 @@ LINKER_SCRIPT := $(BUILD_DIR)/$(MAIN).lcf
 COMPILER_TAR := mwcps2-3.0b52-030722.tar.gz
 EE_COMPILER_TAR := ee-gcc2.96.tar.xz
 
+build: $(MAIN_TARGET)
+
 # Etc. rules
 
 split:
@@ -108,8 +110,6 @@ clean: ##@ clean extracted files, assets, and build artifacts
 	git clean -fdx .splache
 
 # Build
-
-build: $(MAIN_TARGET)
 
 ifeq ($(PLATFORM),ps2)
 
