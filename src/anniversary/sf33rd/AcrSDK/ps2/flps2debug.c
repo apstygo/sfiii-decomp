@@ -11,8 +11,11 @@
 #include "sf33rd/AcrSDK/ps2/flps2vram.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "structs.h"
+
 #include <eestruct.h>
 #include <libgraph.h>
+
+#include <string.h>
 
 #if defined(TARGET_PS2)
 #include "mw_stdarg.h"

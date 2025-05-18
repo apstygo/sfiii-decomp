@@ -34,6 +34,10 @@ void effect_F6_move(WORK_Other *ewk) {
 }
 
 void efff6_move(WORK_Other *ewk) {
+#if defined(TARGET_PS2)
+    void push_color_trans_req(s32 from_col, s32 to_col);
+#endif
+
     switch (ewk->wu.routine_no[2]) {
     case 0:
         ewk->wu.routine_no[2] += 1;
@@ -177,6 +181,10 @@ void efff6_move_common(WORK_Other *ewk) {
 }
 
 void efff6_move01(WORK_Other *ewk) {
+#if defined(TARGET_PS2)
+    void push_color_trans_req(s32 from_col, s32 to_col);
+#endif
+
     switch (ewk->wu.routine_no[2]) {
     case 0:
         ewk->wu.routine_no[2] += 1;
@@ -212,6 +220,10 @@ void efff6_move01(WORK_Other *ewk) {
 }
 
 s32 effect_F6_init(u8 typenum) {
+#if defined(TARGET_PS2)
+    s16 get_my_trans_mode(s32 curr);
+#endif
+
     WORK_Other *ewk;
     s16 ix;
     const s16 *data_ptr;
@@ -519,4 +531,4 @@ const EFFF6_ETC efff6_etc_data[61] = {
     { .dir = 0, .limit_x_pos = 0, .limit_y_pos = 0, .zoom_v = 127, .sp_x_a = 0, .sp_x_d = 0, .sp_y_a = 0, .sp_y_d = 0 },
     { .dir = 0, .limit_x_pos = 0, .limit_y_pos = 0, .zoom_v = 127, .sp_x_a = 0, .sp_x_d = 0, .sp_y_a = 0, .sp_y_d = 0 },
     { .dir = 0, .limit_x_pos = 0, .limit_y_pos = 0, .zoom_v = 127, .sp_x_a = 0, .sp_x_d = 0, .sp_y_a = 0, .sp_y_d = 0 }
-}; // size: 0x5B8, address: 0x515560
+};

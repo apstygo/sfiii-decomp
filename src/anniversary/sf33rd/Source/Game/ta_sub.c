@@ -5,6 +5,7 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_data.h"
+#include "sf33rd/Source/Game/bg_sub.h"
 #include "sf33rd/Source/Game/win_pl.h"
 #include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
@@ -15,7 +16,9 @@ s16 eff_hit_data[4][4] = { { -67, 59, 13, 29 }, { 31, 95, 24, 15 }, { 4, 123, 28
 // sbss
 s16 eff_hit_flag[11];
 
+s32 eff_hit_check_sub(WORK_Other *ewk, PLW *pl);
 s32 eff_hit_check_sub2(WORK_Other *ewk, PLW *pl, s16 where_type);
+static s16 hit_check_subroutine_yu(WORK *tpl, WORK *tef, s16 *hd1, s16 *hd2);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", sync_fam_set3);
 

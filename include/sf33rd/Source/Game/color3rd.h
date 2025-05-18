@@ -15,6 +15,6 @@ void palUpdateGhostDC();
 Palette *palGetChunkGhostCP3();
 Palette *palGetChunkGhostDC();
 void load_any_color(u16 ix, u8 kokey);
-// void push_color_trans_req(s16 from_col, s16 to_col);
+void push_color_trans_req(s16 from_col, s16 to_col);
 
 #endif

@@ -113,6 +113,9 @@ void flPS2MakeClipViewport(s32 /* unused */, s32 /* unused */, s32 dwWidth, s32 
 }
 
 void flmatInit(MTX *lpmat) {
+#if !defined(TARGET_PS2)
+    not_implemented(__func__);
+#else
     __asm__ __volatile__("lqc2 $vf4, 0(%1)"
                          "lqc2 $vf5, 0x10(%1)"
                          "lqc2 $vf6, 0x20(%1)"
@@ -124,9 +127,13 @@ void flmatInit(MTX *lpmat) {
                          :
                          : "w"(lpmat), "m"(flPS2INITMATRIX)
                          : "memory");
+#endif
 }
 
 void flmatMul(MTX *lpdst, const MTX *lpsrc1, const MTX *lpsrc2) {
+#if !defined(TARGET_PS2)
+    not_implemented(__func__);
+#else
     __asm__ __volatile__("lqc2       $vf4, 0x0(%2)"
                          "lqc2       $vf5, 0x10(%2)"
                          "lqc2       $vf6, 0x20(%2)"
@@ -158,9 +165,13 @@ void flmatMul(MTX *lpdst, const MTX *lpsrc1, const MTX *lpsrc2) {
                          :
                          : "w"(lpdst), "r"(lpsrc1), "r"(lpsrc2)
                          : "memory");
+#endif
 }
 
 void flmatCopy(MTX *dst, const MTX *src) {
+#if !defined(TARGET_PS2)
+    not_implemented(__func__);
+#else
     __asm__ __volatile__("lq a2, 0(%1)"
                          "lq a3, 0x10(%1)"
                          "lq t0, 0x20(%1)"
@@ -172,9 +183,13 @@ void flmatCopy(MTX *dst, const MTX *src) {
                          :
                          : "w"(dst), "r"(src)
                          : "memory");
+#endif
 }
 
 void flvecNormalize(Vec3 *lpvec) {
+#if !defined(TARGET_PS2)
+    not_implemented(__func__);
+#else
     Vec3 vec = *lpvec;
 
     __asm__ __volatile__("lqc2 $vf4, 0(%1)"
@@ -190,4 +205,5 @@ void flvecNormalize(Vec3 *lpvec) {
                          : "memory");
 
     *lpvec = vec;
+#endif
 }
