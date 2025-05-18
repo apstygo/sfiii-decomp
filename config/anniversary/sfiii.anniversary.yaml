@@ -1607,7 +1607,7 @@ segments:
       - { type: sbss, vram: 0x579480, name: sf33rd/Source/Game/PLCNT }
       - { type: sbss, vram: 0x5795D8, name: sf33rd/Source/Game/plpat14 }
       - { type: sbss, vram: 0x5795DC, name: sf33rd/Source/Game/PulPul }
-      - { type: sbss, vram: 0x579678, name: sf33rd/Source/Game/RAMCNT }
+      - { type: .sbss, vram: 0x579678, name: sf33rd/Source/Game/RAMCNT }
       - { type: sbss, vram: 0x579730, name: sf33rd/Source/Game/RANKING }
       - { type: .sbss, vram: 0x579758, name: sf33rd/Source/Game/Reset }
       - { type: sbss, vram: 0x579760, name: sf33rd/Source/Game/sc_data }
@@ -1694,7 +1694,7 @@ segments:
       - { type: bss, vram: 0x5E3D50, name: sf33rd/Source/Game/MTRANS }
       - { type: .bss, vram: 0x5E4150, name: sf33rd/Source/Game/OPENING }
       - { type: bss, vram: 0x5E4480, name: sf33rd/Source/Game/PLCNT }
-      - { type: bss, vram: 0x5E5600, name: sf33rd/Source/Game/RAMCNT }
+      - { type: .bss, vram: 0x5E5600, name: sf33rd/Source/Game/RAMCNT }
       - { type: bss, vram: 0x5E5900, name: sf33rd/Source/Game/RANKING }
       - { type: .bss, vram: 0x5E5A90, name: sf33rd/Source/Game/sc_sub }
       - { type: bss, vram: 0x5E5D00, name: sf33rd/Source/Game/Sound3rd }
