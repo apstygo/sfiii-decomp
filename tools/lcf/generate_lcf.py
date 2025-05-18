@@ -22,7 +22,6 @@ def split_into_runs(entries: list[LinkerEntry]) -> list[Run]:
             continue
 
         entry_is_game = "sf33rd" in str(entry.object_path)
-        # print(entry_is_game, entry.object_path, entry.section_link_type)
 
         if entry.section_link_type != runs[-1].section or entry_is_game != runs[-1].is_game:
             runs.append(Run(list(), entry_is_game, entry.section_link_type))

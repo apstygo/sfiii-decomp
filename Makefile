@@ -101,6 +101,7 @@ build: $(MAIN_TARGET)
 # Etc. rules
 
 split:
+	@mkdir -p $(dir $(LINKER_SCRIPT))
 	$(GENERATE_LCF) $(LINKER_SCRIPT)
 
 clean: ##@ clean extracted files, assets, and build artifacts
