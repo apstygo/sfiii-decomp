@@ -71,7 +71,6 @@ void effect_work_init(void) {
     work_init_zero((s32 *)frw, sizeof(frw));
 
     for (i = 0; i < EFFECT_MAX; i++) {
-
         frwctr = (EFFECT_MAX - 1) - i;
         c_addr = (WORK *)frw[frwctr];
         frwque[i] = c_addr->myself = frwctr;
@@ -82,16 +81,15 @@ void effect_work_init(void) {
     frwctr_min = frwctr;
 
     for (i = 0; i < 8; i++) {
-
         head_ix[i] = tail_ix[i] = -1;
         exec_tm[i] = 0;
     }
 }
 
 void effect_work_quick_init(void) {
-	#if defined(TARGET_PS2)
+#if defined(TARGET_PS2)
     void effect_work_list_init(s32 lix, s16 iid);
-    #endif
+#endif
     s16 i;
     for (i = 0; i < 8; i += 1) {
         effect_work_list_init(i, -1);
@@ -209,7 +207,7 @@ void push_effect_work(WORK *wkhd) {
         head_ix[lix] = tail_ix[lix] = -1;
         break;
     }
-    work_init_zero((s32 *)frw[qix], sizeof(u32[448]));
+    work_init_zero((s32 *)frw[qix], sizeof(frw[0]));
     c_addr->before = c_addr->behind = -1;
     frwque[frwctr++] = qix;
     c_addr->myself = qix;
@@ -250,7 +248,7 @@ void work_init_zero(s32 *adrs_int, s32 xx) {
     }
 
     if (surr != 0) {
-        adrs_char = (char *)adrs_int;
+        adrs_char = (s8 *)adrs_int;
         for (i = 0; i < surr; i++) {
             *adrs_char++ = 0;
         }
@@ -271,8 +269,9 @@ s32 erase_my_shell_ix(WORK *wk, s16 ix) {
     s32 j;
 
     for (i = 0; i < 8; ++i) {
-        if (wk->shell_ix[i] == ix)
+        if (wk->shell_ix[i] == ix) {
             goto ok;
+        }
     }
 
     return 0;
@@ -287,7 +286,6 @@ ok:
 }
 
 s32 get_my_shell_ix(WORK *wk, s16 ix, WORK **tmw) {
-
     if (wk->shell_ix[ix] == -1) {
         return 0;
     }
@@ -299,7 +297,6 @@ s32 get_my_shell_ix(WORK *wk, s16 ix, WORK **tmw) {
 }
 
 s32 get_vs_shell_adrs(WORK *wk, s16 id, s16 ix, WORK_Other **tmw) {
-
     if (wk->shell_ix[ix] == -1) {
         return 0;
     }
@@ -319,20 +316,15 @@ void clear_my_shell_ix(WORK *wk) {
 }
 
 void setup_shell_hit_stop(WORK *wk, s16 tm, s16 fl) {
+#if defined(TARGET_PS2)
+    s32 get_my_shell_ix(WORK * wk, s32 ix, WORK * *tmw);
+#endif
     WORK *tmw;
     s32 i;
-    #if defined(TARGET_PS2)
-    s32 get_my_shell_ix(WORK * wk, s32 ix, WORK * *tmw);
-    #endif
 
     for (i = 0; i < 8; i++) {
         if (get_my_shell_ix(wk, i, &tmw) != 0) {
-            if (fl != 0) {
-                if (tmw->id != 0x29) {
-                    goto block_6;
-                }
-            } else {
-            block_6:
+            if (fl == 0 || tmw->id != 0x29) {
                 tmw->hit_stop = tm;
             }
         }
@@ -356,13 +348,15 @@ s32 shell_live_check(PLW *wk, s16 wix) {
         return 0;
     }
     for (i = 0; i < 8; i++) {
-        if (wk->wu.shell_ix[i] == -1)
+        if (wk->wu.shell_ix[i] == -1) {
             break;
+        }
         tmw = (WORK_Other *)frw[wk->wu.shell_ix[i]];
-        if (tmw->refrected)
+        if (tmw->refrected) {
             continue;
-        if ((tmw->wu.original_vitality == 0x1F) || (tmw->wu.original_vitality == 0x21) ||
-            (tmw->wu.original_vitality == 0x2E)) {
+        }
+        if ((tmw->wu.original_vitality == 31) || (tmw->wu.original_vitality == 33) ||
+            (tmw->wu.original_vitality == 46)) {
             return 1;
         }
     }
@@ -404,7 +398,7 @@ s32 exec_char_asxy(WORK *wk, u8 data) {
     s32 st;
     s16 ix = data;
 
-        ix *= 2;
+    ix *= 2;
     from_rom2 = &wk->step_xy_table[ix];
     st = *from_rom2++;
     st *= 256;
@@ -441,9 +435,9 @@ s32 setup_bg_quake_x(s32 /* unused */, u8 data) {
 }
 
 s32 setup_bg_quake_y(s32 /* unused */, u8 data) {
-	#if defined(TARGET_PS2)
+#if defined(TARGET_PS2)
     void pp_screen_quake(s32);
-    #endif
+#endif
     bg_w.quake_y_index = data;
     pp_screen_quake(bg_w.quake_y_index);
     return 0;
@@ -503,8 +497,8 @@ void setup_shadow_of_the_Effy(WORK *wk) {
 }
 
 void set_init_A4_flag(void) {
-    plw->init_E3_flag = 1;
+    plw[0].init_E3_flag = 1;
     plw[1].init_E3_flag = 1;
-    plw->init_E4_flag = 1;
+    plw[0].init_E4_flag = 1;
     plw[1].init_E4_flag = 1;
 }
