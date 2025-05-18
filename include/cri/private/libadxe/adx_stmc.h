@@ -16,5 +16,6 @@ void ADXSTM_SetSj(ADXSTM stm, SJ sj);
 Sint32 ADXSTM_Start(ADXSTM stm);
 void ADXSTM_Stop(ADXSTM stm);
 void ADXSTM_Destroy(ADXSTM stm);
+void ADXSTM_ExecServer();
 
 #endif
