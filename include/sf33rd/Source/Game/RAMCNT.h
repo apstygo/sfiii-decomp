@@ -4,11 +4,13 @@
 #include "structs.h"
 #include "types.h"
 
+#define RCKEY_WORK_MAX 64
+
 extern s16 rckeyctr;             // size: 0x2, address: 0x57967C
 extern s16 rckeymin;             // size: 0x2, address: 0x579678
 extern _MEMMAN_OBJ rckey_mmobj;  // size: 0x2C, address: 0x579700
-extern RCKeyWork rckey_work[64]; // size: 0x300, address: 0x5E5600
-extern s16 rckeyque[64];         // size: 0x80, address: 0x579680
+extern RCKeyWork rckey_work[RCKEY_WORK_MAX]; // size: 0x300, address: 0x5E5600
+extern s16 rckeyque[RCKEY_WORK_MAX];         // size: 0x80, address: 0x579680
 
 void disp_ramcnt_free_area();
 void Init_ram_control_work(u8 *adrs, s32 size);

@@ -6,13 +6,17 @@
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/texgroup.h"
 
-#define ERR_STOP                                                                                                       \
-    do {                                                                                                               \
-    } while (1)
+#define ERR_STOP while (1) {}
+
+s16 rckeyctr;
+s16 rckeymin;
+_MEMMAN_OBJ rckey_mmobj;
+RCKeyWork rckey_work[RCKEY_WORK_MAX];
+s16 rckeyque[RCKEY_WORK_MAX];
 
 void disp_ramcnt_free_area() {
     if (Debug_w[0xA]) {
-        flPrintColor(-0x71U);
+        flPrintColor(0xFFFFFF8F);
         flPrintL(4, 8, "Ramcnt Status");
         flPrintL(4, 9, "Now %07X", mmGetRemainder(&rckey_mmobj));
         flPrintL(4, 0xA, "Min %07X", mmGetRemainderMin(&rckey_mmobj));
@@ -23,21 +27,21 @@ void disp_ramcnt_free_area() {
 void Init_ram_control_work(u8 *adrs, s32 size) {
     s16 i;
 
-    mmHeapInitialize(&rckey_mmobj, adrs, size, 0x40, "- for Ramcnt -");
+    mmHeapInitialize(&rckey_mmobj, adrs, size, RCKEY_WORK_MAX, "- for Ramcnt -");
 
-    for (i = 0; i < 0x3f; i++) {
-        rckeyque[i] = (0x3F - i);
+    for (i = 0; i < (RCKEY_WORK_MAX - 1); i++) {
+        rckeyque[i] = ((RCKEY_WORK_MAX - 1) - i);
     }
 
-    rckeyctr = 0x3F;
-    rckeymin = 0x3F;
+    rckeyctr = (RCKEY_WORK_MAX - 1);
+    rckeymin = (RCKEY_WORK_MAX - 1);
     rckeyque[rckeyctr] = 0;
 
     for (i = 0; i < sizeof(RCKeyWork) / 4; i++) {
         ((s32 *)rckey_work)[i] = 0;
     }
 
-    for (i = 1; i < 0x40; i++) {
+    for (i = 1; i < RCKEY_WORK_MAX; i++) {
         rckey_work[i] = rckey_work[0];
     }
 }
@@ -90,7 +94,7 @@ void Purge_memory_of_kind_of_key(u8 kokey) {
     RCKeyWork *rwk;
     s16 i;
 
-    for (i = 0; i < 0x40; i += 1) {
+    for (i = 0; i < RCKEY_WORK_MAX; i++) {
         rwk = &rckey_work[i];
         if (rwk->use && (rwk->type == kokey)) {
             Push_ramcnt_key(i);
@@ -100,6 +104,7 @@ void Purge_memory_of_kind_of_key(u8 kokey) {
 
 void Set_size_data_ramcnt_key(s16 key, u32 size) {
     if (key <= 0) {
+    	// An attempt was made to store a file size in an unused memory key.\n
         flLogOut("未使用のメモリキーへファイルサイズを格納しようとしました。\n");
         ERR_STOP;
     }
@@ -108,6 +113,7 @@ void Set_size_data_ramcnt_key(s16 key, u32 size) {
 
 u32 Get_size_data_ramcnt_key(s16 key) {
     if (key <= 0) {
+    	// An attempt was made to get a file size from an unused memory key.\n
         flLogOut("未使用のメモリキーからファイルサイズを取得しようとしました。\n");
         ERR_STOP;
     }
@@ -116,6 +122,7 @@ u32 Get_size_data_ramcnt_key(s16 key) {
 
 u32 Get_ramcnt_address(s16 key) {
     if (key <= 0) {
+    	// An attempt was made to obtain an address from an unused memory key.\n
         flLogOut("未使用のメモリキーからアドレスを取得しようとしました。\n");
         ERR_STOP;
     }
@@ -124,7 +131,7 @@ u32 Get_ramcnt_address(s16 key) {
 
 s16 Search_ramcnt_type(u8 kokey) {
     s16 i;
-    for (i = 1; i < 0x40; i += 1) {
+    for (i = 1; i < RCKEY_WORK_MAX; i++) {
         if ((rckey_work[i].use) && (kokey == (rckey_work[i].type))) {
             return i;
         }
@@ -150,6 +157,7 @@ s16 Pull_ramcnt_key(u32 memreq, u8 kokey, u8 group, u8 frre) {
     s16 key;
 
     if (rckeyctr <= 0) {
+    	// There are not enough memory keys.\n
         flLogOut("メモリキーの個数が足りなくなりました。\n");
         ERR_STOP;
     }
@@ -164,7 +172,7 @@ s16 Pull_ramcnt_key(u32 memreq, u8 kokey, u8 group, u8 frre) {
     if (memreq != 0) {
         rwk->size = memreq;
         if (frre != 0) {
-            frre -= 1;
+            frre--;
         }
         rwk->adr = (u32)mmAlloc(&rckey_mmobj, memreq, frre);
     } else {
@@ -174,6 +182,7 @@ s16 Pull_ramcnt_key(u32 memreq, u8 kokey, u8 group, u8 frre) {
     if (rwk->adr == 0) {
     err:
         rckeyque[rckeyctr++] = key;
+        // Failed to allocate memory.\n
         flLogOut("メモリの確保に失敗しました。\n");
         ERR_STOP;
     }
