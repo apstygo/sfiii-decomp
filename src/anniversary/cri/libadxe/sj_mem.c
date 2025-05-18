@@ -4,6 +4,8 @@
 #include <cri/cri_xpts.h>
 #include <cri/sj.h>
 
+#include <string.h>
+
 typedef struct {
     SJ_OBJ sj;
     Sint32 used;

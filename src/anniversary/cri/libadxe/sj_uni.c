@@ -4,6 +4,8 @@
 #include <cri/cri_xpts.h>
 #include <cri/sj.h>
 
+#include <string.h>
+
 typedef struct SJUNI_CK {
     struct SJUNI_CK *next;
     Sint32 unk4;

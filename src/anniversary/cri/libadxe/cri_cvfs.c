@@ -2,6 +2,8 @@
 
 #include <cri/cri_xpts.h>
 
+#include <string.h>
+
 #define CVFS_DEVICE_MAX 32
 #define CVFS_HANDLE_MAX 40
 #define CVFS_MAX_NAME_LENGTH 0x129

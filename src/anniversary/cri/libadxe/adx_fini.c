@@ -4,6 +4,8 @@
 #include <cri/cri_adxf.h>
 #include <cri/cri_xpts.h>
 
+#include <string.h>
+
 Char8 *volatile adxf_build = "\nADXF/PS2EE Ver.7.13 Build:Sep 18 2003 09:59:54\n";
 Sint32 adxf_init_cnt = 0;
 ADX_FS adxf_obj[ADXF_OBJ_MAX] = { 0 };

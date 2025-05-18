@@ -123,4 +123,4 @@ $(EEGCC):
 	wget -O- https://github.com/decompme/compilers/releases/download/compilers/$(EE_COMPILER_TAR) | tar xJv -C $(BIN_DIR)
 
 build_macos:
-	clang $(GAME_C_FILES) -o $(BUILD_DIR)/sf33rd $(SDL2_INCLUDES) -DTARGET_SDL2 -Wno-c2x-extensions -w -std=c99
+	clang $(GAME_C_FILES) $(CRI_C_FILES) -o $(BUILD_DIR)/sf33rd $(SDL2_INCLUDES) -DTARGET_SDL2 -DXPT_TGT_EE -Wno-c2x-extensions -Wno-int-conversion -Wno-incompatible-function-pointer-types -w -std=c99

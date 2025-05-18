@@ -3,8 +3,11 @@
 
 #include <cri/cri_xpts.h>
 #include <cri/sj.h>
+
 #include <eekernel.h>
 #include <sifdev.h>
+
+#include <string.h>
 
 typedef struct {
     Sint32 unk0;

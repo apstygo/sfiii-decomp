@@ -7,6 +7,8 @@
 #include <eekernel.h>
 #include <sif.h>
 
+#include <string.h>
+
 #define DTR_MAX_OBJ 32
 
 // data

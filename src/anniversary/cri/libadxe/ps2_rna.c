@@ -9,6 +9,8 @@
 #include <eekernel.h>
 #include <sifdev.h>
 
+#include <string.h>
+
 #define PS2PSJ_MAX_OBJ 32
 #define PS2RNA_WORK_SIZE 0x8D0
 #define PS2RNA_MAX_OBJ 16

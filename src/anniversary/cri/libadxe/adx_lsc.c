@@ -18,7 +18,7 @@ void LSC_ResetEntry(void *);
 void ADXT_StopWithoutLsc();
 void adxt_start_sj(ADXT, SJ_OBJ *);
 
-void ADXT_EntryFname(ADXT adxt, s8 *fname) {
+void ADXT_EntryFname(ADXT adxt, Char8 *fname) {
     void *lsc = adxt->lsc;
 
     if (adxt == NULL) {
@@ -33,7 +33,7 @@ void ADXT_EntryFname(ADXT adxt, s8 *fname) {
 
 void ADXT_EntryAfs(ADXT adxt, Sint32 patid, Sint32 fid) {
     Char8 error[16];
-    void* dir;
+    void *dir;
     Sint32 ofst;
     Sint32 fnsct;
 
@@ -83,7 +83,7 @@ void ADXT_SetSeamlessLp(ADXT adxt, Sint32 flg) {
     LSC_SetLpFlg(adxt->lsc, flg);
 }
 
-void ADXT_StartFnameLp(ADX_TALK *adxt, s8 *fname) {
+void ADXT_StartFnameLp(ADX_TALK *adxt, Char8 *fname) {
     void *lsc;
 
     if (adxt == NULL || fname == NULL) {

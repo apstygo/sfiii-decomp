@@ -1,10 +1,13 @@
 #include "common.h"
 #include <cri/private/libadxe/structs.h>
 
+#include <cri/private/libadxe/lsc.h>
 #include <cri/private/libadxe/lsc_crs.h>
 #include <cri/private/libadxe/lsc_err.h>
 
 #include <cri/cri_xpts.h>
+
+#include <string.h>
 
 #define LSC_MAX_OBJ 16
 

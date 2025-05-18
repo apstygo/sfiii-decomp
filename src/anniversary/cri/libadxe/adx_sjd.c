@@ -1,10 +1,13 @@
 #include "common.h"
 #include <cri/private/libadxe/adx_bahx.h>
 #include <cri/private/libadxe/adx_bsc.h>
+#include <cri/private/libadxe/adx_crs.h>
 #include <cri/private/libadxe/adx_sjd.h>
 #include <cri/private/libadxe/sj_rbf.h>
 
 #include <cri/cri_xpts.h>
+
+#include <string.h>
 
 // data
 extern ADXSJD_OBJ adxsjd_obj[ADXSJD_MAX_OBJ];

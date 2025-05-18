@@ -7,6 +7,9 @@
 typedef void *ADXLSC;
 
 ADXLSC LSC_Create(SJ);
+void LSC_Destroy(ADXLSC);
+void LSC_Stop(ADXLSC);
 void LSC_SetStmHndl(void *, ADXSTM);
+void LSC_ExecServer();
 
 #endif

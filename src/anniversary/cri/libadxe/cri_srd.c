@@ -47,6 +47,9 @@ Sint32 srd_host_lock = 0;
 
 // forward decls
 void SRD_SetHistory(Sint32 arg0);
+Sint32 SRD_SceIoctl(Sint32 fd, Sint32 req, void *arg2);
+Sint64 SRD_SceLseek(Sint32 fd, Sint64 offset, Sint32 whence);
+Sint32 SRD_SceRead(Sint32 fd, void *buf, Sint32 nbyte);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", srd_reset_obj);
 

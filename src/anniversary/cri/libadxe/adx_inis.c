@@ -4,13 +4,19 @@
 #include <cri/private/libadxe/adx_crs.h>
 #include <cri/private/libadxe/adx_errs.h>
 #include <cri/private/libadxe/adx_rnap.h>
+#include <cri/private/libadxe/adx_sjd.h>
+#include <cri/private/libadxe/adx_stmc.h>
 #include <cri/private/libadxe/adx_tlk.h>
 #include <cri/private/libadxe/dtx.h>
+#include <cri/private/libadxe/lsc.h>
 #include <cri/private/libadxe/lsc_err.h>
+#include <cri/private/libadxe/lsc_ini.h>
 #include <cri/private/libadxe/svm.h>
 
 #include <cri/cri_adxt.h>
 #include <cri/ee/cri_mw.h>
+
+#include <string.h>
 
 // data
 Char8 *volatile adxt_build = "\nADXT/PS2EE Ver.9.00 Build:Sep 18 2003 10:00:00\n";
@@ -22,6 +28,10 @@ Sint32 adxt_vsync_svr_flag = 1;
 Sint32 adxt_svr_fs_id = 0;
 Sint32 volatile adxt_vsync_cnt = 0;
 ADX_TALK adxt_obj[ADXT_MAX_OBJ] = { 0 };
+
+// forward decls
+Sint32 adxt_exec_tsvr(void *object);
+Sint32 adxt_exec_fssvr(void *object);
 
 void ADXT_ConfigVsyncSvr(Sint32 flag) {
     adxt_vsync_svr_flag = flag;

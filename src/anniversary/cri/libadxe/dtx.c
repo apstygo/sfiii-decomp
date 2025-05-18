@@ -7,6 +7,8 @@
 #include <sif.h>
 #include <sifrpc.h>
 
+#include <string.h>
+
 #define DTX_MAX_OBJ 8
 
 // data

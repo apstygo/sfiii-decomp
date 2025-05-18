@@ -1,6 +1,8 @@
 #include "common.h"
 #include <cri/private/libadxe/svm.h>
 
+#include <string.h>
+
 #define ADXERR_MAX_LEN 0x100
 
 void (*adxerr_func)(void *, s8 *) = NULL;
