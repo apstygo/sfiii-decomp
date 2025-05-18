@@ -37,7 +37,7 @@ s32 clear_caution_flag(PLW *wk, u8 /* unused */);
 s32 set_caution_flag(PLW *wk, u8 /* unused */);
 s32 setup_status_flag(WORK *wk, u8 data);
 s32 reset_extra_bg_flag(WORK *wk, u8 /* unused */);
-s32 flip_my_rl_flag(WORK *wk, u8 /* unused */)
+s32 flip_my_rl_flag(WORK *wk, u8 /* unused */);
 s32 setup_meoshi_hit_flag(WORK *wk, u8 data);
 s32 exec_char_asxy(WORK *wk, u8 data);
 s32 setup_my_clear_level(WORK *wk, u8 data);

@@ -398,7 +398,7 @@ s32 setup_meoshi_hit_flag(WORK *wk, u8 data) {
 s32 exec_char_asxy(WORK *wk, u8 data) {
     s16 *from_rom2;
     s32 st;
-    s16 ix = data
+    s16 ix = data;
 
         ix *= 2;
     from_rom2 = &wk->step_xy_table[ix];
