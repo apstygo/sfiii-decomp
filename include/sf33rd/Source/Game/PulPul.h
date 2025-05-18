@@ -12,5 +12,6 @@ void pulpul_stop2(s32 ix);
 void pp_vib_on(s32 id);
 void pp_operator_check_flag(u8 fl);
 void move_pulpul_work();
+void pp_screen_quake(s16);  
 
 #endif

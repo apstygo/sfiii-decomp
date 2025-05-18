@@ -339,7 +339,7 @@ segments:
       - [0x1195A0, asm, sf33rd/Source/Game/EFFE7]
       - [0x119C10, asm, sf33rd/Source/Game/EFFE8]
       - [0x11A580, asm, sf33rd/Source/Game/effe9]
-      - [0x11AC40, asm, sf33rd/Source/Game/EFFECT]
+      - [0x11AC40, c, sf33rd/Source/Game/EFFECT]
       - [0x11C6A0, asm, sf33rd/Source/Game/efff0]
       - [0x11C950, asm, sf33rd/Source/Game/EFFF2]
       - [0x11CE20, asm, sf33rd/Source/Game/EFFF4]
@@ -1074,7 +1074,7 @@ segments:
       - [0x4140A0, rodata, sf33rd/Source/Game/effe3]
       - [0x4140E0, rodata, sf33rd/Source/Game/EFFE5]
       - [0x4144C0, rodata, sf33rd/Source/Game/effe6]
-      - [0x415108, rodata, sf33rd/Source/Game/EFFECT]
+      - [0x415108, .rodata, sf33rd/Source/Game/EFFECT]
       - [0x415140, rodata, sf33rd/Source/Game/EFFF2]
       - [0x415200, .rodata, sf33rd/Source/Game/efff6]
       - [0x415BA0, rodata, sf33rd/Source/Game/EFFF8]
@@ -1580,7 +1580,7 @@ segments:
       - { type: sbss, vram: 0x578F50, name: sf33rd/Source/Game/effb3 }
       - { type: sbss, vram: 0x578F54, name: sf33rd/Source/Game/EFFB8 }
       - { type: sbss, vram: 0x578F70, name: sf33rd/Source/Game/effb9 }
-      - { type: sbss, vram: 0x578F80, name: sf33rd/Source/Game/EFFECT }
+      - { type: .sbss, vram: 0x578F80, name: sf33rd/Source/Game/EFFECT }
       - { type: sbss, vram: 0x578FB8, name: sf33rd/Source/Game/EFFF9 }
       - { type: sbss, vram: 0x578FD4, name: sf33rd/Source/Game/EFFH6 }
       - { type: sbss, vram: 0x578FE0, name: sf33rd/Source/Game/effl8 }
@@ -1685,7 +1685,7 @@ segments:
       - { type: bss, vram: 0x596680, name: sf33rd/Source/Game/cmd_data }
       - { type: .bss, vram: 0x597B60, name: sf33rd/Source/Game/color3rd }
       - { type: .bss, vram: 0x5A8420, name: sf33rd/Source/Game/DC_Ghost }
-      - { type: bss, vram: 0x5A9BA0, name: sf33rd/Source/Game/EFFECT }
+      - { type: .bss, vram: 0x5A9BA0, name: sf33rd/Source/Game/EFFECT }
       - { type: .bss, vram: 0x5E1CA0, name: sf33rd/Source/Game/GD3rd }
       - { type: bss, vram: 0x5E2D70, name: sf33rd/Source/Game/Grade }
       - { type: bss, vram: 0x5E3450, name: sf33rd/Source/Game/HITCHECK }
