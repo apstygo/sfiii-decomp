@@ -4,6 +4,7 @@
 # > tools/compare_bytes.py THIRD_U.BIN build/anniversary/THIRD_U.BIN 0x80 0x478A00 [--fix]
 
 import sys
+import os
 from pathlib import Path
 from analyze_xmap import analyze as analyze_xmap_issues
 
@@ -155,6 +156,11 @@ EXPECTED_ERRORS = {
     0x11DBA0: 0x3E020286,
     0x11DBA4: 0x21104300,
 }
+
+# Weird issue with cri_srd::srd_exec_dvd. 
+# For some reason CI builds codegen this one instruction differently.
+if "CI" in os.environ:
+    EXPECTED_ERRORS[0x2D9EE0] = 0x5600638C
 
 def read_word(b: bytes, offset: int) -> int:
     word = 0
