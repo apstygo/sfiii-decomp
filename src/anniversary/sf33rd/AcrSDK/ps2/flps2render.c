@@ -8,7 +8,7 @@ s32 flBeginRender() {
     flLoadNow = flGetSystemTime();
 
     if (flLoadCount-- == 0) {
-        flLoadCount = 0x64;
+        flLoadCount = 100;
         flLoadReserve = (f32)flLoadAmount / 100.0f;
         flLoadAmount = 0;
     }
@@ -108,8 +108,8 @@ s32 flPS2SendRenderState_SCISSOR(s32 dx, s32 dy, s32 dw, s32 dh, u32 flag) {
     lpWork->UI32[3] = (qwc | 0x50000000);
 
     lpWork++;
-    lpWork->UI64[0] = (u_long)(qwc - 1) | 0x8000 | 0x1000000000000000;
-    lpWork->UI64[1] = 0xE;
+    lpWork->UI64[0] = SCE_GIF_SET_TAG(qwc - 1, 1, 0, 0, SCE_GIF_PACKED, 1);
+    lpWork->UI64[1] = SCE_GIF_PACKED_AD;
 
     lpWork++;
     switch (flag) {
@@ -121,7 +121,7 @@ s32 flPS2SendRenderState_SCISSOR(s32 dx, s32 dy, s32 dw, s32 dh, u32 flag) {
         flPs2State.RenderSCISSORStatus1 = SCE_GS_SET_SCISSOR(dx, dx2, dy, dy2);
 
         lpWork->UI64[0] = SCE_GS_SET_SCISSOR(dx, dx2, dy, dy2);
-        lpWork->UI64[1] = 0x40;
+        lpWork->UI64[1] = SCE_GS_SCISSOR_1;
         break;
 
     case 1:
@@ -132,7 +132,7 @@ s32 flPS2SendRenderState_SCISSOR(s32 dx, s32 dy, s32 dw, s32 dh, u32 flag) {
         flPs2State.RenderSCISSORStatus2 = SCE_GS_SET_SCISSOR(dx, dx2, dy, dy2);
 
         lpWork->UI64[0] = SCE_GS_SET_SCISSOR(dx, dx2, dy, dy2);
-        lpWork->UI64[1] = 0x41;
+        lpWork->UI64[1] = SCE_GS_SCISSOR_2;
         break;
 
     case 2:
@@ -149,11 +149,11 @@ s32 flPS2SendRenderState_SCISSOR(s32 dx, s32 dy, s32 dw, s32 dh, u32 flag) {
         flPs2State.RenderSCISSORStatus2 = SCE_GS_SET_SCISSOR(dx, dx2, dy, dy2);
 
         lpWork->UI64[0] = SCE_GS_SET_SCISSOR(dx, dx2, dy, dy2);
-        lpWork->UI64[1] = 0x40;
+        lpWork->UI64[1] = SCE_GS_SCISSOR_1;
 
         lpWork++;
         lpWork->UI64[0] = SCE_GS_SET_SCISSOR(dx, dx2, dy, dy2);
-        lpWork->UI64[1] = 0x41;
+        lpWork->UI64[1] = SCE_GS_SCISSOR_2;
         break;
     }
 
@@ -194,28 +194,28 @@ s32 flPS2SendRenderState_ZBUF(u32 render_state, u32 flag) {
     lpWork->UI32[3] = (qwc | 0x50000000);
 
     lpWork++;
-    lpWork->UI64[0] = (u_long)(qwc - 1) | 0x8000 | 0x1000000000000000;
-    lpWork->UI64[1] = 0xE;
+    lpWork->UI64[0] = SCE_GIF_SET_TAG(qwc - 1, 1, 0, 0, SCE_GIF_PACKED, 1);
+    lpWork->UI64[1] = SCE_GIF_PACKED_AD;
 
     lpWork++;
     switch (flag) {
     case 0:
         lpWork->UI64[0] = flPs2State.RenderZBUFStatus1 = zbuf;
-        lpWork->UI64[1] = 0x4E;
+        lpWork->UI64[1] = SCE_GS_ZBUF_1;
         break;
 
     case 1:
         lpWork->UI64[0] = flPs2State.RenderZBUFStatus2 = zbuf;
-        lpWork->UI64[1] = 0x4F;
+        lpWork->UI64[1] = SCE_GS_ZBUF_2;
         break;
 
     case 2:
         lpWork->UI64[0] = flPs2State.RenderZBUFStatus2 = flPs2State.RenderZBUFStatus1 = zbuf;
-        lpWork->UI64[1] = 0x4E;
+        lpWork->UI64[1] = SCE_GS_ZBUF_1;
 
         lpWork++;
         lpWork->UI64[0] = zbuf;
-        lpWork->UI64[1] = 0x4F;
+        lpWork->UI64[1] = SCE_GS_ZBUF_2;
         break;
     }
 
@@ -241,12 +241,12 @@ s32 flPS2SendRenderState_FOGCOL(u32 fogcol) {
     lpWork->UI32[3] = qwc | 0x51000000;
 
     lpWork++;
-    lpWork->UI64[0] = (u_long)(qwc - 1) | 0x8000 | 0x1000000000000000;
-    lpWork->UI64[1] = 0xE;
+    lpWork->UI64[0] = SCE_GIF_SET_TAG(qwc - 1, 1, 0, 0, SCE_GIF_PACKED, 1);
+    lpWork->UI64[1] = SCE_GIF_PACKED_AD;
 
     lpWork++;
     lpWork->UI64[0] = SCE_GS_SET_FOGCOL((fogcol >> 16) & 0xFF, (fogcol >> 8) & 0xFF, fogcol & 0xFF);
-    lpWork->UI64[1] = 0x3D;
+    lpWork->UI64[1] = SCE_GS_FOGCOL;
 
     flPS2DmaAddQueue2(0, (keep_ptr & 0xFFFFFFF), keep_ptr, &flPs2VIF1Control);
     return 1;
@@ -328,7 +328,7 @@ s16 flPS2ConvScreenY(s16 y) {
 }
 
 f32 flPS2ConvScreenFX(f32 x) {
-    x = x - flPs2State.ScreenOffsetX;
+    x -= flPs2State.ScreenOffsetX;
 
     return x;
 }
