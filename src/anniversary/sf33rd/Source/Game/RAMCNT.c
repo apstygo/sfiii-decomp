@@ -8,11 +8,13 @@
 
 #define ERR_STOP while (1) {}
 
+/*
 s16 rckeyctr;
 s16 rckeymin;
 _MEMMAN_OBJ rckey_mmobj;
 RCKeyWork rckey_work[RCKEY_WORK_MAX];
 s16 rckeyque[RCKEY_WORK_MAX];
+*/
 
 void disp_ramcnt_free_area() {
     if (Debug_w[0xA]) {
