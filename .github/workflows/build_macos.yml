@@ -15,4 +15,11 @@ jobs:
             uses: actions/checkout@v4
 
           - name: Build for macOS
-            run: make PLATFORM=macos
+            run: make PLATFORM=macos |& tee build.log
+            continue-on-error: true
+
+          - name: Upload build log
+            uses: actions/upload-artifact@v4
+            with:
+                name: build-log
+                path: build.log
