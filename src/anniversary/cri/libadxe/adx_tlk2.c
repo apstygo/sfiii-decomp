@@ -7,6 +7,8 @@
 #include <cri/cri_adxt.h>
 #include <cri/sj.h>
 
+#include <string.h>
+
 void ADXT_StartAfs(ADXT adxt, Sint32 patid, Sint32 fid) {
     Char8 error[16];
     void *dir;

@@ -2,9 +2,13 @@
 #include "common.h"
 #include "sf33rd/AcrSDK/ps2/flPADUSR.h"
 #include "structs.h"
+
 #include <libpad2.h>
 #include <libvib.h>
+
 #include <math.h>
+
+#define PI 3.14159275f
 
 // sdata
 static s32 MtapPort = 0xFFFFFFFF;

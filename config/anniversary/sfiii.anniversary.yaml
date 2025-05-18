@@ -504,7 +504,7 @@ segments:
       - [0x274290, asm, sf33rd/Source/Game/PLS03]
       - [0x279F00, asm, sf33rd/Source/Game/Pow_Pow]
       - [0x27A5E0, asm, sf33rd/Source/Game/PulPul]
-      - [0x27BC10, asm, sf33rd/Source/Game/RAMCNT]
+      - [0x27BC10, c, sf33rd/Source/Game/RAMCNT]
       - [0x27C6B0, asm, sf33rd/Source/Game/RANKING]
       - [0x27EC70, c, sf33rd/Source/Game/Reset]
       - [0x27F230, asm, sf33rd/Source/Game/Saver] # Good first decomp
@@ -569,7 +569,7 @@ segments:
       - [0x2CCCC8, c, cri/libadxe/adx_fcch]
       - [0x2CCCE8, c, cri/libadxe/adx_fini]
       - [0x2CCE70, c, cri/libadxe/adx_fs]
-      - [0x2CE990, asm, cri/libadxe/adx_fsvr]
+      - [0x2CE990, c, cri/libadxe/adx_fsvr]
       - [0x2CEA60, c, cri/libadxe/adx_inis]
       - [0x2CEDC8, c, cri/libadxe/adx_lsc]
       - [0x2CF0D8, c, cri/libadxe/adx_mps2]
@@ -583,7 +583,7 @@ segments:
       - [0x2D5B30, asm, cri/libadxe/adx_tsvr]
       - [0x2D7068, asm, cri/libadxe/adx_xpnd]
       - [0x2D74D8, c, cri/libadxe/cri_cvfs]
-      - [0x2D9618, asm, cri/libadxe/cri_srd]
+      - [0x2D9618, c, cri/libadxe/cri_srd]
       - [0x2DA958, c, cri/libadxe/dtr]
       - [0x2DAF98, c, cri/libadxe/dtx]
       - [0x2DB8D0, asm, cri/libadxe/dvci]
@@ -801,7 +801,7 @@ segments:
       - [0x3A7A48, .data, cri/libadxe/adx_errs]
       - [0x3A7B50, .data, cri/libadxe/adx_fini]
       - [0x3A84D0, data, cri/libadxe/adx_fs]
-      - [0x3AA628, data, cri/libadxe/adx_fsvr]
+      - [0x3AA628, .data, cri/libadxe/adx_fsvr]
       - [0x3AA630, .data, cri/libadxe/adx_inis]
       - [0x3AB2A0, data, cri/libadxe/adx_mps2]
       - [0x3B2BE0, data, cri/libadxe/adx_sjd]
@@ -811,7 +811,7 @@ segments:
       - [0x3B4588, data, cri/libadxe/adx_tsvr]
       - [0x3B4598, data, cri/libadxe/adx_xpnd]
       - [0x3B4960, .data, cri/libadxe/cri_cvfs]
-      - [0x3B4970, data, cri/libadxe/cri_srd]
+      - [0x3B4970, .data, cri/libadxe/cri_srd]
       - [0x3B49E8, .data, cri/libadxe/dtr]
       - [0x3B51F0, .data, cri/libadxe/dtx]
       - [0x3B59C0, data, cri/libadxe/dvci]
@@ -1223,7 +1223,8 @@ segments:
       - [0x44E5A0, rodata, sf33rd/Source/Game/PLS03]
       - [0x44E8F0, rodata, sf33rd/Source/Game/POW_DATA]
       - [0x44EB60, rodata, sf33rd/Source/Game/PulPul]
-      - [0x44EE10, rodata, sf33rd/Source/Game/RAMCNT]
+      - [0x44EE10, .rodata, sf33rd/Source/Game/RAMCNT]
+      - [0x44EFB0, rodata, sf33rd/Source/Game/RANKING]
       - [0x44F140, rodata, sf33rd/Source/Game/sc_data]
       - [0x44F840, .rodata, sf33rd/Source/Game/sc_sub]
       - [0x44F8D0, .rodata, sf33rd/Source/Game/SE]
@@ -1289,7 +1290,7 @@ segments:
       - [0x45BC08, .rodata, cri/libadxe/adx_tlk2]
       - [0x45BD50, rodata, cri/libadxe/adx_tsvr]
       - [0x45BE08, .rodata, cri/libadxe/cri_cvfs]
-      - [0x45CAC0, rodata, cri/libadxe/cri_srd]
+      - [0x45CAC0, .rodata, cri/libadxe/cri_srd]
       - [0x45CE50, .rodata, cri/libadxe/dtr]
       - [0x45CFB0, .rodata, cri/libadxe/dtx]
       - [0x45D0B0, rodata, cri/libadxe/dvci]
@@ -1606,7 +1607,7 @@ segments:
       - { type: sbss, vram: 0x579480, name: sf33rd/Source/Game/PLCNT }
       - { type: sbss, vram: 0x5795D8, name: sf33rd/Source/Game/plpat14 }
       - { type: sbss, vram: 0x5795DC, name: sf33rd/Source/Game/PulPul }
-      - { type: sbss, vram: 0x579678, name: sf33rd/Source/Game/RAMCNT }
+      - { type: .sbss, vram: 0x579678, name: sf33rd/Source/Game/RAMCNT }
       - { type: sbss, vram: 0x579730, name: sf33rd/Source/Game/RANKING }
       - { type: .sbss, vram: 0x579758, name: sf33rd/Source/Game/Reset }
       - { type: sbss, vram: 0x579760, name: sf33rd/Source/Game/sc_data }
@@ -1693,7 +1694,7 @@ segments:
       - { type: bss, vram: 0x5E3D50, name: sf33rd/Source/Game/MTRANS }
       - { type: .bss, vram: 0x5E4150, name: sf33rd/Source/Game/OPENING }
       - { type: bss, vram: 0x5E4480, name: sf33rd/Source/Game/PLCNT }
-      - { type: bss, vram: 0x5E5600, name: sf33rd/Source/Game/RAMCNT }
+      - { type: .bss, vram: 0x5E5600, name: sf33rd/Source/Game/RAMCNT }
       - { type: bss, vram: 0x5E5900, name: sf33rd/Source/Game/RANKING }
       - { type: .bss, vram: 0x5E5A90, name: sf33rd/Source/Game/sc_sub }
       - { type: bss, vram: 0x5E5D00, name: sf33rd/Source/Game/Sound3rd }

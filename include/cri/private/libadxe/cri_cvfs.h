@@ -9,5 +9,6 @@ void cvFsSeek(Sint32, Sint32, Sint32);
 Sint32 cvFsTell(Sint32);
 Sint32 cvFsGetStat(Sint32);
 Sint32 cvFsReqRd(Sint32, Sint32, Sint32);
+void cvFsExecServer();
 
 #endif

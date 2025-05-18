@@ -8,6 +8,8 @@
 #include <cri/cri_adxt.h>
 #include <cri/sj.h>
 
+#include <string.h>
+
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define ADXSTMF_MAX_OBJ 40
 

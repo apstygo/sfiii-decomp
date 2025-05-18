@@ -454,6 +454,10 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", cal_dm_vita
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", set_hit_stop_hit_quake);
 
 void add_sp_arts_gauge_init(PLW *wk) {
+    #if defined(TARGET_PS2)
+    void add_super_arts_gauge(SA_WORK *wk, s32 ix, s32 asag, u16 mf);
+    #endif
+
     PLW *mwk;
     s16 asag;
 
@@ -486,9 +490,6 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts_gauge_maxbit);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_super_arts_gauge);
-#else
 void add_super_arts_gauge(SA_WORK *wk, s16 ix, s16 asag, u8 mf) {
     if (!test_flag && !mf) {
         if ((wk->mp == -1) || (wk->ok == -1) || (wk->ex == -1)) {
@@ -527,7 +528,6 @@ void add_super_arts_gauge(SA_WORK *wk, s16 ix, s16 asag, u8 mf) {
         }
     }
 }
-#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_buttobi_type);
 

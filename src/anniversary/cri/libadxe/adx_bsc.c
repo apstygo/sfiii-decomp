@@ -3,6 +3,8 @@
 #include <cri/private/libadxe/adx_xpnd.h>
 #include <cri/private/libadxe/structs.h>
 
+#include <string.h>
+
 #define ADXB_MAX_OBJ 16
 
 s8 *skg_build = "\nSKG/PS2EE Ver.0.64 Build:Sep 18 2003 09:59:56\n";
@@ -48,11 +50,15 @@ void ADXB_Init() {
     memset(&adxb_obj, 0, sizeof(adxb_obj));
 }
 
+#if defined(TARGET_PS2)
 void ADXB_Finish() {
     ADXPD_Finish();
     SKG_Finish();
     memset(&adxb_obj, 0, sizeof(adxb_obj));
 }
+#else
+INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_Finish);
+#endif
 
 Sint32 adxb_DefGetWr(void *object, Sint32 *arg1, Sint32 *arg2, Sint32 *arg3) {
     ADXB adxb = (ADXB)object;

@@ -130,6 +130,8 @@ void SsBgmOff();
 void bgm_play_request(s32 filenum, s32 flag);
 void bgm_seamless_clear();
 s32 bgm_separate_check();
+void bgm_volume_setup(s16 data);
+u16 remake_sound_code_for_DC(u16 code, SoundPatchConfig *rmcode);
 
 extern const s16 adx_volume[128];
 
@@ -345,6 +347,10 @@ void sound_request_for_dc(SoundPatchConfig *rmc, s16 pan) {
 #endif
 
 void BGM_Server() {
+#if defined(TARGET_PS2)
+    void bgm_volume_setup(s32 data);
+#endif
+
     if (!(system_init_level & 2)) {
         return;
     }
@@ -650,9 +656,6 @@ void bgm_seamless_clear() {
     adxt = ADXT_Create(2, adx_stm_work, ADX_STM_WORK_SIZE);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", bgm_volume_setup);
-#else
 void bgm_volume_setup(s16 data) {
     s16 bhd;
 
@@ -682,7 +685,6 @@ void bgm_volume_setup(s16 data) {
 
     ADXT_SetOutVol(adxt, adx_volume[bgm_vol_now]);
 }
-#endif
 
 s32 adx_now_playing() {
     bgm_exe.state = ADXT_GetStat(adxt);
@@ -725,6 +727,10 @@ void SsAllNoteOff() {
 }
 
 void SsRequestPan(u16 reqNum, s16 start, s32 /* unused */, s32 /* unused */, s32 /* unused */) {
+#if defined(TARGET_PS2)
+    u16 remake_sound_code_for_DC(s32 code, SoundPatchConfig * rmcode);
+#endif
+
     SoundPatchConfig rmcode;
 
     start -= 0x40;
@@ -745,10 +751,6 @@ void SsRequestPan(u16 reqNum, s16 start, s32 /* unused */, s32 /* unused */, s32
     sound_request_for_dc(&rmcode, start);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", literal_741_00552678);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", remake_sound_code_for_DC);
-#else
 u16 remake_sound_code_for_DC(u16 code, SoundPatchConfig *rmcode) {
     u16 cd;
     u16 mtf;
@@ -848,9 +850,12 @@ u16 remake_sound_code_for_DC(u16 code, SoundPatchConfig *rmcode) {
 
     return rnum;
 }
-#endif
 
 void SsRequest(u16 ReqNumber) {
+#if defined(TARGET_PS2)
+    u16 remake_sound_code_for_DC(s32 code, SoundPatchConfig * rmcode);
+#endif
+
     SoundPatchConfig rmcode;
 
     if (remake_sound_code_for_DC(ReqNumber, &rmcode)) {
@@ -862,6 +867,10 @@ void SsRequest(u16 ReqNumber) {
 }
 
 void SsRequest_CC(u16 num) {
+#if defined(TARGET_PS2)
+    u16 remake_sound_code_for_DC(s32 code, SoundPatchConfig * rmcode);
+#endif
+
     SoundPatchConfig rmcode;
 
     if (remake_sound_code_for_DC(num, &rmcode)) {
@@ -874,6 +883,10 @@ void SsRequest_CC(u16 num) {
 }
 
 void Standby_BGM(u16 num) {
+#if defined(TARGET_PS2)
+    u16 remake_sound_code_for_DC(s32 code, SoundPatchConfig * rmcode);
+#endif
+
     SoundPatchConfig rmcode;
 
     if (remake_sound_code_for_DC(num, &rmcode)) {
@@ -906,6 +919,10 @@ void SsBgmOff() {
 }
 
 void SsBgmFadeIn(u16 ReqNumber, u16 FadeSpeed) {
+#if defined(TARGET_PS2)
+    u16 remake_sound_code_for_DC(s32 code, SoundPatchConfig * rmcode);
+#endif
+
     SoundPatchConfig rmcode;
     s32 fade_time = 0x8000 / FadeSpeed;
 

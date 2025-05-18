@@ -39,6 +39,7 @@ special_cases = {
     ("mcsub", ".sbss", 0): 16,
     ("spgauge", ".sbss", 0): 16,
     ("VITAL", ".sbss", 0): 16,
+    ("RANKING", ".sbss", 0): 16,
 
     ("bss_6BDA68", ".bss", 0): 8,
     ("iopnotify", ".bss", 0): 8,

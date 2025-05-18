@@ -5,6 +5,8 @@
 #include <cri/cri_xpts.h>
 #include <cri/sj.h>
 
+void ADXRNA_Init();
+void ADXRNA_Finish();
 ADXRNA ADXRNA_Create(SJ *, Sint32);
 void ADXRNA_Destroy(ADXRNA rna);
 void ADXRNA_EntryErrFunc(void (*)(void *, Char8 *), void *);

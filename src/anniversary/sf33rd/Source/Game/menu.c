@@ -1,7 +1,9 @@
 #include "sf33rd/Source/Game/menu.h"
 #include "common.h"
 #include "sf33rd/Source/Game/DIR_DATA.h"
+#include "sf33rd/Source/Game/EFF10.h"
 #include "sf33rd/Source/Game/EFF45.h"
+#include "sf33rd/Source/Game/EFFA3.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/EX_DATA.h"
 #include "sf33rd/Source/Game/Entry.h"
@@ -120,6 +122,14 @@ void Training_Option(struct _TASK *task_ptr);
 void Button_Config_Tr(struct _TASK *task_ptr);
 void Blocking_Tr_Option(struct _TASK *task_ptr);
 void Menu_Init(struct _TASK *task_ptr);
+s32 Check_Pad_in_Pause(struct _TASK *task_ptr);
+s32 Pause_1st_Sub(struct _TASK *task_ptr);
+s32 Yes_No_Cursor_Move_Sub(struct _TASK *task_ptr);
+void Setup_Button_Sub(s16 x, s16 y, s16 master_player);
+void Button_Exit_Check_in_Game(struct _TASK *task_ptr, s16 PL_id);
+void Setup_Save_Replay_1st(struct _TASK *task_ptr);
+s32 Save_Replay_MC_Sub(struct _TASK *task_ptr, s16);
+void Button_Exit_Check_in_Tr(struct _TASK *task_ptr, s16 PL_id);
 
 typedef void (*MenuFunc)(struct _TASK *);
 

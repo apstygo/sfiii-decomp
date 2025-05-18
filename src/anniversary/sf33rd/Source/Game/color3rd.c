@@ -1,6 +1,7 @@
 #include "sf33rd/Source/Game/color3rd.h"
 #include "common.h"
 #include "sf33rd/AcrSDK/common/plcommon.h"
+#include "sf33rd/AcrSDK/ps2/flps2vram.h"
 #include "structs.h"
 
 typedef struct {

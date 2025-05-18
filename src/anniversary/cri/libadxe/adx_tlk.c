@@ -14,6 +14,8 @@
 #include <cri/cri_adxt.h>
 #include <cri/sj.h>
 
+#include <string.h>
+
 // data
 extern Sint32 adxt_time_mode;
 extern Sint32 adxt_def_svrfreq;

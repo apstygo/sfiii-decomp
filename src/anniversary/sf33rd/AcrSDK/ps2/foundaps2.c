@@ -14,6 +14,7 @@
 #include "sf33rd/AcrSDK/ps2/flps2vram.h"
 #include "sf33rd/AcrSDK/ps2/ps2PAD.h"
 #include "structs.h"
+
 #include <eekernel.h>
 #include <libcdvd.h>
 #include <libdma.h>
@@ -21,6 +22,7 @@
 #include <libvu0.h>
 #include <sifdev.h>
 #include <sifprc.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -538,7 +540,7 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
     ds->acr_prmodecont.I64[1] = SCE_GS_PRMODECONT;
     ds->acr_dimx.I64[0] = SCE_GS_SET_DIMX(4, 2, 5, 3, 0, 6, 1, 7, 5, 3, 4, 2, 1, 7, 0, 6);
     ds->acr_dimx.I64[1] = SCE_GS_DIMX;
-    sceGsSyncVCallback((s32(*)(s32))flPS2VSyncCallback);
+    sceGsSyncVCallback((s32 (*)(s32))flPS2VSyncCallback);
 }
 
 void flPS2SwapDBuff(s32 dbi, s32 irq_type) {

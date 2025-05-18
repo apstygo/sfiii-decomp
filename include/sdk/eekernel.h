@@ -1,7 +1,11 @@
 #ifndef _eekernel_h_
 #define _eekernel_h_
 
+#if defined(TARGET_PS2)
 #include "mw_stdarg.h"
+#else
+#include <stdarg.h>
+#endif
 
 #define ExitHandler() asm("sync.l; ei")
 

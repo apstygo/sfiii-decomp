@@ -10,13 +10,14 @@
 
 #include <cri/cri_adxf.h>
 #include <cri/sj.h>
+
 #include <memory.h>
 
 // TODO: Remove trailing null bytes from string literals
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_CALC_BYTE2SCT);
 
-void adxf_SetCmdHstry(s32 ncall, s32 fg, s32 ptid, s32 flid, s32 type) {
+void adxf_SetCmdHstry(Sint32 ncall, Sint32 fg, Sint32 ptid, Sint32 flid, Sint32 type) {
     ADXF_CMD_HSTRY *cmd_hstry;
 
     adxf_hstry_no %= ADXF_CMD_HSTRY_MAX;
@@ -36,7 +37,7 @@ void adxf_SetCmdHstry(s32 ncall, s32 fg, s32 ptid, s32 flid, s32 type) {
 }
 
 void adxf_wait_1ms() {
-    s32 i;
+    Sint32 i;
 
     for (i = 0; i < 50000; i++)
         ;
@@ -72,6 +73,7 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A338);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A368);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_LoadPtBothNw);
 
+void adxf_CloseLdptnwHn();
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_CloseLdptnwHn);
 
 void ADXF_StopPtLd() {
@@ -98,7 +100,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_GetPtStatEx)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_GetPtinfoSize);
 
 ADXF adxf_AllocAdxFs() {
-    s32 i;
+    Sint32 i;
     ADXF temp;
     ADXF start = NULL;
 
@@ -150,11 +152,11 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_SetFileInfoE
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_Open);
 
-s32 adxf_SetAfsFileInfo(ADX_FS *adxf, s32 ptid, s32 flid) {
+Sint32 adxf_SetAfsFileInfo(ADX_FS *adxf, Sint32 ptid, Sint32 flid) {
     Char8 fname[256];
     void *dir;
-    s32 ofst;
-    s32 fnsct;
+    Sint32 ofst;
+    Sint32 fnsct;
 
     if (ADXF_GetFnameRangeEx(ptid, flid, fname, &dir, &ofst, &fnsct) < 0) {
         return ADXF_ERR_PRM;
@@ -179,7 +181,7 @@ s32 adxf_SetAfsFileInfo(ADX_FS *adxf, s32 ptid, s32 flid) {
     return ADXF_ERR_OK;
 }
 
-ADXF ADXF_OpenAfs(s32 ptid, s32 flid) {
+ADXF ADXF_OpenAfs(Sint32 ptid, Sint32 flid) {
     ADXF adxf;
 
     adxf_SetCmdHstry(2, 0, ptid, flid, -1);
@@ -246,7 +248,7 @@ void ADXF_CloseAll() {
     }
 }
 
-Sint32 adxf_read_sj32(ADXF adxf, s32 nsct, SJ sj) {
+Sint32 adxf_read_sj32(ADXF adxf, Sint32 nsct, SJ sj) {
     Sint32 rqsct;
 
     if (ADXSTM_GetStat(adxf->stm) != 1) {
@@ -413,7 +415,7 @@ void adxf_ExecOne(ADXF adxf) {
         adxf->stat = ADXSTM_GetStat(adxf->stm);
         adxf->rdsct = ADXSTM_Tell(adxf->stm) - adxf->skpos;
 
-        if ((u32)((u8)adxf->stat - 3) < 2) {
+        if ((Uint32)((u8)adxf->stat - 3) < 2) {
             adxf->skpos = adxf->skpos + adxf->rdsct;
             adxf_CloseSjStm(adxf);
         }
@@ -451,7 +453,7 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A718);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A740);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_Seek);
 
-s32 ADXF_Tell(ADXF adxf) {
+Sint32 ADXF_Tell(ADXF adxf) {
     if (adxf == NULL) {
         ADXERR_CallErrFunc1("E9040827:'adxf' is NULL.(ADXF_Tell)");
         return ADXF_ERR_PRM;
@@ -460,7 +462,7 @@ s32 ADXF_Tell(ADXF adxf) {
     return adxf->skpos;
 }
 
-s32 ADXF_GetFsizeSct(ADXF adxf) {
+Sint32 ADXF_GetFsizeSct(ADXF adxf) {
     if (adxf == NULL) {
         ADXERR_CallErrFunc1("E9040828:'adxf' is NULL.(ADXF_GetFsizeSct)\0\0");
         return ADXF_ERR_PRM;
@@ -533,14 +535,14 @@ typedef struct {
     Uint16 file_sizes[0];
 } ADXF_PTINFO_SMALL; /* 0x11A */
 
-s32 ADXF_GetFnameRangeEx(s32 ptid, s32 flid, s8 *fname, void **dir, s32 *ofst, s32 *fnsct) {
+Sint32 ADXF_GetFnameRangeEx(Sint32 ptid, Sint32 flid, Char8 *fname, void **dir, Sint32 *ofst, Sint32 *fnsct) {
     ADXF_PTINFO *ptinfo;
-    s32 ret;
-    s32 nsct;
-    s32 i;
-    u32 offset;
-    u16 *p2;
-    u32 *p4;
+    Sint32 ret;
+    Sint32 nsct;
+    Sint32 i;
+    Uint32 offset;
+    Uint16 *p2;
+    Uint32 *p4;
 
     ADXF_PTINFO_SMALL *small_ptinfo;
 
@@ -558,7 +560,7 @@ s32 ADXF_GetFnameRangeEx(s32 ptid, s32 flid, s8 *fname, void **dir, s32 *ofst, s
 
     if (ptinfo->rev == 1) {
         offset = ptinfo->top;
-        p4 = (u32 *)(ptinfo + 1);
+        p4 = (Uint32 *)(ptinfo + 1);
 
         for (i = 0; i < flid; i++) {
             offset += p4[i];
