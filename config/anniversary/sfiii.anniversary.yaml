@@ -547,7 +547,7 @@ segments:
       - [0x2BCEA0, asm, sf33rd/Source/Compress/zlib/inftrees]
       - [0x2BDB00, asm, sf33rd/Source/Compress/zlib/infutil]
       - [0x2BDD70, asm, sf33rd/Source/Compress/zlib/zutil]
-      - [0x2BDE50, asm, sf33rd/Source/Game/debug/Debug]
+      - [0x2BDE50, c, sf33rd/Source/Game/debug/Debug]
       - [0x2BFF30, asm, sf33rd/Source/Game/debug/OBJTEST] # Good first decomp
       - [0x2C0100, c, sf33rd/Source/Common/MemMan]
       - [0x2C0660, c, sf33rd/Source/Common/PPGFile]
@@ -1262,7 +1262,7 @@ segments:
       - [0x458890, rodata, sf33rd/Source/Compress/zlib/inflate]
       - [0x4589F0, rodata, sf33rd/Source/Compress/zlib/inftrees]
       - [0x458D08, rodata, sf33rd/Source/Compress/zlib/zutil]
-      - [0x458D10, rodata, sf33rd/Source/Game/debug/Debug]
+      - [0x458D10, .rodata, sf33rd/Source/Game/debug/Debug]
       - [0x458E78, rodata, sf33rd/Source/Game/debug/Deb_Data]
       - [0x459600, rodata, sf33rd/Source/Game/debug/Nakai]
       - [0x459650, .rodata, sf33rd/Source/Common/PPGFile]
@@ -1466,7 +1466,8 @@ segments:
       - [0x474540, sdata, sf33rd/Source/Game/win_pl]
       - [0x474580, sdata, sf33rd/Source/Compress/zlib/inftrees]
       - [0x474590, sdata, sf33rd/Source/Compress/zlib/infutil]
-      - [0x4745D8, sdata, sf33rd/Source/Game/debug/Debug]
+      - [0x4745D8, sdata, sf33rd/Source/Game/debug/Debug_more_sdata]
+      - [0x4745F0, .sdata, sf33rd/Source/Game/debug/Debug]
       - [0x474630, sdata, sf33rd/Source/Game/debug/Deb_Data]
       - [0x474650, .sdata, sf33rd/Source/Common/PPGFile]
       - [0x4746B0, .sdata, sf33rd/AcrSDK/ps2/flps2render]
@@ -1631,7 +1632,7 @@ segments:
       - { type: .sbss, vram: 0x57A780, name: sf33rd/Source/Compress/zlibApp }
       - { type: sbss, vram: 0x57A7F8, name: sf33rd/Source/Compress/zlib/zutil }
       - { type: sbss, vram: 0x57A7FC, name: sf33rd/Source/Game/debug/Debug_ID }
-      - { type: sbss, vram: 0x57A800, name: sf33rd/Source/Game/debug/Debug }
+      - { type: .sbss, vram: 0x57A800, name: sf33rd/Source/Game/debug/Debug }
       - { type: sbss, vram: 0x57A8B0, name: sf33rd/Source/Game/debug/OBJTEST }
       - { type: sbss, vram: 0x57A930, name: sf33rd/Source/Game/debug/OTESTDAT }
       - { type: .sbss, vram: 0x57A94C, name: sf33rd/Source/Common/MemMan }
