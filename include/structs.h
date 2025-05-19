@@ -2166,4 +2166,14 @@ typedef struct {
     char swy;   // offset 0x29, size 0x1
 } MotionState;
 
+typedef struct {
+    // total size: 0x10
+    s8 contents[2][2][4]; // offset 0x0, size 0x10
+} TrainingData;
+
+typedef struct {
+    // total size: 0x20
+    char contents[4][8]; // offset 0x0, size 0x20
+} CK_EX_OPTION;
+
 #endif
