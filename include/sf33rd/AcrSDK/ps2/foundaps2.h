@@ -8,12 +8,18 @@
 #define VRAM_CONTROL_SIZE 1344
 #define LOAD_CHECK_TIME_SIZE 20
 #define DEBUG_TRUE_TIME_SIZE 4
+#define DEBUG_SYS_MEM_SIZE 4096
 
 extern u32 flLoadCheckColor[20];                      // size: 0x50, address: 0x57AA50
 extern u32 flLoadCheckTime[LOAD_CHECK_TIME_SIZE];     // size: 0x4, address: 0x57AAA0
 extern s32 flLoadCheckTimeOld;                        // size: 0x4, address: 0x57AAF0
 extern s32 flLoadCheckCtr;                            // size: 0x4, address: 0x57AAF4
 extern u32 flDebugTrueTimeFree[DEBUG_TRUE_TIME_SIZE]; // size: 0x10, address: 0x57AB00
+extern u32 flDebugSysMemMotion;                       // size: 0x4, address: 0x57AB10
+extern u32 flDebugSysMemClay;                         // size: 0x4, address: 0x57AB14
+extern u32 flDebugSysMemTexture;                      // size: 0x4, address: 0x57AB18
+extern u32 flDebugSysMemEtc;                          // size: 0x4, address: 0x57AB1C
+extern u32 flDebugSysMemHandleNum;                    // size: 0x4, address: 0x57AB20
 extern s32 flDebugMATERIALNum;                        // size: 0x4, address: 0x57AB24
 extern s32 flDebugPOLYNum;                            // size: 0x4, address: 0x57AB28
 extern s32 flDebugVERTNum;                            // size: 0x4, address: 0x57AB2C
@@ -26,6 +32,12 @@ extern s32 flDebugErrECNum;                           // size: 0x4, address: 0x5
 extern s32 flDebugECNum;                              // size: 0x4, address: 0x57AB48
 extern u32 flDebugEndRenderTime;                      // size: 0x4, address: 0x57AB4C
 extern u32 flDebugTrueTime[DEBUG_TRUE_TIME_SIZE];     // size: 0x10, address: 0x57AB50
+extern u32 flDebugStrCtr;                             // size: 0x4, address: 0x57AB60
+extern u32 flDebugStrCol;                             // size: 0x4, address: 0x57AB64
+extern s32 flDebugStrX;                               // size: 0x4, address: 0x57AB68
+extern s32 flDebugStrY;                               // size: 0x4, address: 0x57AB6C
+extern u32 flDebugStrHan;                             // size: 0x4, address: 0x57AB70
+extern u32 flhDebugStr;                               // size: 0x4, address: 0x57AB74
 extern s32 flPS2FlipCancelFlag;                       // size: 0x4, address: 0x57AB78
 extern f32 flPS2FrameTexScaleY;                       // size: 0x4 address: 0x57AB7C
 extern f32 flPS2FrameTexScaleX;                       // size: 0x4, address: 0x57AB80
@@ -51,6 +63,7 @@ extern s32 flPTNum;                                   // size: 0x4, address: 0x5
 extern s32 flVramNum;                                 // size: 0x4, address: 0x57AE3C
 extern LPVram *flVramList;                            // size: 0x4, address: 0x57AE40
 extern FLPS2VIF1Control flPs2VIF1Control;             // size: 0x3C, address: 0x57AE50
+extern u32 flDebugFlag;                               // size: 0x4, address: 0x57AE8C
 extern u32 flFogColor;                                // size: 0x4, address: 0x57AE9C
 extern FL_FMS flFMS;                                  // size: 0x18, address: 0x57AEB0
 extern u32 flSystemRenderOperation;                   // size: 0x4, address: 0x57AEC8
@@ -65,6 +78,7 @@ extern s32 flHeight;                                  // size: 0x4, address: 0x5
 extern s32 flWidth;                                   // size: 0x4, address: 0x57AF40
 extern s32 flCTNum;                                   // size: 0x4, address: 0x57AF44
 
+extern s32 flDebugSysMem[DEBUG_SYS_MEM_SIZE];   // size: 0x4000, address: 0x6C0DD0
 extern MTX flMATRIX[36];                        // size: 0x900, address: 0x6C4DD0
 extern FLTexture flPalette[1088];               // size: 0xFF00, address: 0x6C56D0
 extern FLTexture flTexture[256];                // size: 0x3C00, address: 0x6D55D0

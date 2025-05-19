@@ -2176,4 +2176,47 @@ typedef struct {
     char contents[4][8]; // offset 0x0, size 0x20
 } CK_EX_OPTION;
 
+typedef struct {
+    // total size: 0x10
+    f32 r; // offset 0x0, size 0x4
+    f32 g; // offset 0x4, size 0x4
+    f32 b; // offset 0x8, size 0x4
+    f32 a; // offset 0xC, size 0x4
+} FLColor;
+
+typedef struct {
+    // total size: 0xC
+    f32 x; // offset 0x0, size 0x4
+    f32 y; // offset 0x4, size 0x4
+    f32 z; // offset 0x8, size 0x4
+} FLVec3;
+
+typedef struct {
+    // total size: 0x4C
+    u32 desc;         // offset 0x0, size 0x4
+    FLColor diffuse;  // offset 0x4, size 0x10
+    FLColor specular; // offset 0x14, size 0x10
+    FLColor ambient;  // offset 0x24, size 0x10
+    FLColor emissive; // offset 0x34, size 0x10
+    u32 tex;          // offset 0x44, size 0x4
+    s32 power;        // offset 0x48, size 0x4
+} FLMaterial;
+
+typedef struct {
+    // total size: 0x68
+    u32 desc;         // offset 0x0, size 0x4
+    FLColor diffuse;  // offset 0x4, size 0x10
+    FLColor specular; // offset 0x14, size 0x10
+    FLColor ambient;  // offset 0x24, size 0x10
+    FLVec3 direction; // offset 0x34, size 0xC
+    FLVec3 position;  // offset 0x40, size 0xC
+    f32 Attenuation0; // offset 0x4C, size 0x4
+    f32 Attenuation1; // offset 0x50, size 0x4
+    f32 Attenuation2; // offset 0x54, size 0x4
+    f32 Range;        // offset 0x58, size 0x4
+    f32 theta;        // offset 0x5C, size 0x4
+    f32 phi;          // offset 0x60, size 0x4
+    f32 Falloff;      // offset 0x64, size 0x4
+} FLLight;
+
 #endif
