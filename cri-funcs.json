@@ -50,6 +50,8 @@
     ],
     "adx_fs": [
         "adxf_SetCmdHstry",
+        "ADXF_LoadPartitionNw",
+        "ADXF_GetPtStat",
         "adxf_AllocAdxFs",
         "adxf_CreateAdxFs",
         "adxf_SetAfsFileInfo",
@@ -61,6 +63,7 @@
         "ADXF_ReadNw32",
         "ADXF_ReadNw",
         "ADXF_Stop",
+        "ADXF_StopNw",
         "adxf_ExecOne",
         "ADXF_ExecServer",
         "ADXF_GetFsizeSct",
@@ -92,9 +95,12 @@
         "adxm_ShutdownSafeThrd",
         "ADXM_Lock",
         "ADXM_Unlock",
-        "ADXM_ExecMain"
+        "ADXPS2_ExecVint",
+        "ADXM_ExecMain",
+        "ADXPS2_SetupThrd"
     ],
     "adx_rnap": [
+        "ADXPS2_SetupVoice",
         "ADXRNA_Init",
         "ADXRNA_Finish",
         "ADXRNA_EntryErrFunc",
@@ -154,7 +160,12 @@
         "ADXSTM_OpenCvfs"
     ],
     "adx_sudv": [
+        "ADXPS2_SetupDvdFs",
         "ADXPS2_LoadFcacheDvd"
+    ],
+    "adx_suht": [
+        "ADXPS2_SetupHostFs",
+        "ADXPS2_LoadFcacheHost"
     ],
     "adx_tlk": [
         "ADXT_Create",
@@ -172,6 +183,7 @@
         "ADXT_SetOutVol",
         "ADXT_SetDefSvrFreq",
         "ADXT_GetNumSmplObuf",
+        "ADXT_ExecServer",
         "ADXT_Pause",
         "ADXT_GetStatPause",
         "ADXT_SetLnkSw",
