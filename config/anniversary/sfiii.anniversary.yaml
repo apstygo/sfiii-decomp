@@ -668,12 +668,12 @@ segments:
       - [0x2EE898, asm, gcc/libc/wsetup]
 
       - [0x2EE9B0, asm, sf33rd/AcrSDK/ps2/flps2render]
-      - [0x2F22F0, asm, sf33rd/AcrSDK/ps2/flps2d3d] # Good first decomp
+      - [0x2F22F0, c, sf33rd/AcrSDK/ps2/flps2d3d]
       - [0x2F2300, c, sf33rd/AcrSDK/ps2/flps2debug]
       - [0x2F3DD0, asm, sf33rd/AcrSDK/ps2/flps2dma]
       - [0x2F59E0, c, sf33rd/AcrSDK/ps2/flps2etc]
       - [0x2F7B90, c, sf33rd/AcrSDK/ps2/flps2math]
-      - [0x2F8400, asm, sf33rd/AcrSDK/ps2/flps2ps] # Good first decomp
+      - [0x2F8400, c, sf33rd/AcrSDK/ps2/flps2ps]
       - [0x2F84D0, c, sf33rd/AcrSDK/ps2/flps2vram]
       - [0x2FE130, c, sf33rd/AcrSDK/ps2/foundaps2]
       - [0x300130, c, sf33rd/AcrSDK/ps2/ps2PAD]
