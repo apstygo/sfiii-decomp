@@ -1627,7 +1627,7 @@ segments:
       - { type: .sbss, vram: 0x579AB0, name: sf33rd/Source/Game/Win }
       - { type: sbss, vram: 0x579AB4, name: sf33rd/Source/Game/win_pl }
       - { type: .sbss, vram: 0x579AC4, name: sf33rd/Source/Game/WORK_SYS }
-      - { type: sbss, vram: 0x579DB0, name: sf33rd/Source/Game/workuser }
+      - { type: .sbss, vram: 0x579DB0, name: sf33rd/Source/Game/workuser }
       - { type: .sbss, vram: 0x57A780, name: sf33rd/Source/Compress/zlibApp }
       - { type: sbss, vram: 0x57A7F8, name: sf33rd/Source/Compress/zlib/zutil }
       - { type: sbss, vram: 0x57A7FC, name: sf33rd/Source/Game/debug/Debug_ID }
@@ -1701,7 +1701,7 @@ segments:
       - { type: bss, vram: 0x6B3830, name: sf33rd/Source/Game/aboutspr }
       - { type: .bss, vram: 0x6B49D0, name: sf33rd/Source/Game/texgroup }
       - { type: .bss, vram: 0x6B4E80, name: sf33rd/Source/Game/WORK_SYS }
-      - { type: bss, vram: 0x6BD5F0, name: sf33rd/Source/Game/workuser }
+      - { type: .bss, vram: 0x6BD5F0, name: sf33rd/Source/Game/workuser }
       - { type: bss, vram: 0x6BD7D0, name: sf33rd/Source/Game/debug/OBJTEST }
 
       - { type: .bss, vram: 0x6BDA48, name: cri/libadxe/adx_errs }
