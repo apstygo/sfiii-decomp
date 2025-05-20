@@ -156,7 +156,7 @@ EXPECTED_ERRORS = {
     0x11DBA0: 0x3E020286,
     0x11DBA4: 0x21104300,
 
-    #aboutspr::set_judge_area_sprite: instruction matching, regalloc issue
+    # aboutspr::set_judge_area_sprite: instruction matching, regalloc issue
     0x2A8AE8: 0xFFFF6530,
     0x2A8AEC: 0x3C241000,
     0x2A8AF0: 0x3F240400,
