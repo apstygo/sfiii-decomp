@@ -75,7 +75,9 @@ s32 setup_GILL_Opening_Ceremony() {
     return 1;
 }
 
-void setup_bonus_car_parts() {}
+void setup_bonus_car_parts() {
+    // Do nothing
+}
 
 void setup_dma_group(u16 num, u32 /* unused */) {
 #if defined(TARGET_PS2)
