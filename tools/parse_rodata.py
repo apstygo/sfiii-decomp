@@ -107,27 +107,45 @@ class StructDecodable(Decodable):
     def __align(self, offset: int, alignment: int) -> int:
         return ((offset + alignment - 1) // alignment) * alignment
     
+class ArrayDecodable(Decodable):
+    def __init__(self, element: Decodable, dimensions: Iterable[int]):
+        if len(dimensions) == 0:
+            raise ValueError("dimensions can't be empty")
+        elif len(dimensions) > 1:
+            self.element = ArrayDecodable(element, dimensions[1:])
+        else:
+            self.element = element
+
+        self.dimensions = dimensions
+        super().__init__()
+
+    def decode(self, data: bytes) -> list[Any]:
+        decoded_elements = list()
+
+        for start in range(0, self.size(), self.stride):
+            end = start + self.element.size()
+            decoded_elements.append(self.element.decode(data[start:end]))
+
+        return decoded_elements
+
+    def size(self) -> int:
+        return self.dimensions[0] * self.stride
+    
+    def alignment(self) -> int:
+        return self.element.alignment()
+    
+    @property
+    def stride(self) -> int:
+        elem_size = self.element.size()
+        elem_alignment = self.element.alignment()
+        return (elem_size + elem_alignment - 1) // elem_alignment * elem_alignment
+    
 def decode_type(decodable: Decodable, offset: int) -> Any:
     end_offset = offset + decodable.size()
     data_to_decode = binary[offset:end_offset]
     return decodable.decode(data_to_decode)
 
-def decode_array(decodable: Decodable, offset: int, dimensions: Iterable[int]) -> Any:
-    if len(dimensions) == 0:
-        return decode_type(decodable, offset)
-
-    result = list()
-    stride = reduce(lambda x, y: x * y, dimensions[1:], 1)
-    stride *= decodable.size()
-
-    for i in range(dimensions[0]):
-        sub_result_offset = offset + i * stride
-        sub_result = decode_array(decodable, sub_result_offset, dimensions[1:])
-        result.append(sub_result)
-
-    return result
-
-def generate_code(value: Any):
+def generate_code(value: Any, hex_ints: bool = False):
     if isinstance(value, list):
         print("{", end="")
         is_first = True
@@ -137,27 +155,35 @@ def generate_code(value: Any):
                 print(",", end="")
 
             is_first = False
-            generate_code(element)
+            generate_code(element, hex_ints)
 
         print("}", end="")
     elif isinstance(value, float):
         print(f"{value}f", end="")
     elif isinstance(value, NamedValue):
         print(f".{value.name} = ", end="")
-        generate_code(value.value)
+        generate_code(value.value, hex_ints)
     elif isinstance(value, str):
         print(f"\"{value}\"", end="")
     else:
-        print(value, end="")
+        if hex_ints:
+            prefix = ""
+
+            if value < 0:
+                value *= -1
+                prefix = "-"
+
+            print(f"{prefix}0x{value:X}", end="")
+        else:
+            print(value, end="")
 
 def main():
     # Change these values
 
     offset = 0x423630
-    decodable = S16
-    dimensions = [12]
+    decodable = ArrayDecodable(S16, [12])
 
-    generate_code(decode_array(decodable, offset, dimensions))
+    generate_code(decode_type(decodable, offset))
 
 if __name__ == "__main__":
     main()
