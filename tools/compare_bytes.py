@@ -174,7 +174,7 @@ EXPECTED_ERRORS = {
     0x2AA4A0: 0x3F2C0500,
     0x2AA4B8: 0x2118A200,
 
-    #aboutspr::sort_push_requestB: instruction matching, regalloc issue
+    # aboutspr::sort_push_requestB: instruction matching, regalloc issue
     0x2AAA58: 0x3C2C0200,
     0x2AAA5C: 0x3F2C0500,
     0x2AAA74: 0x2110A200,
