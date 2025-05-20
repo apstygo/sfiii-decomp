@@ -202,7 +202,8 @@ void all_cgps_put_back(u32 /* unused */) {}
 void Mtrans_use_trans_mode(WORK *wk, s16 bsy) {
     if (mts_ok[wk->my_mts].be == 0) {
         // A display request was received before MTS initialization. MTS number: %d\n
-        // "ＭＴＳの初期化前に表示要求が入りました。ＭＴＳ番号：%d\n" Original text, mwcc(gap) must nourish on the
+        // Original text: "ＭＴＳの初期化前に表示要求が入りました。ＭＴＳ番号：%d\n"
+        // For some reason MWCC (or mwccgap) removes a single byte from the string, resulting in a mismatch.
         // single byte.
         flLogOut("\x82\x6c\x82\x73\x82\x72\x82\xcc\x8f\x89\x8a\xfa\x89\xbb\x91\x4f\x82\xc9\x95\x5c\x8e\xa6\x97\x76\x8b"
                  "\x81\x82\xaa\x93\xfc\x82\xe8\x82\xdc\x82\xb5\x82\xbd\x81\x42\x82\x6c\x82\x73\x82\x72\x94\xd4\x8d\x86"
