@@ -2219,4 +2219,16 @@ typedef struct {
     f32 Falloff;      // offset 0x64, size 0x4
 } FLLight;
 
+typedef struct {
+    // total size: 0x8
+    union {
+        s32 cal; // offset 0x0, size 0x4
+        struct {
+            // total size: 0x4
+            u16 low; // offset 0x0, size 0x2
+            s16 pos; // offset 0x2, size 0x2
+        } disp;      // offset 0x0, size 0x4
+    } iw[2];         // offset 0x0, size 0x8
+} Ideal_W;
+
 #endif

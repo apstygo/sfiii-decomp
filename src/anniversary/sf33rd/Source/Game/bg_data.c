@@ -1,4 +1,38 @@
 #include "common.h"
+#include "structs.h"
+
+// sbss
+
+s16 base_y_pos;
+s16 bg_stop;
+s8 bg_app_stop;
+BGW *bgw_ptr;
+Ideal_W ideal_w;
+s8 demo_car_flag[2];
+s16 chase_x;
+s16 chase_y;
+s16 chase_time_x;
+s16 chase_time_y;
+MVXY bg_mvxy;
+s8 akebono_flag;
+s8 seraph_flag;
+s8 aku_flag;
+s8 sa_pa_flag;
+s8 bg_app;
+s16 ls_cnt1;
+u16 zoom_add;
+s16 scrn_adgjust_x;
+s16 scrn_adgjust_y;
+u16 *scr_bcm[4];
+u8 nosekae;
+u8 g_kakikae[2];
+u8 g_number[2];
+u8 c_kakikae;
+u8 c_number;
+u8 y_sitei_flag;
+s16 y_sitei_pos;
+
+// rodata
 
 const u8 use_scr[22] = { 2, 2, 3, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 3, 2, 2, 2, 2, 2, 2, 2 };
 

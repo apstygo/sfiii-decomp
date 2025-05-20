@@ -42,6 +42,7 @@ special_cases = {
     ("VITAL", ".sbss", 0): 16,
     ("RANKING", ".sbss", 0): 16,
     ("OBJTEST", ".sbss", 0): 16,
+    ("CHARID", ".sbss", 0): 16,
 
     ("bss_6BDA68", ".bss", 0): 8,
     ("iopnotify", ".bss", 0): 8,
