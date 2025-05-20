@@ -253,7 +253,7 @@ void Mtrans_use_trans_mode(WORK *wk, s16 bsy) {
                 return;
             }
             if ((u32)Debug_w[0x27] == 2) {
-                /* fallthrough */
+                // Do nothing
             }
             break;
         case 36:
