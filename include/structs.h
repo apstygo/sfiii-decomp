@@ -720,39 +720,39 @@ typedef struct {
 } WORK_Other;
 
 typedef struct {
-	// total size: 0x6F8
+    // total size: 0x6F8
     WORK wu;             // offset 0x0, size 0x388
     u32 *my_master;      // offset 0x388, size 0x4
     s16 master_work_id;  // offset 0x38C, size 0x2
     s16 master_id;       // offset 0x38E, size 0x2
     s16 master_player;   // offset 0x390, size 0x2
     s16 master_priority; // offset 0x392, size 0x2
-    s16 prio_reverse; // offset 0x394, size 0x2
-    s16 num_of_conn; // offset 0x396, size 0x2
+    s16 prio_reverse;    // offset 0x394, size 0x2
+    s16 num_of_conn;     // offset 0x396, size 0x2
     struct /* @anon50 */ {
         // total size: 0x8
-        s16 nx; // offset 0x0, size 0x2
-        s16 ny; // offset 0x2, size 0x2
+        s16 nx;  // offset 0x0, size 0x2
+        s16 ny;  // offset 0x2, size 0x2
         s16 col; // offset 0x4, size 0x2
         u16 chr; // offset 0x6, size 0x2
     } conn[108]; // offset 0x398, size 0x360
 } WORK_Other_CONN;
 
 typedef struct {
-	// total size: 0x6F8
+    // total size: 0x6F8
     WORK wu;             // offset 0x0, size 0x388
     u32 *my_master;      // offset 0x388, size 0x4
     s16 master_work_id;  // offset 0x38C, size 0x2
     s16 master_id;       // offset 0x38E, size 0x2
     s16 master_player;   // offset 0x390, size 0x2
     s16 master_priority; // offset 0x392, size 0x2
-    char look_up_flag; // offset 0x394, size 0x1
-    char curr_ja; // offset 0x395, size 0x1
-    u16 ja_disp_bit; // offset 0x396, size 0x2
-    u16 ja_color_bit; // offset 0x398, size 0x2
-    s16 fade_cja; // offset 0x39A, size 0x2
-    s16 ja[62][2]; // offset 0x39C, size 0xF8
-    s16 jx[15][4]; // offset 0x494, size 0x78
+    char look_up_flag;   // offset 0x394, size 0x1
+    char curr_ja;        // offset 0x395, size 0x1
+    u16 ja_disp_bit;     // offset 0x396, size 0x2
+    u16 ja_color_bit;    // offset 0x398, size 0x2
+    s16 fade_cja;        // offset 0x39A, size 0x2
+    s16 ja[62][2];       // offset 0x39C, size 0xF8
+    s16 jx[15][4];       // offset 0x494, size 0x78
 } WORK_Other_JUDGE;
 
 typedef struct {

@@ -1992,14 +1992,14 @@ void mlt_obj_trans_init(MultiTexture *mt, s32 mode, u8 *adrs) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", mlt_obj_trans_update);
 
-void draw_box(f64 arg0,f64 arg1,f64 arg2,f64 arg3,u32 col, u32 attr, s16 prio) {
-    f32 px; // r29+0x7C
-    f32 py; // r29+0x78
-    f32 sx; // r29+0x74
-    f32 sy; // r29+0x70
-    Vec3 point[2]; // r29+0x50
-    PAL_CURSOR line; // r29+0x40
-    PAL_CURSOR_P xy[4]; // r29+0x20
+void draw_box(f64 arg0, f64 arg1, f64 arg2, f64 arg3, u32 col, u32 attr, s16 prio) {
+    f32 px;               // r29+0x7C
+    f32 py;               // r29+0x78
+    f32 sx;               // r29+0x74
+    f32 sy;               // r29+0x70
+    Vec3 point[2];        // r29+0x50
+    PAL_CURSOR line;      // r29+0x40
+    PAL_CURSOR_P xy[4];   // r29+0x20
     PAL_CURSOR_COL cc[4]; // r29+0x10
 
     px = arg0;

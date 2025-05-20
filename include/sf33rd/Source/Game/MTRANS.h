@@ -20,6 +20,6 @@ void mlt_obj_disp(MultiTexture *mt, WORK *wk, s32 base_y);
 void mlt_obj_trans_cp3(MultiTexture *mt, WORK *wk, s32 base_y);
 void mlt_obj_trans_rgb(MultiTexture *mt, WORK *wk, s32 base_y);
 void mlt_obj_trans(MultiTexture *mt, WORK *wk, s32 base_y);
-void draw_box(f64 arg0,f64 arg1,f64 arg2,f64 arg3,u32 col, u32 attr, s16 prio);
+void draw_box(f64 arg0, f64 arg1, f64 arg2, f64 arg3, u32 col, u32 attr, s16 prio);
 
 #endif

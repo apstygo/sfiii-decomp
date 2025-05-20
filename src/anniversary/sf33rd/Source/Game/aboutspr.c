@@ -1,17 +1,17 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "common.h"
-#include "sf33rd/Source/Game/debug/Debug.h"
-#include "sf33rd/Source/Game/CHARID.h"
-#include "sf33rd/Source/Game/color3rd.h"
-#include "sf33rd/Source/Game/texgroup.h"
-#include "sf33rd/Source/Game/EFFECT.h"
-#include "sf33rd/Source/Game/AcrUtil.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
+#include "sf33rd/Source/Game/AcrUtil.h"
+#include "sf33rd/Source/Game/CHARID.h"
 #include "sf33rd/Source/Game/DC_Ghost.h"
-#include "sf33rd/Source/Game/workuser.h"
-#include "sf33rd/Source/Game/bg_data.h"
-#include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/MTRANS.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/bg_data.h"
+#include "sf33rd/Source/Game/color3rd.h"
+#include "sf33rd/Source/Game/debug/Debug.h"
+#include "sf33rd/Source/Game/texgroup.h"
+#include "sf33rd/Source/Game/workuser.h"
 
 // bss
 MultiTexture mts[24]; // size: 0x960, address: 0x6B4070
@@ -19,10 +19,15 @@ MTS_OK mts_ok[24];
 WORK dmwk_moji; // size: 0x388, address: 0x6B3BC0
 WORK dmwk_kage; // size: 0x388, address: 0x6B3830
 
-//first part of rodata
-const u16 effk8k9_pattern[18] = {36896,36897,36898,36899,36900,36901,36902,36903,36905,36906,36907,36908,36909,36910,36912,36914,36916,36918};
+// first part of rodata
+const u16 effk8k9_pattern[18] = { 36896, 36897, 36898, 36899, 36900, 36901, 36902, 36903, 36905,
+                                  36906, 36907, 36908, 36909, 36910, 36912, 36914, 36916, 36918 };
 
-const u32 judge_area_attr[17][2] = {{2147475455,96},{2147471359,96},{2147463167,96},{2147459071,96},{2147442687,96},{2147438591,96},{2147434495,96},{2147430399,96},{2952740608,96},{2147450624,96},{2936078335,96},{2936074239,96},{2130751487,96},{2130747391,96},{2147483647,64},{2147483647,32},{2147483647,96}};
+const u32 judge_area_attr[17][2] = { { 2147475455, 96 }, { 2147471359, 96 }, { 2147463167, 96 }, { 2147459071, 96 },
+                                     { 2147442687, 96 }, { 2147438591, 96 }, { 2147434495, 96 }, { 2147430399, 96 },
+                                     { 2952740608, 96 }, { 2147450624, 96 }, { 2936078335, 96 }, { 2936074239, 96 },
+                                     { 2130751487, 96 }, { 2130747391, 96 }, { 2147483647, 64 }, { 2147483647, 32 },
+                                     { 2147483647, 96 } };
 
 void Init_load_on_memory_data() {
     copy_char_base_data();
@@ -40,7 +45,7 @@ void Init_load_on_memory_data() {
 }
 
 s32 setup_GILL_exsa_obj(void) {
-    WORK* ewk;
+    WORK *ewk;
     s16 i;
     s16 ix;
 
@@ -51,13 +56,13 @@ s32 setup_GILL_exsa_obj(void) {
     ewk->disp_flag = 1;
     ewk->my_mts = 6;
     ewk->my_col_code = 2;
-    
+
     for (i = 0; i < 8; i++) {
         ewk->cg_number = effk8k9_pattern[i];
         sort_push_request(ewk);
     }
     ewk->my_col_code = 10;
-    
+
     for (i = 8; i < 18; i++) {
         ewk->cg_number = effk8k9_pattern[i];
         sort_push_request(ewk);
@@ -65,7 +70,6 @@ s32 setup_GILL_exsa_obj(void) {
     push_effect_work(ewk);
     return 1;
 }
-
 
 s32 setup_GILL_Opening_Ceremony(void) {
     return 1;
@@ -87,7 +91,7 @@ void reset_dma_group(u16 num) {
     purge_texture_group_of_this(num);
 }
 
-void set_judge_area_sprite(WORK_Other_JUDGE* wk, s16 bsy) {
+void set_judge_area_sprite(WORK_Other_JUDGE *wk, s16 bsy) {
     PAL_CURSOR_COL oricol;
     s16 i;
     s16 mf;
@@ -98,7 +102,7 @@ void set_judge_area_sprite(WORK_Other_JUDGE* wk, s16 bsy) {
     } else {
         mf = 1;
     }
-    
+
     for (i = 0; i < 15; i++) {
         if (wk->ja_disp_bit & (1 << i)) {
             oricol.color = judge_area_attr[i][0];
@@ -106,30 +110,36 @@ void set_judge_area_sprite(WORK_Other_JUDGE* wk, s16 bsy) {
                 oricol.argb.a += 0x40;
             }
             if (i == (wk->curr_ja - 1)) {
-                if (wk->fade_cja  & 0x80) {
+                if (wk->fade_cja & 0x80) {
                     oricol.argb.a = (0xC0 - (wk->fade_cja & 0x7F));
                 } else {
                     oricol.argb.a = (wk->fade_cja + 0x40);
                 }
             }
-            
-            draw_hit_judge_line((float)(wk->jx[i][0] * mf), (float)(wk->jx[i][2]), (float)(wk->jx[i][1] * mf), (float)(wk->jx[i][3]), oricol.color, judge_area_attr[i][1]);
+
+            draw_hit_judge_line((float)(wk->jx[i][0] * mf),
+                                (float)(wk->jx[i][2]),
+                                (float)(wk->jx[i][1] * mf),
+                                (float)(wk->jx[i][3]),
+                                oricol.color,
+                                judge_area_attr[i][1]);
         }
     }
     if (wk->ja_disp_bit & 0x8000) {
         draw_hit_judge_line(-1.0, -1.0, 2.0, 2.0, judge_area_attr[15][0], judge_area_attr[15][1]);
-        draw_hit_judge_line(-2.0, (float)(-wk->wu.position_y - 2), 4.0, 4.0, judge_area_attr[16][0], judge_area_attr[16][1]);
+        draw_hit_judge_line(
+            -2.0, (float)(-wk->wu.position_y - 2), 4.0, 4.0, judge_area_attr[16][0], judge_area_attr[16][1]);
     }
 }
 
 void draw_hit_judge_line(f64 arg0, f64 arg1, f64 arg2, f64 arg3, u32 col, u32 attr) {
-    f32 px; // r29+0x7C
-    f32 py; // r29+0x78
-    f32 sx; // r29+0x74
-    f32 sy; // r29+0x70
-    Vec3 point[2]; // r29+0x50
-    PAL_CURSOR line; // r29+0x40
-    PAL_CURSOR_P xy[4]; // r29+0x20
+    f32 px;               // r29+0x7C
+    f32 py;               // r29+0x78
+    f32 sx;               // r29+0x74
+    f32 sy;               // r29+0x70
+    Vec3 point[2];        // r29+0x50
+    PAL_CURSOR line;      // r29+0x40
+    PAL_CURSOR_P xy[4];   // r29+0x20
     PAL_CURSOR_COL cc[4]; // r29+0x10
 
     px = arg0;
@@ -155,7 +165,7 @@ void draw_hit_judge_line(f64 arg0, f64 arg1, f64 arg2, f64 arg3, u32 col, u32 at
     njDrawPolygon2D(&line, 4, PrioBase[1], attr);
 }
 
-s32 set_conn_sprite(WORK_Other_CONN* wk, s16 bsy) {
+s32 set_conn_sprite(WORK_Other_CONN *wk, s16 bsy) {
     s16 i;
 
     if (wk->num_of_conn == 0) {
@@ -174,10 +184,10 @@ s32 set_conn_sprite(WORK_Other_CONN* wk, s16 bsy) {
     dmwk_moji.rl_flag = wk->wu.rl_flag;
     dmwk_moji.cg_flip = 0;
 
-    for (i = 0;i < wk->num_of_conn; i++) {
+    for (i = 0; i < wk->num_of_conn; i++) {
         dmwk_moji.position_x = (wk->wu.position_x + wk->conn[i].nx);
         dmwk_moji.position_y = (bsy + (wk->wu.position_y + wk->conn[i].ny));
-        dmwk_moji.position_z = (wk->wu.position_z - wk->prio_reverse * i );
+        dmwk_moji.position_z = (wk->wu.position_z - wk->prio_reverse * i);
         dmwk_moji.current_colcd = (wk->wu.current_colcd + wk->conn[i].col);
         dmwk_moji.cg_number = wk->conn[i].chr;
         Mtrans_use_trans_mode(&dmwk_moji, 0);
@@ -187,11 +197,15 @@ s32 set_conn_sprite(WORK_Other_CONN* wk, s16 bsy) {
 
 void all_cgps_put_back(u32 /* unused */) {}
 
-void Mtrans_use_trans_mode(WORK* wk, s16 bsy) {
+void Mtrans_use_trans_mode(WORK *wk, s16 bsy) {
     if (mts_ok[wk->my_mts].be == 0) {
         // A display request was received before MTS initialization. MTS number: %d\n
-        // "ＭＴＳの初期化前に表示要求が入りました。ＭＴＳ番号：%d\n" Original text, mwcc(gap) must nourish on the single byte.
-        flLogOut("\x82\x6c\x82\x73\x82\x72\x82\xcc\x8f\x89\x8a\xfa\x89\xbb\x91\x4f\x82\xc9\x95\x5c\x8e\xa6\x97\x76\x8b\x81\x82\xaa\x93\xfc\x82\xe8\x82\xdc\x82\xb5\x82\xbd\x81\x42\x82\x6c\x82\x73\x82\x72\x94\xd4\x8d\x86\x81\x46\x25\x64\x0a", wk->my_mts);
+        // "ＭＴＳの初期化前に表示要求が入りました。ＭＴＳ番号：%d\n" Original text, mwcc(gap) must nourish on the
+        // single byte.
+        flLogOut("\x82\x6c\x82\x73\x82\x72\x82\xcc\x8f\x89\x8a\xfa\x89\xbb\x91\x4f\x82\xc9\x95\x5c\x8e\xa6\x97\x76\x8b"
+                 "\x81\x82\xaa\x93\xfc\x82\xe8\x82\xdc\x82\xb5\x82\xbd\x81\x42\x82\x6c\x82\x73\x82\x72\x94\xd4\x8d\x86"
+                 "\x81\x46\x25\x64\x0a",
+                 wk->my_mts);
         return;
     }
     if (!No_Trans) {
@@ -204,35 +218,35 @@ void Mtrans_use_trans_mode(WORK* wk, s16 bsy) {
 
         switch (mts[wk->my_mts].mode) {
         case 17:
-            if (( Debug_w[0x24] != 1) || (Debug_w[0x27] != 1)) {
+            if ((Debug_w[0x24] != 1) || (Debug_w[0x27] != 1)) {
                 wk->colcd = exchange_current_colcd(wk);
-                mlt_obj_trans(&mts[wk->my_mts], wk, bsy );
+                mlt_obj_trans(&mts[wk->my_mts], wk, bsy);
                 return;
             }
             break;
         case 18:
-            if (( Debug_w[0x25] != 1) || ( Debug_w[0x27] != 1)) {
+            if ((Debug_w[0x25] != 1) || (Debug_w[0x27] != 1)) {
                 wk->colcd = wk->current_colcd;
-                mlt_obj_trans_cp3(&mts[wk->my_mts], wk, bsy );
+                mlt_obj_trans_cp3(&mts[wk->my_mts], wk, bsy);
                 return;
             }
             break;
         case 20:
-            if (( Debug_w[0x26] != 1) || ( Debug_w[0x27] != 1)) {
+            if ((Debug_w[0x26] != 1) || (Debug_w[0x27] != 1)) {
                 wk->colcd = wk->current_colcd;
-                mlt_obj_trans_rgb(&mts[wk->my_mts], wk, bsy );
+                mlt_obj_trans_rgb(&mts[wk->my_mts], wk, bsy);
                 return;
             }
             break;
         case 33:
-            if (( Debug_w[0x24] != 1) || ( Debug_w[0x27] != 2)) {
+            if ((Debug_w[0x24] != 1) || (Debug_w[0x27] != 2)) {
                 wk->colcd = wk->current_colcd;
-                mlt_obj_disp(&mts[wk->my_mts], wk, (s32)  bsy );
+                mlt_obj_disp(&mts[wk->my_mts], wk, (s32)bsy);
                 return;
             }
             break;
         case 34:
-            if ( Debug_w[0x25] != 1) {
+            if (Debug_w[0x25] != 1) {
                 return;
             }
             if ((u32)Debug_w[0x27] == 2) {
@@ -240,44 +254,44 @@ void Mtrans_use_trans_mode(WORK* wk, s16 bsy) {
             }
             break;
         case 36:
-            if (( Debug_w[0x26] != 1) || ( Debug_w[0x27] != 2)) {
+            if ((Debug_w[0x26] != 1) || (Debug_w[0x27] != 2)) {
                 wk->colcd = wk->current_colcd;
-                mlt_obj_disp_rgb(&mts[wk->my_mts], wk, (s32)  bsy );
+                mlt_obj_disp_rgb(&mts[wk->my_mts], wk, (s32)bsy);
             }
             break;
         }
     }
 }
 
-s16 exchange_current_colcd(WORK* wk) {
+s16 exchange_current_colcd(WORK *wk) {
 #if defined(TARGET_PS2)
     void push_color_trans_req(s32 from_col, s32 to_col);
 #endif
-    WORK* mwk;
+    WORK *mwk;
     s16 col;
-    
-    col = ((WORK_Other*)wk)->wu.current_colcd;
-    switch (((WORK_Other*)wk)->wu.work_id) {
+
+    col = ((WORK_Other *)wk)->wu.current_colcd;
+    switch (((WORK_Other *)wk)->wu.work_id) {
     case 0x1:
-        col = ((WORK_Other*)wk)->wu.id * 8;
-        push_color_trans_req(((WORK_Other*)wk)->wu.current_colcd,col);
+        col = ((WORK_Other *)wk)->wu.id * 8;
+        push_color_trans_req(((WORK_Other *)wk)->wu.current_colcd, col);
         break;
     case 0x8:
     case 0x10:
-        mwk = (WORK*)((WORK_Other*)wk)->my_master;
-        if ((((WORK_Other*)wk)->wu.id == 0x93) || (((WORK_Other*)wk)->wu.id == 0x94)) {
+        mwk = (WORK *)((WORK_Other *)wk)->my_master;
+        if ((((WORK_Other *)wk)->wu.id == 0x93) || (((WORK_Other *)wk)->wu.id == 0x94)) {
             col = mwk->id * 8 + 4;
         }
         break;
     case 0x20:
-        mwk = (WORK*)((WORK_Other*)wk)->my_master;
-        if ((((WORK_Other*)wk)->wu.my_col_code) == (mwk->my_col_code)) {
+        mwk = (WORK *)((WORK_Other *)wk)->my_master;
+        if ((((WORK_Other *)wk)->wu.my_col_code) == (mwk->my_col_code)) {
             col = mwk->id * 8;
         }
         break;
     case 0x40:
-        mwk = (WORK*)((WORK_Other*)wk)->my_master;
-        if ((((WORK_Other*)wk)->wu.my_col_code) == (mwk->my_col_code)) {
+        mwk = (WORK *)((WORK_Other *)wk)->my_master;
+        if ((((WORK_Other *)wk)->wu.my_col_code) == (mwk->my_col_code)) {
             col = ((mwk->id * 8) + 1);
         }
         break;
@@ -285,13 +299,12 @@ s16 exchange_current_colcd(WORK* wk) {
     return col;
 }
 
-
-s32 sort_push_request(WORK* wk) {
+s32 sort_push_request(WORK *wk) {
 #if defined(TARGET_PS2)
-    void shadow_setup(WORK * wk ,s32 bsy);
+    void shadow_setup(WORK * wk, s32 bsy);
     void Mtrans_use_trans_mode(WORK * wk, s32 bsy);
 #endif
-    
+
     if (wk->my_mts == 0) {
         return 0;
     }
@@ -299,7 +312,8 @@ s32 sort_push_request(WORK* wk) {
     if ((wk->work_id == 1) && ((wk->rl_flag + wk->cg_flip) & 1)) {
         wk->current_colcd |= 8;
     }
-    if ((wk->work_id == 0x20) && (wk->my_col_code == ((WORK*)((WORK_Other*)wk)->my_master)->my_col_code) && ((wk->rl_flag + wk->cg_flip) & 1)) {
+    if ((wk->work_id == 0x20) && (wk->my_col_code == ((WORK *)((WORK_Other *)wk)->my_master)->my_col_code) &&
+        ((wk->rl_flag + wk->cg_flip) & 1)) {
         wk->current_colcd |= 8;
     }
     if (wk->extra_col_2) {
@@ -310,13 +324,12 @@ s32 sort_push_request(WORK* wk) {
     }
     if (wk->disp_flag != 0) {
         if (wk->cg_number == 0) {
-            exit:
+        exit:
+            return 1;
+        } else if ((wk->disp_flag == 2) && ((wk->blink_timing + Game_timer & 1))) {
             return 1;
         }
-        else if ((wk->disp_flag == 2) && ((wk->blink_timing + Game_timer & 1))) {
-            return 1;
-        }
-        
+
         Mtrans_use_trans_mode(wk, base_y_pos);
         if (wk->kage_flag) {
             shadow_setup(wk, base_y_pos);
@@ -326,20 +339,18 @@ s32 sort_push_request(WORK* wk) {
     goto exit;
 }
 
-
-s32 sort_push_request2(WORK_Other* wk) {
+s32 sort_push_request2(WORK_Other *wk) {
 #if defined(TARGET_PS2)
     void set_judge_area_sprite(WORK_Other_JUDGE * wk, s32 bsy);
 #endif
     if (wk->wu.disp_flag == 0) {
         return 1;
     }
-    set_judge_area_sprite((WORK_Other_JUDGE* ) wk, base_y_pos);
+    set_judge_area_sprite((WORK_Other_JUDGE *)wk, base_y_pos);
     return 2;
 }
 
-
-s32 sort_push_request3(WORK* wk) {
+s32 sort_push_request3(WORK *wk) {
 #if defined(TARGET_PS2)
     s32 set_conn_sprite(WORK_Other_CONN * wk, s32 bsy);
 #endif
@@ -359,19 +370,19 @@ s32 sort_push_request3(WORK* wk) {
     if ((wk->disp_flag == 2) && (wk->blink_timing + Game_timer & 1)) {
         return 1;
     }
-    if (set_conn_sprite((WORK_Other_CONN* ) wk, base_y_pos) == 1) {
+    if (set_conn_sprite((WORK_Other_CONN *)wk, base_y_pos) == 1) {
         return 1;
     }
     return 2;
 }
 
-s32 sort_push_request4(WORK* wk) {
+s32 sort_push_request4(WORK *wk) {
     if (wk->my_mts == 0) {
         return 0;
     }
     if (wk->disp_flag != 0) {
         if (wk->cg_number == 0) {
-            exit:
+        exit:
             return 1;
         }
         if ((wk->disp_flag == 2) && ((wk->blink_timing + Game_timer) & 1)) {
@@ -404,26 +415,25 @@ s32 sort_push_request4(WORK* wk) {
     goto exit;
 }
 
-
-s32 sort_push_request8(WORK* wk) {
+s32 sort_push_request8(WORK *wk) {
     if (wk->cg_number >= 0x748F) {
         wk->my_mts = 2;
     } else {
         wk->my_mts = 0xE;
     }
-    if ((wk->my_col_code  & 0x1FF) >= 0x20) {
+    if ((wk->my_col_code & 0x1FF) >= 0x20) {
         wk->my_mts = 0xE;
     }
     return sort_push_request(wk);
 }
 
-s32 sort_push_requestA(WORK* wk) {
+s32 sort_push_requestA(WORK *wk) {
 #if defined(TARGET_PS2)
-    void draw_box(f64 arg0,f64 arg1,f64 arg2,f64 arg3,u32 col, u32 attr, s32 prio);
+    void draw_box(f64 arg0, f64 arg1, f64 arg2, f64 arg3, u32 col, u32 attr, s32 prio);
 #endif
     PAL_CURSOR_COL oricol;
     s16 i;
-    s16 mf; 
+    s16 mf;
 
     if (No_Trans) {
         return 2;
@@ -436,10 +446,10 @@ s32 sort_push_requestA(WORK* wk) {
         oricol.argb.a = wk->my_clear_level;
     }
     if (wk->disp_flag == 2) {
-        switch (wk->blink_timing) {                          /* irregular */
+        switch (wk->blink_timing) { /* irregular */
         case 1:
             if (Interrupt_Timer & 0x80) {
-                oricol.argb.a = (wk->my_clear_level + (0x80 - (Interrupt_Timer & 0x7F))) ;
+                oricol.argb.a = (wk->my_clear_level + (0x80 - (Interrupt_Timer & 0x7F)));
             } else {
                 oricol.argb.a = (wk->my_clear_level + (Interrupt_Timer & 0x7F));
             }
@@ -467,41 +477,40 @@ s32 sort_push_requestA(WORK* wk) {
         mf = 1;
     }
     draw_box((f32)(wk->shell_ix[0] * mf),
-        (f32)(wk->shell_ix[2]),
-        (f32)(wk->shell_ix[1] * mf),
-        (f32)(wk->shell_ix[3]),
-        oricol.color,
-        box_color_attr[wk->my_col_code][1],
-        wk->position_z);
-    
+             (f32)(wk->shell_ix[2]),
+             (f32)(wk->shell_ix[1] * mf),
+             (f32)(wk->shell_ix[3]),
+             oricol.color,
+             box_color_attr[wk->my_col_code][1],
+             wk->position_z);
+
     for (i = 0; i < wk->charset_id; i++) {
         draw_box((f32)((wk->shell_ix[0] - (i + 1) * 2) * mf),
-            (f32)(wk->shell_ix[2] + (1 << (i + 1))),
-            (f32)(mf * (wk->shell_ix[1] + (i + 1) * 2 * 2)),
-            (f32)(wk->shell_ix[3] - (1 <<  (i + 1)) * 2),
-            oricol.color,
-            box_color_attr[wk->my_col_code][1],
-            wk->position_z);
-        
-        draw_box((f32)(mf * (wk->shell_ix[0] + (1 << (i + 1)))), 
-            (f32)(wk->shell_ix[2] -  (i + 1) * 2),
-            (f32)(mf * (wk->shell_ix[1] - (1 <<  (i + 1)) * 2)),
-            (f32)(wk->shell_ix[3] +  (i + 1) * 2 * 2),
-            oricol.color,
-            box_color_attr[wk->my_col_code][1],
-            wk->position_z);
-        
+                 (f32)(wk->shell_ix[2] + (1 << (i + 1))),
+                 (f32)(mf * (wk->shell_ix[1] + (i + 1) * 2 * 2)),
+                 (f32)(wk->shell_ix[3] - (1 << (i + 1)) * 2),
+                 oricol.color,
+                 box_color_attr[wk->my_col_code][1],
+                 wk->position_z);
+
+        draw_box((f32)(mf * (wk->shell_ix[0] + (1 << (i + 1)))),
+                 (f32)(wk->shell_ix[2] - (i + 1) * 2),
+                 (f32)(mf * (wk->shell_ix[1] - (1 << (i + 1)) * 2)),
+                 (f32)(wk->shell_ix[3] + (i + 1) * 2 * 2),
+                 oricol.color,
+                 box_color_attr[wk->my_col_code][1],
+                 wk->position_z);
     }
     return 2;
 }
 
-s32 sort_push_requestB(WORK* wk) {
+s32 sort_push_requestB(WORK *wk) {
 #if defined(TARGET_PS2)
-    void draw_box(f64 arg0,f64 arg1,f64 arg2,f64 arg3,u32 col, u32 attr, s32 prio);
+    void draw_box(f64 arg0, f64 arg1, f64 arg2, f64 arg3, u32 col, u32 attr, s32 prio);
 #endif
     PAL_CURSOR_COL oricol;
     s16 i;
-    s16 mf; 
+    s16 mf;
 
     if (No_Trans) {
         return 2;
@@ -514,10 +523,10 @@ s32 sort_push_requestB(WORK* wk) {
         oricol.argb.a = wk->my_clear_level;
     }
     if (wk->disp_flag == 2) {
-        switch (wk->blink_timing) {                          /* irregular */
+        switch (wk->blink_timing) { /* irregular */
         case 1:
             if (Interrupt_Timer & 0x80) {
-                oricol.argb.a = (wk->my_clear_level + (0x80 - (Interrupt_Timer & 0x7F))) ;
+                oricol.argb.a = (wk->my_clear_level + (0x80 - (Interrupt_Timer & 0x7F)));
             } else {
                 oricol.argb.a = (wk->my_clear_level + (Interrupt_Timer & 0x7F));
             }
@@ -545,41 +554,41 @@ s32 sort_push_requestB(WORK* wk) {
         mf = 1;
     }
     draw_box((f32)(wk->shell_ix[0] * mf),
-        (f32)(wk->shell_ix[2]),
-        (f32)(wk->shell_ix[1] * mf),
-        (f32)(wk->shell_ix[3]),
-        oricol.color,
-        box_color_attr[wk->my_col_code][1],
-        wk->position_z);
-    
+             (f32)(wk->shell_ix[2]),
+             (f32)(wk->shell_ix[1] * mf),
+             (f32)(wk->shell_ix[3]),
+             oricol.color,
+             box_color_attr[wk->my_col_code][1],
+             wk->position_z);
+
     for (i = 0; i < wk->charset_id; i++) {
         draw_box((f32)(mf * (wk->shell_ix[0] - (i + 1) * 2)),
-            (f32)(wk->shell_ix[2] + (1 << (i + 1))),
-            (f32)(mf * (wk->shell_ix[1] + (i + 1) * 2 * 2)),
-            (f32)(wk->shell_ix[3] - (1 <<  (i + 1)) * 2),
-            oricol.color,
-            box_color_attr[wk->my_col_code][1],
-            wk->position_z);
-        
-        draw_box((f32)(mf * (wk->shell_ix[0] + (1 << (i + 1)))), 
-            (f32)(wk->shell_ix[2] -  (i + 1) * 2),
-            (f32)(mf * (wk->shell_ix[1] - (1 <<  (i + 1)) * 2)),
-            (f32)(wk->shell_ix[3] +  (i + 1) * 2 * 2),
-            oricol.color,
-            box_color_attr[wk->my_col_code][1],
-            wk->position_z);
+                 (f32)(wk->shell_ix[2] + (1 << (i + 1))),
+                 (f32)(mf * (wk->shell_ix[1] + (i + 1) * 2 * 2)),
+                 (f32)(wk->shell_ix[3] - (1 << (i + 1)) * 2),
+                 oricol.color,
+                 box_color_attr[wk->my_col_code][1],
+                 wk->position_z);
+
+        draw_box((f32)(mf * (wk->shell_ix[0] + (1 << (i + 1)))),
+                 (f32)(wk->shell_ix[2] - (i + 1) * 2),
+                 (f32)(mf * (wk->shell_ix[1] - (1 << (i + 1)) * 2)),
+                 (f32)(wk->shell_ix[3] + (i + 1) * 2 * 2),
+                 oricol.color,
+                 box_color_attr[wk->my_col_code][1],
+                 wk->position_z);
     }
     return 2;
 }
 
-void shadow_setup(WORK* wk, s16 bsy) {
+void shadow_setup(WORK *wk, s16 bsy) {
     f32 base_y;
 
-    base_y = (f32) bsy;
+    base_y = (f32)bsy;
     njdp2d_sort(&base_y, (f32)PrioBase[wk->kage_prio], (s32)wk, 1);
 }
 
-void shadow_drawing(WORK* wk, s16 bsy) {
+void shadow_drawing(WORK *wk, s16 bsy) {
 #if defined(TARGET_PS2)
     s8 get_kage_width(s32 cpy);
     void Mtrans_use_trans_mode(WORK * wk, s32 bsy);
@@ -606,15 +615,17 @@ s8 get_kage_width(s16 cpy) {
     if (cpy <= 0) {
         return 0;
     }
-    
+
     if ((s64)(cpy /= 4) >= 64) {
         return 0x10;
     }
     return gkw_table[cpy];
 }
 
-//latter part of rodata
+// latter part of rodata
 
-const u32 box_color_attr[4][2] = {{4278190080,96},{2415919104,96},{5592405,96},{16777215,96}};
+const u32 box_color_attr[4][2] = { { 4278190080, 96 }, { 2415919104, 96 }, { 5592405, 96 }, { 16777215, 96 } };
 
-const char gkw_table[64] = {0,1,2,3,4,4,5,5,5,6,6,6,7,7,7,7,8,8,8,8,9,9,9,9,10,10,10,10,10,11,11,11,11,11,11,12,12,12,12,12,12,12,13,13,13,13,13,13,13,14,14,14,14,14,14,14,15,15,15,15,15,15,15,15};
+const char gkw_table[64] = { 0,  1,  2,  3,  4,  4,  5,  5,  5,  6,  6,  6,  7,  7,  7,  7,  8,  8,  8,  8,  9,  9,
+                             9,  9,  10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 12, 12, 13, 13,
+                             13, 13, 13, 13, 13, 14, 14, 14, 14, 14, 14, 14, 15, 15, 15, 15, 15, 15, 15, 15 };
