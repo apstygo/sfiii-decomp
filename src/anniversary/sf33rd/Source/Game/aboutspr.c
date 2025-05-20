@@ -71,7 +71,7 @@ s32 setup_GILL_exsa_obj() {
     return 1;
 }
 
-s32 setup_GILL_Opening_Ceremony(void) {
+s32 setup_GILL_Opening_Ceremony() {
     return 1;
 }
 
