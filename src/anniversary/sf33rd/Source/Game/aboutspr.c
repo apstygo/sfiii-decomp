@@ -44,7 +44,7 @@ void Init_load_on_memory_data() {
     dmwk_moji.work_id = 0x10;
 }
 
-s32 setup_GILL_exsa_obj(void) {
+s32 setup_GILL_exsa_obj() {
     WORK *ewk;
     s16 i;
     s16 ix;
