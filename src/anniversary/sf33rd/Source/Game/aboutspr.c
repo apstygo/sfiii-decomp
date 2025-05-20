@@ -526,7 +526,7 @@ s32 sort_push_requestB(WORK *wk) {
         oricol.argb.a = wk->my_clear_level;
     }
     if (wk->disp_flag == 2) {
-        switch (wk->blink_timing) { /* irregular */
+        switch (wk->blink_timing) {
         case 1:
             if (Interrupt_Timer & 0x80) {
                 oricol.argb.a = (wk->my_clear_level + (0x80 - (Interrupt_Timer & 0x7F)));
