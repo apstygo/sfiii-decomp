@@ -2015,7 +2015,7 @@ void draw_box(f64 arg0, f64 arg1, f64 arg2, f64 arg3, u32 col, u32 attr, s16 pri
     njCalcPoints(NULL, point, point, 2);
     line.p = xy;
     line.col = cc;
-    line.tex = (PAL_CURSOR_COL *)0x0;
+    line.tex = NULL;
     line.num = 4;
     line.p[0].x = line.p[2].x = point[0].x;
     line.p[1].x = line.p[3].x = point[1].x;
