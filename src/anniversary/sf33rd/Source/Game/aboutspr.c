@@ -31,7 +31,7 @@ const u32 judge_area_attr[17][2] = { { 2147475455, 96 }, { 2147471359, 96 }, { 2
 
 void Init_load_on_memory_data() {
     copy_char_base_data();
-    load_any_color(0x9CU, 0x18U);
+    load_any_color(0x9C, 0x18);
     load_any_color(0x9DU, 0x1FU);
     load_any_color(0x14U, 2U);
     reservMemKeySelObj();
