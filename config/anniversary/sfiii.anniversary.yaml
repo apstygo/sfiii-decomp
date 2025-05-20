@@ -953,7 +953,7 @@ segments:
       - [0x3E5580, rodata, sf33rd/Source/Game/appear]
       - [0x3E5900, rodata, sf33rd/Source/Game/BBBSCOM]
       - [0x3E6F48, .rodata, sf33rd/Source/Game/bg]
-      - [0x3E6FD0, rodata, sf33rd/Source/Game/bg_data]
+      - [0x3E6FD0, .rodata, sf33rd/Source/Game/bg_data]
       - [0x3E9550, rodata, sf33rd/Source/Game/CALDIR]
       - [0x3EDD50, rodata, sf33rd/Source/Game/CHARID]
       - [0x3EDEE0, .rodata, sf33rd/Source/Game/CHARSET]
