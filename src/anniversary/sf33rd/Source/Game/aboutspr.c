@@ -136,14 +136,14 @@ void set_judge_area_sprite(WORK_Other_JUDGE *wk, s16 bsy) {
 }
 
 void draw_hit_judge_line(f64 arg0, f64 arg1, f64 arg2, f64 arg3, u32 col, u32 attr) {
-    f32 px;               // r29+0x7C
-    f32 py;               // r29+0x78
-    f32 sx;               // r29+0x74
-    f32 sy;               // r29+0x70
-    Vec3 point[2];        // r29+0x50
-    PAL_CURSOR line;      // r29+0x40
-    PAL_CURSOR_P xy[4];   // r29+0x20
-    PAL_CURSOR_COL cc[4]; // r29+0x10
+    f32 px;
+    f32 py;
+    f32 sx;
+    f32 sy;
+    Vec3 point[2];
+    PAL_CURSOR line;
+    PAL_CURSOR_P xy[4];
+    PAL_CURSOR_COL cc[4];
 
     px = arg0;
     py = arg1;
