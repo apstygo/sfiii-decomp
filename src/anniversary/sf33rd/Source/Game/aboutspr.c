@@ -20,23 +20,24 @@ WORK dmwk_moji; // size: 0x388, address: 0x6B3BC0
 WORK dmwk_kage; // size: 0x388, address: 0x6B3830
 
 // first part of rodata
-const u16 effk8k9_pattern[18] = { 36896, 36897, 36898, 36899, 36900, 36901, 36902, 36903, 36905,
-                                  36906, 36907, 36908, 36909, 36910, 36912, 36914, 36916, 36918 };
+const u16 effk8k9_pattern[18] = { 0x9020, 0x9021, 0x9022, 0x9023, 0x9024, 0x9025, 0x9026, 0x9027, 0x9029,
+                                  0x902A, 0x902B, 0x902C, 0x902D, 0x902E, 0x9030, 0x9032, 0x9034, 0x9036 };
 
-const u32 judge_area_attr[17][2] = { { 2147475455, 96 }, { 2147471359, 96 }, { 2147463167, 96 }, { 2147459071, 96 },
-                                     { 2147442687, 96 }, { 2147438591, 96 }, { 2147434495, 96 }, { 2147430399, 96 },
-                                     { 2952740608, 96 }, { 2147450624, 96 }, { 2936078335, 96 }, { 2936074239, 96 },
-                                     { 2130751487, 96 }, { 2130747391, 96 }, { 2147483647, 64 }, { 2147483647, 32 },
-                                     { 2147483647, 96 } };
+const u32 judge_area_attr[17][2] = { { 0x7FFFDFFF, 0x60 }, { 0x7FFFCFFF, 0x60 }, { 0x7FFFAFFF, 0x60 },
+                                     { 0x7FFF9FFF, 0x60 }, { 0x7FFF5FFF, 0x60 }, { 0x7FFF4FFF, 0x60 },
+                                     { 0x7FFF3FFF, 0x60 }, { 0x7FFF2FFF, 0x60 }, { 0xAFFF3F00, 0x60 },
+                                     { 0x7FFF7F00, 0x60 }, { 0xAF00FFFF, 0x60 }, { 0xAF00EFFF, 0x60 },
+                                     { 0x7F00AFFF, 0x60 }, { 0x7F009FFF, 0x60 }, { 0x7FFFFFFF, 0x40 },
+                                     { 0x7FFFFFFF, 0x20 }, { 0x7FFFFFFF, 0x60 } };
 
 void Init_load_on_memory_data() {
     copy_char_base_data();
     load_any_color(0x9C, 0x18);
-    load_any_color(0x9DU, 0x1FU);
-    load_any_color(0x14U, 2U);
+    load_any_color(0x9D, 0x1F);
+    load_any_color(0x14, 2);
     reservMemKeySelObj();
-    load_any_texture_patnum(0x72A0U, 0xFU, 0U);
-    load_any_texture_patnum(0x7F30U, 0xCU, 0U);
+    load_any_texture_patnum(0x72A0, 0xF, 0);
+    load_any_texture_patnum(0x7F30, 0xC, 0);
     dmwk_kage.my_mts = 0x11;
     dmwk_kage.current_colcd = 0x1FF;
     dmwk_kage.my_clear_level = 0x90;
@@ -311,35 +312,41 @@ s32 sort_push_request(WORK *wk) {
     if (wk->my_mts == 0) {
         return 0;
     }
+
     wk->current_colcd = wk->my_col_code;
+
     if ((wk->work_id == 1) && ((wk->rl_flag + wk->cg_flip) & 1)) {
         wk->current_colcd |= 8;
     }
+
     if ((wk->work_id == 0x20) && (wk->my_col_code == ((WORK *)((WORK_Other *)wk)->my_master)->my_col_code) &&
         ((wk->rl_flag + wk->cg_flip) & 1)) {
         wk->current_colcd |= 8;
     }
+
     if (wk->extra_col_2) {
         wk->current_colcd = wk->extra_col_2;
     }
+
     if (wk->extra_col) {
         wk->current_colcd = wk->extra_col;
     }
-    if (wk->disp_flag != 0) {
-        if (wk->cg_number == 0) {
-        exit:
-            return 1;
-        } else if ((wk->disp_flag == 2) && ((wk->blink_timing + Game_timer & 1))) {
-            return 1;
-        }
 
-        Mtrans_use_trans_mode(wk, base_y_pos);
-        if (wk->kage_flag) {
-            shadow_setup(wk, base_y_pos);
-        }
-        return 2;
+    if (wk->disp_flag == 0 || wk->cg_number == 0) {
+        return 1;
     }
-    goto exit;
+
+    if ((wk->disp_flag == 2) && ((wk->blink_timing + Game_timer & 1))) {
+        return 1;
+    }
+
+    Mtrans_use_trans_mode(wk, base_y_pos);
+
+    if (wk->kage_flag) {
+        shadow_setup(wk, base_y_pos);
+    }
+
+    return 2;
 }
 
 s32 sort_push_request2(WORK_Other *wk) {
@@ -380,42 +387,48 @@ s32 sort_push_request3(WORK *wk) {
 }
 
 s32 sort_push_request4(WORK *wk) {
+
     if (wk->my_mts == 0) {
         return 0;
     }
-    if (wk->disp_flag != 0) {
-        if (wk->cg_number == 0) {
-        exit:
-            return 1;
-        }
-        if ((wk->disp_flag == 2) && ((wk->blink_timing + Game_timer) & 1)) {
-            return 1;
-        }
-        wk->current_colcd = wk->my_col_code;
-        if (wk->extra_col_2) {
-            wk->current_colcd = wk->extra_col_2;
-        }
-        if (wk->extra_col) {
-            wk->current_colcd = wk->extra_col;
-        }
-        if ((wk->id != 0x4C) && (wk->id != 0x46)) {
-            if (judge_flag) {
-                if (wk->position_z < 0x48) {
-                    wk->my_bright_type = 1;
-                    wk->my_bright_level = 7;
-                }
-            } else {
-                wk->my_bright_type = 0;
-                wk->my_bright_level = 0;
-            }
-        }
-        Mtrans_use_trans_mode(wk, 0);
-        if (wk->kage_flag) {
-            shadow_setup(wk, 0);
-        }
-        return 2;
+
+    if (wk->disp_flag == 0 || wk->cg_number == 0) {
+        return 1;
     }
-    goto exit;
+
+    if ((wk->disp_flag == 2) && ((wk->blink_timing + Game_timer) & 1)) {
+        return 1;
+    }
+
+    wk->current_colcd = wk->my_col_code;
+
+    if (wk->extra_col_2) {
+        wk->current_colcd = wk->extra_col_2;
+    }
+
+    if (wk->extra_col) {
+        wk->current_colcd = wk->extra_col;
+    }
+
+    if ((wk->id != 0x4C) && (wk->id != 0x46)) {
+        if (judge_flag) {
+            if (wk->position_z < 0x48) {
+                wk->my_bright_type = 1;
+                wk->my_bright_level = 7;
+            }
+        } else {
+            wk->my_bright_type = 0;
+            wk->my_bright_level = 0;
+        }
+    }
+
+    Mtrans_use_trans_mode(wk, 0);
+
+    if (wk->kage_flag) {
+        shadow_setup(wk, 0);
+    }
+
+    return 2;
 }
 
 s32 sort_push_request8(WORK *wk) {
@@ -585,9 +598,8 @@ s32 sort_push_requestB(WORK *wk) {
 }
 
 void shadow_setup(WORK *wk, s16 bsy) {
-    f32 base_y;
+    f32 base_y = (f32)bsy;
 
-    base_y = (f32)bsy;
     njdp2d_sort(&base_y, (f32)PrioBase[wk->kage_prio], (s32)wk, 1);
 }
 
@@ -627,7 +639,7 @@ s8 get_kage_width(s16 cpy) {
 
 // latter part of rodata
 
-const u32 box_color_attr[4][2] = { { 4278190080, 96 }, { 2415919104, 96 }, { 5592405, 96 }, { 16777215, 96 } };
+const u32 box_color_attr[4][2] = { { 0xFF000000, 0x60 }, { 0x90000000, 0x60 }, { 0x555555, 0x60 }, { 0xFFFFFF, 0x60 } };
 
 const char gkw_table[64] = { 0,  1,  2,  3,  4,  4,  5,  5,  5,  6,  6,  6,  7,  7,  7,  7,  8,  8,  8,  8,  9,  9,
                              9,  9,  10, 10, 10, 10, 10, 11, 11, 11, 11, 11, 11, 12, 12, 12, 12, 12, 12, 12, 13, 13,
