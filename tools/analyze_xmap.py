@@ -38,7 +38,7 @@ class XMAPEntry:
 SYMBOL_ENTRY_PATTERN = re.compile(r"(\w+)\s+=\s+(\w+);(?:\s+\/\/\s+(.+))")
 XMAP_ENTRY_PATTERN = re.compile(r"  (\w+) (\w+) (\S+)\s+(\S+)\s+\((\S+)\)")
 SYMBOLS = Path("config/anniversary/symbols")
-XMAP = Path("build/anniversary/THIRD_U.BIN.xMAP")
+XMAP = Path("build/anniversary/ps2/THIRD_U.BIN.xMAP")
 NONMATCHINGS = Path("asm/anniversary/nonmatchings")
 
 def build_symbol_table() -> list[SymbolTableEntry]:
