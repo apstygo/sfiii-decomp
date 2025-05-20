@@ -128,7 +128,7 @@ s32 Yes_No_Cursor_Move_Sub(struct _TASK *task_ptr);
 void Setup_Button_Sub(s16 x, s16 y, s16 master_player);
 void Button_Exit_Check_in_Game(struct _TASK *task_ptr, s16 PL_id);
 void Setup_Save_Replay_1st(struct _TASK *task_ptr);
-s32 Save_Replay_MC_Sub(struct _TASK *task_ptr, s16);
+s32 Save_Replay_MC_Sub(struct _TASK *task_ptr, s16 /* unused */);
 void Button_Exit_Check_in_Tr(struct _TASK *task_ptr, s16 PL_id);
 
 typedef void (*MenuFunc)(struct _TASK *);
@@ -2270,9 +2270,9 @@ void Screen_Move_Sub_LR(u16 sw) {
 }
 
 void Sound_Test(struct _TASK *task_ptr) {
-    s16 char_index; // r17
-    s16 ix;         // r16
-    u8 last_mode;   // r20
+    s16 char_index;
+    s16 ix;
+    u8 last_mode;
 
     Clear_Flash_Sub();
 
@@ -2958,7 +2958,13 @@ u16 Check_Menu_Lever(u8 PL_id, s16 type) {
     return 0;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Suspend_Menu);
+#else
+void Suspend_Menu() {
+    not_implemented(__func__);
+}
+#endif
 
 void In_Game(struct _TASK *task_ptr) {
     void (*In_Game_Jmp_Tbl[5])() = { Menu_Init, Menu_Select, Button_Config_in_Game, Character_Change, Pad_Come_Out };
@@ -3077,7 +3083,13 @@ void Menu_Select(struct _TASK *task_ptr) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Yes_No_Cursor_Move_Sub);
+#else
+s32 Yes_No_Cursor_Move_Sub(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
 void Button_Config_in_Game(struct _TASK *task_ptr) {
     s16 ix;
@@ -3117,19 +3129,55 @@ void Button_Config_in_Game(struct _TASK *task_ptr) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Button_Sub);
+#else
+void Setup_Button_Sub(s16 x, s16 y, s16 master_player) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Button_Exit_Check_in_Game);
+#else
+void Button_Exit_Check_in_Game(struct _TASK *task_ptr, s16 PL_id) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Return_Pause_Sub);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Check_Pad_in_Pause);
+#else
+s32 Check_Pad_in_Pause(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Pad_Come_Out);
+#else
+void Pad_Come_Out(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", bg_etc_write_ex);
+#else
+void bg_etc_write_ex(s16 type) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Wait_Load_Save);
+#else
+void Wait_Load_Save(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
 void Disp_Auto_Save(struct _TASK *task_ptr) {
     void (*Auto_Save_Jmp_Tbl[4])() = { DAS_1st, DAS_2nd, DAS_3rd, DAS_4th };
@@ -3187,10 +3235,22 @@ void DAS2_4th(struct _TASK *task_ptr) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Wait_Replay_Check);
+#else
+void Wait_Replay_Check(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", VS_Result);
 // VS_Result contains literal_1803
+#else
+void VS_Result(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Win_Lose_OBJ);
 
@@ -3212,9 +3272,21 @@ s32 VS_Result_Select_Sub(struct _TASK *task_ptr, s16 PL_id) {
     return 0;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", After_VS_Move_Sub);
+#else
+u16 After_VS_Move_Sub(u16 sw, s16 cursor_id, s16 menu_max) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", VS_Result_Move_Sub);
+#else
+s32 VS_Result_Move_Sub(struct _TASK *task_ptr, s16 PL_id) {
+    not_implemented(__func__);
+}
+#endif
 
 void Save_Replay(struct _TASK *task_ptr) {
     Menu_Cursor_X[1] = Menu_Cursor_X[0];
@@ -3247,28 +3319,70 @@ void Save_Replay(struct _TASK *task_ptr) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Save_Replay_1st);
+#else
+void Setup_Save_Replay_1st(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Save_Replay_2nd);
+#else
+void Setup_Save_Replay_2nd(struct _TASK *task_ptr, s16 unused) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Replay_Sub);
+#else
+void Setup_Replay_Sub(s16 type, s16 char_type, s16 master_player, s16 unused) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Return_VS_Result_Sub);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Save_Replay_MC_Sub);
+#else
+s32 Save_Replay_MC_Sub(struct _TASK *task_ptr, s16 unused) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Exit_Replay_Save);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Decide_PL);
+#else
+void Decide_PL(s16 PL_id) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Wait_Pause_in_Tr);
+#else
+void Wait_Pause_in_Tr(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Control_Player_Tr);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Next_Be_Tr_Menu);
 
+#if defined(TARGET_PS2)
 s32 Check_Pause_Term_Tr(s16 PL_id);
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Check_Pause_Term_Tr);
+#else
+s32 Check_Pause_Term_Tr(s16 PL_id) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Pause_Check_Tr);
 
@@ -3334,9 +3448,21 @@ s32 Pause_1st_Sub(struct _TASK *task_ptr) {
     return 0;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Reset_Training);
+#else
+void Reset_Training(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Reset_Replay);
+#else
+void Reset_Replay(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
 void Training_Menu(struct _TASK *task_ptr) {
     void (*Training_Jmp_Tbl[8])() = { Training_Init,   Normal_Training,  Blocking_Training, Dummy_Setting,
@@ -3373,8 +3499,14 @@ void Training_Init(struct _TASK *task_ptr) {
     Replay_Status[1] = 0;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Normal_Training);
 // Normal_Training contains literal_2331
+#else
+void Normal_Training(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_NTr_Data);
 
@@ -3408,11 +3540,29 @@ void Button_Config_Tr(struct _TASK *task_ptr) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Button_Exit_Check_in_Tr);
+#else
+void Button_Exit_Check_in_Tr(struct _TASK *task_ptr, s16 PL_id) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Dummy_Setting);
+#else
+void Dummy_Setting(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Training_Option);
+#else
+void Training_Option(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Training_Disp_Sub);
 
@@ -3423,14 +3573,26 @@ const u8 Menu_Max_Data_Tr[2][2][6] = { { { 4, 6, 2, 1, 0, 0 }, { 3, 1, 3, 7, 0, 
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Dummy_Move_Sub_LR);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Blocking_Training);
 // Blocking_Training contains literal_2592
+#else
+void Blocking_Training(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
 const LetterData training_letter_data[6] = { { 0x68, "NORMAL TRAINING" },   { 0x5C, "PARRYING TRAINING" },
                                              { 0x7C, "DUMMY SETTING" },     { 0x6C, "TRAINING OPTION" },
                                              { 0x64, "RECORDING SETTING" }, { 0x72, "BUTTON CONFIG." } };
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Blocking_Tr_Option);
+#else
+void Blocking_Tr_Option(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
 void Training_Init_Sub(struct _TASK *task_ptr) {
     s16 ix;
@@ -3503,9 +3665,21 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Default_Trai
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Default_Training_Option);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Wait_Replay_Load);
+#else
+void Wait_Replay_Load() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", After_Replay);
+#else
+void After_Replay(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
 s32 Menu_Sub_case1(struct _TASK *task_ptr) {
     FadeOut(1, 0xFF, 8);
@@ -3541,9 +3715,21 @@ void Back_to_Mode_Select(struct _TASK *task_ptr) {
     BGM_Request_Code_Check(0x41);
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Extra_Option);
+#else
+void Extra_Option(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Ex_Move_Sub_LR);
+#else
+void Ex_Move_Sub_LR(u16 sw, s16 PL_id) {
+    not_implemented(__func__);
+}
+#endif
 
 void End_Replay_Menu(struct _TASK *task_ptr) {
     s16 ix;
