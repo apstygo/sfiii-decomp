@@ -443,7 +443,7 @@ segments:
       - [0x180C00, asm, sf33rd/Source/Game/MMTMCNT] # Good first decomp
       - [0x180ED0, c, sf33rd/Source/Game/MTRANS]
       - [0x188DB0, asm, sf33rd/Source/Game/n_input]
-      - [0x18ABF0, asm, sf33rd/Source/Game/Next_CPU]
+      - [0x18ABF0, c, sf33rd/Source/Game/Next_CPU]
       - [0x18F640, c, sf33rd/Source/Game/op_sub]
       - [0x18FD20, c, sf33rd/Source/Game/OPENING]
       - [0x198E80, asm, sf33rd/Source/Game/pass00]
@@ -694,7 +694,7 @@ segments:
       - [0x312400, asm, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue]
       - [0x312790, asm, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv]
       - [0x312F10, asm, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB]
-      - [0x3139A0, asm, sf33rd/Source/Common/PPGWork] # Good first decomp
+      - [0x3139A0, c, sf33rd/Source/Common/PPGWork] # Good first decomp
       - [0x313FC0, asm, sf33rd/Source/PS2/reboot] # Good first decomp
       - [0x3140B0, pad]
 
@@ -1159,7 +1159,7 @@ segments:
       - [0x4228F0, rodata, sf33rd/Source/Game/MMTMCNT]
       - [0x422C08, .rodata, sf33rd/Source/Game/MTRANS]
       - [0x422EF0, rodata, sf33rd/Source/Game/n_input]
-      - [0x422FB0, rodata, sf33rd/Source/Game/Next_CPU]
+      - [0x422FB0, .rodata, sf33rd/Source/Game/Next_CPU]
       - [0x423000, .rodata, sf33rd/Source/Game/OPENING]
       - [0x4238B0, rodata, sf33rd/Source/Game/pass00]
       - [0x423BF0, rodata, sf33rd/Source/Game/pass0000]
@@ -1348,7 +1348,7 @@ segments:
       - [0x4607A0, rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB]
       - [0x4607D8, rodata, sf33rd/Source/PS2/mc/msgtblj]
       - [0x461008, rodata, sf33rd/Source/PS2/mc/msgtble]
-      - [0x4619C0, rodata, sf33rd/Source/Common/PPGWork]
+      - [0x4619C0, .rodata, sf33rd/Source/Common/PPGWork]
       - [0x4619D8, rodata, sf33rd/Source/PS2/reboot]
       - [0x4619F0, rodata, rodata_4619F0]
 
@@ -1602,7 +1602,7 @@ segments:
       - { type: sbss, vram: 0x5792B0, name: sf33rd/Source/Game/menu }
       - { type: sbss, vram: 0x5792C0, name: sf33rd/Source/Game/MTRANS }
       - { type: sbss, vram: 0x5792E8, name: sf33rd/Source/Game/n_input }
-      - { type: sbss, vram: 0x5793F4, name: sf33rd/Source/Game/Next_CPU }
+      - { type: .sbss, vram: 0x5793F4, name: sf33rd/Source/Game/Next_CPU }
       - { type: .sbss, vram: 0x579400, name: sf33rd/Source/Game/OPENING }
       - { type: sbss, vram: 0x579474, name: sf33rd/Source/Game/Pause }
       - { type: sbss, vram: 0x579480, name: sf33rd/Source/Game/PLCNT }
@@ -1655,7 +1655,7 @@ segments:
       - { type: sbss, vram: 0x57B2C0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB }
       - { type: sbss, vram: 0x57B300, name: sf33rd/Source/PS2/mc/msgtblj }
       - { type: sbss, vram: 0x57B304, name: sf33rd/Source/PS2/mc/msgtble }
-      - { type: sbss, vram: 0x57B308, name: sf33rd/Source/Common/PPGWork }
+      - { type: .sbss, vram: 0x57B308, name: sf33rd/Source/Common/PPGWork }
 
       # .bss
       # (starts at __bss_start)

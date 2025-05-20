@@ -33,14 +33,6 @@
 #include <stdarg.h>
 #endif
 
-static s32 system_work_init();
-static s32 system_hard_init();
-static void flPS2VramFullClear();
-static void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mode, u32 dispw);
-static void flPS2SwapDBuff(s32 dbi, s32 irq_type);
-static void flPS2DrawPreparation();
-void flPS2VSyncCallback();
-
 // bss
 FLPS2State flPs2State;
 FLPS2DB flPs2Db[2];
@@ -134,6 +126,15 @@ s32 flLoadCheckCtr;
 s32 flLoadCheckTimeOld;
 u32 flLoadCheckTime[LOAD_CHECK_TIME_SIZE];
 u32 flLoadCheckColor[20];
+
+// forward decls
+static s32 system_work_init();
+static s32 system_hard_init();
+static void flPS2VramFullClear();
+static void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mode, u32 dispw);
+static void flPS2SwapDBuff(s32 dbi, s32 irq_type);
+static void flPS2DrawPreparation();
+void flPS2VSyncCallback();
 
 s32 flInitialize(s32 /* unused */, s32 /* unused */) {
     if (system_work_init() == 0) {
