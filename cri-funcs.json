@@ -6,21 +6,46 @@
     ],
     "adx_bahx": [
         "ADXB_SetAc3InSj",
-        "ADXB_SetAhxInSj"
+        "ADXB_SetAc3DecSmpl",
+        "ADXB_Ac3TermSupply",
+        "ADXB_SetAhxInSj",
+        "ADXB_SetAhxDecSmpl",
+        "ADXB_AhxTermSupply"
     ],
     "adx_bsc": [
         "SKG_Init",
         "ADXB_Init",
+        "adxb_DefAddWr",
         "ADXB_Create",
         "ADXB_Destroy",
+        "ADXB_DecodeHeaderAdx",
+        "ADXB_DecodeHeader",
         "ADXB_EntryGetWrFunc",
         "ADXB_GetPcmBuf",
+        "ADXB_GetFormat",
         "ADXB_GetSfreq",
+        "ADXB_GetNumChan",
         "ADXB_GetOutBps",
+        "ADXB_GetBlkSmpl",
         "ADXB_GetTotalNumSmpl",
+        "ADXB_GetNumLoop",
         "ADXB_GetAinfLen",
         "ADXB_GetDefOutVol",
-        "ADXB_Stop"
+        "adxb_get_key",
+        "ADXB_GetStat",
+        "ADXB_EntryData",
+        "ADXB_Start",
+        "ADXB_Stop",
+        "ADXB_Reset",
+        "ADXB_GetDecDtLen",
+        "ADXB_GetDecNumSmpl",
+        "ADXB_EvokeExpandSte",
+        "ADXB_EvokeDecode",
+        "memcpy2",
+        "ADXB_CopyExtraBufSte",
+        "ADXB_EndDecode",
+        "ADXB_ExecOneAdx",
+        "ADXB_ExecHndl"
     ],
     "adx_crs": [
         "ADXCRS_Init",
@@ -28,10 +53,20 @@
         "ADXCRS_Unlock"
     ],
     "adx_dcd": [
-        "ADX_GetCoefficient"
+        "ADX_GetCoefficient",
+        "ADX_DecodeInfo",
+        "ADX_DecodeInfoExADPCM2",
+        "ADX_DecodeInfoExVer",
+        "ADX_DecodeInfoExIdly",
+        "ADX_DecodeInfoExLoop",
+        "ADX_DecodeInfoAinf"
     ],
     "adx_dcd3": [
         "ADX_SetDecodeSteAsMonoSw"
+    ],
+    "adx_dcd5": [
+        "ADX_DecodeSte4AsSte",
+        "ADX_DecodeSte4"
     ],
     "adx_errs": [
         "ADXERR_Init",
@@ -49,11 +84,19 @@
         "ADXF_Finish"
     ],
     "adx_fs": [
+        "ADXF_CALC_BYTE2SCT",
         "adxf_SetCmdHstry",
+        "adxf_ChkPrmPt",
         "ADXF_LoadPartitionNw",
+        "ADXF_LoadPtNwEx",
+        "adxf_LoadPtBothNw",
+        "adxf_CloseLdptnwHn",
         "ADXF_GetPtStat",
+        "ADXF_GetPtStatEx",
         "adxf_AllocAdxFs",
         "adxf_CreateAdxFs",
+        "adxf_SetFileInfoEx",
+        "ADXF_Open",
         "adxf_SetAfsFileInfo",
         "ADXF_OpenAfs",
         "adxf_CloseSjStm",
@@ -76,6 +119,9 @@
         "ADXT_ExecFsSvr"
     ],
     "adx_inis": [
+        "adxt_exec_main_thrd",
+        "adxt_exec_tsvr",
+        "adxt_exec_fssvr",
         "ADXT_Init",
         "ADXT_Finish"
     ],
@@ -86,7 +132,23 @@
         "ADXT_ResetEntry"
     ],
     "adx_mps2": [
+        "_adxm_lock",
+        "_adxm_unlock",
+        "adxm_safe_trap",
+        "adxm_safe_proc",
+        "adxm_vsync_proc",
+        "adxm_fs_proc",
+        "adxm_iWakeupThread",
+        "adxm_SleepThread",
+        "adxm_ResumeThread",
+        "adxm_SuspendThread",
+        "adxm_SetupSafeThrd",
+        "adxm_SetupVsyncThrd",
+        "adxm_SetupFsThrd",
+        "adxm_SetupMwIdleThrd",
+        "adxm_IsSetupThrdEx",
         "ADXM_IsSetupThrd",
+        "ADXM_SetupThrd",
         "adxm_ShutdownPreProcedure",
         "ADXM_ShutdownThrd",
         "adxm_ShutdownMwIdleThrd",
@@ -97,6 +159,7 @@
         "ADXM_Unlock",
         "ADXPS2_ExecVint",
         "ADXM_ExecMain",
+        "ADXPS2_WakeupMainThrd",
         "ADXPS2_SetupThrd"
     ],
     "adx_rnap": [
@@ -109,7 +172,14 @@
         "ADXRNA_SetTransSw",
         "ADXRNA_SetPlaySw",
         "ADXRNA_GetNumData",
-        "ADXRNA_SetOutVol"
+        "ADXRNA_GetNumRoom",
+        "ADXRNA_ExecServer",
+        "ADXRNA_SetNumChan",
+        "ADXRNA_SetSfreq",
+        "ADXRNA_SetOutVol",
+        "ADXRNA_SetOutPan",
+        "ADXRNA_SetBitPerSmpl",
+        "ADXRNA_SetTotalNumSmpl"
     ],
     "adx_sjd": [
         "ADXSJD_Init",
@@ -117,16 +187,34 @@
         "adxsjd_clear",
         "ADXSJD_Create",
         "ADXSJD_Destroy",
+        "ADXSJD_GetStat",
         "ADXSJD_SetInSj",
+        "ADXSJD_SetMaxDecSmpl",
+        "ADXSJD_TermSupply",
         "ADXSJD_Start",
         "ADXSJD_Stop",
+        "adxsjd_decode_prep",
         "adxsjd_get_wr",
+        "adxsjd_decexec_start",
+        "adxsjd_decexec_end",
+        "adxsjd_decode_exec",
+        "ADXSJD_ExecHndl",
+        "ADXSJD_ExecServer",
         "ADXSJD_GetDecNumSmpl",
         "ADXSJD_SetLnkSw",
+        "ADXSJD_EntryTrapFunc",
+        "ADXSJD_SetTrapNumSmpl",
+        "ADXSJD_SetTrapCnt",
+        "ADXSJD_SetTrapDtLen",
+        "ADXSJD_GetFormat",
         "ADXSJD_GetSfreq",
+        "ADXSJD_GetNumChan",
         "ADXSJD_GetOutBps",
+        "ADXSJD_GetBlkSmpl",
         "ADXSJD_GetTotalNumSmpl",
-        "ADXSJD_GetDefOutVol"
+        "ADXSJD_GetNumLoop",
+        "ADXSJD_GetDefOutVol",
+        "ADXSJD_GetDefPan"
     ],
     "adx_stmc": [
         "ADXSTM_Init",
@@ -144,6 +232,7 @@
         "ADXSTM_Seek",
         "ADXSTM_Tell",
         "adxstm_start_sub",
+        "ADXSTM_Start",
         "ADXSTM_Start2",
         "ADXSTM_StopNw",
         "ADXSTM_Stop",
@@ -153,7 +242,9 @@
         "adxstmf_stat_exec",
         "ADXSTMF_ExecHndl",
         "ADXSTM_ExecServer",
+        "ADXSTM_SetBufSize",
         "ADXSTM_SetReqRdSize",
+        "ADXSTM_GetFileLen",
         "ADXSTM_GetFileSct",
         "ADXSTM_SetPause",
         "ADXSTM_SetSj",
@@ -174,6 +265,7 @@
         "adxt_detach_pl2",
         "ADXT_Destroy",
         "adxt_start_sj",
+        "adxt_start_stm",
         "ADXT_StopWithoutLsc",
         "ADXT_Stop",
         "ADXT_GetStat",
@@ -186,6 +278,7 @@
         "ADXT_ExecServer",
         "ADXT_Pause",
         "ADXT_GetStatPause",
+        "ADXT_GetTranspose",
         "ADXT_SetLnkSw",
         "ADXT_SetOutputMono"
     ],
@@ -194,17 +287,39 @@
         "ADXT_StartMem",
         "ADXT_StartMem2"
     ],
+    "adx_tsvr": [
+        "adxt_set_outpan",
+        "adxt_stat_decinfo",
+        "adxt_stat_prep",
+        "adxt_stat_playing",
+        "ADXT_ExecRdErrChk",
+        "ADXT_ExecRdCompChk",
+        "ADXT_ExecHndl"
+    ],
     "adx_xpnd": [
         "ADXPD_Init",
         "ADXPD_Create",
+        "ADXPD_SetCoef",
+        "ADXPD_SetDly",
+        "ADXPD_SetExtPrm",
         "ADXPD_Destroy",
-        "ADXPD_Stop"
+        "ADXPD_GetStat",
+        "ADXPD_EntrySte",
+        "ADXPD_Start",
+        "ADXPD_Stop",
+        "ADXPD_Reset",
+        "ADXPD_GetNumBlk",
+        "ADXPD_ExecHndl"
     ],
     "cri_cvfs": [
         "cvFsCallUsrErrFn",
         "cvFsError",
+        "cvFsAddDev",
+        "addDevice",
         "getDevice",
         "toUpperStr",
+        "cvFsSetDefDev",
+        "isExistDev",
         "cvFsGetDefDev",
         "variousProc",
         "cvFsOpen",
@@ -218,10 +333,16 @@
         "cvFsReqRd",
         "cvFsExecServer",
         "cvFsGetStat",
+        "cvFsEntryErrFunc",
         "isNeedDevName",
         "addDevName"
     ],
     "cri_srd": [
+        "srd_reset_obj",
+        "SRD_Create",
+        "SRD_Destroy",
+        "SRD_ReqRdDvd",
+        "SRD_GetStat",
         "srd_wait",
         "srd_wait_hst",
         "srd_check_dvd_error",
@@ -238,8 +359,12 @@
         "SRD_SceRead"
     ],
     "dtr": [
+        "DTR_ExecHndl",
+        "DTR_GetStat",
+        "DTR_ExecServer",
         "DTR_Create",
         "DTR_Destroy",
+        "DTR_Start",
         "DTR_Stop"
     ],
     "dtx": [
@@ -258,17 +383,37 @@
         "DTX_ExecServer"
     ],
     "dvci": [
+        "dvCiGetInterface",
         "dvci_call_errfn",
         "dvCiCdSearchFile",
-        "dvci_to_large_to_yen"
+        "dvCiExecHndl",
+        "dvCiExecServer",
+        "dvCiEntryErrFunc",
+        "dvci_to_large_to_yen",
+        "dvci_alloc",
+        "dvci_free",
+        "dvCiOpen",
+        "dvCiClose",
+        "dvCiSeek",
+        "dvCiTell",
+        "dvCiReqRd",
+        "dvCiGetStat",
+        "dvCiOptFn1"
     ],
     "dvci_sub": [
         "dvci_conv_fname",
+        "conv_cmp_003DC578",
+        "dvci_charicmp",
+        "dvci_stricmp",
         "analysis_flist_003DC6A0",
         "load_flist",
         "search_fstate",
+        "get_fp_from_fname",
         "dvci_init_flist",
-        "dvCiLoadFcache"
+        "dvci_get_fstate",
+        "dvCiLoadFcache",
+        "dvCiSetRdMode",
+        "dvCiSetRootDir"
     ],
     "htci_sub": [
         "htci_is_inc_colon",
@@ -285,6 +430,8 @@
         "LSC_ResetEntry",
         "LSC_Start",
         "LSC_Stop",
+        "LSC_ExecServer",
+        "LSC_GetStat",
         "LSC_GetNumStm",
         "LSC_SetFlowLimit"
     ],
@@ -302,7 +449,11 @@
         "LSC_Init",
         "LSC_Finish"
     ],
+    "lsc_svr": [
+        "lsc_ExecHndl"
+    ],
     "ps2_rna": [
+        "PS2RNA_SetupVoice",
         "ps2rna_init_psj",
         "ps2rna_finish_psj",
         "ps2rna_get_psj",
@@ -319,7 +470,18 @@
         "PS2RNA_SetPlaySw",
         "PS2RNA_SetDiscardSw",
         "PS2RNA_GetNumData",
-        "PS2RNA_SetOutVol"
+        "PS2RNA_GetNumRoom",
+        "PS2RNA_ExecHndl",
+        "PS2RNA_ExecServer",
+        "PS2RNA_SetNumChan",
+        "PS2RNA_SetSfreq",
+        "PS2RNA_SetOutVol",
+        "PS2RNA_SetOutPan",
+        "PS2RNA_SetBitPerSmpl"
+    ],
+    "rna_crs": [
+        "RNACRS_Lock",
+        "RNACRS_Unlock"
     ],
     "sj_crs": [
         "SJCRS_Lock",
@@ -385,6 +547,7 @@
     "sjx": [
         "sjx_rcvcbf",
         "sjx_sndcbf",
+        "SJX_ExecServer",
         "SJX_Init",
         "SJX_Finish",
         "SJX_Create",
@@ -395,16 +558,22 @@
         "svm_unlock",
         "SVM_Lock",
         "SVM_Unlock",
+        "SVM_LockVar",
         "SVM_LockRsc",
+        "SVM_UnlockVar",
         "SVM_UnlockRsc",
         "SVM_CallErr",
         "SVM_CallErr1",
         "SVM_SetCbSvr",
         "SVM_DelCbSvr",
         "SVM_SetCbSvrId",
+        "SVM_SetCbBdr",
         "SVM_SetCbLock",
         "SVM_SetCbUnlock",
         "SVM_ExecSvrFunc",
+        "SVM_ExecSvrVint",
+        "SVM_ExecSvrVsync",
+        "SVM_ExecSvrFs",
         "SVM_ExecSvrMain",
         "svm_reset_variable",
         "SVM_Init",
