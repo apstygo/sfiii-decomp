@@ -26,6 +26,7 @@ s32 flPS2GetVramFreeArea(u32 *lpflhTexture, s32 tex_num);
 s16 flPS2GetTextureBuffWidth(s16 width);
 u32 flPS2GetTextureSize(u32 format, s32 dw, s32 dh, s32 bnum);
 s16 flPS2GetTextureVramBlock(FLTexture *lpflTexture);
+static s16 flPS2GetPaletteVramBlock(FLTexture *lpflTexture);
 s32 flPS2AddVramList(LPVram *lpVram, FLTexture *lpflTexture);
 s32 flPS2RewriteVramList(LPVram *lpVram, FLTexture *lpflTexture);
 LPVram *flPS2SearchVramChange(FLTexture *lpflTexture, u32 *lpflhTexture, s32 tex_num);
@@ -1430,7 +1431,7 @@ s16 flPS2GetTextureVramBlock(FLTexture *lpflTexture) {
     return vram_block;
 }
 
-static s16 flPS2GetPaletteVramBlock(FLTexture *lpflPalette) {
+s16 flPS2GetPaletteVramBlock(FLTexture *lpflPalette) {
     s16 vram_block;
 
     if (lpflPalette->height == 1) {
