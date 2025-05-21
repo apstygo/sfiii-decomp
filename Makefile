@@ -77,6 +77,7 @@ MAIN_TARGET := $(BUILD_DIR)/$(MAIN)
 S_FILES := $(shell find $(ASM_DIR) -name '*.s' -not -path *nonmatchings* 2>/dev/null)
 GAME_C_FILES := $(shell find $(SRC_DIR)/sf33rd -name '*.c' 2>/dev/null)
 CRI_C_FILES := $(shell find $(SRC_DIR)/cri -name '*.c' 2>/dev/null)
+SDK_C_FILES := $(shell find $(SRC_DIR)/sdk -name '*.c' 2>/dev/null)
 
 ASM_O_FILES := $(patsubst %.s,%.s.o,$(S_FILES))
 ASM_O_FILES := $(addprefix $(BUILD_DIR)/,$(ASM_O_FILES))
@@ -84,11 +85,13 @@ GAME_O_FILES := $(patsubst %.c,%.c.o,$(GAME_C_FILES))
 GAME_O_FILES := $(addprefix $(BUILD_DIR)/,$(GAME_O_FILES))
 CRI_O_FILES := $(patsubst %.c,%.c.o,$(CRI_C_FILES))
 CRI_O_FILES := $(addprefix $(BUILD_DIR)/,$(CRI_O_FILES))
+SDK_O_FILES := $(patsubst %.c,%.c.o,$(SDK_C_FILES))
+SDK_O_FILES := $(addprefix $(BUILD_DIR)/,$(SDK_O_FILES))
 
 ifeq ($(PLATFORM),ps2)
 	ALL_O_FILES := $(GAME_O_FILES) $(CRI_O_FILES) $(ASM_O_FILES)
 else
-	ALL_O_FILES := $(GAME_O_FILES) $(CRI_O_FILES)
+	ALL_O_FILES := $(GAME_O_FILES) $(CRI_O_FILES) $(SDK_O_FILES)
 endif
 
 LINKER_SCRIPT := $(BUILD_DIR)/$(MAIN).lcf
