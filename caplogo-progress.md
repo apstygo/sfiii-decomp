@@ -731,7 +731,7 @@ Notes:
 | Init_Task_1st                    | sf33rd/Source/Game/init3rd.c                         | sf33rd   | ✅               |
 | init_texcash_1st                 | sf33rd/Source/Game/texcash.c                         | sf33rd   |                 |
 | Init_texgrplds_work              | sf33rd/Source/Game/texgroup.c                        | sf33rd   | ✅               |
-| Init_load_on_memory_data         | sf33rd/Source/Game/aboutspr.c                        | sf33rd   |                 |
+| Init_load_on_memory_data         | sf33rd/Source/Game/aboutspr.c                        | sf33rd   | ✅               |
 | copy_char_base_data              | sf33rd/Source/Game/CHARID.c                          | sf33rd   |                 |
 | palConvSrcToRam                  | sf33rd/Source/Game/color3rd.c                        | sf33rd   |                 |
 | palUpdateGhostCP3                | sf33rd/Source/Game/color3rd.c                        | sf33rd   |                 |

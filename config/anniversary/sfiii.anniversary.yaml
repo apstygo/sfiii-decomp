@@ -527,7 +527,7 @@ segments:
       - [0x29FD20, asm, sf33rd/Source/Game/staff]
       - [0x2A1260, asm, sf33rd/Source/Game/stun]
       - [0x2A1CD0, c, sf33rd/Source/Game/SYS_sub]
-      - [0x2A8790, asm, sf33rd/Source/Game/aboutspr]
+      - [0x2A8790, c, sf33rd/Source/Game/aboutspr]
       - [0x2AAFD0, asm, sf33rd/Source/Game/SysDir]
       - [0x2ABE00, c, sf33rd/Source/Game/ta_sub]
       - [0x2AD770, asm, sf33rd/Source/Game/TATE00] # Good first decomp
@@ -1246,7 +1246,7 @@ segments:
       - [0x452810, rodata, sf33rd/Source/Game/spgauge]
       - [0x4528D0, rodata, sf33rd/Source/Game/staff]
       - [0x454500, .rodata, sf33rd/Source/Game/SYS_sub]
-      - [0x454850, rodata, sf33rd/Source/Game/aboutspr]
+      - [0x454850, .rodata, sf33rd/Source/Game/aboutspr]
       - [0x4549B0, rodata, sf33rd/Source/Game/SysDir]
       - [0x454AC0, .rodata, sf33rd/Source/Game/ta_sub]
       - [0x454B90, .rodata, sf33rd/Source/Game/texcash]
@@ -1699,7 +1699,7 @@ segments:
       - { type: bss, vram: 0x5E5900, name: sf33rd/Source/Game/RANKING }
       - { type: .bss, vram: 0x5E5A90, name: sf33rd/Source/Game/sc_sub }
       - { type: bss, vram: 0x5E5D00, name: sf33rd/Source/Game/Sound3rd }
-      - { type: bss, vram: 0x6B3830, name: sf33rd/Source/Game/aboutspr }
+      - { type: .bss, vram: 0x6B3830, name: sf33rd/Source/Game/aboutspr }
       - { type: .bss, vram: 0x6B49D0, name: sf33rd/Source/Game/texgroup }
       - { type: .bss, vram: 0x6B4E80, name: sf33rd/Source/Game/WORK_SYS }
       - { type: .bss, vram: 0x6BD5F0, name: sf33rd/Source/Game/workuser }

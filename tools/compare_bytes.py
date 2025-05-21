@@ -155,6 +155,32 @@ EXPECTED_ERRORS = {
     0x11DB9C: 0x00004384,
     0x11DBA0: 0x3E020286,
     0x11DBA4: 0x21104300,
+
+    # aboutspr::set_judge_area_sprite: instruction matching, regalloc issue
+    0x2A8AE8: 0xFFFF6530,
+    0x2A8AEC: 0x3C241000,
+    0x2A8AF0: 0x3F240400,
+    0x2A8AF8: 0x04188300,
+    0x2A8AFC: 0x2418A300,
+    0x2A8B2C: 0x96034294,
+    0x2A8B30: 0xFFFF4430,
+    0x2A8B44: 0x24108200,
+
+    # aboutspr::sort_push_requestA: instruction matching, regalloc issue
+    0x2AA380: 0x3C2C0200,
+    0x2AA384: 0x3F2C0500,
+    0x2AA39C: 0x2110A200,
+    0x2AA49C: 0x3C2C0200,
+    0x2AA4A0: 0x3F2C0500,
+    0x2AA4B8: 0x2118A200,
+
+    # aboutspr::sort_push_requestB: instruction matching, regalloc issue
+    0x2AAA58: 0x3C2C0200,
+    0x2AAA5C: 0x3F2C0500,
+    0x2AAA74: 0x2110A200,
+    0x2AAB74: 0x3C2C0200,
+    0x2AAB78: 0x3F2C0500,
+    0x2AAB90: 0x2118A200,
 }
 
 # Weird issue with cri_srd::srd_exec_dvd. 
