@@ -6,7 +6,7 @@ CRI_FUNCS = Path("cri-funcs.json")
 CRI_PROGRESS = Path("cri-progress.md")
 
 def main():
-    func_map = build_func_map(no_cache=True)
+    func_map = build_func_map()
     all_funcs: dict[str, list[str]] = json.loads(CRI_FUNCS.read_text())
     first_file = True
 

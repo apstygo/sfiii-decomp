@@ -69,9 +69,13 @@ jobs:
             if: github.event_name != 'pull_request_target'
             run: python3 tools/update_cri_progress.py
 
+          - name: Update Caplogo progress
+            if: github.event_name != 'pull_request_target'
+            run: python3 tools/update_caplogo_progress.py
+
           - name: Commit progress updates
             if: github.event_name != 'pull_request_target'
             uses: stefanzweifel/git-auto-commit-action@v5
             with:
                 commit_message: Update progress
-                file_pattern: 'README.md cri-progress.md'
+                file_pattern: 'README.md cri-progress.md caplogo-progress.md'

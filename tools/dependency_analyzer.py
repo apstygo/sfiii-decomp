@@ -6,11 +6,13 @@ from graphviz import Digraph
 from dataclasses import dataclass
 import pickle
 import sys
-import math
+import os
 
 # Prints functions that the provided file depends on. Expects file path relative to sources directory.
 # Usage:
 # > python3 tools/dependency_analyzer.py sf33rd/Source/Game/Game.c [--no-cache]
+
+running_on_ci = "CI" in os.environ
 
 @dataclass
 class FuncMap:
@@ -64,7 +66,7 @@ def _build_func_map() -> FuncMap:
         decompiled_funcs
     )
 
-def build_func_map(no_cache: bool = False) -> FuncMap:
+def build_func_map(no_cache: bool = running_on_ci) -> FuncMap:
     if not no_cache and CACHED_PATH.exists():
         with open(CACHED_PATH, "rb") as f:
             return pickle.load(f)
