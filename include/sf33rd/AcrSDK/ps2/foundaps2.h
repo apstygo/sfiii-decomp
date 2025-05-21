@@ -77,6 +77,7 @@ extern s32 flFrame;                                   // size: 0x4, address: 0x5
 extern s32 flHeight;                                  // size: 0x4, address: 0x57AF3C
 extern s32 flWidth;                                   // size: 0x4, address: 0x57AF40
 extern s32 flCTNum;                                   // size: 0x4, address: 0x57AF44
+extern u32 flCTH;                                     // size: 0x4, address: 0x57AF48
 
 extern s32 flDebugSysMem[DEBUG_SYS_MEM_SIZE];   // size: 0x4000, address: 0x6C0DD0
 extern MTX flMATRIX[36];                        // size: 0x900, address: 0x6C4DD0

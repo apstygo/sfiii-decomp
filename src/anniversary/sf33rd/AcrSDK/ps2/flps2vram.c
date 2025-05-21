@@ -18,6 +18,8 @@ void __assert(const s8 *file, s32 line, const s8 *expr);
 
 #define LPVRAM_ERROR ((LPVram *)-1)
 
+#define ERR_STOP while (1) {}
+
 static s32 flPS2ConvertTextureFromContext(plContext *lpcontext, FLTexture *lpflTexture, u32 type);
 s32 flPS2GetVramFreeArea(u32 *lpflhTexture, s32 tex_num);
 s16 flPS2GetTextureBuffWidth(s16 width);
@@ -415,14 +417,107 @@ u32 flCreatePaletteHandle(plContext *lpcontext, u32 flag) {
     return ph >> 0x10;
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", literal_508_0055F810);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", literal_509_0055F850);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2GetPaletteInfoFromContext);
+s32 flPS2GetPaletteInfoFromContext(plContext* bits, u32 ph, u32 flag) {
+    FLTexture* lpflPalette;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2CreatePaletteHandle);
+    lpflPalette = &flPalette[((ph & 0xFFFF0000) >> 0x10) - 1];
+    
+    if (bits->height != 1) {
+        flLogOut("Supported only 1 palette. Unallocatable. @flCreatePaletteHandle");
+        return 0;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", literal_544_0055F890);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2GetPaletteHandle);
+    switch (bits->bitdepth) {                              /* irregular */
+    default:
+        flLogOut("Not supported texture bit depth @flCreatePaletteHandle");
+        return 0;
+    case 2:
+        lpflPalette->format = 2;
+        lpflPalette->bitdepth = 2;
+        break;
+    case 3:
+        lpflPalette->format = 1;
+        lpflPalette->bitdepth = 3;
+        break;
+    case 4:
+        lpflPalette->format = 0;
+        lpflPalette->bitdepth = 4;
+        break;
+    }
+    
+    if (bits->width == 0x100) {
+        lpflPalette->width = 0x10;
+        lpflPalette->height = 0x10;
+    } else {
+        lpflPalette->width = 8;
+        lpflPalette->height = 2;
+    }
+    
+    lpflPalette->desc = bits->desc;
+    lpflPalette->flag = flag;
+    lpflPalette->be_flag = 1;
+    lpflPalette->tw = flPS2GetTextureBuffWidth(lpflPalette->width);
+    lpflPalette->th = flPS2GetTextureBuffWidth(lpflPalette->height);
+    lpflPalette->dma_type = 0;
+    lpflPalette->mem_handle = 0;
+    lpflPalette->lock_ptr = 0;
+    lpflPalette->lock_flag = 0;
+    lpflPalette->tex_num = 1;
+    lpflPalette->block_size = flPS2GetPaletteVramBlock(lpflPalette);
+    lpflPalette->block_align = 1;
+    lpflPalette->size = flPS2GetTextureSize(lpflPalette->format, lpflPalette->width, lpflPalette->height, lpflPalette->tex_num);
+    return 1;
+}
+
+s32 flPS2CreatePaletteHandle(u32 ph, u32 flag) {
+    FLTexture* lpflPalette;
+    u32 dma_size;
+    u32 dma_ptr;
+
+    lpflPalette = &flPalette[((ph & 0xFFFF0000) >> 0x10) - 1];
+    while (1) {
+        switch (flag) {
+        case 1:
+        case 4:
+            break;
+        default:
+        case 5:
+        case 2:
+        case 3:
+            if (!flPS2GetVramFreeArea(&ph, 1)) {
+                lpflPalette->flag = 4;
+                flag = 4;
+                continue;
+            }
+            flPS2VramTrans(lpflPalette);
+            dma_ptr = flPS2VIF1CalcEndLoadImageSize(lpflPalette->size);
+            dma_size = flPS2GetSystemTmpBuff(dma_ptr, 0x10);
+            flPS2VIF1MakeEndLoadImage(dma_size, 1U);
+            flPS2DmaAddQueue2(0, dma_size & 0x0FFFFFFF, dma_size, &flPs2VIF1Control);
+            break;
+        }
+        break;
+    }
+    flPTNum += 1;
+    return 1;
+}
+
+u32 flPS2GetPaletteHandle() {
+    s32 i;
+    
+    for (i = 0; i < 0x440;) {
+        if (flPalette[i].be_flag) {
+            i++;
+        } else {
+            break;
+        }
+    }
+    if (i == 0x440) {
+        flPS2SystemError(0, "ERROR flPS2GetPaletteHandle flps2vram.c");
+    }
+    return (i + 1) << 0x10;
+}
+
 
 s32 flReleaseTextureHandle(u32 texture_handle) {
     FLTexture *lpflTexture = &flTexture[texture_handle - 1];
@@ -443,8 +538,25 @@ s32 flReleaseTextureHandle(u32 texture_handle) {
     return 1;
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", literal_583_0055F8F0);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flReleasePaletteHandle);
+s32 flReleasePaletteHandle(u32 palette_handle) {
+    FLTexture* lpflPalette;
+
+    lpflPalette = &flPalette[palette_handle - 1];
+    if ((palette_handle == 0) || (palette_handle >= 0x441) || (lpflPalette->be_flag  == 0)) {
+        flPS2SystemError(0, "ERROR flReleasePaletteHandle flps2vram.c");
+    }
+    
+    flPS2DmaTerminate();
+    flPS2DeleteVramList(lpflPalette);
+    
+    if (lpflPalette->mem_handle != 0) {
+        flPS2ReleaseSystemMemory(lpflPalette->mem_handle);
+    }
+    
+    flMemset(lpflPalette, 0, 0x3C);
+    flPTNum--;
+    return 1;
+}
 
 s32 flLockTexture(Rect *lprect, u32 th, plContext *lpcontext, u32 flag) {
     FLTexture *lpflTexture = &flTexture[th - 1];
@@ -1317,7 +1429,24 @@ s16 flPS2GetTextureVramBlock(FLTexture *lpflTexture) {
     return vram_block;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2GetPaletteVramBlock);
+static s16 flPS2GetPaletteVramBlock(FLTexture* lpflPalette) {
+    s16 vram_block;
+
+    if (lpflPalette->height == 1) {
+        vram_block = 2;
+    } else {
+        switch (lpflPalette->format) {
+        case 0:
+        case 1:
+            vram_block = 4;
+            break;
+        case 2:
+            vram_block = 4;
+            break;
+        }
+    }
+    return vram_block;
+}
 
 s32 flPS2ConvertTextureFromContext(plContext *lpcontext, FLTexture *lpflTexture, u32 type) {
     s32 lp0;
@@ -1806,7 +1935,23 @@ void BlockConv8to32(u8 *p_input, u8 *p_output, s32 p_page_w) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2VramInit);
+void flPS2VramInit() {
+    s32 i;
+    
+    flCTH = 1;
+    flVramStaticNum = 0;
+    
+    for (i = 0; i < 3; i++) {
+        flMemset(&flVramStatic[i], 0U, 8);
+    }
+    
+    flVramNum = 0;
+    flVramList = NULL;
+    
+    for (i = 0; i < 0x540; i++) {
+        flMemset(&flVramControl[i], 0U, 0x1C);
+    }
+}
 
 LPVram *flPS2PullVramWork() {
     s32 i;
@@ -1967,7 +2112,13 @@ s32 flPS2RewriteVramList(LPVram *lpVram, FLTexture *lpflTexture) {
     return 1;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2DeleteAllVramList);
+s32 flPS2DeleteAllVramList(void) {
+    while (flVramList != NULL) {
+        flPS2PushVramWork(flVramList);
+    }
+    
+    return 1;
+}
 
 s32 flPS2DeleteVramList(FLTexture *lpflTexture) {
     if (lpflTexture->vram_on_flag) {
@@ -1977,9 +2128,41 @@ s32 flPS2DeleteVramList(FLTexture *lpflTexture) {
     return 1;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2PurgeTextureFromVRAM);
+void flPS2PurgeTextureFromVRAM(u32 th) {
+    FLTexture* lpflTexture;
+    
+    lpflTexture = &flTexture[th - 1];
+    
+    if (th > 0x100) {
+        ERR_STOP;
+    }
+    
+    if (!lpflTexture->be_flag) {
+        ERR_STOP;
+    }
+    
+    if (lpflTexture->vram_on_flag) {
+        flPS2PushVramWork(lpflTexture->wkVram);
+    }
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2vram", flPS2PurgePaletteFromVRAM);
+void flPS2PurgePaletteFromVRAM(u32 ph) {
+    FLTexture* lpflPalette;
+
+    lpflPalette = &flPalette[ph - 1];
+    
+    if (ph > 0x440) {
+        ERR_STOP;
+    }
+    
+    if (!lpflPalette->be_flag) {
+        ERR_STOP;
+    }
+    
+    if (lpflPalette->vram_on_flag) {
+        flPS2PushVramWork(lpflPalette->wkVram);
+    }
+}
 
 s32 flPS2GetVramFreeArea(u32 *lpflhTexture, s32 tex_num) {
     LPVram *lpVram;
