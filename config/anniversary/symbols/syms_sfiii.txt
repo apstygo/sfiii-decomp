@@ -8,6 +8,7 @@ D_20000050 = 0x20000050; // ignore:true
 D_80000000 = 0x80000000; // ignore:true
 D_80000002 = 0x80000002; // ignore:true
 D_E0002000 = 0xE0002000; // ignore:true
+D_00560088 = 0x00560088; // ignore:true
 
 func_0010BFBC = 0x10BFBC; // type:func
 _end = 0x6EAF80;
