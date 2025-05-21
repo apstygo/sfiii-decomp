@@ -31,12 +31,6 @@ s32 bgPalCodeOffset[8];
 BG bg_w;
 RW_DATA rw_dat[20];
 
-#if defined(TARGET_PS2)
-void Frame_Adgjust(u32 pos_x, u32 pos_y);
-#else
-void Frame_Adgjust(u16 pos_x, u16 pos_y);
-#endif
-
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_TexInit);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Kakikae_Set);
@@ -85,7 +79,13 @@ void scr_calc(u8 bgnm) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", scr_calc2);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Pause_Family_On);
+#else
+void Pause_Family_On() {
+    not_implemented(__func__);
+}
+#endif
 
 void Zoomf_Init() {
     zoom_add = 64;
@@ -117,10 +117,11 @@ void Zoom_Value_Set(u16 zadd) {
     scr_sc = 1.0f / (add + work);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Frame_Up);
-#else
 void Frame_Up(u16 x, u16 y, u16 add) {
+#if defined(TARGET_PS2)
+    void Frame_Adgjust(u32 pos_x, u32 pos_y);
+#endif
+
     if (zoom_add < 2) {
         scr_sc = 64.0f;
         return;
@@ -130,9 +131,12 @@ void Frame_Up(u16 x, u16 y, u16 add) {
     Zoom_Value_Set(zoom_add);
     Frame_Adgjust(x, y);
 }
-#endif
 
 void Frame_Down(u16 x, u16 y, u16 add) {
+#if defined(TARGET_PS2)
+    void Frame_Adgjust(u32 pos_x, u32 pos_y);
+#endif
+
     if (zoom_add >= 0xFFC0) {
         scr_sc = 0.0009775171f;
         return;
@@ -143,9 +147,6 @@ void Frame_Down(u16 x, u16 y, u16 add) {
     Frame_Adgjust(x, y);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Frame_Adgjust);
-#else
 void Frame_Adgjust(u16 pos_x, u16 pos_y) {
     u16 buff;
 
@@ -189,7 +190,6 @@ void Frame_Adgjust(u16 pos_x, u16 pos_y) {
         }
     }
 }
-#endif
 
 void Scrn_Pos_Init() {
     u8 i;
@@ -206,14 +206,10 @@ void Scrn_Pos_Init() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Scrn_Move_Set);
-#else
 void Scrn_Move_Set(s8 bgnm, s16 x, s16 y) {
     bg_pos[bgnm].scr_x.word_pos.h = x;
     bg_pos[bgnm].scr_y.word_pos.h = y + 16;
 }
-#endif
 
 void Family_Init() {
     u8 i;
@@ -228,16 +224,12 @@ void Family_Init() {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Family_Set_R);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Family_Set_W);
-#else
 void Family_Set_W(s8 fmnm, s16 x, s16 y) {
     fm_pos[fmnm].scr_x.word_pos.h = x;
     fm_pos[fmnm].scr_y.word_pos.h = y;
     fm_pos[fmnm].scr_x_buff.word_pos.h = x;
     fm_pos[fmnm].scr_y_buff.word_pos.h = y;
 }
-#endif
 
 void Bg_On_R(u16 s_prm) {
     Screen_Switch |= s_prm;
