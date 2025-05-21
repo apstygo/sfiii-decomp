@@ -2,6 +2,8 @@
 #include "common.h"
 #include "sf33rd/AcrSDK/ps2/flPADUSR.h"
 #include "structs.h"
+#include "sf33rd/AcrSDK/common/mlPAD.h"
+#include "sf33rd/AcrSDK/ps2/flps2etc.h"
 
 #include <libpad2.h>
 #include <libvib.h>
@@ -48,13 +50,63 @@ static u8 lever_analog_to_digital(PAD_STICK *st);
 static void PADReadSub(s32 i);
 s32 flPADShockSet(s32 pad_id, u32 level, u32 time);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/ps2PAD", flPS2PADModuleInit);
+s32 flPS2PADModuleInit() {
+    flPS2IopModuleLoad("cdrom0:\\THIRD\\IOP\\MODULES\\DBCMAN.IRX;1", 0, NULL, 0);
+    flPS2IopModuleLoad("cdrom0:\\THIRD\\IOP\\MODULES\\SIO2D.IRX;1", 0, NULL, 0);
+    flPS2IopModuleLoad("cdrom0:\\THIRD\\IOP\\MODULES\\PAD2\\DS2U_D.IRX;1", 0, NULL, 0);
+    return 1;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/ps2PAD", tarPADInit);
+s32 tarPADInit() {
+    s32 i;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/ps2PAD", tarPADDestroy);
+    if (PADDeviceInit() == 0) {
+        return 0;
+    }
+    ps2PADWorkClear();
+    ps2pad_clear.pad_buffer[0] = 0xFF;
+    ps2pad_clear.ix.sw = 0xFFFF;
+    for (i = 0;i < 2; i++) {
+        ps2pad_backup[i] = ps2pad_clear;
+        ps2slot[i].state = 0;
+        ps2slot[i].phase = 0;
+        ps2slot[i].port = 0;
+        ps2slot[i].slot = 0;
+        ps2slot[i].vib = 0;
+        ps2slot[i].buff = (u64 *)pad_dma_buf[i];
+    }
+    if (MtapPort == -1) {
+        PADPortOpen(0, 0, ps2slot);
+        PADPortOpen(1, 0, &ps2slot[1]);
+    } else {
+        for (i = 0;i < MtapSlotMax; i++) {
+            PADPortOpen(MtapPort, i, &ps2slot[i]);
+        }
+        if (MtapSlotMax < 2) {
+            PADPortOpen((MtapPort + 1) & 1, 0, &ps2slot[i]);
+        }
+    }
+    
+    for (i = 0; i < 2; i++) {
+        ps2pad_config[i] = ps2PadShotConf_Basic;
+        tarpad_root[i].conn.gc.vib = ps2slot[i].port;
+        tarpad_root[i].conn.gc.etc0 = ps2slot[i].slot;
+        flPadFixedAnalogSelectSwitch[i] = flPadFASS[i] = 0 & 0xFF;
+    }
+    
+    return 1;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/ps2PAD", flPADConfigSetACRtoXX);
+void tarPADDestroy(void) {
+    ps2PADWorkClear();
+    PADDeviceDestroy();
+}
+
+void flPADConfigSetACRtoXX(s32 padnum, s16 a, s16 b, s16 c) {
+    ps2pad_config[padnum].abut_on = a;
+    ps2pad_config[padnum].ast1_on = b;
+    ps2pad_config[padnum].ast2_on = c;
+}
 
 void tarPADRead() {
     s32 i;
@@ -79,7 +131,12 @@ void tarPADRead() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/ps2PAD", ps2PADWorkClear);
+void ps2PADWorkClear() {
+    flpad_ram_clear((u32 *)tarpad_root, sizeof(tarpad_root));
+    flpad_ram_clear((u32 *) ps2pad_state, sizeof(ps2pad_state));
+    flpad_ram_clear((u32 *) ps2pad_backup, sizeof(ps2pad_backup));
+    flpad_ram_clear((u32 *) &ps2pad_clear, sizeof(ps2pad_clear));
+}
 
 static s32 PADRead_for_PS2(s32 i) {
     s32 j;
@@ -241,11 +298,44 @@ u8 lever_analog_to_digital(PAD_STICK *st) {
     return ps2lever_analog_to_digital[(u32)(st->ang / 22.5f)];
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/ps2PAD", PADDeviceInit);
+s32 PADDeviceInit() {
+    if (sceDbcInit() != 1) {
+        return 0;
+    }
+    if (scePad2Init(0) != 1) {
+        return 0;
+    }
+    return 1;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/ps2PAD", PADPortOpen);
+void PADPortOpen(s32 port, s32 slot, PS2Slot* adrs) {
+    scePad2SocketParam param;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/ps2PAD", PADDeviceDestroy);
+    param.option = 2;
+    param.port = port;
+    param.slot = slot;
+    param.number = 0;
+
+    if ((adrs->socket_id = scePad2CreateSocket(&param, adrs->buff)) >= 0) {
+        adrs->state = 1;
+        adrs->phase = 0;
+        adrs->port = port;
+        adrs->slot = slot;
+    }
+}
+
+void PADDeviceDestroy(void) {
+    s32 i;
+
+    for (i = 0;i < 2; i++) {
+        if (ps2slot[i].state != 0) {
+            scePad2DeleteSocket(ps2slot[i].socket_id);
+        }
+    }
+    
+    scePad2End();
+    sceDbcEnd();
+}
 
 void PADReadSub(s32 i) {
     s32 lp0;
@@ -456,9 +546,3 @@ s32 flPADShockSet(s32 pad_id, u32 level, u32 time) {
     sceVibSetActParam(ps2slot[pad_id].socket_id, 1, &profile, vib_data_size, vib_data);
     return 1;
 }
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/ps2PAD", literal_191_0055FBA0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/ps2PAD", literal_192_0055FBD0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/ps2PAD", literal_193_0055FC00);
