@@ -2267,4 +2267,16 @@ typedef struct {
     } iw[2];         // offset 0x0, size 0x8
 } Ideal_W;
 
+typedef struct {
+    // total size: 0x14
+    u8 name[3];      // offset 0x0, size 0x3
+    u16 player;      // offset 0x4, size 0x2
+    u32 score;       // offset 0x8, size 0x4
+    s8 cpu_grade;    // offset 0xC, size 0x1
+    s8 grade;        // offset 0xD, size 0x1
+    u16 wins;        // offset 0xE, size 0x2
+    u8 player_color; // offset 0x10, size 0x1
+    u8 all_clear;    // offset 0x11, size 0x1
+} ScoreRankingEntry;
+
 #endif

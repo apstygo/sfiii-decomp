@@ -1,6 +1,7 @@
 #ifndef HITCHECK_H
 #define HITCHECK_H
 
+#include "structs.h"
 #include "types.h"
 
 extern const u16 chain_normal_ground_table[];   // size: 0x10, address: 0x521DB0

@@ -1,3 +1,4 @@
+#include "sf33rd/Source/Game/debug/Debug.h"
 #include "common.h"
 
 // sbss
@@ -20,7 +21,13 @@ u32 Record_Timer;
 s16 time_check[4];
 u8 time_check_ix;
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", Debug_Task);
+#else
+void Debug_Task(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", Debug_Init);
 
@@ -43,6 +50,7 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", De
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", Debug_Menu_Shot);
 
+#if defined(TARGET_PS2)
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", literal_407_00558CC8);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", literal_408_00558CD0);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", literal_409_00558CE0);
@@ -56,6 +64,11 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", li
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", literal_417_00558D20);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", literal_418_00558D28);
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", Check_Check_Screen);
+#else
+void Check_Check_Screen() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", Disp_Lever);
 
@@ -65,11 +78,23 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", Check
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", Check_Pos_OBJ2);
 
+#if defined(TARGET_PS2)
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", literal_475_00558D38);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", literal_476_00558D48);
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", Check_Pos_BG);
+#else
+void Check_Pos_BG() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", Check_Exit_Check);
+#else
+s32 Check_Exit_Check() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", literal_498_00558D50);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", literal_499_00558D60);

@@ -11,8 +11,8 @@ The project aims to recreate the source code from the existing binaries which wo
 <!-- PROGRESS-TABLE:START -->
 | Module   | Progress (size)   | Progress (func count)   | Notes                                                                                          |
 |----------|-------------------|-------------------------|------------------------------------------------------------------------------------------------|
-| sf33rd   | 12.14%            | 9.31%                   | Game functions.                                                                                |
-| cri      | 54.69%            | 60.53%                  | CRI Middleware functions. For a full list of functions see [cri-progress.md](cri-progress.md). |
+| sf33rd   | 12.15%            | 9.35%                   | Game functions.                                                                                |
+| cri      | 54.68%            | 60.53%                  | CRI Middleware functions. For a full list of functions see [cri-progress.md](cri-progress.md). |
 <!-- PROGRESS-TABLE:END -->
 
 ## Where to start
