@@ -9,7 +9,8 @@ KEEP_SECTION
 	.vutext,
 	.vudata,
 	.vubss,
-	.data
+	.data,
+	.rodata
 }
 
 SECTIONS
