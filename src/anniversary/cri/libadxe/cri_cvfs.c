@@ -70,8 +70,10 @@ CVFSHandle *allocCvFsHn();
 void releaseCvFsHn(CVFSHandle *handle);
 void getDefDev(Char8 *arg0);
 void addDevName(const Char8 *device_name, Char8 *out);
+CVFSDevice *getDevice(const Char8 *name);
 CVFSDevice *addDevice(const Char8 *device_name, CVFSDevice *(*device_provider)());
 Sint32 isExistDev(const Char8 *, Sint32);
+void toUpperStr(Char8 *str);
 
 void cvFsCallUsrErrFn(void *object, const Char8 *msg, Sint32 arg2) {
     if (cvfs_errfn != NULL) {
