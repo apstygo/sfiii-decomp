@@ -7,6 +7,7 @@
 
 #include <libpad2.h>
 #include <libvib.h>
+#include <libdbc.h>
 
 #include <math.h>
 
