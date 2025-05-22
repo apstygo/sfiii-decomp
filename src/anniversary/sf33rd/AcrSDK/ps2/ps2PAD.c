@@ -1,13 +1,13 @@
 #include "sf33rd/AcrSDK/ps2/ps2PAD.h"
 #include "common.h"
-#include "sf33rd/AcrSDK/ps2/flPADUSR.h"
-#include "structs.h"
 #include "sf33rd/AcrSDK/common/mlPAD.h"
+#include "sf33rd/AcrSDK/ps2/flPADUSR.h"
 #include "sf33rd/AcrSDK/ps2/flps2etc.h"
+#include "structs.h"
 
+#include <libdbc.h>
 #include <libpad2.h>
 #include <libvib.h>
-#include <libdbc.h>
 
 #include <math.h>
 
@@ -52,7 +52,7 @@ static void PADReadSub(s32 i);
 s32 flPADShockSet(s32 pad_id, u32 level, u32 time);
 static s32 PADDeviceInit();
 static void ps2PADWorkClear();
-static void PADPortOpen(s32 port, s32 slot, PS2Slot* adrs);
+static void PADPortOpen(s32 port, s32 slot, PS2Slot *adrs);
 static void PADDeviceDestroy();
 
 s32 flPS2PADModuleInit() {
@@ -71,7 +71,7 @@ s32 tarPADInit() {
     ps2PADWorkClear();
     ps2pad_clear.pad_buffer[0] = 0xFF;
     ps2pad_clear.ix.sw = 0xFFFF;
-    for (i = 0;i < 2; i++) {
+    for (i = 0; i < 2; i++) {
         ps2pad_backup[i] = ps2pad_clear;
         ps2slot[i].state = 0;
         ps2slot[i].phase = 0;
@@ -84,21 +84,21 @@ s32 tarPADInit() {
         PADPortOpen(0, 0, ps2slot);
         PADPortOpen(1, 0, &ps2slot[1]);
     } else {
-        for (i = 0;i < MtapSlotMax; i++) {
+        for (i = 0; i < MtapSlotMax; i++) {
             PADPortOpen(MtapPort, i, &ps2slot[i]);
         }
         if (MtapSlotMax < 2) {
             PADPortOpen((MtapPort + 1) & 1, 0, &ps2slot[i]);
         }
     }
-    
+
     for (i = 0; i < 2; i++) {
         ps2pad_config[i] = ps2PadShotConf_Basic;
         tarpad_root[i].conn.gc.vib = ps2slot[i].port;
         tarpad_root[i].conn.gc.etc0 = ps2slot[i].slot;
         flPadFixedAnalogSelectSwitch[i] = flPadFASS[i] = 0 & 0xFF;
     }
-    
+
     return 1;
 }
 
@@ -138,9 +138,9 @@ void tarPADRead() {
 
 void ps2PADWorkClear() {
     flpad_ram_clear((u32 *)tarpad_root, sizeof(tarpad_root));
-    flpad_ram_clear((u32 *) ps2pad_state, sizeof(ps2pad_state));
-    flpad_ram_clear((u32 *) ps2pad_backup, sizeof(ps2pad_backup));
-    flpad_ram_clear((u32 *) &ps2pad_clear, sizeof(ps2pad_clear));
+    flpad_ram_clear((u32 *)ps2pad_state, sizeof(ps2pad_state));
+    flpad_ram_clear((u32 *)ps2pad_backup, sizeof(ps2pad_backup));
+    flpad_ram_clear((u32 *)&ps2pad_clear, sizeof(ps2pad_clear));
 }
 
 static s32 PADRead_for_PS2(s32 i) {
@@ -307,13 +307,15 @@ s32 PADDeviceInit() {
     if (sceDbcInit() != 1) {
         return 0;
     }
+    
     if (scePad2Init(0) != 1) {
         return 0;
     }
+    
     return 1;
 }
 
-void PADPortOpen(s32 port, s32 slot, PS2Slot* adrs) {
+void PADPortOpen(s32 port, s32 slot, PS2Slot *adrs) {
     scePad2SocketParam param;
 
     param.option = 2;
@@ -337,7 +339,7 @@ void PADDeviceDestroy() {
             scePad2DeleteSocket(ps2slot[i].socket_id);
         }
     }
-    
+
     scePad2End();
     sceDbcEnd();
 }
