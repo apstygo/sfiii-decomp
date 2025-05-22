@@ -47,7 +47,7 @@ typedef struct {
     Char8 name[12];
 } CVFSNamedDevice;
 
-Char8 *cvfs_build = "\nCVFS/PS2EE Ver.2.34 Build:Sep 18 2003 10:00:09\n\0\0\0\0";
+Char8 *volatile cvfs_build = "\nCVFS/PS2EE Ver.2.34 Build:Sep 18 2003 10:00:09\n\0\0\0\0";
 void (*cvfs_errfn)(void *, const Char8 *) = NULL;
 void *cvfs_errobj = NULL;
 Sint32 cvfs_init_cnt = 0;
@@ -70,6 +70,8 @@ CVFSHandle *allocCvFsHn();
 void releaseCvFsHn(CVFSHandle *handle);
 void getDefDev(Char8 *arg0);
 void addDevName(const Char8 *device_name, Char8 *out);
+CVFSDevice *addDevice(const Char8 *device_name, CVFSDevice *(*device_provider)());
+Sint32 isExistDev(const Char8 *, Sint32);
 
 void cvFsCallUsrErrFn(void *object, const Char8 *msg, Sint32 arg2) {
     if (cvfs_errfn != NULL) {
@@ -85,12 +87,58 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsInit);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsFinish);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BDC0);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BDE8);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BE10);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsAddDev);
+void cvFsAddDev(const Char8 *device_name, CVFSDevice *(*device_provider)()) {
+    CVFSDevice *device;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", addDevice);
+    cvfs_build;
+
+    if (device_name == NULL) {
+        cvFsError("cvFsAddDev #1:illegal device name");
+        return;
+    }
+
+    if (device_provider == NULL) {
+        cvFsError("cvFsAddDev #2:illegal I/F func name");
+        return;
+    }
+
+    device = addDevice(device_name, device_provider);
+
+    if (device == NULL) {
+        cvFsError("cvFsAddDev #3:failed added a device\0\0\0\0");
+        return;
+    }
+
+    if (device->EntryErrFunc != NULL) {
+        device->EntryErrFunc(cvFsCallUsrErrFn, NULL);
+    }
+}
+
+CVFSDevice *addDevice(const Char8 *device_name, CVFSDevice *(*device_provider)()) {
+    CVFSDevice *device;
+    Sint32 i = 0;
+
+    toUpperStr(device_name);
+    device = device_provider();
+
+    if (getDevice(device_name) != NULL) {
+        return device;
+    }
+
+    for (i = 0; i < CVFS_DEVICE_MAX; i++) {
+        if (D_006BDBA8[i].name[0] == '\0') {
+            break;
+        }
+    }
+
+    if (i == CVFS_DEVICE_MAX) {
+        return NULL;
+    }
+
+    D_006BDBA8[i].device = device;
+    memcpy(D_006BDBA8[i].name, device_name, strlen(device_name) + 1);
+    return device;
+}
 
 CVFSDevice *getDevice(const Char8 *name) {
     Sint32 len = strlen(name);
@@ -119,11 +167,42 @@ void toUpperStr(Char8 *str) {
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BE38);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsDelDev);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BE60);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BE88);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsSetDefDev);
+void cvFsSetDefDev(const Char8 *device_name) {
+    Sint32 device_name_len;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", isExistDev);
+    if (device_name == NULL) {
+        cvFsError("cvFsSetDefDev #1:illegal device name");
+        return;
+    }
+
+    device_name_len = strlen(device_name);
+
+    if (device_name_len == 0) {
+        D_006BDDA8[0] = '\0';
+        return;
+    }
+
+    toUpperStr(device_name);
+
+    if (isExistDev(device_name, device_name_len) == 1) {
+        memcpy(D_006BDDA8, device_name, device_name_len + 1);
+        return;
+    }
+
+    cvFsError("cvFsSetDefDev #2:unknown device name");
+}
+
+Sint32 isExistDev(const Char8 *device_name, Sint32 device_name_length) {
+    Sint32 i;
+
+    for (i = 0; i < CVFS_DEVICE_MAX; i++) {
+        if (strncmp(device_name, D_006BDBA8[i].name, device_name_length) == 0) {
+            return 1;
+        }
+    }
+
+    return 0;
+}
 
 Char8 *cvFsGetDefDev() {
     return D_006BDDA8;
@@ -461,7 +540,16 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsDeleteFile)
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055C6B0);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsGetDevName);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsEntryErrFunc);
+void cvFsEntryErrFunc(void (*function)(void *, const Char8 *), void *object) {
+    if (function == NULL) {
+        cvfs_errfn = NULL;
+        cvfs_errobj = NULL;
+        return;
+    }
+
+    cvfs_errfn = function;
+    cvfs_errobj = object;
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055C6D0);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055C6F0);
