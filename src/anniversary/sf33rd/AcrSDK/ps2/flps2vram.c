@@ -419,9 +419,7 @@ u32 flCreatePaletteHandle(plContext *lpcontext, u32 flag) {
 }
 
 s32 flPS2GetPaletteInfoFromContext(plContext *bits, u32 ph, u32 flag) {
-    FLTexture *lpflPalette;
-
-    lpflPalette = &flPalette[((ph & 0xFFFF0000) >> 0x10) - 1];
+    FLTexture *lpflPalette = &flPalette[((ph & 0xFFFF0000) >> 0x10) - 1];
 
     if (bits->height != 1) {
         flLogOut("Supported only 1 palette. Unallocatable. @flCreatePaletteHandle");
@@ -475,11 +473,10 @@ s32 flPS2GetPaletteInfoFromContext(plContext *bits, u32 ph, u32 flag) {
 }
 
 s32 flPS2CreatePaletteHandle(u32 ph, u32 flag) {
-    FLTexture *lpflPalette;
+    FLTexture *lpflPalette = &flPalette[((ph & 0xFFFF0000) >> 0x10) - 1]; 
     u32 dma_size;
     u32 dma_ptr;
 
-    lpflPalette = &flPalette[((ph & 0xFFFF0000) >> 0x10) - 1];
     while (1) {
         switch (flag) {
         case 1:
@@ -546,10 +543,9 @@ s32 flReleaseTextureHandle(u32 texture_handle) {
 }
 
 s32 flReleasePaletteHandle(u32 palette_handle) {
-    FLTexture *lpflPalette;
+    FLTexture *lpflPalette = &flPalette[palette_handle - 1];
 
-    lpflPalette = &flPalette[palette_handle - 1];
-    if ((palette_handle == 0) || (palette_handle >= 0x441) || (lpflPalette->be_flag == 0)) {
+    if ((palette_handle == 0) || (palette_handle > FL_PALETTE_MAX) || (lpflPalette->be_flag == 0)) {
         flPS2SystemError(0, "ERROR flReleasePaletteHandle flps2vram.c");
     }
 
@@ -1447,11 +1443,13 @@ s16 flPS2GetPaletteVramBlock(FLTexture *lpflPalette) {
         case 1:
             vram_block = 4;
             break;
+            
         case 2:
             vram_block = 4;
             break;
         }
     }
+    
     return vram_block;
 }
 
@@ -2136,9 +2134,7 @@ s32 flPS2DeleteVramList(FLTexture *lpflTexture) {
 }
 
 void flPS2PurgeTextureFromVRAM(u32 th) {
-    FLTexture *lpflTexture;
-
-    lpflTexture = &flTexture[th - 1];
+    FLTexture *lpflTexture = &flTexture[th - 1];
 
     if (th > FL_TEXTURE_MAX) {
         ERR_STOP;
@@ -2154,9 +2150,7 @@ void flPS2PurgeTextureFromVRAM(u32 th) {
 }
 
 void flPS2PurgePaletteFromVRAM(u32 ph) {
-    FLTexture *lpflPalette;
-
-    lpflPalette = &flPalette[ph - 1];
+    FLTexture *lpflPalette = &flPalette[ph - 1];
 
     if (ph > FL_PALETTE_MAX) {
         ERR_STOP;
