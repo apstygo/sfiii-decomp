@@ -19,15 +19,45 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Finish_SE_D
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Stage_BGM);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Sound_SE);
+#else
+void Sound_SE(s16 Code) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", BGM_Request);
+#else
+void BGM_Request(s16 Code) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", BGM_Request_Code_Check);
+#else
+void BGM_Request_Code_Check(u16 Code) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", BGM_Stop);
+#else
+void BGM_Stop() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", SE_All_Off);
+#else
+void SE_All_Off() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Se_Dummy);
 
@@ -53,7 +83,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Get_Position);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Check_Bonus_SE);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Store_Sound_Code);
+#else
+void Store_Sound_Code(u16 code, SoundPatchConfig *rmc) {
+    not_implemented(__func__);
+}
+#endif
 
 void Disp_Sound_Code() {
     s16 i;

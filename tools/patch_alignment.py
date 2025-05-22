@@ -19,6 +19,9 @@ special_cases = {
     ("MTRANS", ".rodata", 10): 16,
     ("Sound3rd", ".rodata", 1): 16,
     ("CALDIR", ".rodata", 0): 16,
+    ("mcsub", ".rodata", 13): 16,
+    ("mcsub", ".rodata", 17): 16,
+    ("PLCNT", ".rodata", 4): 16,
 
     ("PulPul", ".data", 0): 16,
     ("flps2vram", ".data", 0): 16,

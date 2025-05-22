@@ -52,7 +52,7 @@ Notes:
 | flInitialize                     | sf33rd/AcrSDK/ps2/foundaps2.c                        | sf33rd   | ✅               |
 | system_work_init                 | sf33rd/AcrSDK/ps2/foundaps2.c                        | sf33rd   | ✅               |
 | flMemset                         | sf33rd/AcrSDK/ps2/flps2etc.c                         | sf33rd   | ✅               |
-| flPS2VramInit                    | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   |                 |
+| flPS2VramInit                    | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | sbrk                             | sdk/libkernl/glue.c                                  | sdk      | –               |
 | EndOfHeap                        | sdk/libkernl/klib.c                                  | sdk      | –               |
 | SignalSema                       | sdk/libkernl/klib.c                                  | sdk      | –               |
@@ -158,7 +158,7 @@ Notes:
 | GsPutIMR                         | sdk/libkernl/klib.c                                  | sdk      | –               |
 | SetGsCrt                         | sdk/libkernl/klib.c                                  | sdk      | –               |
 | flPS2GetStaticVramArea           | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
-| flPS2DeleteAllVramList           | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   |                 |
+| flPS2DeleteAllVramList           | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | flPS2InitRenderState             | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flInitPhaseStarted               | sf33rd/AcrSDK/ps2/foundaps2.c                        | sf33rd   | ✅               |
 | flPS2SendRenderState_ALPHA       | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   |                 |
@@ -248,14 +248,14 @@ Notes:
 | GetTim2PictureData               | sf33rd/AcrSDK/common/pltim2.c                        | sf33rd   | ✅               |
 | flMemcpy                         | sf33rd/AcrSDK/ps2/flps2etc.c                         | sf33rd   | ✅               |
 | flPS2CreateTextureHandle         | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
-| flPS2GetPaletteHandle            | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   |                 |
+| flPS2GetPaletteHandle            | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | plTIM2SetPaletteContextFromImage | sf33rd/AcrSDK/common/pltim2.c                        | sf33rd   | ✅               |
-| flPS2GetPaletteInfoFromContext   | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   |                 |
-| flPS2GetPaletteVramBlock         | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   |                 |
+| flPS2GetPaletteInfoFromContext   | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
+| flPS2GetPaletteVramBlock         | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | plTIM2GetPaletteAddressFromImage | sf33rd/AcrSDK/common/pltim2.c                        | sf33rd   | ✅               |
 | GetTim2ClutData                  | sf33rd/AcrSDK/common/pltim2.c                        | sf33rd   | ✅               |
 | flPS2ConvertAlpha                | sf33rd/AcrSDK/ps2/flps2etc.c                         | sf33rd   | ✅               |
-| flPS2CreatePaletteHandle         | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   |                 |
+| flPS2CreatePaletteHandle         | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | flPrintColor                     | sf33rd/AcrSDK/ps2/flps2debug.c                       | sf33rd   | ✅               |
 | flPS2DebugStrClear               | sf33rd/AcrSDK/ps2/flps2debug.c                       | sf33rd   | ✅               |
 | sceGsSyncV                       | sdk/libgraph/graph011.c                              | sdk      | –               |
@@ -877,7 +877,7 @@ Notes:
 | flPS2DmaTerminate                | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
 | flPS2DeleteVramList              | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | ppgReleasePaletteHandle          | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
-| flReleasePaletteHandle           | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   |                 |
+| flReleasePaletteHandle           | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | flPS2PushVramWork                | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | CP3toPS2DrawOn                   | sf33rd/Source/PS2/ps2Quad.c                          | sf33rd   | ✅               |
 | Init_Task_End                    | sf33rd/Source/Game/init3rd.c                         | sf33rd   | ✅               |

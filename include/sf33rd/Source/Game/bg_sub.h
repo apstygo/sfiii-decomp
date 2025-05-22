@@ -1,6 +1,7 @@
 #ifndef BG_SUB_H
 #define BG_SUB_H
 
+#include "structs.h"
 #include "types.h"
 
 void suzi_sync_pos_set(WORK_Other *ewk);

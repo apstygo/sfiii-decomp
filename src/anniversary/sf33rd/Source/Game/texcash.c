@@ -71,9 +71,21 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", disp_texc
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", search_texcash_free_area);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", init_texcash_1st);
+#else
+void init_texcash_1st() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", init_texcash_before_process);
+#else
+void init_texcash_before_process() {
+    not_implemented(__func__);
+}
+#endif
 
 void init_texcash_2nd(s16 ix) {
     PatternState *mc;
@@ -123,8 +135,14 @@ void init_texcash_2nd(s16 ix) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", literal_379_00554C70);
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", texture_cash_update);
+#else
+void texture_cash_update() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", literal_413_00554C90);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", literal_414_00554CB0);
@@ -226,7 +244,13 @@ void make_texcash_work(s16 ix) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", Clear_texcash_work);
+#else
+void Clear_texcash_work() {
+    not_implemented(__func__);
+}
+#endif
 
 // Should be called clear_texcash_work
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", _clear_texcash_work);

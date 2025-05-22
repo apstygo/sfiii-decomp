@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern s16 lose_free[2];
 extern s16 lose_rno[3];
+extern s16 lose_free[2];
 
 #endif
