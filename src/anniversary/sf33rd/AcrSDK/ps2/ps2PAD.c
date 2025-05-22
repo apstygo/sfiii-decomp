@@ -81,7 +81,7 @@ s32 tarPADInit() {
         ps2slot[i].buff = (u64 *)pad_dma_buf[i];
     }
     if (MtapPort == -1) {
-        PADPortOpen(0, 0, ps2slot);
+        PADPortOpen(0, 0, &ps2slot[0]);
         PADPortOpen(1, 0, &ps2slot[1]);
     } else {
         for (i = 0; i < MtapSlotMax; i++) {
@@ -96,13 +96,13 @@ s32 tarPADInit() {
         ps2pad_config[i] = ps2PadShotConf_Basic;
         tarpad_root[i].conn.gc.vib = ps2slot[i].port;
         tarpad_root[i].conn.gc.etc0 = ps2slot[i].slot;
-        flPadFixedAnalogSelectSwitch[i] = flPadFASS[i] = 0 & 0xFF;
+        flPadFixedAnalogSelectSwitch[i] = flPadFASS[i] = 0;
     }
 
     return 1;
 }
 
-void tarPADDestroy(void) {
+void tarPADDestroy() {
     ps2PADWorkClear();
     PADDeviceDestroy();
 }
