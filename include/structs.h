@@ -1977,18 +1977,18 @@ typedef struct {
 
 typedef struct {
     // total size: 0x18
-    u8 state;      // offset 0x0, size 0x1
-    u8 phase;      // offset 0x1, size 0x1
-    u8 port;       // offset 0x2, size 0x1
-    u8 slot;       // offset 0x3, size 0x1
-    u8 kind;       // offset 0x4, size 0x1
-    u8 vib;        // offset 0x5, size 0x1
-    u8 socket_id;  // offset 0x6, size 0x1
-    u8 pad_id;     // offset 0x7, size 0x1
-    u64 *buff;     // offset 0x8, size 0x4, supposed to be __int128*
-    u32 bprofile;  // offset 0xC, size 0x4
-    u32 vprofile;  // offset 0x10, size 0x4
-    u32 vib_timer; // offset 0x14, size 0x4
+    u8 state;       // offset 0x0, size 0x1
+    u8 phase;       // offset 0x1, size 0x1
+    u8 port;        // offset 0x2, size 0x1
+    u8 slot;        // offset 0x3, size 0x1
+    u8 kind;        // offset 0x4, size 0x1
+    u8 vib;         // offset 0x5, size 0x1
+    u8 socket_id;   // offset 0x6, size 0x1
+    u8 pad_id;      // offset 0x7, size 0x1
+    __int128 *buff; // offset 0x8, size 0x4,
+    u32 bprofile;   // offset 0xC, size 0x4
+    u32 vprofile;   // offset 0x10, size 0x4
+    u32 vib_timer;  // offset 0x14, size 0x4
 } PS2Slot;
 
 typedef struct {

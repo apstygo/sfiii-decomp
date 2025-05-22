@@ -68,9 +68,11 @@ s32 tarPADInit() {
     if (PADDeviceInit() == 0) {
         return 0;
     }
+    
     ps2PADWorkClear();
     ps2pad_clear.pad_buffer[0] = 0xFF;
     ps2pad_clear.ix.sw = 0xFFFF;
+    
     for (i = 0; i < 2; i++) {
         ps2pad_backup[i] = ps2pad_clear;
         ps2slot[i].state = 0;
@@ -78,8 +80,9 @@ s32 tarPADInit() {
         ps2slot[i].port = 0;
         ps2slot[i].slot = 0;
         ps2slot[i].vib = 0;
-        ps2slot[i].buff = (u64 *)pad_dma_buf[i];
+        ps2slot[i].buff = pad_dma_buf[i];
     }
+    
     if (MtapPort == -1) {
         PADPortOpen(0, 0, &ps2slot[0]);
         PADPortOpen(1, 0, &ps2slot[1]);
