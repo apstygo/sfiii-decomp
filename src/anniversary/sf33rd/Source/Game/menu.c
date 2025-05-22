@@ -166,10 +166,10 @@ void Menu_Task(struct _TASK *task_ptr) {
 }
 
 void Setup_Pad_or_Stick() {
-    ((u16 *)plsw_00)[0] = PLsw[0][0];
-    ((u16 *)plsw_01)[0] = PLsw[0][1];
-    ((u16 *)plsw_00)[1] = PLsw[1][0];
-    ((u16 *)plsw_01)[1] = PLsw[1][1];
+    plsw_00[0] = PLsw[0][0];
+    plsw_01[0] = PLsw[0][1];
+    plsw_00[1] = PLsw[1][0];
+    plsw_01[1] = PLsw[1][1];
 }
 
 void After_Title(struct _TASK *task_ptr) {
@@ -435,8 +435,7 @@ void toSelectGame(struct _TASK *task_ptr) {
 
     case 3:
         imgSelectGameButton();
-        sw = (~(*(u16 *)&plsw_01[0]) & (*(u16 *)&plsw_00[0])) |
-             (~(*(u16 *)&plsw_01[2]) & (*(u16 *)&plsw_00[2])); // potential macro
+        sw = (~plsw_01[0] & plsw_00[0]) | (~plsw_01[1] & plsw_00[1]); // potential macro
         sw &= 0x300;
 
         if (sw != 0) {
@@ -838,7 +837,7 @@ void System_Direction(struct _TASK *task_ptr) {
 }
 
 void System_Dir_Move_Sub(s16 PL_id) {
-    u16 sw = ~((u16 *)plsw_01)[PL_id] & ((u16 *)plsw_00)[PL_id]; // potential macro
+    u16 sw = ~plsw_01[PL_id] & plsw_00[PL_id]; // potential macro
     sw = Check_Menu_Lever(PL_id, 0);
     MC_Move_Sub(sw, 0, 4, 0xFF);
     System_Dir_Move_Sub_LR(sw, 0);
@@ -1028,14 +1027,14 @@ void Dir_Move_Sub(struct _TASK *task_ptr, s16 PL_id) {
     u16 sw;
     u16 ix;
 
-    ((u16 *)plsw_00)[0] = PLsw[0][0];
-    ((u16 *)plsw_01)[0] = PLsw[0][1];
-    ((u16 *)plsw_00)[1] = PLsw[1][0];
-    ((u16 *)plsw_01)[1] = PLsw[1][1];
+    plsw_00[0] = PLsw[0][0];
+    plsw_01[0] = PLsw[0][1];
+    plsw_00[1] = PLsw[1][0];
+    plsw_01[1] = PLsw[1][1];
 
     for (ix = 0; ix < 2; ix++) {
-        ((u16 *)plsw_00)[ix] &= 0x4FFF;
-        ((u16 *)plsw_01)[ix] &= 0x4FFF;
+        plsw_00[ix] &= 0x4FFF;
+        plsw_01[ix] &= 0x4FFF;
     }
 
     sw = Check_Menu_Lever(PL_id, 0);
@@ -1699,7 +1698,7 @@ u16 Game_Option_Sub(s16 PL_id) {
     u16 sw;
     u16 ret;
 
-    sw = ~((u16 *)plsw_01)[PL_id] & ((u16 *)plsw_00)[PL_id];
+    sw = ~plsw_01[PL_id] & plsw_00[PL_id];
     sw = Check_Menu_Lever(PL_id, 0);
     ret = MC_Move_Sub(sw, 0, 0xB, 0xFF);
     ret |= GO_Move_Sub_LR(sw, 0);
@@ -1828,7 +1827,7 @@ void Button_Config(struct _TASK *task_ptr) {
 }
 
 void Button_Config_Sub(s16 PL_id) {
-    u16 sw = ~((u16 *)plsw_01)[PL_id] & ((u16 *)plsw_00)[PL_id];
+    u16 sw = ~plsw_01[PL_id] & plsw_00[PL_id];
     sw = Check_Menu_Lever(PL_id, 0);
     MC_Move_Sub(sw, PL_id, 0xA, 0xFF);
     Button_Move_Sub_LR(sw, PL_id);
@@ -2089,7 +2088,7 @@ void Screen_Adjust(struct _TASK *task_ptr) {
 
 void Screen_Adjust_Sub(s16 PL_id) {
     u16 sw;
-    sw = ~((u16 *)plsw_01)[PL_id] & ((u16 *)plsw_00)[PL_id];
+    sw = ~plsw_01[PL_id] & plsw_00[PL_id];
     sw = Check_Menu_Lever(PL_id, 0);
     MC_Move_Sub(sw, 0, 6, 0xFF);
     Screen_Move_Sub_LR(sw);
@@ -2281,7 +2280,7 @@ void Sound_Test(struct _TASK *task_ptr) {
         FadeOut(1, 0xFF, 8);
         task_ptr->r_no[2] += 1;
         task_ptr->timer = 5;
-        setupAlwaysSeamlessFlag(((((u16 *)plsw_00)[0] | ((u16 *)plsw_00)[1]) & 0x4000) != 0);
+        setupAlwaysSeamlessFlag(((plsw_00[0] | plsw_00[1]) & 0x4000) != 0);
         Clear_Flash_Init(4);
         Menu_Common_Init();
         Menu_Cursor_Y[0] = 0;
@@ -2440,7 +2439,7 @@ u16 Sound_Cursor_Sub(s16 PL_id) {
     u16 sw;
     u16 ret;
 
-    sw = ~((u16 *)plsw_01)[PL_id] & ((u16 *)plsw_00)[PL_id];
+    sw = ~plsw_01[PL_id] & plsw_00[PL_id];
     sw = Check_Menu_Lever(PL_id, 0);
     ret = MC_Move_Sub(sw, 0, 6, 0xFF);
     ret |= SD_Move_Sub_LR(sw);
@@ -2741,7 +2740,7 @@ s32 Setup_Final_Cursor_Pos(s8 cursor_x, s16 dir) {
 void Memory_Card_Sub(s16 PL_id) {
     u16 sw;
 
-    sw = ~((u16 *)plsw_01)[PL_id] & ((u16 *)plsw_00)[PL_id];
+    sw = ~plsw_01[PL_id] & plsw_00[PL_id];
     sw = Check_Menu_Lever(PL_id, 0);
     MC_Move_Sub(sw, 0, 3, 0xFF);
 
@@ -2916,13 +2915,13 @@ u16 Check_Menu_Lever(u8 PL_id, s16 type) {
     u16 lever;
     u16 ix;
 
-    sw = ~((u16 *)plsw_01)[PL_id] & ((u16 *)plsw_00)[PL_id];
+    sw = ~plsw_01[PL_id] & plsw_00[PL_id];
 
     if (type) {
         sw = ~PLsw[PL_id][1] & PLsw[PL_id][0];
     }
 
-    lever = ((u16 *)plsw_00)[PL_id] & 0xF;
+    lever = plsw_00[PL_id] & 0xF;
 
     if (sw & 0x4FF0) {
         return sw;
@@ -3418,7 +3417,7 @@ void Flash_1P_or_2P(struct _TASK *task_ptr) {
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Pause_in_Normal_Tr);
 
 s32 Pause_1st_Sub(struct _TASK *task_ptr) {
-    u16 sw = ~((u16 *)plsw_01)[Pause_ID] & ((u16 *)plsw_00)[Pause_ID];
+    u16 sw = ~plsw_01[Pause_ID] & plsw_00[Pause_ID];
 
     if (Pause_Down) {
         SSPutStr2(17, 12, 9, "PRESS   BUTTON");

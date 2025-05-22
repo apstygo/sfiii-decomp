@@ -104,6 +104,9 @@ class StructDecodable(Decodable):
 
         return size
     
+    def alignment(self) -> int:
+        return max(x.alignment() for x in self.members.values())
+    
     def __align(self, offset: int, alignment: int) -> int:
         return ((offset + alignment - 1) // alignment) * alignment
     
@@ -183,7 +186,7 @@ def main():
     offset = 0x423630
     decodable = ArrayDecodable(S16, [12])
 
-    generate_code(decode_type(decodable, offset))
+    generate_code(decode_type(decodable, offset), hex_ints=False)
 
 if __name__ == "__main__":
     main()
