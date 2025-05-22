@@ -50,6 +50,10 @@ static void update_pad_stick_dir(PAD_STICK *st, s16 depth);
 static u8 lever_analog_to_digital(PAD_STICK *st);
 static void PADReadSub(s32 i);
 s32 flPADShockSet(s32 pad_id, u32 level, u32 time);
+static s32 PADDeviceInit();
+static void ps2PADWorkClear();
+static void PADPortOpen(s32 port, s32 slot, PS2Slot* adrs);
+static void PADDeviceDestroy();
 
 s32 flPS2PADModuleInit() {
     flPS2IopModuleLoad("cdrom0:\\THIRD\\IOP\\MODULES\\DBCMAN.IRX;1", 0, NULL, 0);
@@ -325,10 +329,10 @@ void PADPortOpen(s32 port, s32 slot, PS2Slot* adrs) {
     }
 }
 
-void PADDeviceDestroy(void) {
+void PADDeviceDestroy() {
     s32 i;
 
-    for (i = 0;i < 2; i++) {
+    for (i = 0; i < 2; i++) {
         if (ps2slot[i].state != 0) {
             scePad2DeleteSocket(ps2slot[i].socket_id);
         }
