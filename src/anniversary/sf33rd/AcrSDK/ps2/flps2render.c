@@ -408,3 +408,11 @@ void flAdjustScreen(s32 x, s32 y) {
     not_implemented(__func__);
 }
 #endif
+void flAdjustScreen(s32 x, s32 y) {
+    flPs2State.ScreenAdjustX = x;
+    flPs2State.ScreenAdjustY = y & -2;
+}
+
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2render", literal_876_0055F1B0);
+
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2render", literal_877_0055F1E0);
