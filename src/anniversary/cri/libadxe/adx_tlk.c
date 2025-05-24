@@ -176,7 +176,7 @@ void ADXT_Destroy(ADXT adxt) {
     ADXRNA rna;
     ADXSJD sjd;
     ADXSTM stm;
-    ADXLSC lsc;
+    LSC lsc;
     SJ sjf;
     void *amp;
     SJ sj;

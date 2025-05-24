@@ -4,12 +4,11 @@
 #include <cri/private/libadxe/lsc.h>
 #include <cri/private/libadxe/lsc_crs.h>
 #include <cri/private/libadxe/lsc_err.h>
+#include <cri/private/libadxe/lsc_ini.h>
 
 #include <cri/cri_xpts.h>
 
 #include <string.h>
-
-#define LSC_MAX_OBJ 16
 
 extern Char8 *volatile lsc_build;
 extern Sint32 lsc_init_cnt;

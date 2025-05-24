@@ -8,6 +8,9 @@
 #define BOOL(_expr) ((_expr) ? 1 : 0)
 #define SPR 0x70000000
 
+#define S32_MAX 0x7FFFFFFF
+#define S32_INCREMENT_WRAPAROUND(val) (((val) != S32_MAX) ? ((val) + 1) : 0)
+
 // Compilation with GNU C Compilier means we are compiling CRI
 #if defined(__GNUC__) && !defined(M2CTX) && !defined(TARGET_SDL2)
 #define INCLUDE_ASM(FOLDER, NAME)                                                                                      \

@@ -1,17 +1,19 @@
 #include "common.h"
+#include <cri/private/libadxe/structs.h>
+
 #include <cri/private/libadxe/adx_crs.h>
 #include <cri/private/libadxe/adx_errs.h>
 #include <cri/private/libadxe/adx_fs.h>
+#include <cri/private/libadxe/lsc.h>
+
 #include <cri_adxt.h>
 
 // These should go in their own headers
 
 Sint32 LSC_GetNumStm(void *);
 Sint32 LSC_EntryFname(void *);
-void LSC_EntryFileRange(void *, s8 *, Sint32, Sint32, Sint32);
 void LSC_SetFlowLimit(void *, Sint32);
 void LSC_Start(void *);
-void LSC_Stop(void *);
 void LSC_SetLpFlg(void *, Sint32);
 void LSC_ResetEntry(void *);
 

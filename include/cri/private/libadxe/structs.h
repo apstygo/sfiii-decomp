@@ -249,8 +249,32 @@ typedef ADXSTM_OBJ *ADXSTM;
 // LSC
 
 typedef struct {
+    Sint32 unk0;
+    const Char8 *fname;
+    Sint32 unk8;
+    void *dir;
+    Sint32 unk10;
+    Sint32 unk14;
+    Sint32 unk18;
+    Sint32 unk1C;
+} LSC_UNK_0;
+
+typedef struct {
     Sint8 used;
-    char pad1[0x237];
+    Sint8 unk1;
+    Sint8 unk2;
+    Sint8 unk3;
+    Sint32 unk4;
+    SJ sj;
+    Sint32 unkC;
+    Sint32 unk10;
+    Sint32 unk14;
+    Sint32 unk18;
+    Sint32 unk1C;
+    char pad20[4];
+    Sint32 unk24;
+    char unk28[0x10];
+    LSC_UNK_0 unk38[16];
 } LSC_OBJ;
 
 typedef LSC_OBJ *LSC;

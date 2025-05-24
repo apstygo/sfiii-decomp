@@ -1,33 +1,78 @@
 #include "common.h"
+#include <cri/private/libadxe/structs.h>
+
 #include <cri/private/libadxe/lsc.h>
+#include <cri/private/libadxe/lsc_crs.h>
+#include <cri/private/libadxe/lsc_err.h>
+#include <cri/private/libadxe/lsc_ini.h>
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/lsc", lsc_Alloc);
+#include <cri/ee/cri_xpt.h>
+#include <cri/sj.h>
 
-#if defined(TARGET_PS2)
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/lsc", D_0055D918);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/lsc", D_0055D948);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/lsc", LSC_Create);
-#else
-ADXLSC LSC_Create(SJ) {
-    not_implemented(__func__);
+#include <string.h>
+
+LSC lsc_Alloc() {
+    LSC lsc = NULL;
+    Sint32 i;
+
+    for (i = 0; i < LSC_MAX_OBJ; i++) {
+        if (!lsc_obj[i].used) {
+            lsc = &lsc_obj[i];
+            break;
+        }
+    }
+
+    return lsc;
 }
-#endif
+
+LSC LSC_Create(SJ sj) {
+    LSC lsc;
+    Sint32 lock;
+    Sint32 i;
+
+    if (sj == NULL) {
+        LSC_CallErrFunc("E0001: Illigal parameter=sj (LSC_Create)\n");
+        return NULL;
+    }
+
+    LSC_LockCrs(&lock);
+    lsc = lsc_Alloc();
+
+    if (lsc == NULL) {
+        LSC_CallErrFunc("E0002: Not enough instance (LSC_Create)\n\0\0\0\0");
+    } else {
+        lsc->unk1 = 0;
+        lsc->sj = sj;
+
+        lsc->unk18 = SJ_GetNumData(sj, 0) + SJ_GetNumData(sj, 1);
+        lsc->unk14 = (lsc->unk18 * 8) / 10;
+
+        for (i = 0; i < 16; i++) {
+            lsc->unk38[i].unk18 = 0;
+        }
+
+        lsc->used = 1;
+    }
+
+    LSC_UnlockCrs(&lock);
+    return lsc;
+}
+
+void LSC_Destroy(LSC lsc) {
+    if (lsc != NULL) {
+        LSC_Stop(lsc);
+        lsc->used = 0;
+        memset(lsc, 0, sizeof(LSC_OBJ));
+    }
+}
 
 // Used all over the place
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/lsc", D_0055D978);
 
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/lsc", LSC_Destroy);
-#else
-void LSC_Destroy(ADXLSC) {
-    not_implemented(__func__);
-}
-#endif
-
-#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/lsc", LSC_SetStmHndl);
 #else
-void LSC_SetStmHndl(void *, ADXSTM) {
+void LSC_SetStmHndl(LSC lsc, ADXSTM) {
     not_implemented(__func__);
 }
 #endif
@@ -44,7 +89,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/lsc", LSC_Start);
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/lsc", LSC_Stop);
 #else
-void LSC_Stop(ADXLSC) {
+void LSC_Stop(LSC lsc) {
     not_implemented(__func__);
 }
 #endif
