@@ -184,7 +184,7 @@ void Init_Task_2nd(struct _TASK *task_ptr) {
 }
 
 void Init_Task_Test1(struct _TASK *task_ptr) {
-    u16 sw; // r16
+    u16 sw;
 
     switch (task_ptr->r_no[1]) {
     case 0:

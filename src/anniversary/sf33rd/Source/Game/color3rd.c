@@ -23,22 +23,46 @@ s32 palFormConv;
 // forward decls
 void palConvRowTim2CI8Clut(u16 *src, u16 *dst, s32 size);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/color3rd", q_ldreq_color_data);
+#else
+void q_ldreq_color_data(REQ *curr) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/color3rd", cseTsbSetBankAddr);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/color3rd", cseMemMapSetPhdAddr);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/color3rd", load_any_color);
+#else
+void load_any_color(u16 ix, u8 kokey) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/color3rd", set_hitmark_color);
+#else
+void set_hitmark_color() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/color3rd", init_trans_color_ram);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/color3rd", init_color_trans_req);
+#else
+void init_color_trans_req() {
+    not_implemented(__func__);
+}
+#endif
 
 void push_color_trans_req(s16 from_col, s16 to_col) {
-    palCopyGhostDC(to_col << 6, 0x40, ColorRAM[from_col]);
+    palCopyGhostDC(to_col << 6, 64, ColorRAM[from_col]);
     palUpdateGhostDC();
 }
 
@@ -56,7 +80,13 @@ void palCopyGhostDC(s32 ofs, s32 cnt, void *data) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/color3rd", palConvSrcToRam);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/color3rd", palCreateGhost);
+#else
+void palCreateGhost() {
+    not_implemented(__func__);
+}
+#endif
 
 Palette *palGetChunkGhostDC() {
     return &col3rd_w.palDC;

@@ -55,8 +55,12 @@ class StringDecodable(IntDecodable):
     def __init__(self) -> None:
         super().__init__(size=4, signed=False)
 
-    def decode(self, data: bytes) -> str:
+    def decode(self, data: bytes) -> str | None:
         vram_offset = super().decode(data)
+        
+        if vram_offset == 0:
+            return None
+
         file_offset = vram_offset - 0x100000 + 0x80
         return read_string(binary, file_offset)[1:-1]
     
@@ -168,6 +172,8 @@ def generate_code(value: Any, hex_ints: bool = False):
         generate_code(value.value, hex_ints)
     elif isinstance(value, str):
         print(f"\"{value}\"", end="")
+    elif value is None:
+        print("NULL", end="")
     else:
         if hex_ints:
             prefix = ""

@@ -22,6 +22,7 @@ special_cases = {
     ("mcsub", ".rodata", 13): 16,
     ("mcsub", ".rodata", 17): 16,
     ("PLCNT", ".rodata", 4): 16,
+    ("EFF00", ".rodata", 0): 16,
 
     ("PulPul", ".data", 0): 16,
     ("flps2vram", ".data", 0): 16,
@@ -34,6 +35,8 @@ special_cases = {
     ("eff05", ".sdata", 0): 16,
     ("EFF48_more_sdata", ".sdata", 0): 16,
     ("sel_pl", ".sdata", 0): 16,
+    ("SpuMap", ".sdata", 0): 4,
+    ("msgtblj", ".sdata", 0): 16,
 
     ("sbss_579878", ".sbss", 0): 8,
     ("EFF45", ".sbss", 0): 16,

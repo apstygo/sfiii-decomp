@@ -2279,4 +2279,10 @@ typedef struct {
     u8 all_clear;    // offset 0x11, size 0x1
 } ScoreRankingEntry;
 
+typedef struct {
+    // total size: 0x48
+    s8 contents[10][7]; // offset 0x0, size 0x46
+    u16 sum;            // offset 0x46, size 0x2
+} DirData;
+
 #endif

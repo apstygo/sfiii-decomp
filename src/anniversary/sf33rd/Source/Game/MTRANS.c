@@ -1482,9 +1482,21 @@ void mlt_obj_matrix(WORK *wk, s32 base_y) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", appSetupBasePriority);
+#else
+void appSetupBasePriority() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", appSetupTempPriority);
+#else
+void appSetupTempPriority() {
+    not_implemented(__func__);
+}
+#endif
 
 void appRenewTempPriority_1_Chip() {
     njTranslate(NULL, 0, 0, 1.0f / 65536.0f); // 1 / 2^(-16)
@@ -1496,15 +1508,39 @@ void appRenewTempPriority(s32 z) {
     PrioBase[z] = mtx.a[3][2];
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", seqsInitialize);
+#else
+void seqsInitialize(void *adrs) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", seqsGetSprMax);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", seqsGetUseMemorySize);
+#else
+u32 seqsGetUseMemorySize() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", seqsBeforeProcess);
+#else
+void seqsBeforeProcess() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", seqsAfterProcess);
+#else
+void seqsAfterProcess() {
+    not_implemented(__func__);
+}
+#endif
 
 s32 seqsStoreChip(f32 x, f32 y, s32 w, s32 h, s32 gix, s32 code, s32 attr, s32 alpha, s32 id) {
     Sprite2 *chip;
@@ -1841,10 +1877,10 @@ static s32 get_free_patcash_index(PatternCollection *padr) {
 }
 
 static void lz_ext_p6_fx(u8 *srcptr, u8 *dstptr, u32 len) {
-    u8 *endptr = dstptr + len; // r19
-    u8 *tmpptr;                // r17
-    u32 tmp;                   // r16
-    u32 flg;                   // r18
+    u8 *endptr = dstptr + len;
+    u8 *tmpptr;
+    u32 tmp;
+    u32 flg;
 
     while (dstptr < endptr) {
         tmp = *srcptr++;

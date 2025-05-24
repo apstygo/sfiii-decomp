@@ -4,7 +4,7 @@
 #include "structs.h"
 #include "types.h"
 
-extern s8 SpuMap[80];
+extern s8 *SpuMap;
 
 extern s8 PHD_PL00[1024];
 extern s8 PHD_PL01[944];

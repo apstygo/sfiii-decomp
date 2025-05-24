@@ -122,7 +122,8 @@ const TexGroupData texgrpdat[100] = { { 0, 65535, 0, 0, 0, 0, 0 },
                                       { 27104, 1453, 0, 0, 1126129, 134044, 0 },
                                       { 0, 65535, 0, 0, 0, 0, 0 } };
 
-s32 load_any_texture_grpnum(u16 grp, u16 kokey);
+// forward decls
+s32 load_any_texture_grpnum(u8 grp, u8 kokey);
 
 void q_ldreq_texture_group(REQ *curr) {
     const TexGroupData *bsd;
@@ -362,19 +363,19 @@ void checkSelObjFileLoaded() {
 }
 
 void purge_texture_group_of_this(u16 patnum) {
+#if defined(TARGET_PS2)
+    void purge_texture_group(u16 grp);
+#endif
+
     purge_texture_group(obj_group_table[patnum]);
 }
 
-#if 0
 void purge_texture_group(u8 grp) {
     if (texgrplds[grp].ok != 0) {
         texgrplds[grp].ok = 0;
         Push_ramcnt_key(texgrplds[grp].key);
     }
 }
-#else
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texgroup", purge_texture_group);
-#endif
 
 void purge_player_texture(s16 id) {
     s16 emid;
@@ -404,10 +405,13 @@ void purge_player_texture(s16 id) {
 }
 
 s32 load_any_texture_patnum(u16 patnum, u8 kokey, u8 _unused) {
+#if defined(TARGET_PS2)
+    s32 load_any_texture_grpnum(u16 grp, u16 kokey);
+#endif
+
     return load_any_texture_grpnum(obj_group_table[patnum], kokey);
 }
 
-#if 0
 s32 load_any_texture_grpnum(u8 grp, u8 kokey) {
     const TexGroupData *bsd;
     TEX_GRP_LD *lds;
@@ -431,6 +435,3 @@ s32 load_any_texture_grpnum(u8 grp, u8 kokey) {
     lds->ok = 1;
     return 1;
 }
-#else
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texgroup", load_any_texture_grpnum);
-#endif

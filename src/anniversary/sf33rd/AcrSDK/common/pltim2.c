@@ -324,9 +324,9 @@ u32 InputTim2AlignRegulation(u8 *lpTim2FileHead, u32 size) {
 }
 
 u8 *GetTim2PictureHead(u8 *lpFile, s32 no) {
-    s32 i;              // r16
-    u8 *lpTim2FileHead; // r18
-    u8 *lpPict;         // r17
+    s32 i;
+    u8 *lpTim2FileHead;
+    u8 *lpPict;
 
     lpTim2FileHead = lpFile;
 

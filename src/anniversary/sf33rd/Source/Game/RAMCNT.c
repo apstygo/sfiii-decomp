@@ -6,7 +6,8 @@
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/texgroup.h"
 
-#define ERR_STOP while (1) {}
+#define ERR_STOP                                                                                                       \
+    while (1) {}
 
 RCKeyWork rckey_work[RCKEY_WORK_MAX];
 _MEMMAN_OBJ rckey_mmobj;
@@ -75,6 +76,10 @@ void Push_ramcnt_key_original(s16 key) {
 }
 
 void Push_ramcnt_key_original_2(s16 key) {
+#if defined(TARGET_PS2)
+    void purge_texture_group(u16 grp);
+#endif
+
     RCKeyWork *rwk;
 
     rwk = &rckey_work[key];
@@ -104,7 +109,7 @@ void Purge_memory_of_kind_of_key(u8 kokey) {
 
 void Set_size_data_ramcnt_key(s16 key, u32 size) {
     if (key <= 0) {
-    	// An attempt was made to store a file size in an unused memory key.\n
+        // An attempt was made to store a file size in an unused memory key.\n
         flLogOut("未使用のメモリキーへファイルサイズを格納しようとしました。\n");
         ERR_STOP;
     }
@@ -113,7 +118,7 @@ void Set_size_data_ramcnt_key(s16 key, u32 size) {
 
 u32 Get_size_data_ramcnt_key(s16 key) {
     if (key <= 0) {
-    	// An attempt was made to get a file size from an unused memory key.\n
+        // An attempt was made to get a file size from an unused memory key.\n
         flLogOut("未使用のメモリキーからファイルサイズを取得しようとしました。\n");
         ERR_STOP;
     }
@@ -122,7 +127,7 @@ u32 Get_size_data_ramcnt_key(s16 key) {
 
 u32 Get_ramcnt_address(s16 key) {
     if (key <= 0) {
-    	// An attempt was made to obtain an address from an unused memory key.\n
+        // An attempt was made to obtain an address from an unused memory key.\n
         flLogOut("未使用のメモリキーからアドレスを取得しようとしました。\n");
         ERR_STOP;
     }
@@ -157,7 +162,7 @@ s16 Pull_ramcnt_key(u32 memreq, u8 kokey, u8 group, u8 frre) {
     s16 key;
 
     if (rckeyctr <= 0) {
-    	// There are not enough memory keys.\n
+        // There are not enough memory keys.\n
         flLogOut("メモリキーの個数が足りなくなりました。\n");
         ERR_STOP;
     }

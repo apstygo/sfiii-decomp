@@ -1,6 +1,11 @@
 #include "sf33rd/Source/Game/win_pl.h"
 #include "common.h"
 
+s16 win_rno[2];
+s16 a_rno;
+s16 win_free[2];
+s16 poison_flag[2];
+
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/win_pl", winner_type_tbl);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/win_pl", win_10000_tbl);

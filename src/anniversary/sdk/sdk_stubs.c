@@ -175,6 +175,14 @@ int *sceGsSyncVCallback(int (*func)(int)) {
 
 // libpad2
 
+s32 scePad2Init(s32) {
+    not_implemented(__func__);
+}
+
+s32 scePad2End(void) {
+    not_implemented(__func__);
+}
+
 s32 scePad2GetButtonProfile(s32, scePad2ButtonProfile *) {
     not_implemented(__func__);
 }
@@ -184,6 +192,14 @@ s32 scePad2GetState(s32) {
 }
 
 s32 scePad2Read(s32, scePad2ButtonState *) {
+    not_implemented(__func__);
+}
+
+s32 scePad2CreateSocket(scePad2SocketParam *, void *) {
+    not_implemented(__func__);
+}
+
+s32 scePad2DeleteSocket(s32) {
     not_implemented(__func__);
 }
 
@@ -210,6 +226,16 @@ void sceVpu0Reset() {
 }
 
 void sceVu0UnitMatrix(sceVu0FMATRIX m) {
+    not_implemented(__func__);
+}
+
+// libdbc
+
+int sceDbcInit() {
+    not_implemented(__func__);
+}
+
+void sceDbcEnd() {
     not_implemented(__func__);
 }
 

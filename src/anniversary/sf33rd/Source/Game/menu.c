@@ -603,8 +603,8 @@ void Training_Mode(struct _TASK *task_ptr) {
 }
 
 void Option_Select(struct _TASK *task_ptr) {
-    s16 ix;         // r16
-    s16 char_index; // r17
+    s16 ix;
+    s16 char_index;
 
     s16 unused_s5;
     s16 unused_s4;
@@ -2313,7 +2313,7 @@ void Sound_Test(struct _TASK *task_ptr) {
         effect_04_init(2, 6, 2, 0x48);
 
         {
-            s32 ixSoundMenuItem[4] = { 10, 11, 11, 12 }; // r29+0x70
+            s32 ixSoundMenuItem[4] = { 10, 11, 11, 12 };
 
             for (ix = 0; ix < 4; ix++) {
                 Order[ix + 0x57] = 1;

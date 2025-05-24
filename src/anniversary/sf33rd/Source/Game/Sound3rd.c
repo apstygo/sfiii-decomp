@@ -174,7 +174,7 @@ s32 sndCheckVTransStatus(s32 type) {
 }
 
 void sndInitialLoad() {
-    cseMemMapInit(SpuMap);
+    cseMemMapInit(&SpuMap);
     cseMemMapSetPhdAddr(0, *csePHDDataTable);
     cseTsbSetBankAddr(0, *cseTSBDataTable);
     load_any_color(109, 20);
