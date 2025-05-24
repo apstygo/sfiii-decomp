@@ -62,7 +62,7 @@ class StringDecodable(IntDecodable):
             return None
 
         file_offset = vram_offset - 0x100000 + 0x80
-        return read_string(binary, file_offset)[1:-1]
+        return read_string(file_offset, binary)[1:-1]
     
 U8 = IntDecodable(1, False)
 U16 = IntDecodable(2, False)

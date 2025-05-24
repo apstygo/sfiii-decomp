@@ -6,6 +6,7 @@ import splat.scripts.split as split
 from splat.segtypes.linker_entry import LinkerEntry
 from pathlib import Path
 from ..convert_regs import convert_regs
+from ..string_at_offset import read_string
 
 @dataclass
 class Run:
@@ -209,6 +210,8 @@ def main():
 
     # Patch asm
 
+    binary = Path("THIRD_U.BIN").read_bytes()
+    literal_offset_pattern = re.compile(r"dlabel .+\s+\/\* (\w+)", re.MULTILINE)
     nonmatchings = Path("asm/anniversary/nonmatchings")
 
     for asm_file in nonmatchings.rglob("*.s"):
@@ -229,6 +232,17 @@ def main():
 
         # This allows leaving some funcs that use this literal undecompiled
         text = text.replace("literal_234_00522C90", "\"@98\"")
+
+        is_literal = asm_file.stem.startswith(("literal_", "D_"))
+
+        if is_literal and (match := literal_offset_pattern.search(text)):
+            offset = int(match.group(1), base=16)
+
+            try:
+                literal = read_string(offset, binary)
+                text = f"# {literal}\n\n" + text
+            except:
+                pass
 
         asm_file.write_text(text)
 

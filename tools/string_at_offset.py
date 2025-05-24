@@ -8,7 +8,10 @@ from pathlib import Path
 # > python3 tools/string_at_offset.py 404FA0
 # '警告文のテクスチャが読み込めませんでした。\n'
 
-def read_string(data: bytes, offset: int) -> str:
+def read_string(offset: int, data: bytes | None = None) -> str:
+    if data is None:
+        data = Path("THIRD_U.BIN").read_bytes()
+
     chars = []
 
     while data[offset] != 0:
@@ -19,8 +22,7 @@ def read_string(data: bytes, offset: int) -> str:
 
 def main():
     offset = int(sys.argv[1], base=16)
-    data = Path("THIRD_U.BIN").read_bytes()
-    print(read_string(data, offset))
+    print(read_string(offset))
 
 if __name__ == "__main__":
     main()
