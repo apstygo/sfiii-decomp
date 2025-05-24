@@ -374,7 +374,10 @@ u32 flPS2ConvColor(u32 c, s32 type) {
     return (col[3] << 24) | (col[0] << 16) | (col[1] << 8) | (col[2]);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2render", flAdjustScreen);
+void flAdjustScreen(s32 x, s32 y) {
+    flPs2State.ScreenAdjustX = x;
+    flPs2State.ScreenAdjustY = y & -2;
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2render", literal_876_0055F1B0);
 
