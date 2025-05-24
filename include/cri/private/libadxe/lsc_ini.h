@@ -1,7 +1,7 @@
 #ifndef LSC_INI_H
 #define LSC_INI_H
 
-#define LSC_MAX_OBJ 16
+#include <cri/private/libadxe/structs.h>
 
 extern LSC_OBJ lsc_obj[LSC_MAX_OBJ];
 
