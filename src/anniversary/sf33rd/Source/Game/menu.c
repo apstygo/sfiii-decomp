@@ -1842,6 +1842,10 @@ void Button_Config_Sub(s16 PL_id) {
 }
 
 void Button_Move_Sub_LR(u16 sw, s16 cursor_id) {
+#if defined(TARGET_PS2)
+	void pulpul_stop2(s32 ix);
+	void pp_vib_on(s32 id);
+#endif
     s16 max;
 
     switch (Menu_Cursor_Y[cursor_id]) {
