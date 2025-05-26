@@ -7,7 +7,6 @@
 #define PULREQ_MAX 51
 #define PULPARA_MAX 54
 
-extern u16 pulpul_level[8];
 extern const u16 comm_quay_pulpul[11];
 extern const s16 pp_dm_shock[8];
 extern const s16 pp_guard_shock[8];
