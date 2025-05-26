@@ -1,6 +1,25 @@
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "common.h"
 
+s16 pcon_rno[4];
+s16 appear_type;
+u8 round_slow_flag;
+u8 pcon_dp_flag;
+u8 win_sp_flag;
+char dead_voice_flag;
+PLCNT_SUPERART super_arts[2];
+PIYORI_TYPE piyori_type[2];
+RAMBOD rambod[2]; 
+RAMHAN ramhan[2];
+u32 omop_spmv_ng_table[2];
+u32 omop_spmv_ng_table2[2];
+u16 vital_inc_timer;
+u16 vital_dec_timer;
+char cmd_sel[2];
+char vib_sel[2];
+s16 sag_inc_timer[2];
+char no_sa[2];
+
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", player_main_process);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", appear_initalize);

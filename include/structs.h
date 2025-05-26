@@ -1421,6 +1421,46 @@ struct _VM_W {
 };
 
 typedef struct {
+	u8 unit;
+	u8 flag;
+	s8 power;
+	u8 freq;
+} PULPARA;
+
+typedef struct {
+	u16 low;
+	u16 hi;
+} PUL_UNI_HILO;
+
+typedef union {
+	s32 cal;
+	PUL_UNI_HILO num;
+} PUL_UNION;
+
+typedef struct {
+	s16 pow_ans;
+	s16 tim_ans;
+	s32 rc_step;
+	PUL_UNION ix;
+} PUL;
+
+typedef struct /* @anon14 */ {
+	// total size: 0x4
+	s16 ix;    // offset 0x0, size 0x2
+	s16 timer; // offset 0x2, size 0x2
+} PPWORK_SUB_SUB;
+
+typedef struct {
+	u8 ppnew;
+	u8 free;
+	s16 data;
+	s16 rno[4];
+	s16 life;
+	s16 exix;
+	PPWORK_SUB_SUB* padr;
+} PPWORK_SUB;
+
+typedef struct {
     // total size: 0x34
     u8 ok_dev; // offset 0x0, size 0x1
     u8 id;     // offset 0x1, size 0x1
@@ -1430,21 +1470,14 @@ typedef struct {
     u8 inStop; // offset 0x6, size 0x1
     u8 free;   // offset 0x7, size 0x1
     u32 port;  // offset 0x8, size 0x4
-    struct /* @anon4 */ {
-        // total size: 0x14
-        u8 ppnew;   // offset 0x0, size 0x1
-        u8 free;    // offset 0x1, size 0x1
-        s16 data;   // offset 0x2, size 0x2
-        s16 rno[4]; // offset 0x4, size 0x8
-        s16 life;   // offset 0xC, size 0x2
-        s16 exix;   // offset 0xE, size 0x2
-        struct /* @anon14 */ {
-            // total size: 0x4
-            s16 ix;    // offset 0x0, size 0x2
-            s16 timer; // offset 0x2, size 0x2
-        } *padr;       // offset 0x10, size 0x4
-    } p[2];            // offset 0xC, size 0x28
+    PPWORK_SUB p[2];            // offset 0xC, size 0x28
 } PPWORK;
+
+typedef struct {
+	s16 prio;
+	s16 rno;
+	PPWORK_SUB_SUB* adrs;
+} PULREQ;
 
 typedef struct {
     // total size: 0x8

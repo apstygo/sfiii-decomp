@@ -1,190 +1,652 @@
 #include "sf33rd/Source/Game/PulPul.h"
 #include "common.h"
+#include "sf33rd/Source/Game/debug/OBJTEST.h"
+#include "sf33rd/Source/Game/debug/OTESTDAT.h"
+#include "sdk/libvib.h"
+#include "sf33rd/Source/Game/SYS_sub.h"
+#include "sf33rd/Source/Game/workuser.h"
+#include "sf33rd/AcrSDK/common/mlPAD.h"
+#include "sf33rd/AcrSDK/ps2/ps2PAD.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/GD3rd.h"
+#include "sf33rd/Source/Game/PLCNT.h"
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", comm_quay_pulpul);
+// data
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_dm_shock);
+PULPARA pulpara[PULPARA_MAX] = {
+    { 0, 0, 0, 0 },
+    { 3, 0, 0, 0 },
+    { 3, 0, 7, 0 },
+    { 2, 0, 1, 0x24 },
+    { 2, 0, 1, 0x2C },
+    { 2, 0, 1, 0x20 },
+    { 2, 0, 1, 0x2A },
+    { 2, 0, 2, 0x1C },
+    { 2, 0, 1, 0x28 },
+    { 2, 0, 2, 0x18 },
+    { 2, 0, 1, 0x24 },
+    { 2, 0, 3, 0x14 },
+    { 2, 0, 2, 0x20 },
+    { 2, 0, 4, 0x10 },
+    { 2, 0, 2, 0x1C },
+    { 2, 0, 5, 0xC },
+    { 2, 0, 3, 0x18 },
+    { 2, 0, 6, 0xC },
+    { 2, 0, 3, 0x14 },
+    { 2, 0, 7, 8 },
+    { 2, 0, 4, 0x10 },
+    { 2, 0, 7, 4 },
+    { 2, 0, 5, 0xE },
+    { 2, 1, 1, 0x2C },
+    { 2, 1, 3, 0x2C },
+    { 3, 1, 5, 0x2C },
+    { 3, 1, 7, 0x2C },
+    { 1, 0, 1, 0 },
+    { 1, 0, 2, 0 },
+    { 2, 0, 3, 0 },
+    { 3, 0, 4, 0 },
+    { 1, 1, 3, 0x18 },
+    { 2, 1, 6, 0 },
+    { 1, 0, 5, 0 },
+    { 2, 0, 7, 0 },
+    { 1, 1, 1, 0x14 },
+    { 1, 1, 2, 0x20 },
+    { 2, 1, 3, 0x28 },
+    { 3, 1, 4, 0x2C },
+    { 2, 0, 2, 4 },
+    { 2, 1, 3, 0x10 },
+    { 2, 1, 4, 0x18 },
+    { 3, 1, 5, 0x20 },
+    { 3, 1, 6, 0x28 },
+    { 3, 1, 7, 0x2C },
+    { 3, 0x80, 7, 0x2C },
+    { 3, 1, 5, 0x2C },
+    { 3, 1, 7, 0x10 },
+    { 2, 1, 1, 0x2C },
+    { 0, 1, 4, 0 },
+    { 0, 8, 1, 0 },
+    { 0, 0x80, 7, 0x2C },
+    { 0, 9, 1, 0 },
+    { 0, 0x81, 7, 0x2C },
+};
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_guard_shock);
+PULREQ pulreq[PULREQ_MAX] = {
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_00 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_01 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_01 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_02 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_03 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_11 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_04 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_10 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_04 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_04 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_03 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_07 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_04 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_06 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_09 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_04 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_05 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_03 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_03 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_04 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_08 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_03 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_03 },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_04 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_20 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_21 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_22 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_23 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_24 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_25 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_26 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_27 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_28 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_29 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_30 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_31 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_32 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_33 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_34 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_35 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_36 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_37 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_38 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_39 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_40 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_41 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_42 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_43 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_44 },
+    { 0, 0, (PPWORK_SUB_SUB*)&pulreq_xx },
+    { 1, 0, (PPWORK_SUB_SUB*)&pulreq_x2 },
+};
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_hit_shock);
+// sdata
+static u16 pulpul_level[8] = { 0, 0x40, 0x50, 0x60, 0x70, 0x80, 0x90, 0xA0 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", dokidoki_ix_change_table);
+// rodata
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_00);
+const u16 comm_quay_pulpul[11] = { 0x28, 0x29, 0x29, 0x2A, 0x2A, 0x2A, 0x2B, 0x2B, 0x2B, 0x2B, 0x2C };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_01);
+const s16 pp_dm_shock[8] = { 0x18, 0x19, 0x1A, 0x1A, 0x19, 0x1A, 0x1B, 0x1B };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_02);
+const s16 pp_guard_shock[8] = { 0x1C, 0x1D, 0x1E, 0x1E, 0x1D, 0x1E, 0x1F, 0x1F };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_03);
+const s16 pp_hit_shock[8] = { 0x24, 0x25, 0x26, 0x26, 0x25, 0x26, 0x27, 0x27 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_04);
+const s8 dokidoki_ix_change_table[18] = { 0, 1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 6, 7 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_05);
+const PPWORK_SUB_SUB pulreq_00[1] = { { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_06);
+const PPWORK_SUB_SUB pulreq_01[3] = { { 1, 1 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_07);
+const PPWORK_SUB_SUB pulreq_02[3] = { { 2, 0xA }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_08);
+const PPWORK_SUB_SUB pulreq_03[1] = { { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_09);
+const PPWORK_SUB_SUB pulreq_04[1] = { { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_10);
+const PPWORK_SUB_SUB pulreq_05[1] = { { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_11);
+const PPWORK_SUB_SUB pulreq_06[1] = { { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_20);
+const PPWORK_SUB_SUB pulreq_07[1] = { { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_21);
+const PPWORK_SUB_SUB pulreq_08[1] = { { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_22);
+const PPWORK_SUB_SUB pulreq_09[1] = { { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_23);
+const PPWORK_SUB_SUB pulreq_10[1] = { { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_24);
+const PPWORK_SUB_SUB pulreq_11[1] = { { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_25);
+const PPWORK_SUB_SUB pulreq_20[3] = { { 0x17, 0x6 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_26);
+const PPWORK_SUB_SUB pulreq_21[3] = { { 0x18, 0xA }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_27);
+const PPWORK_SUB_SUB pulreq_22[3] = { { 0x19, 0x10 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_28);
+const PPWORK_SUB_SUB pulreq_23[3] = { { 0x1A, 0x18 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_29);
+const PPWORK_SUB_SUB pulreq_24[3] = { { 0x1B, 2 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_30);
+const PPWORK_SUB_SUB pulreq_25[3] = { { 0x1C, 6 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_31);
+const PPWORK_SUB_SUB pulreq_26[3] = { { 0x1D, 0xE }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_32);
+const PPWORK_SUB_SUB pulreq_27[3] = { { 0x1E, 0x12 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_33);
+const PPWORK_SUB_SUB pulreq_28[3] = { { 0x1F, 8 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_34);
+const PPWORK_SUB_SUB pulreq_29[3] = { { 0x20, 0x12 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_35);
+const PPWORK_SUB_SUB pulreq_30[3] = { { 0x21, 6 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_36);
+const PPWORK_SUB_SUB pulreq_31[3] = { { 0x22, 8 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_37);
+const PPWORK_SUB_SUB pulreq_32[3] = { { 0x23, 5 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_38);
+const PPWORK_SUB_SUB pulreq_33[3] = { { 0x24, 8 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_39);
+const PPWORK_SUB_SUB pulreq_34[3] = { { 0x25, 0x10 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_40);
+const PPWORK_SUB_SUB pulreq_35[3] = { { 0x26, 0x18 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_41);
+const PPWORK_SUB_SUB pulreq_36[3] = { { 0x27, 0xC }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_42);
+const PPWORK_SUB_SUB pulreq_37[3] = { { 0x28, 0x14 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_43);
+const PPWORK_SUB_SUB pulreq_38[3] = { { 0x29, 0x1C }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_44);
+const PPWORK_SUB_SUB pulreq_39[3] = { { 0x2A, 0x28 }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_xx);
+const PPWORK_SUB_SUB pulreq_40[3] = { { 0x2B, 0x3C }, { 1, 0 }, { 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulreq_x2);
+const PPWORK_SUB_SUB pulreq_41[4] = { { 0x2C, 0x14 }, { 0x2D, 0x46 }, { 1, 0 }, { 0, 0 } };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", init_pulpul_work);
-#else
+const PPWORK_SUB_SUB pulreq_42[3] = { { 0x2E, 0x46 }, { 1, 0 }, { 0, 0 } };
+
+const PPWORK_SUB_SUB pulreq_43[3] = { { 0x2F, 0x46 }, { 1, 0 }, { 0, 0 } };
+
+const PPWORK_SUB_SUB pulreq_44[3] = { { 0x30, 0xC }, { 1, 0 }, { 0, 0 } };
+
+const PPWORK_SUB_SUB pulreq_xx[6] = {
+    { 0x31, 0x3C },
+    { 0x32, 0x3C },
+    { 0x33, 0x3C },
+    { 0x34, 0x3C },
+    { 0x35, 0x3C },
+    { 0, 0 },
+};
+
+const PPWORK_SUB_SUB pulreq_x2[7] = {
+    { 0x31, 0x1E },
+    { 0x32, 0x32 },
+    { 0x33, 0x46 },
+    { 0x34, 0x5A },
+    { 0x35, 0x78 },
+    { -1, 3 },
+    { 0, 0 },
+};
+
+// sbss
+
+PPWORK ppwork[2];
+PUL pul[2];
+s16 vib_req[2][2];
+u8 pulpul_scene;
+
 void init_pulpul_work() {
-    not_implemented(__func__);
+    init_pulpul_work2(0);
+    init_pulpul_work2(1);
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", init_pulpul_work2);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", init_pulpul_round2);
-
+void init_pulpul_work2(s16 ix) {
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulpul_stop);
-#else
+    s32 init_pulpul_round2();
+#endif
+    
+    ppwork[ix].ok_dev = 0;
+    ppwork[ix].id = ix;
+    ppwork[ix].psix = 0;
+    ppwork[ix].inStop = 0;
+
+    ppwork[ix].p[0].ppnew = 0;
+
+    vib_req[ix][0] = vib_req[ix][1] = 0;
+
+    init_pulpul_round2(ix);
+}
+
+void init_pulpul_round2(s16 ix) {
+    ppwork[ix].vital = 0xA0;
+    pul[ix].ix.cal = 0;
+}
+
 void pulpul_stop() {
-    not_implemented(__func__);
+    pulpul_stop2(0);
+    pulpul_stop2(1);
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulpul_stop2);
-#else
-void pulpul_stop2(s32 ix) {
-    not_implemented(__func__);
+void pulpul_stop2(s16 ix) {
+    if (ppwork[ix].ok_dev) {
+        vibParamTrans(ix, &pulpara[1]);
+        ppwork[ix].inStop = 4;
+    }
+    
+    ppwork[ix].ok_dev = 0;
+    ppwork[ix].p[0].ppnew = 0;
+
+    waitVsyncDummy();
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulpul_request);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulpul_req_copy);
-
+void pulpul_request(s16 id, s16 ix) {
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_vib_on);
-#else
-void pp_vib_on(s32 id) {
-    not_implemented(__func__);
+    s32 pulpul_req_copy();
+#endif
+    PULREQ* adr;
+
+    if (vib_sel[id] == 0) {
+        return;
+    }
+
+    if (ix == 0) {
+        return;
+    }
+
+    if (test_flag) {
+        adr = &ot_pulreq[ix];
+        adr->adrs = (PPWORK_SUB_SUB*)&ot_pulreq_xx;
+    } else {
+        adr = &pulreq[ix];
+    }
+
+    vib_req[id][adr->prio] = ix;
+
+    pulpul_req_copy(id, adr);
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulpul_request_again);
+void pulpul_req_copy(s16 id, PULREQ* adr) {
+    ppwork[id].p[adr->prio].ppnew = ppwork[id].ok_dev;
+    ppwork[id].p[adr->prio].rno[0] = 0;
+    ppwork[id].p[adr->prio].rno[1] = adr->rno;
+    ppwork[id].p[adr->prio].padr = adr->adrs;
+}
 
+void pp_vib_on(s16 id) {
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_operator_check_flag);
-#else
+    s32 pulpul_req_copy();
+#endif
+    PULREQ* adr;
+
+    adr = &pulreq[3];
+    pulpul_req_copy(id, adr);
+}
+
+void pulpul_request_again() {
+#if defined(TARGET_PS2)
+    s32 pulpul_request();
+#endif
+    
+    pulpul_request(0, vib_req[0][0]);
+    pulpul_request(1, vib_req[1][0]);
+}
+
 void pp_operator_check_flag(u8 fl) {
-    not_implemented(__func__);
+    ppwork[0].opck = ppwork[1].opck = fl;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", move_pulpul_work);
-#else
 void move_pulpul_work() {
-    not_implemented(__func__);
+    move_pulpul(ppwork);
+    move_pulpul(&ppwork[1]);
+
+    test_flag == 0;
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", chkVibUnit);
+s32 chkVibUnit(s32 port) {
+    if (((*flpad_adr)[port].kind == 0) || ((*flpad_adr)[port].kind) == 0x8000)
+        return 0;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", move_pulpul);
+    return (*flpad_adr)[port].conn.gc.etc1;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pulpul_pdVibMxStart);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", vibParamTrans);
-
+void move_pulpul(PPWORK* wk) {
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_screen_quake);
-#else
-void pp_screen_quake(s16 ix) {
-    not_implemented(__func__);
-}
+    s32 pulpul_request();
+    s32 pulpul_pdVibMxStart();
 #endif
+    s32 i;
+    s32 index;
+    s32 data;
+    s32 result;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_conv_kow);
+    if (wk->ok_dev) {
+        if (chkVibUnit(wk->id) == 0) {
+            wk->ok_dev = 0;
+            vibParamTrans(wk->id, &pulpara[1]);
+            return;
+        }
+        
+        for (i = 0; i <= 0; i++) {
+            switch (wk->p[i].rno[0]) {
+                case 0:
+                    if (wk->p[i].ppnew == 0)
+                        break;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_pulpara_remake_at_init);
+                    wk->p[i].rno[0] = 1;
+                    wk->p[i].ppnew = 0;
+                    wk->p[i].exix = -1;
+                    /* fallthrough */
+                case 1:
+                    wk->p[i].exix += 1;
+                    
+                lbl:
+                    index = wk->p[i].padr[wk->p[i].exix].ix;
+                    data = wk->p[i].padr[wk->p[i].exix].timer;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_pulpara_remake_at_init2);
+                    if (index <= 0) {
+                        if (index == 0) {
+                            wk->p[i].rno[0] = 0;
+                            vib_req[wk->id][i] = 0;
+                            vibParamTrans(wk->id, &pulpara[1]);
+                            break;
+                        } else if (index == -1) {
+                            wk->p[i].exix = data;
+                            goto lbl;
+                        }
+                        
+                        if (index == -3) {
+                            wk->p[i].rno[0] = 0;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_pulpara_remake_at_hit);
+                            if (test_flag) {
+                                *ot_mot_of = data;
+                                ot_make_curr_vib_data();
+                            }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_pulpara_remake_at);
+                            pulpul_request((s16)wk->id, data);
+                            break;
+                        }
+                        
+                        if (index == -2) {
+                            if (wk->vital >= data) {
+                                wk->p[i].exix += 1;
+                            } else {
+                                wk->p[i].exix += 2;
+                            }
+                            goto lbl;
+                        }
+                        
+                        wk->p[i].rno[0] = 0;
+                        break;
+                    }
+                    wk->p[i].rno[0] = 2;
+                    /* fallthrough */
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_pulpara_remake_dm_all);
+                case 2:
+                    result = pulpul_pdVibMxStart(wk, i, wk->port, &pulpara[wk->p[i].padr[wk->p[i].exix].ix]);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_pulpara_guard);
+                    if (!result) {
+                        break;
+                    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_pulpara_hit);
+                    wk->p[i].rno[0] = 3;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_pulpara_blocking);
+                    if (i == 1) {
+                        wk->p[i].life = ((wk->p[i].padr[wk->p[i].exix].timer) * (0x20 - pul[wk->id].tim_ans)) / 0x20;
+                    } else {
+                        wk->p[i].life = wk->p[i].padr[wk->p[i].exix].timer;
+                    }
+                    /* fallthrough */
+                
+                case 3:
+                    if (--wk->p[i].life < 0) {
+                        wk->p[i].rno[0] = 1;
+                    }
+                break;
+            }
+        }
+        return;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_pulpara_catch);
+    if (chkVibUnit(wk->id) != 0) {
+        wk->ok_dev = 1;
+        wk->p[0].rno[0] = wk->p[1].rno[0] = 0;
+        wk->p[0].ppnew = wk->p[1].ppnew = 0;
+    }
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_pulpara_caught);
+s32 pulpul_pdVibMxStart(PPWORK* wk, s32 arg1, s32 arg2, PULPARA* param) {
+    PULPARA adrs;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_pulpara_remake_nm_move);
+    adrs = *param;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PulPul", pp_pulpara_shungokusatsu);
+    if ((Check_Menu_Task() == 0) && (test_flag == 0)) {
+        if (save_w[Present_Mode].Pad_Infor[wk->id].Vibration == 0) {
+            return 1;
+        }
+
+        if ((wk->opck) && (plw[wk->id].wu.operator== 0)) {
+            return 1;
+        }
+
+        if (pulpul_scene == 0) {
+            return 1;
+        }
+    }
+
+    return vibParamTrans(wk->id, &adrs);
+}
+
+s32 vibParamTrans(s32 id, PULPARA* prm) {
+    s32 vib_data_size;
+    s32 rnum;
+    u16 big;
+    u8 vib_data[2];
+    u8 profile;
+
+    profile = ps2slot[id].vprofile & 3;
+    if ((prm->power == 0) || (prm->unit == 0) || (profile == 0)) {
+        switch (profile) {
+            case 1:
+            case 2:
+                vib_data_size = 1;
+                vib_data[0] = 0;
+                break;
+            
+            default:
+                vib_data_size = 2;
+                vib_data[0] = 0;
+                vib_data[1] = 0;
+                break;
+        }
+        
+        profile = 3;
+    } else {
+
+        big = prm->freq + pulpul_level[prm->power];
+
+        switch (profile &= prm->unit) {
+            case 1:
+                vib_data_size = 1;
+                vib_data[0] = 1;
+                break;
+            
+            case 2:
+                vib_data_size = 1;
+                vib_data[0] = big;
+                break;
+            
+            default:
+                vib_data_size = 2;
+                vib_data[0] = (((big * 2) & 0xFE) | 1);
+                vib_data[1] = (big >> 7) & 1;
+                break;
+        }
+    }
+    
+    rnum = sceVibSetActParam(ps2slot[id].socket_id, 1, &profile, vib_data_size, (u8*)&vib_data);
+
+    return rnum == 1;
+}
+
+void pp_screen_quake(s16 ix) {
+#if defined(TARGET_PS2)
+    s32 pulpul_request();
+#endif
+    
+    ix /= 3;
+
+    if (ix > 0xA) {
+        ix = 0xA;
+    }
+
+    pulpul_request(0, comm_quay_pulpul[ix]);
+    pulpul_request(1, comm_quay_pulpul[ix]);
+}
+
+s32 pp_conv_kow(u8 num) {
+    s16 ix;
+
+    if (num & 0x60) {
+        if (num & 0x40) {
+            ix = 0x11;
+        } else {
+            ix = 0x10;
+        }
+    } else {
+        ix = num / 2 & 0xF;
+    }
+    
+    return dokidoki_ix_change_table[ix];
+}
+
+void pp_pulpara_remake_at_init() {
+    // do nothing
+}
+
+void pp_pulpara_remake_at_init2() {
+    // do nothing
+}
+
+void pp_pulpara_remake_at_hit() {
+    // do nothing
+}
+
+void pp_pulpara_remake_at() {
+    // do nothing
+}
+
+void pp_pulpara_remake_dm_all(WORK* wk) {
+#if defined(TARGET_PS2)
+    s32 pp_conv_kow();
+    s32 pulpul_request();
+#endif
+    s16 ix;
+
+    ix = pp_conv_kow(wk->dm_kind_of_waza);
+
+    pulpul_request(wk->id, pp_dm_shock[ix]);
+}
+
+void pp_pulpara_guard(WORK* wk) {
+#if defined(TARGET_PS2)
+    s32 pp_conv_kow();
+    s32 pulpul_request();
+#endif
+    
+    pulpul_request(wk->id, pp_guard_shock[pp_conv_kow(wk->dm_kind_of_waza)]);
+}
+
+void pp_pulpara_hit(WORK* wk) {
+#if defined(TARGET_PS2)
+    s32 pp_conv_kow();
+    s32 pulpul_request();
+#endif
+    
+    pulpul_request(wk->id, pp_hit_shock[pp_conv_kow(wk->kind_of_waza)]);
+}
+
+void pp_pulpara_blocking(WORK* wk) {
+#if defined(TARGET_PS2)
+    s32 pp_conv_kow();
+    s32 pulpul_request();
+#endif
+    
+    pulpul_request(wk->id, 0x20);
+
+    if (((s16*)wk->dmg_adrs)[3] == 1) {
+        pulpul_request((wk->id + 1) & 1, 0x21);
+    }
+}
+
+void pp_pulpara_catch(WORK* wk) {
+#if defined(TARGET_PS2)
+    s32 pulpul_request();
+#endif
+    
+    pulpul_request(wk->id, 0x22);
+}
+
+void pp_pulpara_caught(WORK* wk) {
+#if defined(TARGET_PS2)
+    s32 pulpul_request();
+#endif
+    
+    pulpul_request(wk->id, 0x23);
+}
+
+void pp_pulpara_remake_nm_move(s32 arg0) {
+    // do nothing
+}
+
+void pp_pulpara_shungokusatsu(WORK* wk) {
+#if defined(TARGET_PS2)
+    s32 pulpul_request();
+#endif
+    
+    pulpul_request(wk->id, 0x2E);
+    pulpul_request((wk->id + 1) & 1, 0x2F);
+}

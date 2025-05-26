@@ -26,6 +26,7 @@ void Save_Game_Data();                             // Range: 0x3A3890 -> 0x3A3B8
 void Copy_Save_w();                                // Range: 0x3A3B80 -> 0x3A3E3C
 void Copy_Check_w();                               // Range: 0x3A3E40 -> 0x3A3FA8
 s32 Check_Change_Contents();                       // Range: 0x3A4080 -> 0x3A4410
+s32 Check_Menu_Task();                             // Range: 0x3A4490 -> 0x3A4550
 void Setup_Limit_Time();                           // Range: 0x3A4550 -> 0x3A4618
 void Setup_Training_Difficulty();                  // Range: 0x3A4620 -> 0x3A4720
 void Setup_BG(s16 BG_INDEX, s16 X, s16 Y);         // Range: 0x3A4720 -> 0x3A48C4
