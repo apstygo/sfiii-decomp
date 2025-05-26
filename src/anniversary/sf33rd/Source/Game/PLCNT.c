@@ -16,7 +16,7 @@ u32 omop_spmv_ng_table2[2];
 u16 vital_inc_timer;
 u16 vital_dec_timer;
 char cmd_sel[2];
-char vib_sel[2];
+s8 vib_sel[2];
 s16 sag_inc_timer[2];
 char no_sa[2];
 

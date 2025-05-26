@@ -76,7 +76,6 @@ typedef struct /* @anon20 */ {
 
 extern const s8 plid_data[20]; // size: 0x14, address: 0x54B230
 
-extern s8 vib_sel[2];   // size: 0x2, address: 0x579488
 extern u8 pcon_dp_flag; // size: 0x1, address: 0x5795C0
 extern s16 appear_type; // size: 0x2, address: 0x5795C8
 extern s16 pcon_rno[4]; // size: 0x8, address: 0x5795D0
@@ -96,7 +95,7 @@ extern u32 omop_spmv_ng_table2[2];
 extern u16 vital_inc_timer;
 extern u16 vital_dec_timer;
 extern char cmd_sel[2];
-extern char vib_sel[2];
+extern s8 vib_sel[2];   // size: 0x2, address: 0x579488
 extern s16 sag_inc_timer[2];
 extern char no_sa[2];
 
