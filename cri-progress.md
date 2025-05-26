@@ -455,20 +455,20 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [ ] htci_conv_fname
 - [ ] htci_load_flist
 
-### lsc
+### lsc ✅
 
-- [ ] lsc_Alloc
-- [ ] LSC_Create
-- [ ] LSC_Destroy
-- [ ] LSC_SetStmHndl
-- [ ] LSC_EntryFileRange
-- [ ] LSC_ResetEntry
-- [ ] LSC_Start
-- [ ] LSC_Stop
-- [ ] LSC_ExecServer
-- [ ] LSC_GetStat
-- [ ] LSC_GetNumStm
-- [ ] LSC_SetFlowLimit
+- [x] lsc_Alloc
+- [x] LSC_Create
+- [x] LSC_Destroy
+- [x] LSC_SetStmHndl
+- [x] LSC_EntryFileRange
+- [x] LSC_ResetEntry
+- [x] LSC_Start
+- [x] LSC_Stop
+- [x] LSC_ExecServer
+- [x] LSC_GetStat
+- [x] LSC_GetNumStm
+- [x] LSC_SetFlowLimit
 
 ### lsc_crs ✅
 

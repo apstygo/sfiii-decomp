@@ -418,9 +418,9 @@ Notes:
 | PS2RNA_Create                    | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
 | ps2rna_get_psj                   | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
 | DTR_Create                       | cri/libadxe/dtr.c                                    | cri      | ✅               |
-| LSC_Create                       | cri/libadxe/lsc.c                                    | cri      |                 |
-| lsc_Alloc                        | cri/libadxe/lsc.c                                    | cri      |                 |
-| LSC_SetStmHndl                   | cri/libadxe/lsc.c                                    | cri      |                 |
+| LSC_Create                       | cri/libadxe/lsc.c                                    | cri      | ✅               |
+| lsc_Alloc                        | cri/libadxe/lsc.c                                    | cri      | ✅               |
+| LSC_SetStmHndl                   | cri/libadxe/lsc.c                                    | cri      | ✅               |
 | ADXT_SetLnkSw                    | cri/libadxe/adx_tlk.c                                | cri      | ✅               |
 | ADXSJD_SetLnkSw                  | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
 | cseInitSndDrv                    | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.c         | sf33rd   |                 |
@@ -516,7 +516,7 @@ Notes:
 | ADXT_ExecRdCompChk               | cri/libadxe/adx_tsvr.c                               | cri      |                 |
 | ADXT_GetStat                     | cri/libadxe/adx_tlk.c                                | cri      | ✅               |
 | ADXT_ExecRdErrChk                | cri/libadxe/adx_tsvr.c                               | cri      |                 |
-| LSC_GetStat                      | cri/libadxe/lsc.c                                    | cri      |                 |
+| LSC_GetStat                      | cri/libadxe/lsc.c                                    | cri      | ✅               |
 | ADXRNA_ExecServer                | cri/libadxe/adx_rnap.c                               | cri      |                 |
 | PS2RNA_ExecServer                | cri/libadxe/ps2_rna.c                                | cri      |                 |
 | RNACRS_Lock                      | cri/libadxe/rna_crs.c                                | cri      |                 |
@@ -547,7 +547,7 @@ Notes:
 | ADXM_ExecMain                    | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | SVM_ExecSvrMain                  | cri/libadxe/svm.c                                    | cri      | ✅               |
 | adxt_exec_main_thrd              | cri/libadxe/adx_inis.c                               | cri      | ✅               |
-| LSC_ExecServer                   | cri/libadxe/lsc.c                                    | cri      |                 |
+| LSC_ExecServer                   | cri/libadxe/lsc.c                                    | cri      | ✅               |
 | lsc_ExecHndl                     | cri/libadxe/lsc_svr.c                                | cri      |                 |
 | srd_check_dvd_error              | cri/libadxe/cri_srd.c                                | cri      | ✅               |
 | sceCdGetError                    | sdk/libcdvd/cdvd015.c                                | sdk      | –               |
