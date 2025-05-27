@@ -252,7 +252,7 @@ void pulpul_request(s16 id, s16 ix) {
 
     if (test_flag) {
         adr = &ot_pulreq[ix];
-        adr->adrs = (PPWORK_SUB_SUB *)&ot_pulreq_xx;
+        adr->adrs = ot_pulreq_xx;
     } else {
         adr = &pulreq[ix];
     }
@@ -293,7 +293,7 @@ void pp_operator_check_flag(u8 fl) {
 }
 
 void move_pulpul_work() {
-    move_pulpul(ppwork);
+    move_pulpul(&ppwork[0]);
     move_pulpul(&ppwork[1]);
 
     test_flag == 0;
