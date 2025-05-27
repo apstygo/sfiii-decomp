@@ -1476,7 +1476,7 @@ typedef struct {
 typedef struct {
 	s16 prio;
 	s16 rno;
-	PPWORK_SUB_SUB* adrs;
+	const PPWORK_SUB_SUB* adrs;
 } PULREQ;
 
 typedef struct {

@@ -56,8 +56,8 @@ extern const PPWORK_SUB_SUB pulreq_x2[7];
 extern s16 vib_req[2][2];
 extern u8 pulpul_scene;
 extern PPWORK ppwork[2]; // size: 0x68, address: 0x579610
-extern PULREQ pulreq[PULREQ_MAX];
-extern PULPARA pulpara[PULPARA_MAX];
+extern PULREQ pulreq[];
+extern PULPARA pulpara[];
 
 void init_pulpul_work();
 void pulpul_stop();
