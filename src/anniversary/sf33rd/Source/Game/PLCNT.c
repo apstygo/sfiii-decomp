@@ -9,7 +9,7 @@ u8 win_sp_flag;
 char dead_voice_flag;
 PLCNT_SUPERART super_arts[2];
 PIYORI_TYPE piyori_type[2];
-RAMBOD rambod[2]; 
+RAMBOD rambod[2];
 RAMHAN ramhan[2];
 u32 omop_spmv_ng_table[2];
 u32 omop_spmv_ng_table2[2];
