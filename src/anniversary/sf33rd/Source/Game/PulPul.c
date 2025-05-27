@@ -313,7 +313,7 @@ void pulpul_req_copy(s16 id, PULREQ* adr) {
     ppwork[id].p[adr->prio].ppnew = ppwork[id].ok_dev;
     ppwork[id].p[adr->prio].rno[0] = 0;
     ppwork[id].p[adr->prio].rno[1] = adr->rno;
-    ppwork[id].p[adr->prio].padr = (PPWORK_SUB_SUB*)adr->adrs;
+    ppwork[id].p[adr->prio].padr = adr->adrs;
 }
 
 void pp_vib_on(s16 id) {
@@ -347,10 +347,10 @@ void move_pulpul_work() {
 }
 
 s32 chkVibUnit(s32 port) {
-    if (((*flpad_adr)[port].kind == 0) || ((*flpad_adr)[port].kind) == 0x8000)
+    if (((flpad_adr)[0][port].kind == 0) || ((flpad_adr)[0][port].kind) == 0x8000)
         return 0;
 
-    return (*flpad_adr)[port].conn.gc.etc1;
+    return (flpad_adr)[0][port].conn.gc.etc1;
 }
 
 void move_pulpul(PPWORK* wk) {

@@ -1457,7 +1457,7 @@ typedef struct {
 	s16 rno[4];
 	s16 life;
 	s16 exix;
-	PPWORK_SUB_SUB* padr;
+	const PPWORK_SUB_SUB* padr;
 } PPWORK_SUB;
 
 typedef struct {
