@@ -24,9 +24,21 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtr", D_0055CEA0);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtr", D_0055CEC8);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtr", DTR_ExecHndl);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtr", DTR_GetStat);
+#else
+Sint32 DTR_GetStat(DTR dtr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtr", DTR_ExecServer);
+#else
+void DTR_ExecServer() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtr", D_0055CEF0);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dtr", D_0055CF08);
@@ -73,7 +85,13 @@ void DTR_Destroy(DTR dtr) {
     SJCRS_Unlock();
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtr", DTR_Start);
+#else
+void DTR_Start(DTR dtr) {
+    not_implemented(__func__);
+}
+#endif
 
 void DTR_Stop(DTR dtr) {
     dtr->unk1 = 0;

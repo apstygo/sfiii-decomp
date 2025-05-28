@@ -2,9 +2,12 @@
 #include <cri/private/libadxe/dtr.h>
 #include <cri/private/libadxe/dtx.h>
 #include <cri/private/libadxe/ps2_rna.h>
+#include <cri/private/libadxe/rna_crs.h>
 #include <cri/private/libadxe/sjr_clt.h>
 #include <cri/private/libadxe/sjx.h>
 #include <cri/private/libadxe/structs.h>
+
+#include <cri/cri_adxt.h>
 
 #include <eekernel.h>
 #include <sifdev.h>
@@ -14,6 +17,7 @@
 #define PS2PSJ_MAX_OBJ 32
 #define PS2RNA_WORK_SIZE 0x8D0
 #define PS2RNA_MAX_OBJ 16
+#define PS2RNA_MAX_VOICE 32
 
 // data
 extern Char8 *volatile ps2rna_build;                 // 7
@@ -27,6 +31,8 @@ extern Sint32 ps2rna_psm_wksize;                     // 1050
 extern void *ps2rna_psm_wk0;                         // 1054
 extern Sint32 ps2rna_psm_wk;                         // 1058
 extern Sint32 ps2rna_psm_max_voice;                  // 1062
+extern Sint32 ps2rna_max_nste;                       // 1066
+extern Sint32 ps2rna_max_nmono;                      // 1070
 extern Sint32 ps2rna_ee_allpause;                    // 1078
 extern Sint32 ps2rna_iop_allpause;                   // 1082
 extern Sint32 ps2rna_init_cnt;                       // 1086
@@ -45,10 +51,32 @@ void PS2RNA_InitIopSnd();
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", D_0055E0C8);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", D_0055E0F8);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", D_0055E128);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", D_0055E158);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", PS2RNA_SetupVoice);
+void PS2RNA_SetupVoice(Sint32 nste, Sint32 nmono) {
+    Sint32 voice_count;
+
+    if (nste < 0) {
+        scePrintf("PS2RNA_SetupVoice:Illigal parameter(nste=%d).", nste);
+        return;
+    }
+
+    if (nmono < 0) {
+        scePrintf("PS2RNA_SetupVoice:Illigal parameter(nmono=%d).", nmono);
+        return;
+    }
+
+    voice_count = (nste * 2) + nmono;
+
+    if (voice_count > PS2RNA_MAX_VOICE) {
+        scePrintf("PS2RNA_SetupVoice:The set-up value exceeded maximum(MAX=%d).", PS2RNA_MAX_VOICE);
+        return;
+    }
+
+    ps2rna_max_voice = voice_count;
+    ps2rna_max_nste = nste;
+    ps2rna_max_nmono = nmono;
+    ps2psj_iop_wksize = voice_count * 0x4100;
+    ps2rna_setupvoice_flag = 1;
+}
 
 void ps2rna_init_psj() {
     Sint8 *wk;
@@ -80,7 +108,7 @@ void ps2rna_init_psj() {
 
     for (i = 0, j = 0; i < ps2rna_max_voice; i++, j++) {
         psj = &ps2psj_obj[j];
-        psj->unk0 = 0;
+        psj->used = 0;
 
         if ((Uint32)wk & 0x3F) {
             scePrintf("E0110101: ps2rna_init_psj wk size error\n");
@@ -156,7 +184,7 @@ PS2PSJ ps2rna_get_psj() {
     for (i = 0; i < ps2rna_max_voice; i++) {
         psj = &ps2psj_obj[i];
 
-        if (psj->unk0 == 0) {
+        if (psj->used == 0) {
             break;
         }
     }
@@ -165,12 +193,12 @@ PS2PSJ ps2rna_get_psj() {
         return NULL;
     }
 
-    psj->unk0 = 1;
+    psj->used = 1;
     return psj;
 }
 
 void ps2rna_release_psj(PS2PSJ psj) {
-    psj->unk0 = 0;
+    psj->used = 0;
 };
 
 void ps2rna_rcvcbf(Sint32 arg0, Sint32 *arg1, Sint32 len) {
@@ -295,7 +323,7 @@ ADXRNA PS2RNA_Create(SJ *sjo, Sint32 maxnch) {
     for (i = 0; i < PS2RNA_MAX_OBJ; i++) {
         rna = &ps2rna_obj[i];
 
-        if (rna->unk0 == 0) {
+        if (rna->used == 0) {
             break;
         }
     }
@@ -371,9 +399,9 @@ ADXRNA PS2RNA_Create(SJ *sjo, Sint32 maxnch) {
 
     rna->unk30 = 0;
     rna->unk31 = 0;
-    rna->unk32 = maxnch;
+    rna->num_chan = maxnch;
     rna->unk33 = maxnch;
-    rna->unk3C = 0;
+    rna->out_vol = 0;
     rna->unk40 = 0;
     rna->unk54 = 0;
     rna->unk58 = 0;
@@ -381,7 +409,7 @@ ADXRNA PS2RNA_Create(SJ *sjo, Sint32 maxnch) {
     rna->unk5E = 0;
 
     for (i = 0; i < maxnch; i++) {
-        rna->unk44[i] = 0;
+        rna->pan[i] = 0;
         rna->unk4C[i] = 0;
     }
 
@@ -390,7 +418,7 @@ ADXRNA PS2RNA_Create(SJ *sjo, Sint32 maxnch) {
     rna->unk24 = 0;
     rna->unk28 = SJ_GetNumData(sjo[0], 1) + SJ_GetNumData(sjo[0], 0);
     rna->unk2C = 0x4000;
-    rna->unk0 = 1;
+    rna->used = 1;
     return rna;
 }
 
@@ -413,7 +441,7 @@ void PS2RNA_Destroy(ADXRNA rna) {
         }
     }
 
-    rna->unk0 = 0;
+    rna->used = 0;
 }
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", D_0055E440);
@@ -426,7 +454,7 @@ void PS2RNA_SetTransSw(ADXRNA rna, Sint32 sw) {
     Sint32 v1;
 
     rna->unk5C = sw;
-    v1 = rna->unk32;
+    v1 = rna->num_chan;
 
     if (sw == 1) {
         return;
@@ -463,19 +491,97 @@ Sint32 PS2RNA_GetNumData(ADXRNA rna) {
     return (0x4000 - SJ_GetNumData(rna->psj[0]->unk8, 0)) / 2;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", PS2RNA_GetNumRoom);
+Sint32 PS2RNA_GetNumRoom(ADXRNA rna) {
+    return SJ_GetNumData(rna->psj[0]->unk8, 0) / 2;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", PS2RNA_ExecHndl);
+void PS2RNA_ExecHndl(ADXRNA rna) {
+    SJCK chunk;
+    Sint32 var_s2;
+    Sint32 i;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", PS2RNA_ExecServer);
+    if (rna->unk5C != 1) {
+        return;
+    }
+
+    var_s2 = 0;
+
+    for (i = 0; i < rna->num_chan; i++) {
+        if (DTR_GetStat(rna->dtr[i]) == 1) {
+            continue;
+        }
+
+        if (SJ_GetNumData(rna->psj[i]->unk8, 0) != rna->unk2C) {
+            continue;
+        }
+
+        var_s2 += 1;
+    }
+
+    if (var_s2 != rna->num_chan) {
+        return;
+    }
+
+    i = 0;
+
+    if (var_s2 <= 0) {
+        return;
+    }
+
+    for (i = 0; i < rna->num_chan; i++) {
+        SJ_GetChunk(rna->psj[i]->unk8, 0, SJCK_LEN_MAX, &chunk);
+        SJ_PutChunk(rna->psj[i]->unk8, 0, &chunk);
+        SJ_GetChunk(rna->psj[i]->unk8, 0, SJCK_LEN_MAX, &chunk);
+
+        if (chunk.len != rna->unk2C) {
+            while (1) {}
+        }
+
+        SJ_PutChunk(rna->psj[i]->unk8, 0, &chunk);
+        rna->unk5F = 0;
+        DTR_Start(rna->dtr[i]);
+    }
+}
+
+void PS2RNA_ExecServer() {
+    ADXRNA rna;
+    Sint32 i;
+
+    RNACRS_Lock();
+
+    for (i = 0; i < PS2RNA_MAX_OBJ; i++) {
+        rna = &ps2rna_obj[i];
+
+        if (rna->used == 1) {
+            PS2RNA_ExecHndl(rna);
+        }
+    }
+
+    RNACRS_Unlock();
+    DTR_ExecServer();
+    SJX_ExecServer();
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", D_0055E4B0);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", PS2RNA_SetStartSmpl);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", PS2RNA_SetNumChan);
+void PS2RNA_SetNumChan(ADXRNA rna, Sint32 num_chan) {
+    rna->num_chan = num_chan;
+}
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", D_0055E4D8);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", PS2RNA_SetSfreq);
+void PS2RNA_SetSfreq(ADXRNA rna, Sint32 sfreq) {
+    if ((ADXT_MAX_SFREQ % sfreq) != 0) {
+        scePrintf("sampling frequency=%d[Hz]\n", sfreq);
+        while (1) {}
+    }
+
+    if ((sfreq != ADXT_MAX_SFREQ) && ((ADXT_MAX_SFREQ / sfreq) % 2) != 0) {
+        scePrintf("sampling frequency=%d[Hz]\n", sfreq);
+        while (1) {}
+    }
+
+    rna->sfreq = sfreq;
+}
 
 void PS2RNA_SetOutVol(ADXRNA rna, Sint32 vol) {
     if (vol > 0) {
@@ -486,15 +592,30 @@ void PS2RNA_SetOutVol(ADXRNA rna, Sint32 vol) {
         vol = -999;
     }
 
-    rna->unk3C = vol;
+    rna->out_vol = vol;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", PS2RNA_SetOutPan);
+void PS2RNA_SetOutPan(ADXRNA rna, Sint32 channel, Sint32 pan) {
+    Sint32 _pan = pan;
+
+    if (_pan < ADXT_PAN_LEFT) {
+        _pan = ADXT_PAN_LEFT;
+    }
+
+    if (_pan > ADXT_PAN_RIGHT) {
+        _pan = ADXT_PAN_RIGHT;
+    }
+
+    rna->pan[channel] = _pan;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", PS2RNA_SetOutBalance);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", D_0055E4F8);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", PS2RNA_SetBitPerSmpl);
+void PS2RNA_SetBitPerSmpl(ADXRNA rna, Sint32 bps) {
+    if (bps != 16) {
+        scePrintf("PS2RNA_SetBitPerSmpl: not support %d bps\n\0\0\0\0");
+    }
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", D_0055E528);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", PS2RNA_GetStartSmpl);

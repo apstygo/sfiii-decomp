@@ -8,6 +8,9 @@
 
 DTR DTR_Create(SJ sj, Sint32 arg1);
 void DTR_Destroy(DTR dtr);
+void DTR_Start(DTR dtr);
 void DTR_Stop(DTR dtr);
+Sint32 DTR_GetStat(DTR dtr);
+void DTR_ExecServer();
 
 #endif
