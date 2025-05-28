@@ -20,36 +20,85 @@
 #define PS2RNA_MAX_VOICE 32
 
 // data
-extern Char8 *volatile ps2rna_build;                 // 7
-extern Sint32 ps2rna_max_voice;                      // 1019
-extern Sint32 ps2psj_iop_wksize;                     // 1023
-extern Sint32 ps2rna_setupvoice_flag;                // 1027
-extern void *ps2psj_iop_work0;                       // 1031
-extern void *ps2psj_iop_work;                        // 1035
-extern Sint8 ps2psj_alloc_flag;                      // 1039
-extern Sint32 ps2rna_psm_wksize;                     // 1050
-extern void *ps2rna_psm_wk0;                         // 1054
-extern Sint32 ps2rna_psm_wk;                         // 1058
-extern Sint32 ps2rna_psm_max_voice;                  // 1062
-extern Sint32 ps2rna_max_nste;                       // 1066
-extern Sint32 ps2rna_max_nmono;                      // 1070
-extern Sint32 ps2rna_ee_allpause;                    // 1078
-extern Sint32 ps2rna_iop_allpause;                   // 1082
-extern Sint32 ps2rna_init_cnt;                       // 1086
-extern void *ps2rna_eewk;                            // 1090
-extern void *ps2rna_iopwk0;                          // 1094
-extern void *ps2rna_iopwk;                           // 1098
-extern PS2PSJ_OBJ ps2psj_obj[PS2PSJ_MAX_OBJ];        // 1107
-extern Sint8 ps2psj_sjuni_eewk[PS2PSJ_MAX_OBJ][256]; // 1302
-extern ADXRNA_OBJ ps2rna_obj[PS2RNA_MAX_OBJ];        // 3423
-extern DTX ps2rna_dtx;                               // 5026
-extern Sint32 ps2rna_wklen;                          // 5030
-extern Sint8 ps2rna_ee_work[PS2RNA_WORK_SIZE];       // 5034
+Char8 *volatile ps2rna_build = "\nPS2RNA Ver 1.22 Build:Sep 18 2003 10:00:13\n";
+
+Sint32 ps2rna_dbtbl[1000] = {
+    256, 253, 250, 247, 244, 241, 238, 236, 233, 230, 228, 225, 222, 220, 217, 215, 212, 210, 208, 205, 203, 201, 198,
+    196, 194, 191, 189, 187, 185, 183, 181, 179, 177, 175, 173, 171, 169, 167, 165, 163, 161, 159, 157, 156, 154, 152,
+    150, 149, 147, 145, 143, 142, 140, 139, 137, 135, 134, 132, 131, 129, 128, 126, 125, 123, 122, 121, 119, 118, 117,
+    115, 114, 113, 111, 110, 109, 107, 106, 105, 104, 103, 101, 100, 99,  98,  97,  96,  95,  94,  92,  91,  90,  89,
+    88,  87,  86,  85,  84,  83,  82,  81,  80,  80,  79,  78,  77,  76,  75,  74,  73,  72,  72,  71,  70,  69,  68,
+    68,  67,  66,  65,  65,  64,  63,  62,  62,  61,  60,  60,  59,  58,  57,  57,  56,  56,  55,  54,  54,  53,  52,
+    52,  51,  51,  50,  49,  49,  48,  48,  47,  47,  46,  46,  45,  45,  44,  43,  43,  42,  42,  41,  41,  41,  40,
+    40,  39,  39,  38,  38,  37,  37,  37,  36,  36,  35,  35,  34,  34,  34,  33,  33,  32,  32,  32,  31,  31,  31,
+    30,  30,  30,  29,  29,  29,  28,  28,  28,  27,  27,  27,  26,  26,  26,  25,  25,  25,  25,  24,  24,  24,  23,
+    23,  23,  23,  22,  22,  22,  22,  21,  21,  21,  21,  20,  20,  20,  20,  19,  19,  19,  19,  18,  18,  18,  18,
+    18,  17,  17,  17,  17,  17,  16,  16,  16,  16,  16,  15,  15,  15,  15,  15,  15,  14,  14,  14,  14,  14,  14,
+    13,  13,  13,  13,  13,  13,  12,  12,  12,  12,  12,  12,  12,  11,  11,  11,  11,  11,  11,  11,  11,  10,  10,
+    10,  10,  10,  10,  10,  10,  9,   9,   9,   9,   9,   9,   9,   9,   9,   8,   8,   8,   8,   8,   8,   8,   8,
+    8,   8,   8,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   7,   6,   6,   6,   6,   6,   6,   6,   6,   6,
+    6,   6,   6,   6,   6,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   5,   4,   4,   4,
+    4,   4,   4,   4,   4,   4,   4,   4,   4,   4,   4,   4,   4,   4,   4,   4,   4,   3,   3,   3,   3,   3,   3,
+    3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   3,   2,   2,   2,   2,
+    2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,   2,
+    2,   2,   2,   2,   2,   2,   2,   2,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,
+    1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,
+    1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+    0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0
+};
+
+Sint32 ps2rna_max_voice = 0;
+Sint32 ps2psj_iop_wksize = 0;
+Sint32 ps2rna_setupvoice_flag = 0;
+void *ps2psj_iop_work0 = NULL;
+void *ps2psj_iop_work = NULL;
+Sint8 ps2psj_alloc_flag = 0;
+Sint32 ps2rna_psm_wksize = 0;
+void *ps2rna_psm_wk0 = NULL;
+Sint32 ps2rna_psm_wk = 0;
+Sint32 ps2rna_psm_max_voice = 0;
+Sint32 ps2rna_max_nste = 0;
+Sint32 ps2rna_max_nmono = 0;
+Sint32 ps2rna_dolby_flg = 0;
+Sint32 ps2rna_ee_allpause = 0;
+Sint32 ps2rna_iop_allpause = 0;
+Sint32 ps2rna_init_cnt = 0;
+void *ps2rna_eewk = NULL;
+void *ps2rna_iopwk0 = NULL;
+void *ps2rna_iopwk = NULL;
+PS2PSJ_OBJ ps2psj_obj[PS2PSJ_MAX_OBJ] = { 0 };
+Sint8 ps2psj_sjuni_eewk[PS2PSJ_MAX_OBJ][256] = { 0 };
+Sint8 ps2psj_sjiop_wk[0x80] = { 0 };
+Sint8 ps2psj_sjiop_buf[0x80] = { 0 };
+ADXRNA_OBJ ps2rna_obj[PS2RNA_MAX_OBJ] = { 0 };
+DTX ps2rna_dtx = NULL;
+Sint32 ps2rna_wklen = 0;
+Sint8 ps2rna_ee_work[PS2RNA_WORK_SIZE] = { 0 };
 
 // forward decls
 void PS2RNA_InitIopSnd();
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", D_0055E0C8);
 
 void PS2RNA_SetupVoice(Sint32 nste, Sint32 nmono) {
     Sint32 voice_count;

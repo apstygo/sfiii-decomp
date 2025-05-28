@@ -822,7 +822,7 @@ segments:
       - [0x3B6DC8, .data, cri/libadxe/lsc_err]
       - [0x3B6ED0, data, cri/libadxe/lsc_ini]
       - [0x3B9270, data, cri/libadxe/pl2enc]
-      - [0x3B92B0, data, cri/libadxe/ps2_rna]
+      - [0x3B92B0, .data, cri/libadxe/ps2_rna]
       - [0x3BD5C0, data, cri/libadxe/rna_crs]
       - [0x3BD5C8, data, cri/libadxe/sj_crs]
       - [0x3BD5D0, .data, cri/libadxe/sj_mem]
