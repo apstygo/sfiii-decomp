@@ -35,7 +35,6 @@
 
 void distributeScratchPadAddress();
 void MaskScreenEdge();
-s32 mppGetFavoritePlayerNumber();
 void appCopyKeyData();
 u8 *mppMalloc(u32 size);
 void njUserInit();

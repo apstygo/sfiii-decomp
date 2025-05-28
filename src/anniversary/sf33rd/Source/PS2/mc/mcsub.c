@@ -686,7 +686,7 @@ void McActInit(s32 file_type, s32 file_no) {
     }
 }
 
-void McActMain(void) {
+void McActMain() {
     memcard_work *mw = &MemcardWork;
 
     ADXM_Lock();
@@ -694,7 +694,7 @@ void McActMain(void) {
     ADXM_Unlock();
 }
 
-void McActStopSet(void) {
+void McActStopSet() {
     memcard_work *mw = &MemcardWork;
 
     mw->act_no = 0;

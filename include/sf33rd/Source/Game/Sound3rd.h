@@ -17,12 +17,7 @@ void checkAdxFileLoaded();
 void Exit_sound_system();
 void Init_bgm_work();
 void sound_all_off();
-
-#ifndef SET_SE_VOLUME_DEFINED
-#define SET_SE_VOLUME_DEFINED
-void setSeVolume(u8 /* unused */);
-#endif
-
+void setSeVolume();
 void setupSoundMode();
 void BGM_Server();
 void setupAlwaysSeamlessFlag(s16 flag);

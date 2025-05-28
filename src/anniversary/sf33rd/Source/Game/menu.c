@@ -2273,6 +2273,10 @@ void Screen_Move_Sub_LR(u16 sw) {
 }
 
 void Sound_Test(struct _TASK *task_ptr) {
+#if defined(TARGET_PS2)
+    void setSeVolume(u8);
+#endif
+
     s16 char_index;
     s16 ix;
     u8 last_mode;

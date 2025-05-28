@@ -59,5 +59,6 @@ void All_Clear_Suicide();                          // Range: 0x3A85C0 -> 0x3A865
 void Clear_Break_Com(s16 PL_id);                   // Range: 0x3A8660 -> 0x3A86DC
 void Check_Off_Vib();                              // Range: 0x3A86E0 -> 0x3A86E8
 void njWaitVSync_with_N();
+void Meltw(u16 *s, u16 *d, s32 file_ptr);
 
 #endif

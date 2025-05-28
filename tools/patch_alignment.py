@@ -24,6 +24,7 @@ special_cases = {
     ("PLCNT", ".rodata", 4): 16,
     ("EFF00", ".rodata", 0): 16,
     ("knjsub", ".rodata", 0): 16,
+    ("msgsub", ".rodata", 0): 16,
 
     ("PulPul", ".data", 0): 16,
     ("flps2vram", ".data", 0): 16,
@@ -41,6 +42,7 @@ special_cases = {
     ("SpuMap", ".sdata", 0): 4,
     ("msgtblj", ".sdata", 0): 16,
     ("knjsub", ".sdata", 0): 16,
+    ("msgsub", ".sdata", 0): 16,
 
     ("sbss_579878", ".sbss", 0): 8,
     ("EFF45", ".sbss", 0): 16,
@@ -61,6 +63,7 @@ special_cases = {
     ("libpad2", ".bss", 0): 8,
     ("color3rd", ".bss", 2): 32,
     ("Sound3rd", ".bss", 0): 256,
+    ("eflSifRpc", ".bss", 0): 256,
 }
 
 def alignment_to_bytes(alignment: int) -> bytes:

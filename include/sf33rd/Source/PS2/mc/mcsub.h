@@ -67,5 +67,21 @@ typedef struct memcard_date {
 } memcard_date;
 
 void MemcardInit();
+void *McActIconTexAdrs(s32 file_type, s32 num);
+s32 McActAvailSet(s32 *ico);
+s32 McActResult();
+void McActCheckSet();
+void McActMain();
+void McActInit(s32 file_type, s32 file_no);
+void McActSave0Set(s32 port, void *bufs, s32 mode);
+void McActExistSet(s32 port, void *bufs);
+s32 McActConChk(s32 port);
+void McActFormatSet(s32 port);
+void McActSaveSet(s32 port, void *bufs);
+void McActNewClr();
+void McActLoadSet(s32 port, void *bufs);
+void McActLastDate(memcard_date *date);
+s32 McActNewChk(s32 port);
+void McActZenNum(s32 num, s8 *buf, s32 mode, s32 max);
 
 #endif

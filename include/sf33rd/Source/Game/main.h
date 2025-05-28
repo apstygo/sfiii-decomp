@@ -19,5 +19,6 @@ extern s32 system_init_level; // size: 0x4, address: 0x57AA3C
 void cpInitTask();
 void cpReadyTask(u16 num, void *func_adrs);
 void cpExitTask(u16 num);
+s32 mppGetFavoritePlayerNumber();
 
 #endif

@@ -1,5 +1,3 @@
-#define SET_SE_VOLUME_DEFINED
-
 #include "sf33rd/Source/Game/Sound3rd.h"
 #include "common.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX.h"
