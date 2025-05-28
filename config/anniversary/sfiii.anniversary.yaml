@@ -1477,7 +1477,7 @@ segments:
       - [0x4747B0, .sdata, sf33rd/AcrSDK/ps2/flps2vram]
       - [0x4749F0, .sdata, sf33rd/AcrSDK/ps2/foundaps2]
       - [0x4749F4, .sdata, sf33rd/AcrSDK/ps2/ps2PAD]
-      - [0x474B40, sdata, sf33rd/Source/PS2/mc/mcsub]
+      - [0x474B40, .sdata, sf33rd/Source/PS2/mc/mcsub]
       - [0x474D20, sdata, sf33rd/Source/PS2/mc/knjsub]
       - [0x474DE8, sdata, sf33rd/Source/PS2/mc/savesub]
       - [0x474F60, sdata, sf33rd/Source/PS2/mc/msgsub]
@@ -1643,7 +1643,7 @@ segments:
       - { type: sbss, vram: 0x57AA40, name: sf33rd/AcrSDK/ps2/flps2dma }
       - { type: .sbss, vram: 0x57AA50, name: sf33rd/AcrSDK/ps2/foundaps2 }
       - { type: .sbss, vram: 0x57AF4C, name: sf33rd/AcrSDK/ps2/ps2PAD }
-      - { type: sbss, vram: 0x57B0B0, name: sf33rd/Source/PS2/mc/mcsub }
+      - { type: .sbss, vram: 0x57B0B0, name: sf33rd/Source/PS2/mc/mcsub }
       - { type: sbss, vram: 0x57B140, name: sf33rd/Source/PS2/mc/knjsub }
       - { type: sbss, vram: 0x57B148, name: sf33rd/Source/PS2/mc/savesub }
       - { type: sbss, vram: 0x57B150, name: sf33rd/Source/PS2/mc/msgsub }
@@ -1720,7 +1720,7 @@ segments:
       - { type: bss, vram: 0x6E2EC0, name: bss_6E2EC0 } # Arguments for main
       - { type: bss, vram: 0x6E3048, name: sdk/libdbc/libdbc }
       - { type: bss, vram: 0x6E6608, name: sdk/libpad2/libpad2 }
-      - { type: bss, vram: 0x6E9950, name: sf33rd/Source/PS2/mc/mcsub }
+      - { type: .bss, vram: 0x6E9950, name: sf33rd/Source/PS2/mc/mcsub }
       - { type: bss, vram: 0x6E9A40, name: sf33rd/Source/PS2/mc/knjsub }
       - { type: bss, vram: 0x6E9AE0, name: sf33rd/Source/PS2/mc/savesub }
       - { type: bss, vram: 0x6E9D00, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc }
