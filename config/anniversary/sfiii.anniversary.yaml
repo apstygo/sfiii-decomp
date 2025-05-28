@@ -683,9 +683,9 @@ segments:
       - [0x303680, asm, sdk/libpad2/libpad2]
 
       - [0x303F40, c, sf33rd/Source/PS2/mc/mcsub]
-      - [0x3074C0, asm, sf33rd/Source/PS2/mc/knjsub]
+      - [0x3074C0, c, sf33rd/Source/PS2/mc/knjsub]
       - [0x30A130, c, sf33rd/Source/PS2/mc/savesub]
-      - [0x310840, asm, sf33rd/Source/PS2/mc/msgsub]
+      - [0x310840, c, sf33rd/Source/PS2/mc/msgsub]
       - [0x310CF0, asm, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap]
       - [0x310E60, asm, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc]
       - [0x311400, asm, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap]
@@ -1335,9 +1335,9 @@ segments:
       - [0x45FF38, rodata, sdk/libpad2/libpad2]
 
       - [0x45FFA0, .rodata, sf33rd/Source/PS2/mc/mcsub]
-      - [0x460270, rodata, sf33rd/Source/PS2/mc/knjsub]
+      - [0x460270, .rodata, sf33rd/Source/PS2/mc/knjsub]
       - [0x4602B8, .rodata, sf33rd/Source/PS2/mc/savesub]
-      - [0x460500, rodata, sf33rd/Source/PS2/mc/msgsub]
+      - [0x460500, .rodata, sf33rd/Source/PS2/mc/msgsub]
       - [0x460520, .rodata, sf33rd/Source/Game/vm]
       - [0x460530, rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc]
       - [0x460648, rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap]

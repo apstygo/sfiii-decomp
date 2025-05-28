@@ -419,7 +419,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_32_e
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_16_ex);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_32_com);
+#else
+s32 random_32_com() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_16_com);
 
@@ -454,9 +460,9 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", cal_dm_vita
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", set_hit_stop_hit_quake);
 
 void add_sp_arts_gauge_init(PLW *wk) {
-    #if defined(TARGET_PS2)
-    void add_super_arts_gauge(SA_WORK *wk, s32 ix, s32 asag, u16 mf);
-    #endif
+#if defined(TARGET_PS2)
+    void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u16 mf);
+#endif
 
     PLW *mwk;
     s16 asag;
