@@ -193,6 +193,7 @@ def main():
     decodable = ArrayDecodable(S16, [12])
 
     generate_code(decode_type(decodable, offset), hex_ints=False)
+    print()
 
 if __name__ == "__main__":
     main()

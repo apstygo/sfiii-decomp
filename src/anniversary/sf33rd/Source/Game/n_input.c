@@ -1,6 +1,22 @@
 #include "sf33rd/Source/Game/n_input.h"
 #include "common.h"
 
+// sbss
+NAME_WK name_wk[2];
+NAME_WK *name_ptr_00579384; // TODO: rename to name_ptr
+s16 Name_Input_f;
+s16 naming_cnt[2];
+s16 n_disp_flag;
+s16 Name_00[2];
+s16 name_limit_timer[2];
+u8 ne_flash_flag;
+u8 *ne_pointer;
+u8 ne_col;
+u8 ne_timer;
+SC_NAME_WK sc_name_wk[2][4];
+SC_NAME_WK *nsc_ptr;
+RANK_NAME_W rank_name_w[2];
+
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/n_input", slang_tbl);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/n_input", name_code_tbl);

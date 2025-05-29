@@ -37,6 +37,7 @@
 #include "sf33rd/Source/PS2/reboot.h"
 #include "structs.h"
 
+// forward decls
 void After_Title(struct _TASK *task_ptr);
 void In_Game(struct _TASK *task_ptr);
 void Wait_Load_Save(struct _TASK *task_ptr);
@@ -144,9 +145,12 @@ const MenuFunc Menu_Jmp_Tbl[14] = {
     Training_Menu, After_Replay, Disp_Auto_Save2, Wait_Pause_in_Tr,  Reset_Training, Reset_Replay, End_Replay_Menu,
 };
 
-extern u8 control_pl_rno; // size: 0x1, address: 0x5792B0
-extern u8 control_player; // size: 0x1, address: 0x5792B4
-extern u8 r_no_plus;      // size: 0x1, address: 0x5792B8
+// sbss
+u8 r_no_plus;
+u8 control_player;
+u8 control_pl_rno;
+
+// rodata
 extern const LetterData training_letter_data[6];
 
 void Menu_Task(struct _TASK *task_ptr) {
@@ -874,6 +878,7 @@ void System_Dir_Move_Sub_LR(u16 sw, s16 cursor_id) {
     }
 }
 
+#if defined(TARGET_PS2)
 void Direction_Menu(struct _TASK *task_ptr) {
     Menu_Cursor_Y[1] = Menu_Cursor_Y[0];
 
@@ -1022,6 +1027,11 @@ void Direction_Menu(struct _TASK *task_ptr) {
         break;
     }
 }
+#else
+void Direction_Menu(struct _TASK *task_ptr) {
+    not_implemented(__func__);
+}
+#endif
 
 void Dir_Move_Sub(struct _TASK *task_ptr, s16 PL_id) {
     u16 sw;
@@ -1179,6 +1189,7 @@ void Dir_Move_Sub_LR(u16 sw, s16 /* unused */) {
     }
 }
 
+#if defined(TARGET_PS2)
 void Setup_Next_Page(struct _TASK *task_ptr, s32 /* unused */) {
     s16 ix;
     s16 disp_index;
@@ -1272,6 +1283,11 @@ void Setup_Next_Page(struct _TASK *task_ptr, s32 /* unused */) {
     effect_40_init(mode_type, 2, 0x4A, 0, 2, 0);
     effect_40_init(mode_type, 3, 0x4B, 0, 2, 2);
 }
+#else
+void Setup_Next_Page(struct _TASK *task_ptr, s32 /* unused */) {
+    not_implemented(__func__);
+}
+#endif
 
 void Save_Direction(struct _TASK *task_ptr) {
     Menu_Cursor_X[1] = Menu_Cursor_X[0];

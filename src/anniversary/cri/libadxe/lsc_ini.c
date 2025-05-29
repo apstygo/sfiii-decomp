@@ -10,11 +10,10 @@
 
 #include <string.h>
 
-extern Char8 *volatile lsc_build;
-extern Sint32 lsc_init_cnt;
-extern LSC_OBJ lsc_obj[LSC_MAX_OBJ];
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/lsc_ini", D_0055DA38);
+Char8 *volatile lsc_build = "\nLSC/PS2EE Ver.2.14 Build:Sep 18 2003 10:00:13\n";
+Char8 lsc_obj_mark[] = "MARK:lsc_obj";
+Sint32 lsc_init_cnt = 0;
+LSC_OBJ lsc_obj[LSC_MAX_OBJ] = { 0 };
 
 void lsc_EntrySvrInt() {
     // Do nothing

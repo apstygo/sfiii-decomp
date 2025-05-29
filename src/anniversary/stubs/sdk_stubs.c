@@ -5,9 +5,11 @@
 #include "common.h"
 #include "types.h"
 
+#include <eekernel.h>
 #include <libcdvd.h>
 #include <libdma.h>
 #include <libgraph.h>
+#include <libmc.h>
 #include <libpad2.h>
 #include <libvu0.h>
 #include <sif.h>
@@ -236,6 +238,86 @@ int sceDbcInit() {
 }
 
 void sceDbcEnd() {
+    not_implemented(__func__);
+}
+
+// libmc
+
+int sceMcInit(void) {
+    not_implemented(__func__);
+}
+
+int sceMcOpen(int, int, const char *, int) {
+    not_implemented(__func__);
+}
+
+int sceMcClose(int) {
+    not_implemented(__func__);
+}
+
+int sceMcRead(int, void *, int) {
+    not_implemented(__func__);
+}
+
+int sceMcWrite(int, const void *, int) {
+    not_implemented(__func__);
+}
+
+int sceMcMkdir(int, int, const char *) {
+    not_implemented(__func__);
+}
+
+int sceMcDelete(int, int, const char *) {
+    not_implemented(__func__);
+}
+
+int sceMcFormat(int, int) {
+    not_implemented(__func__);
+}
+
+int sceMcUnformat(int, int) {
+    not_implemented(__func__);
+}
+
+int sceMcGetDir(int, int, const char *, unsigned int, int, sceMcTblGetDir *) {
+    not_implemented(__func__);
+}
+
+int sceMcGetInfo(int, int, int *, int *, int *) {
+    not_implemented(__func__);
+}
+
+int sceMcSync(int, int *, int *) {
+    not_implemented(__func__);
+}
+
+// eekernel
+
+int ChangeThreadPriority(int, int) {
+    not_implemented(__func__);
+}
+
+void FlushCache(int) {
+    not_implemented(__func__);
+}
+
+void iFlushCache(int) {
+    not_implemented(__func__);
+}
+
+void InvalidDCache(void *, void *) {
+    not_implemented(__func__);
+}
+
+int ResumeThread(int) {
+    not_implemented(__func__);
+}
+
+void SyncDCache(void *, void *) {
+    not_implemented(__func__);
+}
+
+int WakeupThread(int) {
     not_implemented(__func__);
 }
 

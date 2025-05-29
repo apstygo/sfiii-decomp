@@ -235,6 +235,15 @@ typedef union {
 } XY;
 
 typedef struct {
+    // total size: 0xA8
+    s16 total;             // offset 0x0, size 0x2
+    s16 new_dm;            // offset 0x2, size 0x2
+    s16 req_f;             // offset 0x4, size 0x2
+    s16 old_r;             // offset 0x6, size 0x2
+    s16 kind_of[10][4][2]; // offset 0x8, size 0xA0
+} ComboType;
+
+typedef struct {
     // total size: 0x388
     s8 be_flag;              // offset 0x0, size 0x1
     s8 disp_flag;            // offset 0x1, size 0x1
@@ -591,14 +600,7 @@ typedef struct {
         s16 data_ix; // offset 0x4, size 0x2
     } *as;           // offset 0x3C0, size 0x4
     SA_WORK *sa;     // offset 0x3C4, size 0x4
-    struct /* @anon27 */ {
-        // total size: 0xA8
-        s16 total;             // offset 0x0, size 0x2
-        s16 new_dm;            // offset 0x2, size 0x2
-        s16 req_f;             // offset 0x4, size 0x2
-        s16 old_r;             // offset 0x6, size 0x2
-        s16 kind_of[10][4][2]; // offset 0x8, size 0xA0
-    } *cb;                     // offset 0x3C8, size 0x4
+    ComboType *cb;   // offset 0x3C8, size 0x4
     struct /* @anon28 */ {
         // total size: 0x14
         s8 flag;    // offset 0x0, size 0x1
@@ -608,100 +610,93 @@ typedef struct {
             s32 timer; // offset 0x0, size 0x4
             struct /* @anon41 */ {
                 // total size: 0x4
-                s16 l;    // offset 0x0, size 0x2
-                s16 h;    // offset 0x2, size 0x2
-            } quantity;   // offset 0x0, size 0x4
-        } now;            // offset 0x8, size 0x4
-        s32 recover;      // offset 0xC, size 0x4
-        s16 store;        // offset 0x10, size 0x2
-        s16 again;        // offset 0x12, size 0x2
-    } *py;                // offset 0x3CC, size 0x4
-    s8 wkey_flag;         // offset 0x3D0, size 0x1
-    s8 dead_flag;         // offset 0x3D1, size 0x1
-    s16 ukemi_ok_timer;   // offset 0x3D2, size 0x2
-    s16 backup_ok_timer;  // offset 0x3D4, size 0x2
-    s8 uot_cd_ok_flag;    // offset 0x3D6, size 0x1
-    s8 ukemi_success;     // offset 0x3D7, size 0x1
-    s16 old_pos_data[8];  // offset 0x3D8, size 0x10
-    s16 move_distance;    // offset 0x3E8, size 0x2
-    s16 move_power;       // offset 0x3EA, size 0x2
-    s16 sa_stop_sai;      // offset 0x3EC, size 0x2
-    u8 saishin_lvdir;     // offset 0x3EE, size 0x1
-    u8 sa_stop_lvdir;     // offset 0x3EF, size 0x1
-    u8 sa_stop_flag;      // offset 0x3F0, size 0x1
-    u8 kezurijini_flag;   // offset 0x3F1, size 0x1
-    WORK *illusion_work;  // offset 0x3F4, size 0x4
-    s16 image_setup_flag; // offset 0x3F8, size 0x2
-    s16 image_data_index; // offset 0x3FA, size 0x2
-    u8 caution_flag;      // offset 0x3FC, size 0x1
-    u8 tc_1st_flag;       // offset 0x3FD, size 0x1
-    struct /* @anon27 */ {
-        // total size: 0xA8
-        s16 total;             // offset 0x0, size 0x2
-        s16 new_dm;            // offset 0x2, size 0x2
-        s16 req_f;             // offset 0x4, size 0x2
-        s16 old_r;             // offset 0x6, size 0x2
-        s16 kind_of[10][4][2]; // offset 0x8, size 0xA0
-    } *rp;                     // offset 0x400, size 0x4
-    s16 bullet_hcnt;           // offset 0x404, size 0x2
-    s16 bhcnt_timer;           // offset 0x406, size 0x2
-    s8 cat_break_ok_timer;     // offset 0x408, size 0x1
-    s8 cat_break_reserve;      // offset 0x409, size 0x1
-    s8 hazusenai_flag;         // offset 0x40A, size 0x1
-    s8 hurimukenai_flag;       // offset 0x40B, size 0x1
-    u8 tk_success;             // offset 0x40C, size 0x1
-    u8 resurrection_resv;      // offset 0x40D, size 0x1
-    s16 tk_dageki;             // offset 0x40E, size 0x2
-    s16 tk_nage;               // offset 0x410, size 0x2
-    s16 tk_kizetsu;            // offset 0x412, size 0x2
-    s16 tk_konjyou;            // offset 0x414, size 0x2
-    s16 utk_dageki;            // offset 0x416, size 0x2
-    s16 utk_nage;              // offset 0x418, size 0x2
-    s16 utk_kizetsu;           // offset 0x41A, size 0x2
-    u8 atemi_flag;             // offset 0x41C, size 0x1
-    u8 atemi_point;            // offset 0x41D, size 0x1
-    s16 dm_vital_backup;       // offset 0x41E, size 0x2
-    u8 dm_refrect;             // offset 0x420, size 0x1
-    u8 dm_vital_use;           // offset 0x421, size 0x1
-    u8 exdm_ix;                // offset 0x422, size 0x1
-    u8 meoshi_jump_flag;       // offset 0x423, size 0x1
-    s16 cmd_request;           // offset 0x424, size 0x2
-    s16 rl_save;               // offset 0x426, size 0x2
-    u8 zettai_muteki_flag;     // offset 0x428, size 0x1
-    u8 do_not_move;            // offset 0x429, size 0x1
-    u16 just_sa_stop_timer;    // offset 0x42A, size 0x2
-    s16 total_att_hit_ok;      // offset 0x42C, size 0x2
-    u8 sa_healing;             // offset 0x42E, size 0x1
-    u8 auto_guard;             // offset 0x42F, size 0x1
-    u8 hsjp_ok;                // offset 0x430, size 0x1
-    u8 high_jump_flag;         // offset 0x431, size 0x1
-    s16 att_plus;              // offset 0x432, size 0x2
-    s16 def_plus;              // offset 0x434, size 0x2
-    s8 bs2_on_car;             // offset 0x436, size 0x1
-    s8 bs2_area_car;           // offset 0x437, size 0x1
-    s8 bs2_over_car;           // offset 0x438, size 0x1
-    s8 bs2_area_car2;          // offset 0x439, size 0x1
-    s8 bs2_over_car2;          // offset 0x43A, size 0x1
-    u8 micchaku_wall_time;     // offset 0x43B, size 0x1
-    u8 extra_jump;             // offset 0x43C, size 0x1
-    u8 air_jump_ok_time;       // offset 0x43D, size 0x1
-    s16 waku_ram_index;        // offset 0x43E, size 0x2
-    u16 permited_koa;          // offset 0x440, size 0x2
-    u8 ja_nmj_rno;             // offset 0x442, size 0x1
-    u8 ja_nmj_cnt;             // offset 0x443, size 0x1
-    u8 kind_of_blocking;       // offset 0x444, size 0x1
-    u8 metamorphose;           // offset 0x445, size 0x1
-    s16 metamor_index;         // offset 0x446, size 0x2
-    u8 metamor_over;           // offset 0x448, size 0x1
-    u8 gill_ccch_go;           // offset 0x449, size 0x1
-    u8 renew_attchar;          // offset 0x44A, size 0x1
-    s16 omop_vital_timer;      // offset 0x44C, size 0x2
-    s16 sfwing_pos;            // offset 0x44E, size 0x2
-    u8 init_E3_flag;           // offset 0x450, size 0x1
-    u8 init_E4_flag;           // offset 0x451, size 0x1
-    u16 pl09_dat_index;        // offset 0x452, size 0x2
-    s16 reserv_add_y;          // offset 0x454, size 0x2
-    u8 pt_free[20];            // offset 0x456, size 0x14
+                s16 l;      // offset 0x0, size 0x2
+                s16 h;      // offset 0x2, size 0x2
+            } quantity;     // offset 0x0, size 0x4
+        } now;              // offset 0x8, size 0x4
+        s32 recover;        // offset 0xC, size 0x4
+        s16 store;          // offset 0x10, size 0x2
+        s16 again;          // offset 0x12, size 0x2
+    } *py;                  // offset 0x3CC, size 0x4
+    s8 wkey_flag;           // offset 0x3D0, size 0x1
+    s8 dead_flag;           // offset 0x3D1, size 0x1
+    s16 ukemi_ok_timer;     // offset 0x3D2, size 0x2
+    s16 backup_ok_timer;    // offset 0x3D4, size 0x2
+    s8 uot_cd_ok_flag;      // offset 0x3D6, size 0x1
+    s8 ukemi_success;       // offset 0x3D7, size 0x1
+    s16 old_pos_data[8];    // offset 0x3D8, size 0x10
+    s16 move_distance;      // offset 0x3E8, size 0x2
+    s16 move_power;         // offset 0x3EA, size 0x2
+    s16 sa_stop_sai;        // offset 0x3EC, size 0x2
+    u8 saishin_lvdir;       // offset 0x3EE, size 0x1
+    u8 sa_stop_lvdir;       // offset 0x3EF, size 0x1
+    u8 sa_stop_flag;        // offset 0x3F0, size 0x1
+    u8 kezurijini_flag;     // offset 0x3F1, size 0x1
+    WORK *illusion_work;    // offset 0x3F4, size 0x4
+    s16 image_setup_flag;   // offset 0x3F8, size 0x2
+    s16 image_data_index;   // offset 0x3FA, size 0x2
+    u8 caution_flag;        // offset 0x3FC, size 0x1
+    u8 tc_1st_flag;         // offset 0x3FD, size 0x1
+    ComboType *rp;          // offset 0x400, size 0x4
+    s16 bullet_hcnt;        // offset 0x404, size 0x2
+    s16 bhcnt_timer;        // offset 0x406, size 0x2
+    s8 cat_break_ok_timer;  // offset 0x408, size 0x1
+    s8 cat_break_reserve;   // offset 0x409, size 0x1
+    s8 hazusenai_flag;      // offset 0x40A, size 0x1
+    s8 hurimukenai_flag;    // offset 0x40B, size 0x1
+    u8 tk_success;          // offset 0x40C, size 0x1
+    u8 resurrection_resv;   // offset 0x40D, size 0x1
+    s16 tk_dageki;          // offset 0x40E, size 0x2
+    s16 tk_nage;            // offset 0x410, size 0x2
+    s16 tk_kizetsu;         // offset 0x412, size 0x2
+    s16 tk_konjyou;         // offset 0x414, size 0x2
+    s16 utk_dageki;         // offset 0x416, size 0x2
+    s16 utk_nage;           // offset 0x418, size 0x2
+    s16 utk_kizetsu;        // offset 0x41A, size 0x2
+    u8 atemi_flag;          // offset 0x41C, size 0x1
+    u8 atemi_point;         // offset 0x41D, size 0x1
+    s16 dm_vital_backup;    // offset 0x41E, size 0x2
+    u8 dm_refrect;          // offset 0x420, size 0x1
+    u8 dm_vital_use;        // offset 0x421, size 0x1
+    u8 exdm_ix;             // offset 0x422, size 0x1
+    u8 meoshi_jump_flag;    // offset 0x423, size 0x1
+    s16 cmd_request;        // offset 0x424, size 0x2
+    s16 rl_save;            // offset 0x426, size 0x2
+    u8 zettai_muteki_flag;  // offset 0x428, size 0x1
+    u8 do_not_move;         // offset 0x429, size 0x1
+    u16 just_sa_stop_timer; // offset 0x42A, size 0x2
+    s16 total_att_hit_ok;   // offset 0x42C, size 0x2
+    u8 sa_healing;          // offset 0x42E, size 0x1
+    u8 auto_guard;          // offset 0x42F, size 0x1
+    u8 hsjp_ok;             // offset 0x430, size 0x1
+    u8 high_jump_flag;      // offset 0x431, size 0x1
+    s16 att_plus;           // offset 0x432, size 0x2
+    s16 def_plus;           // offset 0x434, size 0x2
+    s8 bs2_on_car;          // offset 0x436, size 0x1
+    s8 bs2_area_car;        // offset 0x437, size 0x1
+    s8 bs2_over_car;        // offset 0x438, size 0x1
+    s8 bs2_area_car2;       // offset 0x439, size 0x1
+    s8 bs2_over_car2;       // offset 0x43A, size 0x1
+    u8 micchaku_wall_time;  // offset 0x43B, size 0x1
+    u8 extra_jump;          // offset 0x43C, size 0x1
+    u8 air_jump_ok_time;    // offset 0x43D, size 0x1
+    s16 waku_ram_index;     // offset 0x43E, size 0x2
+    u16 permited_koa;       // offset 0x440, size 0x2
+    u8 ja_nmj_rno;          // offset 0x442, size 0x1
+    u8 ja_nmj_cnt;          // offset 0x443, size 0x1
+    u8 kind_of_blocking;    // offset 0x444, size 0x1
+    u8 metamorphose;        // offset 0x445, size 0x1
+    s16 metamor_index;      // offset 0x446, size 0x2
+    u8 metamor_over;        // offset 0x448, size 0x1
+    u8 gill_ccch_go;        // offset 0x449, size 0x1
+    u8 renew_attchar;       // offset 0x44A, size 0x1
+    s16 omop_vital_timer;   // offset 0x44C, size 0x2
+    s16 sfwing_pos;         // offset 0x44E, size 0x2
+    u8 init_E3_flag;        // offset 0x450, size 0x1
+    u8 init_E4_flag;        // offset 0x451, size 0x1
+    u16 pl09_dat_index;     // offset 0x452, size 0x2
+    s16 reserv_add_y;       // offset 0x454, size 0x2
+    u8 pt_free[20];         // offset 0x456, size 0x14
 } PLW;
 
 typedef struct {
@@ -1654,9 +1649,21 @@ typedef struct {
 } NAME_WK;
 
 typedef struct {
+    // total size: 0xC
+    s8 type;           // offset 0x0, size 0x1
+    s8 n_disp_flag;    // offset 0x1, size 0x1
+    s16 c_cnt;         // offset 0x2, size 0x2
+    s16 r_no_0;        // offset 0x4, size 0x2
+    s16 r_no_1;        // offset 0x6, size 0x2
+    s16 f_cnt;         // offset 0x8, size 0x2
+    u8 tenmetsu_flag;  // offset 0xA, size 0x1
+    u8 tenmetsu_place; // offset 0xB, size 0x1
+} SC_NAME_WK;
+
+typedef struct {
     // total size: 0x4
     s8 code[4]; // offset 0x0, size 0x4
-} UNK_14;
+} RANK_NAME_W;
 
 typedef struct {
     // total size: 0x14
@@ -2087,6 +2094,20 @@ typedef struct {
 } GradeData;
 
 typedef struct {
+    // total size: 0xAC
+    s16 vs_cpu_result[16];  // offset 0x0, size 0x20
+    s16 vs_cpu_grade[16];   // offset 0x20, size 0x20
+    s16 vs_cpu_player[16];  // offset 0x40, size 0x20
+    s16 vcr_ix;             // offset 0x60, size 0x2
+    s16 grade;              // offset 0x62, size 0x2
+    s16 all_clear;          // offset 0x64, size 0x2
+    s16 keizoku;            // offset 0x66, size 0x2
+    s16 sp_point;           // offset 0x68, size 0x2
+    s16 fr_ix;              // offset 0x6A, size 0x2
+    u8 fr_sort_data[16][4]; // offset 0x6C, size 0x40
+} GradeFinalData;
+
+typedef struct {
     // total size: 0x8
     s16 x;    // offset 0x0, size 0x2
     s16 y;    // offset 0x2, size 0x2
@@ -2317,5 +2338,29 @@ typedef struct {
     s8 contents[10][7]; // offset 0x0, size 0x46
     u16 sum;            // offset 0x46, size 0x2
 } DirData;
+
+typedef struct {
+    // total size: 0xA
+    u8 max_hitcombo;       // offset 0x0, size 0x1
+    u8 new_max_flag;       // offset 0x1, size 0x1
+    u8 frash_flag;         // offset 0x2, size 0x1
+    u8 frash_switch;       // offset 0x3, size 0x1
+    s16 damage;            // offset 0x4, size 0x2
+    s16 total_damage;      // offset 0x6, size 0x2
+    s16 disp_total_damage; // offset 0x8, size 0x2
+} TrainingData2;
+
+typedef struct {
+    // total size: 0x10
+    s16 pos_x;  // offset 0x0, size 0x2
+    s16 pos_y;  // offset 0x2, size 0x2
+    s16 pos_z;  // offset 0x4, size 0x2
+    u16 cg_num; // offset 0x6, size 0x2
+    s16 renew;  // offset 0x8, size 0x2
+    u16 hit_ix; // offset 0xA, size 0x2
+    s8 flip;    // offset 0xC, size 0x1
+    u8 cg_flp;  // offset 0xD, size 0x1
+    s16 kowaza; // offset 0xE, size 0x2
+} ZanzouTableEntry;
 
 #endif

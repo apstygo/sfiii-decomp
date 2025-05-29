@@ -2,7 +2,7 @@
 #define _CRI_ADXF_H_INCLUDED
 /****************************************************************************/
 /*																			*/
-/*			$title$ �`�c�w�t�@�C���V�X�e�� ���C�u����						*/
+/*			$title$ ＡＤＸファイルシステム ライブラリ						*/
 /*				ADXF (ADX File System) Library */
 /*																			*/
 /*				1998.7.3		written by S.Hosaka
@@ -11,7 +11,7 @@
 /****************************************************************************/
 
 /****************************************************************************/
-/*      �C���N���[�h�t�@�C�� */
+/*      インクルードファイル */
 /*      Include file */
 /****************************************************************************/
 
@@ -19,7 +19,7 @@
 #include "sj.h"
 
 /****************************************************************************/
-/*		�萔�}�N��
+/*		定数マクロ
  */
 /*		MACRO CONSTANT
  */
@@ -28,81 +28,80 @@
 /*	Version number of ADX File System	*/
 #define ADXF_VER "6.33"
 
-/*	�t�@�C�����̕�����				*/
+/*	ファイル名の文字列長				*/
 /*	Maximum number of file name strings	*/
 #define ADXF_FNAME_MAX (256)
 
-/*	�ő�p�[�e�B�V������				*/
+/*	最大パーティション数				*/
 /*	Maximum number of partition			*/
 #define ADXF_PART_MAX (256)
 
-/*	�ő�t�@�C����						*/
+/*	最大ファイル数						*/
 /*	Maximum number of file				*/
 #define ADXF_FILE_MAX (65536)
 
-/*	ADXF�n���h���I�u�W�F�N�g�̌�		*/
+/*	ADXFハンドルオブジェクトの個数		*/
 /*	Maximum number of ADXF handle		*/
 #define ADXF_OBJ_MAX (16)
 
-/*	�n���h���̏��						*/
+/*	ハンドルの状態						*/
 /*	Status of handle					*/
-#define ADXF_STAT_STOP (1)    /*	��~��						*/
+#define ADXF_STAT_STOP (1)    /*	停止中						*/
                               /*	During standstill			*/
-#define ADXF_STAT_READING (2) /*	�f�[�^�ǂݍ��ݒ�			*/
+#define ADXF_STAT_READING (2) /*	データ読み込み中			*/
                               /*	During data read-in			*/
-#define ADXF_STAT_READEND (3) /*	�f�[�^�ǂݍ��ݏI��			*/
+#define ADXF_STAT_READEND (3) /*	データ読み込み終了			*/
                               /*	Data read-in end			*/
-#define ADXF_STAT_ERROR (4)   /*	�ǂݍ��݃G���[����			*/
+#define ADXF_STAT_ERROR (4)   /*	読み込みエラー発生			*/
                               /*	Read-in error outbreak state*/
 
-/*	�V�[�N�^�C�v						*/
+/*	シークタイプ						*/
 /*	Type of seek						*/
-#define ADXF_SEEK_SET (0) /*	�t�@�C���̐擪				*/
+#define ADXF_SEEK_SET (0) /*	ファイルの先頭				*/
                           /*	The beginning of file		*/
-#define ADXF_SEEK_CUR (1) /*	���݂̈ʒu					*/
+#define ADXF_SEEK_CUR (1) /*	現在の位置					*/
                           /*	The current position		*/
-#define ADXF_SEEK_END (2) /*	�t�@�C���̏I�[				*/
+#define ADXF_SEEK_END (2) /*	ファイルの終端				*/
                           /*	The end of file				*/
 
-/*	�G���[�R�[�h						*/
+/*	エラーコード						*/
 /*	Error code							*/
-#define ADXF_ERR_OK (0)        /*	����I��					*/
+#define ADXF_ERR_OK (0)        /*	正常終了					*/
                                /*	Successful					*/
-#define ADXF_ERR_FATAL (-1)    /*	�O���̃G���[				*/
+#define ADXF_ERR_FATAL (-1)    /*	外部のエラー				*/
                                /*	Fatal error					*/
-#define ADXF_ERR_INTERNAL (-2) /*	�����̃G���[				*/
+#define ADXF_ERR_INTERNAL (-2) /*	内部のエラー				*/
                                /*	Internal error				*/
-#define ADXF_ERR_PRM (-3)      /*	�s���ȃp�����[�^			*/
+#define ADXF_ERR_PRM (-3)      /*	不正なパラメータ			*/
                                /*	Illegal parameter			*/
-#define ADXF_ERR_AFS_FILE (-4) /*	�s����AFS�t�@�C��			*/
+#define ADXF_ERR_AFS_FILE (-4) /*	不正なAFSファイル			*/
                                /*	Illegal AFS file			*/
-#define ADXF_ERR_FSIZE (-5)    /*	�t�@�C���T�C�Y���擾		*/
+#define ADXF_ERR_FSIZE (-5)    /*	ファイルサイズ未取得		*/
                                /*	Cannot get file size yet	*/
 
-/*	����l								*/
+/*	既定値								*/
 /*	Default value						*/
-#define ADXF_DEF_SCT_SIZE (2048) /*	CD-ROM�̃Z�N�^�T�C�Y		*/
+#define ADXF_DEF_SCT_SIZE (2048) /*	CD-ROMのセクタサイズ		*/
                                  /*	Sector size in CD-ROM		*/
 #ifdef __EE__
-#define ADXF_DEF_DMA_ALIGN (64) /*	DMA�̃A���C�����g			*/
+#define ADXF_DEF_DMA_ALIGN (64) /*	DMAのアライメント			*/
                                 /*	Alignment of DMA transfer	*/
 #define ADXF_DEF_ALIGN_CALC (0xFFFFFFC0)
 
 #else
 
-#define ADXF_DEF_DMA_ALIGN (32) /*	DMA�̃A���C�����g			*/
+#define ADXF_DEF_DMA_ALIGN (32) /*	DMAのアライメント			*/
 /*	Alignment of DMA transfer	*/
 #define ADXF_DEF_ALIGN_CALC (0xFFFFFFE0)
 #endif
 
-#define ADXF_DEF_REQ_RD_SCT (512) /*	���[�h���N�G�X�g�T�C�Y		*/
+#define ADXF_DEF_REQ_RD_SCT (512) /*	リードリクエストサイズ		*/
                                   /*	read request size			*/
 
-/*	�f�o�b�O�p	*/
+/*	デバッグ用	*/
 /*	for Debug	*/
-// #define	ADXF_CMD_HSTRY_MAX		(256)		/*	�R�}���h�����̌�
-// */
-#define ADXF_CMD_HSTRY_MAX (16) /*	�R�}���h�����̌�			*/
+// #define	ADXF_CMD_HSTRY_MAX		(256)		/*	コマンド履歴の個数			*/
+#define ADXF_CMD_HSTRY_MAX (16) /*	コマンド履歴の個数			*/
                                 /*	Number of command history	*/
 
 #define ADXF_CMD_OPEN (1)      /*	ADXF_Open					*/
@@ -116,22 +115,22 @@
 #define ADXF_CMD_NUM_MAX (16)
 
 /****************************************************************************/
-/*		�񋓒萔
+/*		列挙定数
  */
 /*		Enumarate Constants
  */
 /****************************************************************************/
 
 /****************************************************************************/
-/*		�����}�N��
+/*		処理マクロ
  */
 /*		Process MACRO
  */
 /****************************************************************************/
 
-/*	�p�[�e�B�V�������ɕK�v�ȗ̈�̌v�Z						*/
+/*	パーティション情報に必要な領域の計算						*/
 /*	Calculation of necessary area for partition information		*/
-//	"6"�́Aadxf_ptinfo�̃����o�[��(adxf_ptinfo+size+nfile+nentry+type+rev+curdir+ofst)
+//	"6"は、adxf_ptinfoのメンバー数(adxf_ptinfo+size+nfile+nentry+type+rev+curdir+ofst)
 #define ADXF_PTIF_CMN_SZ ((6 * sizeof(Sint32)) + (ADXF_FNAME_MAX * sizeof(Sint8)))
 
 #define ADXF_CALC_PTINFO_REAL_SIZE(n) (ADXF_PTIF_CMN_SZ + (((n) + 1) * sizeof(Sint16)))
@@ -140,12 +139,12 @@
 
 #define ADXF_CALC_ADD_PTINFO_SIZE(n) (ADXF_PTIF_CMN_SZ + ((n) * (2 * sizeof(Sint16) + sizeof(Sint32))))
 
-/*	���[�h�p�[�e�B�V�����p�e���|�����o�b�t�@�̃T�C�Y�v�Z	*/
+/*	ロードパーティション用テンポラリバッファのサイズ計算	*/
 /*	Calculation of temporary buffer size for load-partition	*/
 #define ADXF_CALC_TMPBUF_SIZE(n) ((((n + 1) * 8) + (ADXF_DEF_SCT_SIZE - 1)) / ADXF_DEF_SCT_SIZE * ADXF_DEF_SCT_SIZE)
 
 /****************************************************************************/
-/*		�f�[�^�^
+/*		データ型
  */
 /*      Data type declaration */
 /****************************************************************************/
@@ -155,84 +154,85 @@
 typedef void *ADXSTM;
 #endif
 
-/*	ADXF�n���h��		*/
+/*	ADXFハンドル		*/
 /*	ADXF handle			*/
 #ifndef ADXF_DEFINED
 #define ADXF_DEFINED
 typedef struct _adx_fs {
-    Sint8 used;       /* offset 0x0, size 0x1 */ /*	�g�p�����ۂ�						*/
-    Sint8 stat;       /* offset 0x1, size 0x1 */ /*	�n���h���̏��						*/
-    Sint8 sjflag;     /* offset 0x2, size 0x1 */ /*	�O������ݒ肳�ꂽSJ���ۂ�			*/
-    Sint8 stopnw_flg; /* offset 0x3, size 0x1 */ /*	��~�v���t���O						*/
-    ADXSTM stm;       /* offset 0x4, size 0x4 */ /*	ADXSTM�n���h��						*/
-    SJ sj;            /* offset 0x8, size 0x4 */ /*	�X�g���[���W���C���g				*/
-    Sint32 fnsct;     /* offset 0xC, size 0x4 */ /*	�t�@�C���T�C�Y(�Z�N�^)				*/
-    Sint32 fsize;     /* offset 0x10, size 0x4 */ /*	�t�@�C���T�C�Y(�o�C�g)				*/
-    Sint32 skpos;     /* offset 0x14, size 0x4 */ /*	�A�N�Z�X�|�C���^�̈ʒu				*/
-    Sint32 rdstpos;   /* offset 0x18, size 0x4 */ /*	�ǂݍ��݊J�n�ʒu					*/
-    Sint32 rqsct;     /* offset 0x1C, size 0x4 */ /*	�ǂݍ��ݗv���f�[�^��(�Z�N�^)		*/
-    Sint32 rdsct;     /* offset 0x20, size 0x4 */ /*	�ǂݍ��񂾃f�[�^��(�Z�N�^)			*/
-    Sint8 *buf;       /* offset 0x24, size 0x4 */ /*	�o�b�t�@�̃A�h���X(�o�C�g)			*/
-    Sint32 bsize;     /* offset 0x28, size 0x4 */ /*	�o�b�t�@�̃T�C�Y(�o�C�g)			*/
-    Sint32 rqrdsct;   /* offset 0x2C, size 0x4 */ /*	���ۂɓǂݍ��ݗv��������(�Z�N�^)	*/
+    Sint8 used;       /*	使用中か否か						*/
+    Sint8 stat;       /*	ハンドルの状態						*/
+    Sint8 sjflag;     /*	外部から設定されたSJか否か			*/
+    Sint8 stopnw_flg; /*	停止要求フラグ						*/
+    ADXSTM stm;       /*	ADXSTMハンドル						*/
+    SJ sj;            /*	ストリームジョイント				*/
+    Sint32 fnsct;     /*	ファイルサイズ(セクタ)				*/
+    Sint32 fsize;     /*	ファイルサイズ(バイト)				*/
+    Sint32 skpos;     /*	アクセスポインタの位置				*/
+    Sint32 rdstpos;   /*	読み込み開始位置					*/
+    Sint32 rqsct;     /*	読み込み要求データ量(セクタ)		*/
+    Sint32 rdsct;     /*	読み込んだデータ量(セクタ)			*/
+    Sint8 *buf;       /*	バッファのアドレス(バイト)			*/
+    Sint32 bsize;     /*	バッファのサイズ(バイト)			*/
+    Sint32 rqrdsct;   /*	実際に読み込み要求される量(セクタ)	*/
     /*	ADXSTM_OpenRange -> ADXSTM_OpenFileRange(1999.8.19)	*/
-    Sint32 ofst;      /* offset 0x30, size 0x4 */ /*	�ǂݍ��݃t�@�C���ւ̃I�t�Z�b�g		*/
-                 //	Sint8	fname[ADXF_FNAME_MAX];	/*	�t�@�C����							*/
-    void *dir;             /* offset 0x34, size 0x4 */ 
-    const Char8* unk38;    /* offset 0x38, size 0x4 */ 
-    Sint32 unk3C;          /* offset 0x3C, size 0x4 */ 
-    Sint32 unk40;          /* offset 0x40, size 0x4 */ 
+    Sint32 ofst; /*	読み込みファイルへのオフセット		*/
+                 //	Sint8	fname[ADXF_FNAME_MAX];	/*	ファイル名							*/
+    void *dir;
+    const Char8 *unk38;
+    Sint32 unk3C;
+    Sint32 unk40;
 } ADX_FS;
 typedef ADX_FS *ADXF;
 #endif
 
-/*	�p�[�e�B�V�������		*/
+/*	パーティション情報		*/
 /*	Partition information	*/
 #ifndef ADXF_PTINFO_DEFINED
 #define ADXF_PTINFO_DEFINED
 typedef struct _adxf_ptinfo {
-    /* 0x000 */ struct _adxf_ptinfo *next;   /*	���̃p�[�e�B�V����(NULL:�I���W�i��)	*/
-    /* 0x004 */ Sint32 size;                 /*	�p�[�e�B�V�������̈�T�C�Y		*/
-    /* 0x008 */ Sint32 nfile;                /*	�p�[�e�B�V�������̃t�@�C����		*/
-    /* 0x00C */ Uint16 nentry;               /*	�p�[�e�B�V�������̓o�^�t�@�C����	*/
-    /* 0x00E */ Sint8 type;                  /*	�I���W�i�����ǋL���̃t���O			*/
-    /* 0x00F */ Sint8 rev;                   /*	�\��̈�							*/
-    /* 0x010 */ Sint8 fname[ADXF_FNAME_MAX]; /*	AFS�t�@�C����			*/
-    /* 0x110 */ void *curdir;                /*	�J�����g�f�B���N�g��(NULL:�w��Ȃ�)	*/
-    /* 0x114 */ Sint32 ofst;                 /*	����qAFS�t�@�C���p					*/
-    /* 0x118 */ Sint32 top;                  /*	�t�@�C�����̐擪					*/
-} ADXF_PTINFO; /* 0x11C */
+    struct _adxf_ptinfo *next; /*	次のパーティション(NULL:オリジナル)	*/
+    Sint32 size;               /*	パーティション情報領域サイズ		*/
+    Sint32 nfile;              /*	パーティション内のファイル数		*/
+    Uint16 nentry;             /*	パーティション内の登録ファイル数	*/
+    Sint8 type;                /*	オリジナルか追記かのフラグ			*/
+    Sint8 rev;                 /*	予約領域							*/
+    /*	ADXSTM_OpenRange -> ADXSTM_OpenFileRange(1999.8.19)	*/
+    Sint8 fname[ADXF_FNAME_MAX]; /*	AFSファイル名			*/
+    void *curdir;                /*	カレントディレクトリ(NULL:指定なし)	*/
+    Sint32 ofst;                 /*	入れ子AFSファイル用					*/
+    Sint32 top;                  /*	ファイル情報の先頭					*/
+} ADXF_PTINFO;
 #endif
 
-/*	�ǋL�t�@�C���̏��				*/
+/*	追記ファイルの情報				*/
 /*	Information of postscript file	*/
 #ifndef ADXF_ADD_DEFINED
 #define ADXF_ADD_DEFINED
 typedef struct _adxf_add_info {
-    Uint16 flid;  /*	�t�@�C��ID							*/
-    Uint16 fnsct; /*	�t�@�C���T�C�Y						*/
-    Sint32 ofst;  /*	�I�t�Z�b�g							*/
+    Uint16 flid;  /*	ファイルID							*/
+    Uint16 fnsct; /*	ファイルサイズ						*/
+    Sint32 ofst;  /*	オフセット							*/
 } ADXF_ADD_INFO;
 #endif
 
 #ifndef ADXF_CMD_HSTRY_DEFINED
 #define ADXF_CMD_HSTRY_DEFINED
 typedef struct _adxf_cmd_hstry {
-    Uint8 cmdid;   /*	�R�}���h(�֐�)ID					*/
-    Uint8 fg;      /*	�֐��̓�������o�����������t���O	*/
-    Uint16 ncall;  /*	�R�}���h�̌Ăяo����				*/
-    Sint32 prm[3]; /*	�R�}���h�p�����[�^					*/
+    Uint8 cmdid;   /*	コマンド(関数)ID					*/
+    Uint8 fg;      /*	関数の入り口か出口かを示すフラグ	*/
+    Uint16 ncall;  /*	コマンドの呼び出し回数				*/
+    Sint32 prm[3]; /*	コマンドパラメータ					*/
 } ADXF_CMD_HSTRY;
 #endif
 
 /****************************************************************************/
-/*		�ϐ��錾
+/*		変数宣言
  */
 /*		Variable Declaration */
 /****************************************************************************/
 
 /****************************************************************************/
-/*		�֐��̐錾
+/*		関数の宣言
  */
 /*      Function Declaration */
 /****************************************************************************/
@@ -242,16 +242,16 @@ extern "C" {
 #endif /* __cplusplus */
 
 /*==========================================================================
-                ���C�u�����̏������ƏI������
+                ライブラリの初期化と終了処理
                 Initialize and Finalize of Library
   ==========================================================================*/
 
-/*  ���C�u�����̏�����
- * [���@��] void ADXF_Init( void );
- * [���@��] �Ȃ�
- * [�o�@��] �Ȃ�
- * [�֐��l] �Ȃ�
- * [�@�@�\] ���C�u����������������B
+/*  ライブラリの初期化
+ * [書　式] void ADXF_Init( void );
+ * [入　力] なし
+ * [出　力] なし
+ * [関数値] なし
+ * [機　能] ライブラリを初期化する。
  *  Initialization of library
  * [Inputs  ] None
  * [Outputs ] None
@@ -260,12 +260,12 @@ extern "C" {
  */
 void ADXF_Init(void);
 
-/* ���C�u�����̏I������
- * [���@��] void ADXF_Finish(void);
- * [���@��] �Ȃ�
- * [�o�@��] �Ȃ�
- * [�֐��l] �Ȃ�
- * [�@�@�\] ���C�u�����̏I������������B
+/* ライブラリの終了処理
+ * [書　式] void ADXF_Finish(void);
+ * [入　力] なし
+ * [出　力] なし
+ * [関数値] なし
+ * [機　能] ライブラリの終了処理をする。
  *  Termination of library
  * [Inputs  ] None
  * [Outputs ] None
@@ -274,44 +274,54 @@ void ADXF_Init(void);
  */
 void ADXF_Finish(void);
 
-/*  �������A�^�p�[�e�B�V�����̃��[�h
- * [���@��] Sint32 ADXF_LoadPartitionNw(Sint32 ptid, Sint8 *fname,
+/*  即時復帰型パーティションのロード
+ * [書　式] Sint32 ADXF_LoadPartitionNw(Sint32 ptid, Sint8 *fname,
  * 													void *dir, void
- **ptinfo); [���@��] ptid	:�p�[�e�B�V����ID fname	:AFS�t�@�C���̖��O dir		:�f�B���N�g�����
- *(GDFS:GDFS_DIRREC) ptinfo	:�p�[�e�B�V�������ǂݍ��ݗ̈� [�o�@��] �Ȃ� [�֐��l] �G���[�R�[�h [�@�@�\]
- *AFS�t�@�C����ǂݍ���ŁA�p�[�e�B�V����ID�ɐݒ肷��B Load of the partition(No wait) [Inputs  ] ptid   :Partition ID fname
- *:Name of AFS file dir	 :Directory information (GDFS:GDFS_DIRREC) ptinfo :Area of partition information [Outputs ] None
+ **ptinfo); [入　力] ptid	:パーティションID fname	:AFSファイルの名前 dir		:ディレクトリ情報
+ *(GDFS:GDFS_DIRREC) ptinfo	:パーティション情報読み込み領域 [出　力] なし [関数値] エラーコード [機　能]
+ *AFSファイルを読み込んで、パーティションIDに設定する。 Load of the partition(No wait) [Inputs  ] ptid   :Partition ID
+ *			  fname  :Name of AFS file
+ *            dir	 :Directory information (GDFS:GDFS_DIRREC)
+ *            ptinfo :Area of partition information
+ * [Outputs ] None
  * [Return  ] Error code
  * [Function] Loads AFS file and sets partition ID.
  */
 Sint32 ADXF_LoadPartitionNw(Sint32 ptid, Char8 *fname, void *dir, void *ptinfo);
 
-/*  �������A�^�p�[�e�B�V�����̃��[�h(����qAFS�t�@�C��)
- * [���@��] Sint32 ADXF_LoadPartitionFromPtNw(Sint32 set_ptid, Sint32 rd_ptid,
+/*  即時復帰型パーティションのロード(入れ子AFSファイル)
+ * [書　式] Sint32 ADXF_LoadPartitionFromPtNw(Sint32 set_ptid, Sint32 rd_ptid,
  *											Sint32 rd_flid, void *ptinfo);
- * [���@��] set_ptid
- *:���[�h����AFS�t�@�C���ɑ΂��Đݒ肷��p�[�e�B�V����ID rd_ptid
- *:�ǂݍ���AFS�t�@�C���̃p�[�e�B�V����ID rd_flid		:�ǂݍ���AFS�t�@�C���̃t�@�C��ID ptinfo
- *:�p�[�e�B�V�������ǂݍ��ݗ̈� [�o�@��] �Ȃ� [�֐��l] �G���[�R�[�h [�@�@�\]
- *AFS�t�@�C������AFS�t�@�C����ǂݍ���ŁA�p�[�e�B�V����ID�ɐݒ肷��B Load of the partition(No wait)(nested AFS file) [Inputs  ]
- *set_ptid   :Partition ID for loading and setting rd_ptid 	 :Partition ID reading AFS file rd_flid	 :File ID
- *reading AFS file ptinfo :Area of partition information [Outputs ] None [Return  ] Error code [Function] Loads AFS file
- *in AFS file and sets partition ID.
+ * [入　力] set_ptid	:ロードするAFSファイルに対して設定するパーティションID
+ *			rd_ptid		:読み込むAFSファイルのパーティションID
+ *			rd_flid		:読み込むAFSファイルのファイルID
+ *			ptinfo		:パーティション情報読み込み領域
+ * [出　力] なし
+ * [関数値] エラーコード
+ * [機　能] AFSファイル内のAFSファイルを読み込んで、パーティションIDに設定する。
+ *  Load of the partition(No wait)(nested AFS file)
+ * [Inputs  ] set_ptid   :Partition ID for loading and setting
+ *			  rd_ptid 	 :Partition ID reading AFS file
+ *            rd_flid	 :File ID reading AFS file
+ *            ptinfo :Area of partition information
+ * [Outputs ] None
+ * [Return  ] Error code
+ * [Function] Loads AFS file in AFS file and sets partition ID.
  */
 Sint32 ADXF_LoadPartitionFromAfsNw(Sint32 set_ptid, Sint32 rd_ptid, Sint32 rd_flid, void *ptinfo);
 
-/*  �������A�^�p�[�e�B�V�����̃��[�h(�ǂݍ��݃o�b�t�@���w�肷��)
- * [���@��] Sint32 ADXF_LoadPtNwEx(Sint32 ptid, Char8 *fname, void *dir, void *ptinfo,
+/*  即時復帰型パーティションのロード(読み込みバッファを指定する)
+ * [書　式] Sint32 ADXF_LoadPtNwEx(Sint32 ptid, Char8 *fname, void *dir, void *ptinfo,
  *									void *tmpbuf, Sint32 tbsize);
- * [���@��] ptid	:�p�[�e�B�V����ID
- *			fname	:AFS�t�@�C���̖��O
- *			dir		:�f�B���N�g����� (GDFS:GDFS_DIRREC)
- *			ptinfo	:�p�[�e�B�V�������ǂݍ��ݗ̈�
- *			tmpbuf	:AFS�t�@�C���w�b�_�ǂݍ��݃o�b�t�@
- *			tbsize	:AFS�t�@�C���w�b�_�ǂݍ��݃o�b�t�@�T�C�Y
- * [�o�@��] �Ȃ�
- * [�֐��l] �G���[�R�[�h
- * [�@�@�\] AFS�t�@�C����ǂݍ���ŁA�p�[�e�B�V����ID�ɐݒ肷��B
+ * [入　力] ptid	:パーティションID
+ *			fname	:AFSファイルの名前
+ *			dir		:ディレクトリ情報 (GDFS:GDFS_DIRREC)
+ *			ptinfo	:パーティション情報読み込み領域
+ *			tmpbuf	:AFSファイルヘッダ読み込みバッファ
+ *			tbsize	:AFSファイルヘッダ読み込みバッファサイズ
+ * [出　力] なし
+ * [関数値] エラーコード
+ * [機　能] AFSファイルを読み込んで、パーティションIDに設定する。
  *  Load of the partition(No wait)(specify reading buffer)
  * [Inputs  ] ptid		:Partition ID
  *			  fname		:Name of AFS file
@@ -325,17 +335,15 @@ Sint32 ADXF_LoadPartitionFromAfsNw(Sint32 set_ptid, Sint32 rd_ptid, Sint32 rd_fl
  */
 Sint32 ADXF_LoadPtNwEx(Sint32 ptid, Char8 *fname, void *dir, void *ptinfo, void *tmpbuf, Sint32 tbsize);
 
-/*  �������A�^�p�[�e�B�V�����̃��[�h(����qAFS�t�@�C��)(�ǂݍ��݃o�b�t�@���w�肷��ꍇ)
- * [���@��] Sint32 ADXF_LoadPtFromPtNwEx(Sint32 set_ptid, Sint32 rd_ptid, Sint32 rd_flid,
+/*  即時復帰型パーティションのロード(入れ子AFSファイル)(読み込みバッファを指定する場合)
+ * [書　式] Sint32 ADXF_LoadPtFromPtNwEx(Sint32 set_ptid, Sint32 rd_ptid, Sint32 rd_flid,
  *										void *ptinfo, void *tmpbuf, Sint32
- *tbsize); [���@��] set_ptid
- *:���[�h����AFS�t�@�C���ɑ΂��Đݒ肷��p�[�e�B�V����ID rd_ptid
- *:�ǂݍ���AFS�t�@�C���̃p�[�e�B�V����ID rd_flid		:�ǂݍ���AFS�t�@�C���̃t�@�C��ID ptinfo
- *:�p�[�e�B�V�������ǂݍ��ݗ̈� tmpbuf		:AFS�t�@�C���w�b�_�ǂݍ��݃o�b�t�@ tbsize
- *:AFS�t�@�C���w�b�_�ǂݍ��݃o�b�t�@�T�C�Y [�o�@��] �Ȃ� [�֐��l] �G���[�R�[�h [�@�@�\]
- *AFS�t�@�C������ǂݍ���ŁA�p�[�e�B�V����ID�ɐݒ肷��B Load of the partition(No wait)(nested AFS file)(specify reading buffer)
- * [Inputs  ] set_ptid	:Partition ID for loading and setting
- *			  rd_ptid	:Partition ID reading AFS file
+ *tbsize); [入　力] set_ptid	:ロードするAFSファイルに対して設定するパーティションID rd_ptid
+ *:読み込むAFSファイルのパーティションID rd_flid		:読み込むAFSファイルのファイルID ptinfo
+ *:パーティション情報読み込み領域 tmpbuf		:AFSファイルヘッダ読み込みバッファ tbsize
+ *:AFSファイルヘッダ読み込みバッファサイズ [出　力] なし [関数値] エラーコード [機　能]
+ *AFSファイル名を読み込んで、パーティションIDに設定する。 Load of the partition(No wait)(nested AFS file)(specify
+ *reading buffer) [Inputs  ] set_ptid	:Partition ID for loading and setting rd_ptid	:Partition ID reading AFS file
  *            rd_flid	:File ID reading AFS file
  *            ptinfo	:Area of partition information
  *			  tmpbuf	:Buffer reading AFS file
@@ -347,12 +355,12 @@ Sint32 ADXF_LoadPtNwEx(Sint32 ptid, Char8 *fname, void *dir, void *ptinfo, void 
 Sint32 ADXF_LoadPtFromAfsNwEx(Sint32 set_ptid, Sint32 rd_ptid, Sint32 rd_flid, void *ptinfo, void *tmpbuf,
                               Sint32 tbsize);
 
-/*  �p�[�e�B�V�������̓ǂݍ��ݏ�Ԃ̎擾
- * [���@��] Sint32 ADXF_GetPtStat(Sint32 ptid);
- * [���@��] ptid	:�p�[�e�B�V����ID
- * [�o�@��] �Ȃ�
- * [�֐��l] �p�[�e�B�V�������̓ǂݍ��ݏ��
- * [�@�@�\] AFS�t�@�C������ǂݍ���ŁA�p�[�e�B�V����ID�ɐݒ肷��B
+/*  パーティション情報の読み込み状態の取得
+ * [書　式] Sint32 ADXF_GetPtStat(Sint32 ptid);
+ * [入　力] ptid	:パーティションID
+ * [出　力] なし
+ * [関数値] パーティション情報の読み込み状態
+ * [機　能] AFSファイル名を読み込んで、パーティションIDに設定する。
  *  Get partition loading state
  * [Inputs  ] ptid   :Partition ID
  * [Outputs ] None
@@ -362,12 +370,12 @@ Sint32 ADXF_LoadPtFromAfsNwEx(Sint32 set_ptid, Sint32 rd_ptid, Sint32 rd_flid, v
 Sint32 ADXF_GetPtStat(Sint32 ptid);
 Sint32 ADXF_GetPtStatEx(Sint32 ptid);
 
-/*  �p�[�e�B�V�������ǂݍ��݂̒��~
- * [���@��] void ADXF_StopPtLd(void);
- * [���@��] �Ȃ�
- * [�o�@��] �Ȃ�
- * [�֐��l] �Ȃ�
- * [�@�@�\] �p�[�e�B�V�������̓ǂݍ��݂𒆎~����B
+/*  パーティション情報読み込みの中止
+ * [書　式] void ADXF_StopPtLd(void);
+ * [入　力] なし
+ * [出　力] なし
+ * [関数値] なし
+ * [機　能] パーティション情報の読み込みを中止する。
  *  Stop to load partition information
  * [Inputs  ] None
  * [Outputs ] None
@@ -376,12 +384,12 @@ Sint32 ADXF_GetPtStatEx(Sint32 ptid);
  */
 void ADXF_StopPtLd(void);
 
-/*  �p�[�e�B�V�������T�C�Y�̎擾
- * [���@��] Sint32 ADXF_GetPtinfoSize(Sint32 ptid);
- * [���@��] ptid	:�p�[�e�B�V����ID
- * [�o�@��] �Ȃ�
- * [�֐��l] �p�[�e�B�V�������T�C�Y(�P�ʁF�o�C�g)
- * [�@�@�\] �p�[�e�B�V�������̈�̃T�C�Y���擾����B
+/*  パーティション情報サイズの取得
+ * [書　式] Sint32 ADXF_GetPtinfoSize(Sint32 ptid);
+ * [入　力] ptid	:パーティションID
+ * [出　力] なし
+ * [関数値] パーティション情報サイズ(単位：バイト)
+ * [機　能] パーティション情報領域のサイズを取得する。
  *  Get size of partition information
  * [Inputs  ] ptid   :Partition ID
  * [Outputs ] None
@@ -391,17 +399,17 @@ void ADXF_StopPtLd(void);
 Sint32 ADXF_GetPtinfoSize(Sint32 ptid);
 
 /*==========================================================================
-                �t�@�C���̓ǂݍ���
+                ファイルの読み込み
                 Read file
   ==========================================================================*/
 
-/*	�t�@�C���̃I�[�v��(ISO9660�̃t�@�C��)
- * [���@��] ADXF ADXF_Open(Sint8 *fname, void *atr);
- * [���@��] fname	: �t�@�C����
- *			atr		: �t�@�C���̑���
- * [�o�@��] �Ȃ�
- * [�֐��l] ADXF�n���h���A�G���[�̏ꍇNULL
- * [�@�@�\] �w��̃t�@�C�����I�[�v�����AADXF�n���h����Ԃ��B
+/*	ファイルのオープン(ISO9660のファイル)
+ * [書　式] ADXF ADXF_Open(Sint8 *fname, void *atr);
+ * [入　力] fname	: ファイル名
+ *			atr		: ファイルの属性
+ * [出　力] なし
+ * [関数値] ADXFハンドル、エラーの場合NULL
+ * [機　能] 指定のファイルをオープンし、ADXFハンドルを返す。
  *  Open file(ISO9660 format)
  * [Inputs  ] fname  : File name
  *			  atr    : File attribute
@@ -412,14 +420,14 @@ Sint32 ADXF_GetPtinfoSize(Sint32 ptid);
  */
 ADXF ADXF_Open(Char8 *fname, void *atr);
 
-/*	�t�@�C���̃I�[�v��(AFS�t�H�[�}�b�g)
- * [���@��] ADXF ADXF_OpenAfs(Sint32 ptid, Sint32 flid);
- * [���@��] ptid	: �p�[�e�B�V����ID
- *			flid	: �t�@�C��ID
- * [�o�@��] �Ȃ�
- * [�֐��l] ADXF�n���h���A�G���[�̏ꍇNULL
- * [�@�@�\] �p�[�e�B�V����ID�ƃt�@�C��ID�Ŏw�肳�ꂽAFS�t�@�C�����I�[�v�����A
- *			ADXF�n���h����Ԃ��B
+/*	ファイルのオープン(AFSフォーマット)
+ * [書　式] ADXF ADXF_OpenAfs(Sint32 ptid, Sint32 flid);
+ * [入　力] ptid	: パーティションID
+ *			flid	: ファイルID
+ * [出　力] なし
+ * [関数値] ADXFハンドル、エラーの場合NULL
+ * [機　能] パーティションIDとファイルIDで指定されたAFSファイルをオープンし、
+ *			ADXFハンドルを返す。
  *  Open file(AFS format)
  * [Inputs  ] ptid   : Partition ID
  *			  flid   : File ID
@@ -430,12 +438,12 @@ ADXF ADXF_Open(Char8 *fname, void *atr);
  */
 ADXF ADXF_OpenAfs(Sint32 ptid, Sint32 flid);
 
-/* �t�@�C���̃N���[�Y
- * [���@��] void ADXF_Close(ADXF adxf);
- * [���@��] adxf	: ADXF�n���h��
- * [�o�@��] �Ȃ�
- * [�֐��l] �Ȃ�
- * [�@�@�\] �w�肳�ꂽADXF�n���h���̃t�@�C�����N���[�Y����B
+/* ファイルのクローズ
+ * [書　式] void ADXF_Close(ADXF adxf);
+ * [入　力] adxf	: ADXFハンドル
+ * [出　力] なし
+ * [関数値] なし
+ * [機　能] 指定されたADXFハンドルのファイルをクローズする。
  *  Close file
  * [Inputs  ] adxf   : ADXF handle
  * [Outputs ] None
@@ -444,12 +452,12 @@ ADXF ADXF_OpenAfs(Sint32 ptid, Sint32 flid);
  */
 void ADXF_Close(ADXF adxf);
 
-/* �S�Ẵt�@�C���N���[�Y
- * [���@��] void ADXF_CloseAll(void);
- * [���@��] �Ȃ�
- * [�o�@��] �Ȃ�
- * [�֐��l] �Ȃ�
- * [�@�@�\] ADXF�n���h���̃t�@�C����S�ăN���[�Y����B
+/* 全てのファイルクローズ
+ * [書　式] void ADXF_CloseAll(void);
+ * [入　力] なし
+ * [出　力] なし
+ * [関数値] なし
+ * [機　能] ADXFハンドルのファイルを全てクローズする。
  *  Close file
  * [Inputs  ] None
  * [Outputs ] None
@@ -458,21 +466,20 @@ void ADXF_Close(ADXF adxf);
  */
 void ADXF_CloseAll(void);
 
-/*  SJ�ւ̃f�[�^�ǂݍ��݊J�n
- * [���@��] void ADXF_ReadSj(ADXF adxf, Sint32 nsct, SJ sj);
- * [���@��] adxf	: ADXF�n���h��
- *			nsct	: �ǂݍ��݃f�[�^�̗�(�P�ʁF�Z�N�^)
- *			SJ		: �X�g���[���W���C���g
- * [�o�@��] �Ȃ�
- * [�֐��l] �ǂݍ��݃f�[�^��(�P�ʁF�Z�N�^)
- * [�@�@�\]
- *�X�g���[���W���C���g�Ƀf�[�^�ǂݍ��݂̃��N�G�X�g�𔭍s����B
- *			�X�g���[���W���C���g�̃o�b�t�@�T�C�Y�́A�Z�N�^�̐����{�łȂ����
- *			�Ȃ�Ȃ��B
- *			�X�g���[���W���C���g���烆�[�U���f�[�^��ǂݏo���ƁA�����I�ɃX�g���[
- *			���W���C���g�Ƀf�[�^���ǂݍ��܂��B
- *			���N�G�X�g�����A�N�Z�X���삪��������ƁA�A�N�Z�X�|�C���^��
- *			nsct�Z�N�^�i�ށB
+/*  SJへのデータ読み込み開始
+ * [書　式] void ADXF_ReadSj(ADXF adxf, Sint32 nsct, SJ sj);
+ * [入　力] adxf	: ADXFハンドル
+ *			nsct	: 読み込みデータの量(単位：セクタ)
+ *			SJ		: ストリームジョイント
+ * [出　力] なし
+ * [関数値] 読み込みデータ量(単位：セクタ)
+ * [機　能] ストリームジョイントにデータ読み込みのリクエストを発行する。
+ *			ストリームジョイントのバッファサイズは、セクタの整数倍でなければ
+ *			ならない。
+ *			ストリームジョイントからユーザがデータを読み出すと、自動的にストリー
+ *			ムジョイントにデータが読み込まれる。
+ *			リクエストしたアクセス動作が完了すると、アクセスポインタは
+ *			nsctセクタ進む。
  *  Read-in start to Stream Joint
  * [Inputs  ] adxf   : ADXF handle
  *			  nsct   : Number of read-in sectors to request
@@ -488,16 +495,16 @@ void ADXF_CloseAll(void);
  */
 Sint32 ADXF_ReadSj(ADXF adxf, Sint32 nsct, SJ sj);
 
-/* �f�[�^�̓ǂݍ��݊J�n
- * [���@��] void ADXF_ReadNw(ADXF adxf, Sint32 nsct, void *buf);
- * [���@��] adxf	: ADXF�n���h��
- *			nsct	: �ǂݍ��݃f�[�^�̗�(�P�ʁF�Z�N�^)
- *			buf		: �ǂݍ��ݗ̈�
- * [�o�@��] �Ȃ�
- * [�֐��l] �ǂݍ��݃f�[�^��(�P�ʁF�Z�N�^)
- * [�@�@�\] �f�[�^�ǂݍ��݂̃��N�G�X�g�𔭍s����B
- *			���N�G�X�g�����A�N�Z�X���삪��������ƁA�A�N�Z�X�|�C���^��
- *			nsct�Z�N�^�i�ށB
+/* データの読み込み開始
+ * [書　式] void ADXF_ReadNw(ADXF adxf, Sint32 nsct, void *buf);
+ * [入　力] adxf	: ADXFハンドル
+ *			nsct	: 読み込みデータの量(単位：セクタ)
+ *			buf		: 読み込み領域
+ * [出　力] なし
+ * [関数値] 読み込みデータ量(単位：セクタ)
+ * [機　能] データ読み込みのリクエストを発行する。
+ *			リクエストしたアクセス動作が完了すると、アクセスポインタは
+ *			nsctセクタ進む。
  *  Read-in start
  * [Inputs  ] adxf   : ADXF handle
  *			  nsct   : Number of read-in sectors to request
@@ -510,12 +517,12 @@ Sint32 ADXF_ReadSj(ADXF adxf, Sint32 nsct, SJ sj);
  */
 Sint32 ADXF_ReadNw(ADXF adxf, Sint32 nsct, void *buf);
 
-/* �f�[�^�̓ǂݍ��ݒ��~
- * [���@��] Sint32 ADXF_Stop(ADXF adxf);
- * [���@��] adxf	: ADXF�n���h��
- * [�o�@��] �Ȃ�
- * [�֐��l] ���~�������_�ł̃A�N�Z�X�|�C���^�̈ʒu
- * [�@�@�\] �f�[�^�̓ǂݍ��݂𒆎~����B
+/* データの読み込み中止
+ * [書　式] Sint32 ADXF_Stop(ADXF adxf);
+ * [入　力] adxf	: ADXFハンドル
+ * [出　力] なし
+ * [関数値] 中止した時点でのアクセスポインタの位置
+ * [機　能] データの読み込みを中止する。
  *  Read-in stop
  * [Inputs  ] adxf   : ADXF handle
  * [Outputs ] None
@@ -524,13 +531,13 @@ Sint32 ADXF_ReadNw(ADXF adxf, Sint32 nsct, void *buf);
  */
 Sint32 ADXF_Stop(ADXF adxf);
 
-/* �f�[�^�̓ǂݍ��ݒ��~ (�������A)
- * [���@��] Sint32 ADXF_Stop(ADXF adxf);
- * [���@��] adxf	: ADXF�n���h��
- * [�o�@��] �Ȃ�
- * [�֐��l] ���~�����N�G�X�g���_�ł̃A�N�Z�X�|�C���^�̈ʒu
- * [�@�@�\] �f�[�^�̓ǂݍ��݂𒆎~�����N�G�X�g����B
- *			��Ԃ͂����ɂ͕ς炸�A�ǂݍ��݂��~�����Ƃ���STOP�ɕω�����
+/* データの読み込み中止 (即時復帰)
+ * [書　式] Sint32 ADXF_Stop(ADXF adxf);
+ * [入　力] adxf	: ADXFハンドル
+ * [出　力] なし
+ * [関数値] 中止をリクエスト時点でのアクセスポインタの位置
+ * [機　能] データの読み込みを中止をリクエストする。
+ *			状態はすぐには変らず、読み込みを停止したときにSTOPに変化する
  *  Read-in stop
  * [Inputs  ] adxf   : ADXF handle
  * [Outputs ] None
@@ -539,12 +546,12 @@ Sint32 ADXF_Stop(ADXF adxf);
  */
 Sint32 ADXF_StopNw(ADXF adxf);
 
-/* �T�[�o�֐�
- * [���@��] void ADXF_ExecServer(void);
- * [���@��] �Ȃ�
- * [�o�@��] �Ȃ�
- * [�֐��l] �Ȃ�
- * [�@�@�\] ������Ԃ��X�V����B
+/* サーバ関数
+ * [書　式] void ADXF_ExecServer(void);
+ * [入　力] なし
+ * [出　力] なし
+ * [関数値] なし
+ * [機　能] 内部状態を更新する。
  *  Server function
  * [Inputs  ] None
  * [Outputs ] None
@@ -554,18 +561,18 @@ Sint32 ADXF_StopNw(ADXF adxf);
 void ADXF_ExecServer(void);
 
 /*==========================================================================
-                �A�N�Z�X�|�C���^�̐���
+                アクセスポインタの制御
                 Control access pointer
   ==========================================================================*/
 
-/*  �A�N�Z�X�|�C���^�̈ړ�
- * [���@��] Sint32 ADXF_Seek(ADXF adxf, Sint32 pos, Sint32 type);
- * [���@��] adxf	: ADXF�n���h��
- *			pos		: �A�N�Z�X�|�C���^�̈ړ���(�P�ʁF�Z�N�^)
- *			type	: �ړ��(�V�[�N�^�C�v�FADXF_SEEK_�`)
- * [�o�@��] �Ȃ�
- * [�֐��l] �A�N�Z�X�|�C���^�̈ʒu�A���̒l�̓G���[�R�[�h
- * [�@�@�\] �A�N�Z�X�|�C���^��type����pos�Z�N�^���ꂽ�ʒu�Ɉړ�������B
+/*  アクセスポインタの移動
+ * [書　式] Sint32 ADXF_Seek(ADXF adxf, Sint32 pos, Sint32 type);
+ * [入　力] adxf	: ADXFハンドル
+ *			pos		: アクセスポインタの移動量(単位：セクタ)
+ *			type	: 移動基準(シークタイプ：ADXF_SEEK_～)
+ * [出　力] なし
+ * [関数値] アクセスポインタの位置、負の値はエラーコード
+ * [機　能] アクセスポインタをtypeからposセクタ離れた位置に移動させる。
  *  Move access pointer
  * [Inputs  ] adxf   : ADXF handle
  *			  pos    : Offset relative to 'type'
@@ -578,12 +585,12 @@ void ADXF_ExecServer(void);
  */
 Sint32 ADXF_Seek(ADXF adxf, Sint32 pos, Sint32 type);
 
-/*  �A�N�Z�X�|�C���^�̎擾
- * [���@��] Sint32 ADXF_Tell(ADXF adxf);
- * [���@��] adxf	: ADXF�n���h��
- * [�o�@��] �Ȃ�
- * [�֐��l] �A�N�Z�X�|�C���^�̈ʒu
- * [�@�@�\] �A�N�Z�X�|�C���^�̈ʒu���擾����B
+/*  アクセスポインタの取得
+ * [書　式] Sint32 ADXF_Tell(ADXF adxf);
+ * [入　力] adxf	: ADXFハンドル
+ * [出　力] なし
+ * [関数値] アクセスポインタの位置
+ * [機　能] アクセスポインタの位置を取得する。
  *  Get the access pointer
  * [Inputs  ] adxf   : ADXF handle
  * [Outputs ] None
@@ -593,16 +600,16 @@ Sint32 ADXF_Seek(ADXF adxf, Sint32 pos, Sint32 type);
 Sint32 ADXF_Tell(ADXF adxf);
 
 /*==========================================================================
-                ���̎擾
+                情報の取得
                 Get information
   ==========================================================================*/
 
-/*  �t�@�C���T�C�Y�̎擾
- * [���@��] Sint32 ADXF_GetFsizeSct(ADXF adxf);
- * [���@��] adxf	: ADXF�n���h��
- * [�o�@��] �Ȃ�
- * [�֐��l] �t�@�C���T�C�Y(�P�ʁF�Z�N�^)
- * [�@�@�\] �w�肳�ꂽ�t�@�C���̃T�C�Y���Z�N�^�P�ʂŎ擾����B
+/*  ファイルサイズの取得
+ * [書　式] Sint32 ADXF_GetFsizeSct(ADXF adxf);
+ * [入　力] adxf	: ADXFハンドル
+ * [出　力] なし
+ * [関数値] ファイルサイズ(単位：セクタ)
+ * [機　能] 指定されたファイルのサイズをセクタ単位で取得する。
  *  Get file size
  * [Inputs  ] adxf   : ADXF handle
  * [Outputs ] None
@@ -611,12 +618,12 @@ Sint32 ADXF_Tell(ADXF adxf);
  */
 Sint32 ADXF_GetFsizeSct(ADXF adxf);
 
-/*  �t�@�C���T�C�Y�̎擾
- * [���@��] Sint32 ADXF_GetFsizeByte(ADXF adxf);
- * [���@��] adxf	: ADXF�n���h��
- * [�o�@��] �Ȃ�
- * [�֐��l] �t�@�C���T�C�Y(�P�ʁF�o�C�g)
- * [�@�@�\] �w�肳�ꂽ�t�@�C���̃T�C�Y���o�C�g�P�ʂŎ擾����B
+/*  ファイルサイズの取得
+ * [書　式] Sint32 ADXF_GetFsizeByte(ADXF adxf);
+ * [入　力] adxf	: ADXFハンドル
+ * [出　力] なし
+ * [関数値] ファイルサイズ(単位：バイト)
+ * [機　能] 指定されたファイルのサイズをバイト単位で取得する。
  *  Get file size
  * [Inputs  ] adxf   : ADXF handle
  * [Outputs ] None
@@ -625,12 +632,12 @@ Sint32 ADXF_GetFsizeSct(ADXF adxf);
  */
 Sint32 ADXF_GetFsizeByte(ADXF adxf);
 
-/*  �ǂݍ��ݗv�����̎擾
- * [���@��] Sint32 ADXF_GetNumReqSct(ADXF adxf, Sint32 *seekpos);
- * [���@��] adxf	: ADXF�n���h��
- * [�o�@��] seekpos	: �ǂݍ��݈ʒu
- * [�֐��l] �v�������ǂݍ��݃f�[�^��(�P�ʁF�Z�N�^)
- * [�@�@�\] �v�������ǂݍ��݈ʒu�ƃf�[�^�ʂ��擾����B
+/*  読み込み要求情報の取得
+ * [書　式] Sint32 ADXF_GetNumReqSct(ADXF adxf, Sint32 *seekpos);
+ * [入　力] adxf	: ADXFハンドル
+ * [出　力] seekpos	: 読み込み位置
+ * [関数値] 要求した読み込みデータ量(単位：セクタ)
+ * [機　能] 要求した読み込み位置とデータ量を取得する。
  *  Get request information
  * [Inputs  ] adxf   : ADXF handle
  * [Outputs ] seekpos: location of start to read
@@ -640,12 +647,12 @@ Sint32 ADXF_GetFsizeByte(ADXF adxf);
  */
 Sint32 ADXF_GetNumReqSct(ADXF adxf, Sint32 *seekpos);
 
-/*  ���ۂɓǂݍ��񂾃Z�N�^���̎擾
- * [���@��] Sint32 ADXF_GetNumReadSct(ADXF adxf);
- * [���@��] adxf	: ADXF�n���h��
- * [�o�@��] �Ȃ�
- * [�֐��l] �ǂݍ��񂾃f�[�^��(�P�ʁF�Z�N�^)
- * [�@�@�\] ���ۂɓǂݍ��񂾃f�[�^�ʂ��擾����B
+/*  実際に読み込んだセクタ数の取得
+ * [書　式] Sint32 ADXF_GetNumReadSct(ADXF adxf);
+ * [入　力] adxf	: ADXFハンドル
+ * [出　力] なし
+ * [関数値] 読み込んだデータ量(単位：セクタ)
+ * [機　能] 実際に読み込んだデータ量を取得する。
  *  Get the number of sectors read
  * [Inputs  ] adxf   : ADXF handle
  * [Outputs ] None
@@ -654,12 +661,12 @@ Sint32 ADXF_GetNumReqSct(ADXF adxf, Sint32 *seekpos);
  */
 Sint32 ADXF_GetNumReadSct(ADXF adxf);
 
-/*  �n���h���̏�Ԃ̎擾
- * [���@��] Sint32 ADXF_GetStat(ADXF adxf);
- * [���@��] adxf	: ADXF�n���h��
- * [�o�@��] �Ȃ�
- * [�֐��l] ADXF�n���h���̓������(��ԁFADXF_STAT_�`)
- * [�@�@�\] ADXF�n���h���̓�����Ԃ��擾����B
+/*  ハンドルの状態の取得
+ * [書　式] Sint32 ADXF_GetStat(ADXF adxf);
+ * [入　力] adxf	: ADXFハンドル
+ * [出　力] なし
+ * [関数値] ADXFハンドルの内部状態(状態：ADXF_STAT_～)
+ * [機　能] ADXFハンドルの内部状態を取得する。
  *  Get status of handle
  * [Inputs  ] adxf   : ADXF handle
  * [Outputs ] None
@@ -672,13 +679,13 @@ Sint32 ADXF_GetFnameRange(Sint32 ptid, Sint32 flid, Char8 *fname, Sint32 *ofst, 
 
 Sint32 ADXF_GetFnameRangeEx(Sint32 ptid, Sint32 flid, Char8 *fname, void **dir, Sint32 *ofst, Sint32 *fnsct);
 
-/*�@���[�h���N�G�X�g�̃T�C�Y�̐ݒ�
- * [���@��] void ADXF_SetReqRdSct(ADXF adxf, Sint32 nsct);
- * [���@��] adxf    ; ADXF�n���h��
- *			nsct    ; �Z�N�^��
- * [�o�@��] �Ȃ�
- * [�֐��l] �Ȃ�
- * [�@�@�\] ���ɓǂݍ��ރT�C�Y��ݒ肵�܂��B
+/*　リードリクエストのサイズの設定
+ * [書　式] void ADXF_SetReqRdSct(ADXF adxf, Sint32 nsct);
+ * [入　力] adxf    ; ADXFハンドル
+ *			nsct    ; セクタ数
+ * [出　力] なし
+ * [関数値] なし
+ * [機　能] 一回に読み込むサイズを設定します。
  *  Set size of read request
  * [Inputs  ] adxf   : ADXF handle
  *			  nsct   : size(sector)
@@ -688,12 +695,12 @@ Sint32 ADXF_GetFnameRangeEx(Sint32 ptid, Sint32 flid, Char8 *fname, void **dir, 
  */
 void ADXF_SetReqRdSct(ADXF adxf, Sint32 nsct);
 
-/*	�t�@�C���ǂݍ��݃X�e�[�^�X�̎擾
- * [���@��] Sint32 ADXT_GetStatRead(ADXT adxt);
- * [���@��] adxt	: ADXT�n���h��
- * [�o�@��] �Ȃ�
- * [�֐��l] 1=�ǂݍ��ݒ��A0=�ǂݍ��ݒ�~��
- * [�@�@�\] �ǂݍ��ݏ�Ԃ��擾����
+/*	ファイル読み込みステータスの取得
+ * [書　式] Sint32 ADXT_GetStatRead(ADXT adxt);
+ * [入　力] adxt	: ADXTハンドル
+ * [出　力] なし
+ * [関数値] 1=読み込み中、0=読み込み停止中
+ * [機　能] 読み込み状態を取得する
  *  Get status of data reading
  * [Inputs  ] adxf   : ADXF handle
  * [Outputs ] None
@@ -703,40 +710,40 @@ void ADXF_SetReqRdSct(ADXF adxf, Sint32 nsct);
 Sint32 ADXF_GetStatRead(ADXF adxf);
 
 /*==========================================================================
-                ROFS�p
+                ROFS用
                 for ROFS
   ==========================================================================*/
 
-/* �ő啶���� */
-#define ADXF_ROFS_VOLNAME_LEN (8)                         /* �{�����[�����̕����� */
-#define ADXF_ROFS_VOLNAME_SIZ (ADXF_ROFS_VOLNAME_LEN + 1) /* ������T�C�Y */
-#define ADXF_ROFS_FNAME_LEN (31)                          /* �t�@�C�����̕����� */
-#define ADXF_ROFS_FNAME_SIZ (ADXF_ROFS_FNAME_LEN + 1)     /* ������T�C�Y */
-#define ADXF_ROFS_DIRNAME_LEN (31)                        /* �f�B���N�g�����̕����� */
-#define ADXF_RPFS_DIRNAME_SIZ (ADXF_ROFS_DIRNAME_LEN + 1) /* ������T�C�Y */
+/* 最大文字数 */
+#define ADXF_ROFS_VOLNAME_LEN (8)                         /* ボリューム名の文字列長 */
+#define ADXF_ROFS_VOLNAME_SIZ (ADXF_ROFS_VOLNAME_LEN + 1) /* 文字列サイズ */
+#define ADXF_ROFS_FNAME_LEN (31)                          /* ファイル名の文字列長 */
+#define ADXF_ROFS_FNAME_SIZ (ADXF_ROFS_FNAME_LEN + 1)     /* 文字列サイズ */
+#define ADXF_ROFS_DIRNAME_LEN (31)                        /* ディレクトリ名の文字列長 */
+#define ADXF_RPFS_DIRNAME_SIZ (ADXF_ROFS_DIRNAME_LEN + 1) /* 文字列サイズ */
 
-/* ���C�u������Ɨ̈�T�C�Y */
+/* ライブラリ作業領域サイズ */
 #define ADXF_CALC_LIBWORK_SIZ(max_open, max_volume, max_dirent)                                                        \
     (sizeof(ADXF_ROFS_WK) + ((max_open) + 1) * sizeof(ADXF_ROFS_OBJ) +                                                 \
      (ADXF_CALC_DIRREC_SIZ(max_dirent) + sizeof(ADXF_ROFS_VOL)) * ((max_volume) + 1))
 
-/* �f�B���N�g�����R�[�h�̈�T�C�Y */
+/* ディレクトリレコード領域サイズ */
 #define ADXF_CALC_DIRREC_SIZ(n_dirent)                                                                                 \
     (sizeof(ADXF_ROFS_DIRREC) - sizeof(ADXF_ROFS_DIRRECENT) + (n_dirent) * sizeof(ADXF_ROFS_DIRRECENT))
 
-/* ���[�N�̈� */
+/* ワーク領域 */
 typedef struct ADXF_ROFS_STWK ADXF_ROFS_WK;
 
-/* �v���~�e�B�u�֐� */
+/* プリミティブ関数 */
 typedef struct ADXF_ROFS_PFSIFTBL ADXF_ROFS_PFSTBL;
 
-/* �f�o�C�X�R���g���[���֐� */
+/* デバイスコントロール関数 */
 typedef struct ADXF_ROFS_DEVIFTBLE ADXF_ROFS_DEVTBL;
 
-/* ���C�u�����C���^�[�t�F�[�X */
+/* ライブラリインターフェース */
 typedef struct ADXF_ROFS_LIBIFTBLE ADXF_ROFS_LIFTBL;
 
-/* �f�B���N�g�����R�[�h�G���g�� */
+/* ディレクトリレコードエントリ */
 typedef struct {
     Sint32 fad;                       /* fad */
     Sint32 fsize;                     /* file size */
@@ -746,7 +753,7 @@ typedef struct {
     Uint8 pad[6];
 } ADXF_ROFS_DIRRECENT; /* 48 bytes */
 
-/* �f�B���N�g�����R�[�h */
+/* ディレクトリレコード */
 typedef struct {
     Sint32 dir_num;                     /* number of record */
     Sint32 max_ent;                     /* max entry of directory record */
@@ -757,11 +764,11 @@ typedef struct {
 } ADXF_ROFS_DIRREC;
 typedef ADXF_ROFS_DIRREC *ADXF_ROFS_DIRRECBUF;
 
-/* �{�����[���Ǘ��\���� */
+/* ボリューム管理構造体 */
 typedef struct {
-    Char8 volname[ADXF_ROFS_VOLNAME_SIZ]; /* �{�����[���� */
-    void *img_hn;                         /* �C���[�W�t�@�C���̃t�@�C���n���h�� */
-    Sint32 zisb;                          /* ZONE0�C���[�W�f�[�^�J�n�ʒu */
+    Char8 volname[ADXF_ROFS_VOLNAME_SIZ]; /* ボリューム名 */
+    void *img_hn;                         /* イメージファイルのファイルハンドル */
+    Sint32 zisb;                          /* ZONE0イメージデータ開始位置 */
     Sint32 ptbl_cba;                      /* cba of path table */
     Sint32 ptbl_size;                     /* size of path table */
     ADXF_ROFS_DIRRECBUF curdir;           /* current directory handle */
@@ -777,10 +784,10 @@ typedef struct {
     Sint32 fsctsize;    /* sctor size of the file */
     ADXF_ROFS_VOL *vol; /* image file volume */
     Sint32 rsize;       /* reading size */
-    Sint32 trns_seg;    /* �]���σu���b�N�P�� */
-    Sint32 trns_ofs;    /* �]���σo�C�g�P�� */
-    Sint32 trns_unit;   /* �]���P��(�u���b�N) */
-    Uint8 *rdadr;       /* �ǂݍ��݃A�h���X */
+    Sint32 trns_seg;    /* 転送済ブロック単位 */
+    Sint32 trns_ofs;    /* 転送済バイト単位 */
+    Sint32 trns_unit;   /* 転送単位(ブロック) */
+    Uint8 *rdadr;       /* 読み込みアドレス */
     Sint16 used;        /* used flag */
     Sint16 act;         /* handle act */
     Sint16 stat;        /* handle status(ADXF_Stat) */
@@ -790,57 +797,57 @@ typedef ADXF_ROFS_OBJ *ADXF_ROFS;
 
 /* ROFS Work Area */
 struct ADXF_ROFS_STWK {
-    Bool f_init;     /* �������t���O */
+    Bool f_init;     /* 初期化フラグ */
     Sint32 max_open; /* max open files */
     Sint32 max_volume;
     Sint32 max_dirent;
     Uint32 exec_server_cnt;                          /* counter */
     ADXF_ROFS syshdl;                                /* handle for system command */
     ADXF_ROFS hndtbl;                                /* handle */
-    ADXF_ROFS_VOL *vollist;                          /* �{�����[����񃊃X�g */
-    ADXF_ROFS_VOL *curvol;                           /* �J�����g�{�����[����� */
-    ADXF_ROFS_DIRRECBUF dirbuf;                      /* �f�B���N�g�����R�[�h�̊J�n�ʒu */
-    ADXF_ROFS_PFSTBL *pfs;                           /* �v���~�e�B�u�֐� */
-    ADXF_ROFS_DEVTBL *dev;                           /* �f�o�C�X�R���g���[���֐� */
-    ADXF_ROFS_LIFTBL *liftbl;                        /* ���C�u�����C���^�[�t�F�[�X */
+    ADXF_ROFS_VOL *vollist;                          /* ボリューム情報リスト */
+    ADXF_ROFS_VOL *curvol;                           /* カレントボリューム情報 */
+    ADXF_ROFS_DIRRECBUF dirbuf;                      /* ディレクトリレコードの開始位置 */
+    ADXF_ROFS_PFSTBL *pfs;                           /* プリミティブ関数 */
+    ADXF_ROFS_DEVTBL *dev;                           /* デバイスコントロール関数 */
+    ADXF_ROFS_LIFTBL *liftbl;                        /* ライブラリインターフェース */
     void (*g_errcb)(void *, Char8 *, Sint32);        /* error callback */
     void *g_errcb_1st;                               /* error callback 1st arg. */
     Uint32 sctbuf[(ADXF_DEF_SCT_SIZE * 2 + 64) / 4]; /* sector buffer */
     ADXF_ROFS_OBJ hndlist[1];                        /* handle table */
 }; /* 64 + 4160 + handles */
 
-/* ROFS�Z�b�g�A�b�v�\����  */
+/* ROFSセットアップ構造体  */
 #ifndef ADXF_SPRM_ROFS_DEFINED
 #define ADXF_SPRM_ROFS_DEFINED
 typedef struct {
-    Sint32 max_open;   /* �����ɃI�[�v���ł���ő�t�@�C���� */
-    Sint32 max_volume; /* �����ɓo�^�ł���ő�{�����[���� */
-    Sint32 max_dirent; /* �f�B���N�g���Ɋi�[����ő�t�@�C���� */
-    void *rofs_work;   /* ���C�u������Ɨ̈�̐擪�A�h���X */
+    Sint32 max_open;   /* 同時にオープンできる最大ファイル数 */
+    Sint32 max_volume; /* 同時に登録できる最大ボリューム数 */
+    Sint32 max_dirent; /* ディレクトリに格納する最大ファイル数 */
+    void *rofs_work;   /* ライブラリ作業領域の先頭アドレス */
 } ADXF_SPRM_ROFS;
 #endif
 
-/* ROFS�̃Z�b�g�A�b�v	*/
+/* ROFSのセットアップ	*/
 /* Setup ROFS			*/
 void ADXF_SetupRofs(void *sprmr);
 
-/* ROFS�̃V���b�g�_�E�� */
+/* ROFSのシャットダウン */
 /* Shutdown ROFS		*/
 void ADXF_ShutdownRofs(void);
 
-/* ROFS�{�����[���̒ǉ�		*/
+/* ROFSボリュームの追加		*/
 /* Addition of ROFS volume  */
 Sint32 ADXF_AddRofsVol(Char8 *volname, Char8 *imgname);
 
-/* ROFS�{�����[���̍폜 */
+/* ROFSボリュームの削除 */
 /* Delete ROFS volume	*/
 void ADXF_DelRofsVol(Char8 *volname);
 
-/* ROFS�{�����[�����ł��邩�ۂ� */
+/* ROFSボリューム名であるか否か */
 /* Check ROFS volume name		*/
 Bool ADXF_IsRofsVol(Char8 *volname);
 
-/* �f�t�H���g�f�o�C�X�̐ݒ� */
+/* デフォルトデバイスの設定 */
 /* Setting default device	*/
 void ADXF_SetDefDev(Char8 *volname);
 

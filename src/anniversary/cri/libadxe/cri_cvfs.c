@@ -2,6 +2,7 @@
 
 #include <cri/cri_xpts.h>
 
+#include <stdio.h>
 #include <string.h>
 
 #define CVFS_DEVICE_MAX 32

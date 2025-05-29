@@ -1,6 +1,12 @@
 #include "sf33rd/Source/Game/CHARID.h"
 #include "common.h"
 
+// bss
+CharInitData char_init_data[23];
+
+// sbss
+UNK_Data *parabora_own_table[20];
+
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARID", char_init_data2);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARID", char_init_data_ex);

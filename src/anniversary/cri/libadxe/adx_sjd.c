@@ -10,7 +10,8 @@
 #include <string.h>
 
 // data
-extern ADXSJD_OBJ adxsjd_obj[ADXSJD_MAX_OBJ];
+Sint32 pl2setsfreqfunc = 0;
+ADXSJD_OBJ adxsjd_obj[ADXSJD_MAX_OBJ] = { 0 };
 
 // forward decls
 Sint32 adxsjd_get_wr(ADXSJD sjd, Sint32 *arg1, Sint32 *arg2, Sint32 *arg3);

@@ -44,16 +44,15 @@ typedef SJX_OBJ *SJX;
 
 #define SJX_MAX_OBJ 32
 
-extern Sint32 sjx_init_cnt;          // 11
-extern void *sjx_eewk;               // 15
-extern void *sjx_iopwk0;             // 19
-extern void *sjx_iopwk;              // 23
-extern SJX_OBJ sjx_obj[SJX_MAX_OBJ]; // 32
-extern DTX sjx_dtx;                  // 195
-extern Sint32 sjx_wklen;             // 199
-extern Sint8 sjx_ee_work[0x8D0];     // 203
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/sjx", D_0055E6E0);
+Char8 *sjx_build = "\nSJX Ver 1.05 Build:Sep 18 2003 09:59:53\n";
+Sint32 sjx_init_cnt = 0;
+void *sjx_eewk = NULL;
+void *sjx_iopwk0 = NULL;
+void *sjx_iopwk = NULL;
+SJX_OBJ sjx_obj[SJX_MAX_OBJ] = { 0 };
+DTX sjx_dtx = NULL;
+Sint32 sjx_wklen = 0;
+Sint8 sjx_ee_work[0x8D0] = { 0 };
 
 void sjx_rcvcbf(void *obj, void *arg1, Sint32 arg2) {
     SJX_UNK_2 *head = arg1;

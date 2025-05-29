@@ -5,9 +5,16 @@
 #include <cri/private/libadxe/ps2_rna.h>
 
 #include <cri/cri_xpts.h>
+#include <cri/ee/adx_ps2.h>
 #include <cri/sj.h>
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_rnap", ADXPS2_SetupVoice);
+#else
+void ADXPS2_SetupVoice(Sint32 nste, Sint32 nmono) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_rnap", ADXPS2_GetNumDataSjtmp);
 

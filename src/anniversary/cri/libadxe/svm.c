@@ -3,6 +3,7 @@
 #include <cri/ee/cri_mw.h>
 #include <cri/private/libadxe/svm.h>
 
+#include <stdio.h>
 #include <string.h>
 
 #if defined(TARGET_PS2)
@@ -36,6 +37,7 @@ Sint32 svm_svr_exec_flag[8] = { 0 };
 Char8 svmerr_msg[128] = { 0 };
 
 // bss
+#if defined(TARGET_PS2)
 extern Sint32 (*svm_test_and_set_callback)();
 extern SVMErrorCallback svm_error_callback;
 extern SVMLockCallback svm_unlock_callback;
@@ -43,6 +45,15 @@ extern SVMLockCallback svm_lock_callback;
 // extern Uint8 D_006C04E0[0x40];
 extern SVMSVRCallback D_006C0360[8][6]; // svm_svr_callbacks
 // extern Uint8 D_006C0340[0x20];
+#else
+Sint32 (*svm_test_and_set_callback)();
+SVMErrorCallback svm_error_callback;
+SVMLockCallback svm_unlock_callback;
+SVMLockCallback svm_lock_callback;
+// Uint8 D_006C04E0[0x40];
+SVMSVRCallback D_006C0360[8][6]; // svm_svr_callbacks
+// Uint8 D_006C0340[0x20];
+#endif
 
 void svm_lock(Sint32 type) {
     if (svm_lock_callback.func == NULL) {

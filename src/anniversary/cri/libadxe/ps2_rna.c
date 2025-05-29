@@ -266,7 +266,14 @@ void ps2rna_rcvcbf(Sint32 arg0, Sint32 *arg1, Sint32 len) {
 }
 
 void ps2rna_sndcbf();
+
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", ps2rna_sndcbf);
+#else
+void ps2rna_sndcbf() {
+    not_implemented(__func__);
+}
+#endif
 
 void PS2RNA_Init() {
     Sint32 unk[3];

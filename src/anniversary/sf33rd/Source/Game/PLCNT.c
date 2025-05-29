@@ -1,6 +1,13 @@
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "common.h"
 
+// bss
+PLW plw[2];
+ComboType combo_type[2];
+ZanzouTableEntry zanzou_table[2][48];
+ComboType remake_power[2];
+
+// sbss
 s16 pcon_rno[4];
 s16 appear_type;
 u8 round_slow_flag;

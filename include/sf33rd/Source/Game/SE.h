@@ -13,5 +13,13 @@ void BGM_Stop();
 void SE_All_Off();
 void Disp_Sound_Code();
 void Store_Sound_Code(u16 code, SoundPatchConfig *rmc);
+void Se_Dummy(WORK_Other *ewk, u16 Code);
+void Se_Shock(WORK_Other *ewk, u16 Code);
+void Se_Myself(WORK_Other *ewk, u16 Code);
+void Se_Myself_Die(WORK_Other *ewk, u16 Code);
+void Se_Let(WORK_Other *ewk, u16 Code);
+void Se_Let_SP(WORK_Other *ewk, u16 Code);
+void Call_Se(WORK_Other *ewk, u16 Code);
+void Se_Term(WORK_Other *ewk, u16 Code);
 
 #endif

@@ -3,6 +3,11 @@
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/workuser.h"
 
+// bss
+GradeData judge_item[2][2];
+GradeFinalData judge_final[2][2];
+u8 ji_sat[2][384];
+
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", ji_grd_init_data);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", grade_t_meichuuritsu2);
@@ -88,7 +93,13 @@ const s16 grade_t_table[32][2] = { { 0x0000, 0x0014 }, { 0x004B, 0x0014 }, { 0x0
                                    { 0x06A4, 0x07D0 }, { 0x06D6, 0x0BB8 }, { 0x0708, 0x0FA0 }, { 0x073A, 0x1388 },
                                    { 0x076C, 0x1770 }, { 0x0794, 0x1F40 }, { 0x07BC, 0x2710 }, { 0x07E4, 0x4E20 } };
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", grade_check_work_1st_init);
+#else
+void grade_check_work_1st_init(s32 ix, s32 ix2) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", grade_check_work_stage_init);
 
@@ -100,7 +111,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", renew_judge
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", makeup_final_grade);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", grade_final_grade_bonus);
+#else
+void grade_final_grade_bonus() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", makeup_spp_frdat);
 

@@ -299,7 +299,7 @@ void flPS2VramFullClear() {
     i = 0;
     handle = flPS2GetSystemMemoryHandle(0x40000, 0);
     lpBuff = flPS2GetSystemBuffAdrs(handle);
-    memzero_1q(lpBuff, 0x4000);
+    flPS2_Clear_Mem16_16A(lpBuff, 0x4000);
 
     do {
         sceGsSetDefLoadImage(&Loadimage, 0, 16, 0, 0, i * 64, 0x400, 0x40);
@@ -749,7 +749,7 @@ void flPS2DrawPreparation() {
     ds->acr_fba_2.I64[0] = flPs2FBA;
 
     dst = (u32 *)flPS2GetSystemTmpBuff(sizeof(FLPS2DrawStart), 0x10);
-    memcpy_1q(ds, dst, 0x14);
+    flPS2_Mem_move16_16A(ds, dst, 0x14);
     flPS2DmaAddQueue2(0, (u32)dst & 0xFFFFFFF, (u32)dst, &flPs2VIF1Control);
 }
 

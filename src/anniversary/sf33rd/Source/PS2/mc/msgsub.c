@@ -1,6 +1,9 @@
 #include "sf33rd/Source/PS2/mc/msgsub.h"
 #include "common.h"
 
+// sbss
+s32 MsgLanguage;
+
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/msgsub", GetMemCardMsg);
 #else

@@ -1,6 +1,9 @@
 #include "sf33rd/Source/Game/EFF45.h"
 #include "common.h"
 
+// sbss
+MessageData Message_Data[4];
+
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF45", EFF45_Jmp_Tbl);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF45", effect_45_move);

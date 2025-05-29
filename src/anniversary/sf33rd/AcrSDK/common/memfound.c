@@ -2,7 +2,11 @@
 #include "common.h"
 #include "sf33rd/AcrSDK/common/memmgr.h"
 
-MEM_MGR sysmemmgr; // size: 0x28, address: 0x578980
+// bss
+MEM_BLOCK sysmemblock[4096];
+
+// sbss
+MEM_MGR sysmemmgr;
 
 void mflInit(void *mem_ptr, s32 memsize, s32 memalign) {
     plmemInit(&sysmemmgr, sysmemblock, 0x1000, mem_ptr, memsize, memalign, 1);

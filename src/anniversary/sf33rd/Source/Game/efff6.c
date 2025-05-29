@@ -36,6 +36,7 @@ void effect_F6_move(WORK_Other *ewk) {
 void efff6_move(WORK_Other *ewk) {
 #if defined(TARGET_PS2)
     void push_color_trans_req(s32 from_col, s32 to_col);
+    void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
 
     switch (ewk->wu.routine_no[2]) {
@@ -183,6 +184,7 @@ void efff6_move_common(WORK_Other *ewk) {
 void efff6_move01(WORK_Other *ewk) {
 #if defined(TARGET_PS2)
     void push_color_trans_req(s32 from_col, s32 to_col);
+    void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
 
     switch (ewk->wu.routine_no[2]) {
@@ -219,6 +221,7 @@ void efff6_move01(WORK_Other *ewk) {
     }
 }
 
+#if defined(TARGET_PS2)
 s32 effect_F6_init(u8 typenum) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
@@ -267,6 +270,11 @@ s32 effect_F6_init(u8 typenum) {
     effect_F6_move(ewk);
     return 0;
 }
+#else
+s32 effect_F6_init(u8 typenum) {
+    not_implemented(__func__);
+}
+#endif
 
 const s16 efff6_move01_tbl[6] = { 20, 28, 20, 28, 20, 28 }; // size: 0xC, address: 0x515180
 

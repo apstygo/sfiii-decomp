@@ -200,7 +200,13 @@ s16 eff_hit_check(WORK_Other *ewk, s16 type) {
     return eff_hit_flag[ewk->wu.type];
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", eff_hit_check_sub);
+#else
+s32 eff_hit_check_sub(WORK_Other *ewk, PLW *pl) {
+    not_implemented(__func__);
+}
+#endif
 
 s16 eff_hit_check2(WORK_Other *ewk, s16 type, s16 where_type) {
     if (!EXE_obroll) {
@@ -228,7 +234,13 @@ s32 eff_hit_check_sub2(WORK_Other *ewk, PLW *pl, s16 where_type) {
     return 0;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", hit_check_subroutine_yu);
+#else
+static s16 hit_check_subroutine_yu(WORK *tpl, WORK *tef, s16 *hd1, s16 *hd2) {
+    not_implemented(__func__);
+}
+#endif
 
 void eff_hit_flag_clear() {
     s16 i;

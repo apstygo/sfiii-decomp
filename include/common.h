@@ -43,17 +43,11 @@ __asm__(".include \"include/cri_macro.inc\"\n");
 
 #if !defined(TARGET_PS2)
 
-#include <stdio.h>
-#include <stdlib.h>
-
 #ifndef __dead2
 #define __dead2 __attribute__((__noreturn__))
 #endif
 
-void not_implemented(const s8 *func) __dead2 {
-    fprintf(stderr, "Function not implemented: %s\n", func);
-    abort();
-}
+void not_implemented(const s8 *func) __dead2;
 
 #endif
 

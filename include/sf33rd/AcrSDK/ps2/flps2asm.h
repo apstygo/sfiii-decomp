@@ -3,17 +3,17 @@
 
 #include "types.h"
 
-void memcpy_1w(const void *src, void *dst, u32 len);
-void memcpy_4w(const void *src, void *dst, u32 len);
-void memcpy_2d(const void *src, void *dst, u32 len);
-void memcpy_1q(const void *src, void *dst, u32 len);
-void memcpy_8w(const void *src, void *dst, u32 len);
-void memcpy_4d(const void *src, void *dst, u32 len);
-void memcpy_2q(const void *src, void *dst, u32 len);
-void memcpy_4q(const void *src, void *dst, u32 len);
-void memzero_1w(void *str, u32 len);
-void memzero_1q(void *str, u32 len);
-void memset_1w(void *str, s32 c, u32 len);
-void memset_1q(void *str, s64 c, u32 len);
+void flPS2_Mem_move(const void *src, void *dst, u32 len);
+void flPS2_Mem_move16(const void *src, void *dst, u32 len);
+void flPS2_Mem_move16_8A(const void *src, void *dst, u32 len);
+void flPS2_Mem_move16_16A(const void *src, void *dst, u32 len);
+void flPS2_Mem_move32(const void *src, void *dst, u32 len);
+void flPS2_Mem_move32_8A(const void *src, void *dst, u32 len);
+void flPS2_Mem_move32_16A(const void *src, void *dst, u32 len);
+void flPS2_Mem_move64(const void *src, void *dst, u32 len);
+void flPS2_Clear_Mem(void *str, u32 len);
+void flPS2_Clear_Mem16_16A(void *str, u32 len);
+void flPS2_Fill_Mem(void *str, s32 c, u32 len);
+void flPS2_Fill_Mem16_16A(void *str, s64 c, u32 len);
 
 #endif

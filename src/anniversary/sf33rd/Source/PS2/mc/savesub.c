@@ -23,6 +23,7 @@
 #include <cri/cri_adxf.h>
 
 #include <math.h>
+#include <stdio.h>
 #include <string.h>
 
 // sdata

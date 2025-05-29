@@ -55,6 +55,7 @@ special_cases = {
     ("RANKING", ".sbss", 0): 16,
     ("OBJTEST", ".sbss", 0): 16,
     ("CHARID", ".sbss", 0): 16,
+    ("emlMemMap", ".sbss", 0): 16,
 
     ("bss_6BDA68", ".bss", 0): 8,
     ("iopnotify", ".bss", 0): 8,
@@ -64,6 +65,7 @@ special_cases = {
     ("color3rd", ".bss", 2): 32,
     ("Sound3rd", ".bss", 0): 256,
     ("eflSifRpc", ".bss", 0): 256,
+    ("Sound3rd", ".bss", 1): 256,
 }
 
 def alignment_to_bytes(alignment: int) -> bytes:

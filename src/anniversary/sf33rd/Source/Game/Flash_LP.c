@@ -8,6 +8,7 @@
 
 const u8 Lamp_Flash_Data[2][2] = { { 0x07, 0x6F }, { 0x1E, 0x03 } };
 
+#if defined(TARGET_PS2)
 void Flash_Lamp() {
     u8 ix;
     u8 ix2p;
@@ -64,3 +65,8 @@ void Flash_Lamp() {
         }
     }
 }
+#else
+void Flash_Lamp() {
+    not_implemented(__func__);
+}
+#endif

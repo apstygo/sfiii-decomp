@@ -11,7 +11,6 @@
 // These should go in their own headers
 
 Sint32 LSC_GetNumStm(void *);
-Sint32 LSC_EntryFname(void *);
 void LSC_SetFlowLimit(void *, Sint32);
 void LSC_Start(void *);
 void LSC_SetLpFlg(void *, Sint32);

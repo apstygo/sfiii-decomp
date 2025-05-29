@@ -2,6 +2,9 @@
 #include "common.h"
 #include "structs.h"
 
+// bss
+RANK_DATA Ranking_Data[20];
+
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/RANKING", Ranking);
 #else

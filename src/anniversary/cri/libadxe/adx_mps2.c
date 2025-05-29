@@ -2,7 +2,9 @@
 #include <cri/private/libadxe/svm.h>
 
 #include <cri/cri_adxt.h>
+#include <cri/ee/adx_ps2.h>
 #include <cri/ee/cri_xpt.h>
+
 #include <eekernel.h>
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", D_0055AA98);
@@ -291,7 +293,13 @@ void ADXM_Unlock() {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", ADXM_GetLockLevel);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", ADXPS2_ExecVint);
+#else
+int ADXPS2_ExecVint(int arg) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", ADXM_ExecVint);
 
@@ -311,7 +319,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", ADXPS2_WaitVsyn
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", ADXPS2_ExecServerEx);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", ADXPS2_SetupThrd);
+#else
+void ADXPS2_SetupThrd(ADXPS2_TPRM *tprm) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", ADXPS2_ShutdownThrd);
 

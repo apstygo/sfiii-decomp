@@ -3,6 +3,8 @@
 
 #include <cri/cri_xpts.h>
 
+#include <stdio.h>
+
 #if defined(TARGET_PS2)
 #include "mw_stdarg.h"
 #else

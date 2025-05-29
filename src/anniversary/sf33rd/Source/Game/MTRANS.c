@@ -12,10 +12,17 @@
 #include "sf33rd/Source/Game/texgroup.h"
 #include "structs.h"
 
-extern s32 curr_bright;      // size: 0x4, address: 0x5792E0
-extern SpriteChipSet seqs_w; // size: 0x20, address: 0x5792C0
+// sbss
+s32 curr_bright;
+SpriteChipSet seqs_w;
 
+// bss
+f32 PrioBase[128];
+f32 PrioBaseOriginal[128];
+
+// rodata
 static const u16 flptbl[4] = { 0x0000, 0x8000, 0x4000, 0xC000 };
+
 static const u32 bright_type[4][16] = { { 0x00FFFFFF,
                                           0x00EEEEEE,
                                           0x00DDDDDD,
@@ -81,6 +88,7 @@ static const u32 bright_type[4][16] = { { 0x00FFFFFF,
                                           0x001111FF,
                                           0x000000FF } };
 
+// forward decls
 static void DebugLine(f32 x, f32 y, f32 w, f32 h);
 s32 seqsStoreChip(f32 x, f32 y, s32 w, s32 h, s32 gix, s32 code, s32 attr, s32 alpha, s32 id);
 void appRenewTempPriority(s32 z);

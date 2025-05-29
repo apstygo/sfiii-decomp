@@ -496,6 +496,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts_gauge_maxbit);
 
+#if defined(TARGET_PS2)
 void add_super_arts_gauge(SA_WORK *wk, s16 ix, s16 asag, u8 mf) {
     if (!test_flag && !mf) {
         if ((wk->mp == -1) || (wk->ok == -1) || (wk->ex == -1)) {
@@ -534,6 +535,11 @@ void add_super_arts_gauge(SA_WORK *wk, s16 ix, s16 asag, u8 mf) {
         }
     }
 }
+#else
+void add_super_arts_gauge(SA_WORK *wk, s16 ix, s16 asag, u8 mf) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_buttobi_type);
 

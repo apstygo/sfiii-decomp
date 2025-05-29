@@ -2,6 +2,9 @@
 #include "common.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.h"
+#include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap.h"
+#include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv.h"
+#include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB.h"
 #include "sf33rd/AcrSDK/ps2/flps2debug.h"
 #include "sf33rd/Source/Common/PPGFile.h"
 #include "sf33rd/Source/Game/EFFECT.h"
@@ -15,9 +18,6 @@
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/workuser.h"
-#include "sf33rd/Source/PS2/CapSndEng/emlMemMap.h"
-#include "sf33rd/Source/PS2/CapSndEng/emlSndDrv.h"
-#include "sf33rd/Source/PS2/CapSndEng/emlTSB.h"
 #include "sf33rd/Source/PS2/cseDataFiles/CSEData.h"
 #include "structs.h"
 #include <cri/ee/cri_mw.h>
@@ -40,9 +40,9 @@ BGMRequest bgm_req;
 s8 *sdbd[3];
 
 // bss
-extern u8 adx_VS[198954];
-extern u8 adx_EmSel[391168];
-extern s8 adx_stm_work[ADX_STM_WORK_SIZE];
+u8 adx_VS[198954];
+u8 adx_EmSel[391168];
+s8 adx_stm_work[ADX_STM_WORK_SIZE];
 
 // data
 BGMTableEntry bgm_tableDC[68] = {

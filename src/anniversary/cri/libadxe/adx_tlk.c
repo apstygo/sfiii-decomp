@@ -17,16 +17,26 @@
 #include <string.h>
 
 // data
-extern Sint32 adxt_time_mode;
-extern Sint32 adxt_def_svrfreq;
-extern void (*ahxdetachfunc)(ADXT);
-extern void (*ac3detachfunc)(ADXT);
-extern void (*ac3stopfunc)(ADXT);
-extern void (*pl2detachfunc)(ADXT);
-extern Sint32 adxt_time_adjust_cnt;
-extern Sint32 adxt_time_adjust_sw;
-extern Sint32 adxt_time_unit;
-extern Float32 adxt_diff_av;
+Sint32 adxt_time_mode = 0;
+Sint32 adxt_tsvr_enter_cnt = 0;
+Sint32 adxt_def_svrfreq = 0;
+void (*ahxdetachfunc)(ADXT) = NULL;
+void (*ac3detachfunc)(ADXT) = NULL;
+void (*ac3stopfunc)(ADXT) = NULL;
+void (*pl2detachfunc)(ADXT) = NULL;
+Sint32 adxt_time_adjust_cnt = 0;
+Sint32 adxt_time_adjust_sw = 1;
+Sint32 adxt_svrcnt = 0;
+Sint32 adxt_svrcnt_sjd = 0;
+Sint32 adxt_svrcnt_rna = 0;
+Sint32 adxt_svrcnt_adxf = 0;
+Sint32 adxt_svrcnt_adxstm = 0;
+Sint32 adxt_svrcnt_hndl = 0;
+Sint32 adxt_mviop_f = 0;
+Sint32 adxt_mviop_d = 0;
+Sint32 adxt_mvtmp_d = 0;
+Sint32 adxt_time_unit = 0;
+Float32 adxt_diff_av = 0;
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B460);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B480);
@@ -554,7 +564,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_SetAutoRcvr
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B940);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_IsCompleted);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_ExecServer);
+#else
+void ADXT_ExecServer() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_ExecDecServer);
 

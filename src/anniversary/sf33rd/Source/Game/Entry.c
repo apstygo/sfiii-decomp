@@ -200,10 +200,10 @@ void Entry_01() {
 void Entry_01_Sub(s16 PL_id) {
     E_No[2] += 1;
     Request_G_No = 1;
-    plw[PL_id].wu.operator= 1;
+    plw[PL_id].wu.operator = 1;
     Operator_Status[PL_id] = 1;
     Champion = PL_id;
-    plw[PL_id ^ 1].wu.operator= 0;
+    plw[PL_id ^ 1].wu.operator = 0;
     Operator_Status[PL_id ^ 1] = 0;
     Ignore_Entry[0] = 0;
     Ignore_Entry[1] = 0;
@@ -291,7 +291,7 @@ void Entry_03_2nd() {
             E_No[1] = 0;
             E_No[2] = 0;
             E_No[3] = 0;
-            plw[New_Challenger].wu.operator= 1;
+            plw[New_Challenger].wu.operator = 1;
             Operator_Status[New_Challenger] = 1;
             Sel_Arts_Complete[Champion] = -1;
 
@@ -367,7 +367,7 @@ void Entry_04_2nd() {
             E_No[2] = 0;
             E_No[3] = 0;
             Game_pause = 0;
-            plw[New_Challenger].wu.operator= 1;
+            plw[New_Challenger].wu.operator = 1;
             Operator_Status[New_Challenger] = 1;
 
             if (Continue_Coin[New_Challenger] == 0) {
@@ -438,7 +438,7 @@ void Entry_06_2nd() {
         Fade_Flag = 0;
 
         if (E_07_Flag[0]) {
-            plw[0].wu.operator= 1;
+            plw[0].wu.operator = 1;
             Operator_Status[0] = 1;
 
             if (Continue_Coin[0] == 0) {
@@ -447,7 +447,7 @@ void Entry_06_2nd() {
         }
 
         if (E_07_Flag[1]) {
-            plw[1].wu.operator= 1;
+            plw[1].wu.operator = 1;
             Operator_Status[1] = 1;
 
             if (Continue_Coin[1] == 0) {
@@ -519,7 +519,7 @@ void Entry_07_2nd() {
             E_No[3] = 0;
 
             if (E_07_Flag[0]) {
-                plw[0].wu.operator= 1;
+                plw[0].wu.operator = 1;
                 Operator_Status[0] = 1;
 
                 if (Continue_Coin[0] == 0) {
@@ -528,7 +528,7 @@ void Entry_07_2nd() {
             }
 
             if (E_07_Flag[1]) {
-                plw[1].wu.operator= 1;
+                plw[1].wu.operator = 1;
                 Operator_Status[1] = 1;
 
                 if (Continue_Coin[1] == 0) {
@@ -601,7 +601,7 @@ void Entry_08_2nd() {
             E_No[3] = 0;
 
             if (E_07_Flag[0]) {
-                plw[0].wu.operator= 1;
+                plw[0].wu.operator = 1;
                 Operator_Status[0] = 1;
 
                 if (Continue_Coin[0] == 0) {
@@ -610,7 +610,7 @@ void Entry_08_2nd() {
             }
 
             if (E_07_Flag[1]) {
-                plw[1].wu.operator= 1;
+                plw[1].wu.operator = 1;
                 Operator_Status[1] = 1;
 
                 if (Continue_Coin[1] == 0) {
@@ -712,7 +712,7 @@ void Entry_10_2nd() {
             E_No[3] = 0;
 
             if (E_07_Flag[0]) {
-                plw[0].wu.operator= 1;
+                plw[0].wu.operator = 1;
                 Operator_Status[0] = 1;
 
                 if (Continue_Coin[0] == 0) {
@@ -721,7 +721,7 @@ void Entry_10_2nd() {
             }
 
             if (E_07_Flag[1]) {
-                plw[1].wu.operator= 1;
+                plw[1].wu.operator = 1;
                 Operator_Status[1] = 1;
 
                 if (Continue_Coin[1] == 0) {
@@ -752,7 +752,7 @@ void Entry_Main_Sub(s16 PL_id, s16 Jump_Index) {
                 return;
             }
 
-            if (plw[PL_id].wu.operator== 0) {
+            if (plw[PL_id].wu.operator == 0) {
                 Entry_Common_Sub(PL_id, Jump_Index);
                 return;
             }
@@ -887,6 +887,7 @@ void Entry_Main_Sub(s16 PL_id, s16 Jump_Index) {
     }
 }
 
+#if defined(TARGET_PS2)
 void Naming_Init(s16 PL_id) {
     Naming_Cut[PL_id] = 0;
     Name_00[PL_id] = 0;
@@ -894,6 +895,11 @@ void Naming_Init(s16 PL_id) {
     name_wk[PL_id].r_no_1 = 0;
     end_name_cut[PL_id] = 0;
 }
+#else
+void Naming_Init(s16 PL_id) {
+    not_implemented(__func__);
+}
+#endif
 
 void Naming_Cut_Sub_1P() {
     if (!Naming_Cut[0] && (Ck_Break_Into_SP(p1sw_0, p1sw_1, 0) != 0)) {
@@ -1344,7 +1350,7 @@ s32 Ck_Break_Into_SP(u16 Sw_0, u16 Sw_1, s16 PL_id) {
 }
 
 void Break_Into_02(s16 /* unused */) {
-    plw[New_Challenger].wu.operator= 1;
+    plw[New_Challenger].wu.operator = 1;
     Operator_Status[New_Challenger] = 1;
     E_Number[New_Challenger][0] = 0;
     E_Number[New_Challenger][1] = 0;
@@ -1384,7 +1390,7 @@ void Break_Into_05(s16 PL_id) {
     E_Number[New_Challenger][2] = 0;
     E_Number[New_Challenger][3] = 0;
 
-    if ((Play_Type == 0) && (Conclusion_Flag != 0) && (plw[Champion].wu.operator== 0)) {
+    if ((Play_Type == 0) && (Conclusion_Flag != 0) && (plw[Champion].wu.operator == 0)) {
         E_Timer = 1;
 
         if (LOSER != New_Challenger) {

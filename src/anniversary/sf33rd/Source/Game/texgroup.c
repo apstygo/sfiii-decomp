@@ -306,7 +306,8 @@ void q_ldreq_texture_group(REQ *curr) {
 void Init_texgrplds_work() {
     s16 i;
 
-    for (i = 0; i < 3U; i++) {
+    // Zero out the 0-th element of texgrplds
+    for (i = 0; i < sizeof(TEX_GRP_LD) / sizeof(u32); i++) {
         ((u32 *)texgrplds)[i] = 0;
     }
 

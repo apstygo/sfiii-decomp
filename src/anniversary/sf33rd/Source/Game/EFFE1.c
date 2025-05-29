@@ -7,6 +7,10 @@
 extern u32 _etc_char_table[];
 
 void effect_E1_move(WORK_Other *ewk) {
+#if defined(TARGET_PS2)
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
+#endif
+
     switch (ewk->wu.routine_no[0]) {
     case 0:
         ewk->wu.routine_no[0] += 1;
@@ -25,6 +29,7 @@ void effect_E1_move(WORK_Other *ewk) {
     sort_push_request4(&ewk->wu);
 }
 
+#if defined(TARGET_PS2)
 s32 effect_E1_init(s16 id, s16 Time, s16 /* unused */) {
     WORK_Other *ewk;
     s16 ix;
@@ -63,3 +68,8 @@ s32 effect_E1_init(s16 id, s16 Time, s16 /* unused */) {
 
     return 0;
 }
+#else
+s32 effect_E1_init(s16 id, s16 Time, s16 /* unused */) {
+    not_implemented(__func__);
+}
+#endif

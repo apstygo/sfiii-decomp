@@ -64,7 +64,7 @@ COMMON_INCLUDES := -I$(INCLUDE_DIR) -I$(INCLUDE_DIR)/sdk -I$(INCLUDE_DIR)/cri -I
 PS2_INCLUDES := $(COMMON_INCLUDES) -I$(INCLUDE_DIR)/gcc
 SDL2_INCLUDES := $(COMMON_INCLUDES)
 PS2_DEFINES := -DTARGET_PS2
-MWCCPS2_FLAGS := -gccinc $(PS2_INCLUDES) -O0,p -c -lang c -str readonly -fl divbyzerocheck -sdatathreshold 128 $(PS2_DEFINES) -D__mips64
+MWCCPS2_FLAGS := -gccinc $(PS2_INCLUDES) -O0,p -c -lang c -str readonly -fl divbyzerocheck -sdatathreshold 128 $(PS2_DEFINES)
 EEGCC_FLAGS := $(PS2_INCLUDES) -O2 -G0 -c $(PS2_DEFINES) -DXPT_TGT_EE
 
 AS_FLAGS += -EL -I $(INCLUDE_DIR) -G 128 -march=r5900 -mabi=eabi -no-pad-sections
@@ -77,7 +77,7 @@ MAIN_TARGET := $(BUILD_DIR)/$(MAIN)
 S_FILES := $(shell find $(ASM_DIR) -name '*.s' -not -path *nonmatchings* 2>/dev/null)
 GAME_C_FILES := $(shell find $(SRC_DIR)/sf33rd -name '*.c' 2>/dev/null)
 CRI_C_FILES := $(shell find $(SRC_DIR)/cri -name '*.c' 2>/dev/null)
-SDK_C_FILES := $(shell find $(SRC_DIR)/sdk -name '*.c' 2>/dev/null)
+STUBS_C_FILES := $(shell find $(SRC_DIR)/stubs -name '*.c' 2>/dev/null)
 
 ASM_O_FILES := $(patsubst %.s,%.s.o,$(S_FILES))
 ASM_O_FILES := $(addprefix $(BUILD_DIR)/,$(ASM_O_FILES))
@@ -85,13 +85,13 @@ GAME_O_FILES := $(patsubst %.c,%.c.o,$(GAME_C_FILES))
 GAME_O_FILES := $(addprefix $(BUILD_DIR)/,$(GAME_O_FILES))
 CRI_O_FILES := $(patsubst %.c,%.c.o,$(CRI_C_FILES))
 CRI_O_FILES := $(addprefix $(BUILD_DIR)/,$(CRI_O_FILES))
-SDK_O_FILES := $(patsubst %.c,%.c.o,$(SDK_C_FILES))
-SDK_O_FILES := $(addprefix $(BUILD_DIR)/,$(SDK_O_FILES))
+STUBS_O_FILES := $(patsubst %.c,%.c.o,$(STUBS_C_FILES))
+STUBS_O_FILES := $(addprefix $(BUILD_DIR)/,$(STUBS_O_FILES))
 
 ifeq ($(PLATFORM),ps2)
 	ALL_O_FILES := $(GAME_O_FILES) $(CRI_O_FILES) $(ASM_O_FILES)
 else
-	ALL_O_FILES := $(GAME_O_FILES) $(CRI_O_FILES) $(SDK_O_FILES)
+	ALL_O_FILES := $(GAME_O_FILES) $(CRI_O_FILES) $(STUBS_O_FILES)
 endif
 
 LINKER_SCRIPT := $(BUILD_DIR)/$(MAIN).lcf
@@ -141,7 +141,7 @@ $(CRI_O_FILES): $(BUILD_DIR)/%.c.o: %.c
 else
 
 $(MAIN_TARGET): $(ALL_O_FILES)
-# 	clang $(ALL_O_FILES) -o $@
+#	clang $(ALL_O_FILES) -lz -o $@
 
 $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)

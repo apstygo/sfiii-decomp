@@ -1,7 +1,4 @@
-#define CHARSET_IMPL
 #include "sf33rd/Source/Game/CHARSET.h"
-#undef CHARSET_IMPL
-
 #include "common.h"
 #include "sf33rd/Source/Game/EFFXX.h"
 #include "sf33rd/Source/Game/Grade.h"
@@ -24,7 +21,13 @@ extern const s16 kezuri_pow_table[5];
 static u16 check_xcopy_filter_se_req(WORK *wk);
 void setup_metamor_kezuri(WORK *wk);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", set_char_move_init);
+#else
+void set_char_move_init(WORK *wk, s16 koc, s16 index) {
+    not_implemented(__func__);
+}
+#endif
 
 void setupCharTableData(WORK *wk, s32 clr, s32 info) {
     u32 *dst = (u32 *)&wk->cg_type;

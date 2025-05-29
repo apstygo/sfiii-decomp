@@ -1,6 +1,15 @@
 #include "sf33rd/Source/Game/HITCHECK.h"
 #include "common.h"
 
+// sbss
+s16 grdb[2][2][2];
+s16 grdb2[2][2];
+s16 *dmdat_adrs[16];
+WORK *q_hit_push[32];
+s16 mkm_wk[32];
+s16 hpq_in;
+s8 ca_check_flag;
+
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", make_red_blocking_time);
 
 #if defined(TARGET_PS2)

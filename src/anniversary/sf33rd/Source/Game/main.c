@@ -31,8 +31,14 @@
 #include "sf33rd/Source/PS2/mc/mcsub.h"
 #include "sf33rd/Source/PS2/ps2Quad.h"
 #include "structs.h"
+
 #include <memory.h>
 
+// sbss
+s32 system_init_level;
+MPP mpp_w;
+
+// forward decls
 void distributeScratchPadAddress();
 void MaskScreenEdge();
 void appCopyKeyData();
@@ -358,7 +364,7 @@ s32 njUserMain() {
         cpLoopTask();
 
         if ((Game_pause != 0x81) && (Mode_Type == 1) && (Play_Mode == 1)) {
-            if ((plw[0].wu.operator== 0) && (CPU_Rec[0] == 0) && (Replay_Status[0] == 1)) {
+            if ((plw[0].wu.operator == 0) && (CPU_Rec[0] == 0) && (Replay_Status[0] == 1)) {
                 p1sw_0 = 0;
 
                 Check_Replay_Status(0, 1);
@@ -369,7 +375,7 @@ s32 njUserMain() {
                 }
             }
 
-            if ((plw[1].wu.operator== 0) && (CPU_Rec[1] == 0) && (Replay_Status[1] == 1)) {
+            if ((plw[1].wu.operator == 0) && (CPU_Rec[1] == 0) && (Replay_Status[1] == 1)) {
                 p2sw_0 = 0;
 
                 Check_Replay_Status(1, 1);

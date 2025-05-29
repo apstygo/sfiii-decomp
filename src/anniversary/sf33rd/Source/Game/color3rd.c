@@ -1,5 +1,6 @@
 #include "sf33rd/Source/Game/color3rd.h"
 #include "common.h"
+#include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.h"
 #include "sf33rd/AcrSDK/common/plcommon.h"
 #include "sf33rd/AcrSDK/ps2/flps2vram.h"
 #include "structs.h"
@@ -31,9 +32,21 @@ void q_ldreq_color_data(REQ *curr) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/color3rd", cseTsbSetBankAddr);
+#else
+s32 cseTsbSetBankAddr(u32 bank, SoundEvent *addr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/color3rd", cseMemMapSetPhdAddr);
+#else
+s32 cseMemMapSetPhdAddr(u32 bank, void *addr) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/color3rd", load_any_color);

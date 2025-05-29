@@ -134,7 +134,7 @@ flPS2GetSystemBuffAdrs
 mflRetrieve
 plmemRetrieve
 flPS2VramFullClear
-memzero_1q
+flPS2_Clear_Mem16_16A
 sceGsSetDefLoadImage
 sceGsExecLoadImage
 sceGsSyncPath
@@ -710,7 +710,7 @@ iFlushCache
 flPS2CheckDbChangeFlag
 flPS2DmaSend
 flPS2DrawPreparation
-memcpy_1q
+flPS2_Mem_move16_16A
 Scrn_Renew
 Irl_Family
 Irl_Scrn

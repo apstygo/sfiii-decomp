@@ -19349,18 +19349,18 @@ _root = 0x100220; // type:func
 
 // flps2asm
 
-memcpy_1w = 0x4024F0; // type:func
-memcpy_4w = 0x402510; // type:func
-memcpy_2d = 0x402548; // type:func
-memcpy_1q = 0x402570; // type:func
-memcpy_8w = 0x402590; // type:func
-memcpy_4d = 0x4025E8; // type:func
-memcpy_2q = 0x402620; // type:func
-memcpy_4q = 0x402648; // type:func
-memzero_1w = 0x402680; // type:func
-memzero_1q = 0x402698; // type:func
-memset_1w = 0x4026B0; // type:func
-memset_1q = 0x4026C8; // type:func
+flPS2_Mem_move = 0x4024F0; // type:func
+flPS2_Mem_move16 = 0x402510; // type:func
+flPS2_Mem_move16_8A = 0x402548; // type:func
+flPS2_Mem_move16_16A = 0x402570; // type:func
+flPS2_Mem_move32 = 0x402590; // type:func
+flPS2_Mem_move32_8A = 0x4025E8; // type:func
+flPS2_Mem_move32_16A = 0x402620; // type:func
+flPS2_Mem_move64 = 0x402648; // type:func
+flPS2_Clear_Mem = 0x402680; // type:func
+flPS2_Clear_Mem16_16A = 0x402698; // type:func
+flPS2_Fill_Mem = 0x4026B0; // type:func
+flPS2_Fill_Mem16_16A = 0x4026C8; // type:func
 
 _etc_char_table = 0x481878; // size:0x3778
 _op_char_table = 0x487DA8; // size:0x7A8

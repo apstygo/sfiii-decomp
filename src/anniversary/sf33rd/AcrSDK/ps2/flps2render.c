@@ -66,7 +66,13 @@ s32 flPS2InitRenderState() {
     return 1;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2render", flSetRenderState);
+#else
+s32 flSetRenderState(enum _FLSETRENDERSTATE func, u32 value) {
+    not_implemented(__func__);
+}
+#endif
 
 void flPS2SetClearColor(u32 col) {
     flPs2State.FrameClearColor = col;
@@ -226,9 +232,21 @@ s32 flPS2SendRenderState_ZBUF(u32 render_state, u32 flag) {
     return 1;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2render", flPS2SendRenderState_TEST);
+#else
+s32 flPS2SendRenderState_TEST(u32 render_state, u32 flag) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2render", flPS2SendRenderState_ALPHA);
+#else
+s32 flPS2SendRenderState_ALPHA(u32 render_state, u32 flag) {
+    not_implemented(__func__);
+}
+#endif
 
 s32 flPS2SendRenderState_FOGCOL(u32 fogcol) {
     u32 qwc;
@@ -312,7 +330,16 @@ s32 flPS2SendTextureRegister(u32 th) {
     return 1;
 }
 
+#if defined(TARGET_PS2)
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2render", literal_876_0055F1B0);
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2render", literal_877_0055F1E0);
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2render", flPS2SetTextureRegister);
+#else
+s32 flPS2SetTextureRegister(u32 th, u64 *texA, u64 *tex1, u64 *tex0, u64 *clamp, u64 *miptbp1, u64 *miptbp2,
+                            u32 render_ope) {
+    not_implemented(__func__);
+}
+#endif
 
 s16 flPS2ConvScreenX(s16 x) {
     x -= flPs2State.ScreenOffsetX;
@@ -374,8 +401,10 @@ u32 flPS2ConvColor(u32 c, s32 type) {
     return (col[3] << 24) | (col[0] << 16) | (col[1] << 8) | (col[2]);
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2render", flAdjustScreen);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2render", literal_876_0055F1B0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/AcrSDK/ps2/flps2render", literal_877_0055F1E0);
+#else
+void flAdjustScreen(s32 x, s32 y) {
+    not_implemented(__func__);
+}
+#endif

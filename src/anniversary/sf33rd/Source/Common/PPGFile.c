@@ -953,7 +953,7 @@ s32 ppgRenewTexChunkSeqs(Texture *tch) {
             flLockTexture(NULL, tch->handle[i].b16[0], &bits, 3);
             dstRam = bits.ptr;
             srcRam = (s32 *)(tch->srcAdrs + tch->srcSize * i);
-            memcpy_4q(srcRam, dstRam, tch->srcSize >> 6);
+            flPS2_Mem_move64(srcRam, dstRam, tch->srcSize >> 6);
             flUnlockTexture(tch->handle[i].b16[0]);
         }
     }

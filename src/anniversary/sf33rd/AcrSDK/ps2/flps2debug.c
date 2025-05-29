@@ -15,6 +15,7 @@
 #include <eestruct.h>
 #include <libgraph.h>
 
+#include <stdio.h>
 #include <string.h>
 
 #if defined(TARGET_PS2)
@@ -404,7 +405,7 @@ static void flPS2DrawProbar() {
                                        0x0 };
 
     data_ptr = (u64 *)SPR;
-    memcpy_1q(&DrawProbar_data, (void *)SPR, 9);
+    flPS2_Mem_move16_16A(&DrawProbar_data, (void *)SPR, 9);
     *(data_ptr + 6) = SCE_GS_SET_SCISSOR_2(0, flWidth - 1, 0, flHeight - 1);
     work = (flDebugTrueTime[3] * 2) / (flPs2State.FrameCount + 1);
     x = flPS2ConvScreenX(0);
@@ -430,7 +431,7 @@ static void flPS2DrawProbar() {
         return;
     }
 
-    memcpy_1q(&LoadProbar_data, (void *)SPR, 4);
+    flPS2_Mem_move16_16A(&LoadProbar_data, (void *)SPR, 4);
     i = 0;
     keep_y = 0;
 

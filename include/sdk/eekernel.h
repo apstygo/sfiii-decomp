@@ -5,6 +5,7 @@
 #include "mw_stdarg.h"
 #else
 #include <stdarg.h>
+#include <stddef.h>
 #endif
 
 #define ExitHandler() asm("sync.l; ei")
