@@ -1647,7 +1647,7 @@ segments:
       - { type: sbss, vram: 0x57B140, name: sf33rd/Source/PS2/mc/knjsub }
       - { type: .sbss, vram: 0x57B148, name: sf33rd/Source/PS2/mc/savesub }
       - { type: .sbss, vram: 0x57B150, name: sf33rd/Source/PS2/mc/msgsub }
-      - { type: sbss, vram: 0x57B160, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap }
+      - { type: .sbss, vram: 0x57B160, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap }
       - { type: sbss, vram: 0x57B1A0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc }
       - { type: .sbss, vram: 0x57B248, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap }
       - { type: sbss, vram: 0x57B260, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse }
