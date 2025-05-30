@@ -8,13 +8,9 @@
 #include <cri/ee/adx_ps2.h>
 #include <cri/sj.h>
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_rnap", ADXPS2_SetupVoice);
-#else
 void ADXPS2_SetupVoice(Sint32 nste, Sint32 nmono) {
-    not_implemented(__func__);
+    PS2RNA_SetupVoice(nste, nmono);
 }
-#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_rnap", ADXPS2_GetNumDataSjtmp);
 
@@ -72,28 +68,40 @@ Sint32 ADXRNA_GetNumData(ADXRNA rna) {
     return PS2RNA_GetNumData(rna);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_rnap", ADXRNA_GetNumRoom);
+Sint32 ADXRNA_GetNumRoom(ADXRNA rna) {
+    return PS2RNA_GetNumRoom(rna);
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_rnap", D_0055B3B0);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_rnap", ADXRNA_GetStat);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_rnap", ADXRNA_ExecServer);
+void ADXRNA_ExecServer() {
+    PS2RNA_ExecServer();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_rnap", ADXRNA_SetStartSmpl);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_rnap", ADXRNA_SetNumChan);
+void ADXRNA_SetNumChan(ADXRNA rna, Sint32 num_chan) {
+    PS2RNA_SetNumChan(rna, num_chan);
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_rnap", ADXRNA_SetSfreq);
+void ADXRNA_SetSfreq(ADXRNA rna, Sint32 sfreq) {
+    PS2RNA_SetSfreq(rna, sfreq);
+}
 
 void ADXRNA_SetOutVol(ADXRNA rna, Sint32 vol) {
     PS2RNA_SetOutVol(rna, vol);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_rnap", ADXRNA_SetOutPan);
+void ADXRNA_SetOutPan(ADXRNA rna, Sint32 channel, Sint32 pan) {
+    PS2RNA_SetOutPan(rna, channel, pan);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_rnap", ADXRNA_SetOutBalance);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_rnap", ADXRNA_SetBitPerSmpl);
+void ADXRNA_SetBitPerSmpl(ADXRNA rna, Sint32 bps) {
+    PS2RNA_SetBitPerSmpl(rna, bps);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_rnap", ADXRNA_GetSfreq);
 
