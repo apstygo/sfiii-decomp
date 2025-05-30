@@ -17,6 +17,7 @@ void ADXSTM_ReleaseFile(ADXSTM stm);
 void ADXSTM_SetSj(ADXSTM stm, SJ sj);
 Sint32 ADXSTM_Start(ADXSTM stm);
 void ADXSTM_Stop(ADXSTM stm);
+void ADXSTM_StopNw(ADXSTM stm);
 void ADXSTM_Destroy(ADXSTM stm);
 void ADXSTM_ExecServer();
 void ADXSTM_SetEos(ADXSTM stm, Sint32 eos);
@@ -27,5 +28,6 @@ Sint32 ADXSTM_Start2(ADXSTM stm, Sint32 arg1);
 Sint32 ADXSTM_Tell(ADXSTM stm);
 void ADXSTM_EntryEosFunc(ADXSTM stm, void (*func)(void *), void *context);
 void ADXSTM_ReleaseFileNw(ADXSTM stm);
+Sint32 ADXSTM_GetFileLen(ADXSTM stm);
 
 #endif
