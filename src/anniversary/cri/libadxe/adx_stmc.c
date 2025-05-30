@@ -505,7 +505,13 @@ void ADXSTM_EntryErrFunc() {
     // Do nothing
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_GetFileLen);
+#else
+Sint32 ADXSTM_GetFileLen(ADXSTM stm) {
+    not_implemented(__func__);
+}
+#endif
 
 Sint32 ADXSTM_GetFileSct(ADXSTM stm) {
     return stm->file_sct;

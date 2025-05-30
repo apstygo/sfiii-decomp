@@ -14,9 +14,11 @@
 #include <memory.h>
 
 // data
-extern void *adxf_ldpt_buf;
-extern Sint32 adxf_ldpt_rdsct;
-extern void *adxf_ldpt_work;
+void *adxf_ldpt_buf = NULL;
+Sint32 adxf_ldpt_rdsct = 0;
+Sint32 adxf_tcnt[10] = { 0 };
+Sint32 adxf_chkp_tcnt[10] = { 0 };
+Sint8 adxf_ldpt_work[0x2100] = { 0 };
 
 // forward decls
 Sint32 adxf_LoadPtBothNw(Sint32 ptid, Sint32 arg1, Sint32 arg2, Char8 *fname, void *dir, ADXF_PTINFO *ptinfo,
