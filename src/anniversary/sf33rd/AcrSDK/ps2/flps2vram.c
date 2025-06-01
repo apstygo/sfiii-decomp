@@ -18,7 +18,8 @@ void __assert(const s8 *file, s32 line, const s8 *expr);
 
 #define LPVRAM_ERROR ((LPVram *)-1)
 
-#define ERR_STOP while (1) {}
+#define ERR_STOP                                                                                                       \
+    while (1) {}
 
 static s32 flPS2ConvertTextureFromContext(plContext *lpcontext, FLTexture *lpflTexture, u32 type);
 s32 flPS2GetVramFreeArea(u32 *lpflhTexture, s32 tex_num);
@@ -32,7 +33,6 @@ LPVram *flPS2SearchVramChange(FLTexture *lpflTexture, u32 *lpflhTexture, s32 tex
 LPVram *flPS2SearchVramSpace(u32 size, u32 align);
 static void flPS2VramTrans(FLTexture *lpflTexture);
 s32 flPS2DeleteAllVramList();
-s32 flPS2GetVramTransAdrs(FLTexture *lpflTexture, s32 bnum);
 s32 flPS2DeleteVramList(FLTexture *lpflTexture);
 s32 flPS2LockTexture(Rect * /* unused */, FLTexture *lpflTexture, plContext *lpcontext, u32 flag, s32 /* unused */);
 s32 flPS2UnlockTexture(FLTexture *);
@@ -473,7 +473,7 @@ s32 flPS2GetPaletteInfoFromContext(plContext *bits, u32 ph, u32 flag) {
 }
 
 s32 flPS2CreatePaletteHandle(u32 ph, u32 flag) {
-    FLTexture *lpflPalette = &flPalette[((ph & 0xFFFF0000) >> 0x10) - 1]; 
+    FLTexture *lpflPalette = &flPalette[((ph & 0xFFFF0000) >> 0x10) - 1];
     u32 dma_size;
     u32 dma_ptr;
 
@@ -1443,13 +1443,13 @@ s16 flPS2GetPaletteVramBlock(FLTexture *lpflPalette) {
         case 1:
             vram_block = 4;
             break;
-            
+
         case 2:
             vram_block = 4;
             break;
         }
     }
-    
+
     return vram_block;
 }
 
