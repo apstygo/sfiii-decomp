@@ -1,4 +1,5 @@
 #include "common.h"
+#include <cri/private/libadxe/structs.h>
 
 #include <cri/cri_xpts.h>
 
@@ -8,35 +9,6 @@
 #define CVFS_DEVICE_MAX 32
 #define CVFS_HANDLE_MAX 40
 #define CVFS_MAX_NAME_LENGTH 0x129
-
-typedef struct {
-    void (*ExecServer)();                               // 0x00
-    void (*EntryErrFunc)();                             // 0x04
-    Sint32 (*GetFileSize)();                            // 0x08
-    void (*unkC)();                                     // 0x0C
-    Sint32 (*Open)(Char8 *device_name, void *, Sint32); // 0x10
-    void (*Close)(Sint32);                              // 0x14
-    Sint32 (*Seek)(Sint32);                             // 0x18
-    Sint32 (*Tell)(Sint32);                             // 0x1C
-    Sint32 (*ReqRd)(Sint32);                            // 0x20
-    void (*unk24)();                                    // 0x24
-    void (*StopTr)();                                   // 0x28
-    Sint32 (*GetStat)(Sint32);                          // 0x2C
-    void (*GetSctLen)();                                // 0x30
-    void (*unk34)();                                    // 0x34
-    void (*GetNumTr)();                                 // 0x38
-    void (*unk3C)();                                    // 0x3C
-    void (*IsExistFile)();                              // 0x40
-    void (*unk44)();                                    // 0x44
-    void (*unk48)();                                    // 0x48
-    void (*unk4C)();                                    // 0x4C
-    void (*unk50)();                                    // 0x50
-    void (*unk54)();                                    // 0x54
-    void (*unk58)();                                    // 0x58
-    void (*unk5C)();                                    // 0x5C
-    Sint32 (*OptFn1)();                                 // 0x60
-    void (*unk64)();                                    // 0x64
-} CVFSDevice;
 
 typedef struct {
     CVFSDevice *device;
