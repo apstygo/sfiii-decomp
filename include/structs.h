@@ -2363,4 +2363,13 @@ typedef struct {
     s16 kowaza; // offset 0xE, size 0x2
 } ZanzouTableEntry;
 
+typedef struct {
+    s32 x;      // offset 0x0, size 0x4
+    s32 y;      // offset 0x4, size 0x4
+    s32 width;  // offset 0x8, size 0x4
+    s32 height; // offset 0xC, size 0x4
+    f32 min_z;  // offset 0x10, size 0x4
+    f32 max_z;  // offset 0x14, size 0x4
+} FL_RenderViewport;
+
 #endif
