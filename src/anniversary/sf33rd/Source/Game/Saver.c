@@ -30,7 +30,7 @@ void Saver_Check(struct _TASK *task_ptr) {
         return;
     }
 
-    if ((task_ptr->timer += 1) > 0x4650) {
+    if ((task_ptr->timer += 1) > 18000) {
         task_ptr->r_no[0]++;
     }
 }
@@ -48,7 +48,7 @@ void Saver_Move(struct _TASK* task_ptr) {
             /* fallthrough */
 
         case 1:
-            FadeOut(1U, 4U, 0U);
+            FadeOut(1, 4, 0);
 
             if ((task_ptr->free[0]++) > 0x30) {
                 task_ptr->r_no[1] += 1;
@@ -56,7 +56,7 @@ void Saver_Move(struct _TASK* task_ptr) {
             break;
 
         case 2:
-            ToneDown(0xC8U, 0U);
+            ToneDown(0xC8, 0);
             break;
         }
     }
@@ -67,6 +67,7 @@ void Saver_Exit(struct _TASK* task_ptr) {
     case 0:
         task_ptr->r_no[1] += 1;
         FadeInit();
+        /* fallthrough */
 
     case 1:
         if (FadeIn(1, 0xFF, 8) != 0) {
