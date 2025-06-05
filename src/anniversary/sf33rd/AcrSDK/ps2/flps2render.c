@@ -75,26 +75,26 @@ s32 flSetRenderState(enum _FLSETRENDERSTATE func, u32 value) {
     u32 work, th;
     FL_RenderViewport *viewport;
 
-    if ((func >= 0x1A) && (func < 0x3A)) {
+    if ((func >= FLRENDER_WORLD0) && (func < FLRENDER_MATERIAL0)) {
         if (value != 0) {
-            flMATRIX[func - 0x1A] = *(MTX *)value;
+            flMATRIX[func - FLRENDER_WORLD0] = *(MTX *)value;
         }
 
         return 1;
     }
 
-    if ((func >= 0x3A) && (func < 0x5A)) {
-        flMATERIAL[func - 0x3A] = *(FLMaterial *)value;
+    if ((func >= FLRENDER_MATERIAL0) && (func < FLRENDER_LIGHT0)) {
+        flMATERIAL[func - FLRENDER_MATERIAL0] = *(FLMaterial *)value;
 
         return 1;
     }
 
-    if ((func >= 0x5A) && (func < 0x5D)) {
-        flLIGHT[func - 0x5A] = *(FLLight *)value;
-        flvecNormalize((Vec3 *)&flLIGHT[func - 0x5A].direction);
-        flLIGHT[func - 0x5A].diffuse.a = 0.0f;
-        flLIGHT[func - 0x5A].specular.a = 0.0f;
-        flPS2ATTENUATION1[func - 0x5A] = 1.0f / flLIGHT[func - 0x5A].Attenuation1;
+    if ((func >= FLRENDER_LIGHT0) && (func < FLRENDER_SHADER)) {
+        flLIGHT[func - FLRENDER_LIGHT0] = *(FLLight *)value;
+        flvecNormalize((Vec3 *)&flLIGHT[func - FLRENDER_LIGHT0].direction);
+        flLIGHT[func - FLRENDER_LIGHT0].diffuse.a = 0.0f;
+        flLIGHT[func - FLRENDER_LIGHT0].specular.a = 0.0f;
+        flPS2ATTENUATION1[func - FLRENDER_LIGHT0] = 1.0f / flLIGHT[func - FLRENDER_LIGHT0].Attenuation1;
 
         return 1;
     }
@@ -106,10 +106,12 @@ s32 flSetRenderState(enum _FLSETRENDERSTATE func, u32 value) {
         break;
 
     case FLRENDER_WRAP:
+        // Do nothing
         break;
 
     case FLRENDER_LIGHTING:
         flSystemRenderState &= ~0xF00;
+
         switch (value) {
         case 0x200:
             flSystemRenderState |= 0x200;
@@ -150,6 +152,7 @@ s32 flSetRenderState(enum _FLSETRENDERSTATE func, u32 value) {
 
     case FLRENDER_SPECULAR:
         flSystemRenderState &= ~0x1C;
+
         switch (value) {
         case 4:
         case 8:
@@ -187,6 +190,7 @@ s32 flSetRenderState(enum _FLSETRENDERSTATE func, u32 value) {
     case FLRENDER_TEXOPE1:
     case FLRENDER_TEXOPE2:
     case FLRENDER_TEXOPE3:
+        // Do nothing
         break;
 
     case FLRENDER_SCISSOR:
@@ -354,7 +358,6 @@ s32 flSetRenderState(enum _FLSETRENDERSTATE func, u32 value) {
         work = flSystemRenderOperation & 0x380000;
 
         if (work != value) {
-
             flSystemRenderOperation &= ~0x380000;
             flSystemRenderOperation |= value;
             flPS2SendRenderState_TEST(flSystemRenderOperation, 0);
@@ -364,7 +367,6 @@ s32 flSetRenderState(enum _FLSETRENDERSTATE func, u32 value) {
 
     case FLRENDER_ALPHAREF:
         if (value != flAlphaRefValue) {
-
             flAlphaRefValue = value;
             flPS2SendRenderState_TEST(flSystemRenderOperation, 0);
         }
@@ -406,6 +408,7 @@ s32 flSetRenderState(enum _FLSETRENDERSTATE func, u32 value) {
         break;
 
     case FLRENDER_RENDERTARGET:
+        // Do nothing
         break;
 
     case FLRENDER_FADECOLORENABLE:
@@ -427,6 +430,7 @@ s32 flSetRenderState(enum _FLSETRENDERSTATE func, u32 value) {
         break;
 
     case FLRENDER_MIPMAPBIAS:
+        // Do nothing
         break;
 
     case FLRENDER_MIPMAPARG1:
