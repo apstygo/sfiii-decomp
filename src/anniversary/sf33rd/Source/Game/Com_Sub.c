@@ -11,11 +11,23 @@ void End_Pattern(PLW *wk) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Next_Be_Passive);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Turn_Over_On);
+#else
+void Turn_Over_On(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Only_Shot);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Lever_On);
+#else
+void Lever_On(PLW *wk, u16 LR_Lever, u16 UD_Lever) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Lever_Off);
@@ -33,13 +45,31 @@ void Pierce_On(PLW *wk) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Setup_DENJIN_LEVEL);
+#else
+void Setup_DENJIN_LEVEL(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Push_Shot);
+#else
+void Push_Shot(PLW *wk, s16 Power_Level) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Check_Exit_DENJIN);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Keep_Away);
+#else
+void Keep_Away(PLW *wk, s16 Target_Pos, s16 Option) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Setup_KA_Jump);
 
@@ -66,14 +96,20 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Check_Arr
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Walk);
 #else
-void Walk(PLW *wk, u16 Lever, s16 Time, u8 unused) {
+void Walk(PLW *wk, u16 Lever, s16 Time, s16 unused) {
     not_implemented(__func__);
 }
 #endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Forced_Guard);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Provoke);
+#else
+void Provoke(PLW *wk, s16 Lever) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Normal_Attack);
@@ -85,7 +121,15 @@ void Normal_Attack(PLW *wk, s16 Reaction, u16 Lever_Data) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Small_Jump_Measure);
 
+
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Normal_Attack_SP);
+#else
+void Normal_Attack_SP(PLW *wk, s16 Reaction, u16 Lever_Data, s16 Time) {
+    not_implemented(__func__);
+}
+#endif
+
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Adjust_Attack);
@@ -107,13 +151,25 @@ void Lever_Attack(PLW *wk, s16 Reaction, u16 Lever, u16 Lever_Data) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Lever_Attack_SP);
+#else
+void Lever_Attack_SP(PLW *wk, s16 Reaction, u16 Lever, u16 Lever_Data, s16 Time) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Setup_Guard_Lever);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Check_Start_Lever_Attack);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", SA_Term);
+#else
+void SA_Term(PLW *wk, u16 SA0, u16 SA1, u16 SA2, u16 Term_No) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", DENJIN_Check);
 
@@ -129,11 +185,29 @@ void Check_SA(PLW *wk, s16 Next_Action, s16 Next_Menu) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Check_EX);
+#else
+void Check_EX(PLW *wk, s16 Next_Action, s16 Next_Menu) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Check_SA_Full);
+#else
+void Check_SA_Full(PLW *wk, s16 Next_Action, s16 Next_Menu) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Branch_Unit_Area);
+#else
+void Branch_Unit_Area(PLW *wk, s16 Next_Action, s16 Menu, s16 Menu_01, s16 Menu_02, s16 Menu_03) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Com_Random_Select);
@@ -177,7 +251,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Check_Exi
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Short_Range_Attack);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", EM_Term);
+#else
+void EM_Term(PLW *wk, s16 Range_X, s16 Range_Y, s16 Exit_Number, s16 Next_Action, s16 Next_Menu) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", SHELL_Term);
 
@@ -197,13 +277,25 @@ void Jump(PLW *wk, s16 Time) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Hi_Jump);
+#else
+void Hi_Jump(PLW *wk, s16 Pl_Number, s16 Jump_Dir) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Check_Start_Hi_Jump);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Check_Air_Guard);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Jump_Attack);
+#else
+void Jump_Attack(PLW *wk, s16 Reaction, s16 Time_Data, u16 Lever_Data, s16 Jump_Dir) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Jump_Attack_Term);
@@ -217,7 +309,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Check_SP_
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Check_VS_Air_Attack);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Hi_Jump_Attack);
+#else
+void Hi_Jump_Attack(PLW *wk, s16 Reaction, s16 Time_Data, u16 Lever_Data, s16 Jump_Dir) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Hi_Jump_Attack_Term);
@@ -231,9 +329,22 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Check_Ter
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Check_Com_Add_Y);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", ORO_JA_Term);
+#else
+void ORO_JA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Lever_Data, s16 RJX, s16 RJY, u16 JLD) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", ORO_HJA_Term);
+#else
+void ORO_HJA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Lever_Data, s16 RJX, s16 RJY, u16 JLD) {
+    not_implemented(__func__);
+}
+#endif
+
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Command_Attack);
@@ -255,7 +366,13 @@ void J_Command_Attack(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Rapid_Command_Attack);
+#else
+void Rapid_Command_Attack(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Shot, u16 Time) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Check_Rapid);
 
@@ -269,13 +386,38 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Check_Rap
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Check_Start_Command_Attack);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", ORO_JCA_Term);
+#else
+void ORO_JCA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RJX, s16 RJY, u16 JLD) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", ORO_HJCA_Term);
+#else
+void ORO_HJCA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RJX, s16 RJY, u16 JLD) {
+    not_implemented(__func__);
+}
+#endif
 
+
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Jump_Command_Attack_Term);
+#else
+void Jump_Command_Attack_Term(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RX, s16 RY, s16 Jump_Dir, s16 JRX, s16 JRY, u16 JLD) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Hi_Jump_Command_Attack_Term);
+#else
+void Hi_Jump_Command_Attack_Term(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RX, s16 RY, s16 Jump_Dir, s16 JRX, s16 JRY, u16 JLD) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Check_Landed);
 
@@ -331,7 +473,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Ck_Distan
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Next_End);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Next_Another_Menu);
+#else
+void Next_Another_Menu(PLW *wk, s16 Next_Action, u16 Next_Menu) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Reaction_Sub);
 
