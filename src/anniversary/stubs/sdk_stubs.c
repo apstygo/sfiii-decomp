@@ -215,7 +215,7 @@ void scePrintf(const char *fmt, ...) {
     not_implemented(__func__);
 }
 
-int DelayThread(u_int); {
+int DelayThread(u_int) {
     not_implemented(__func__);
 }
 
