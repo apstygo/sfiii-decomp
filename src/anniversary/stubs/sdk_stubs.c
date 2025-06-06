@@ -117,6 +117,10 @@ int sceSifCallRpc(sceSifClientData *, unsigned int, unsigned int, void *, int, v
     not_implemented(__func__);
 }
 
+int sceSifCheckStatRpc(sceSifRpcData *){
+    not_implemented(__func__);
+}
+
 // sif
 
 int sceSifDmaStat(unsigned int id) {
@@ -208,6 +212,10 @@ s32 scePad2DeleteSocket(s32) {
 // eekernel
 
 void scePrintf(const char *fmt, ...) {
+    not_implemented(__func__);
+}
+
+int DelayThread(u_int); {
     not_implemented(__func__);
 }
 
