@@ -1,0 +1,140 @@
+#include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc.h"
+#include "common.h"
+
+#include <stdio.h>
+#include <memory.h>
+#include <eekernel.h>
+
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+
+#if defined(TARGET_PS2)
+void __assert(const s8 *file, s32 line, const s8 *expr);
+#define assert(e) (__assert("eflSifRpc.c", e, "0"))
+#else
+#include <assert.h>
+#endif
+
+// sbss
+struct _sif_client_data ScdComm; // size: 0x28, address: 0x57B220
+struct _sif_client_data ScdStat; // size: 0x28, address: 0x57B1F0
+struct _sif_client_data ScdThMon; // size: 0x28, address: 0x57B1C0
+struct _sif_client_data * pScd; // size: 0x4, address: 0x57B1B0
+void * pSendBuf; // size: 0x4, address: 0x57B1AC
+void * pRecvBuf; // size: 0x4, address: 0x57B1A8
+u32 SendBufSize; // size: 0x4, address: 0x57B1A4
+u32 RecvBufSize; // size: 0x4, address: 0x57B1A0
+
+// bss
+CSE_RPCBUFF RpcBuff; // size: 0xC0, address: 0x6EA140
+u8 ThMonSendBuf[16] __attribute__((section(".bss"))); // size: 0x10, address: 0x6EA100
+u8 ThMonRecvBuf[1024]; // size: 0x400, address: 0x6E9D00
+
+s32 flSifRpcInit() {
+    sceSifInitRpc(0);
+    scePrintf("[EE]");
+    scePrintf("(SYS)");
+    scePrintf("Binding SIF RPC 'Comm'......");
+    
+    do {
+        if (sceSifBindRpc(&ScdComm, 0x01234567U, 0) < 0) {
+            printf("sndtest(EE_RPC) : Error : sceSifBindRpc \n");
+            assert(0x54);
+        }
+        
+        DelayThread(0x3E8);
+    } while (ScdComm.serve == NULL);
+    
+    scePrintf("[EE]");
+    scePrintf("(SYS)");
+    scePrintf("Done!\n");
+    scePrintf("[EE]");
+    scePrintf("(SYS)");
+    scePrintf("Binding SIF RPC 'Stat'......");
+    
+    do {
+        if (sceSifBindRpc(&ScdStat, 0x09876543U, 0) < 0) {
+            printf("sndtest(EE_RPC) : Error : sceSifBindRpc \n");
+            assert(0x65);
+        }
+        
+        DelayThread(0x3E8);
+    } while (ScdStat.serve == NULL);
+    
+    scePrintf("[EE]");
+    scePrintf("(SYS)");
+    scePrintf("Done!\n");
+    scePrintf("[EE]");
+    scePrintf("(SYS)");
+    scePrintf("Binding SIF RPC 'ThMon'......");
+    
+    do {
+        if (sceSifBindRpc(&ScdThMon, 0x77755500U, 0) < 0) {
+            printf("sndtest(EE_RPC) : Error : sceSifBindRpc \n");
+            assert(0x77);
+        }
+        
+        DelayThread(0x3E8);
+    } while (ScdThMon.serve == NULL);
+    
+    scePrintf("[EE]");
+    scePrintf("(SYS)");
+    scePrintf("Done!\n");
+    return 0;
+}
+
+void* flSifRpcSend(u32 CmdType, void* pData, u32 DataSize) {
+    s32 result;
+    
+    switch (CmdType) { 
+    case 0x309:
+    case 3:
+    case 1:
+        memset(&RpcBuff, 0xFF, 64);
+        memset(RpcBuff.CommRecvBuf, 0xFF, 64);
+        memcpy(&RpcBuff, pData, MIN(DataSize, 64));
+        pScd = &ScdComm;
+        pSendBuf = &RpcBuff;
+        pRecvBuf = RpcBuff.CommRecvBuf;
+        SendBufSize = 64;
+        RecvBufSize = 64;
+        break;
+        
+    case 2:
+        memset(RpcBuff.StatSendBuf, 0xFF, 32);
+        memset(RpcBuff.StatRecvBuf, 0xFF, 32);
+        memcpy(RpcBuff.StatSendBuf, pData, MIN(DataSize, 32));
+        pScd = &ScdStat;
+        pSendBuf = RpcBuff.StatSendBuf;
+        pRecvBuf = RpcBuff.StatRecvBuf;
+        SendBufSize = 32;
+        RecvBufSize = 32;
+        break;
+
+    case 0x63:
+        memset(ThMonSendBuf, 0xFF, 16);
+        memset(ThMonRecvBuf, 0xFF, 1024);
+        pScd = &ScdThMon;
+        pSendBuf = ThMonSendBuf;
+        pRecvBuf = ThMonRecvBuf;
+        SendBufSize = 16;
+        RecvBufSize = 1024;
+        break;
+        
+    default:
+        printf("sndtest(EE_RPC) : Error : Unknown command.\n");
+        return NULL;
+    }
+    
+    do {} while (sceSifCheckStatRpc(&pScd->rpcd) == 1);
+    FlushCache(0);
+    do {
+        result = sceSifCallRpc(pScd, CmdType, 0, pSendBuf, SendBufSize, pRecvBuf, RecvBufSize, 0,0);
+        if (result < 0) {
+            scePrintf("[EE]");
+            scePrintf("(ERR)");
+            scePrintf("sceSifCallRpc : error!\n");
+        }
+            
+    } while (result != 0);
+    return pRecvBuf;
+}
