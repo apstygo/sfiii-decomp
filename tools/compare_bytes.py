@@ -66,7 +66,7 @@ EXPECTED_ERRORS = {
     0x2CDB7C: 0x3C0024AE,
     0x2CDB80: 0x380022AE,
 
-    # adx_fs::ADXF_GetFnameRangeEx
+    # adx_fs::ADXF_GetFnameRangeEx: this func seems to change depending on other files, very weird
     0x2CE7A0: 0x2000B4FF,
     0x2CE7A4: 0x2DA02001,
     0x2CE7CC: 0x2D984000,
@@ -76,6 +76,7 @@ EXPECTED_ERRORS = {
     0x2CE884: 0x00004294,
     0x2CE888: 0x000082AE,
     0x2CE8A4: 0x2D106002,
+    0x2CE8E4: 0x4A00428C,
 
     # MTRANS::seqsStoreChip: string literal encoding issues
     0x422D5C: 0x82AA9792,

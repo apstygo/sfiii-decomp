@@ -141,12 +141,12 @@ $(CRI_O_FILES): $(BUILD_DIR)/%.c.o: %.c
 else
 
 $(MAIN_TARGET): $(ALL_O_FILES)
-	clang $(ALL_O_FILES) -lz -o $@
+	clang $(ALL_O_FILES) -lz -g -o $@
 
 $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)
 
-	clang -c $< -o $@ $(SDL2_INCLUDES) \
+	clang -g -c $< -o $@ $(SDL2_INCLUDES) \
 		-DTARGET_SDL2 -DXPT_TGT_EE \
 		-Wno-c2x-extensions -Wno-int-conversion -Wno-incompatible-function-pointer-types -w -std=c99
 

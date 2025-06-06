@@ -9,7 +9,7 @@ Notes:
 | Module   | Progress   |
 |----------|------------|
 | sf33rd   | 71.11%     |
-| cri      | 52.62%     |
+| cri      | 54.74%     |
 
 | Function                         | File                                                 | Module   | Is decompiled   |
 |----------------------------------|------------------------------------------------------|----------|-----------------|
@@ -125,7 +125,7 @@ Notes:
 | _lf_version                      | sdk/libkernl/eeloadfile.c                            | sdk      | –               |
 | flPS2PADModuleInit               | sf33rd/AcrSDK/ps2/ps2PAD.c                           | sf33rd   | ✅               |
 | flAdxModuleInit                  | sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX.c             | sf33rd   | ✅               |
-| ADXPS2_SetupVoice                | cri/libadxe/adx_rnap.c                               | cri      |                 |
+| ADXPS2_SetupVoice                | cri/libadxe/adx_rnap.c                               | cri      | ✅               |
 | PS2RNA_SetupVoice                | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
 | sceGsResetPath                   | sdk/libgraph/graph002.c                              | sdk      | –               |
 | sceDmaReset                      | sdk/libdma/libdma.c                                  | sdk      | –               |
@@ -452,11 +452,11 @@ Notes:
 | Init_bgm_work                    | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
 | work_init_zero                   | sf33rd/Source/Game/EFFECT.c                          | sf33rd   | ✅               |
 | Setup_Directory_Record_Data      | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
-| ADXF_LoadPartitionNw             | cri/libadxe/adx_fs.c                                 | cri      |                 |
-| ADXF_LoadPtNwEx                  | cri/libadxe/adx_fs.c                                 | cri      |                 |
-| adxf_LoadPtBothNw                | cri/libadxe/adx_fs.c                                 | cri      |                 |
-| adxf_ChkPrmPt                    | cri/libadxe/adx_fs.c                                 | cri      |                 |
-| ADXF_Open                        | cri/libadxe/adx_fs.c                                 | cri      |                 |
+| ADXF_LoadPartitionNw             | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
+| ADXF_LoadPtNwEx                  | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
+| adxf_LoadPtBothNw                | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
+| adxf_ChkPrmPt                    | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
+| ADXF_Open                        | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
 | adxf_SetCmdHstry                 | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
 | adxf_CreateAdxFs                 | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
 | adxf_AllocAdxFs                  | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
@@ -506,7 +506,7 @@ Notes:
 | ADXSTM_SetPause                  | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | ADXSTM_Start2                    | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | adxstm_start_sub                 | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
-| ADXF_GetPtStat                   | cri/libadxe/adx_fs.c                                 | cri      |                 |
+| ADXF_GetPtStat                   | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
 | ADXF_GetPtStatEx                 | cri/libadxe/adx_fs.c                                 | cri      |                 |
 | ADXF_GetStat                     | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
 | adxm_iWakeupThread               | cri/libadxe/adx_mps2.c                               | cri      |                 |
@@ -522,7 +522,7 @@ Notes:
 | ADXT_GetStat                     | cri/libadxe/adx_tlk.c                                | cri      | ✅               |
 | ADXT_ExecRdErrChk                | cri/libadxe/adx_tsvr.c                               | cri      |                 |
 | LSC_GetStat                      | cri/libadxe/lsc.c                                    | cri      | ✅               |
-| ADXRNA_ExecServer                | cri/libadxe/adx_rnap.c                               | cri      |                 |
+| ADXRNA_ExecServer                | cri/libadxe/adx_rnap.c                               | cri      | ✅               |
 | PS2RNA_ExecServer                | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
 | RNACRS_Lock                      | cri/libadxe/rna_crs.c                                | cri      |                 |
 | PS2RNA_ExecHndl                  | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
@@ -565,10 +565,10 @@ Notes:
 | SJRBF_UngetChunk                 | cri/libadxe/sj_rbf.c                                 | cri      | ✅               |
 | adxf_CloseSjStm                  | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
 | SJRBF_Destroy                    | cri/libadxe/sj_rbf.c                                 | cri      | ✅               |
-| ADXF_CALC_BYTE2SCT               | cri/libadxe/adx_fs.c                                 | cri      |                 |
+| ADXF_CALC_BYTE2SCT               | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
 | ADXSTM_Stop                      | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | ADXSTM_StopNw                    | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
-| adxf_CloseLdptnwHn               | cri/libadxe/adx_fs.c                                 | cri      |                 |
+| adxf_CloseLdptnwHn               | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
 | ADXF_Close                       | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
 | ADXSTM_ReleaseFile               | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | ADXSTM_ReleaseFileNw             | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
@@ -995,17 +995,17 @@ Notes:
 | ADXSJD_EntryTrapFunc             | cri/libadxe/adx_sjd.c                                | cri      |                 |
 | ADXSJD_GetOutBps                 | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
 | ADXB_GetOutBps                   | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
-| ADXRNA_SetBitPerSmpl             | cri/libadxe/adx_rnap.c                               | cri      |                 |
+| ADXRNA_SetBitPerSmpl             | cri/libadxe/adx_rnap.c                               | cri      | ✅               |
 | PS2RNA_SetBitPerSmpl             | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
-| ADXRNA_SetSfreq                  | cri/libadxe/adx_rnap.c                               | cri      |                 |
+| ADXRNA_SetSfreq                  | cri/libadxe/adx_rnap.c                               | cri      | ✅               |
 | PS2RNA_SetSfreq                  | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
-| ADXRNA_SetNumChan                | cri/libadxe/adx_rnap.c                               | cri      |                 |
+| ADXRNA_SetNumChan                | cri/libadxe/adx_rnap.c                               | cri      | ✅               |
 | PS2RNA_SetNumChan                | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
 | ADXRNA_SetTotalNumSmpl           | cri/libadxe/adx_rnap.c                               | cri      | ✅               |
 | ADXT_GetTranspose                | cri/libadxe/adx_tlk.c                                | cri      | ✅               |
 | adxt_set_outpan                  | cri/libadxe/adx_tsvr.c                               | cri      |                 |
 | ADXSJD_GetDefPan                 | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| ADXRNA_SetOutPan                 | cri/libadxe/adx_rnap.c                               | cri      |                 |
+| ADXRNA_SetOutPan                 | cri/libadxe/adx_rnap.c                               | cri      | ✅               |
 | PS2RNA_SetOutPan                 | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
 | ADXSJD_GetFormat                 | cri/libadxe/adx_sjd.c                                | cri      |                 |
 | DTR_GetStat                      | cri/libadxe/dtr.c                                    | cri      |                 |
@@ -1040,7 +1040,7 @@ Notes:
 | adxt_stat_prep                   | cri/libadxe/adx_tsvr.c                               | cri      |                 |
 | ADXRNA_GetNumData                | cri/libadxe/adx_rnap.c                               | cri      | ✅               |
 | PS2RNA_GetNumData                | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
-| ADXRNA_GetNumRoom                | cri/libadxe/adx_rnap.c                               | cri      |                 |
+| ADXRNA_GetNumRoom                | cri/libadxe/adx_rnap.c                               | cri      | ✅               |
 | PS2RNA_GetNumRoom                | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
 | sceSifDmaStat                    | sdk/libkernl/klib.c                                  | sdk      | –               |
 | Go_BGM                           | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
