@@ -25,13 +25,13 @@ u32 SendBufSize; // size: 0x4, address: 0x57B1A4
 u32 RecvBufSize; // size: 0x4, address: 0x57B1A0
 
 // bss
-CSE_RPCBUFF RpcBuff; // size: 0xC0, address: 0x6EA140
+CSE_RPCBUFF RpcBuff __attribute__((aligned(64))); // size: 0xC0, address: 0x6EA140
 #if defined(TARGET_PS2)
 u8 ThMonSendBuf[16] __attribute__((section(".bss"))); // size: 0x10, address: 0x6EA100
 #else
 u8 ThMonSendBuf[16];
 #endif
-u8 ThMonRecvBuf[1024]; // size: 0x400, address: 0x6E9D00
+u8 ThMonRecvBuf[1024] __attribute__((aligned(256))); // size: 0x400, address: 0x6E9D00
 
 s32 flSifRpcInit() {
     sceSifInitRpc(0);
