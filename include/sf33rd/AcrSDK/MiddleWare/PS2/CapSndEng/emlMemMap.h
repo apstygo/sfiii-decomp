@@ -3,6 +3,11 @@
 
 #include "types.h"
 
+extern void * PhdAddr[16];
+
 s32 mlMemMapInit(void *pSpuMemMap);
+u32 mlMemMapGetBankAddr(u32 bank);
+s32 mlMemMapSetPhdAddr(u32 bank ,void *addr);
+void * mlMemMapGetPhdAddr(u32 bank);
 
 #endif
