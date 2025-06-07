@@ -57,6 +57,7 @@ special_cases = {
     ("CHARID", ".sbss", 0): 16,
     ("emlMemMap", ".sbss", 0): 16,
     ("cse", ".sbss", 0): 16,
+    ("emlTSB", ".sbss", 0): 16,
 
     ("bss_6BDA68", ".bss", 0): 8,
     ("iopnotify", ".bss", 0): 8,

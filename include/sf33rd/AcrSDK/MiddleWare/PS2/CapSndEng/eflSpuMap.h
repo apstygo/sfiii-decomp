@@ -1,5 +1,5 @@
-#ifndef EFLSPUMAP_H
-#define EFLSPUMAP_H
+#ifndef EFL_SPU_MAP_H
+#define EFL_SPU_MAP_H
 
 #include "structs.h"
 #include "types.h"

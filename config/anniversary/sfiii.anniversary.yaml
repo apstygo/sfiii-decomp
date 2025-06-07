@@ -691,7 +691,7 @@ segments:
       - [0x311400, c, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap]
       - [0x311690, c, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse]
       - [0x311B70, asm, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRefPhd]
-      - [0x312400, asm, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue]
+      - [0x312400, c, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue]
       - [0x312790, c, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv]
       - [0x312F10, c, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB]
       - [0x3139A0, c, sf33rd/Source/Common/PPGWork] # Good first decomp
@@ -1343,7 +1343,7 @@ segments:
       - [0x460648, .rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap]
       - [0x460678, .rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse]
       - [0x460708, rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRefPhd]
-      - [0x460728, rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue]
+      - [0x460728, .rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue]
       - [0x460768, .rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv]
       - [0x4607A0, .rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB]
       - [0x4607D8, rodata, sf33rd/Source/PS2/mc/msgtblj]
@@ -1651,7 +1651,7 @@ segments:
       - { type: .sbss, vram: 0x57B1A0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc }
       - { type: .sbss, vram: 0x57B248, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap }
       - { type: sbss, vram: 0x57B260, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse }
-      - { type: sbss, vram: 0x57B2A8, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue }
+      - { type: .sbss, vram: 0x57B2A8, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue }
       - { type: sbss, vram: 0x57B2C0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB }
       - { type: sbss, vram: 0x57B300, name: sf33rd/Source/PS2/mc/msgtblj }
       - { type: sbss, vram: 0x57B304, name: sf33rd/Source/PS2/mc/msgtble }
@@ -1725,7 +1725,7 @@ segments:
       - { type: .bss, vram: 0x6E9AE0, name: sf33rd/Source/PS2/mc/savesub }
       - { type: .bss, vram: 0x6E9D00, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc }
       - { type: .bss, vram: 0x6EA200, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap }
-      - { type: bss, vram: 0x6EA2C0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue }
+      - { type: .bss, vram: 0x6EA2C0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue }
       - { type: bss, vram: 0x6EABC0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB }
 
       - { type: bss, vram: 0x6EAF40, name: bss_6EAF40 } # libc?
