@@ -5,6 +5,8 @@
 #include <cri/sj.h>
 #include <sif.h>
 
+#include <libcdvd.h>
+
 // ADXPD
 
 typedef struct {
@@ -297,14 +299,14 @@ typedef struct {
     /* 0x04 */ void (*EntryErrFunc)();
     /* 0x08 */ Sint32 (*GetFileSize)();
     /* 0x0C */ void (*unkC)();
-    /* 0x10 */ Sint32 (*Open)(Char8 *device_name, void *, Sint32);
-    /* 0x14 */ void (*Close)(Sint32);
-    /* 0x18 */ Sint32 (*Seek)(Sint32);
-    /* 0x1C */ Sint32 (*Tell)(Sint32);
-    /* 0x20 */ Sint32 (*ReqRd)(Sint32);
+    /* 0x10 */ void *(*Open)(Char8 *device_name, void *, Sint32);
+    /* 0x14 */ void (*Close)(void *fd);
+    /* 0x18 */ Sint32 (*Seek)(void *fd, Sint32 offset, Sint32 whence);
+    /* 0x1C */ Sint32 (*Tell)(void *fd);
+    /* 0x20 */ Sint32 (*ReqRd)(void *fd);
     /* 0x24 */ void (*unk24)();
     /* 0x28 */ void (*StopTr)();
-    /* 0x2C */ Sint32 (*GetStat)(Sint32);
+    /* 0x2C */ Sint32 (*GetStat)(void *fd);
     /* 0x30 */ void (*GetSctLen)();
     /* 0x34 */ void (*unk34)();
     /* 0x38 */ void (*GetNumTr)();
@@ -327,18 +329,26 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ Sint8 used;
-    /* 0x01 */ char pad1[1];
-    /* 0x02 */ Sint8 unk2;
-    /* 0x03 */ char pad3[9];
+    /* 0x01 */ Sint8 unk1;
+    /* 0x02 */ Sint8 stat;
+    /* 0x03 */ Sint8 unk3;
+    /* 0x04 */ Sint32 unk4;
+    /* 0x08 */ Sint32 unk8;
     /* 0x0C */ Sint32 unkC;
     /* 0x10 */ Sint32 unk10;
     /* 0x14 */ Sint32 unk14;
-    /* 0x18 */ char pad18[4];
+    /* 0x18 */ void *unk18;
     /* 0x1C */ SRD srd;
-    /* 0x20 */ char pad20[0x28];
+    /* 0x20 */ sceCdlFILE unk20;
+    /* 0x44 */ sceCdRMode unk44;
 } DVG_CI_OBJ; /* total size: 0x48 */
 
 typedef DVG_CI_OBJ *DVG_CI;
+
+typedef struct {
+    Uint32 lsn;
+    Uint32 size;
+} DVG_FLIST_SUB;
 
 typedef struct {
     Sint32 unk0;
