@@ -1,198 +1,11 @@
+#include "sf33rd/Source/Game/active11.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 #include "common.h"
 
-typedef void (*PatternFunc)(PLW* wk);
-
-void Pattern11_0000(PLW* wk);
-void Pattern11_0001(PLW* wk);
-void Pattern11_0002(PLW* wk);
-void Pattern11_0003(PLW* wk);
-void Pattern11_0004(PLW* wk);
-void Pattern11_0005(PLW* wk);
-void Pattern11_0006(PLW* wk);
-void Pattern11_0007(PLW* wk);
-void Pattern11_0008(PLW* wk);
-void Pattern11_0009(PLW* wk);
-void Pattern11_0010(PLW* wk);
-void Pattern11_0011(PLW* wk);
-void Pattern11_0012(PLW* wk);
-void Pattern11_0013(PLW* wk);
-void Pattern11_0014(PLW* wk);
-void Pattern11_0015(PLW* wk);
-void Pattern11_0016(PLW* wk);
-void Pattern11_0017(PLW* wk);
-void Pattern11_0018(PLW* wk);
-void Pattern11_0019(PLW* wk);
-void Pattern11_0020(PLW* wk);
-void Pattern11_0021(PLW* wk);
-void Pattern11_0022(PLW* wk);
-void Pattern11_0023(PLW* wk);
-void Pattern11_0024(PLW* wk);
-void Pattern11_0025(PLW* wk);
-void Pattern11_0026(PLW* wk);
-void Pattern11_0027(PLW* wk);
-void Pattern11_0028(PLW* wk);
-void Pattern11_0029(PLW* wk);
-void Pattern11_0030(PLW* wk);
-void Pattern11_0031(PLW* wk);
-void Pattern11_0032(PLW* wk);
-void Pattern11_0033(PLW* wk);
-void Pattern11_0034(PLW* wk);
-void Pattern11_0035(PLW* wk);
-void Pattern11_0036(PLW* wk);
-void Pattern11_0037(PLW* wk);
-void Pattern11_0038(PLW* wk);
-void Pattern11_0039(PLW* wk);
-void Pattern11_0040(PLW* wk);
-void Pattern11_0041(PLW* wk);
-void Pattern11_0042(PLW* wk);
-void Pattern11_0043(PLW* wk);
-void Pattern11_0044(PLW* wk);
-void Pattern11_0045(PLW* wk);
-void Pattern11_0046(PLW* wk);
-void Pattern11_0047(PLW* wk);
-void Pattern11_0048(PLW* wk);
-void Pattern11_0049(PLW* wk);
-void Pattern11_0050(PLW* wk);
-void Pattern11_0051(PLW* wk);
-void Pattern11_0052(PLW* wk);
-void Pattern11_0053(PLW* wk);
-void Pattern11_0054(PLW* wk);
-void Pattern11_0055(PLW* wk);
-void Pattern11_0056(PLW* wk);
-void Pattern11_0057(PLW* wk);
-void Pattern11_0058(PLW* wk);
-void Pattern11_0059(PLW* wk);
-void Pattern11_0060(PLW* wk);
-void Pattern11_0061(PLW* wk);
-void Pattern11_0062(PLW* wk);
-void Pattern11_0063(PLW* wk);
-void Pattern11_0064(PLW* wk);
-void Pattern11_0065(PLW* wk);
-void Pattern11_0066(PLW* wk);
-void Pattern11_0067(PLW* wk);
-void Pattern11_0068(PLW* wk);
-void Pattern11_0069(PLW* wk);
-void Pattern11_0070(PLW* wk);
-void Pattern11_0071(PLW* wk);
-void Pattern11_0072(PLW* wk);
-void Pattern11_0073(PLW* wk);
-void Pattern11_0074(PLW* wk);
-void Pattern11_0075(PLW* wk);
-void Pattern11_0076(PLW* wk);
-void Pattern11_0077(PLW* wk);
-void Pattern11_0078(PLW* wk);
-void Pattern11_0079(PLW* wk);
-void Pattern11_0080(PLW* wk);
-void Pattern11_0081(PLW* wk);
-void Pattern11_0082(PLW* wk);
-void Pattern11_0083(PLW* wk);
-void Pattern11_0084(PLW* wk);
-void Pattern11_0085(PLW* wk);
-void Pattern11_0086(PLW* wk);
-void Pattern11_0087(PLW* wk);
-void Pattern11_0088(PLW* wk);
-void Pattern11_0089(PLW* wk);
-
-// const PatternFunc Pattern11_Tbl[] = {
-//     Pattern11_0000,
-//     Pattern11_0001,
-//     Pattern11_0002,
-//     Pattern11_0003,
-//     Pattern11_0004,
-//     Pattern11_0005,
-//     Pattern11_0006,
-//     Pattern11_0007,
-//     Pattern11_0008,
-//     Pattern11_0009,
-//     Pattern11_0010,
-//     Pattern11_0011,
-//     Pattern11_0012,
-//     Pattern11_0013,
-//     Pattern11_0014,
-//     Pattern11_0015,
-//     Pattern11_0016,
-//     Pattern11_0017,
-//     Pattern11_0018,
-//     Pattern11_0019,
-//     Pattern11_0020,
-//     Pattern11_0021,
-//     Pattern11_0022,
-//     Pattern11_0023,
-//     Pattern11_0024,
-//     Pattern11_0025,
-//     Pattern11_0026,
-//     Pattern11_0027,
-//     Pattern11_0028,
-//     Pattern11_0029,
-//     Pattern11_0030,
-//     Pattern11_0031,
-//     Pattern11_0032,
-//     Pattern11_0033,
-//     Pattern11_0034,
-//     Pattern11_0035,
-//     Pattern11_0036,
-//     Pattern11_0037,
-//     Pattern11_0038,
-//     Pattern11_0039,
-//     Pattern11_0040,
-//     Pattern11_0041,
-//     Pattern11_0042,
-//     Pattern11_0043,
-//     Pattern11_0044,
-//     Pattern11_0045,
-//     Pattern11_0046,
-//     Pattern11_0047,
-//     Pattern11_0048,
-//     Pattern11_0049,
-//     Pattern11_0050,
-//     Pattern11_0051,
-//     Pattern11_0052,
-//     Pattern11_0053,
-//     Pattern11_0054,
-//     Pattern11_0055,
-//     Pattern11_0056,
-//     Pattern11_0057,
-//     Pattern11_0058,
-//     Pattern11_0059,
-//     Pattern11_0060,
-//     Pattern11_0061,
-//     Pattern11_0062,
-//     Pattern11_0063,
-//     Pattern11_0064,
-//     Pattern11_0065,
-//     Pattern11_0066,
-//     Pattern11_0067,
-//     Pattern11_0068,
-//     Pattern11_0069,
-//     Pattern11_0070,
-//     Pattern11_0071,
-//     Pattern11_0072,
-//     Pattern11_0073,
-//     Pattern11_0074,
-//     Pattern11_0075,
-//     Pattern11_0076,
-//     Pattern11_0077,
-//     Pattern11_0078,
-//     Pattern11_0079,
-//     Pattern11_0080,
-//     Pattern11_0081,
-//     Pattern11_0082,
-//     Pattern11_0083,
-//     Pattern11_0084,
-//     Pattern11_0085,
-//     Pattern11_0086,
-//     Pattern11_0087,
-//     Pattern11_0088,
-//     Pattern11_0089
-// };
-
-// void Computer11(PLW* wk) {
-//     Pattern11_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
-// }
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active11", Computer11);
+void Computer11(PLW* wk) {
+    Pattern11_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
+}
 
 void Pattern11_0000(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -1586,4 +1399,28 @@ void Pattern11_0089(PLW *wk) {
     }
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/active11", Pattern11_Tbl);
+void (*const Pattern11_Tbl[90])(PLW *) = {
+    Pattern11_0000, Pattern11_0001, Pattern11_0002, Pattern11_0003,
+    Pattern11_0004, Pattern11_0005, Pattern11_0006, Pattern11_0007,
+    Pattern11_0008, Pattern11_0009, Pattern11_0010, Pattern11_0011,
+    Pattern11_0012, Pattern11_0013, Pattern11_0014, Pattern11_0015,
+    Pattern11_0016, Pattern11_0017, Pattern11_0018, Pattern11_0019,
+    Pattern11_0020, Pattern11_0021, Pattern11_0022, Pattern11_0023,
+    Pattern11_0024, Pattern11_0025, Pattern11_0026, Pattern11_0027,
+    Pattern11_0028, Pattern11_0029, Pattern11_0030, Pattern11_0031,
+    Pattern11_0032, Pattern11_0033, Pattern11_0034, Pattern11_0035,
+    Pattern11_0036, Pattern11_0037, Pattern11_0038, Pattern11_0039,
+    Pattern11_0040, Pattern11_0041, Pattern11_0042, Pattern11_0043,
+    Pattern11_0044, Pattern11_0045, Pattern11_0046, Pattern11_0047,
+    Pattern11_0048, Pattern11_0049, Pattern11_0050, Pattern11_0051,
+    Pattern11_0052, Pattern11_0053, Pattern11_0054, Pattern11_0055,
+    Pattern11_0056, Pattern11_0057, Pattern11_0058, Pattern11_0059,
+    Pattern11_0060, Pattern11_0061, Pattern11_0062, Pattern11_0063,
+    Pattern11_0064, Pattern11_0065, Pattern11_0066, Pattern11_0067,
+    Pattern11_0068, Pattern11_0069, Pattern11_0070, Pattern11_0071,
+    Pattern11_0072, Pattern11_0073, Pattern11_0074, Pattern11_0075,
+    Pattern11_0076, Pattern11_0077, Pattern11_0078, Pattern11_0079,
+    Pattern11_0080, Pattern11_0081, Pattern11_0082, Pattern11_0083,
+    Pattern11_0084, Pattern11_0085, Pattern11_0086, Pattern11_0087,
+    Pattern11_0088, Pattern11_0089
+};

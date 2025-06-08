@@ -1,8 +1,11 @@
+#include "sf33rd/Source/Game/active10.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 #include "common.h"
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active10", Computer10);
+void Computer10(PLW* wk) {
+    Pattern10_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
+}
 
 void Pattern10_0000(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -248,7 +251,37 @@ void Pattern10_0016(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active10", Pattern10_0017);
+void Pattern10_0017(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Pierce_On(wk);
+        break;
+
+    case 1:
+        Command_Attack(wk, 0xe, 0x1e, 8, -1);
+        break;
+
+    case 2:
+        Wait(wk, 0xe);
+        break;
+
+    case 3:
+        Command_Attack(wk, 0xe, 0x1e, 8, -1);
+        break;
+
+    case 4:
+        Wait(wk, 0xe);
+        break;
+
+    case 5:
+        Command_Attack(wk, 0xe, 0x1e, 8, -1);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern10_0018(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -262,7 +295,37 @@ void Pattern10_0018(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active10", Pattern10_0019);
+void Pattern10_0019(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Pierce_On(wk);
+        break;
+
+    case 1:
+        Command_Attack(wk, 0xe, 0x1e, 9, -1);
+        break;
+
+    case 2:
+        Wait(wk, 0xe);
+        break;
+
+    case 3:
+        Command_Attack(wk, 0xe, 0x1e, 9, -1);
+        break;
+
+    case 4:
+        Wait(wk, 0xe);
+        break;
+
+    case 5:
+        Command_Attack(wk, 0xe, 0x1e, 9, -1);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern10_0020(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -588,7 +651,41 @@ void Pattern10_0040(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active10", Pattern10_0041);
+void Pattern10_0041(PLW *wk){
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Normal_Attack(wk, 0xb, 0x42);
+        break;
+
+    case 1:
+        Pierce_On(wk);
+        break;
+
+    case 2:
+        Command_Attack(wk, 0xe, 0x1e, 8, -1);
+        break;
+
+    case 3:
+        Wait(wk, 0xe);
+        break;
+
+    case 4:
+        Command_Attack(wk, 0xe, 0x1e, 8, -1);
+        break;
+
+    case 5:
+        Wait(wk, 0xe);
+        break;
+
+    case 6:
+        Command_Attack(wk, 0xe, 0x1e, 8, -1);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern10_0042(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -1050,4 +1147,23 @@ void Pattern10_0069(PLW *wk) {
     }
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/active10", Pattern10_Tbl);
+void (*const Pattern10_Tbl[70])(PLW *) = {
+    Pattern10_0000, Pattern10_0001, Pattern10_0002, Pattern10_0003,
+    Pattern10_0004, Pattern10_0005, Pattern10_0006, Pattern10_0007,
+    Pattern10_0008, Pattern10_0009, Pattern10_0010, Pattern10_0011,
+    Pattern10_0012, Pattern10_0013, Pattern10_0014, Pattern10_0015,
+    Pattern10_0016, Pattern10_0017, Pattern10_0018, Pattern10_0019,
+    Pattern10_0020, Pattern10_0021, Pattern10_0022, Pattern10_0023,
+    Pattern10_0024, Pattern10_0025, Pattern10_0026, Pattern10_0027,
+    Pattern10_0028, Pattern10_0029, Pattern10_0030, Pattern10_0031,
+    Pattern10_0032, Pattern10_0033, Pattern10_0034, Pattern10_0035,
+    Pattern10_0036, Pattern10_0037, Pattern10_0038, Pattern10_0039,
+    Pattern10_0040, Pattern10_0041, Pattern10_0042, Pattern10_0043,
+    Pattern10_0044, Pattern10_0045, Pattern10_0046, Pattern10_0047,
+    Pattern10_0048, Pattern10_0049, Pattern10_0050, Pattern10_0051,
+    Pattern10_0052, Pattern10_0053, Pattern10_0054, Pattern10_0055,
+    Pattern10_0056, Pattern10_0057, Pattern10_0058, Pattern10_0059,
+    Pattern10_0060, Pattern10_0061, Pattern10_0062, Pattern10_0063,
+    Pattern10_0064, Pattern10_0065, Pattern10_0066, Pattern10_0067,
+    Pattern10_0068, Pattern10_0069
+};

@@ -19,7 +19,13 @@ void Turn_Over_On(PLW *wk) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Only_Shot);
+#else
+void Only_Shot(PLW *wk, s16 Lever_Data) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Sub", Lever_On);

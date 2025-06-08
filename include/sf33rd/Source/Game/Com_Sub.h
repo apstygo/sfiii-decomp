@@ -6,6 +6,7 @@
 
 void End_Pattern(PLW *wk);
 void Turn_Over_On(PLW *wk);
+void Only_Shot(PLW *wk, s16 Lever_Data);
 void Lever_On(PLW *wk, u16 LR_Lever, u16 UD_Lever);
 void Lever_Off(PLW *wk);
 void Pierce_On(PLW *wk);

@@ -83,7 +83,7 @@ def alignments(path: Path) -> list[tuple[int, int]]:
         is_c_file = str(path).split(".")[-2] == "c"
 
         alignments: list[tuple[int, int]] = list()
-        
+
         # Current index of section among sections of this type.
         # .text -> 3 means this .text section is the 3rd .text section.
         section_indices = {

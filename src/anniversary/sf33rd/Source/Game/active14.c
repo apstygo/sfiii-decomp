@@ -1,8 +1,11 @@
+#include "sf33rd/Source/Game/active14.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 #include "common.h"
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Computer14);
+void Computer14(PLW* wk) {
+    Pattern14_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
+}
 
 void Pattern14_0000(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -332,7 +335,45 @@ void Pattern14_0025(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0026);
+void Pattern14_0026(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Pierce_On(wk);
+        break;
+
+    case 1:
+        Approach_Walk(wk, 0xbf, 3);
+        break;
+
+    case 2:
+        Jump_Command_Attack_Term(wk, 8, 0x2E, 8, -1, -1, 0x30, 0, -0x7F80, -1, 0x400);
+        break;
+
+    case 3:
+        Normal_Attack(wk, 0xb, 0x202);
+        break;
+
+    case 4:
+        J_Command_Attack(wk, 0xb, 0x20, 8, -1);
+        break;
+
+    case 5:
+        Wait(wk, 5);
+        break;
+
+    case 6:
+        SA_Term(wk, 0x2f, 0xffff, 0x31, 0x7f);
+        break;
+
+    case 7:
+        J_Command_Attack(wk, 8, 0x1e, 10, -1);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern14_0027(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -390,7 +431,37 @@ void Pattern14_0029(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0030);
+void Pattern14_0030(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Approach_Walk(wk, 0xbf, 3);
+        break;
+
+    case 1:
+        Jump_Attack_Term(wk, 0x8058, 0x8038, 0xb, 0x400, 0, 0x8080, -1, 0x400);
+        break;
+
+    case 2:
+        Normal_Attack(wk, 0xb, 0x202);
+        break;
+
+    case 3:
+        Command_Attack(wk, 0xc, 0x1f, 10, -1);
+        break;
+
+    case 4:
+        Wait(wk, 1);
+        break;
+
+    case 5:
+        SA_Term(wk, 0x2f, 0x30, 0x31, 0x7f);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern14_0031(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -416,9 +487,73 @@ void Pattern14_0031(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0032);
+void Pattern14_0032(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Approach_Walk(wk, 0xbf, 2);
+        break;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0033);
+    case 1:
+        Jump_Attack_Term(wk, 0x8058, 0x8038, 0xb, 0x400, 0, 0x8080, -1, 0x400);
+        break;
+
+    case 2:
+        Normal_Attack(wk, 0xb, 0x202);
+        break;
+
+    case 3:
+        Command_Attack(wk, 0xc, 0x1f, 10, -1);
+        break;
+
+    case 4:
+        Wait(wk, 1);
+        break;
+
+    case 5:
+        SA_Term(wk, 0x2f, 0x30, 0x31, 0x7f);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
+
+void Pattern14_0033(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Pierce_On(wk);
+        break;
+
+    case 1:
+        Approach_Walk(wk, 0xbf, 2);
+        break;
+
+    case 2:
+        Jump_Command_Attack_Term(wk, 8, 0x2e, 8, -1, -1, 0x30, 0, -0x7F80, -1, 0x400);
+        break;
+
+    case 3:
+        Normal_Attack(wk, 0xb, 0x202);
+        break;
+
+    case 4:
+        J_Command_Attack(wk, 8, 0x20, 8, -1);
+        break;
+
+    case 5:
+        Wait(wk, 3);
+        break;
+
+    case 6:
+        J_Command_Attack(wk, 8, 0x1e, 8, -1);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern14_0034(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -468,9 +603,73 @@ void Pattern14_0035(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0036);
+void Pattern14_0036(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Turn_Over_On(wk);
+        break;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0037);
+    case 1:
+        Hi_Jump_Attack_Term(wk, -1, 0x61, 8, 0x202, 0, 0x8080, -1, 0x400);
+        break;
+
+    case 2:
+        Normal_Attack(wk, 0xb, 0x202);
+        break;
+
+    case 3:
+        Command_Attack(wk, 0xc, 0x1f, 10, -1);
+        break;
+
+    case 4:
+        Wait(wk, 1);
+        break;
+
+    case 5:
+        SA_Term(wk, 0x2f, 0x30, 0x31, 0x7f);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
+
+void Pattern14_0037(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Turn_Over_On(wk);
+        break;
+
+    case 1:
+        Hi_Jump_Attack_Term(wk, -1, 0x61, 8, 0x202, 0, 0x8080, -1, 0x400);
+        break;
+
+    case 2:
+        Normal_Attack(wk, 0xb, 0x202);
+        break;
+
+    case 3:
+        Pierce_On(wk);
+        break;
+
+    case 4:
+        J_Command_Attack(wk, 8, 0x20, 8, -1);
+        break;
+
+    case 5:
+        Wait(wk,3);
+        break;
+
+    case 6:
+        J_Command_Attack(wk, 8, 0x1e, 8, -1);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern14_0038(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -684,7 +883,57 @@ void Pattern14_0051(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0052);
+void Pattern14_0052(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Check_SA_Full(wk,6,0x7c);
+        break;
+
+    case 1:
+        EM_Term(wk,0x80d0,-1,5,2,0);
+        break;
+
+    case 2:
+        Only_Shot(wk,0x10);
+        break;
+
+    case 3:
+        Wait(wk,1);
+        break;
+
+    case 4:
+        Only_Shot(wk,0x10);
+        break;
+
+    case 5:
+        Wait(wk,1);
+        break;
+
+    case 6:
+        Lever_On(wk,0,0);
+        break;
+
+    case 7:
+        Wait(wk,1);
+        break;
+
+    case 8:
+        Only_Shot(wk,0x100);
+        break;
+
+    case 9:
+        Wait(wk,1);
+        break;
+
+    case 10:
+        Only_Shot(wk,0x40);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern14_0053(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -786,7 +1035,41 @@ void Pattern14_0058(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0059);
+void Pattern14_0059(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Approach_Walk(wk, 0xbf, 2);
+        break;
+
+    case 1:
+        Jump_Attack_Term(wk, 0x8058, 0x8038, 9, 0x400, 0, 0x8080, -1, 0x400);
+        break;
+
+    case 2:
+        Normal_Attack(wk, 9, 0x220);
+        break;
+
+    case 3:
+        Normal_Attack(wk, 0xc, 0x202);
+        break;
+
+    case 4:
+        Command_Attack(wk, 0xc, 0x1f, 10, -1);
+        break;
+
+    case 5:
+        Wait(wk, 1);
+        break;
+
+    case 6:
+        SA_Term(wk, 0x2f, 0x30, 0x31, 0x7f);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern14_0060(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -816,7 +1099,37 @@ void Pattern14_0060(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0061);
+void Pattern14_0061(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Approach_Walk(wk, 0xbf, 2);
+        break;
+
+    case 1:
+        Turn_Over_On(wk);
+        break;
+
+    case 2:
+        Hi_Jump_Attack_Term(wk, -1, 0x61, 9, 0x202, 0, 0x8080, -1, 0x400);
+        break;
+
+    case 3:
+        Normal_Attack(wk, 9, 0x202);
+        break;
+
+    case 4:
+        SA_Term(wk, 0x32, 0xffff, 0xffff, 0xbf);
+        break;
+
+    case 5:
+        Com_Random_Select(wk, 6, 0x77, 0x77, 0x78, 0x79, 2);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern14_0062(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -846,11 +1159,121 @@ void Pattern14_0062(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0063);
+void Pattern14_0063(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Approach_Walk(wk, 0xbf, 2);
+        break;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0064);
+    case 1:
+        Jump_Command_Attack_Term(wk, 8, 0x2e, 8, -1, -1, 0x34, 0, -0x7F80, -1, 0x400);
+        break;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0065);
+    case 2:
+        Normal_Attack(wk, 9, 0x202);
+        break;
+
+    case 3:
+        Normal_Attack(wk, 9, 0x220);
+        break;
+
+    case 4:
+        Normal_Attack(wk, 0xc, 0x202);
+        break;
+
+    case 5:
+        Command_Attack(wk, 0xc, 0x1f, 10, -1);
+        break;
+
+    case 6:
+        Wait(wk, 1);
+        break;
+
+    case 7:
+        SA_Term(wk, 0x2f, 0x30, 0x31, 0x7f);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
+
+void Pattern14_0064(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Approach_Walk(wk, 0xbf, 2);
+        break;
+
+    case 1:
+        Jump_Command_Attack_Term(wk, 8, 0x2E, 8, -1, -1, 0x34, 0, -0x7F80, -1, 0x400);
+        break;
+
+    case 2:
+        Lever_Attack(wk, 9, 0, 0x20);
+        break;
+
+    case 3:
+        Normal_Attack(wk, 9, 0x202);
+        break;
+
+    case 4:
+        Normal_Attack(wk, 9, 0x220);
+        break;
+
+    case 5:
+        Normal_Attack(wk, 0xc, 0x202);
+        break;
+
+    case 6:
+        Command_Attack(wk, 0xc, 0x1f, 10, -1);
+        break;
+
+    case 7:
+        Wait(wk, 1);
+        break;
+
+    case 8:
+        SA_Term(wk, 0x2f, 0x30, 0x31, 0x7f);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
+
+void Pattern14_0065(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Approach_Walk(wk, 0xbf, 2);
+        break;
+
+    case 1:
+        Jump_Command_Attack_Term(wk, 8, 0x2e, 8, -1, -1, 0x34, 0, -0x7F80, -1, 0x400);
+        break;
+
+    case 2:
+        Normal_Attack(wk, 9, 0x102);
+        break;
+
+    case 3:
+        Normal_Attack(wk, 9, 0x102);
+        break;
+
+    case 4:
+        SA_Term(wk, 0x32, -1, -1, 0xbf);
+        break;
+
+    case 5:
+        Com_Random_Select(wk, 6, 0x77, 0x77, 0x78, 0x79, 2);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern14_0066(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -1152,9 +1575,77 @@ void Pattern14_0082(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0083);
+void Pattern14_0083(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Normal_Attack(wk, 9, 0x102);
+        break;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0084);
+    case 1:
+        J_Command_Attack(wk, 8, 0x20, 8, -1);
+        break;
+
+    case 2:
+        Normal_Attack(wk, 9, 0x102);
+        break;
+
+    case 3:
+        J_Command_Attack(wk, 8, 0x20, 8, -1);
+        break;
+
+    case 4:
+        Normal_Attack(wk, 9, 0x102);
+        break;
+
+    case 5:
+        Normal_Attack(wk, 8, 0x400);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
+
+void Pattern14_0084(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Normal_Attack(wk, 9, 0x102);
+        break;
+
+    case 1:
+        Normal_Attack(wk, 9, 0x220);
+        break;
+
+    case 2:
+        Normal_Attack(wk, 9, 0x102);
+        break;
+
+    case 3:
+        J_Command_Attack(wk, 8, 0x20, 8, -1);
+        break;
+
+    case 4:
+        Normal_Attack(wk, 9, 0x102);
+        break;
+
+    case 5:
+        J_Command_Attack(wk, 8, 0x20, 8, -1);
+        break;
+
+    case 6:
+        Normal_Attack(wk, 9, 0x102);
+        break;
+
+    case 7:
+        Normal_Attack(wk, 8, 0x400);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern14_0085(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -1204,7 +1695,45 @@ void Pattern14_0086(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0087);
+void Pattern14_0087(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Normal_Attack(wk, 9, 0x220);
+        break;
+
+    case 1:
+        Normal_Attack(wk, 9, 0x102);
+        break;
+
+    case 2:
+        J_Command_Attack(wk, 8, 0x20, 8, -1);
+        break;
+
+    case 3:
+        Normal_Attack(wk, 9, 0x102);
+        break;
+
+    case 4:
+        Normal_Attack(wk, 9, 0x102);
+        break;
+
+    case 5:
+        Lever_On(wk, 1, 2);
+        break;
+
+    case 6:
+        Wait(wk, 2);
+        break;
+
+    case 7:
+        Normal_Attack(wk, 8, 0x402);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern14_0088(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -1254,9 +1783,77 @@ void Pattern14_0089(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0090);
+void Pattern14_0090(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Normal_Attack(wk, 9, 0x100);
+        break;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0091);
+    case 1:
+        J_Command_Attack(wk, 8, 0x20, 8, -1);
+        break;
+
+    case 2:
+        Normal_Attack(wk, 9, 0x102);
+        break;
+
+    case 3:
+        SA_Term(wk, 0x34, 0x34, 0x34, 0x7f);
+        break;
+
+    case 4:
+        Approach_Walk(wk, 0x10, 2);
+        break;
+
+    case 5:
+        Lever_Attack(wk, 8, 0, 0x110);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
+
+void Pattern14_0091(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Normal_Attack(wk, 9, 0x100);
+        break;
+
+    case 1:
+        J_Command_Attack(wk, 8, 0x20, 8, -1);
+        break;
+
+    case 2:
+        Normal_Attack(wk, 9, 0x102);
+        break;
+
+    case 3:
+        J_Command_Attack(wk, 8, 0x20, 8, -1);
+        break;
+
+    case 4:
+        Normal_Attack(wk, 9, 0x102);
+        break;
+
+    case 5:
+        SA_Term(wk, 0x34, 0x34, 0x34, 0x7f);
+        break;
+
+    case 6:
+        Approach_Walk(wk, 0x10, 2);
+        break;
+
+    case 7:
+        Lever_Attack(wk, 8, 1, 0x110);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern14_0092(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -2078,13 +2675,141 @@ void Pattern14_0136(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0137);
+void Pattern14_0137(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Normal_Attack(wk, 9, 0x200);
+        break;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0138);
+    case 1:
+        Normal_Attack(wk, 0xc, 0x202);
+        break;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0139);
+    case 2:
+        Pierce_On(wk);
+        break;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_0140);
+    case 3:
+        J_Command_Attack(wk, 0xb, 0x20, 8, -1);
+        break;
+
+    case 4:
+        Wait(wk,5);
+        break;
+
+    case 5:
+        SA_Term(wk, 0x2f, -1, 0x31, 0x7f);
+        break;
+
+    case 6:
+        J_Command_Attack(wk, 8, 0x1e, 10, -1);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
+
+void Pattern14_0138(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Normal_Attack(wk, 9, 0x202);
+        break;
+
+    case 1:
+        Normal_Attack(wk, 0xc, 0x202);
+        break;
+
+    case 2:
+        Pierce_On(wk);
+        break;
+
+    case 3:
+        J_Command_Attack(wk, 0xb, 0x20, 8, -1);
+        break;
+
+    case 4:
+        Wait(wk, 5);
+        break;
+
+    case 5:
+        SA_Term(wk, 0x2f, -1, 0x31, 0x7f);
+        break;
+
+    case 6:
+        J_Command_Attack(wk, 8, 0x1e, 10, -1);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
+
+void Pattern14_0139(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Normal_Attack(wk, 9, 0x200);
+        break;
+
+    case 1:
+        Normal_Attack(wk, 0xc, 0x202);
+        break;
+
+    case 2:
+        Pierce_On(wk);
+        break;
+
+    case 3:
+        J_Command_Attack(wk, 0xb, 0x20, 9, -1);
+        break;
+
+    case 4:
+        Wait(wk,3);
+        break;
+
+    case 5:
+        J_Command_Attack(wk, 8, 0x1e, 9, -1);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
+
+void Pattern14_0140(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Normal_Attack(wk, 9, 0x200);
+        break;
+
+    case 1:
+        Normal_Attack(wk, 9, 0x200);
+        break;
+
+    case 2:
+        Pierce_On(wk);
+        break;
+
+    case 3:
+        J_Command_Attack(wk, 0xb, 0x20, 9, -1);
+        break;
+
+    case 4:
+        Wait(wk,3);
+        break;
+
+    case 5:
+        J_Command_Attack(wk, 8, 0x1e, 9, -1);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern14_0141(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -2286,4 +3011,43 @@ void Pattern14_0150(PLW *wk) {
     }
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/active14", Pattern14_Tbl);
+void (*const Pattern14_Tbl[151])(PLW *) = {
+    Pattern14_0000, Pattern14_0001, Pattern14_0002, Pattern14_0003,
+    Pattern14_0004, Pattern14_0005, Pattern14_0006, Pattern14_0007,
+    Pattern14_0008, Pattern14_0009, Pattern14_0010, Pattern14_0011,
+    Pattern14_0012, Pattern14_0013, Pattern14_0014, Pattern14_0015,
+    Pattern14_0016, Pattern14_0017, Pattern14_0018, Pattern14_0019,
+    Pattern14_0020, Pattern14_0021, Pattern14_0022, Pattern14_0023,
+    Pattern14_0024, Pattern14_0025, Pattern14_0026, Pattern14_0027,
+    Pattern14_0028, Pattern14_0029, Pattern14_0030, Pattern14_0031,
+    Pattern14_0032, Pattern14_0033, Pattern14_0034, Pattern14_0035,
+    Pattern14_0036, Pattern14_0037, Pattern14_0038, Pattern14_0039,
+    Pattern14_0040, Pattern14_0041, Pattern14_0042, Pattern14_0043,
+    Pattern14_0044, Pattern14_0045, Pattern14_0046, Pattern14_0047,
+    Pattern14_0048, Pattern14_0049, Pattern14_0050, Pattern14_0051,
+    Pattern14_0052, Pattern14_0053, Pattern14_0054, Pattern14_0055,
+    Pattern14_0056, Pattern14_0057, Pattern14_0058, Pattern14_0059,
+    Pattern14_0060, Pattern14_0061, Pattern14_0062, Pattern14_0063,
+    Pattern14_0064, Pattern14_0065, Pattern14_0066, Pattern14_0067,
+    Pattern14_0068, Pattern14_0069, Pattern14_0070, Pattern14_0071,
+    Pattern14_0072, Pattern14_0073, Pattern14_0074, Pattern14_0075,
+    Pattern14_0076, Pattern14_0077, Pattern14_0078, Pattern14_0079,
+    Pattern14_0080, Pattern14_0081, Pattern14_0082, Pattern14_0083,
+    Pattern14_0084, Pattern14_0085, Pattern14_0086, Pattern14_0087,
+    Pattern14_0088, Pattern14_0089, Pattern14_0090, Pattern14_0091,
+    Pattern14_0092, Pattern14_0093, Pattern14_0094, Pattern14_0095,
+    Pattern14_0096, Pattern14_0097, Pattern14_0098, Pattern14_0099,
+    Pattern14_0100, Pattern14_0101, Pattern14_0102, Pattern14_0103,
+    Pattern14_0104, Pattern14_0105, Pattern14_0106, Pattern14_0107,
+    Pattern14_0108, Pattern14_0109, Pattern14_0110, Pattern14_0111,
+    Pattern14_0112, Pattern14_0113, Pattern14_0114, Pattern14_0115,
+    Pattern14_0116, Pattern14_0117, Pattern14_0118, Pattern14_0119,
+    Pattern14_0120, Pattern14_0121, Pattern14_0122, Pattern14_0123,
+    Pattern14_0124, Pattern14_0125, Pattern14_0126, Pattern14_0127,
+    Pattern14_0128, Pattern14_0129, Pattern14_0130, Pattern14_0131,
+    Pattern14_0132, Pattern14_0133, Pattern14_0134, Pattern14_0135,
+    Pattern14_0136, Pattern14_0137, Pattern14_0138, Pattern14_0139,
+    Pattern14_0140, Pattern14_0141, Pattern14_0142, Pattern14_0143,
+    Pattern14_0144, Pattern14_0145, Pattern14_0146, Pattern14_0147,
+    Pattern14_0148, Pattern14_0149, Pattern14_0150
+};

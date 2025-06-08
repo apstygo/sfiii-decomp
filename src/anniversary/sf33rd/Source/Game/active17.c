@@ -1,8 +1,11 @@
+#include "sf33rd/Source/Game/active17.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 #include "common.h"
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active17", Computer17);
+void Computer17(PLW* wk) {
+    Pattern17_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
+}
 
 void Pattern17_0000(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -632,7 +635,37 @@ void Pattern17_0042(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active17", Pattern17_0043);
+void Pattern17_0043(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Search_Back_Term(wk, 0x30, 2, 0xF);
+        break;
+
+    case 1:
+        Walk(wk, 1, 0x20, 0);
+        break;
+
+    case 2:
+        Wait(wk, 3);
+        break;
+
+    case 3:
+        Walk(wk, 0, 0x30, 0);
+        break;
+
+    case 4:
+        Wait(wk, 9);
+        break;
+
+    case 5:
+        Walk(wk, 0, 0x20, 0);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern17_0044(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -782,7 +815,37 @@ void Pattern17_0052(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active17", Pattern17_0053);
+void Pattern17_0053(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        EM_Term(wk, -1, -0x7FD0, 5, 2, 0);
+        break;
+
+    case 1:
+        SA_Term(wk, 0x2e, -1, -1, 0);
+        break;
+
+    case 2:
+        Approach_Walk(wk, 0x7f, 2);
+        break;
+
+    case 3:
+        SA_Term(wk, -1, 0x2f, -1, 0);
+        break;
+
+    case 4:
+        Approach_Walk(wk, 0x41, 2);
+        break;
+
+    case 5:
+        Command_Attack(wk, 8, 0x1f, 10, -1);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern17_0054(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -1076,7 +1139,37 @@ void Pattern17_0072(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active17", Pattern17_0073);
+void Pattern17_0073(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Check_SA(wk, 2, 0x44);
+        break;
+
+    case 1:
+        Pierce_On(wk);
+        break;
+
+    case 2:
+        Command_Attack(wk, 9, 0x1f, 8, -1);
+        break;
+
+    case 3:
+        Walk(wk, 0, 8, 0);
+        break;
+
+    case 4:
+        EM_Term(wk, -1, -0x7FD0, 6, 1, -1);
+        break;
+
+    case 5:
+        SA_Term(wk, -1, 0x2f, -1, 0);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern17_0074(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -1106,7 +1199,37 @@ void Pattern17_0074(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active17", Pattern17_0075);
+void Pattern17_0075(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Pierce_On(wk);
+        break;
+
+    case 1:
+        Hi_Jump_Attack_Term(wk, -1, 0x40, 8, 0x40, 0, -0x7FA0, -1, 0x200);
+        break;
+
+    case 2:
+        Lever_On(wk, 1, 0xffff);
+        break;
+
+    case 3:
+        Normal_Attack(wk, 8, 0x12);
+        break;
+
+    case 4:
+        Normal_Attack(wk, 8, 0x12);
+        break;
+
+    case 5:
+        Command_Attack(wk, 8, 0x1c, 8, -1);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern17_0076(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -1256,6 +1379,54 @@ void Pattern17_0081(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active17", Pattern17_0082);
+void Pattern17_0082(PLW *wk)
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/active17", Pattern17_Tbl);
+{
+  switch(CP_Index[wk->wu.id][0]) {
+  case 0:
+    Pierce_On(wk);
+    break;
+  case 1:
+    Hi_Jump_Attack_Term(wk,-1,0x40,8,0x400,0,-0x7FA0,-1,0x200);
+    break;
+  case 2:
+    Lever_On(wk,1,0xffff);
+    break;
+  case 3:
+    Normal_Attack(wk,8,0x12);
+    break;
+  case 4:
+    Normal_Attack(wk,8,0x22);
+    break;
+  case 5:
+    Command_Attack(wk,8,0x1c,8,-1);
+    break;
+  default:
+    End_Pattern(wk);
+    break;
+  }
+}
+
+void (*const Pattern17_Tbl[83])(PLW *) = {
+    Pattern17_0000, Pattern17_0001, Pattern17_0002, Pattern17_0003,
+    Pattern17_0004, Pattern17_0005, Pattern17_0006, Pattern17_0007,
+    Pattern17_0008, Pattern17_0009, Pattern17_0010, Pattern17_0011,
+    Pattern17_0012, Pattern17_0013, Pattern17_0014, Pattern17_0015,
+    Pattern17_0016, Pattern17_0017, Pattern17_0018, Pattern17_0019,
+    Pattern17_0020, Pattern17_0021, Pattern17_0022, Pattern17_0023,
+    Pattern17_0024, Pattern17_0025, Pattern17_0026, Pattern17_0027,
+    Pattern17_0028, Pattern17_0029, Pattern17_0030, Pattern17_0031,
+    Pattern17_0032, Pattern17_0033, Pattern17_0034, Pattern17_0035,
+    Pattern17_0036, Pattern17_0037, Pattern17_0038, Pattern17_0039,
+    Pattern17_0040, Pattern17_0041, Pattern17_0042, Pattern17_0043,
+    Pattern17_0044, Pattern17_0045, Pattern17_0046, Pattern17_0047,
+    Pattern17_0048, Pattern17_0049, Pattern17_0050, Pattern17_0051,
+    Pattern17_0052, Pattern17_0053, Pattern17_0054, Pattern17_0055,
+    Pattern17_0056, Pattern17_0057, Pattern17_0058, Pattern17_0059,
+    Pattern17_0060, Pattern17_0061, Pattern17_0062, Pattern17_0063,
+    Pattern17_0064, Pattern17_0065, Pattern17_0066, Pattern17_0067,
+    Pattern17_0068, Pattern17_0069, Pattern17_0070, Pattern17_0071,
+    Pattern17_0072, Pattern17_0073, Pattern17_0074, Pattern17_0075,
+    Pattern17_0076, Pattern17_0077, Pattern17_0078, Pattern17_0079,
+    Pattern17_0080, Pattern17_0081, Pattern17_0082
+};

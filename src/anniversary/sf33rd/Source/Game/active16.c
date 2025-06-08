@@ -1,8 +1,11 @@
+#include "sf33rd/Source/Game/active16.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 #include "common.h"
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active16", Computer16);
+void Computer16(PLW* wk) {
+    Pattern16_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
+}
 
 void Pattern16_0000(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -636,7 +639,37 @@ void Pattern16_0042(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active16", Pattern16_0043);
+void Pattern16_0043(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Search_Back_Term(wk, 0x30, 2, 0xF);
+        break;
+
+    case 1:
+        Walk(wk, 1, 0x20, 0);
+        break;
+
+    case 2:
+        Wait(wk, 3);
+        break;
+
+    case 3:
+        Walk(wk, 0, 0x30, 0);
+        break;
+
+    case 4:
+        Wait(wk, 9);
+        break;
+
+    case 5:
+        Walk(wk, 0, 0x20, 0);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern16_0044(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -1034,4 +1067,23 @@ void Pattern16_0069(PLW *wk) {
     }
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/active16", Pattern16_Tbl);
+void (*const Pattern16_Tbl[70])(PLW *) = {
+    Pattern16_0000, Pattern16_0001, Pattern16_0002, Pattern16_0003,
+    Pattern16_0004, Pattern16_0005, Pattern16_0006, Pattern16_0007,
+    Pattern16_0008, Pattern16_0009, Pattern16_0010, Pattern16_0011,
+    Pattern16_0012, Pattern16_0013, Pattern16_0014, Pattern16_0015,
+    Pattern16_0016, Pattern16_0017, Pattern16_0018, Pattern16_0019,
+    Pattern16_0020, Pattern16_0021, Pattern16_0022, Pattern16_0023,
+    Pattern16_0024, Pattern16_0025, Pattern16_0026, Pattern16_0027,
+    Pattern16_0028, Pattern16_0029, Pattern16_0030, Pattern16_0031,
+    Pattern16_0032, Pattern16_0033, Pattern16_0034, Pattern16_0035,
+    Pattern16_0036, Pattern16_0037, Pattern16_0038, Pattern16_0039,
+    Pattern16_0040, Pattern16_0041, Pattern16_0042, Pattern16_0043,
+    Pattern16_0044, Pattern16_0045, Pattern16_0046, Pattern16_0047,
+    Pattern16_0048, Pattern16_0049, Pattern16_0050, Pattern16_0051,
+    Pattern16_0052, Pattern16_0053, Pattern16_0054, Pattern16_0055,
+    Pattern16_0056, Pattern16_0057, Pattern16_0058, Pattern16_0059,
+    Pattern16_0060, Pattern16_0061, Pattern16_0062, Pattern16_0063,
+    Pattern16_0064, Pattern16_0065, Pattern16_0066, Pattern16_0067,
+    Pattern16_0068, Pattern16_0069
+};

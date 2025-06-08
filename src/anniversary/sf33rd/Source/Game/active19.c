@@ -1,8 +1,11 @@
+#include "sf33rd/Source/Game/active19.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 #include "common.h"
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active19", Computer19);
+void Computer19(PLW* wk) {
+    Pattern19_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
+}
 
 void Pattern19_0000(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -628,7 +631,37 @@ void Pattern19_0042(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/active19", Pattern19_0043);
+void Pattern19_0043(PLW *wk) {
+    switch(CP_Index[wk->wu.id][0]) {
+    case 0:
+        Search_Back_Term(wk, 0x30, 2, 0xF);
+        break;
+
+    case 1:
+        Walk(wk, 1, 0x20, 0);
+        break;
+
+    case 2:
+        Wait(wk, 3);
+        break;
+
+    case 3:
+        Walk(wk, 0, 0x30, 0);
+        break;
+
+    case 4:
+        Wait(wk, 9);
+        break;
+
+    case 5:
+        Walk(wk, 0, 0x20, 0);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
 
 void Pattern19_0044(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -1161,4 +1194,25 @@ void Pattern19_0078(PLW *wk) {
     }
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/active19", Pattern19_Tbl);
+void (*const Pattern19_Tbl[79])(PLW *) = {
+    Pattern19_0000, Pattern19_0001, Pattern19_0002, Pattern19_0003,
+    Pattern19_0004, Pattern19_0005, Pattern19_0006, Pattern19_0007,
+    Pattern19_0008, Pattern19_0009, Pattern19_0010, Pattern19_0011,
+    Pattern19_0012, Pattern19_0013, Pattern19_0014, Pattern19_0015,
+    Pattern19_0016, Pattern19_0017, Pattern19_0018, Pattern19_0019,
+    Pattern19_0020, Pattern19_0021, Pattern19_0022, Pattern19_0023,
+    Pattern19_0024, Pattern19_0025, Pattern19_0026, Pattern19_0027,
+    Pattern19_0028, Pattern19_0029, Pattern19_0030, Pattern19_0031,
+    Pattern19_0032, Pattern19_0033, Pattern19_0034, Pattern19_0035,
+    Pattern19_0036, Pattern19_0037, Pattern19_0038, Pattern19_0039,
+    Pattern19_0040, Pattern19_0041, Pattern19_0042, Pattern19_0043,
+    Pattern19_0044, Pattern19_0045, Pattern19_0046, Pattern19_0047,
+    Pattern19_0048, Pattern19_0049, Pattern19_0050, Pattern19_0051,
+    Pattern19_0052, Pattern19_0053, Pattern19_0054, Pattern19_0055,
+    Pattern19_0056, Pattern19_0057, Pattern19_0058, Pattern19_0059,
+    Pattern19_0060, Pattern19_0061, Pattern19_0062, Pattern19_0063,
+    Pattern19_0064, Pattern19_0065, Pattern19_0066, Pattern19_0067,
+    Pattern19_0068, Pattern19_0069, Pattern19_0070, Pattern19_0071,
+    Pattern19_0072, Pattern19_0073, Pattern19_0074, Pattern19_0075,
+    Pattern19_0076, Pattern19_0077, Pattern19_0078
+};
