@@ -45,6 +45,10 @@ int sceCdSync(int mode) {
     not_implemented(__func__);
 }
 
+int sceCdLayerSearchFile(sceCdlFILE *fp, const char *name, int layer) {
+    not_implemented(__func__);
+}
+
 // sifdev
 
 int sceRead(int fd, void *buf, int nbyte) {
