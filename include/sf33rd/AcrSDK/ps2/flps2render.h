@@ -4,6 +4,9 @@
 #include "structs.h"
 #include "types.h"
 
+#define MIP_TBP_SIZE 6
+#define MIP_DBW_SIZE 6
+
 s32 flBeginRender();
 s32 flEndRender();
 s32 flPS2InitRenderState();

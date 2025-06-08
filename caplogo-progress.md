@@ -8,7 +8,7 @@ Notes:
 
 | Module   | Progress   |
 |----------|------------|
-| sf33rd   | 71.11%     |
+| sf33rd   | 76.82%     |
 | cri      | 54.74%     |
 
 | Function                         | File                                                 | Module   | Is decompiled   |
@@ -166,10 +166,10 @@ Notes:
 | flPS2DeleteAllVramList           | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | flPS2InitRenderState             | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flInitPhaseStarted               | sf33rd/AcrSDK/ps2/foundaps2.c                        | sf33rd   | ✅               |
-| flPS2SendRenderState_ALPHA       | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   |                 |
+| flPS2SendRenderState_ALPHA       | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2GetSystemTmpBuff            | sf33rd/AcrSDK/ps2/flps2etc.c                         | sf33rd   | ✅               |
 | flPS2DmaAddQueue2                | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
-| flPS2SendRenderState_TEST        | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   |                 |
+| flPS2SendRenderState_TEST        | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2SendRenderState_ZBUF        | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2SendRenderState_SCISSOR     | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2SendRenderState_FOGCOL      | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
@@ -266,7 +266,7 @@ Notes:
 | sceGsSyncV                       | sdk/libgraph/graph011.c                              | sdk      | –               |
 | VSync2                           | sdk/libkernl/glue.c                                  | sdk      | –               |
 | SetVSyncFlag                     | sdk/libkernl/klib.c                                  | sdk      | –               |
-| flSetRenderState                 | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   |                 |
+| flSetRenderState                 | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2SetClearColor               | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | ppgWorkInitializeApprication     | sf33rd/Source/Common/PPGWork.c                       | sf33rd   |                 |
 | distributeScratchPadAddress      | sf33rd/Source/Game/main.c                            | sf33rd   | ✅               |
@@ -664,7 +664,7 @@ Notes:
 | setBlendSource                   | sf33rd/Source/Game/AcrUtil.c                         | sf33rd   | ✅               |
 | setBlendOperation                | sf33rd/Source/Game/AcrUtil.c                         | sf33rd   | ✅               |
 | setFilterMode                    | sf33rd/Source/Game/AcrUtil.c                         | sf33rd   | ✅               |
-| flAdjustScreen                   | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   |                 |
+| flAdjustScreen                   | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | setBackGroundColor               | sf33rd/Source/Game/AcrUtil.c                         | sf33rd   | ✅               |
 | appSetupTempPriority             | sf33rd/Source/Game/MTRANS.c                          | sf33rd   |                 |
 | flPADGetALL                      | sf33rd/AcrSDK/common/mlPAD.c                         | sf33rd   | ✅               |
@@ -717,7 +717,7 @@ Notes:
 | flPS2DebugStrDisp                | sf33rd/AcrSDK/ps2/flps2debug.c                       | sf33rd   | ✅               |
 | flReloadTexture                  | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | flPS2ReloadTexture               | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
-| flPS2SetTextureRegister          | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   |                 |
+| flPS2SetTextureRegister          | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2DmaWait                     | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
 | flmwFlip                         | sf33rd/AcrSDK/MiddleWare/PS2/acrmw.c                 | sf33rd   | ✅               |
 | flmwFlipSub                      | sf33rd/AcrSDK/MiddleWare/PS2/acrmw.c                 | sf33rd   | ✅               |
