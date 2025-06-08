@@ -18,6 +18,9 @@ extern u16 WGJ_Win;                // size: 0x2, address: 0x579E54
 extern u16 Win_Record[2];          // size: 0x4, address: 0x579E5C
 extern s16 Stock_Com_Color[2];     // size: 0x4, address: 0x579E78
 extern s16 Bonus_Game_ex_result;   // size: 0x2, address: 0x579E7C
+extern s16 Bonus_Stage_Tix;        // size: 0x2, address: 0x579E80
+extern s16 Bonus_Stage_Level;      // size: 0x2, address: 0x579E84
+extern s16 Bonus_Stage_RNO[4];     // size: 0x8, address: 0x579E88
 extern s16 Bonus_Game_result;      // size: 0x2, address: 0x579E9C
 extern s16 Bonus_Game_Work;        // size: 0x2, address: 0x579EA0
 extern s16 Bonus_Game_Flag;        // size: 0x2, address: 0x579EA4
@@ -109,6 +112,7 @@ extern u8 S_No[4];                 // size: 0x4, address: 0x57A2A8
 extern u8 C_No[4];                 // size: 0x4, address: 0x57A2AC
 extern u8 E_No[4];                 // size: 0x4, address: 0x57A2B0
 extern u8 E_Number[2][4];          // size: 0x8, address: 0x57A2B8
+extern u8 bbbs_type;               // size: 0x1, address: 0x57A2D4
 extern s8 Request_Disp_Rank[2][4]; // size: 0x8, address: 0x57A2E0
 extern s8 Rank_In[2][4];           // size: 0x8, address: 0x57A2E8
 extern s8 Suicide[8];              // size: 0x8, address: 0x57A2F8
@@ -123,7 +127,7 @@ extern u8 SC_No[4];                // size: 0x4, address: 0x57A388
 extern u8 Bonus_Type;              // size: 0x1, address: 0x57A3B4
 extern s8 Stock_Com_Arts[2];       // size: 0x2, address: 0x57A3C4
 extern u8 End_PL;                  // size: 0x1, address: 0x57A3C8
-extern s8 EXE_obroll;              // size: 0x1, address 0x57A3CC
+extern s8 EXE_obroll;              // size: 0x1, address: 0x57A3CC
 extern s8 Stage_Cheap_Finish[2];   // size: 0x2, address: 0x57A3D0
 extern s8 Stage_Perfect_Finish[2]; // size: 0x2, address: 0x57A3D4
 extern s8 Stage_Lost_Round[2];     // size: 0x2, address: 0x57A3D8
