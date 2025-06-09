@@ -2,6 +2,7 @@
 #define BBBSCOM_H
 
 #include "types.h"
+#include "structs.h"
 
 typedef struct /* @anon24 */ {
     // total size: 0x26
@@ -27,6 +28,7 @@ extern const BBBSTable * bbbs_table[2][5]; // size: 0x28, address: 0x5724A0
 
 // u8 bbbs_type; // size: 0x1, address: 0x57A2D4
 
+void bbbs_com_execute(PLW *wk);
 void bbbs_com_initialize();
 void makeup_bonus_game_level(s16 ix);
 s32 set_bonus_game_difficulty(s16 emid);
