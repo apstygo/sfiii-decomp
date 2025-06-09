@@ -96,7 +96,13 @@ void SVM_Unlock() {
     svm_unlock(1);
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_LockVar);
+#else
+void SVM_LockVar() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_LockSync);
 
@@ -108,7 +114,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_LockThrd);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_LockEtc);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_UnlockVar);
+#else
+void SVM_UnlockVar() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_UnlockSync);
 

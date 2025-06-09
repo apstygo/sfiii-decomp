@@ -8,8 +8,8 @@ Notes:
 
 | Module   | Progress   |
 |----------|------------|
-| sf33rd   | 71.11%     |
-| cri      | 54.74%     |
+| sf33rd   | 76.82%     |
+| cri      | 61.86%     |
 
 | Function                         | File                                                 | Module   | Is decompiled   |
 |----------------------------------|------------------------------------------------------|----------|-----------------|
@@ -166,10 +166,10 @@ Notes:
 | flPS2DeleteAllVramList           | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | flPS2InitRenderState             | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flInitPhaseStarted               | sf33rd/AcrSDK/ps2/foundaps2.c                        | sf33rd   | ✅               |
-| flPS2SendRenderState_ALPHA       | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   |                 |
+| flPS2SendRenderState_ALPHA       | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2GetSystemTmpBuff            | sf33rd/AcrSDK/ps2/flps2etc.c                         | sf33rd   | ✅               |
 | flPS2DmaAddQueue2                | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
-| flPS2SendRenderState_TEST        | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   |                 |
+| flPS2SendRenderState_TEST        | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2SendRenderState_ZBUF        | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2SendRenderState_SCISSOR     | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2SendRenderState_FOGCOL      | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
@@ -266,7 +266,7 @@ Notes:
 | sceGsSyncV                       | sdk/libgraph/graph011.c                              | sdk      | –               |
 | VSync2                           | sdk/libkernl/glue.c                                  | sdk      | –               |
 | SetVSyncFlag                     | sdk/libkernl/klib.c                                  | sdk      | –               |
-| flSetRenderState                 | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   |                 |
+| flSetRenderState                 | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2SetClearColor               | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | ppgWorkInitializeApprication     | sf33rd/Source/Common/PPGWork.c                       | sf33rd   |                 |
 | distributeScratchPadAddress      | sf33rd/Source/Game/main.c                            | sf33rd   | ✅               |
@@ -301,21 +301,21 @@ Notes:
 | cvFsAddDev                       | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
 | addDevice                        | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
 | toUpperStr                       | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
-| dvCiGetInterface                 | cri/libadxe/dvci.c                                   | cri      |                 |
+| dvCiGetInterface                 | cri/libadxe/dvci.c                                   | cri      | ✅               |
 | dvCiSetRootDir                   | cri/libadxe/dvci_sub.c                               | cri      |                 |
 | getDevice                        | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
-| dvCiEntryErrFunc                 | cri/libadxe/dvci.c                                   | cri      |                 |
+| dvCiEntryErrFunc                 | cri/libadxe/dvci.c                                   | cri      | ✅               |
 | cvFsSetDefDev                    | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
 | isExistDev                       | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
 | dvCiSetRdMode                    | cri/libadxe/dvci_sub.c                               | cri      |                 |
 | ADXPS2_LoadFcacheDvd             | cri/libadxe/adx_sudv.c                               | cri      | ✅               |
-| dvCiLoadFcache                   | cri/libadxe/dvci_sub.c                               | cri      |                 |
-| load_flist                       | cri/libadxe/dvci_sub.c                               | cri      |                 |
-| dvci_conv_fname                  | cri/libadxe/dvci_sub.c                               | cri      |                 |
-| dvci_to_large_to_yen             | cri/libadxe/dvci.c                                   | cri      |                 |
+| dvCiLoadFcache                   | cri/libadxe/dvci_sub.c                               | cri      | ✅               |
+| load_flist                       | cri/libadxe/dvci_sub.c                               | cri      | ✅               |
+| dvci_conv_fname                  | cri/libadxe/dvci_sub.c                               | cri      | ✅               |
+| dvci_to_large_to_yen             | cri/libadxe/dvci.c                                   | cri      | ✅               |
 | SRD_SetHistory                   | cri/libadxe/cri_srd.c                                | cri      | ✅               |
 | sceCdSync                        | sdk/libcdvd/cdvd000.c                                | sdk      | –               |
-| dvCiCdSearchFile                 | cri/libadxe/dvci.c                                   | cri      |                 |
+| dvCiCdSearchFile                 | cri/libadxe/dvci.c                                   | cri      | ✅               |
 | sceCdLayerSearchFile             | sdk/libcdvd/cdvd000.c                                | sdk      | –               |
 | sceCdRead                        | sdk/libcdvd/cdvd005.c                                | sdk      | –               |
 | sceCdNcmdDiskReady               | sdk/libcdvd/cdvd000.c                                | sdk      | –               |
@@ -323,7 +323,7 @@ Notes:
 | _sceCd_cd_read_intr              | sdk/libcdvd/cdvd000.c                                | sdk      | –               |
 | _sceCd_cd_callback               | sdk/libcdvd/cdvd000.c                                | sdk      | –               |
 | analysis_flist_003DC6A0          | cri/libadxe/dvci_sub.c                               | cri      |                 |
-| search_fstate                    | cri/libadxe/dvci_sub.c                               | cri      |                 |
+| search_fstate                    | cri/libadxe/dvci_sub.c                               | cri      | ✅               |
 | scePrintf                        | sdk/libkernl/kprintf2.c                              | sdk      | –               |
 | _printf                          | sdk/libkernl/kprintf2.c                              | sdk      | –               |
 | deci2Putchar                     | sdk/libkernl/kprintf2.c                              | sdk      | –               |
@@ -476,21 +476,21 @@ Notes:
 | addDevName                       | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
 | isNeedDevName                    | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
 | dvCiOptFn1                       | cri/libadxe/dvci.c                                   | cri      |                 |
-| dvCiOpen                         | cri/libadxe/dvci.c                                   | cri      |                 |
-| dvci_alloc                       | cri/libadxe/dvci.c                                   | cri      |                 |
-| dvci_get_fstate                  | cri/libadxe/dvci_sub.c                               | cri      |                 |
-| get_fp_from_fname                | cri/libadxe/dvci_sub.c                               | cri      |                 |
-| dvci_stricmp                     | cri/libadxe/dvci_sub.c                               | cri      |                 |
-| dvci_charicmp                    | cri/libadxe/dvci_sub.c                               | cri      |                 |
-| conv_cmp_003DC578                | cri/libadxe/dvci_sub.c                               | cri      |                 |
+| dvCiOpen                         | cri/libadxe/dvci.c                                   | cri      | ✅               |
+| dvci_alloc                       | cri/libadxe/dvci.c                                   | cri      | ✅               |
+| dvci_get_fstate                  | cri/libadxe/dvci_sub.c                               | cri      | ✅               |
+| get_fp_from_fname                | cri/libadxe/dvci_sub.c                               | cri      | ✅               |
+| dvci_stricmp                     | cri/libadxe/dvci_sub.c                               | cri      | ✅               |
+| dvci_charicmp                    | cri/libadxe/dvci_sub.c                               | cri      | ✅               |
+| conv_cmp_003DC578                | cri/libadxe/dvci_sub.c                               | cri      | ✅               |
 | cvFsSeek                         | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
-| dvCiSeek                         | cri/libadxe/dvci.c                                   | cri      |                 |
+| dvCiSeek                         | cri/libadxe/dvci.c                                   | cri      | ✅               |
 | cvFsTell                         | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
-| dvCiTell                         | cri/libadxe/dvci.c                                   | cri      |                 |
+| dvCiTell                         | cri/libadxe/dvci.c                                   | cri      | ✅               |
 | ADXSTM_Seek                      | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | cvFsExecServer                   | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
-| dvCiExecServer                   | cri/libadxe/dvci.c                                   | cri      |                 |
-| dvCiExecHndl                     | cri/libadxe/dvci.c                                   | cri      |                 |
+| dvCiExecServer                   | cri/libadxe/dvci.c                                   | cri      | ✅               |
+| dvCiExecHndl                     | cri/libadxe/dvci.c                                   | cri      | ✅               |
 | SRD_ExecServer                   | cri/libadxe/cri_srd.c                                | cri      | ✅               |
 | ADXF_ExecServer                  | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
 | adxf_ExecOne                     | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
@@ -538,10 +538,10 @@ Notes:
 | adxt_exec_fssvr                  | cri/libadxe/adx_inis.c                               | cri      | ✅               |
 | adxstmf_stat_exec                | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | cvFsGetStat                      | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
-| dvCiGetStat                      | cri/libadxe/dvci.c                                   | cri      |                 |
+| dvCiGetStat                      | cri/libadxe/dvci.c                                   | cri      | ✅               |
 | SJRBF_GetChunk                   | cri/libadxe/sj_rbf.c                                 | cri      | ✅               |
 | cvFsReqRd                        | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
-| dvCiReqRd                        | cri/libadxe/dvci.c                                   | cri      |                 |
+| dvCiReqRd                        | cri/libadxe/dvci.c                                   | cri      | ✅               |
 | SRD_Create                       | cri/libadxe/cri_srd.c                                | cri      |                 |
 | SVM_LockVar                      | cri/libadxe/svm.c                                    | cri      |                 |
 | srd_reset_obj                    | cri/libadxe/cri_srd.c                                | cri      |                 |
@@ -574,7 +574,7 @@ Notes:
 | ADXSTM_ReleaseFileNw             | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | cvFsClose                        | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
 | dvCiClose                        | cri/libadxe/dvci.c                                   | cri      |                 |
-| dvci_free                        | cri/libadxe/dvci.c                                   | cri      |                 |
+| dvci_free                        | cri/libadxe/dvci.c                                   | cri      | ✅               |
 | releaseCvFsHn                    | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
 | ADXSTM_Destroy                   | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | sndInitialLoad                   | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
@@ -664,7 +664,7 @@ Notes:
 | setBlendSource                   | sf33rd/Source/Game/AcrUtil.c                         | sf33rd   | ✅               |
 | setBlendOperation                | sf33rd/Source/Game/AcrUtil.c                         | sf33rd   | ✅               |
 | setFilterMode                    | sf33rd/Source/Game/AcrUtil.c                         | sf33rd   | ✅               |
-| flAdjustScreen                   | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   |                 |
+| flAdjustScreen                   | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | setBackGroundColor               | sf33rd/Source/Game/AcrUtil.c                         | sf33rd   | ✅               |
 | appSetupTempPriority             | sf33rd/Source/Game/MTRANS.c                          | sf33rd   |                 |
 | flPADGetALL                      | sf33rd/AcrSDK/common/mlPAD.c                         | sf33rd   | ✅               |
@@ -717,7 +717,7 @@ Notes:
 | flPS2DebugStrDisp                | sf33rd/AcrSDK/ps2/flps2debug.c                       | sf33rd   | ✅               |
 | flReloadTexture                  | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | flPS2ReloadTexture               | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
-| flPS2SetTextureRegister          | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   |                 |
+| flPS2SetTextureRegister          | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2DmaWait                     | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
 | flmwFlip                         | sf33rd/AcrSDK/MiddleWare/PS2/acrmw.c                 | sf33rd   | ✅               |
 | flmwFlipSub                      | sf33rd/AcrSDK/MiddleWare/PS2/acrmw.c                 | sf33rd   | ✅               |

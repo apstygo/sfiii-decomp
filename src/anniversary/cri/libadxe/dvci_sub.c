@@ -1,49 +1,329 @@
 #include "common.h"
+#include <cri/private/libadxe/cri_srd.h>
+#include <cri/private/libadxe/dvci.h>
 #include <cri/private/libadxe/dvci_sub.h>
+#include <cri/private/libadxe/htci_sub.h>
+#include <cri/private/libadxe/structs.h>
 
-// Also used in dvCiSetRootDir
+#include <eekernel.h>
+#include <libcdvd.h>
+
+#include <string.h>
+
+#define LAST_CHAR(str) ((str)[strlen(str) - 1])
+
+// data
+DVG_FLIST_TBL dvg_flist_tbl = { 0 };
+sceCdRMode dvg_ci_cdrmode = { 0 };
+Sint32 dvg_ci_rdmode = 0;
+Sint32 dvg_ci_dbg_out_lv = 0;
+Char8 dvg_ci_root_dir[257] = { 0 };
+Char8 dvg_fpath[128] = { 0 };
+
+// bss
+Sint8 D_006BE100[0x1000];
+
+#if defined(TARGET_PS2)
+// Used in dvci_conv_fname and dvCiSetRootDir
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", D_0055D280);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", D_0055D288);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvci_conv_fname);
+extern Char8 D_0055D280[];
+#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", conv_cmp_003DC578);
+void dvci_conv_fname(const Char8 *fname, Char8 *path) {
+    Char8 first_char;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvci_charicmp);
+    strcpy(path, dvg_ci_root_dir);
+    first_char = fname[0];
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvci_stricmp);
+    if ((first_char != '/') && (first_char != '\\')) {
+#if defined(TARGET_PS2)
+        strcat(path, D_0055D280);
+#else
+        strcat(path, "\\");
+#endif
+    }
 
+    strcat(path, fname);
+
+    if (strcmp(path + strlen(path) - 2, ";1\0\0\0\0") != 0) {
+        strcat(path, ";1\0\0\0\0");
+    }
+
+    dvci_to_large_to_yen(path);
+}
+
+// TODO: rename to conv_cmp
+Char8 conv_cmp_003DC578(Char8 chr) {
+    Char8 ret = chr;
+
+    if (ret >= 'a' && ret <= 'z') {
+        ret -= 'a' - 'A';
+    }
+
+    if (chr == '\\') {
+        return '/';
+    } else {
+        return ret;
+    }
+}
+
+Sint32 dvci_charicmp(Char8 a, Char8 b) {
+    if (conv_cmp_003DC578(a) == conv_cmp_003DC578(b)) {
+        return 0;
+    } else {
+        return -1;
+    }
+}
+
+Sint32 dvci_stricmp(const Char8 *a, const Char8 *b) {
+    Sint32 len_a = strlen(a);
+    Sint32 i;
+
+    if (len_a != strlen(b)) {
+        return -1;
+    }
+
+    for (i = 0; i < len_a; i++) {
+        if (dvci_charicmp(a[i], b[i]) != 0) {
+            return -1;
+        }
+    }
+
+    return 0;
+}
+
+#if defined(TARGET_PS2)
+Sint32 analysis_flist_003DC6A0(Sint8 *, Sint8 *, Sint32, Sint32, Sint32);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", analysis_flist_003DC6A0);
+#else
+Sint32 analysis_flist_003DC6A0(Sint8 *, Sint8 *, Sint32, Sint32, Sint32) {
+    not_implemented(__func__);
+}
+#endif
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", D_0055D290);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", load_flist);
+Sint32 load_flist(Char8 *flist, Sint8 *buf) {
+    sceCdlFILE fp;
+    sceCdRMode cd_rmode;
+    Char8 flist_prefix[5];
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", D_0055D298);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", D_0055D2B0);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", D_0055D2C8);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", D_0055D2E0);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", search_fstate);
+    memcpy(flist_prefix, flist, 5);
+    flist_prefix[4] = '\0';
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", get_fp_from_fname);
+    if (strcasecmp(&flist_prefix, "HST:") == 0) {
+        return htci_load_flist(flist + 4, buf);
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvci_init_flist);
+    memset(dvg_fpath, 0, sizeof(dvg_fpath));
+    dvci_conv_fname(flist, dvg_fpath);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", D_0055D310);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", D_0055D318);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvci_get_fstate);
+    SRD_SetHistory(0x9000);
+
+    while (sceCdSync(1) == 1) {
+        // Do nothing
+    }
+
+    SRD_SetHistory(0x9001);
+
+    SRD_SetHistory(0x9100);
+
+    if (dvCiCdSearchFile(&fp, &dvg_fpath) == 0) {
+        SRD_SetHistory(0x9101);
+        return 0;
+    }
+
+    SRD_SetHistory(0x9102);
+
+    cd_rmode.spindlctrl = 1;
+    cd_rmode.trycount = 0;
+    cd_rmode.datapattern = 0;
+    cd_rmode.pad = 0;
+
+    SRD_SetHistory(0x9200);
+
+    if (sceCdRead(fp.lsn, 2, buf, &cd_rmode) == 0) {
+        SRD_SetHistory(0x9201);
+        return 0;
+    }
+
+    SRD_SetHistory(0x9202);
+
+    SRD_SetHistory(0x9300);
+
+    while (sceCdSync(1) == 1) {
+        // Do nothing
+    }
+
+    SRD_SetHistory(0x9301);
+
+    return 1;
+}
+
+Sint32 search_fstate(Sint8 *arg0, Sint32 arg1) {
+    sceCdlFILE fp;
+    Sint32 numf = 0;
+    Sint32 numf_not_found = 0;
+    Sint32 i;
+    Char8 *fname;
+    DVG_FLIST_SUB *flist_sub = arg0;
+
+    for (i = 0; i < arg1; i++) {
+        fname = arg0 + ((dvg_flist_tbl.unk8 * 8) + ((dvg_flist_tbl.unkC + 1) * i));
+
+        if (fname[0] == '\0') {
+            continue;
+        }
+
+        dvci_conv_fname(fname, dvg_fpath);
+
+        SRD_SetHistory(0x9400);
+
+        while (sceCdSync(1) == 1) {
+            // Do nothing
+        }
+
+        SRD_SetHistory(0x9401);
+
+        SRD_SetHistory(0x9500);
+
+        if (dvCiCdSearchFile(&fp, dvg_fpath) == 1) {
+            numf += 1;
+            SRD_SetHistory(0x9501);
+            flist_sub[i].lsn = fp.lsn;
+            flist_sub[i].size = fp.size;
+
+            if (dvg_ci_dbg_out_lv == 0) {
+                scePrintf("DVCI: \"%s\" found.\n", fname);
+            }
+        } else {
+            SRD_SetHistory(0x9502);
+
+            if (dvg_ci_dbg_out_lv == 0) {
+                scePrintf("DVCI: \"%s\" Not found.\n", fname);
+            }
+
+            numf_not_found += 1;
+        }
+    }
+
+    if (dvg_ci_dbg_out_lv == 0) {
+        scePrintf("DVCI: Total %d files.\n", numf);
+    }
+
+    if (numf_not_found > 0 && dvg_ci_dbg_out_lv != 2) {
+        scePrintf("DVCI: Warning, Can't load all cache file.%c", '\n');
+    }
+
+    return numf;
+}
+
+void get_fp_from_fname(sceCdlFILE *fp, const Char8 *fname, Sint32 arg2, Sint32 arg3) {
+    DVG_FLIST_SUB *flist_sub = (DVG_FLIST_SUB *)arg2;
+    Sint32 i;
+
+    for (i = 0; i < arg3; i++) {
+        if (dvci_stricmp(fname, (Char8 *)arg2 + ((dvg_flist_tbl.unk8 * 8) + ((dvg_flist_tbl.unkC + 1) * i))) == 0) {
+            fp->lsn = flist_sub[i].lsn;
+            fp->size = flist_sub[i].size;
+            return;
+        }
+    }
+
+    fp->lsn = 0;
+    fp->size = 0;
+}
+
+void dvci_init_flist() {
+    memset(&dvg_flist_tbl, 0, sizeof(DVG_FLIST_TBL));
+}
+
+Sint32 dvci_get_fstate(const Char8 *fname, sceCdlFILE *fp) {
+    if (strcmp("DVD-ROM", fname) == 0) {
+        fp->lsn = 0;
+        fp->size = -1;
+
+        if (dvg_ci_dbg_out_lv != 2) {
+            scePrintf("DVCI: CD/DVD-ROM Image opened%c\n\0\0\0\0", '.');
+        }
+
+        return 1;
+    }
+
+    fp->lsn = 0;
+    fp->size = 0;
+
+    if (dvg_flist_tbl.unk0 != 0) {
+        get_fp_from_fname(fp, fname, dvg_flist_tbl.unk0, dvg_flist_tbl.unk4);
+    }
+
+    return 0;
+}
 
 #if defined(TARGET_PS2)
 // Also used in dvCiSetFcache
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", D_0055D340);
+extern Char8 D_0055D340[];
 // Also used in dvCiSetFcache
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", D_0055D370);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", D_0055D3A0);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", D_0055D3C8);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvCiLoadFcache);
-#else
-Sint32 dvCiLoadFcache(Sint8 *, Sint8 *, Sint32, Sint32) {
-    not_implemented(__func__);
-}
+extern Char8 D_0055D370[];
 #endif
+
+Sint32 dvCiLoadFcache(Char8 *flist, Sint8 *fcbuf, Sint32 fcsize, Sint32 maxflen) {
+    Uint32 temp_lo;
+    Sint32 temp;
+
+    memset(D_006BE100, 0, sizeof(D_006BE100));
+
+    if (dvg_flist_tbl.unk0 != 0) {
+        dvci_init_flist();
+    }
+
+    if ((flist == NULL) || (fcbuf == NULL) || (fcsize == 0)) {
+        dvci_init_flist();
+    }
+
+    if (flist == NULL) {
+        return 0;
+    }
+
+    if (fcbuf == NULL) {
+        if (dvg_ci_dbg_out_lv == 0) {
+#if defined(TARGET_PS2)
+            scePrintf(D_0055D340, fcbuf);
+#else
+            scePrintf("DVCI: Invalidate filelist buffer pointer.\r\n", fcbuf);
+#endif
+        }
+
+        return 0;
+    }
+
+    if (fcsize == 0) {
+        if (dvg_ci_dbg_out_lv == 0) {
+#if defined(TARGET_PS2)
+            scePrintf(D_0055D370, fcsize);
+#else
+            scePrintf("DVCI: Invalidate filelist buffer size.\r\n", fcsize);
+#endif
+        }
+
+        return 0;
+    }
+
+    memset(fcbuf, 0, fcsize);
+
+    if (load_flist(flist, D_006BE100) == 0) {
+        if (dvg_ci_dbg_out_lv == 0) {
+            scePrintf("DVCI: Can't read filelist file.(%s)\n", flist);
+        }
+
+        dvci_call_errfn(NULL, "E0111501:can't read filelist.(dvCiLoadDirInfo)\0\0\0\0\0\0\0\0");
+        return 0;
+    }
+
+    temp_lo = (Uint32)fcsize / (maxflen + 9);
+    temp = analysis_flist_003DC6A0(fcbuf, D_006BE100, 0x1000, temp_lo, maxflen);
+    return (((Uint32)fcsize / (maxflen + 9)) * 8) + search_fstate(fcbuf, temp) * (maxflen + 1);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvCiSetFcache);
 
@@ -51,7 +331,30 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvCiIsExistFcac
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvCiSetRdMode);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvCiSetRootDir);
+#else
+void dvCiSetRootDir(const Char8 *dir) {
+    Char8 last_char;
+
+    if (dir == NULL) {
+        dvg_ci_root_dir[0] = '\0';
+    } else {
+        if ((dir[0] != '/') && (dir[0] != '\\')) {
+            memcpy(dvg_ci_root_dir, "\\", 2);
+        } else {
+            dvg_ci_root_dir[0] = '\0';
+        }
+
+        strcat(dvg_ci_root_dir, dir);
+        last_char = LAST_CHAR(dir);
+
+        if ((last_char == '/') || (last_char == '\\')) {
+            LAST_CHAR(dvg_ci_root_dir) = '\0';
+        }
+    }
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvCiGetRootDir);
 

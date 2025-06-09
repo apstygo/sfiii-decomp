@@ -1,4 +1,5 @@
 #include "common.h"
+#include <cri/private/libadxe/structs.h>
 
 #include <cri/cri_xpts.h>
 
@@ -10,37 +11,8 @@
 #define CVFS_MAX_NAME_LENGTH 0x129
 
 typedef struct {
-    void (*ExecServer)();                               // 0x00
-    void (*EntryErrFunc)();                             // 0x04
-    Sint32 (*GetFileSize)();                            // 0x08
-    void (*unkC)();                                     // 0x0C
-    Sint32 (*Open)(Char8 *device_name, void *, Sint32); // 0x10
-    void (*Close)(Sint32);                              // 0x14
-    Sint32 (*Seek)(Sint32);                             // 0x18
-    Sint32 (*Tell)(Sint32);                             // 0x1C
-    Sint32 (*ReqRd)(Sint32);                            // 0x20
-    void (*unk24)();                                    // 0x24
-    void (*StopTr)();                                   // 0x28
-    Sint32 (*GetStat)(Sint32);                          // 0x2C
-    void (*GetSctLen)();                                // 0x30
-    void (*unk34)();                                    // 0x34
-    void (*GetNumTr)();                                 // 0x38
-    void (*unk3C)();                                    // 0x3C
-    void (*IsExistFile)();                              // 0x40
-    void (*unk44)();                                    // 0x44
-    void (*unk48)();                                    // 0x48
-    void (*unk4C)();                                    // 0x4C
-    void (*unk50)();                                    // 0x50
-    void (*unk54)();                                    // 0x54
-    void (*unk58)();                                    // 0x58
-    void (*unk5C)();                                    // 0x5C
-    Sint32 (*OptFn1)();                                 // 0x60
-    void (*unk64)();                                    // 0x64
-} CVFSDevice;
-
-typedef struct {
     CVFSDevice *device;
-    Sint32 unk4;
+    void *fd;
 } CVFSHandle;
 
 typedef struct {
@@ -275,14 +247,14 @@ CVFSHandle *cvFsOpen(const Char8 *fname, void *arg1, Sint32 arg2) {
     }
 
     if (device->Open != NULL) {
-        fs_hn->unk4 = device->Open(device_name, arg1, arg2);
+        fs_hn->fd = device->Open(device_name, arg1, arg2);
     } else {
         releaseCvFsHn(fs_hn);
         cvFsError("cvFsOpen #5:vtbl error");
         return NULL;
     }
 
-    if (fs_hn->unk4 == 0) {
+    if (fs_hn->fd == 0) {
         releaseCvFsHn(fs_hn);
         cvFsError("cvFsOpen #6:open failed");
         return NULL;
@@ -295,7 +267,7 @@ CVFSHandle *allocCvFsHn() {
     Sint32 i;
 
     for (i = 0; i < CVFS_HANDLE_MAX; i++) {
-        if (D_006BDA68[i].unk4 == 0) {
+        if (D_006BDA68[i].fd == NULL) {
             break;
         }
     }
@@ -308,7 +280,7 @@ CVFSHandle *allocCvFsHn() {
 }
 
 void releaseCvFsHn(CVFSHandle *handle) {
-    handle->unk4 = 0;
+    handle->fd = NULL;
     handle->device = NULL;
 }
 
@@ -376,7 +348,7 @@ void cvFsClose(CVFSHandle *fs_handle) {
     }
 
     if (fs_handle->device->Close != NULL) {
-        fs_handle->device->Close(fs_handle->unk4);
+        fs_handle->device->Close(fs_handle->fd);
     } else {
         cvFsError("cvFsClose #2:vtbl error");
         return;
@@ -394,7 +366,7 @@ Sint32 cvFsTell(CVFSHandle *fs_handle) {
     }
 
     if (fs_handle->device->Tell != NULL) {
-        offset = fs_handle->device->Tell(fs_handle->unk4);
+        offset = fs_handle->device->Tell(fs_handle->fd);
     } else {
         offset = 0;
         cvFsError("cvFsTell #2:vtbl error");
@@ -403,8 +375,8 @@ Sint32 cvFsTell(CVFSHandle *fs_handle) {
     return offset;
 }
 
-Sint32 cvFsSeek(CVFSHandle *fs_handle) {
-    Sint32 offset;
+Sint32 cvFsSeek(CVFSHandle *fs_handle, Sint32 offset, Sint32 whence) {
+    Sint32 ret;
 
     if (fs_handle == NULL) {
         cvFsError("cvFsSeek #1:handle error");
@@ -412,13 +384,13 @@ Sint32 cvFsSeek(CVFSHandle *fs_handle) {
     }
 
     if (fs_handle->device->Seek != NULL) {
-        offset = fs_handle->device->Seek(fs_handle->unk4);
+        ret = fs_handle->device->Seek(fs_handle->fd, offset, whence);
     } else {
-        offset = 0;
+        ret = 0;
         cvFsError("cvFsSeek #2:vtbl error");
     }
 
-    return offset;
+    return ret;
 }
 
 Sint32 cvFsReqRd(CVFSHandle *fs_handle) {
@@ -430,7 +402,7 @@ Sint32 cvFsReqRd(CVFSHandle *fs_handle) {
     }
 
     if (fs_handle->device->ReqRd != NULL) {
-        ret = fs_handle->device->ReqRd(fs_handle->unk4);
+        ret = fs_handle->device->ReqRd(fs_handle->fd);
     } else {
         ret = 0;
         cvFsError("cvFsReqRd #2:vtbl error");
@@ -469,7 +441,7 @@ Sint32 cvFsGetStat(CVFSHandle *fs_handle) {
     }
 
     if (fs_handle->device->GetStat != NULL) {
-        stat = fs_handle->device->GetStat(fs_handle->unk4);
+        stat = fs_handle->device->GetStat(fs_handle->fd);
     } else {
         cvFsError("cvFsGetStat #2:vtbl error\0\0\0\0");
     }

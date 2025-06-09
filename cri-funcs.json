@@ -390,6 +390,8 @@
         "dvCiExecServer",
         "dvCiEntryErrFunc",
         "dvci_to_large_to_yen",
+        "dvCiIsExistFile",
+        "dvCiGetFileSize",
         "dvci_alloc",
         "dvci_free",
         "dvCiOpen",
@@ -397,7 +399,14 @@
         "dvCiSeek",
         "dvCiTell",
         "dvCiReqRd",
+        "dvCiStopTr",
         "dvCiGetStat",
+        "dvCiGetSctLen",
+        "dvCiGetNumTr",
+        "dvci_getnumtr_upper",
+        "dvci_getnumtr_lower",
+        "dvci_filesize_upper",
+        "dvci_filesize_lower",
         "dvCiOptFn1"
     ],
     "dvci_sub": [

@@ -415,36 +415,45 @@ If you don't see a function in this list it doesn't need to be decompiled.
 
 ### dvci
 
-- [ ] dvCiGetInterface
-- [ ] dvci_call_errfn
-- [ ] dvCiCdSearchFile
-- [ ] dvCiExecHndl
-- [ ] dvCiExecServer
-- [ ] dvCiEntryErrFunc
-- [ ] dvci_to_large_to_yen
-- [ ] dvci_alloc
-- [ ] dvci_free
-- [ ] dvCiOpen
+- [x] dvCiGetInterface
+- [x] dvci_call_errfn
+- [x] dvCiCdSearchFile
+- [x] dvCiExecHndl
+- [x] dvCiExecServer
+- [x] dvCiEntryErrFunc
+- [x] dvci_to_large_to_yen
+- [x] dvCiIsExistFile
+- [x] dvCiGetFileSize
+- [x] dvci_alloc
+- [x] dvci_free
+- [x] dvCiOpen
 - [ ] dvCiClose
-- [ ] dvCiSeek
-- [ ] dvCiTell
-- [ ] dvCiReqRd
-- [ ] dvCiGetStat
+- [x] dvCiSeek
+- [x] dvCiTell
+- [x] dvCiReqRd
+- [x] dvCiStopTr
+- [x] dvCiGetStat
+- [x] dvCiGetSctLen
+- [x] dvCiGetNumTr
+- [x] dvci_getnumtr_upper
+- [x] dvci_getnumtr_lower
+- [ ] dvci_filesize_upper
+- [ ] dvci_filesize_lower
 - [ ] dvCiOptFn1
 
 ### dvci_sub
 
-- [ ] dvci_conv_fname
-- [ ] conv_cmp_003DC578
-- [ ] dvci_charicmp
-- [ ] dvci_stricmp
+- [x] dvci_conv_fname
+- [x] conv_cmp_003DC578
+- [x] dvci_charicmp
+- [x] dvci_stricmp
 - [ ] analysis_flist_003DC6A0
-- [ ] load_flist
-- [ ] search_fstate
-- [ ] get_fp_from_fname
-- [ ] dvci_init_flist
-- [ ] dvci_get_fstate
-- [ ] dvCiLoadFcache
+- [x] load_flist
+- [x] search_fstate
+- [x] get_fp_from_fname
+- [x] dvci_init_flist
+- [x] dvci_get_fstate
+- [x] dvCiLoadFcache
 - [ ] dvCiSetRdMode
 - [ ] dvCiSetRootDir
 
