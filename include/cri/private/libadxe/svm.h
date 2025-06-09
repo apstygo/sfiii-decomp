@@ -8,6 +8,8 @@ void SVM_Lock();
 void SVM_Unlock();
 void SVM_LockRsc();
 void SVM_UnlockRsc();
+void SVM_LockVar();
+void SVM_UnlockVar();
 void SVM_CallErr(const Char8 *format, ...);
 void SVM_SetCbErr(void (*callback)(void *, Char8 *), void *object);
 Sint32 SVM_SetCbSvr(Sint32, Sint32 (*)(void *), void *);

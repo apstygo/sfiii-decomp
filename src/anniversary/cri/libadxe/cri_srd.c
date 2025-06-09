@@ -53,17 +53,41 @@ Sint32 SRD_SceRead(Sint32 fd, void *buf, Sint32 nbyte);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", srd_reset_obj);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_Create);
+#else
+SRD SRD_Create() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CA78);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CAB8);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_Destroy);
+#else
+void SRD_Destroy(SRD srd) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_ReqRdDvd);
+#else
+Sint32 SRD_ReqRdDvd(SRD srd, Sint32, Sint32, void *, sceCdRMode *) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_ReqRdHst);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_GetStat);
+#else
+Sint32 SRD_GetStat(SRD srd) {
+    not_implemented(__func__);
+}
+#endif
 
 void srd_wait() {
     Sint32 i;
@@ -107,13 +131,25 @@ void srd_wait_hst(SRD srd) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_WaitComplete);
+#else
+void SRD_WaitComplete(SRD srd) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_WaitCompleteVoid);
 
+#if defined(TARGET_PS2)
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CAF8);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CB18);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_Break);
+#else
+void SRD_Break(SRD srd) {
+    not_implemented(__func__);
+}
+#endif
 
 Sint32 srd_check_dvd_error(SRD srd) {
     Sint32 cd_err;
@@ -348,8 +384,14 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_GetDevTypeNo
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_GetErrCode);
 
+#if defined(TARGET_PS2)
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CBD8);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_WaitForExecServer);
+#else
+void SRD_WaitForExecServer() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_LockedForDvdExec);
 

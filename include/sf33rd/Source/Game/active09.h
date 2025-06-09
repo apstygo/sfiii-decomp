@@ -1,0 +1,113 @@
+#ifndef ACTIVE09_H
+#define ACTIVE09_H
+
+#include "structs.h"
+#include "types.h"
+
+void (*const Pattern09_Tbl[102])(); // size: 0x198, address: 0x4DFC10
+
+void Computer09(PLW* wk);
+void Pattern09_0000(PLW* wk);
+void Pattern09_0001(PLW* wk);
+void Pattern09_0002(PLW* wk);
+void Pattern09_0003(PLW* wk);
+void Pattern09_0004(PLW* wk);
+void Pattern09_0005(PLW* wk);
+void Pattern09_0006(PLW* wk);
+void Pattern09_0007(PLW* wk);
+void Pattern09_0008(PLW* wk);
+void Pattern09_0009(PLW* wk);
+void Pattern09_0010(PLW* wk);
+void Pattern09_0011(PLW* wk);
+void Pattern09_0012(PLW* wk);
+void Pattern09_0013(PLW* wk);
+void Pattern09_0014(PLW* wk);
+void Pattern09_0015(PLW* wk);
+void Pattern09_0016(PLW* wk);
+void Pattern09_0017(PLW* wk);
+void Pattern09_0018(PLW* wk);
+void Pattern09_0019(PLW* wk);
+void Pattern09_0020(PLW* wk);
+void Pattern09_0021(PLW* wk);
+void Pattern09_0022(PLW* wk);
+void Pattern09_0023(PLW* wk);
+void Pattern09_0024(PLW* wk);
+void Pattern09_0025(PLW* wk);
+void Pattern09_0026(PLW* wk);
+void Pattern09_0027(PLW* wk);
+void Pattern09_0028(PLW* wk);
+void Pattern09_0029(PLW* wk);
+void Pattern09_0030(PLW* wk);
+void Pattern09_0031(PLW* wk);
+void Pattern09_0032(PLW* wk);
+void Pattern09_0033(PLW* wk);
+void Pattern09_0034(PLW* wk);
+void Pattern09_0035(PLW* wk);
+void Pattern09_0036(PLW* wk);
+void Pattern09_0037(PLW* wk);
+void Pattern09_0038(PLW* wk);
+void Pattern09_0039(PLW* wk);
+void Pattern09_0040(PLW* wk);
+void Pattern09_0041(PLW* wk);
+void Pattern09_0042(PLW* wk);
+void Pattern09_0043(PLW* wk);
+void Pattern09_0044(PLW* wk);
+void Pattern09_0045(PLW* wk);
+void Pattern09_0046(PLW* wk);
+void Pattern09_0047(PLW* wk);
+void Pattern09_0048(PLW* wk);
+void Pattern09_0049(PLW* wk);
+void Pattern09_0050(PLW* wk);
+void Pattern09_0051(PLW* wk);
+void Pattern09_0052(PLW* wk);
+void Pattern09_0053(PLW* wk);
+void Pattern09_0054(PLW* wk);
+void Pattern09_0055(PLW* wk);
+void Pattern09_0056(PLW* wk);
+void Pattern09_0057(PLW* wk);
+void Pattern09_0058(PLW* wk);
+void Pattern09_0059(PLW* wk);
+void Pattern09_0060(PLW* wk);
+void Pattern09_0061(PLW* wk);
+void Pattern09_0062(PLW* wk);
+void Pattern09_0063(PLW* wk);
+void Pattern09_0064(PLW* wk);
+void Pattern09_0065(PLW* wk);
+void Pattern09_0066(PLW* wk);
+void Pattern09_0067(PLW* wk);
+void Pattern09_0068(PLW* wk);
+void Pattern09_0069(PLW* wk);
+void Pattern09_0070(PLW* wk);
+void Pattern09_0071(PLW* wk);
+void Pattern09_0072(PLW* wk);
+void Pattern09_0073(PLW* wk);
+void Pattern09_0074(PLW* wk);
+void Pattern09_0075(PLW* wk);
+void Pattern09_0076(PLW* wk);
+void Pattern09_0077(PLW* wk);
+void Pattern09_0078(PLW* wk);
+void Pattern09_0079(PLW* wk);
+void Pattern09_0080(PLW* wk);
+void Pattern09_0081(PLW* wk);
+void Pattern09_0082(PLW* wk);
+void Pattern09_0083(PLW* wk);
+void Pattern09_0084(PLW* wk);
+void Pattern09_0085(PLW* wk);
+void Pattern09_0086(PLW* wk);
+void Pattern09_0087(PLW* wk);
+void Pattern09_0088(PLW* wk);
+void Pattern09_0089(PLW* wk);
+void Pattern09_0090(PLW* wk);
+void Pattern09_0091(PLW* wk);
+void Pattern09_0092(PLW* wk);
+void Pattern09_0093(PLW* wk);
+void Pattern09_0094(PLW* wk);
+void Pattern09_0095(PLW* wk);
+void Pattern09_0096(PLW* wk);
+void Pattern09_0097(PLW* wk);
+void Pattern09_0098(PLW* wk);
+void Pattern09_0099(PLW* wk);
+void Pattern09_0100(PLW* wk);
+void Pattern09_0101(PLW* wk);
+
+#endif

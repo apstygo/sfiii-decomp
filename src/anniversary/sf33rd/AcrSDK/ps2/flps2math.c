@@ -5,8 +5,6 @@
 #include "structs.h"
 
 void flmatCopy(MTX *dst, const MTX *src);
-void flmatMul(MTX *lpdst, const MTX *lpsrc1, const MTX *lpsrc2);
-void flmatMakeViewport(MTX *lpmat, s32 dwx, s32 dwy, s32 dwWidth, s32 dwHeight, f32 dvMinz, f32 dvMaxz);
 void flPS2MakeClipViewport(s32 /* unused */, s32 /* unused */, s32 dwWidth, s32 dwHeight, f32 dvMinz, f32 dvMaxz);
 void flmatInit(MTX *lpmat);
 

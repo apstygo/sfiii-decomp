@@ -5,6 +5,8 @@
 #include <cri/sj.h>
 #include <sif.h>
 
+#include <libcdvd.h>
+
 // ADXPD
 
 typedef struct {
@@ -285,5 +287,74 @@ typedef struct {
 } LSC_OBJ;
 
 typedef LSC_OBJ *LSC;
+
+// SRD
+
+typedef void *SRD;
+
+// cvfs
+
+typedef struct {
+    /* 0x00 */ void (*ExecServer)();
+    /* 0x04 */ void (*EntryErrFunc)();
+    /* 0x08 */ Sint32 (*GetFileSize)();
+    /* 0x0C */ void (*unkC)();
+    /* 0x10 */ void *(*Open)(Char8 *device_name, void *, Sint32);
+    /* 0x14 */ void (*Close)(void *fd);
+    /* 0x18 */ Sint32 (*Seek)(void *fd, Sint32 offset, Sint32 whence);
+    /* 0x1C */ Sint32 (*Tell)(void *fd);
+    /* 0x20 */ Sint32 (*ReqRd)(void *fd);
+    /* 0x24 */ void (*unk24)();
+    /* 0x28 */ void (*StopTr)();
+    /* 0x2C */ Sint32 (*GetStat)(void *fd);
+    /* 0x30 */ void (*GetSctLen)();
+    /* 0x34 */ void (*unk34)();
+    /* 0x38 */ void (*GetNumTr)();
+    /* 0x3C */ void (*unk3C)();
+    /* 0x40 */ void (*IsExistFile)();
+    /* 0x44 */ void (*unk44)();
+    /* 0x48 */ void (*unk48)();
+    /* 0x4C */ void (*unk4C)();
+    /* 0x50 */ void (*unk50)();
+    /* 0x54 */ void (*unk54)();
+    /* 0x58 */ void (*unk58)();
+    /* 0x5C */ void (*unk5C)();
+    /* 0x60 */ Sint32 (*OptFn1)();
+    /* 0x64 */ void (*unk64)();
+} CVFSDevice;
+
+// DVG_CI
+
+#define DVG_CI_MAX_OBJ 40
+
+typedef struct {
+    /* 0x00 */ Sint8 used;
+    /* 0x01 */ Sint8 unk1;
+    /* 0x02 */ Sint8 stat;
+    /* 0x03 */ Sint8 unk3;
+    /* 0x04 */ Sint32 unk4;
+    /* 0x08 */ Sint32 unk8;
+    /* 0x0C */ Sint32 unkC;
+    /* 0x10 */ Sint32 unk10;
+    /* 0x14 */ Sint32 unk14;
+    /* 0x18 */ void *unk18;
+    /* 0x1C */ SRD srd;
+    /* 0x20 */ sceCdlFILE unk20;
+    /* 0x44 */ sceCdRMode unk44;
+} DVG_CI_OBJ; /* total size: 0x48 */
+
+typedef DVG_CI_OBJ *DVG_CI;
+
+typedef struct {
+    Uint32 lsn;
+    Uint32 size;
+} DVG_FLIST_SUB;
+
+typedef struct {
+    Sint32 unk0;
+    Sint32 unk4;
+    Sint32 unk8;
+    Sint32 unkC;
+} DVG_FLIST_TBL;
 
 #endif
