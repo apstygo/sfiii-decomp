@@ -412,7 +412,7 @@ void Appear_15000(PLW* wk) {
         bg_app_stop = 1;
         wk->wu.disp_flag = 1;
         set_char_move_init(&wk->wu, 9, 8);
-        effect_97_init(&wk->wu);
+        effect_97_init(wk);
         return;
 
     case 1:
@@ -901,7 +901,7 @@ void gouki_appear(PLW* wk) {
     case 0:
         wk->wu.routine_no[6] += 1;
         set_char_move_init(&wk->wu, 1, 0x3C);
-        char_move_z(wk);
+        char_move_z(&wk->wu);
         wk->wu.xyz[1].disp.pos = -6;
         break;
 
