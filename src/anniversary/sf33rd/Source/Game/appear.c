@@ -837,13 +837,32 @@ void Appear_30000(PLW *wk) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_31000);
-#else
-void Appear_31000(PLW *wk) {
-    not_implemented(__func__);
+void Appear_31000(PLW* wk) {
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3] += 1;
+        wk->wu.disp_flag = 1;
+
+        if (Appear_flag[wk->wu.id]) {
+            appear_data_set(wk, (APPEAR_DATA *) appear_data);
+            Appear_00000(wk);
+        } else {
+            set_char_move_init(&wk->wu, 9, 8);
+        }
+
+        bg_app_stop = 1;
+        break;
+
+    case 1:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 0xFF) {
+            wk->wu.routine_no[2] = 1;
+            wk->wu.routine_no[3] = 0;
+            Appear_end += 1;
+        }
+    }
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_32000);
