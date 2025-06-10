@@ -4,7 +4,7 @@
 
 // sbss
 
-void *PhdAddr[16]; // size: 0x40, address: 0x57B160
+void *PhdAddr[PHDADDR_MAX]; // size: 0x40, address: 0x57B160
 
 s32 mlMemMapInit(void *pSpuMemMap) {
     s32 result;
@@ -15,7 +15,7 @@ s32 mlMemMapInit(void *pSpuMemMap) {
         return result;
     }
 
-    for (i = 0; i < 16; i++) {
+    for (i = 0; i < PHDADDR_MAX; i++) {
         PhdAddr[i] = NULL;
     }
 
@@ -27,7 +27,7 @@ u32 mlMemMapGetBankAddr(u32 bank) {
 }
 
 s32 mlMemMapSetPhdAddr(u32 bank, void *addr) {
-    if (bank >= 16) {
+    if (bank >= PHDADDR_MAX) {
         return -1;
     }
 
@@ -36,7 +36,7 @@ s32 mlMemMapSetPhdAddr(u32 bank, void *addr) {
 }
 
 void *mlMemMapGetPhdAddr(u32 bank) {
-    if (bank >= 16) {
+    if (bank >= PHDADDR_MAX) {
         return NULL;
     }
 

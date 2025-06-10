@@ -2349,21 +2349,6 @@ typedef struct {
 } CSE_PHDPADDR;
 
 typedef struct {
-    // total size: 0xC0
-    u8 CommSendBuf[64]; // offset 0x0, size 0x40
-    u8 CommRecvBuf[64]; // offset 0x40, size 0x40
-    u8 StatSendBuf[32]; // offset 0x80, size 0x20
-    u8 StatRecvBuf[32]; // offset 0xA0, size 0x20
-} CSE_RPCBUFF;
-
-typedef struct {
-    // total size: 0x48
-    u32 Type;    // offset 0x0, size 0x4
-    u8 Data[64]; // offset 0x4, size 0x40
-    u32 Size;    // offset 0x44, size 0x4
-} CSE_RPCQUEUE;
-
-typedef struct {
     // total size: 0x8
     s32 result; // offset 0x0, size 0x4
     u32 guid;   // offset 0x4, size 0x4
@@ -2383,16 +2368,6 @@ typedef struct {
     u16 CurrTimes;    // offset 0xE, size 0x2
     s32 Rtpc[10];     // offset 0x10, size 0x28
 } CSE_ECHOWORK;
-
-typedef struct {
-    // total size: 0x48
-    u8 InitializeFlag; // offset 0x0, size 0x1
-    u8 ___dummy0___;   // offset 0x1, size 0x1
-    u8 ___dummy1___;   // offset 0x2, size 0x1
-    u8 ___dummy2___;   // offset 0x3, size 0x1
-    u32 Counter;       // offset 0x4, size 0x4
-    u32 SpuBankId[16]; // offset 0x8, size 0x40
-} CSE_SYSWORK;
 
 typedef struct {
     // total size: 0xC

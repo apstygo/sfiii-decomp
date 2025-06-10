@@ -27,7 +27,7 @@ s32 cseInitSndDrv() {
     cseSysWork.InitializeFlag = 1;
     cseSysWork.Counter = 0;
 
-    for (i = 0; i < 16; i++) {
+    for (i = 0; i < SPUBANKID_MAX; i++) {
         cseSysWork.SpuBankId[i] = -1;
     }
 

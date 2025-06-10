@@ -3,7 +3,9 @@
 
 #include "types.h"
 
-extern void *PhdAddr[16];
+#define PHDADDR_MAX 16
+
+extern void *PhdAddr[PHDADDR_MAX];
 
 s32 mlMemMapInit(void *pSpuMemMap);
 u32 mlMemMapGetBankAddr(u32 bank);

@@ -25,7 +25,7 @@ s32 flSpuMapInit(PSPUMAP *pMap) {
     CurrPage = 0;
     SpuTopAddr = 0x5020;
 
-    for (i = 0; i < 16; i++) {
+    for (i = 0; i < SPUBANK_MAX; i++) {
         CurrMap.BankAddr[i] = 0x5020;
         CurrMap.BankSize[i] = 0;
     }
@@ -48,7 +48,7 @@ s32 flSpuMapChgPage(u32 page) {
     pPage = &pSpuMap->Page[CurrPage];
     addr = SpuTopAddr;
 
-    for (i = 0; i < 16; i++) {
+    for (i = 0; i < SPUBANK_MAX; i++) {
         CurrMap.BankAddr[i] = addr;
         CurrMap.BankSize[i] = pPage->BankSize[i];
 
@@ -67,7 +67,7 @@ s32 flSpuMapChgPage(u32 page) {
 }
 
 u32 flSpuMapGetBankAddr(u32 bank) {
-    if (bank >= 16) {
+    if (bank >= SPUBANK_MAX) {
         return 0;
     }
 

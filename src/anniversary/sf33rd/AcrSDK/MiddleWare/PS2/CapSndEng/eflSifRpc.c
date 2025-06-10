@@ -27,11 +27,11 @@ u32 RecvBufSize;                  // size: 0x4, address: 0x57B1A0
 // bss
 CSE_RPCBUFF RpcBuff __attribute__((aligned(64))); // size: 0xC0, address: 0x6EA140
 #if defined(TARGET_PS2)
-u8 ThMonSendBuf[16] __attribute__((section(".bss"))); // size: 0x10, address: 0x6EA100
+u8 ThMonSendBuf[THMONSENDBUF_MAX] __attribute__((section(".bss"))); // size: 0x10, address: 0x6EA100
 #else
-u8 ThMonSendBuf[16]; // size: 0x10, address: 0x6EA100
+u8 ThMonSendBuf[THMONSENDBUF_MAX]; // size: 0x10, address: 0x6EA100
 #endif
-u8 ThMonRecvBuf[1024] __attribute__((aligned(256))); // size: 0x400, address: 0x6E9D00
+u8 ThMonRecvBuf[THMONRECVBUF_MAX] __attribute__((aligned(256))); // size: 0x400, address: 0x6E9D00
 
 s32 flSifRpcInit() {
     sceSifInitRpc(0);
@@ -40,7 +40,7 @@ s32 flSifRpcInit() {
     scePrintf("Binding SIF RPC 'Comm'......");
 
     do {
-        if (sceSifBindRpc(&ScdComm, 0x01234567U, 0) < 0) {
+        if (sceSifBindRpc(&ScdComm, 0x01234567, 0) < 0) {
             printf("sndtest(EE_RPC) : Error : sceSifBindRpc \n");
             assert(0x54);
         }
@@ -56,7 +56,7 @@ s32 flSifRpcInit() {
     scePrintf("Binding SIF RPC 'Stat'......");
 
     do {
-        if (sceSifBindRpc(&ScdStat, 0x09876543U, 0) < 0) {
+        if (sceSifBindRpc(&ScdStat, 0x09876543, 0) < 0) {
             printf("sndtest(EE_RPC) : Error : sceSifBindRpc \n");
             assert(0x65);
         }
@@ -72,7 +72,7 @@ s32 flSifRpcInit() {
     scePrintf("Binding SIF RPC 'ThMon'......");
 
     do {
-        if (sceSifBindRpc(&ScdThMon, 0x77755500U, 0) < 0) {
+        if (sceSifBindRpc(&ScdThMon, 0x77755500, 0) < 0) {
             printf("sndtest(EE_RPC) : Error : sceSifBindRpc \n");
             assert(0x77);
         }
@@ -93,35 +93,35 @@ void *flSifRpcSend(u32 CmdType, void *pData, u32 DataSize) {
     case 0x309:
     case 3:
     case 1:
-        memset(&RpcBuff, 0xFF, 64);
-        memset(RpcBuff.CommRecvBuf, 0xFF, 64);
-        memcpy(&RpcBuff, pData, MIN(DataSize, 64));
+        memset(&RpcBuff, 0xFF, COMMSENDBUF_MAX);
+        memset(RpcBuff.CommRecvBuf, 0xFF, COMMRECVBUF_MAX);
+        memcpy(&RpcBuff, pData, MIN(DataSize, COMMSENDBUF_MAX));
         pScd = &ScdComm;
         pSendBuf = &RpcBuff;
         pRecvBuf = RpcBuff.CommRecvBuf;
-        SendBufSize = 64;
-        RecvBufSize = 64;
+        SendBufSize = COMMSENDBUF_MAX;
+        RecvBufSize = COMMRECVBUF_MAX;
         break;
 
     case 2:
-        memset(RpcBuff.StatSendBuf, 0xFF, 32);
-        memset(RpcBuff.StatRecvBuf, 0xFF, 32);
-        memcpy(RpcBuff.StatSendBuf, pData, MIN(DataSize, 32));
+        memset(RpcBuff.StatSendBuf, 0xFF, STATSENDBUF_MAX);
+        memset(RpcBuff.StatRecvBuf, 0xFF, STATRECVBUF_MAX);
+        memcpy(RpcBuff.StatSendBuf, pData, MIN(DataSize, STATSENDBUF_MAX));
         pScd = &ScdStat;
         pSendBuf = RpcBuff.StatSendBuf;
         pRecvBuf = RpcBuff.StatRecvBuf;
-        SendBufSize = 32;
-        RecvBufSize = 32;
+        SendBufSize = STATSENDBUF_MAX;
+        RecvBufSize = STATRECVBUF_MAX;
         break;
 
     case 0x63:
-        memset(ThMonSendBuf, 0xFF, 16);
-        memset(ThMonRecvBuf, 0xFF, 1024);
+        memset(ThMonSendBuf, 0xFF, THMONSENDBUF_MAX);
+        memset(ThMonRecvBuf, 0xFF, THMONRECVBUF_MAX);
         pScd = &ScdThMon;
         pSendBuf = ThMonSendBuf;
         pRecvBuf = ThMonRecvBuf;
-        SendBufSize = 16;
-        RecvBufSize = 1024;
+        SendBufSize = THMONSENDBUF_MAX;
+        RecvBufSize = THMONRECVBUF_MAX;
         break;
 
     default:

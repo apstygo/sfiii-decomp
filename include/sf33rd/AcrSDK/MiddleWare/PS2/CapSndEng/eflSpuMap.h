@@ -4,9 +4,11 @@
 #include "structs.h"
 #include "types.h"
 
+#define SPUBANK_MAX 16
+
 typedef struct {
     // total size: 0x40
-    u32 BankSize[16]; // offset 0x0, size 0x40
+    u32 BankSize[SPUBANK_MAX]; // offset 0x0, size 0x40
 } PSPUMAP_PAGE;
 
 typedef struct {
@@ -25,9 +27,9 @@ typedef struct {
 
 typedef struct {
     // total size: 0x88
-    u32 BankAddr[16]; // offset 0x0, size 0x40
-    u32 BankSize[16]; // offset 0x40, size 0x40
-    u32 EEA_Addr[2];  // offset 0x80, size 0x8
+    u32 BankAddr[SPUBANK_MAX]; // offset 0x0, size 0x40
+    u32 BankSize[SPUBANK_MAX]; // offset 0x40, size 0x40
+    u32 EEA_Addr[2];           // offset 0x80, size 0x8
 } CURRMAP;
 
 extern CURRMAP CurrMap;  // size: 0x88, address: 0x6EA200

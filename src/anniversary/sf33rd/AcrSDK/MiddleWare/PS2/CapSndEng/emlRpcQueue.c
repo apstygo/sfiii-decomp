@@ -6,7 +6,7 @@
 #include <memory.h>
 
 // bss
-CSE_RPCQUEUE RpcQueue[32]; // size: 0x900, address: 0x6EA2C0
+CSE_RPCQUEUE RpcQueue[RPCQUEUE_MAX]; // size: 0x900, address: 0x6EA2C0
 
 // sbss
 u32 ixTop;        // size: 0x4, address: 0x57B2B4
@@ -23,7 +23,7 @@ s32 mlRpcQueueInit() {
 }
 
 s32 mlRpcQueueSetData(u32 type, void *data, u32 size) {
-    if (num == 0x20) {
+    if (num == RPCQUEUE_MAX) {
         scePrintf("[EE]");
         scePrintf("(ERR)");
         scePrintf("mlRpcQueueSetData : Queue is full!\n");
@@ -32,9 +32,9 @@ s32 mlRpcQueueSetData(u32 type, void *data, u32 size) {
 
     RpcQueue[ixTop].Type = type;
     RpcQueue[ixTop].Size = size;
-    memset(RpcQueue[ixTop].Data, 0, 0x40);
+    memset(RpcQueue[ixTop].Data, 0, sizeof(RpcQueue[ixTop].Data));
     memcpy(RpcQueue[ixTop].Data, data, size);
-    ixTop = (ixTop + 1) % 0x20;
+    ixTop = (ixTop + 1) % RPCQUEUE_MAX;
     num++;
 
     if (type == 3) {
@@ -65,10 +65,10 @@ u32 mlRpcQueueSend() {
                 }
 
             } else {
-                ixTop = (ixTop + 1) % 0x20;
+                ixTop = (ixTop + 1) % RPCQUEUE_MAX;
             }
         }
-        ixEnd = (ixEnd + 1) % 0x20;
+        ixEnd = (ixEnd + 1) % RPCQUEUE_MAX;
     }
 
     return num;

@@ -5,10 +5,10 @@
 #include <memory.h>
 
 // sbss
-SoundEvent *gpTsb[16]; // size: 0x40, address: 0x57B2C0
+SoundEvent *gpTsb[TSB_MAX]; // size: 0x40, address: 0x57B2C0
 
 // bss
-CSE_ECHOWORK EchoWork[16]; // size: 0x380, address: 0x6EABC0
+CSE_ECHOWORK EchoWork[ECHOWORK_MAX]; // size: 0x380, address: 0x6EABC0
 
 s32 mlTsbInit() {
     mlTsbInitEchoWork();
@@ -116,7 +116,7 @@ void mlTsbSetToReqp(CSE_REQP *pReqp, SoundEvent *pTSB, u16 bank) {
 s32 mlTsbInitEchoWork() {
     u32 i;
 
-    for (i = 0; i < 16; i++) {
+    for (i = 0; i < ECHOWORK_MAX; i++) {
         memset(&EchoWork[i], 0, sizeof(CSE_ECHOWORK));
     }
     return 0;
@@ -128,7 +128,7 @@ s32 mlTsbMoveEchoWork() {
     SoundEvent *pTSB;
     CSE_REQP reqp = {};
 
-    for (i = 0; i < 16; i++) {
+    for (i = 0; i < ECHOWORK_MAX; i++) {
         pEchoWork = &EchoWork[i];
         if (pEchoWork->BeFlag == 1) {
             pEchoWork->CurrInterval--;
@@ -204,7 +204,7 @@ s32 mlTsbStopEcho(u32 bank, u32 code) {
 s32 mlTsbStopEchoAll() {
     u32 i;
 
-    for (i = 0; i < 16; i++) {
+    for (i = 0; i < ECHOWORK_MAX; i++) {
         EchoWork[i].BeFlag = 0;
     }
 

@@ -4,8 +4,11 @@
 #include "structs.h"
 #include "types.h"
 
-extern SoundEvent *gpTsb[16];     // size: 0x40, address: 0x57B2C0
-extern CSE_ECHOWORK EchoWork[16]; // size: 0x380, address: 0x6EABC0
+#define TSB_MAX 16
+#define ECHOWORK_MAX 16
+
+extern SoundEvent *gpTsb[TSB_MAX];          // size: 0x40, address: 0x57B2C0
+extern CSE_ECHOWORK EchoWork[ECHOWORK_MAX]; // size: 0x380, address: 0x6EABC0
 
 s32 mlTsbInit();
 s32 mlTsbExecServer();
