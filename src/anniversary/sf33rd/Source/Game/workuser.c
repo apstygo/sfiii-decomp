@@ -1,4 +1,5 @@
 #include "common.h"
+#include "sf33rd/Source/Game/cmd_data.h"
 #include "structs.h"
 
 // bss
@@ -8,7 +9,7 @@ u8 Order_Dir[148];
 
 // sbss
 u32 Score[2][3];
-s16 *Tech_Address[2];
+const_s16_arr Tech_Address[2];
 u32 Complete_Bonus;
 u32 *Shell_Address[2];
 u32 Stock_Score[2];

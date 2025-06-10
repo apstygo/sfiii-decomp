@@ -1,6 +1,7 @@
 #ifndef WORKUSER_H
 #define WORKUSER_H
 
+#include "sf33rd/Source/Game/cmd_data.h"
 #include "types.h"
 
 // bss
@@ -10,7 +11,7 @@ extern u8 Order_Dir[148];
 
 // sbss
 extern u32 Score[2][3];
-extern s16 *Tech_Address[2];
+extern const_s16_arr Tech_Address[2];
 extern u32 Complete_Bonus;
 extern u32 *Shell_Address[2];
 extern u32 Stock_Score[2];

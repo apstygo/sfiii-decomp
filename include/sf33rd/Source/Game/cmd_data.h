@@ -3,7 +3,9 @@
 
 #include "types.h"
 
-extern s16 **player_CMD[];
-extern s16 **player_cmd[];
+typedef const s16 *const_s16_arr;
+
+extern const_s16_arr *player_CMD[];
+extern const_s16_arr *player_cmd[];
 
 #endif
