@@ -1731,4 +1731,3 @@ segments:
       - { type: bss, vram: 0x6EAF40, name: bss_6EAF40 } # libc?
 
   - [0x478A00]
-
