@@ -2196,11 +2196,11 @@ typedef struct {
     u8 id2;       // offset 0xC, size 0x1
     u32 kofftime; // offset 0x10, size 0x4
     u8 limit;     // offset 0x14, size 0x1
-    s16 param0;   // offset 0x16, size 0x2
-    s16 param1;   // offset 0x18, size 0x2
-    s16 param2;   // offset 0x1A, size 0x2
-    s16 param3;   // offset 0x1C, size 0x2
-    s16 link;     // offset 0x1E, size 0x2
+    u16 param0;   // offset 0x16, size 0x2
+    u16 param1;   // offset 0x18, size 0x2
+    u16 param2;   // offset 0x1A, size 0x2
+    u16 param3;   // offset 0x1C, size 0x2
+    u16 link;     // offset 0x1E, size 0x2
 } SoundEvent;     // Tentative name
 
 typedef struct {
