@@ -19,11 +19,29 @@ s32 mlSysSetMasterVolume(s32 vol) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv", mlSysSetBankVolume);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv", mlSeSetLfo);
+#else
+s32 mlSysSetMasterVolume(s32 vol) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv", mlSeStop);
+#else
+s32 mlSysSetMasterVolume(s32 vol) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv", mlSeKeyoff);
+#else
+s32 mlSysSetMasterVolume(s32 vol) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv", mlSeStopAll);
@@ -37,7 +55,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv", StartSound);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv", PlaySe);
+#else
+s32 mlSysSetMasterVolume(s32 vol) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv", CheckReqFlags);
 
