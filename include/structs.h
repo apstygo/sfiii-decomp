@@ -2372,4 +2372,12 @@ typedef struct {
     f32 max_z;  // offset 0x14, size 0x4
 } FL_RenderViewport;
 
+typedef struct _anon6 {
+    s8 xxxx[8][2][32];
+} _anon6;
+
+typedef struct _anon13 {
+    s8 zzzz[4][4];
+} _anon13;
+
 #endif

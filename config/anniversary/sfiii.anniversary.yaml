@@ -965,6 +965,7 @@ segments:
       - [0x3FC630, rodata, sf33rd/Source/Game/Com_Data]
       - [0x4046F8, rodata, sf33rd/Source/Game/COM_DATU]
       - [0x404890, rodata, sf33rd/Source/Game/Com_Pl]
+      - [0x404920, .rodata, sf33rd/Source/Game/Com_Sub]
       - [0x404C30, .rodata, sf33rd/Source/Game/DC_Ghost]
       - [0x404C70, rodata, sf33rd/Source/Game/Demo_Dat]
       - [0x404E90, .rodata, sf33rd/Source/Game/DEMO00]
@@ -1381,7 +1382,7 @@ segments:
       - [0x472900, sdata, sf33rd/Source/Game/CMD_MAIN]
       - [0x472970, .sdata, sf33rd/Source/Game/color3rd]
       - [0x472990, sdata, sf33rd/Source/Game/Com_Pl]
-      - [0x472B70, sdata, sf33rd/Source/Game/Com_Sub]
+      - [0x472B70, .sdata, sf33rd/Source/Game/Com_Sub]
       - [0x472C30, .sdata, sf33rd/Source/Game/Continue]
       - [0x472C50, sdata, sf33rd/Source/Game/Demo_Dat]
       - [0x472C60, .sdata, sf33rd/Source/Game/DEMO00]
@@ -1566,7 +1567,7 @@ segments:
       - { type: sbss, vram: 0x578D28, name: sf33rd/Source/Game/cmb_win }
       - { type: sbss, vram: 0x578DBC, name: sf33rd/Source/Game/cmd_data }
       - { type: .sbss, vram: 0x578DD8, name: sf33rd/Source/Game/color3rd }
-      - { type: sbss, vram: 0x578E48, name: sf33rd/Source/Game/Com_Sub }
+      - { type: .sbss, vram: 0x578E48, name: sf33rd/Source/Game/Com_Sub }
       - { type: .sbss, vram: 0x578E50, name: sf33rd/Source/Game/Continue }
       - { type: sbss, vram: 0x578E54, name: sf33rd/Source/Game/count }
       - { type: .sbss, vram: 0x578E80, name: sf33rd/Source/Game/DC_Ghost }
