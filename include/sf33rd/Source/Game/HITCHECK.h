@@ -15,5 +15,6 @@ extern s8 ca_check_flag; // size: 0x1, address: 0x5790F4
 void clear_hit_queue();
 void hit_check_main_process();
 s16 hit_check_subroutine(WORK *wk1, WORK *wk2, const s16 *hd1, s16 *hd2);
+s16 get_att_head_position(WORK_Other *wk);
 
 #endif

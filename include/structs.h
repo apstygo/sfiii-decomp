@@ -537,62 +537,64 @@ typedef struct {
 } SA_WORK;
 
 typedef struct {
+    // total size: 0x406
+    u16 sw_lvbt;       // offset 0x0, size 0x2
+    u16 sw_new;        // offset 0x2, size 0x2
+    u16 sw_old;        // offset 0x4, size 0x2
+    u16 sw_now;        // offset 0x6, size 0x2
+    u16 sw_off;        // offset 0x8, size 0x2
+    u16 sw_chg;        // offset 0xA, size 0x2
+    u16 old_now;       // offset 0xC, size 0x2
+    s16 lgp;           // offset 0xE, size 0x2
+    u8 ca14;           // offset 0x10, size 0x1
+    u8 ca25;           // offset 0x11, size 0x1
+    u8 ca36;           // offset 0x12, size 0x1
+    u8 calf;           // offset 0x13, size 0x1
+    u8 calr;           // offset 0x14, size 0x1
+    u8 lever_dir;      // offset 0x15, size 0x1
+    s16 waza_flag[56]; // offset 0x16, size 0x70
+    s16 reset[56];     // offset 0x86, size 0x70
+    u8 waza_r[56][4];  // offset 0xF6, size 0xE0
+    u16 btix[56];      // offset 0x1D6, size 0x70
+    u16 exdt[56][4];   // offset 0x246, size 0x1C0
+} WORK_CP;
+
+typedef struct {
     // total size: 0x46C
-    WORK wu; // offset 0x0, size 0x388
-    struct /* @anon65 */ {
-        // total size: 0x406
-        u16 sw_lvbt;       // offset 0x0, size 0x2
-        u16 sw_new;        // offset 0x2, size 0x2
-        u16 sw_old;        // offset 0x4, size 0x2
-        u16 sw_now;        // offset 0x6, size 0x2
-        u16 sw_off;        // offset 0x8, size 0x2
-        u16 sw_chg;        // offset 0xA, size 0x2
-        u16 old_now;       // offset 0xC, size 0x2
-        s16 lgp;           // offset 0xE, size 0x2
-        u8 ca14;           // offset 0x10, size 0x1
-        u8 ca25;           // offset 0x11, size 0x1
-        u8 ca36;           // offset 0x12, size 0x1
-        u8 calf;           // offset 0x13, size 0x1
-        u8 calr;           // offset 0x14, size 0x1
-        u8 lever_dir;      // offset 0x15, size 0x1
-        s16 waza_flag[56]; // offset 0x16, size 0x70
-        s16 reset[56];     // offset 0x86, size 0x70
-        u8 waza_r[56][4];  // offset 0xF6, size 0xE0
-        u16 btix[56];      // offset 0x1D6, size 0x70
-        u16 exdt[56][4];   // offset 0x246, size 0x1C0
-    } *cp;                 // offset 0x388, size 0x4
-    u32 spmv_ng_flag;      // offset 0x38C, size 0x4
-    u32 spmv_ng_flag2;     // offset 0x390, size 0x4
-    s16 player_number;     // offset 0x394, size 0x2
-    s16 zuru_timer;        // offset 0x396, size 0x2
-    u16 zuru_ix_counter;   // offset 0x398, size 0x2
-    u8 zuru_flag;          // offset 0x39A, size 0x1
-    s8 tsukamarenai_flag;  // offset 0x39B, size 0x1
-    u8 kizetsu_kow;        // offset 0x39C, size 0x1
-    u8 micchaku_flag;      // offset 0x39D, size 0x1
-    u8 hos_fi_flag;        // offset 0x39E, size 0x1
-    u8 hos_em_flag;        // offset 0x39F, size 0x1
-    s16 tsukami_num;       // offset 0x3A0, size 0x2
-    s8 tsukami_f;          // offset 0x3A2, size 0x1
-    s8 tsukamare_f;        // offset 0x3A3, size 0x1
-    s8 kind_of_catch;      // offset 0x3A4, size 0x1
-    u8 old_gdflag;         // offset 0x3A5, size 0x1
-    u8 guard_flag;         // offset 0x3A6, size 0x1
-    u8 guard_chuu;         // offset 0x3A7, size 0x1
-    s16 dm_ix;             // offset 0x3A8, size 0x2
-    s16 hosei_amari;       // offset 0x3AA, size 0x2
-    s8 dm_hos_flag;        // offset 0x3AC, size 0x1
-    u8 dm_point;           // offset 0x3AD, size 0x1
-    s16 muriyari_ugoku;    // offset 0x3AE, size 0x2
-    s8 scr_pos_set_flag;   // offset 0x3B0, size 0x1
-    s8 hoshi_flag;         // offset 0x3B1, size 0x1
-    s8 the_same_players;   // offset 0x3B2, size 0x1
-    s8 *dm_step_tbl;       // offset 0x3B4, size 0x4
-    s8 running_f;          // offset 0x3B8, size 0x1
-    s8 cancel_timer;       // offset 0x3B9, size 0x1
-    s8 jpdir;              // offset 0x3BA, size 0x1
-    s8 jptim;              // offset 0x3BB, size 0x1
-    s16 current_attack;    // offset 0x3BC, size 0x2
+    WORK wu;              // offset 0x0, size 0x388
+    WORK_CP *cp;          // offset 0x388, size 0x4
+    u32 spmv_ng_flag;     // offset 0x38C, size 0x4
+    u32 spmv_ng_flag2;    // offset 0x390, size 0x4
+    s16 player_number;    // offset 0x394, size 0x2
+    s16 zuru_timer;       // offset 0x396, size 0x2
+    u16 zuru_ix_counter;  // offset 0x398, size 0x2
+    u8 zuru_flag;         // offset 0x39A, size 0x1
+    s8 tsukamarenai_flag; // offset 0x39B, size 0x1
+    u8 kizetsu_kow;       // offset 0x39C, size 0x1
+    u8 micchaku_flag;     // offset 0x39D, size 0x1
+    u8 hos_fi_flag;       // offset 0x39E, size 0x1
+    u8 hos_em_flag;       // offset 0x39F, size 0x1
+    s16 tsukami_num;      // offset 0x3A0, size 0x2
+    s8 tsukami_f;         // offset 0x3A2, size 0x1
+    s8 tsukamare_f;       // offset 0x3A3, size 0x1
+    s8 kind_of_catch;     // offset 0x3A4, size 0x1
+    u8 old_gdflag;        // offset 0x3A5, size 0x1
+    u8 guard_flag;        // offset 0x3A6, size 0x1
+    u8 guard_chuu;        // offset 0x3A7, size 0x1
+    s16 dm_ix;            // offset 0x3A8, size 0x2
+    s16 hosei_amari;      // offset 0x3AA, size 0x2
+    s8 dm_hos_flag;       // offset 0x3AC, size 0x1
+    u8 dm_point;          // offset 0x3AD, size 0x1
+    s16 muriyari_ugoku;   // offset 0x3AE, size 0x2
+    s8 scr_pos_set_flag;  // offset 0x3B0, size 0x1
+    s8 hoshi_flag;        // offset 0x3B1, size 0x1
+    s8 the_same_players;  // offset 0x3B2, size 0x1
+    s8 *dm_step_tbl;      // offset 0x3B4, size 0x4
+    s8 running_f;         // offset 0x3B8, size 0x1
+    s8 cancel_timer;      // offset 0x3B9, size 0x1
+    s8 jpdir;             // offset 0x3BA, size 0x1
+    s8 jptim;             // offset 0x3BB, size 0x1
+    s16 current_attack;   // offset 0x3BC, size 0x2
     struct /* @anon17 */ {
         // total size: 0x6
         s16 r_no;    // offset 0x0, size 0x2
@@ -2560,5 +2562,79 @@ typedef struct {
     f32 min_z;  // offset 0x10, size 0x4
     f32 max_z;  // offset 0x14, size 0x4
 } FL_RenderViewport;
+
+typedef struct _anon6 {
+    s8 xxxx[8][2][32];
+} _anon6;
+
+typedef struct _anon13 {
+    s8 zzzz[4][4];
+} _anon13;
+
+typedef struct {
+    // total size: 0x44
+    u16 sw_new;     // offset 0x0, size 0x2
+    u16 sw_old;     // offset 0x2, size 0x2
+    u16 sw_chg;     // offset 0x4, size 0x2
+    u16 sw_now;     // offset 0x6, size 0x2
+    u16 old_now;    // offset 0x8, size 0x2
+    u16 now_lvbt;   // offset 0xA, size 0x2
+    u16 old_lvbt;   // offset 0xC, size 0x2
+    u16 new_lvbt;   // offset 0xE, size 0x2
+    u16 sw_lever;   // offset 0x10, size 0x2
+    u16 shot_up;    // offset 0x12, size 0x2
+    u16 shot_down;  // offset 0x14, size 0x2
+    u16 shot_ud;    // offset 0x16, size 0x2
+    s16 lvr_status; // offset 0x18, size 0x2
+    s16 jaku_cnt;   // offset 0x1A, size 0x2
+    s16 chuu_cnt;   // offset 0x1C, size 0x2
+    s16 kyou_cnt;   // offset 0x1E, size 0x2
+    s16 up_cnt;     // offset 0x20, size 0x2
+    s16 down_cnt;   // offset 0x22, size 0x2
+    s16 left_cnt;   // offset 0x24, size 0x2
+    s16 right_cnt;  // offset 0x26, size 0x2
+    s16 s1_cnt;     // offset 0x28, size 0x2
+    s16 s2_cnt;     // offset 0x2A, size 0x2
+    s16 s3_cnt;     // offset 0x2C, size 0x2
+    s16 s4_cnt;     // offset 0x2E, size 0x2
+    s16 s5_cnt;     // offset 0x30, size 0x2
+    s16 s6_cnt;     // offset 0x32, size 0x2
+    s16 lu_cnt;     // offset 0x34, size 0x2
+    s16 ld_cnt;     // offset 0x36, size 0x2
+    s16 ru_cnt;     // offset 0x38, size 0x2
+    s16 rd_cnt;     // offset 0x3A, size 0x2
+    s16 waza_num;   // offset 0x3C, size 0x2
+    s16 waza_no;    // offset 0x3E, size 0x2
+    s16 wait_cnt;   // offset 0x40, size 0x2
+    s16 cmd_r_no;   // offset 0x42, size 0x2
+} T_PL_LVR;
+
+typedef struct /* @anon31 */ {
+    // total size: 0x1C
+    s16 w_type;  // offset 0x0, size 0x2
+    s16 w_int;   // offset 0x2, size 0x2
+    s16 free1;   // offset 0x4, size 0x2
+    s16 w_lvr;   // offset 0x6, size 0x2
+    s16 *w_ptr;  // offset 0x8, size 0x4
+    s16 free2;   // offset 0xC, size 0x2
+    s16 w_dead;  // offset 0xE, size 0x2
+    s16 w_dead2; // offset 0x10, size 0x2
+    union {
+        struct {
+            // total size: 0x6
+            s16 flag;       // offset 0x0, size 0x2
+            s16 shot_flag;  // offset 0x2, size 0x2
+            s16 shot_flag2; // offset 0x4, size 0x2
+        } tame;             // offset 0x0, size 0x6
+        struct {
+            // total size: 0x6
+            s16 s_cnt; // offset 0x0, size 0x2
+            s16 m_cnt; // offset 0x2, size 0x2
+            s16 l_cnt; // offset 0x4, size 0x2
+        } shot;        // offset 0x0, size 0x6
+    } uni0;            // offset 0x12, size 0x6
+    s16 free3;         // offset 0x18, size 0x2
+    s16 shot_ok;       // offset 0x1A, size 0x2
+} WAZA_WORK;
 
 #endif
