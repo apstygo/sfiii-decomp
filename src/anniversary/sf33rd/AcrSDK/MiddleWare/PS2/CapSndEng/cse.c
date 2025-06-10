@@ -1,10 +1,10 @@
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.h"
 #include "common.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc.h"
+#include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB.h"
-#include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap.h"
 
 #include <eekernel.h>
 
@@ -17,8 +17,6 @@ void __assert(const s8 *file, s32 line, const s8 *expr);
 #include <assert.h>
 #endif
 
-typedef char* va_list;
-
 s32 cseInitSndDrv() {
     u32 i;
 
@@ -28,11 +26,11 @@ s32 cseInitSndDrv() {
     mlTsbInit();
     cseSysWork.InitializeFlag = 1;
     cseSysWork.Counter = 0;
-    
+
     for (i = 0; i < 16; i++) {
         cseSysWork.SpuBankId[i] = -1;
     }
-    
+
     return 0;
 }
 
@@ -72,7 +70,7 @@ s32 cseTsbRequest(u16 bank, u16 code, s32 NumArgSets, ...) {
 
 s32 cseCheckVTransStatus(u32 vtrans_check_type) {
     CSE_RPCQUEUE_RESULT param;
-    CSE_VTRANS_RESULT* pResult;
+    CSE_VTRANS_RESULT *pResult;
     u32 numReqInQueue;
     s32 result;
 
@@ -80,23 +78,23 @@ s32 cseCheckVTransStatus(u32 vtrans_check_type) {
     pResult = flSifRpcSend(2, &param, sizeof(CSE_RPCQUEUE_RESULT));
     numReqInQueue = mlRpcQueueGetNumVtransReq();
     result = 0;
-    
+
     if (numReqInQueue != 0) {
         result |= 1;
     }
-    
+
     if (pResult->dma_remain != 0) {
         result |= 0x10;
     }
-    
+
     if (pResult->sifdma_move != 0) {
         result |= 0x100;
     }
-    
+
     if (pResult->vtrans_move != 0) {
         result |= 0x1000;
     }
-    
+
     switch (vtrans_check_type) {
     case 0:
         if (result == 0) {
@@ -119,14 +117,14 @@ s32 cseCheckVTransStatus(u32 vtrans_check_type) {
         assert(0xDA);
         break;
     }
-    
+
     return result;
 }
 
-s32 cseSendBd2SpuWithId(void* ee_addr, u32 size, u32 bank, u32 id) {
+s32 cseSendBd2SpuWithId(void *ee_addr, u32 size, u32 bank, u32 id) {
     CSE_SPUID_PARAM param = {};
     bank &= 0xF;
-    
+
     if (cseSysWork.SpuBankId[bank] != id) {
         cseSysWork.SpuBankId[bank] = id;
         param.cmd = 0x30000000;
@@ -135,7 +133,7 @@ s32 cseSendBd2SpuWithId(void* ee_addr, u32 size, u32 bank, u32 id) {
         param.size = size;
         mlRpcQueueSetData(3, &param, sizeof(CSE_SPUID_PARAM));
     }
-    
+
     return 0;
 }
 

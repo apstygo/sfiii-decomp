@@ -2205,145 +2205,145 @@ typedef struct {
 
 typedef struct {
     // total size: 0x20
-    u32 tag; // offset 0x0, size 0x4
-    u32 chunkSize; // offset 0x4, size 0x4
-    u32 version; // offset 0x8, size 0x4
-    u32 headerSize; // offset 0xC, size 0x4
-    u32 bodySize; // offset 0x10, size 0x4
+    u32 tag;             // offset 0x0, size 0x4
+    u32 chunkSize;       // offset 0x4, size 0x4
+    u32 version;         // offset 0x8, size 0x4
+    u32 headerSize;      // offset 0xC, size 0x4
+    u32 bodySize;        // offset 0x10, size 0x4
     u32 progChunkOffset; // offset 0x14, size 0x4
     u32 smplChunkOffset; // offset 0x18, size 0x4
     u32 vagiChunkOffset; // offset 0x1C, size 0x4
-} _ps2_head_chunk; 
+} _ps2_head_chunk;
 
 typedef struct {
     // total size: 0x10
-    u32 vagOffset; // offset 0x0, size 0x4
-    u32 vagSize; // offset 0x4, size 0x4
-    s32 loopFlag; // offset 0x8, size 0x4
+    u32 vagOffset;  // offset 0x0, size 0x4
+    u32 vagSize;    // offset 0x4, size 0x4
+    s32 loopFlag;   // offset 0x8, size 0x4
     s32 sampleRate; // offset 0xC, size 0x4
 } _ps2_vagi_param;
 
 typedef union {
     u8 core_0; // offset 0x0, size 0x1
     u8 core_1; // offset 0x0, size 0x1
-    u8 core; // offset 0x0, size 0x1
+    u8 core;   // offset 0x0, size 0x1
 } _ps2_effect;
 
 typedef struct {
     // total size: 0xE
-    u8 prio; // offset 0x0, size 0x1
+    u8 prio;            // offset 0x0, size 0x1
     _ps2_effect effect; // offset 0x1, size 0x1
-    u8 lowKey; // offset 0x2, size 0x1
-    u8 highKey; // offset 0x3, size 0x1
-    u16 bendLow; // offset 0x4, size 0x2
-    u16 bendHigh; // offset 0x6, size 0x2
-    s8 vol; // offset 0x8, size 0x1
-    s8 pan; // offset 0x9, size 0x1
-    s8 trans; // offset 0xA, size 0x1
-    s8 fine; // offset 0xB, size 0x1
-    u16 sampleIndex; // offset 0xC, size 0x2
+    u8 lowKey;          // offset 0x2, size 0x1
+    u8 highKey;         // offset 0x3, size 0x1
+    u16 bendLow;        // offset 0x4, size 0x2
+    u16 bendHigh;       // offset 0x6, size 0x2
+    s8 vol;             // offset 0x8, size 0x1
+    s8 pan;             // offset 0x9, size 0x1
+    s8 trans;           // offset 0xA, size 0x1
+    s8 fine;            // offset 0xB, size 0x1
+    u16 sampleIndex;    // offset 0xC, size 0x2
 } _ps2_split_block;
 
 typedef struct {
     // total size: 0x8
-    u8 nSplit; // offset 0x0, size 0x1
-    _ps2_effect effect; // offset 0x1, size 0x1
-    s8 vol; // offset 0x2, size 0x1
-    s8 pan; // offset 0x3, size 0x1
-    s8 trans; // offset 0x4, size 0x1
-    s8 fine; // offset 0x5, size 0x1
-    u16 reserved; // offset 0x6, size 0x2
+    u8 nSplit;                      // offset 0x0, size 0x1
+    _ps2_effect effect;             // offset 0x1, size 0x1
+    s8 vol;                         // offset 0x2, size 0x1
+    s8 pan;                         // offset 0x3, size 0x1
+    s8 trans;                       // offset 0x4, size 0x1
+    s8 fine;                        // offset 0x5, size 0x1
+    u16 reserved;                   // offset 0x6, size 0x2
     _ps2_split_block splitBlock[0]; // offset 0x8, size 0x0
 } _ps2_prog_param;
 
 typedef struct {
     // total size: 0x10
-    u32 tag; // offset 0x0, size 0x4
-    u32 chunkSize; // offset 0x4, size 0x4
-    u32 maxProgNum; // offset 0x8, size 0x4
-    u32 reserved; // offset 0xC, size 0x4
+    u32 tag;                // offset 0x0, size 0x4
+    u32 chunkSize;          // offset 0x4, size 0x4
+    u32 maxProgNum;         // offset 0x8, size 0x4
+    u32 reserved;           // offset 0xC, size 0x4
     u32 progParamOffset[0]; // offset 0x10, size 0x0
 } _ps2_prog_chunk;
 
 typedef struct {
     // total size: 0xC
-    u16 ADSR1; // offset 0x0, size 0x2
-    u16 ADSR2; // offset 0x2, size 0x2
+    u16 ADSR1;          // offset 0x0, size 0x2
+    u16 ADSR2;          // offset 0x2, size 0x2
     _ps2_effect effect; // offset 0x4, size 0x1
-    u8 base; // offset 0x5, size 0x1
-    s8 vol; // offset 0x6, size 0x1
-    s8 pan; // offset 0x7, size 0x1
-    s8 trans; // offset 0x8, size 0x1
-    s8 fine; // offset 0x9, size 0x1
-    u16 vagiIndex; // offset 0xA, size 0x2
+    u8 base;            // offset 0x5, size 0x1
+    s8 vol;             // offset 0x6, size 0x1
+    s8 pan;             // offset 0x7, size 0x1
+    s8 trans;           // offset 0x8, size 0x1
+    s8 fine;            // offset 0x9, size 0x1
+    u16 vagiIndex;      // offset 0xA, size 0x2
 } _ps2_smpl_param;
 
 typedef struct {
     // total size: 0x10
-    u32 tag; // offset 0x0, size 0x4
-    u32 chunkSize; // offset 0x4, size 0x4
-    u32 maxVagInfoNum; // offset 0x8, size 0x4
-    u32 reserved; // offset 0xC, size 0x4
+    u32 tag;                      // offset 0x0, size 0x4
+    u32 chunkSize;                // offset 0x4, size 0x4
+    u32 maxVagInfoNum;            // offset 0x8, size 0x4
+    u32 reserved;                 // offset 0xC, size 0x4
     _ps2_vagi_param vagiParam[0]; // offset 0x10, size 0x0
 } _ps2_vagi_chunk;
 
 typedef struct {
     // total size: 0x10
-    u32 tag; // offset 0x0, size 0x4
-    u32 chunkSize; // offset 0x4, size 0x4
-    u32 maxSmplNum; // offset 0x8, size 0x4
-    u32 reserved; // offset 0xC, size 0x4
+    u32 tag;                      // offset 0x0, size 0x4
+    u32 chunkSize;                // offset 0x4, size 0x4
+    u32 maxSmplNum;               // offset 0x8, size 0x4
+    u32 reserved;                 // offset 0xC, size 0x4
     _ps2_smpl_param smplParam[0]; // offset 0x10, size 0x0
 } _ps2_smpl_chunk;
 
 typedef struct {
     // total size: 0x6
     u16 flags; // offset 0x0, size 0x2
-    u8 prio; // offset 0x2, size 0x1
-    u8 id1; // offset 0x3, size 0x1
-    u8 id2; // offset 0x4, size 0x1
+    u8 prio;   // offset 0x2, size 0x1
+    u8 id1;    // offset 0x3, size 0x1
+    u8 id2;    // offset 0x4, size 0x1
 } CSE_COND;
 
 typedef struct {
     // total size: 0x1C
-    u16 flags; // offset 0x0, size 0x2
-    u8 attr; // offset 0x2, size 0x1
-    u8 prio; // offset 0x3, size 0x1
-    u8 bank; // offset 0x4, size 0x1
-    u8 note; // offset 0x5, size 0x1
-    u8 id1; // offset 0x6, size 0x1
-    u8 id2; // offset 0x7, size 0x1
-    s16 vol; // offset 0x8, size 0x2
-    s16 pan; // offset 0xA, size 0x2
-    s16 pitch; // offset 0xC, size 0x2
-    s16 bend; // offset 0xE, size 0x2
-    u8 limit; // offset 0x10, size 0x1
+    u16 flags;       // offset 0x0, size 0x2
+    u8 attr;         // offset 0x2, size 0x1
+    u8 prio;         // offset 0x3, size 0x1
+    u8 bank;         // offset 0x4, size 0x1
+    u8 note;         // offset 0x5, size 0x1
+    u8 id1;          // offset 0x6, size 0x1
+    u8 id2;          // offset 0x7, size 0x1
+    s16 vol;         // offset 0x8, size 0x2
+    s16 pan;         // offset 0xA, size 0x2
+    s16 pitch;       // offset 0xC, size 0x2
+    s16 bend;        // offset 0xE, size 0x2
+    u8 limit;        // offset 0x10, size 0x1
     u8 ___dummy___0; // offset 0x11, size 0x1
     u8 ___dummy___1; // offset 0x12, size 0x1
     u8 ___dummy___2; // offset 0x13, size 0x1
-    u32 kofftime; // offset 0x14, size 0x4
-    u32 guid; // offset 0x18, size 0x4
+    u32 kofftime;    // offset 0x14, size 0x4
+    u32 guid;        // offset 0x18, size 0x4
 } CSE_REQP;
 
 typedef struct {
     // total size: 0x14
-    u8 vol; // offset 0x0, size 0x1
-    u8 pan; // offset 0x1, size 0x1
-    s16 pitch; // offset 0x2, size 0x2
-    u16 bendLow; // offset 0x4, size 0x2
+    u8 vol;       // offset 0x0, size 0x1
+    u8 pan;       // offset 0x1, size 0x1
+    s16 pitch;    // offset 0x2, size 0x2
+    u16 bendLow;  // offset 0x4, size 0x2
     u16 bendHigh; // offset 0x6, size 0x2
-    u16 adsr1; // offset 0x8, size 0x2
-    u16 adsr2; // offset 0xA, size 0x2
-    u32 freq; // offset 0xC, size 0x4
-    u32 s_addr; // offset 0x10, size 0x4
+    u16 adsr1;    // offset 0x8, size 0x2
+    u16 adsr2;    // offset 0xA, size 0x2
+    u32 freq;     // offset 0xC, size 0x4
+    u32 s_addr;   // offset 0x10, size 0x4
 } CSE_PHDP;
 
 typedef struct {
     // total size: 0x10
-    _ps2_prog_param * pPprm; // offset 0x0, size 0x4
-    _ps2_split_block * pSblk; // offset 0x4, size 0x4
-    _ps2_smpl_param * pSprm; // offset 0x8, size 0x4
-    _ps2_vagi_param * pVprm; // offset 0xC, size 0x4
+    _ps2_prog_param *pPprm;  // offset 0x0, size 0x4
+    _ps2_split_block *pSblk; // offset 0x4, size 0x4
+    _ps2_smpl_param *pSprm;  // offset 0x8, size 0x4
+    _ps2_vagi_param *pVprm;  // offset 0xC, size 0x4
 } CSE_PHDPADDR;
 
 typedef struct {
@@ -2356,39 +2356,39 @@ typedef struct {
 
 typedef struct {
     // total size: 0x48
-    u32 Type; // offset 0x0, size 0x4
+    u32 Type;    // offset 0x0, size 0x4
     u8 Data[64]; // offset 0x4, size 0x40
-    u32 Size; // offset 0x44, size 0x4
+    u32 Size;    // offset 0x44, size 0x4
 } CSE_RPCQUEUE;
 
 typedef struct {
     // total size: 0x8
     s32 result; // offset 0x0, size 0x4
-    u32 guid; // offset 0x4, size 0x4
+    u32 guid;   // offset 0x4, size 0x4
     u8 data[0]; // offset 0x8, size 0x0
 } CSE_RPCQUEUE_RESULT;
 
 typedef struct {
     // total size: 0x38
-    u16 BeFlag; // offset 0x0, size 0x2
-    u8 Bank; // offset 0x2, size 0x1
-    u8 Code; // offset 0x3, size 0x1
-    u16 Interval; // offset 0x4, size 0x2
-    u16 Times; // offset 0x6, size 0x2
-    u16 VolDec1st; // offset 0x8, size 0x2
-    u16 VolDec; // offset 0xA, size 0x2
+    u16 BeFlag;       // offset 0x0, size 0x2
+    u8 Bank;          // offset 0x2, size 0x1
+    u8 Code;          // offset 0x3, size 0x1
+    u16 Interval;     // offset 0x4, size 0x2
+    u16 Times;        // offset 0x6, size 0x2
+    u16 VolDec1st;    // offset 0x8, size 0x2
+    u16 VolDec;       // offset 0xA, size 0x2
     u16 CurrInterval; // offset 0xC, size 0x2
-    u16 CurrTimes; // offset 0xE, size 0x2
-    s32 Rtpc[10]; // offset 0x10, size 0x28
+    u16 CurrTimes;    // offset 0xE, size 0x2
+    s32 Rtpc[10];     // offset 0x10, size 0x28
 } CSE_ECHOWORK;
 
 typedef struct {
     // total size: 0x48
     u8 InitializeFlag; // offset 0x0, size 0x1
-    u8 ___dummy0___; // offset 0x1, size 0x1
-    u8 ___dummy1___; // offset 0x2, size 0x1
-    u8 ___dummy2___; // offset 0x3, size 0x1
-    u32 Counter; // offset 0x4, size 0x4
+    u8 ___dummy0___;   // offset 0x1, size 0x1
+    u8 ___dummy1___;   // offset 0x2, size 0x1
+    u8 ___dummy2___;   // offset 0x3, size 0x1
+    u32 Counter;       // offset 0x4, size 0x4
     u32 SpuBankId[16]; // offset 0x8, size 0x40
 } CSE_SYSWORK;
 

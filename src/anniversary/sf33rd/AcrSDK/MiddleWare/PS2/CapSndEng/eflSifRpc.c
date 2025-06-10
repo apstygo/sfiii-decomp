@@ -1,9 +1,9 @@
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc.h"
 #include "common.h"
 
-#include <stdio.h>
-#include <memory.h>
 #include <eekernel.h>
+#include <memory.h>
+#include <stdio.h>
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
@@ -15,14 +15,14 @@ void __assert(const s8 *file, s32 line, const s8 *expr);
 #endif
 
 // sbss
-struct _sif_client_data ScdComm; // size: 0x28, address: 0x57B220
-struct _sif_client_data ScdStat; // size: 0x28, address: 0x57B1F0
+struct _sif_client_data ScdComm;  // size: 0x28, address: 0x57B220
+struct _sif_client_data ScdStat;  // size: 0x28, address: 0x57B1F0
 struct _sif_client_data ScdThMon; // size: 0x28, address: 0x57B1C0
-struct _sif_client_data * pScd; // size: 0x4, address: 0x57B1B0
-void * pSendBuf; // size: 0x4, address: 0x57B1AC
-void * pRecvBuf; // size: 0x4, address: 0x57B1A8
-u32 SendBufSize; // size: 0x4, address: 0x57B1A4
-u32 RecvBufSize; // size: 0x4, address: 0x57B1A0
+struct _sif_client_data *pScd;    // size: 0x4, address: 0x57B1B0
+void *pSendBuf;                   // size: 0x4, address: 0x57B1AC
+void *pRecvBuf;                   // size: 0x4, address: 0x57B1A8
+u32 SendBufSize;                  // size: 0x4, address: 0x57B1A4
+u32 RecvBufSize;                  // size: 0x4, address: 0x57B1A0
 
 // bss
 CSE_RPCBUFF RpcBuff __attribute__((aligned(64))); // size: 0xC0, address: 0x6EA140
@@ -38,58 +38,58 @@ s32 flSifRpcInit() {
     scePrintf("[EE]");
     scePrintf("(SYS)");
     scePrintf("Binding SIF RPC 'Comm'......");
-    
+
     do {
         if (sceSifBindRpc(&ScdComm, 0x01234567U, 0) < 0) {
             printf("sndtest(EE_RPC) : Error : sceSifBindRpc \n");
             assert(0x54);
         }
-        
+
         DelayThread(0x3E8);
     } while (ScdComm.serve == NULL);
-    
+
     scePrintf("[EE]");
     scePrintf("(SYS)");
     scePrintf("Done!\n");
     scePrintf("[EE]");
     scePrintf("(SYS)");
     scePrintf("Binding SIF RPC 'Stat'......");
-    
+
     do {
         if (sceSifBindRpc(&ScdStat, 0x09876543U, 0) < 0) {
             printf("sndtest(EE_RPC) : Error : sceSifBindRpc \n");
             assert(0x65);
         }
-        
+
         DelayThread(0x3E8);
     } while (ScdStat.serve == NULL);
-    
+
     scePrintf("[EE]");
     scePrintf("(SYS)");
     scePrintf("Done!\n");
     scePrintf("[EE]");
     scePrintf("(SYS)");
     scePrintf("Binding SIF RPC 'ThMon'......");
-    
+
     do {
         if (sceSifBindRpc(&ScdThMon, 0x77755500U, 0) < 0) {
             printf("sndtest(EE_RPC) : Error : sceSifBindRpc \n");
             assert(0x77);
         }
-        
+
         DelayThread(0x3E8);
     } while (ScdThMon.serve == NULL);
-    
+
     scePrintf("[EE]");
     scePrintf("(SYS)");
     scePrintf("Done!\n");
     return 0;
 }
 
-void* flSifRpcSend(u32 CmdType, void* pData, u32 DataSize) {
+void *flSifRpcSend(u32 CmdType, void *pData, u32 DataSize) {
     s32 result;
-    
-    switch (CmdType) { 
+
+    switch (CmdType) {
     case 0x309:
     case 3:
     case 1:
@@ -102,7 +102,7 @@ void* flSifRpcSend(u32 CmdType, void* pData, u32 DataSize) {
         SendBufSize = 64;
         RecvBufSize = 64;
         break;
-        
+
     case 2:
         memset(RpcBuff.StatSendBuf, 0xFF, 32);
         memset(RpcBuff.StatRecvBuf, 0xFF, 32);
@@ -123,22 +123,23 @@ void* flSifRpcSend(u32 CmdType, void* pData, u32 DataSize) {
         SendBufSize = 16;
         RecvBufSize = 1024;
         break;
-        
+
     default:
         printf("sndtest(EE_RPC) : Error : Unknown command.\n");
         return NULL;
     }
-    
-    do {} while (sceSifCheckStatRpc(&pScd->rpcd) == 1);
+
+    do {
+    } while (sceSifCheckStatRpc(&pScd->rpcd) == 1);
     FlushCache(0);
     do {
-        result = sceSifCallRpc(pScd, CmdType, 0, pSendBuf, SendBufSize, pRecvBuf, RecvBufSize, 0,0);
+        result = sceSifCallRpc(pScd, CmdType, 0, pSendBuf, SendBufSize, pRecvBuf, RecvBufSize, 0, 0);
         if (result < 0) {
             scePrintf("[EE]");
             scePrintf("(ERR)");
             scePrintf("sceSifCallRpc : error!\n");
         }
-            
+
     } while (result != 0);
     return pRecvBuf;
 }

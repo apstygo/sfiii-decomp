@@ -121,7 +121,7 @@ int sceSifCallRpc(sceSifClientData *, unsigned int, unsigned int, void *, int, v
     not_implemented(__func__);
 }
 
-int sceSifCheckStatRpc(sceSifRpcData *){
+int sceSifCheckStatRpc(sceSifRpcData *) {
     not_implemented(__func__);
 }
 

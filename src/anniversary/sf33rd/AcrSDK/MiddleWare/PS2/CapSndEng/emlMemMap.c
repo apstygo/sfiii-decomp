@@ -4,21 +4,21 @@
 
 // sbss
 
-void * PhdAddr[16]; // size: 0x40, address: 0x57B160
+void *PhdAddr[16]; // size: 0x40, address: 0x57B160
 
-s32 mlMemMapInit(void* pSpuMemMap) {
+s32 mlMemMapInit(void *pSpuMemMap) {
     s32 result;
     s32 i;
 
-    result = flSpuMapInit((PSPUMAP* ) pSpuMemMap);
+    result = flSpuMapInit((PSPUMAP *)pSpuMemMap);
     if (result < 0) {
         return result;
     }
-    
+
     for (i = 0; i < 16; i++) {
         PhdAddr[i] = NULL;
     }
-    
+
     return 0;
 }
 
@@ -26,19 +26,19 @@ u32 mlMemMapGetBankAddr(u32 bank) {
     return flSpuMapGetBankAddr(bank);
 }
 
-s32 mlMemMapSetPhdAddr(u32 bank, void* addr) {
+s32 mlMemMapSetPhdAddr(u32 bank, void *addr) {
     if (bank >= 16) {
         return -1;
     }
-    
+
     PhdAddr[bank] = addr;
     return 0;
 }
 
-void* mlMemMapGetPhdAddr(u32 bank) {
+void *mlMemMapGetPhdAddr(u32 bank) {
     if (bank >= 16) {
         return NULL;
     }
-    
+
     return PhdAddr[bank];
 }

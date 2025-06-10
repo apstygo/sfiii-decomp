@@ -5,22 +5,22 @@
 #include "types.h"
 
 typedef struct {
-	// total size: 0xC
-	s32 result; // offset 0x0, size 0x4
-	u32 guid; // offset 0x4, size 0x4
-	u8 vtrans_move; // offset 0x8, size 0x1
-	u8 sifdma_move; // offset 0x9, size 0x1
-	u8 dma_remain; // offset 0xA, size 0x1
-	u8 mbx_remain; // offset 0xB, size 0x1
+    // total size: 0xC
+    s32 result;     // offset 0x0, size 0x4
+    u32 guid;       // offset 0x4, size 0x4
+    u8 vtrans_move; // offset 0x8, size 0x1
+    u8 sifdma_move; // offset 0x9, size 0x1
+    u8 dma_remain;  // offset 0xA, size 0x1
+    u8 mbx_remain;  // offset 0xB, size 0x1
 } CSE_VTRANS_RESULT;
 
 typedef struct {
-	// total size: 0x14
-	u32 cmd; // offset 0x0, size 0x4
-	u32 guid; // offset 0x4, size 0x4
-	u32 e_addr; // offset 0x8, size 0x4
-	u32 s_addr; // offset 0xC, size 0x4
-	u32 size; // offset 0x10, size 0x4
+    // total size: 0x14
+    u32 cmd;    // offset 0x0, size 0x4
+    u32 guid;   // offset 0x4, size 0x4
+    u32 e_addr; // offset 0x8, size 0x4
+    u32 s_addr; // offset 0xC, size 0x4
+    u32 size;   // offset 0x10, size 0x4
 } CSE_SPUID_PARAM;
 
 s32 cseInitSndDrv();
@@ -32,7 +32,7 @@ s32 cseCheckVTransStatus(u32 vtrans_check_type);
 s32 cseTsbSetBankAddr(u32 bank, SoundEvent *addr);
 s32 cseMemMapSetPhdAddr(u32 bank, void *addr);
 
-s32 cseSendBd2SpuWithId(void * ee_addr, u32 size, u32 bank, u32 id);
+s32 cseSendBd2SpuWithId(void *ee_addr, u32 size, u32 bank, u32 id);
 u32 cseGetIdStoredBd(u32 bank);
 
 // Defined in Sound3rd.c
