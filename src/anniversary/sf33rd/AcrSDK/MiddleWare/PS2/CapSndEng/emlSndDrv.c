@@ -85,10 +85,12 @@ s32 PlaySe(CSE_REQP *pReqp, u16 bank, u16 prog) {
 
     for (i = 0; i < NumSplit; i++) {
         result = GetPhdParam(&PhdPAddr, pHEAD, prog, pReqp->note, i);
+        
         if (result >= 0) {
             CalcPhdParam(&phdp, &PhdPAddr, pReqp->note, mlMemMapGetBankAddr(bank));
             StartSound(&phdp, pReqp);
         }
+        
     }
 
     return 0;
@@ -115,6 +117,7 @@ s32 CheckReqFlags(CSE_REQP *pReqp) {
     if (pReqp->flags & 0x10) {
         pReqp->note &= 0x7F;
     }
+    
     return 0;
 }
 
@@ -132,9 +135,11 @@ s32 SendSeChange(CSE_REQP *pReqp, s32 cmd) {
     case 0x10000001:
         param.cmd = cmd;
         param.reqp = *pReqp;
+        
         if (CheckReqFlags(&param.reqp) == -1) {
             return -1;
         }
+        
         mlRpcQueueSetData(1, &param, sizeof(CSE_SYS_PARAM_SECHANGE));
         return 0;
     }

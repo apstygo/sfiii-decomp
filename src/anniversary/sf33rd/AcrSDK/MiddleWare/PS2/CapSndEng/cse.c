@@ -41,6 +41,7 @@ s32 cseExecServer() {
         cseSysWork.Counter++;
         return 0;
     }
+    
     scePrintf("[EE]");
     scePrintf("(DBG)");
     //"System not initialized\n"
@@ -60,9 +61,11 @@ s32 cseTsbRequest(u16 bank, u16 code, s32 NumArgSets, ...) {
     for (i = 0; i < NumArgSets; i++) {
         cmd = va_arg(vlist, int);
         prm = va_arg(vlist, int);
+        
         if (cmd < 10) {
             rtpc[cmd] += prm;
         }
+        
     }
 
     return mlTsbRequest(bank, code, rtpc);
@@ -96,6 +99,7 @@ s32 cseCheckVTransStatus(u32 vtrans_check_type) {
     }
 
     switch (vtrans_check_type) {
+    
     case 0:
         if (result == 0) {
             result = 0;
@@ -103,6 +107,7 @@ s32 cseCheckVTransStatus(u32 vtrans_check_type) {
             result |= 0x80000000;
         }
         break;
+        
     case 1:
         if (!(result & 0x111)) {
             result = 0;
@@ -110,6 +115,7 @@ s32 cseCheckVTransStatus(u32 vtrans_check_type) {
             result |= 0x80000000;
         }
         break;
+        
     default:
         scePrintf("[EE]");
         scePrintf("(ERR)");

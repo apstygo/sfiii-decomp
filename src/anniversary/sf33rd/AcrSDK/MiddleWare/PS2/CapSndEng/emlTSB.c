@@ -38,8 +38,9 @@ s32 mlTsbKeyOn(SoundEvent *pTSB, CSE_REQP *pReqp, u32 bank, u32 prog) {
     if (pTSB->flags & 2) {
         pReqp->flags = pTSB->flags & ~8;
     } else {
-        pReqp->flags = (pTSB->flags | 8);
+        pReqp->flags = pTSB->flags | 8;
     }
+    
     PlaySe(pReqp, bank, prog);
     return 0;
 }
@@ -60,6 +61,7 @@ s32 mlTsbRequest(u16 bank, u16 code, s32 *aRtpc) {
         reqp.pitch += aRtpc[7];
         reqp.kofftime += aRtpc[8];
         reqp.limit += aRtpc[9];
+        
         switch (pTSB->cmd) {
         case 0:
         case 4:
@@ -70,30 +72,39 @@ s32 mlTsbRequest(u16 bank, u16 code, s32 *aRtpc) {
         case 12:
         default:
             break;
+            
         case 6:
             mlTsbCreateEcho(bank, code, aRtpc);
             break;
+            
         case 7:
             mlTsbStopEcho(bank, code);
             break;
+            
         case 1:
             mlTsbKeyOn(pTSB, &reqp, bank, pTSB->prog + aRtpc[0]);
             break;
+            
         case 2:
             mlSeKeyoff(&reqp);
             break;
+            
         case 3:
             mlSeStop(&reqp);
             break;
+            
         case 5:
             mlSeSetLfo(&reqp, pTSB->param0, pTSB->param1, pTSB->param2, pTSB->param3);
             break;
+            
         }
+        
         if (((pTSB->link) != 0xFFFF) && (pTSB->link != code)) {
             code = (u16)pTSB->link;
         } else {
             break;
         }
+        
     }
     return 0;
 }
@@ -119,6 +130,7 @@ s32 mlTsbInitEchoWork() {
     for (i = 0; i < ECHOWORK_MAX; i++) {
         memset(&EchoWork[i], 0, sizeof(CSE_ECHOWORK));
     }
+    
     return 0;
 }
 
@@ -130,8 +142,10 @@ s32 mlTsbMoveEchoWork() {
 
     for (i = 0; i < ECHOWORK_MAX; i++) {
         pEchoWork = &EchoWork[i];
+        
         if (pEchoWork->BeFlag == 1) {
             pEchoWork->CurrInterval--;
+            
             if (pEchoWork->CurrInterval == 0) {
                 pTSB = mlTsbGetDataAdrs(pEchoWork->Bank, pEchoWork->Code);
                 mlTsbSetToReqp(&reqp, pTSB, pEchoWork->Bank);
@@ -146,10 +160,12 @@ s32 mlTsbMoveEchoWork() {
                 reqp.limit += pEchoWork->Rtpc[9];
                 mlTsbKeyOn(pTSB, &reqp, pEchoWork->Bank, (pTSB->prog + pEchoWork->Rtpc[0]));
                 pEchoWork->CurrTimes--;
+                
                 if (pEchoWork->CurrTimes == 0) {
                     pEchoWork->BeFlag = 0;
                 } else {
                     pEchoWork->CurrInterval = pEchoWork->Interval;
+                    
                     if (pEchoWork->CurrTimes == (pEchoWork->Times - 1)) {
                         pEchoWork->Rtpc[5] -= pEchoWork->VolDec1st;
                     } else {
@@ -179,6 +195,7 @@ s32 mlTsbCreateEcho(u32 bank, u32 code, s32 *pRtpc) {
 
     pTsb = mlTsbGetDataAdrs(bank, code);
     pEchoWork = mlTsbPickupEchoWork(pTsb->id1 & 0xF);
+    
     if (pEchoWork == NULL) {
         return -1;
     }

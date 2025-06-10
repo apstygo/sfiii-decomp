@@ -51,15 +51,20 @@ u32 mlRpcQueueSend() {
 
     for (num_loop = num; num_loop != 0; num_loop--) {
         pResult = (CSE_RPCQUEUE_RESULT *)flSifRpcSend(RpcQueue[ixEnd].Type, RpcQueue[ixEnd].Data, RpcQueue[ixEnd].Size);
+        
         if (pResult->result >= 0) {
             num--;
+            
             if (RpcQueue[ixEnd].Type == 3) {
                 numVTransReq--;
             }
+            
         } else {
             result = mlRpcQueueSetData(RpcQueue[ixEnd].Type, RpcQueue[ixEnd].Data, RpcQueue[ixEnd].Size);
+            
             if (result >= 0) {
                 num--;
+                
                 if (RpcQueue[ixEnd].Type == 3) {
                     numVTransReq--;
                 }
@@ -67,6 +72,7 @@ u32 mlRpcQueueSend() {
             } else {
                 ixTop = (ixTop + 1) % RPCQUEUE_MAX;
             }
+            
         }
         ixEnd = (ixEnd + 1) % RPCQUEUE_MAX;
     }

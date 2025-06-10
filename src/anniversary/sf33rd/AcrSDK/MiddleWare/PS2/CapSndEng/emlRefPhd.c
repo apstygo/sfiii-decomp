@@ -74,6 +74,7 @@ s32 GetPhdParam(CSE_PHDPADDR *pHDPA, _ps2_head_chunk *pHEAD, u8 prog, u8 note, u
     pPROG = (_ps2_prog_chunk *)((u32)&pHEAD->tag + (u32)pHEAD->progChunkOffset);
     pSMPL = (_ps2_smpl_chunk *)((u32)&pHEAD->tag + (u32)pHEAD->smplChunkOffset);
     pVAGI = (_ps2_vagi_chunk *)((u32)&pHEAD->tag + (u32)pHEAD->vagiChunkOffset);
+    
     if (IsSafeHeadChunk(pHEAD) != 1) {
         return -1;
     }
@@ -94,6 +95,7 @@ s32 GetPhdParam(CSE_PHDPADDR *pHDPA, _ps2_head_chunk *pHEAD, u8 prog, u8 note, u
     pSBLK = &pPPRM->splitBlock[index];
     pSPRM = &pSMPL->smplParam[pSBLK->sampleIndex];
     pVPRM = &pVAGI->vagiParam[pSPRM->vagiIndex];
+    
     if (!(pSBLK->lowKey > note) && !(note > pSBLK->highKey)) {
         pHDPA->pPprm = pPPRM;
         pHDPA->pSblk = pSBLK;
@@ -112,6 +114,7 @@ s32 CalcPhdParam(CSE_PHDP *pPHDP, CSE_PHDPADDR *pHDPA, u8 note, u32 SpuTopAddr) 
     pPHDP->vol = ((pPHDP->vol * pHDPA->pSblk->vol) / 127);
     pPHDP->vol = ((pPHDP->vol * pHDPA->pSprm->vol) / 127);
     pan = pHDPA->pPprm->pan - 64;
+    
     if (pan < -64) {
         pan = -64;
     } else if (pan > 63) {

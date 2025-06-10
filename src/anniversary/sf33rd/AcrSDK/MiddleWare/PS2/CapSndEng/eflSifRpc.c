@@ -129,11 +129,12 @@ void *flSifRpcSend(u32 CmdType, void *pData, u32 DataSize) {
         return NULL;
     }
 
-    do {
-    } while (sceSifCheckStatRpc(&pScd->rpcd) == 1);
+    do {} while (sceSifCheckStatRpc(&pScd->rpcd) == 1);
     FlushCache(0);
+    
     do {
         result = sceSifCallRpc(pScd, CmdType, 0, pSendBuf, SendBufSize, pRecvBuf, RecvBufSize, 0, 0);
+        
         if (result < 0) {
             scePrintf("[EE]");
             scePrintf("(ERR)");
