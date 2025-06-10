@@ -22,7 +22,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv", mlSeSetLfo);
 #else
-s32 mlSysSetMasterVolume(s32 vol) {
+s32 mlSeSetLfo(CSE_REQP * pReqp, u16 pmd_speed, u16 pmd_depth, u16 amd_speed, u16 amd_depth) {
     not_implemented(__func__);
 }
 #endif
@@ -30,7 +30,7 @@ s32 mlSysSetMasterVolume(s32 vol) {
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv", mlSeStop);
 #else
-s32 mlSysSetMasterVolume(s32 vol) {
+s32 mlSeStop(CSE_REQP * pReqp) {
     not_implemented(__func__);
 }
 #endif
@@ -38,7 +38,7 @@ s32 mlSysSetMasterVolume(s32 vol) {
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv", mlSeKeyoff);
 #else
-s32 mlSysSetMasterVolume(s32 vol) {
+s32 mlSeKeyoff(CSE_REQP * pReqp) {
     not_implemented(__func__);
 }
 #endif
@@ -58,7 +58,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv", PlaySe);
 #else
-s32 mlSysSetMasterVolume(s32 vol) {
+s32 PlaySe(CSE_REQP * pReqp, u16 bank, u16 prog) {
     not_implemented(__func__);
 }
 #endif
