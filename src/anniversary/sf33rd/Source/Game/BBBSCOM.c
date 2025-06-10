@@ -17,13 +17,10 @@ void bbbs_com_execute(PLW *wk) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/BBBSCOM", bbbs_com_initialize);
-#else
 void bbbs_com_initialize() {
-    not_implemented(__func__);
+    Bonus_Stage_RNO[0] = Bonus_Stage_RNO[1] = 0;
+    Bonus_Stage_RNO[2] = Bonus_Stage_RNO[3] = 0;
 }
-#endif
 
 void makeup_bonus_game_level(s16 ix) {
     s16 emid = (ix + 1) & 1;
