@@ -204,7 +204,7 @@ s32 mlTsbStopEcho(u32 bank, u32 code) {
 s32 mlTsbStopEchoAll() {
     u32 i;
 
-    for (i = 0; i < 0x10U; i++) {
+    for (i = 0; i < 16; i++) {
         EchoWork[i].BeFlag = 0;
     }
     

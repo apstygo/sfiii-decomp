@@ -45,14 +45,17 @@ typedef struct {
     CSE_REQP reqp; // offset 0x8, size 0x1C
 } CSE_SYS_PARAM_SECHANGE;
 
-s32 mlSeStopAll();
-s32 mlSysSetMasterVolume(s32 vol);
 s32 mlSysSetMono(u32 mono_sw);
-static s32 SendSeChange(CSE_REQP * pReqp, s32 cmd);
+s32 mlSysSetMasterVolume(s32 vol);
 s32 mlSysSetBankVolume(s32 bank, s32 vol);
 s32 mlSeSetLfo(CSE_REQP * pReqp, u16 pmd_speed, u16 pmd_depth, u16 amd_speed, u16 amd_depth);
-s32 mlSeKeyoff(CSE_REQP * pReqp);
 s32 mlSeStop(CSE_REQP * pReqp);
+s32 mlSeKeyoff(CSE_REQP * pReqp);
+s32 mlSeStopAll();
+s32 mlSeInitSndDrv();
+static s32 StartSound(CSE_PHDP * pPHDP, CSE_REQP * pREQP);
 s32 PlaySe(CSE_REQP * pReqp, u16 bank, u16 prog);
+static s32 CheckReqFlags(CSE_REQP * pReqp);
+static s32 SendSeChange(CSE_REQP * pReqp, s32 cmd);
 
 #endif

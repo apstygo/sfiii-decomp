@@ -2383,6 +2383,16 @@ typedef struct {
 } CSE_ECHOWORK;
 
 typedef struct {
+    // total size: 0x48
+    u8 InitializeFlag; // offset 0x0, size 0x1
+    u8 ___dummy0___; // offset 0x1, size 0x1
+    u8 ___dummy1___; // offset 0x2, size 0x1
+    u8 ___dummy2___; // offset 0x3, size 0x1
+    u32 Counter; // offset 0x4, size 0x4
+    u32 SpuBankId[16]; // offset 0x8, size 0x40
+} CSE_SYSWORK;
+
+typedef struct {
     // total size: 0xC
     u16 x;    // offset 0x0, size 0x2
     u16 y;    // offset 0x2, size 0x2
