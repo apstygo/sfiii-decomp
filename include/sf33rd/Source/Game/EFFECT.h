@@ -13,7 +13,6 @@ extern s16 tail_ix[8];           // size: 0x10, address: 0x578F90
 extern s16 frwctr_min;           // size: 0x2, address: 0x578FB0
 extern s16 frwctr;               // size: 0x2, address: 0x578FB4
 extern s16 frwque[EFFECT_MAX];   // size: 0x100, address: 0x5A9BA0
-extern char another_bg[2];       // size: 0x2, address: 0x57A548
 
 void move_effect_work(s16 index);
 void disp_effect_work();

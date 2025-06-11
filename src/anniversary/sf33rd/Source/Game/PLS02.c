@@ -427,11 +427,29 @@ s32 random_32_com() {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_16_com);
+#else
+s32 random_16_com() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_32_ex_com);
+#else
+s32 random_32_ex_com() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_16_ex_com);
+#else
+s32 random_16_ex_com() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_16_bg);
 
