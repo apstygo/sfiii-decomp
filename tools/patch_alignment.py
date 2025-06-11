@@ -25,6 +25,7 @@ special_cases = {
     ("EFF00", ".rodata", 0): 16,
     ("knjsub", ".rodata", 0): 16,
     ("msgsub", ".rodata", 0): 16,
+    ("Com_Pl", ".rodata", 0): 16,
     ("appear", ".rodata", 1): 16,
 
     ("bg_data", ".data", 0): 16,
@@ -33,6 +34,7 @@ special_cases = {
     ("PulPul", ".data", 1): 16,
     ("Sound3rd", ".data", 0): 16,
 
+    ("bg_data", ".sdata", 0): 16,
     ("VM_DATA", ".sdata", 0): 16,
     ("Demo_Dat", ".sdata", 0): 16,
     ("BBBSCOM", ".sdata", 0): 16,
