@@ -8,7 +8,7 @@ Notes:
 
 | Module   | Progress   |
 |----------|------------|
-| sf33rd   | 76.82%     |
+| sf33rd   | 79.56%     |
 | cri      | 61.86%     |
 
 | Function                         | File                                                 | Module   | Is decompiled   |
@@ -428,8 +428,8 @@ Notes:
 | LSC_SetStmHndl                   | cri/libadxe/lsc.c                                    | cri      | ✅               |
 | ADXT_SetLnkSw                    | cri/libadxe/adx_tlk.c                                | cri      | ✅               |
 | ADXSJD_SetLnkSw                  | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
-| cseInitSndDrv                    | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.c         | sf33rd   |                 |
-| flSifRpcInit                     | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc.c   | sf33rd   |                 |
+| cseInitSndDrv                    | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.c         | sf33rd   | ✅               |
+| flSifRpcInit                     | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc.c   | sf33rd   | ✅               |
 | DelayThread                      | sdk/libkernl/thread.c                                | sdk      | –               |
 | TimerUSec2BusClock               | sdk/libkernl/timer.c                                 | sdk      | –               |
 | SetTimerAlarm                    | sdk/libkernl/timeralarm.c                            | sdk      | –               |
@@ -444,11 +444,11 @@ Notes:
 | UnlinkAlarm                      | sdk/libkernl/timer.c                                 | sdk      | –               |
 | AlarmHandler                     | sdk/libkernl/timeralarm.c                            | sdk      | –               |
 | _DelayThreadHandler              | sdk/libkernl/thread.c                                | sdk      | –               |
-| mlRpcQueueInit                   | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue.c | sf33rd   |                 |
-| mlSeInitSndDrv                   | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv.c   | sf33rd   |                 |
-| flSifRpcSend                     | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc.c   | sf33rd   |                 |
-| mlTsbInit                        | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB.c      | sf33rd   |                 |
-| mlTsbInitEchoWork                | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB.c      | sf33rd   |                 |
+| mlRpcQueueInit                   | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue.c | sf33rd   | ✅               |
+| mlSeInitSndDrv                   | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv.c   | sf33rd   | ✅               |
+| flSifRpcSend                     | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc.c   | sf33rd   | ✅               |
+| mlTsbInit                        | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB.c      | sf33rd   | ✅               |
+| mlTsbInitEchoWork                | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB.c      | sf33rd   | ✅               |
 | Init_bgm_work                    | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
 | work_init_zero                   | sf33rd/Source/Game/EFFECT.c                          | sf33rd   | ✅               |
 | Setup_Directory_Record_Data      | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
@@ -579,13 +579,13 @@ Notes:
 | ADXSTM_Destroy                   | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | sndInitialLoad                   | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
 | cseMemMapInit                    | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
-| mlMemMapInit                     | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap.c   | sf33rd   |                 |
-| flSpuMapInit                     | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap.c   | sf33rd   |                 |
-| flSpuMapChgPage                  | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap.c   | sf33rd   |                 |
+| mlMemMapInit                     | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap.c   | sf33rd   | ✅               |
+| flSpuMapInit                     | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap.c   | sf33rd   | ✅               |
+| flSpuMapChgPage                  | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap.c   | sf33rd   | ✅               |
 | cseMemMapSetPhdAddr              | sf33rd/Source/Game/color3rd.c                        | sf33rd   |                 |
-| mlMemMapSetPhdAddr               | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap.c   | sf33rd   |                 |
+| mlMemMapSetPhdAddr               | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap.c   | sf33rd   | ✅               |
 | cseTsbSetBankAddr                | sf33rd/Source/Game/color3rd.c                        | sf33rd   |                 |
-| mlTsbSetBankAddr                 | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB.c      | sf33rd   |                 |
+| mlTsbSetBankAddr                 | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB.c      | sf33rd   | ✅               |
 | load_any_color                   | sf33rd/Source/Game/color3rd.c                        | sf33rd   |                 |
 | load_it_use_any_key              | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
 | load_it_use_any_key2             | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
@@ -608,21 +608,21 @@ Notes:
 | fsUpdateDiskDriveError           | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
 | sceCdGetDiskType                 | sdk/libcdvd/cdvd014.c                                | sdk      | –               |
 | waitVsyncDummy                   | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
-| cseExecServer                    | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.c         | sf33rd   |                 |
-| mlTsbExecServer                  | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB.c      | sf33rd   |                 |
-| mlTsbMoveEchoWork                | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB.c      | sf33rd   |                 |
-| mlRpcQueueSend                   | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue.c | sf33rd   |                 |
+| cseExecServer                    | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.c         | sf33rd   | ✅               |
+| mlTsbExecServer                  | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB.c      | sf33rd   | ✅               |
+| mlTsbMoveEchoWork                | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB.c      | sf33rd   | ✅               |
+| mlRpcQueueSend                   | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue.c | sf33rd   | ✅               |
 | fsClose                          | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
 | Set_size_data_ramcnt_key         | sf33rd/Source/Game/RAMCNT.c                          | sf33rd   | ✅               |
 | init_trans_color_ram             | sf33rd/Source/Game/color3rd.c                        | sf33rd   |                 |
 | Get_size_data_ramcnt_key         | sf33rd/Source/Game/RAMCNT.c                          | sf33rd   | ✅               |
-| cseSendBd2SpuWithId              | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.c         | sf33rd   |                 |
-| mlMemMapGetBankAddr              | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap.c   | sf33rd   |                 |
-| flSpuMapGetBankAddr              | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap.c   | sf33rd   |                 |
-| mlRpcQueueSetData                | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue.c | sf33rd   |                 |
+| cseSendBd2SpuWithId              | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.c         | sf33rd   | ✅               |
+| mlMemMapGetBankAddr              | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap.c   | sf33rd   | ✅               |
+| flSpuMapGetBankAddr              | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap.c   | sf33rd   | ✅               |
+| mlRpcQueueSetData                | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue.c | sf33rd   | ✅               |
 | sndCheckVTransStatus             | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
-| cseCheckVTransStatus             | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.c         | sf33rd   |                 |
-| mlRpcQueueGetNumVtransReq        | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue.c | sf33rd   |                 |
+| cseCheckVTransStatus             | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.c         | sf33rd   | ✅               |
+| mlRpcQueueGetNumVtransReq        | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue.c | sf33rd   | ✅               |
 | _request_rdata                   | sdk/libkernl/sifrpc.c                                | sdk      | –               |
 | _sceRpcGetFPacket2               | sdk/libkernl/sifrpc.c                                | sdk      | –               |
 | isceSifSendCmd                   | sdk/libkernl/sifcmd.c                                | sdk      | –               |

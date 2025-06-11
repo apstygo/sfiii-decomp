@@ -4,13 +4,24 @@
 #include "structs.h"
 #include "types.h"
 
-extern u32 Record_Timer;  // size: 0x4, address: 0x57A810
-extern u8 check_screen_L; // size: 0x1, address: 0x57A828
-extern u8 check_screen_S; // size: 0x1, address: 0x57A82C
-extern s8 Slow_Timer;     // size: 0x1, address: 0x57A830
-extern u8 sysSLOW;        // size: 0x1, address: 0x57A834
-extern u8 sysFF;          // size: 0x1, address: 0x57A838
-extern s8 Debug_w[72];    // size: 0x48, address: 0x57A860
+extern s8 Debug_w[72];
+extern s8 Debug_Index;
+extern u8 Deley_Debug_No;
+extern u8 Deley_Debug_Timer;
+extern u8 Deley_Debug_No2;
+extern u8 Deley_Debug_Timer2;
+extern u8 Debug_Pause;
+extern u8 sysFF;
+extern u8 sysSLOW;
+extern s8 Slow_Timer;
+extern u8 check_screen_S;
+extern u8 check_screen_L;
+extern u8 check_time_S;
+extern u8 check_time_L;
+extern u32 Rec_Time[2];
+extern u32 Record_Timer;
+extern s16 time_check[4];
+extern u8 time_check_ix;
 
 void Debug_Task(struct _TASK *task_ptr);
 void Check_Pos_BG();
