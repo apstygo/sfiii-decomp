@@ -154,7 +154,7 @@ segments:
       - [0x061730, c, sf33rd/Source/Game/active19]
       - [0x064C70, asm, sf33rd/Source/Game/appear]
       - [0x06AD00, c, sf33rd/Source/Game/BBBSCOM]
-      - [0x06B840, asm, sf33rd/Source/Game/BBBSCOM2]
+      - [0x06B840, c, sf33rd/Source/Game/BBBSCOM2]
       - [0x06B9E0, asm, sf33rd/Source/Game/BCD]
       - [0x06BB10, c, sf33rd/Source/Game/bg]
       - [0x0710D0, c, sf33rd/Source/Game/bg_sub]
@@ -1356,7 +1356,7 @@ segments:
       # .sdata
 
       - [0x472480, .sdata, sf33rd/Source/Game/AcrUtil]
-      - [0x472520, sdata, sf33rd/Source/Game/BBBSCOM]
+      - [0x472520, .sdata, sf33rd/Source/Game/BBBSCOM]
       - [0x472550, sdata, sf33rd/Source/Game/bg_data]
       - [0x472600, sdata, sf33rd/Source/Game/bg000]
       - [0x472620, sdata, sf33rd/Source/Game/bg010]
