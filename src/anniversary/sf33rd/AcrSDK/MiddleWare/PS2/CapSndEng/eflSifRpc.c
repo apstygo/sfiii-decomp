@@ -9,7 +9,7 @@
 
 #if defined(TARGET_PS2)
 void __assert(const s8 *file, s32 line, const s8 *expr);
-#define assert(e) (__assert("eflSifRpc.c", e, "0"))
+#define assert(e) (__assert("eflSifRpc.c", 0, "0"))
 #else
 #include <assert.h>
 #endif
@@ -42,7 +42,8 @@ s32 flSifRpcInit() {
     do {
         if (sceSifBindRpc(&ScdComm, 0x01234567, 0) < 0) {
             printf("sndtest(EE_RPC) : Error : sceSifBindRpc \n");
-            assert(0x54);
+            //assert(0x54);
+            assert(0);
         }
 
         DelayThread(0x3E8);
@@ -58,7 +59,8 @@ s32 flSifRpcInit() {
     do {
         if (sceSifBindRpc(&ScdStat, 0x09876543, 0) < 0) {
             printf("sndtest(EE_RPC) : Error : sceSifBindRpc \n");
-            assert(0x65);
+            //assert(0x65);
+            assert(0);
         }
 
         DelayThread(0x3E8);
@@ -74,7 +76,8 @@ s32 flSifRpcInit() {
     do {
         if (sceSifBindRpc(&ScdThMon, 0x77755500, 0) < 0) {
             printf("sndtest(EE_RPC) : Error : sceSifBindRpc \n");
-            assert(0x77);
+            //assert(0x77);
+            assert(0);
         }
 
         DelayThread(0x3E8);

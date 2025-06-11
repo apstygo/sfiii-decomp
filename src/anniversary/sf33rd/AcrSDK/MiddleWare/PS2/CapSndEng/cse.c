@@ -12,7 +12,7 @@ static CSE_SYSWORK cseSysWork __attribute__((aligned(16))); // size: 0x48, addre
 
 #if defined(TARGET_PS2)
 void __assert(const s8 *file, s32 line, const s8 *expr);
-#define assert(e) (__assert("cse.c", e, "0"))
+#define assert(e) (__assert("cse.c", 0, "0"))
 #else
 #include <assert.h>
 #endif
@@ -118,7 +118,8 @@ s32 cseCheckVTransStatus(u32 vtrans_check_type) {
         scePrintf("[EE]");
         scePrintf("(ERR)");
         scePrintf("[C.S.E] Unknown parameter in cseCheckVtransStatus().\n");
-        assert(0xDA);
+        //assert(0xDA);
+        assert(0);
         break;
     }
 
