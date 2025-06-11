@@ -8,7 +8,7 @@
 
 #include <eekernel.h>
 
-static CSE_SYSWORK cseSysWork; // size: 0x48, address: 0x57B260
+static CSE_SYSWORK cseSysWork __attribute__((aligned(16))); // size: 0x48, address: 0x57B260
 
 #if defined(TARGET_PS2)
 void __assert(const s8 *file, s32 line, const s8 *expr);
@@ -65,7 +65,6 @@ s32 cseTsbRequest(u16 bank, u16 code, s32 NumArgSets, ...) {
         if (cmd < 10) {
             rtpc[cmd] += prm;
         }
-        
     }
 
     return mlTsbRequest(bank, code, rtpc);
@@ -99,7 +98,6 @@ s32 cseCheckVTransStatus(u32 vtrans_check_type) {
     }
 
     switch (vtrans_check_type) {
-    
     case 0:
         if (result == 0) {
             result = 0;

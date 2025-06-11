@@ -5,7 +5,7 @@
 #include <memory.h>
 
 // sbss
-SoundEvent *gpTsb[TSB_MAX]; // size: 0x40, address: 0x57B2C0
+SoundEvent *gpTsb[TSB_MAX] __attribute__((aligned(16))); // size: 0x40, address: 0x57B2C0
 
 // bss
 CSE_ECHOWORK EchoWork[ECHOWORK_MAX]; // size: 0x380, address: 0x6EABC0
@@ -96,8 +96,7 @@ s32 mlTsbRequest(u16 bank, u16 code, s32 *aRtpc) {
             
         case 5:
             mlSeSetLfo(&reqp, pTSB->param0, pTSB->param1, pTSB->param2, pTSB->param3);
-            break;
-            
+            break; 
         }
         
         if (((pTSB->link) != 0xFFFF) && (pTSB->link != code)) {

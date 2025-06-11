@@ -55,7 +55,7 @@ s32 flSpuMapChgPage(u32 page) {
         if (CurrMap.BankSize[i] + CurrMap.BankAddr[i] > 0x1FFFFF) {
             scePrintf("[EE]");
             scePrintf("(ERR)");
-            // "Address is strange\n"
+            // "Address has changed\n"
             scePrintf("アドレスが変\n");
             return -1;
         }

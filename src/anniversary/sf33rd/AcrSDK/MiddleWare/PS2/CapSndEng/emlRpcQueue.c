@@ -6,7 +6,7 @@
 #include <memory.h>
 
 // bss
-CSE_RPCQUEUE RpcQueue[RPCQUEUE_MAX]; // size: 0x900, address: 0x6EA2C0
+CSE_RPCQUEUE RpcQueue[RPCQUEUE_MAX] __attribute__((aligned(64))); // size: 0x900, address: 0x6EA2C0
 
 // sbss
 u32 ixTop;        // size: 0x4, address: 0x57B2B4
