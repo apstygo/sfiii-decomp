@@ -7,7 +7,7 @@
 #include <sifrpc.h>
 
 #define THMONSENDBUF_MAX 16
-#define THMONRECVBUF_MAX 16
+#define THMONRECVBUF_MAX 1024
 #define COMMSENDBUF_MAX 64
 #define COMMRECVBUF_MAX 64
 #define STATSENDBUF_MAX 32
