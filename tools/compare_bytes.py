@@ -182,6 +182,14 @@ EXPECTED_ERRORS = {
     0x2AAB74: 0x3C2C0200,
     0x2AAB78: 0x3F2C0500,
     0x2AAB90: 0x2118A200,
+
+    # eflSifRpc::flSifRpcInit mismatched __LINE__'s in assert
+    0x310EE0: 0x2D280000,
+    0x310FA8: 0x2D280000,
+    0x311070: 0x2D280000,
+
+    # cse::cseCheckVTransStatus mismatched __LINE__'s in assert
+    0x311A28: 0x2D280000,
 }
 
 # Weird issue with cri_srd::srd_exec_dvd. 

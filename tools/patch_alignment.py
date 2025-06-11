@@ -68,7 +68,6 @@ special_cases = {
     ("libpad2", ".bss", 0): 8,
     ("color3rd", ".bss", 2): 32,
     ("Sound3rd", ".bss", 0): 256,
-    ("eflSifRpc", ".bss", 0): 256,
     ("Sound3rd", ".bss", 1): 256,
 }
 
