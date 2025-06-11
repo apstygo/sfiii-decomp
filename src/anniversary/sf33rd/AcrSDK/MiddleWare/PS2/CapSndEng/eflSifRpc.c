@@ -42,7 +42,6 @@ s32 flSifRpcInit() {
     do {
         if (sceSifBindRpc(&ScdComm, 0x01234567, 0) < 0) {
             printf("sndtest(EE_RPC) : Error : sceSifBindRpc \n");
-            //assert(0x54);
             assert(0);
         }
 
@@ -59,7 +58,6 @@ s32 flSifRpcInit() {
     do {
         if (sceSifBindRpc(&ScdStat, 0x09876543, 0) < 0) {
             printf("sndtest(EE_RPC) : Error : sceSifBindRpc \n");
-            //assert(0x65);
             assert(0);
         }
 
@@ -76,7 +74,6 @@ s32 flSifRpcInit() {
     do {
         if (sceSifBindRpc(&ScdThMon, 0x77755500, 0) < 0) {
             printf("sndtest(EE_RPC) : Error : sceSifBindRpc \n");
-            //assert(0x77);
             assert(0);
         }
 

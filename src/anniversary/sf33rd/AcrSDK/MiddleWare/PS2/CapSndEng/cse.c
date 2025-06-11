@@ -118,7 +118,6 @@ s32 cseCheckVTransStatus(u32 vtrans_check_type) {
         scePrintf("[EE]");
         scePrintf("(ERR)");
         scePrintf("[C.S.E] Unknown parameter in cseCheckVtransStatus().\n");
-        //assert(0xDA);
         assert(0);
         break;
     }
