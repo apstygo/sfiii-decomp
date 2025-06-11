@@ -154,7 +154,7 @@ segments:
       - [0x061730, c, sf33rd/Source/Game/active19]
       - [0x064C70, c, sf33rd/Source/Game/appear]
       - [0x06AD00, c, sf33rd/Source/Game/BBBSCOM]
-      - [0x06B840, asm, sf33rd/Source/Game/BBBSCOM2]
+      - [0x06B840, c, sf33rd/Source/Game/BBBSCOM2]
       - [0x06B9E0, asm, sf33rd/Source/Game/BCD]
       - [0x06BB10, c, sf33rd/Source/Game/bg]
       - [0x0710D0, c, sf33rd/Source/Game/bg_sub]
@@ -181,11 +181,11 @@ segments:
       - [0x07AFC0, c, sf33rd/Source/Game/CALDIR]
       - [0x07C870, c, sf33rd/Source/Game/CHARID]
       - [0x07CAB0, c, sf33rd/Source/Game/CHARSET]
-      - [0x085A80, asm, sf33rd/Source/Game/Ck_Pass]
+      - [0x085A80, c, sf33rd/Source/Game/Ck_Pass]
       - [0x08F240, c, sf33rd/Source/Game/cmb_win]
-      - [0x0943E0, asm, sf33rd/Source/Game/CMD_MAIN]
+      - [0x0943E0, c, sf33rd/Source/Game/CMD_MAIN]
       - [0x09D880, c, sf33rd/Source/Game/color3rd]
-      - [0x09FE50, asm, sf33rd/Source/Game/Com_Pl]
+      - [0x09FE50, c, sf33rd/Source/Game/Com_Pl]
       - [0x0A6CA0, c, sf33rd/Source/Game/Com_Sub]
       - [0x0BEC20, c, sf33rd/Source/Game/Continue]
       - [0x0BF1C0, c, sf33rd/Source/Game/count]
@@ -208,7 +208,7 @@ segments:
       - [0x0CC960, asm, sf33rd/Source/Game/eff12]
       - [0x0CCD20, asm, sf33rd/Source/Game/EFF13]
       - [0x0D2650, asm, sf33rd/Source/Game/eff14]
-      - [0x0D2980, c, sf33rd/Source/Game/EFF15]
+      - [0x0D2980, asm, sf33rd/Source/Game/EFF15]
       - [0x0D2E20, asm, sf33rd/Source/Game/EFF16]
       - [0x0D34E0, asm, sf33rd/Source/Game/EFF17]
       - [0x0D3680, c, sf33rd/Source/Game/EFF18]
@@ -288,7 +288,7 @@ segments:
       - [0x0FBC30, asm, sf33rd/Source/Game/eff94]
       - [0x0FC9E0, c, sf33rd/Source/Game/Eff95]
       - [0x0FD2A0, asm, sf33rd/Source/Game/EFF96]
-      - [0x0FD5F0, c, sf33rd/Source/Game/eff97]
+      - [0x0FD5F0, asm, sf33rd/Source/Game/eff97]
       - [0x0FDB20, asm, sf33rd/Source/Game/EFF98]
       - [0x0FE410, asm, sf33rd/Source/Game/Eff99]
       - [0x0FEA40, asm, sf33rd/Source/Game/EFFA0]
@@ -398,7 +398,7 @@ segments:
       - [0x137BE0, asm, sf33rd/Source/Game/EffM3]
       - [0x138180, asm, sf33rd/Source/Game/effM5]
       - [0x138880, asm, sf33rd/Source/Game/effM6]
-      - [0x138C00, c, sf33rd/Source/Game/effM7]
+      - [0x138C00, asm, sf33rd/Source/Game/effM7]
       - [0x139340, asm, sf33rd/Source/Game/effM8]
       - [0x139D20, asm, sf33rd/Source/Game/EFFXX]
       - [0x139D40, asm, sf33rd/Source/Game/end_0]
@@ -731,8 +731,8 @@ segments:
       - [0x369820, .data, sf33rd/Source/Game/appear]
       - [0x3698D0, data, sf33rd/Source/Game/bg_data]
       - [0x3699E0, data, sf33rd/Source/Game/bg_sub]
-      - [0x369A70, data, sf33rd/Source/Game/cmd_data]
-      - [0x36BD70, data, sf33rd/Source/Game/Com_Data]
+      - [0x369A70, .data, sf33rd/Source/Game/cmd_data]
+      - [0x36BD70, .data, sf33rd/Source/Game/Com_Data]
       - [0x36C4F0, .data, sf33rd/Source/Game/DEMO00]
       - [0x36C580, .data, sf33rd/Source/Game/DIR_DATA]
       - [0x36C940, data, sf33rd/Source/Game/EFF10]
@@ -958,13 +958,14 @@ segments:
       - [0x3EDD50, .rodata, sf33rd/Source/Game/CHARID]
       - [0x3EDEE0, .rodata, sf33rd/Source/Game/CHARSET]
       - [0x3EE2E0, .rodata, sf33rd/Source/Game/chren3rd]
-      - [0x3F7600, rodata, sf33rd/Source/Game/Ck_Pass]
+      - [0x3F7600, .rodata, sf33rd/Source/Game/Ck_Pass]
       - [0x3F7940, .rodata, sf33rd/Source/Game/cmb_win]
-      - [0x3F79D0, rodata, sf33rd/Source/Game/cmd_data]
+      - [0x3F79D0, .rodata, sf33rd/Source/Game/cmd_data]
       - [0x3FC000, .rodata, sf33rd/Source/Game/color3rd]
-      - [0x3FC630, rodata, sf33rd/Source/Game/Com_Data]
-      - [0x4046F8, rodata, sf33rd/Source/Game/COM_DATU]
-      - [0x404890, rodata, sf33rd/Source/Game/Com_Pl]
+      - [0x3FC630, .rodata, sf33rd/Source/Game/Com_Data]
+      - [0x4046F8, .rodata, sf33rd/Source/Game/COM_DATU]
+      - [0x404890, .rodata, sf33rd/Source/Game/Com_Pl]
+      - [0x404920, .rodata, sf33rd/Source/Game/Com_Sub]
       - [0x404C30, .rodata, sf33rd/Source/Game/DC_Ghost]
       - [0x404C70, rodata, sf33rd/Source/Game/Demo_Dat]
       - [0x404E90, .rodata, sf33rd/Source/Game/DEMO00]
@@ -1114,7 +1115,7 @@ segments:
       - [0x41B630, rodata, sf33rd/Source/Game/EFFM2]
       - [0x41B638, rodata, sf33rd/Source/Game/EffM3]
       - [0x41B650, rodata, sf33rd/Source/Game/effM5]
-      - [0x41B670, .rodata, sf33rd/Source/Game/effM7]
+      - [0x41B670, rodata, sf33rd/Source/Game/effM7]
       - [0x41B6F0, rodata, sf33rd/Source/Game/effM8]
       - [0x41B710, rodata, sf33rd/Source/Game/EFFXX]
       - [0x41BBA0, rodata, sf33rd/Source/Game/end_0]
@@ -1141,8 +1142,8 @@ segments:
       - [0x41F1E0, .rodata, sf33rd/Source/Game/end_main]
       - [0x41F218, .rodata, sf33rd/Source/Game/Entry]
       - [0x41F340, .rodata, sf33rd/Source/Game/EX_DATA]
-      - [0x41F890, rodata, sf33rd/Source/Game/fl_com00]
-      - [0x41FAA0, rodata, sf33rd/Source/Game/FL_COM02]
+      - [0x41F890, .rodata, sf33rd/Source/Game/fl_com00]
+      - [0x41FAA0, .rodata, sf33rd/Source/Game/FL_COM02]
       - [0x41FCB0, .rodata, sf33rd/Source/Game/Flash_LP]
       - [0x41FCC0, .rodata, sf33rd/Source/Game/FOLLOW02]
       - [0x41FCD0, .rodata, sf33rd/Source/Game/Game]
@@ -1162,10 +1163,10 @@ segments:
       - [0x422FB0, .rodata, sf33rd/Source/Game/Next_CPU]
       - [0x423000, .rodata, sf33rd/Source/Game/OPENING]
       - [0x4238B0, rodata, sf33rd/Source/Game/pass00]
-      - [0x423BF0, rodata, sf33rd/Source/Game/pass0000]
-      - [0x42DBF0, rodata, sf33rd/Source/Game/pass0001]
-      - [0x437BF0, rodata, sf33rd/Source/Game/pass0002]
-      - [0x441BF0, rodata, sf33rd/Source/Game/pass0003]
+      - [0x423BF0, .rodata, sf33rd/Source/Game/pass0000]
+      - [0x42DBF0, .rodata, sf33rd/Source/Game/pass0001]
+      - [0x437BF0, .rodata, sf33rd/Source/Game/pass0002]
+      - [0x441BF0, .rodata, sf33rd/Source/Game/pass0003]
       - [0x446BF0, rodata, sf33rd/Source/Game/PASS01]
       - [0x446F10, rodata, sf33rd/Source/Game/PASS02]
       - [0x447220, rodata, sf33rd/Source/Game/PASS03]
@@ -1355,7 +1356,7 @@ segments:
       # .sdata
 
       - [0x472480, .sdata, sf33rd/Source/Game/AcrUtil]
-      - [0x472520, sdata, sf33rd/Source/Game/BBBSCOM]
+      - [0x472520, .sdata, sf33rd/Source/Game/BBBSCOM]
       - [0x472550, sdata, sf33rd/Source/Game/bg_data]
       - [0x472600, sdata, sf33rd/Source/Game/bg000]
       - [0x472620, sdata, sf33rd/Source/Game/bg010]
@@ -1377,11 +1378,11 @@ segments:
       - [0x472768, sdata, sf33rd/Source/Game/bg190]
       - [0x472778, sdata, sf33rd/Source/Game/bns_bg2]
       - [0x472790, sdata, sf33rd/Source/Game/bonus_bg]
-      - [0x4727B0, sdata, sf33rd/Source/Game/cmd_data]
+      - [0x4727B0, .sdata, sf33rd/Source/Game/cmd_data]
       - [0x472900, sdata, sf33rd/Source/Game/CMD_MAIN]
       - [0x472970, .sdata, sf33rd/Source/Game/color3rd]
       - [0x472990, sdata, sf33rd/Source/Game/Com_Pl]
-      - [0x472B70, sdata, sf33rd/Source/Game/Com_Sub]
+      - [0x472B70, .sdata, sf33rd/Source/Game/Com_Sub]
       - [0x472C30, .sdata, sf33rd/Source/Game/Continue]
       - [0x472C50, sdata, sf33rd/Source/Game/Demo_Dat]
       - [0x472C60, .sdata, sf33rd/Source/Game/DEMO00]
@@ -1564,9 +1565,9 @@ segments:
       - { type: .sbss, vram: 0x578D20, name: sf33rd/Source/Game/CHARSET }
       - { type: sbss, vram: 0x578D24, name: sf33rd/Source/Game/Ck_Pass }
       - { type: sbss, vram: 0x578D28, name: sf33rd/Source/Game/cmb_win }
-      - { type: sbss, vram: 0x578DBC, name: sf33rd/Source/Game/cmd_data }
+      - { type: .sbss, vram: 0x578DBC, name: sf33rd/Source/Game/cmd_data }
       - { type: .sbss, vram: 0x578DD8, name: sf33rd/Source/Game/color3rd }
-      - { type: sbss, vram: 0x578E48, name: sf33rd/Source/Game/Com_Sub }
+      - { type: .sbss, vram: 0x578E48, name: sf33rd/Source/Game/Com_Sub }
       - { type: .sbss, vram: 0x578E50, name: sf33rd/Source/Game/Continue }
       - { type: sbss, vram: 0x578E54, name: sf33rd/Source/Game/count }
       - { type: .sbss, vram: 0x578E80, name: sf33rd/Source/Game/DC_Ghost }
@@ -1684,7 +1685,7 @@ segments:
       - { type: .bss, vram: 0x5956A0, name: sf33rd/Source/Game/bg }
       - { type: .bss, vram: 0x595C60, name: sf33rd/Source/Game/CHARID }
       - { type: bss, vram: 0x596560, name: sf33rd/Source/Game/cmb_win }
-      - { type: bss, vram: 0x596680, name: sf33rd/Source/Game/cmd_data }
+      - { type: .bss, vram: 0x596680, name: sf33rd/Source/Game/cmd_data }
       - { type: .bss, vram: 0x597B60, name: sf33rd/Source/Game/color3rd }
       - { type: .bss, vram: 0x5A8420, name: sf33rd/Source/Game/DC_Ghost }
       - { type: .bss, vram: 0x5A9BA0, name: sf33rd/Source/Game/EFFECT }
