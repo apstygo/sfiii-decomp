@@ -130,6 +130,7 @@ s32 SendSeChange(CSE_REQP *pReqp, s32 cmd) {
         scePrintf("(DBG)");
         scePrintf(" : Match UNKNOWN Command!?\n");
         return -1;
+
     case 0x10000003:
     case 0x10000002:
     case 0x10000001:

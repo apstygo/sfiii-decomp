@@ -71,6 +71,7 @@ s32 mlTsbRequest(u16 bank, u16 code, s32 *aRtpc) {
         case 11:
         case 12:
         default:
+            // Do nothing
             break;
             
         case 6:

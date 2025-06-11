@@ -129,7 +129,9 @@ void *flSifRpcSend(u32 CmdType, void *pData, u32 DataSize) {
         return NULL;
     }
 
-    do {} while (sceSifCheckStatRpc(&pScd->rpcd) == 1);
+    while (sceSifCheckStatRpc(&pScd->rpcd) == 1) {
+        // Do nothing
+    }
     FlushCache(0);
     
     do {
