@@ -1,25 +1,25 @@
 #include "sf33rd/Source/Game/appear.h"
 #include "common.h"
-#include "sf33rd/Source/Game/bg.h"
-#include "sf33rd/Source/Game/bg_data.h"
 #include "sf33rd/Source/Game/CALDIR.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFF15.h"
-#include "sf33rd/Source/Game/eff97.h"
-#include "sf33rd/Source/Game/effM7.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/SE.h"
 #include "sf33rd/Source/Game/Sound3rd.h"
-#include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/bg_data.h"
+#include "sf33rd/Source/Game/eff97.h"
+#include "sf33rd/Source/Game/effM7.h"
+#include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-s8 Appear_car_stop[] = {0, 0};
-s8 Appear_hv[] = {0, 0};
-s8 Appear_free[] = {0, 0};
-s8 Appear_flag[] = {0, 0};
-s16 app_counter[] = {0, 0};
-s16 appear_work[] = {0, 0};
+s8 Appear_car_stop[] = { 0, 0 };
+s8 Appear_hv[] = { 0, 0 };
+s8 Appear_free[] = { 0, 0 };
+s8 Appear_flag[] = { 0, 0 };
+s16 app_counter[] = { 0, 0 };
+s16 appear_work[] = { 0, 0 };
 s16 Appear_end;
 
 void appear_work_clear(void) {
@@ -32,7 +32,7 @@ void appear_work_clear(void) {
     bg_app_stop = 0;
 }
 
-s32 home_visitor_check(PLW* wk) {
+s32 home_visitor_check(PLW *wk) {
     s8 hv_type;
     s16 pl_num;
 
@@ -55,7 +55,7 @@ s32 home_visitor_check(PLW* wk) {
     return hv_type;
 }
 
-void appear_data_set(PLW* wk, APPEAR_DATA* dtbl) {
+void appear_data_set(PLW *wk, APPEAR_DATA *dtbl) {
     if (wk->wu.id) {
         wk->wu.xyz[0].disp.pos = bg_w.bgw[1].pos_x_work - dtbl->hx;
         wk->wu.xyz[1].disp.pos = dtbl->hy;
@@ -82,21 +82,18 @@ void appear_data_init_set(PLW *wk) {
 }
 #endif
 
-
-void appear_player(PLW* wk) {
-    void (*appear_jmp_tbl[42])(PLW* wk) = {
-        Appear_00000, Appear_01000, Appear_01000, Appear_03000, Appear_04000, Appear_05000,
-        Appear_06000, Appear_07000, Appear_08000, Appear_09000, Appear_10000, Appear_11000,
-        Appear_12000, Appear_13000, Appear_14000, Appear_15000, Appear_16000, Appear_17000,
-        Appear_18000, Appear_19000, Appear_20000, Appear_21000, Appear_22000, Appear_23000,
-        Appear_24000, Appear_25000, Appear_26000, Appear_06000, Appear_28000, Appear_29000,
-        Appear_30000, Appear_31000, Appear_32000, Appear_33000, Appear_34000, Appear_01000,
-        Appear_36000, Appear_37000, Appear_38000, Appear_39000, Appear_06000, Appear_41000
-    };
+void appear_player(PLW *wk) {
+    void (*appear_jmp_tbl[42])(
+        PLW *wk) = { Appear_00000, Appear_01000, Appear_01000, Appear_03000, Appear_04000, Appear_05000, Appear_06000,
+                     Appear_07000, Appear_08000, Appear_09000, Appear_10000, Appear_11000, Appear_12000, Appear_13000,
+                     Appear_14000, Appear_15000, Appear_16000, Appear_17000, Appear_18000, Appear_19000, Appear_20000,
+                     Appear_21000, Appear_22000, Appear_23000, Appear_24000, Appear_25000, Appear_26000, Appear_06000,
+                     Appear_28000, Appear_29000, Appear_30000, Appear_31000, Appear_32000, Appear_33000, Appear_34000,
+                     Appear_01000, Appear_36000, Appear_37000, Appear_38000, Appear_39000, Appear_06000, Appear_41000 };
     appear_jmp_tbl[(short)wk->wu.routine_no[4]](wk);
 }
 
-void Appear_00000(PLW* wk) {
+void Appear_00000(PLW *wk) {
     Appear_end++;
     wk->wu.routine_no[2] = 1;
     wk->wu.routine_no[3] = 0;
@@ -118,7 +115,7 @@ void Appear_03000(PLW *wk) {
 }
 #endif
 
-void Appear_04000(PLW* wk) {
+void Appear_04000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -144,7 +141,6 @@ void Appear_04000(PLW* wk) {
         }
         break;
 
-
     case 2:
         char_move(&wk->wu);
         app_counter[wk->wu.id]--;
@@ -164,8 +160,8 @@ void Appear_04000(PLW* wk) {
             return;
         }
 
-        add_x_sub((WORK_Other *) wk);
-        add_y_sub((WORK_Other *) wk);
+        add_x_sub((WORK_Other *)wk);
+        add_y_sub((WORK_Other *)wk);
         break;
 
     case 3:
@@ -181,7 +177,7 @@ void Appear_04000(PLW* wk) {
     }
 }
 
-void Appear_05000(PLW* wk) {
+void Appear_05000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -223,7 +219,7 @@ void Appear_05000(PLW* wk) {
             return;
         }
 
-        add_x_sub((WORK_Other *) &wk->wu);
+        add_x_sub((WORK_Other *)&wk->wu);
         break;
 
     case 3:
@@ -259,34 +255,25 @@ void Appear_06000(PLW *wk) {
 #endif
 
 const APPEAR_DATA appear_data[] = {
-    {  -88,   0,  -88, 0, 1,  0,  0 }, {  -88,   0,  -88, 0, 1,  1,  0 },
-    {  -88,   0,  -88, 0, 1,  2,  0 }, { -124,   0, -124, 0, 1,  3, 12 },
-    { -256, 144, -256, 0, 1,  4,  0 }, {  288,   0,  288, 1, 0,  5,  0 },
-    { -248,   0, -248, 0, 1,  6,  0 }, {  -88,   0,  -88, 0, 1,  7,  0 },
-    {  -62,   0,  -62, 0, 1,  8,  0 }, {  -88, 200,  -88, 0, 1,  9, 16 },
-    { -216,   0, -224, 0, 1, 10, 16 }, { -102,   0, -102, 0, 1,  1,  0 },
-    {  -88,   0,  -88, 0, 1, 11,  0 }, {  -17,   0,  -17, 0, 1,  1,  0 },
-    {  -88, 384,  -88, 0, 1, 13,  0 }, {  -88,   0,  -88, 0, 1, 14,  0 },
-    { -128,   0, -128, 0, 1, 15,  0 }, { -272,   0, -304, 0, 1, 12,  0 },
-    {  -88,   0,  -88, 0, 1, 16,  0 }, {  -88,   0,  -88, 0, 1, 17,  0 },
-    {  -88,   0,  -88, 0, 1, 21,  0 }, {  -48,   0,  -48, 0, 1, 18,  0 },
-    { -120,   0, -120, 0, 1,  1,  0 }, {  -88,   0,  -88, 0, 1,  3, 23 },
-    {  256,   0,  256, 0, 1, 20,  0 }, {  -88,   0,  -88, 0, 1, 22,  0 },
-    {  -88,   0,  -88, 0, 1, 23,  0 }, {  -96,   0,  -96, 0, 1, 24,  0 },
-    {  -96,   0,  -96, 0, 1, 25,  0 }, {  168,  80,  168, 0, 0, 26,  0 },
-    {  248,   0,  248, 0, 0, 27,  0 }, { -112,   0, -112, 0, 1, 28,  0 },
-    { -111,   0, -111, 0, 1,  1,  0 }, {  -48,   0,  -48, 0, 1,  3, 18 },
-    {  -96,   0,  -96, 0, 1,  3, 23 }, {  -53,   0,  -53, 0, 1,  3, 21 },
-    {  -53,   0,  -53, 0, 1,  3, 22 }, {  -72,   0,  -72, 0, 1, 38, 20 },
-    {  -84,   0,  -84, 0, 1,  3, 22 }, {  -84,   0,  -84, 0, 1,  3, 22 },
-    { -256,   0, -256, 0, 1, 29,  0 }, {  -88,   0,  -88, 0, 1, 30,  0 },
-    {  -64,   0,  -64, 0, 1, 31,  0 }, { -258,   0, -258, 0, 1, 32,  0 },
-    { -256,   0, -256, 0, 1, 33,  0 }, {  -88,   0,  -88, 0, 1, 34,  0 },
-    {  -88,   0,  -88, 0, 1, 35,  0 }, {  -88,   0,  -88, 0, 1,  3, 16 },
-    {  -24,   0,  -24, 0, 1, 36,  0 }, {  -24,   0,  -24, 0, 1, 37,  0 },
-    { -448,   0, -448, 0, 1, 39,  0 }, {  -72,   0,  -72, 0, 1,  3, 17 },
-    { -248,   0, -248, 0, 1, 40,  0 }, {  -88,   0,  -88, 0, 1, 41,  0 },
-    {  -88,   0,  -88, 0, 1,  3, 17 },
+    { -88, 0, -88, 0, 1, 0, 0 },    { -88, 0, -88, 0, 1, 1, 0 },     { -88, 0, -88, 0, 1, 2, 0 },
+    { -124, 0, -124, 0, 1, 3, 12 }, { -256, 144, -256, 0, 1, 4, 0 }, { 288, 0, 288, 1, 0, 5, 0 },
+    { -248, 0, -248, 0, 1, 6, 0 },  { -88, 0, -88, 0, 1, 7, 0 },     { -62, 0, -62, 0, 1, 8, 0 },
+    { -88, 200, -88, 0, 1, 9, 16 }, { -216, 0, -224, 0, 1, 10, 16 }, { -102, 0, -102, 0, 1, 1, 0 },
+    { -88, 0, -88, 0, 1, 11, 0 },   { -17, 0, -17, 0, 1, 1, 0 },     { -88, 384, -88, 0, 1, 13, 0 },
+    { -88, 0, -88, 0, 1, 14, 0 },   { -128, 0, -128, 0, 1, 15, 0 },  { -272, 0, -304, 0, 1, 12, 0 },
+    { -88, 0, -88, 0, 1, 16, 0 },   { -88, 0, -88, 0, 1, 17, 0 },    { -88, 0, -88, 0, 1, 21, 0 },
+    { -48, 0, -48, 0, 1, 18, 0 },   { -120, 0, -120, 0, 1, 1, 0 },   { -88, 0, -88, 0, 1, 3, 23 },
+    { 256, 0, 256, 0, 1, 20, 0 },   { -88, 0, -88, 0, 1, 22, 0 },    { -88, 0, -88, 0, 1, 23, 0 },
+    { -96, 0, -96, 0, 1, 24, 0 },   { -96, 0, -96, 0, 1, 25, 0 },    { 168, 80, 168, 0, 0, 26, 0 },
+    { 248, 0, 248, 0, 0, 27, 0 },   { -112, 0, -112, 0, 1, 28, 0 },  { -111, 0, -111, 0, 1, 1, 0 },
+    { -48, 0, -48, 0, 1, 3, 18 },   { -96, 0, -96, 0, 1, 3, 23 },    { -53, 0, -53, 0, 1, 3, 21 },
+    { -53, 0, -53, 0, 1, 3, 22 },   { -72, 0, -72, 0, 1, 38, 20 },   { -84, 0, -84, 0, 1, 3, 22 },
+    { -84, 0, -84, 0, 1, 3, 22 },   { -256, 0, -256, 0, 1, 29, 0 },  { -88, 0, -88, 0, 1, 30, 0 },
+    { -64, 0, -64, 0, 1, 31, 0 },   { -258, 0, -258, 0, 1, 32, 0 },  { -256, 0, -256, 0, 1, 33, 0 },
+    { -88, 0, -88, 0, 1, 34, 0 },   { -88, 0, -88, 0, 1, 35, 0 },    { -88, 0, -88, 0, 1, 3, 16 },
+    { -24, 0, -24, 0, 1, 36, 0 },   { -24, 0, -24, 0, 1, 37, 0 },    { -448, 0, -448, 0, 1, 39, 0 },
+    { -72, 0, -72, 0, 1, 3, 17 },   { -248, 0, -248, 0, 1, 40, 0 },  { -88, 0, -88, 0, 1, 41, 0 },
+    { -88, 0, -88, 0, 1, 3, 17 },
 };
 
 #if defined(TARGET_PS2)
@@ -313,7 +300,7 @@ s32 sean_appear_check(s16 id) {
 }
 #endif
 
-void Appear_09000(PLW* wk) {
+void Appear_09000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -349,7 +336,7 @@ void Appear_09000(PLW* wk) {
 
     case 3:
         char_move(&wk->wu);
-        add_y_sub((WORK_Other *) &wk->wu);
+        add_y_sub((WORK_Other *)&wk->wu);
 
         if (wk->wu.xyz[1].disp.pos <= 0) {
             wk->wu.routine_no[3]++;
@@ -381,7 +368,7 @@ void Appear_10000(PLW *wk) {
 }
 #endif
 
-void Appear_11000(PLW* wk) {
+void Appear_11000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -414,10 +401,10 @@ void Appear_12000(PLW *wk) {
 }
 #endif
 
-void Appear_13000(PLW* wk) {
+void Appear_13000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         wk->wu.disp_flag = 1;
         bg_app_stop = 1;
         set_char_move_init2(&wk->wu, 9, 0x3D, 4, 0);
@@ -431,13 +418,13 @@ void Appear_13000(PLW* wk) {
 
     case 2:
         char_move(&wk->wu);
-        add_y_sub((WORK_Other *) &wk->wu);
+        add_y_sub((WORK_Other *)&wk->wu);
 
         if (wk->wu.xyz[1].disp.pos < 0) {
-            wk->wu.routine_no[3] += 1;
+            wk->wu.routine_no[3]++;
             set_char_move_init(&wk->wu, 9, 0x3E);
             wk->wu.xyz[1].cal = 0;
-            Appear_end += 1;
+            Appear_end++;
             return;
         }
 
@@ -463,10 +450,10 @@ void Appear_14000(PLW *wk) {
 }
 #endif
 
-void Appear_15000(PLW* wk) {
+void Appear_15000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         bg_app_stop = 1;
         wk->wu.disp_flag = 1;
         set_char_move_init(&wk->wu, 9, 8);
@@ -496,7 +483,7 @@ void Appear_15000(PLW* wk) {
     }
 }
 
-void Appear_16000(PLW* wk) {
+void Appear_16000(PLW *wk) {
     s16 id_w;
 
     id_w = wk->wu.id ^ 1;
@@ -558,14 +545,14 @@ s16 gill_appear_check() {
     return 0;
 }
 
-void Appear_17000(PLW* wk) {
+void Appear_17000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
         wk->wu.disp_flag = 1;
 
         if (Gill_Appear_Flag) {
-            appear_data_set(wk, (APPEAR_DATA *) appear_data);
+            appear_data_set(wk, (APPEAR_DATA *)appear_data);
             Appear_00000(wk);
             return;
         }
@@ -579,7 +566,7 @@ void Appear_17000(PLW* wk) {
 
     case 1:
         if (!bg_app) {
-            wk->wu.routine_no[3] += 1;
+            wk->wu.routine_no[3]++;
         }
         break;
 
@@ -621,7 +608,7 @@ void Appear_18000(PLW *wk) {
 }
 #endif
 
-void Appear_19000(PLW* wk) {
+void Appear_19000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -688,8 +675,8 @@ void Appear_19000(PLW* wk) {
             return;
         }
 
-        add_x_sub((WORK_Other *) &wk->wu);
-        add_y_sub((WORK_Other *) &wk->wu);
+        add_x_sub((WORK_Other *)&wk->wu);
+        add_y_sub((WORK_Other *)&wk->wu);
         break;
 
     case 3:
@@ -705,10 +692,10 @@ void Appear_19000(PLW* wk) {
     }
 }
 
-void Appear_20000(PLW* wk) {
+void Appear_20000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         wk->wu.disp_flag = 1;
         set_char_move_init(&wk->wu, 9, 0x15);
         bg_app_stop = 1;
@@ -717,10 +704,10 @@ void Appear_20000(PLW* wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type== 0xFF) {
+        if (wk->wu.cg_type == 0xFF) {
             wk->wu.routine_no[2] = 1;
             wk->wu.routine_no[3] = 0;
-            Appear_end += 1;
+            Appear_end++;
         }
     }
 }
@@ -733,10 +720,10 @@ void Appear_21000(PLW *wk) {
 }
 #endif
 
-void Appear_22000(PLW* wk) {
+void Appear_22000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         wk->wu.disp_flag = 1;
         wk->wu.cmwk[1] = 0;
         set_char_move_init(&wk->wu, 9, 0);
@@ -745,17 +732,17 @@ void Appear_22000(PLW* wk) {
 
     case 1:
         char_move(&wk->wu);
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         set_char_move_init(&wk->wu, 9, 8);
         break;
 
     case 2:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type== 0xFF) {
+        if (wk->wu.cg_type == 0xFF) {
             wk->wu.routine_no[2] = 1;
             wk->wu.routine_no[3] = 0;
-            Appear_end += 1;
+            Appear_end++;
         }
     }
 }
@@ -768,7 +755,7 @@ void Appear_23000(PLW *wk) {
 }
 #endif
 
-void Appear_24000(PLW* wk) {
+void Appear_24000(PLW *wk) {
     if (!wk->wu.operator) {
         if (wk->wu.id) {
             wk->wu.xyz[0].disp.pos = bg_w.bgw[1].pos_x_work + 0xA8;
@@ -781,7 +768,7 @@ void Appear_24000(PLW* wk) {
     wk->wu.routine_no[3] = 0;
 }
 
-void Appear_25000(PLW* wk) {
+void Appear_25000(PLW *wk) {
     if (!wk->wu.operator) {
         wk->wu.xyz[0].disp.pos = bg_w.bgw[1].pos_x_work;
     }
@@ -790,7 +777,7 @@ void Appear_25000(PLW* wk) {
     wk->wu.routine_no[3] = 0;
 }
 
-const s16 smoke_check[] = {0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0};
+const s16 smoke_check[] = { 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0 };
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_26000);
@@ -840,14 +827,14 @@ void Appear_30000(PLW *wk) {
 }
 #endif
 
-void Appear_31000(PLW* wk) {
+void Appear_31000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         wk->wu.disp_flag = 1;
 
         if (Appear_flag[wk->wu.id]) {
-            appear_data_set(wk, (APPEAR_DATA *) appear_data);
+            appear_data_set(wk, (APPEAR_DATA *)appear_data);
             Appear_00000(wk);
         } else {
             set_char_move_init(&wk->wu, 9, 8);
@@ -862,8 +849,10 @@ void Appear_31000(PLW* wk) {
         if (wk->wu.cg_type == 0xFF) {
             wk->wu.routine_no[2] = 1;
             wk->wu.routine_no[3] = 0;
-            Appear_end += 1;
+            Appear_end++;
         }
+
+        break;
     }
 }
 
@@ -891,73 +880,75 @@ void Appear_34000(PLW *wk) {
 }
 #endif
 
-void Appear_36000(PLW* wk) {
+void Appear_36000(PLW *wk) {
     s16 id_w = wk->wu.id ^ 1;
 
     switch (wk->wu.routine_no[3]) {
-        case 0:
+    case 0:
+        wk->wu.routine_no[3]++;
+        wk->wu.disp_flag = 1;
+        set_char_move_init(&wk->wu, 9, 0x10);
+        bg_app_stop = 1;
+        break;
+
+    case 1:
+        char_move(&wk->wu);
+
+        if (plw[id_w].wu.cmwk[0] == 3) {
             wk->wu.routine_no[3]++;
-            wk->wu.disp_flag = 1;
-            set_char_move_init(&wk->wu, 9, 0x10);
-            bg_app_stop = 1;
-            break;
-
-        case 1:
-            char_move(&wk->wu);
-
-            if (plw[id_w].wu.cmwk[0] == 3) {
-                wk->wu.routine_no[3]++;
-                set_char_move_init(&wk->wu, 9, 0x11);
-                app_counter[wk->wu.id] = 0x10;
-                wk->wu.next_z = plw[id_w].wu.my_priority;
-            }
-
-            break;
-
-        case 2:
-            char_move(&wk->wu);
-            app_counter[wk->wu.id]--;
-
-            if (app_counter[wk->wu.id] <= 0) {
-                wk->wu.routine_no[3]++;
-                app_counter[wk->wu.id] = 0x16;
-
-                if (wk->wu.id) {
-                    cal_all_speed_data(&wk->wu, app_counter[wk->wu.id], bg_w.bgw[1].pos_x_work + 0x58, 0, 2, 0);
-                } else {
-                    cal_all_speed_data(&wk->wu, app_counter[wk->wu.id], bg_w.bgw[1].pos_x_work - 0x58, 0, 2, 0);
-                }
-            }
-
+            set_char_move_init(&wk->wu, 9, 0x11);
+            app_counter[wk->wu.id] = 0x10;
             wk->wu.next_z = plw[id_w].wu.my_priority;
-            break;
+        }
 
-        case 3:
-            char_move(&wk->wu);
-            app_counter[wk->wu.id]--;
+        break;
 
-            if (app_counter[wk->wu.id] <= 0) {
-                wk->wu.routine_no[3]++;
-                set_char_move_init2(&wk->wu, 9, 0x11, 0x0A, 0);
-                wk->wu.next_z = wk->wu.my_priority;
+    case 2:
+        char_move(&wk->wu);
+        app_counter[wk->wu.id]--;
+
+        if (app_counter[wk->wu.id] <= 0) {
+            wk->wu.routine_no[3]++;
+            app_counter[wk->wu.id] = 0x16;
+
+            if (wk->wu.id) {
+                cal_all_speed_data(&wk->wu, app_counter[wk->wu.id], bg_w.bgw[1].pos_x_work + 0x58, 0, 2, 0);
             } else {
-                add_x_sub((WORK_Other*)wk);
+                cal_all_speed_data(&wk->wu, app_counter[wk->wu.id], bg_w.bgw[1].pos_x_work - 0x58, 0, 2, 0);
             }
+        }
 
-            break;
+        wk->wu.next_z = plw[id_w].wu.my_priority;
+        break;
 
-        case 4:
-            char_move(&wk->wu);
+    case 3:
+        char_move(&wk->wu);
+        app_counter[wk->wu.id]--;
 
-            if (wk->wu.cg_type == 0xFF) {
-                wk->wu.routine_no[2] = 1;
-                wk->wu.routine_no[3] = 0;
-                Appear_end++;
-            }
+        if (app_counter[wk->wu.id] <= 0) {
+            wk->wu.routine_no[3]++;
+            set_char_move_init2(&wk->wu, 9, 0x11, 0x0A, 0);
+            wk->wu.next_z = wk->wu.my_priority;
+        } else {
+            add_x_sub((WORK_Other *)wk);
+        }
+
+        break;
+
+    case 4:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 0xFF) {
+            wk->wu.routine_no[2] = 1;
+            wk->wu.routine_no[3] = 0;
+            Appear_end++;
+        }
+
+        break;
     }
 }
 
-const u8 animal_decide_tbl[] = {0, 1, 2, 3, 4, 5, 0, 2, 0, 1, 2, 3, 4, 5, 0, 0};
+const u8 animal_decide_tbl[] = { 0, 1, 2, 3, 4, 5, 0, 2, 0, 1, 2, 3, 4, 5, 0, 0 };
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_37000);
@@ -967,10 +958,10 @@ void Appear_37000(PLW *wk) {
 }
 #endif
 
-void Appear_38000(PLW* wk) {
+void Appear_38000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         bg_app_stop = 1;
         wk->wu.disp_flag = 1;
 
@@ -988,7 +979,7 @@ void Appear_38000(PLW* wk) {
         if (wk->wu.cg_type == 0xFF) {
             wk->wu.routine_no[2] = 1;
             wk->wu.routine_no[3] = 0;
-            Appear_end += 1;
+            Appear_end++;
         }
     }
 }
@@ -1001,7 +992,7 @@ void Appear_39000(PLW *wk) {
 }
 #endif
 
-void Appear_41000(PLW* wk) {
+void Appear_41000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -1021,10 +1012,12 @@ void Appear_41000(PLW* wk) {
             wk->wu.routine_no[3] = 0;
             Appear_end++;
         }
+
+        break;
     }
 }
 
-void gouki_appear(PLW* wk) {
+void gouki_appear(PLW *wk) {
     if (!wk->wu.cmwk[0]) {
         char_move(&wk->wu);
         return;
@@ -1032,7 +1025,7 @@ void gouki_appear(PLW* wk) {
 
     switch (wk->wu.routine_no[6]) {
     case 0:
-        wk->wu.routine_no[6] += 1;
+        wk->wu.routine_no[6]++;
         set_char_move_init(&wk->wu, 1, 0x3C);
         char_move_z(&wk->wu);
         wk->wu.xyz[1].disp.pos = -6;
@@ -1042,9 +1035,10 @@ void gouki_appear(PLW* wk) {
         char_move(&wk->wu);
 
         if (wk->wu.cg_type == 0xFF) {
-            wk->wu.routine_no[6] += 1;
+            wk->wu.routine_no[6]++;
         }
-        /* fallthrough */
+
+        break;
 
     case 2:
         break;
