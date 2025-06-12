@@ -817,7 +817,7 @@ segments:
       - [0x3B59C0, .data, cri/libadxe/dvci]
       - [0x3B66B0, .data, cri/libadxe/dvci_sub]
       - [0x3B6858, data, cri/libadxe/htci]
-      - [0x3B6C70, data, cri/libadxe/htci_sub]
+      - [0x3B6C70, .data, cri/libadxe/htci_sub]
       - [0x3B6DB8, data, cri/libadxe/lsc]
       - [0x3B6DC8, .data, cri/libadxe/lsc_err]
       - [0x3B6ED0, .data, cri/libadxe/lsc_ini]
