@@ -1473,7 +1473,7 @@ segments:
       - [0x474650, .sdata, sf33rd/Source/Common/PPGFile]
       - [0x4746B0, .sdata, sf33rd/AcrSDK/ps2/flps2render]
       - [0x474730, .sdata, sf33rd/AcrSDK/ps2/flps2debug]
-      - [0x474770, sdata, sf33rd/AcrSDK/ps2/flps2dma]
+      - [0x474770, .sdata, sf33rd/AcrSDK/ps2/flps2dma]
       - [0x4747A8, .sdata, sf33rd/AcrSDK/ps2/flps2shader]
       - [0x4747B0, .sdata, sf33rd/AcrSDK/ps2/flps2vram]
       - [0x4749F0, .sdata, sf33rd/AcrSDK/ps2/foundaps2]

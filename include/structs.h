@@ -2611,5 +2611,48 @@ typedef struct /* @anon31 */ {
     s16 free3;         // offset 0x18, size 0x2
     s16 shot_ok;       // offset 0x1A, size 0x2
 } WAZA_WORK;
+typedef struct {
+    struct {
+        QWORD data;
+    } dmatag;
+
+    QWORD vifcode;
+    QWORD giftag;
+    QWORD bitbltbuf;
+    QWORD trxpos;
+    QWORD trxreg;
+    QWORD finish;
+    QWORD trxdir;
+    QWORD data;
+} FLPS2StoreImage;
+
+typedef struct {
+    struct {
+        QWORD data;
+    } dmatag;
+
+    struct {
+        QWORD data;
+    } giftag;
+    QWORD bitbltbuf;
+    QWORD trxpos;
+    QWORD trxreg;
+    QWORD trxdir;
+
+    struct {
+        QWORD data;
+    } giftag1;
+
+    struct {
+        QWORD data;
+    } dmatag1;
+} FLPS2LoadImage;
+
+typedef struct {
+    QWORD dmatag;
+    QWORD directhl;
+    QWORD giftag;
+    QWORD texflush;
+} FLPS2LoadEnd; // Not Sure about this name
 
 #endif
