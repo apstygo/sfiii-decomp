@@ -2611,48 +2611,58 @@ typedef struct /* @anon31 */ {
     s16 free3;         // offset 0x18, size 0x2
     s16 shot_ok;       // offset 0x1A, size 0x2
 } WAZA_WORK;
-typedef struct {
-    struct {
-        QWORD data;
-    } dmatag;
 
-    QWORD vifcode;
-    QWORD giftag;
-    QWORD bitbltbuf;
-    QWORD trxpos;
-    QWORD trxreg;
-    QWORD finish;
-    QWORD trxdir;
-    QWORD data;
+typedef struct {
+    // total size: 0x90
+    struct {
+        // total size: 0x10
+        QWORD data; // offset 0x0, size 0x10
+    } dmatag;       // offset 0x0, size 0x10
+
+    QWORD vifcode;   // offset 0x10, size 0x10
+    QWORD giftag;    // offset 0x20, size 0x10
+    QWORD bitbltbuf; // offset 0x30, size 0x10
+    QWORD trxpos;    // offset 0x40, size 0x10
+    QWORD trxreg;    // offset 0x50, size 0x10
+    QWORD finish;    // 0ffset 0x60, size 0x10
+    QWORD trxdir;    // offset 0x70, size 0x10
+    QWORD data;      // offset 0x80, size 0x10
 } FLPS2StoreImage;
 
 typedef struct {
+    // total size: 0x80
     struct {
-        QWORD data;
-    } dmatag;
+        // total size: 0x10
+        QWORD data; // offset 0x0, size 0x10
+    } dmatag;       // offset 0x0, size 0x10
 
     struct {
-        QWORD data;
-    } giftag;
-    QWORD bitbltbuf;
-    QWORD trxpos;
-    QWORD trxreg;
-    QWORD trxdir;
+        // total size: 0x10
+        QWORD data; // offset 0x0, size 0x10
+    } giftag;       // offset 0x10, size 0x10
+
+    QWORD bitbltbuf; // offset 0x20, size 0x10
+    QWORD trxpos;    // offset 0x30, size 0x10
+    QWORD trxreg;    // offset 0x40, size 0x10
+    QWORD trxdir;    // offset 0x50, size: 0x10
 
     struct {
-        QWORD data;
-    } giftag1;
+        // total size: 0x10
+        QWORD data; // offset 0x0, size 0x10
+    } giftag1;      // offset 0x60, size 0x10
 
     struct {
-        QWORD data;
-    } dmatag1;
+        // total size: 0x10
+        QWORD data; // offset 0x0, size 0x10
+    } dmatag1;      // offset 0x70, size 0x10
 } FLPS2LoadImage;
 
 typedef struct {
-    QWORD dmatag;
-    QWORD directhl;
-    QWORD giftag;
-    QWORD texflush;
-} FLPS2LoadEnd; // Not Sure about this name
+    // total size: 0x40
+    QWORD dmatag;   // offset 0x0, size 0x10
+    QWORD directhl; // offset 0x10, size 0x10
+    QWORD giftag;   // offset 0x20, size 0x10
+    QWORD texflush; // offset 0x30, size 0x10
+} FLPS2LoadEnd;     // Not Sure about this name
 
 #endif
