@@ -3,9 +3,9 @@
 
 #include <cri/cri_xpts.h>
 #include <cri/sj.h>
-#include <sif.h>
 
 #include <libcdvd.h>
+#include <sif.h>
 
 // ADXPD
 
@@ -129,20 +129,19 @@ typedef PS2PSJ_OBJ *PS2PSJ;
 // DTR
 
 typedef struct {
-    // total size: 0x40
-    Sint8 unk0; // state or used?
-    Sint8 unk1;
-    Sint8 unk2;
-    SJ unk4;
-    SJ unk8;
-    SJCK unkC;
-    SJCK unk14;
-    char pad1C[16];
-    Sint32 unk2C;
-    Sint32 unk30;
-    Sint32 unk34;
-    Sint32 unk38;
-    Sint32 unk3C;
+    /* 0x00 */ Sint8 unk0;
+    /* 0x01 */ Sint8 unk1;
+    /* 0x02 */ Sint8 unk2;
+    /* 0x04 */ SJ unk4;
+    /* 0x08 */ SJ unk8;
+    /* 0x0C */ SJCK unkC;
+    /* 0x14 */ SJCK unk14;
+    /* 0x1C */ sceSifDmaData dma_data;
+    /* 0x2C */ Sint32 unk2C;
+    /* 0x30 */ Sint32 unk30;
+    /* 0x34 */ Sint32 unk34;
+    /* 0x38 */ Sint32 unk38;
+    /* 0x3C */ Sint32 unk3C;
 } DTR_OBJ;
 
 typedef DTR_OBJ *DTR;
