@@ -96,4 +96,8 @@ typedef struct {
 #define GS_BUSDIR ((volatile u_long *)(0x12001040))
 #define GS_SIGLBLID ((volatile u_long *)(0x12001080))
 
+/* VIF1 */
+#define VIF1_STAT ((volatile u_int *)(0x10003c00))
+#define VIF1_FIFO ((volatile __int128 *)(0x10005000))
+
 #endif

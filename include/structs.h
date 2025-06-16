@@ -2372,4 +2372,48 @@ typedef struct {
     f32 max_z;  // offset 0x14, size 0x4
 } FL_RenderViewport;
 
+typedef struct {
+    struct {
+        QWORD data;
+    } dmatag;
+
+    QWORD vifcode;
+    QWORD giftag;
+    QWORD bitbltbuf;
+    QWORD trxpos;
+    QWORD trxreg;
+    QWORD finish;
+    QWORD trxdir;
+    QWORD data;
+} FLPS2StoreImage;
+
+typedef struct {
+    struct {
+        QWORD data;
+    } dmatag;
+
+    struct {
+        QWORD data;
+    } giftag;
+    QWORD bitbltbuf;
+    QWORD trxpos;
+    QWORD trxreg;
+    QWORD trxdir;
+
+    struct {
+        QWORD data;
+    } giftag1;
+
+    struct {
+        QWORD data;
+    } dmatag1;
+} FLPS2LoadImage;
+
+typedef struct {
+    QWORD dmatag;
+    QWORD directhl;
+    QWORD giftag;
+    QWORD texflush;
+} FLPS2LoadEnd; // Not Sure about this name
+
 #endif

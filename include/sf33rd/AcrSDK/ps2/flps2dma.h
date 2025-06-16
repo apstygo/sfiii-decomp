@@ -27,5 +27,7 @@ u32 flPS2VIF1CalcLoadImageSize(u32 size);
 u32 flPS2VIF1MakeLoadImage(u32 buff_ptr, u32 irq, u32 data_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, s16 x, s16 y,
                            s16 w, s16 h);
 void flPS2StoreImageB(u32 load_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, s16 x, s16 y, s16 w, s16 h);
+u32 flPS2DmaAddRefTag(u32 tag, s32 qwc, u32 data_adrs, s32 irq, s32 /* unused */);
+u32 flPS2DmaAddRefeTag(u32 tag, s32 qwc, u32 data_adrs, s32 irq, s32 /* unused */);
 
 #endif
