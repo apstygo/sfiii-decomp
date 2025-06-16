@@ -381,7 +381,9 @@ static s32 IntGsStoreImageHandler() {
         flPs2StoreImageSize = 0;
     }
 
+#if defined(TARGET_PS2)
     ExitHandler();
+#endif
     return 0;
 }
 
@@ -578,7 +580,9 @@ s32 flPS2DmaInterrupt(s32 ch) {
         }
     }
 
+#if defined(TARGET_PS2)
     ExitHandler();
+#endif
     return 0;
 }
 
