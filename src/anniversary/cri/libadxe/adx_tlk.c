@@ -307,7 +307,17 @@ void adxt_start_sj(ADXT adxt, SJ sj) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", adxt_start_stm);
+void adxt_start_stm(ADXT adxt, const Char8 *fname, void *dir, s32 arg3, Sint32 file_sct) {
+    ADXSTM_SetBufSize(adxt->stm, adxt->minsct << 11, adxt->maxsct << 11);
+    ADXSTM_SetEos(adxt->stm, 25);
+    ADXSTM_EntryEosFunc(adxt->stm, NULL, NULL);
+    ADXSTM_Seek(adxt->stm, 0);
+    ADXSTM_StopNw(adxt->stm);
+    ADXSTM_ReleaseFileNw(adxt->stm);
+    ADXSTM_BindFileNw(adxt->stm, fname, dir, arg3, file_sct);
+    ADXSTM_Start(adxt->stm);
+    adxt_start_sj(adxt, adxt->sjf);
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B508);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_StartSj);
@@ -564,13 +574,34 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_SetAutoRcvr
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B940);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_IsCompleted);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_ExecServer);
-#else
 void ADXT_ExecServer() {
-    not_implemented(__func__);
+    Sint32 i;
+
+    ADXCRS_Lock();
+
+    if (adxt_tsvr_enter_cnt != 0) {
+        ADXCRS_Unlock();
+        return;
+    }
+
+    adxt_tsvr_enter_cnt = 1;
+    ADXCRS_Unlock();
+
+    ADXCRS_Lock();
+    ADXSJD_ExecServer();
+    adxt_tsvr_enter_cnt = 2;
+
+    for (i = 0; i < ADXT_MAX_OBJ; i++) {
+        if (adxt_obj[i].used == 1) {
+            ADXT_ExecHndl(&adxt_obj[i]);
+        }
+    }
+
+    adxt_tsvr_enter_cnt = 3;
+    ADXRNA_ExecServer();
+    adxt_tsvr_enter_cnt = 0;
+    ADXCRS_Unlock();
 }
-#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_ExecDecServer);
 
