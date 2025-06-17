@@ -77,58 +77,68 @@ void ppgPurgeFromVRAM(s32 type) {
         if (ppgScrTex.be) {
             ppgPurgeTextureFromVRAM(&ppgScrTex);
         }
+
         if (ppgScrPal.be) {
             ppgPurgePaletteFromVRAM(&ppgScrPal);
         }
+
         if (ppgScrPalFace.be) {
             ppgPurgePaletteFromVRAM(&ppgScrPalFace);
         }
+
         if (ppgScrPalShot.be) {
             ppgPurgePaletteFromVRAM(&ppgScrPalShot);
         }
+
         if (ppgScrPalOpt.be) {
             ppgPurgePaletteFromVRAM(&ppgScrPalOpt);
-            return;
         }
+
         break;
 
     case 1:
         if (ppgWarTex.be) {
             ppgPurgeTextureFromVRAM(&ppgWarTex);
         }
+
         if (ppgWarPal.be) {
             ppgPurgePaletteFromVRAM(&ppgWarPal);
         }
+
         if (ppgAdxPal.be) {
             ppgPurgePaletteFromVRAM(&ppgAdxPal);
-            return;
         }
+
         break;
 
     case 2:
         if (ppgOpnBgTex.be) {
             ppgPurgeTextureFromVRAM(&ppgOpnBgTex);
         }
+
         if (ppgCapLogoTex.be) {
             ppgPurgeTextureFromVRAM(&ppgCapLogoTex);
         }
+
         if (ppgCapLogoPal.be) {
             ppgPurgePaletteFromVRAM(&ppgCapLogoPal);
         }
+
         if (col3rd_w.palDC.be) {
             ppgPurgePaletteFromVRAM(&col3rd_w.palDC);
         }
+
         if (col3rd_w.palCP3.be) {
             ppgPurgePaletteFromVRAM(&col3rd_w.palCP3);
-            return;
         }
+
         break;
 
     case 3:
         if (ppgTitleTex.be) {
             ppgPurgeTextureFromVRAM(&ppgTitleTex);
-            return;
         }
+
         break;
 
     case 4:
@@ -141,22 +151,27 @@ void ppgPurgeFromVRAM(s32 type) {
         if (col3rd_w.palDC.be) {
             ppgPurgePaletteFromVRAM(&col3rd_w.palDC);
         }
+
         if (col3rd_w.palCP3.be) {
             ppgPurgePaletteFromVRAM(&col3rd_w.palCP3);
         }
+
         if (ppgAkeTex.be) {
             ppgPurgeTextureFromVRAM(&ppgAkeTex);
         }
+
         if (ppgAkaneTex.be) {
             ppgPurgeTextureFromVRAM(&ppgAkaneTex);
         }
+
         if (ppgAkePal.be) {
             ppgPurgePaletteFromVRAM(&ppgAkePal);
         }
+
         if (ppgAkanePal.be) {
             ppgPurgePaletteFromVRAM(&ppgAkanePal);
-            return;
         }
+
         break;
 
     case 5:
@@ -169,9 +184,11 @@ void ppgPurgeFromVRAM(s32 type) {
         if (col3rd_w.palDC.be) {
             ppgPurgePaletteFromVRAM(&col3rd_w.palDC);
         }
+
         if (col3rd_w.palCP3.be) {
             ppgPurgePaletteFromVRAM(&col3rd_w.palCP3);
         }
+
         break;
     }
 }
