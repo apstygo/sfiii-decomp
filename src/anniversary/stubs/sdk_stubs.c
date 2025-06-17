@@ -15,6 +15,7 @@
 #include <sif.h>
 #include <sifrpc.h>
 
+
 // libcdvd
 
 int sceCdBreak(void) {
@@ -332,5 +333,57 @@ void SyncDCache(void *, void *) {
 int WakeupThread(int) {
     not_implemented(__func__);
 }
+
+int EnableIntc(int) {
+    not_implemented(__func__);
+}
+
+int iEnableIntc(int) {
+    not_implemented(__func__);
+}
+
+int iDisableIntc(int) {
+    not_implemented(__func__);
+}
+
+int EnableDmac(int) {
+    not_implemented(__func__);
+}
+
+int AddIntcHandler(int, int (*)(int), int) {
+    not_implemented(__func__);
+}
+
+int AddDmacHandler(int, int (*)(int), int) {
+    not_implemented(__func__);
+}
+
+void ExitHandler() {
+    not_implemented(__func__);
+}
+
+// vu0 
+
+float cosf(float) {
+    not_implemented(__func__);
+}
+
+float atan2(float) {
+    not_implemented(__func__);
+}
+
+float sqrt(float) {
+    not_implemented(__func__);
+}
+
+// libdma
+
+void sceDmaRecvN(sceDmaChan *d, void *addr, int size) {
+    not_implemented(__func__);
+}
+
+u32 flPs2StoreImageAdrs;                              // size: 0x4, address: 0x57AA3C
+u32 flPs2StoreImageSize;                              // size: 0x4, address: 0x57AA40
+s64 flPs2StoreImageOldIMR;                            // size: 0x8, address: 0x57AA48
 
 #endif

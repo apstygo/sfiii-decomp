@@ -8,7 +8,9 @@
 #include <stddef.h>
 #endif
 
+#if defined(TARGET_PS2)
 #define ExitHandler() asm("sync.l; ei")
+#endif
 
 struct ThreadParam {
     int status;
