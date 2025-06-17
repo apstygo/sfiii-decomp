@@ -329,7 +329,12 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvCiSetFcache);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvCiIsExistFcache);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvCiSetRdMode);
+void dvCiSetRdMode(Sint32 trycount, Sint32 spindlctrl, Sint32 datapattern, Sint32 rdmode) {
+    dvg_ci_cdrmode.trycount = trycount;
+    dvg_ci_cdrmode.spindlctrl = spindlctrl;
+    dvg_ci_cdrmode.datapattern = datapattern;
+    dvg_ci_rdmode = rdmode;
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvCiSetRootDir);
