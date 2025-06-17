@@ -494,7 +494,11 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_GetBufSi
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_GetSj);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_SetBufSize);
+Sint32 ADXSTM_SetBufSize(ADXSTM stm, Sint32 arg1, Sint32 arg2) {
+    stm->unk1C = arg1;
+    stm->unk18 = arg2;
+    return 1;
+}
 
 Sint32 ADXSTM_SetReqRdSize(ADXSTM stm, Sint32 size) {
     stm->req_rd_size = size;
@@ -505,13 +509,9 @@ void ADXSTM_EntryErrFunc() {
     // Do nothing
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_stmc", ADXSTM_GetFileLen);
-#else
 Sint32 ADXSTM_GetFileLen(ADXSTM stm) {
-    not_implemented(__func__);
+    return stm->file_len;
 }
-#endif
 
 Sint32 ADXSTM_GetFileSct(ADXSTM stm) {
     return stm->file_sct;

@@ -1265,7 +1265,11 @@ void check_cgd_patdat(WORK *wk) {
         }
 
         if (wk->cg_effect) {
+#if defined(TARGET_PS2)
             effinitjptbl[wk->cg_effect](wk, wk->cg_eftype);
+#else
+            fatal_error("effinitjptbl is not decompiled.");
+#endif
         }
 
         break;

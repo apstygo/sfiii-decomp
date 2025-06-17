@@ -251,6 +251,7 @@
         "ADXSTM_OpenCvfs"
     ],
     "adx_sudv": [
+        "adxps2_err_dvd",
         "ADXPS2_SetupDvdFs",
         "ADXPS2_LoadFcacheDvd"
     ],

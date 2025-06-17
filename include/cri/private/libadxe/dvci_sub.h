@@ -13,5 +13,6 @@ void dvCiSetRootDir(const Char8 *dir);
 void dvci_conv_fname(const Char8 *fname, Char8 *path);
 Sint32 dvci_get_fstate(const Char8 *fname, sceCdlFILE *fp);
 Sint32 dvCiLoadFcache(Sint8 *, Sint8 *, Sint32, Sint32);
+void dvCiSetRdMode(Sint32 trycount, Sint32 spindlctrl, Sint32 datapattern, Sint32 rdmode);
 
 #endif

@@ -3,9 +3,9 @@
 
 #include <cri/cri_xpts.h>
 #include <cri/sj.h>
-#include <sif.h>
 
 #include <libcdvd.h>
+#include <sif.h>
 
 // ADXPD
 
@@ -48,9 +48,11 @@ typedef struct {
     /* 0x9A */ Sint16 unk9A;
     /* 0x9C */ char pad9C[0x12];
     /* 0xB0 */ Sint32 unkB0;
-    /* 0xB4 */ char padB4[8];
+    /* 0xB4 */ Sint32 unkB4;
+    /* 0xB8 */ Sint32 unkB8;
     /* 0xBC */ Sint32 unkBC;
-    /* 0xC0 */ char padC0[8];
+    /* 0xC0 */ Sint32 unkC0;
+    /* 0xC4 */ Sint32 unkC4;
     /* 0xC8 */ Sint32 unkC8;
     /* 0xCC */ ADXB_UNK_1 adxb_unk_1;
     /* 0xDC */ Sint16 unkDC;
@@ -129,20 +131,19 @@ typedef PS2PSJ_OBJ *PS2PSJ;
 // DTR
 
 typedef struct {
-    // total size: 0x40
-    Sint8 unk0; // state or used?
-    Sint8 unk1;
-    Sint8 unk2;
-    SJ unk4;
-    SJ unk8;
-    SJCK unkC;
-    SJCK unk14;
-    char pad1C[16];
-    Sint32 unk2C;
-    Sint32 unk30;
-    Sint32 unk34;
-    Sint32 unk38;
-    Sint32 unk3C;
+    /* 0x00 */ Sint8 unk0;
+    /* 0x01 */ Sint8 unk1;
+    /* 0x02 */ Sint8 unk2;
+    /* 0x04 */ SJ unk4;
+    /* 0x08 */ SJ unk8;
+    /* 0x0C */ SJCK unkC;
+    /* 0x14 */ SJCK unk14;
+    /* 0x1C */ sceSifDmaData dma_data;
+    /* 0x2C */ Sint32 unk2C;
+    /* 0x30 */ Sint32 unk30;
+    /* 0x34 */ Sint32 unk34;
+    /* 0x38 */ Sint32 unk38;
+    /* 0x3C */ Sint32 unk3C;
 } DTR_OBJ;
 
 typedef DTR_OBJ *DTR;

@@ -6,16 +6,18 @@
 #include <libcdvd.h>
 #include <sifdev.h>
 
+#include <string.h>
+
 typedef struct {
     /* 0x00 */ Sint8 unk0;
     /* 0x01 */ Sint8 unk1;
-    /* 0x02 */ Sint8 unk2;
+    /* 0x02 */ Sint8 stat;
     /* 0x03 */ Sint8 unk3;
     /* 0x04 */ Sint32 unk4;
     /* 0x08 */ Sint32 unk8;
     /* 0x0C */ Sint32 unkC;
     /* 0x10 */ void *unk10;
-    /* 0x14 */ Sint32 unk14;
+    /* 0x14 */ sceCdRMode unk14;
     /* 0x18 */ void *unk18;
     /* 0x1C */ Sint32 unk1C;
     /* 0x20 */ Sint32 unk20;
@@ -28,7 +30,7 @@ typedef struct {
 typedef SRD_OBJ *SRD;
 
 SRD_OBJ srd_obj = { 0 };
-Char8 *srd_build = "\nSRD/PS2EE Ver.2.18a Build:Sep 18 2003 10:00:14\n\0\0\0\0";
+Char8 *volatile srd_build = "\nSRD/PS2EE Ver.2.18a Build:Sep 18 2003 10:00:14\n\0\0\0\0";
 Sint32 srd_enter_fg = 0;
 Sint32 srd_dvd_exec_locked = 0;
 Sint32 srd_hst_exec_locked = 0;
@@ -51,43 +53,87 @@ Sint32 SRD_SceIoctl(Sint32 fd, Sint32 req, void *arg2);
 Sint64 SRD_SceLseek(Sint32 fd, Sint64 offset, Sint32 whence);
 Sint32 SRD_SceRead(Sint32 fd, void *buf, Sint32 nbyte);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", srd_reset_obj);
+void srd_reset_obj() {
+    srd_build;
+    memset(&srd_obj, 0, sizeof(srd_obj));
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_Create);
 #else
 SRD SRD_Create() {
-    not_implemented(__func__);
+    SRD srd = NULL;
+
+    SVM_LockVar();
+
+    if (srd_obj.unk0 == 0) {
+        srd_reset_obj();
+        srd_obj.unk0 = 1;
+        srd_obj.stat = 0;
+        srd_obj.unk3 = -1;
+        srd_obj.unk4 = 0;
+        srd_create_cnt += 1;
+        srd = &srd_obj;
+    }
+
+    SVM_UnlockVar();
+
+    return srd;
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CA78);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CAB8);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_Destroy);
-#else
 void SRD_Destroy(SRD srd) {
-    not_implemented(__func__);
-}
-#endif
+    SVM_LockVar();
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_ReqRdDvd);
-#else
-Sint32 SRD_ReqRdDvd(SRD srd, Sint32, Sint32, void *, sceCdRMode *) {
-    not_implemented(__func__);
+    if (srd != &srd_obj) {
+        scePrintf("SRD: SRD_Destroy, invalidate srd handle. hn=%0x, srd_obj=%08x\r\n", srd, &srd_obj);
+    } else {
+        if ((srd->stat != 0) && (srd->stat != 3) && (srd->stat != 9)) {
+            scePrintf("SRD: invalid SRD_Destroy.\r\n");
+        }
+
+        srd_reset_obj();
+        srd_obj.unk0 = 0;
+        srd_destroy_cnt += 1;
+    }
+
+    SVM_UnlockVar();
 }
-#endif
+
+s32 SRD_ReqRdDvd(SRD srd, s32 arg1, s32 arg2, void *arg3, sceCdRMode *arg4) {
+    s32 err;
+    s32 var_s4 = 0;
+
+    SRD_SetHistory(0x1200);
+    err = sceCdSync(1);
+    SRD_SetHistory(0x1201);
+
+    if (err == 1) {
+        return 0;
+    }
+
+    SVM_LockVar();
+
+    if ((srd->stat == 0) || (srd->stat == 3) || (srd->stat == 9)) {
+        srd->unk1 = 1;
+        srd->stat = 1;
+        srd->unk8 = arg1;
+        srd->unkC = arg2;
+        srd->unk10 = arg3;
+        srd->unk14 = *arg4;
+        srd->unk4 = 0;
+        var_s4 = 1;
+    }
+
+    SVM_UnlockVar();
+    return var_s4;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_ReqRdHst);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_GetStat);
-#else
 Sint32 SRD_GetStat(SRD srd) {
-    not_implemented(__func__);
+    return srd->stat;
 }
-#endif
 
 void srd_wait() {
     Sint32 i;
@@ -116,7 +162,7 @@ void srd_wait_hst(SRD srd) {
         SRD_SetHistory(0x1101);
 
         if (stat < 0) {
-            srd->unk2 = 9;
+            srd->stat = 9;
             srd->unk34 = stat;
             return;
         }
@@ -158,7 +204,7 @@ Sint32 srd_check_dvd_error(SRD srd) {
         return 0;
     }
 
-    if (srd->unk2 != 2) {
+    if (srd->stat != 2) {
         return 0;
     }
 
@@ -192,7 +238,7 @@ void srd_exec_dvd(SRD srd) {
     Sint32 dvd_err;
 
     if (srd->unk4 == 1) {
-        switch (srd->unk2) {
+        switch (srd->stat) {
         case 2:
             SRD_SetHistory(0x1600);
             err = sceCdBreak();
@@ -205,14 +251,14 @@ void srd_exec_dvd(SRD srd) {
             SRD_SetHistory(0x1700);
             sceCdSync(0);
             SRD_SetHistory(0x1701);
-            srd->unk2 = 0;
+            srd->stat = 0;
             srd_debug_rded_cnt += 1;
             break;
 
         case 1:
         case 3:
         case 9:
-            srd->unk2 = 0;
+            srd->stat = 0;
             break;
 
         case 0:
@@ -227,7 +273,7 @@ void srd_exec_dvd(SRD srd) {
         srd->unk4 = 0;
     }
 
-    switch (srd->unk2) {
+    switch (srd->stat) {
     case 1:
         SRD_SetHistory(0x1800);
         err = sceCdRead(srd->unk8, srd->unkC, srd->unk10, &srd->unk14);
@@ -235,16 +281,16 @@ void srd_exec_dvd(SRD srd) {
 
         if (err == 1) {
             srd_debug_rdbg_cnt += 1;
-            srd->unk2 = 2;
+            srd->stat = 2;
         } else {
-            srd->unk2 = 9;
+            srd->stat = 9;
             srd->unk34 = -1;
         }
 
         break;
     }
 
-    switch (srd->unk2) {
+    switch (srd->stat) {
     case 2:
         SRD_SetHistory(0x1900);
         err = sceCdSync(1);
@@ -253,7 +299,7 @@ void srd_exec_dvd(SRD srd) {
         dvd_err = srd_check_dvd_error(srd);
 
         if (err == 0) {
-            srd->unk2 = (dvd_err == 1) ? 9 : 3;
+            srd->stat = (dvd_err == 1) ? 9 : 3;
             srd_debug_rded_cnt += 1;
         }
 
@@ -266,7 +312,7 @@ void srd_exec_hst(SRD srd) {
     Sint64 offset;
 
     if (srd->unk4 == 1) {
-        switch (srd->unk2) {
+        switch (srd->stat) {
         case 0:
         case 4:
         case 5:
@@ -277,28 +323,28 @@ void srd_exec_hst(SRD srd) {
 
         case 2:
             srd_wait_hst(srd);
-            srd->unk2 = 0;
+            srd->stat = 0;
             srd_debug_rded_cnt += 1;
             /* fallthrough */
 
         case 1:
         case 3:
         case 9:
-            srd->unk2 = 0;
+            srd->stat = 0;
             break;
         }
 
         srd->unk4 = 0;
     }
 
-    switch (srd->unk2) {
+    switch (srd->stat) {
     case 1:
         SRD_SetHistory(0x2000);
         offset = SRD_SceLseek(srd->fd, (srd->unk28 << 11), 0);
         SRD_SetHistory(0x2001);
 
         if (offset < 0) {
-            srd->unk2 = 9;
+            srd->stat = 9;
             srd->unk34 = offset;
         }
 
@@ -307,29 +353,29 @@ void srd_exec_hst(SRD srd) {
         SRD_SetHistory(0x2101);
 
         if (offset >= 0) {
-            srd->unk2 = 2;
+            srd->stat = 2;
             srd_debug_rdbg_cnt += 1;
         } else {
-            srd->unk2 = 9;
+            srd->stat = 9;
             srd->unk34 = offset;
         }
 
         break;
     }
 
-    switch (srd->unk2) {
+    switch (srd->stat) {
     case 2:
         SRD_SetHistory(0x2200);
 
         if (SRD_SceIoctl(srd->fd, 1, &sp) < 0) {
             SRD_SetHistory(0x2201);
-            srd->unk2 = 9;
+            srd->stat = 9;
             srd->unk34 = -1;
         } else {
             SRD_SetHistory(0x2202);
 
             if (sp == 0) {
-                srd->unk2 = 3;
+                srd->stat = 3;
                 srd_debug_rded_cnt += 1;
             }
         }

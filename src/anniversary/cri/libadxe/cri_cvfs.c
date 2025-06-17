@@ -62,7 +62,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsInit);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsFinish);
 
-void cvFsAddDev(const Char8 *device_name, CVFSDevice *(*device_provider)()) {
+void cvFsAddDev(const Char8 *device_name, CVFSDevice *(*device_provider)(), Sint32 arg2) {
     CVFSDevice *device;
 
     cvfs_build;

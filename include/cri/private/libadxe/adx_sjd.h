@@ -23,5 +23,6 @@ Sint32 ADXSJD_GetTotalNumSmpl(ADXSJD);
 Sint32 ADXSJD_GetDefOutVol(ADXSJD);
 void ADXSJD_SetLnkSw(ADXSJD sjd, Sint32 sw);
 void ADXSJD_SetInSj(ADXSJD sjd, SJ sj);
+void ADXSJD_ExecServer();
 
 #endif
