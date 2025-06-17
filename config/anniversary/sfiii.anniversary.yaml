@@ -806,7 +806,7 @@ segments:
       - [0x3AB2A0, data, cri/libadxe/adx_mps2]
       - [0x3B2BE0, .data, cri/libadxe/adx_sjd]
       - [0x3B35E8, .data, cri/libadxe/adx_stmc]
-      - [0x3B4508, data, cri/libadxe/adx_sudv] # Not needed
+      - [0x3B4508, .data, cri/libadxe/adx_sudv]
       - [0x3B4538, .data, cri/libadxe/adx_tlk]
       - [0x3B4588, data, cri/libadxe/adx_tsvr]
       - [0x3B4598, data, cri/libadxe/adx_xpnd]
