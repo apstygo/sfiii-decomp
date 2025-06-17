@@ -9,7 +9,7 @@ Notes:
 | Module   | Progress   |
 |----------|------------|
 | sf33rd   | 79.56%     |
-| cri      | 61.86%     |
+| cri      | 67.00%     |
 
 | Function                         | File                                                 | Module   | Is decompiled   |
 |----------------------------------|------------------------------------------------------|----------|-----------------|
@@ -181,7 +181,7 @@ Notes:
 | flmwVSyncCallback                | sf33rd/AcrSDK/MiddleWare/PS2/acrmw.c                 | sf33rd   | ✅               |
 | flAdxControll                    | sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX.c             | sf33rd   | ✅               |
 | ADXPS2_ExecVint                  | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| SVM_ExecSvrVint                  | cri/libadxe/svm.c                                    | cri      |                 |
+| SVM_ExecSvrVint                  | cri/libadxe/svm.c                                    | cri      | ✅               |
 | SVM_ExecSvrFunc                  | cri/libadxe/svm.c                                    | cri      | ✅               |
 | flPS2SwapDBuff                   | sf33rd/AcrSDK/ps2/foundaps2.c                        | sf33rd   | ✅               |
 | sceDmaSend                       | sdk/libdma/libdma.c                                  | sdk      | –               |
@@ -296,7 +296,7 @@ Notes:
 | setup_pos_remake_key             | sf33rd/Source/Game/SYS_sub2.c                        | sf33rd   | ✅               |
 | Init_sound_system                | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
 | flAdxInitialize                  | sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX.c             | sf33rd   | ✅               |
-| ADXPS2_SetupDvdFs                | cri/libadxe/adx_sudv.c                               | cri      |                 |
+| ADXPS2_SetupDvdFs                | cri/libadxe/adx_sudv.c                               | cri      | ✅               |
 | cvFsEntryErrFunc                 | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
 | cvFsAddDev                       | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
 | addDevice                        | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
@@ -307,7 +307,7 @@ Notes:
 | dvCiEntryErrFunc                 | cri/libadxe/dvci.c                                   | cri      | ✅               |
 | cvFsSetDefDev                    | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
 | isExistDev                       | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
-| dvCiSetRdMode                    | cri/libadxe/dvci_sub.c                               | cri      |                 |
+| dvCiSetRdMode                    | cri/libadxe/dvci_sub.c                               | cri      | ✅               |
 | ADXPS2_LoadFcacheDvd             | cri/libadxe/adx_sudv.c                               | cri      | ✅               |
 | dvCiLoadFcache                   | cri/libadxe/dvci_sub.c                               | cri      | ✅               |
 | load_flist                       | cri/libadxe/dvci_sub.c                               | cri      | ✅               |
@@ -343,12 +343,12 @@ Notes:
 | adxm_vsync_proc                  | cri/libadxe/adx_mps2.c                               | cri      |                 |
 | adxm_IsSetupThrdEx               | cri/libadxe/adx_mps2.c                               | cri      |                 |
 | ADXPS2_WakeupMainThrd            | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| SVM_ExecSvrVsync                 | cri/libadxe/svm.c                                    | cri      |                 |
+| SVM_ExecSvrVsync                 | cri/libadxe/svm.c                                    | cri      | ✅               |
 | adxm_SleepThread                 | cri/libadxe/adx_mps2.c                               | cri      |                 |
 | SleepThread                      | sdk/libkernl/klib.c                                  | sdk      | –               |
 | adxm_fs_proc                     | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| SVM_ExecSvrFs                    | cri/libadxe/svm.c                                    | cri      |                 |
-| SVM_SetCbBdr                     | cri/libadxe/svm.c                                    | cri      |                 |
+| SVM_ExecSvrFs                    | cri/libadxe/svm.c                                    | cri      | ✅               |
+| SVM_SetCbBdr                     | cri/libadxe/svm.c                                    | cri      | ✅               |
 | _adxm_lock                       | cri/libadxe/adx_mps2.c                               | cri      |                 |
 | adxm_ResumeThread                | cri/libadxe/adx_mps2.c                               | cri      |                 |
 | ResumeThread                     | sdk/libkernl/klib.c                                  | sdk      | –               |
@@ -495,7 +495,7 @@ Notes:
 | ADXF_ExecServer                  | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
 | adxf_ExecOne                     | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
 | ADXSTM_GetStat                   | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
-| ADXSTM_GetFileLen                | cri/libadxe/adx_stmc.c                               | cri      |                 |
+| ADXSTM_GetFileLen                | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | ADXSTM_GetFileSct                | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | ADXF_ReadNw                      | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
 | ADXF_ReadNw32                    | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
@@ -514,7 +514,7 @@ Notes:
 | iWakeupThread                    | sdk/libkernl/thread.c                                | sdk      | –               |
 | _iWakeupThread                   | sdk/libkernl/klib.c                                  | sdk      | –               |
 | adxt_exec_tsvr                   | cri/libadxe/adx_inis.c                               | cri      | ✅               |
-| ADXT_ExecServer                  | cri/libadxe/adx_tlk.c                                | cri      |                 |
+| ADXT_ExecServer                  | cri/libadxe/adx_tlk.c                                | cri      | ✅               |
 | ADXSJD_ExecServer                | cri/libadxe/adx_sjd.c                                | cri      |                 |
 | ADXSJD_ExecHndl                  | cri/libadxe/adx_sjd.c                                | cri      |                 |
 | ADXT_ExecHndl                    | cri/libadxe/adx_tsvr.c                               | cri      |                 |
@@ -524,17 +524,17 @@ Notes:
 | LSC_GetStat                      | cri/libadxe/lsc.c                                    | cri      | ✅               |
 | ADXRNA_ExecServer                | cri/libadxe/adx_rnap.c                               | cri      | ✅               |
 | PS2RNA_ExecServer                | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
-| RNACRS_Lock                      | cri/libadxe/rna_crs.c                                | cri      |                 |
+| RNACRS_Lock                      | cri/libadxe/rna_crs.c                                | cri      | ✅               |
 | PS2RNA_ExecHndl                  | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
-| RNACRS_Unlock                    | cri/libadxe/rna_crs.c                                | cri      |                 |
-| DTR_ExecServer                   | cri/libadxe/dtr.c                                    | cri      |                 |
-| DTR_ExecHndl                     | cri/libadxe/dtr.c                                    | cri      |                 |
+| RNACRS_Unlock                    | cri/libadxe/rna_crs.c                                | cri      | ✅               |
+| DTR_ExecServer                   | cri/libadxe/dtr.c                                    | cri      | ✅               |
+| DTR_ExecHndl                     | cri/libadxe/dtr.c                                    | cri      | ✅               |
 | DTX_ExecServer                   | cri/libadxe/dtx.c                                    | cri      | ✅               |
 | DTX_ExecHndl                     | cri/libadxe/dtx.c                                    | cri      | ✅               |
 | sjx_sndcbf                       | cri/libadxe/sjx.c                                    | cri      | ✅               |
 | SJUNI_GetChunk                   | cri/libadxe/sj_uni.c                                 | cri      | ✅               |
 | ps2rna_sndcbf                    | cri/libadxe/ps2_rna.c                                | cri      |                 |
-| SJX_ExecServer                   | cri/libadxe/sjx.c                                    | cri      |                 |
+| SJX_ExecServer                   | cri/libadxe/sjx.c                                    | cri      | ✅               |
 | adxt_exec_fssvr                  | cri/libadxe/adx_inis.c                               | cri      | ✅               |
 | adxstmf_stat_exec                | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | cvFsGetStat                      | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
@@ -543,11 +543,11 @@ Notes:
 | cvFsReqRd                        | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
 | dvCiReqRd                        | cri/libadxe/dvci.c                                   | cri      | ✅               |
 | SRD_Create                       | cri/libadxe/cri_srd.c                                | cri      |                 |
-| SVM_LockVar                      | cri/libadxe/svm.c                                    | cri      |                 |
-| srd_reset_obj                    | cri/libadxe/cri_srd.c                                | cri      |                 |
-| SVM_UnlockVar                    | cri/libadxe/svm.c                                    | cri      |                 |
-| SRD_ReqRdDvd                     | cri/libadxe/cri_srd.c                                | cri      |                 |
-| SRD_GetStat                      | cri/libadxe/cri_srd.c                                | cri      |                 |
+| SVM_LockVar                      | cri/libadxe/svm.c                                    | cri      | ✅               |
+| srd_reset_obj                    | cri/libadxe/cri_srd.c                                | cri      | ✅               |
+| SVM_UnlockVar                    | cri/libadxe/svm.c                                    | cri      | ✅               |
+| SRD_ReqRdDvd                     | cri/libadxe/cri_srd.c                                | cri      | ✅               |
+| SRD_GetStat                      | cri/libadxe/cri_srd.c                                | cri      | ✅               |
 | srd_exec_dvd                     | cri/libadxe/cri_srd.c                                | cri      | ✅               |
 | ADXM_ExecMain                    | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | SVM_ExecSvrMain                  | cri/libadxe/svm.c                                    | cri      | ✅               |
@@ -559,7 +559,7 @@ Notes:
 | ADXSTM_Tell                      | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | sjx_rcvcbf                       | cri/libadxe/sjx.c                                    | cri      | ✅               |
 | ps2rna_rcvcbf                    | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
-| SRD_Destroy                      | cri/libadxe/cri_srd.c                                | cri      |                 |
+| SRD_Destroy                      | cri/libadxe/cri_srd.c                                | cri      | ✅               |
 | SJ_SplitChunk                    | cri/libadxe/sj_utl.c                                 | cri      | ✅               |
 | SJRBF_PutChunk                   | cri/libadxe/sj_rbf.c                                 | cri      | ✅               |
 | SJRBF_UngetChunk                 | cri/libadxe/sj_rbf.c                                 | cri      | ✅               |
@@ -573,7 +573,7 @@ Notes:
 | ADXSTM_ReleaseFile               | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | ADXSTM_ReleaseFileNw             | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | cvFsClose                        | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
-| dvCiClose                        | cri/libadxe/dvci.c                                   | cri      |                 |
+| dvCiClose                        | cri/libadxe/dvci.c                                   | cri      | ✅               |
 | dvci_free                        | cri/libadxe/dvci.c                                   | cri      | ✅               |
 | releaseCvFsHn                    | cri/libadxe/cri_cvfs.c                               | cri      | ✅               |
 | ADXSTM_Destroy                   | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
@@ -952,8 +952,8 @@ Notes:
 | ADXT_StartAfs                    | cri/libadxe/adx_tlk2.c                               | cri      | ✅               |
 | Check_LDREQ_Clear                | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
 | adxt_stat_decinfo                | cri/libadxe/adx_tsvr.c                               | cri      |                 |
-| adxt_start_stm                   | cri/libadxe/adx_tlk.c                                | cri      |                 |
-| ADXSTM_SetBufSize                | cri/libadxe/adx_stmc.c                               | cri      |                 |
+| adxt_start_stm                   | cri/libadxe/adx_tlk.c                                | cri      | ✅               |
+| ADXSTM_SetBufSize                | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | ADXSTM_EntryEosFunc              | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | ADXSTM_Start                     | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | adxt_start_sj                    | cri/libadxe/adx_tlk.c                                | cri      | ✅               |
@@ -985,8 +985,8 @@ Notes:
 | ADXSJD_GetBlkSmpl                | cri/libadxe/adx_sjd.c                                | cri      |                 |
 | ADXB_GetBlkSmpl                  | cri/libadxe/adx_bsc.c                                | cri      |                 |
 | ADXSJD_SetMaxDecSmpl             | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| ADXB_SetAhxDecSmpl               | cri/libadxe/adx_bahx.c                               | cri      |                 |
-| ADXB_SetAc3DecSmpl               | cri/libadxe/adx_bahx.c                               | cri      |                 |
+| ADXB_SetAhxDecSmpl               | cri/libadxe/adx_bahx.c                               | cri      | ✅               |
+| ADXB_SetAc3DecSmpl               | cri/libadxe/adx_bahx.c                               | cri      | ✅               |
 | ADXSJD_GetTotalNumSmpl           | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
 | ADXB_GetTotalNumSmpl             | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXSJD_SetTrapNumSmpl            | cri/libadxe/adx_sjd.c                                | cri      |                 |
@@ -1008,9 +1008,9 @@ Notes:
 | ADXRNA_SetOutPan                 | cri/libadxe/adx_rnap.c                               | cri      | ✅               |
 | PS2RNA_SetOutPan                 | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
 | ADXSJD_GetFormat                 | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| DTR_GetStat                      | cri/libadxe/dtr.c                                    | cri      |                 |
+| DTR_GetStat                      | cri/libadxe/dtr.c                                    | cri      | ✅               |
 | SJUNI_GetNumData                 | cri/libadxe/sj_uni.c                                 | cri      | ✅               |
-| DTR_Start                        | cri/libadxe/dtr.c                                    | cri      |                 |
+| DTR_Start                        | cri/libadxe/dtr.c                                    | cri      | ✅               |
 | SJUNI_UngetChunk                 | cri/libadxe/sj_uni.c                                 | cri      | ✅               |
 | adxsjd_decode_exec               | cri/libadxe/adx_sjd.c                                | cri      |                 |
 | ADXB_GetStat                     | cri/libadxe/adx_bsc.c                                | cri      |                 |
@@ -1075,5 +1075,5 @@ Notes:
 | flPS2ConvScreenFX                | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2ConvScreenFY                | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | ADXSJD_TermSupply                | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| ADXB_AhxTermSupply               | cri/libadxe/adx_bahx.c                               | cri      |                 |
-| ADXB_Ac3TermSupply               | cri/libadxe/adx_bahx.c                               | cri      |                 |
+| ADXB_AhxTermSupply               | cri/libadxe/adx_bahx.c                               | cri      | ✅               |
+| ADXB_Ac3TermSupply               | cri/libadxe/adx_bahx.c                               | cri      | ✅               |

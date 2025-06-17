@@ -14,5 +14,6 @@ void DTX_SetRcvCbf(DTX dtx, void (*func)(), void *object);
 void DTX_SetSndCbf(DTX dtx, void (*func)(), void *object);
 Sint32 DTX_CallUrpc(Sint32 arg0, Sint32 *args, Sint32 arg_num, Sint32 *arg3, Sint32 arg4);
 void DTX_Finish();
+void DTX_ExecServer();
 
 #endif

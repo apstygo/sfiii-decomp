@@ -8,14 +8,14 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ADXAMP_Start
 - [x] ADXAMP_Stop
 
-### adx_bahx
+### adx_bahx ✅
 
 - [x] ADXB_SetAc3InSj
-- [ ] ADXB_SetAc3DecSmpl
-- [ ] ADXB_Ac3TermSupply
+- [x] ADXB_SetAc3DecSmpl
+- [x] ADXB_Ac3TermSupply
 - [x] ADXB_SetAhxInSj
-- [ ] ADXB_SetAhxDecSmpl
-- [ ] ADXB_AhxTermSupply
+- [x] ADXB_SetAhxDecSmpl
+- [x] ADXB_AhxTermSupply
 
 ### adx_bsc
 
@@ -236,7 +236,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ADXSJD_GetDefOutVol
 - [ ] ADXSJD_GetDefPan
 
-### adx_stmc
+### adx_stmc ✅
 
 - [x] ADXSTM_Init
 - [x] ADXSTM_Finish
@@ -263,17 +263,18 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] adxstmf_stat_exec
 - [x] ADXSTMF_ExecHndl
 - [x] ADXSTM_ExecServer
-- [ ] ADXSTM_SetBufSize
+- [x] ADXSTM_SetBufSize
 - [x] ADXSTM_SetReqRdSize
-- [ ] ADXSTM_GetFileLen
+- [x] ADXSTM_GetFileLen
 - [x] ADXSTM_GetFileSct
 - [x] ADXSTM_SetPause
 - [x] ADXSTM_SetSj
 - [x] ADXSTM_OpenCvfs
 
-### adx_sudv
+### adx_sudv ✅
 
-- [ ] ADXPS2_SetupDvdFs
+- [x] adxps2_err_dvd
+- [x] ADXPS2_SetupDvdFs
 - [x] ADXPS2_LoadFcacheDvd
 
 ### adx_suht
@@ -281,7 +282,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [ ] ADXPS2_SetupHostFs
 - [ ] ADXPS2_LoadFcacheHost
 
-### adx_tlk
+### adx_tlk ✅
 
 - [x] ADXT_Create
 - [x] adxt_detach_ahx
@@ -289,7 +290,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] adxt_detach_pl2
 - [x] ADXT_Destroy
 - [x] adxt_start_sj
-- [ ] adxt_start_stm
+- [x] adxt_start_stm
 - [x] ADXT_StopWithoutLsc
 - [x] ADXT_Stop
 - [x] ADXT_GetStat
@@ -299,7 +300,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ADXT_SetOutVol
 - [x] ADXT_SetDefSvrFreq
 - [x] ADXT_GetNumSmplObuf
-- [ ] ADXT_ExecServer
+- [x] ADXT_ExecServer
 - [x] ADXT_Pause
 - [x] ADXT_GetStatPause
 - [x] ADXT_GetTranspose
@@ -367,11 +368,11 @@ If you don't see a function in this list it doesn't need to be decompiled.
 
 ### cri_srd
 
-- [ ] srd_reset_obj
+- [x] srd_reset_obj
 - [ ] SRD_Create
-- [ ] SRD_Destroy
-- [ ] SRD_ReqRdDvd
-- [ ] SRD_GetStat
+- [x] SRD_Destroy
+- [x] SRD_ReqRdDvd
+- [x] SRD_GetStat
 - [x] srd_wait
 - [x] srd_wait_hst
 - [x] srd_check_dvd_error
@@ -387,14 +388,14 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] SRD_SceClose
 - [x] SRD_SceRead
 
-### dtr
+### dtr ✅
 
-- [ ] DTR_ExecHndl
-- [ ] DTR_GetStat
-- [ ] DTR_ExecServer
+- [x] DTR_ExecHndl
+- [x] DTR_GetStat
+- [x] DTR_ExecServer
 - [x] DTR_Create
 - [x] DTR_Destroy
-- [ ] DTR_Start
+- [x] DTR_Start
 - [x] DTR_Stop
 
 ### dtx ✅
@@ -427,7 +428,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] dvci_alloc
 - [x] dvci_free
 - [x] dvCiOpen
-- [ ] dvCiClose
+- [x] dvCiClose
 - [x] dvCiSeek
 - [x] dvCiTell
 - [x] dvCiReqRd
@@ -454,7 +455,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] dvci_init_flist
 - [x] dvci_get_fstate
 - [x] dvCiLoadFcache
-- [ ] dvCiSetRdMode
+- [x] dvCiSetRdMode
 - [ ] dvCiSetRootDir
 
 ### htci_sub ✅
@@ -528,10 +529,10 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] PS2RNA_SetOutPan
 - [x] PS2RNA_SetBitPerSmpl
 
-### rna_crs
+### rna_crs ✅
 
-- [ ] RNACRS_Lock
-- [ ] RNACRS_Unlock
+- [x] RNACRS_Lock
+- [x] RNACRS_Unlock
 
 ### sj_crs ✅
 
@@ -600,38 +601,38 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] SJRMT_Init
 - [x] SJRMT_Finish
 
-### sjx
+### sjx ✅
 
 - [x] sjx_rcvcbf
 - [x] sjx_sndcbf
-- [ ] SJX_ExecServer
+- [x] SJX_ExecServer
 - [x] SJX_Init
 - [x] SJX_Finish
 - [x] SJX_Create
 - [x] SJX_Destroy
 
-### svm
+### svm ✅
 
 - [x] svm_lock
 - [x] svm_unlock
 - [x] SVM_Lock
 - [x] SVM_Unlock
-- [ ] SVM_LockVar
+- [x] SVM_LockVar
 - [x] SVM_LockRsc
-- [ ] SVM_UnlockVar
+- [x] SVM_UnlockVar
 - [x] SVM_UnlockRsc
 - [x] SVM_CallErr
 - [x] SVM_CallErr1
 - [x] SVM_SetCbSvr
 - [x] SVM_DelCbSvr
 - [x] SVM_SetCbSvrId
-- [ ] SVM_SetCbBdr
+- [x] SVM_SetCbBdr
 - [x] SVM_SetCbLock
 - [x] SVM_SetCbUnlock
 - [x] SVM_ExecSvrFunc
-- [ ] SVM_ExecSvrVint
-- [ ] SVM_ExecSvrVsync
-- [ ] SVM_ExecSvrFs
+- [x] SVM_ExecSvrVint
+- [x] SVM_ExecSvrVsync
+- [x] SVM_ExecSvrFs
 - [x] SVM_ExecSvrMain
 - [x] svm_reset_variable
 - [x] SVM_Init

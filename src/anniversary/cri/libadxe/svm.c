@@ -27,6 +27,11 @@ typedef struct {
     void *object;
 } SVMSVRCallback;
 
+typedef struct {
+    Sint32 unk0;
+    Sint32 unk4;
+} SVM_UNK;
+
 // data
 Char8 *svm_build = "\nSVM/PS2EE Ver.1.51 Build:Sep 18 2003 09:59:52\n";
 volatile Sint32 svm_init_level = 0;
@@ -42,7 +47,7 @@ extern Sint32 (*svm_test_and_set_callback)();
 extern SVMErrorCallback svm_error_callback;
 extern SVMLockCallback svm_unlock_callback;
 extern SVMLockCallback svm_lock_callback;
-// extern Uint8 D_006C04E0[0x40];
+extern SVM_UNK D_006C04E0[8];
 extern SVMSVRCallback D_006C0360[8][6]; // svm_svr_callbacks
 // extern Uint8 D_006C0340[0x20];
 #else
@@ -50,7 +55,7 @@ Sint32 (*svm_test_and_set_callback)();
 SVMErrorCallback svm_error_callback;
 SVMLockCallback svm_unlock_callback;
 SVMLockCallback svm_lock_callback;
-// Uint8 D_006C04E0[0x40];
+SVM_UNK D_006C04E0[8];
 SVMSVRCallback D_006C0360[8][6]; // svm_svr_callbacks
 // Uint8 D_006C0340[0x20];
 #endif
@@ -96,13 +101,9 @@ void SVM_Unlock() {
     svm_unlock(1);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_LockVar);
-#else
 void SVM_LockVar() {
-    not_implemented(__func__);
+    svm_lock(2);
 }
-#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_LockSync);
 
@@ -114,13 +115,9 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_LockThrd);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_LockEtc);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_UnlockVar);
-#else
 void SVM_UnlockVar() {
-    not_implemented(__func__);
+    svm_unlock(2);
 }
-#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_UnlockSync);
 
@@ -219,7 +216,12 @@ void SVM_SetCbSvrId(Sint32 svtype, Sint32 id, Sint32 (*func)(void *), void *obje
     SVM_Unlock();
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_SetCbBdr);
+void SVM_SetCbBdr(Sint32 arg0, Sint32 arg1, Sint32 arg2) {
+    SVM_Lock();
+    D_006C04E0[arg0].unk0 = arg1;
+    D_006C04E0[arg0].unk4 = arg2;
+    SVM_Unlock();
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_GotoSvrBorder);
 
@@ -265,15 +267,21 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/svm", D_0055E8E8);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/svm", D_0055E910);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_ExecSvrFuncId);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_ExecSvrVint);
+Sint32 SVM_ExecSvrVint() {
+    return SVM_ExecSvrFunc(0);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_ExecSvrUsrVsync);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_ExecSvrVsync);
+Sint32 SVM_ExecSvrVsync() {
+    return SVM_ExecSvrFunc(2);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_ExecSvrUhigh);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_ExecSvrFs);
+Sint32 SVM_ExecSvrFs() {
+    return SVM_ExecSvrFunc(4);
+}
 
 Sint32 SVM_ExecSvrMain() {
     return SVM_ExecSvrFunc(5);
