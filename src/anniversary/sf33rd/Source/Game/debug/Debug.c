@@ -1,5 +1,12 @@
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "common.h"
+#include "sf33rd/Source/Game/SYS_sub.h"
+#include "sf33rd/Source/Game/sc_sub.h"
+#include "sf33rd/Source/Game/MTRANS.h"
+#include "sf33rd/AcrSDK/ps2/flps2debug.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/debug/Nakai.h"
+#include "sf33rd/AcrSDK/common/mlPAD.h"
 
 // sbss
 s8 Debug_w[72];
@@ -21,13 +28,21 @@ u32 Record_Timer;
 s16 time_check[4];
 u8 time_check_ix;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", Debug_Task);
-#else
-void Debug_Task(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+void Debug_Task(struct _TASK* task_ptr) {
+    void (* Main_Jmp_Tbl[3])() = {Debug_Init, Debug_1st, Debug_2nd}; 
+
+    Main_Jmp_Tbl[(task_ptr->r_no[0])](task_ptr);
+    if (permission_player[1].ok[0] == 0) {
+        permission_player[1].ok[0] = (u8) Debug_w[0x33];
+    }
+    
+    if (Debug_w[0x3A]) {
+        save_w[1].Extra_Option = 1;
+    }
+    
+    Disp_Free_work();
+    Disp_Random();
 }
-#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/debug/Debug", Debug_Init);
 

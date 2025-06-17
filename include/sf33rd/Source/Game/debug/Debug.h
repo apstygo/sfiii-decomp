@@ -24,8 +24,22 @@ extern s16 time_check[4];
 extern u8 time_check_ix;
 
 void Debug_Task(struct _TASK *task_ptr);
+void Debug_Init(struct _TASK * task_ptr /* r29+0x30 */);
+void Debug_1st(struct _TASK * task_ptr /* r29+0x20 */);
+void Debug_2nd(struct _TASK * task_ptr /* r29+0x30 */);
+void Debug_Menu_Disp();
+void Debug_Move_Sub(u16 sw /* r29 */);
+s32 Debug_Menu_Lever();
+u16 Debug_Menu_Shot();
+void Disp_Lever();
 void Check_Pos_BG();
 s32 Check_Exit_Check();
 void Check_Check_Screen();
+void Check_Pos_OBJ(WORK_Other * ewk /* r29+0x10 */);
+void Check_Pos_OBJ2(WORK_Other * ewk /* r29+0x10 */);
+void Disp_Rec_Time(s16 PL_id /* r29+0x40 */, u32 time /* r29+0x50 */);
+void Disp_Mode(PLW * wk /* r29+0x30 */);
+void Disp_Free_work();
+void Disp_Random();
 
 #endif
