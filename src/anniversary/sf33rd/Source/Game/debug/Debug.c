@@ -1,21 +1,24 @@
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "common.h"
-#include "sf33rd/Source/Game/SYS_sub.h"
-#include "sf33rd/Source/Game/sc_sub.h"
-#include "sf33rd/Source/Game/MTRANS.h"
-#include "sf33rd/AcrSDK/ps2/flps2debug.h"
-#include "sf33rd/Source/Game/WORK_SYS.h"
-#include "sf33rd/Source/Game/debug/Nakai.h"
-#include "sf33rd/Source/Game/debug/Debug_ID.h"
-#include "sf33rd/Source/Game/debug/Deb_Data.h"
-#include "sf33rd/Source/Game/debug/OBJTEST.h"
 #include "sf33rd/AcrSDK/common/mlPAD.h"
-#include "sf33rd/Source/Game/IOConv.h"
-#include "sf33rd/Source/Game/main.h"
-#include "sf33rd/Source/Game/bg.h"
-#include "sf33rd/Source/Game/workuser.h"
+#include "sf33rd/AcrSDK/ps2/flps2debug.h"
 #include "sf33rd/Source/Game/EFFECT.h"
+#include "sf33rd/Source/Game/IOConv.h"
+#include "sf33rd/Source/Game/MTRANS.h"
 #include "sf33rd/Source/Game/PLCNT.h"
+#include "sf33rd/Source/Game/SYS_sub.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/debug/Deb_Data.h"
+#include "sf33rd/Source/Game/debug/Debug_ID.h"
+#include "sf33rd/Source/Game/debug/Nakai.h"
+#include "sf33rd/Source/Game/debug/OBJTEST.h"
+#include "sf33rd/Source/Game/main.h"
+#include "sf33rd/Source/Game/sc_sub.h"
+#include "sf33rd/Source/Game/workuser.h"
+
+#define COLOR_WHITE 0xFFFFFFFF
+#define COLOR_YELLOW 0xFFFFFF00
 
 // sbss
 s8 Debug_w[72];
@@ -37,93 +40,94 @@ u32 Record_Timer;
 s16 time_check[4];
 u8 time_check_ix;
 
-void Debug_Task(struct _TASK* task_ptr) {
-    void (* Main_Jmp_Tbl[3])() = {Debug_Init, Debug_1st, Debug_2nd}; 
+// forward decls
+extern s8 *cpu_data[];
+
+void Debug_Task(struct _TASK *task_ptr) {
+    void (*Main_Jmp_Tbl[3])() = { Debug_Init, Debug_1st, Debug_2nd };
 
     Main_Jmp_Tbl[(task_ptr->r_no[0])](task_ptr);
+
     if (permission_player[1].ok[0] == 0) {
-        permission_player[1].ok[0] = (u8) Debug_w[0x33];
+        permission_player[1].ok[0] = (u8)Debug_w[0x33];
     }
-    
+
     if (Debug_w[0x3A]) {
         save_w[1].Extra_Option = 1;
     }
-    
+
     Disp_Free_work();
     Disp_Random();
 }
 
-// sdata
-s8 * cpu_data[16] = { "", "FR", "AC", "BF", "FW", "BP", "PS", "GD", "SH", "SG", "DM", "FL", "FP", "CT", "WL", "CH" };
-
-void Debug_Init(struct _TASK* task_ptr) {
-    u8* ptr;
+void Debug_Init(struct _TASK *task_ptr) {
+    u8 *ptr;
     u16 ix;
-    u8* assignement_var;
+    u8 *assignement_var;
 
     task_ptr->r_no[0] += 1;
     Debug_Index = 0;
     Debug_Pause = 0;
-    ptr = (u8*)NAKAI_debug_data;
+    ptr = (u8 *)NAKAI_debug_data;
     Debug_Index = NAKAI_debug_data[72];
-    
+
     for (ix = 0; ix < 72; assignement_var = ptr++) {
         Debug_w[ix] = *ptr;
-        ix++;
+        ix += 1;
     }
-    
+
     if ((flpad_adr[0]->sw | flpad_adr[0][1].sw) & 0x4000) {
         Debug_w[0x2C] = 1;
     }
 }
 
-void Debug_1st(struct _TASK* task_ptr) {
-    struct _TASK * ptr; // r17
-    u16 sw; // r16
-    
+void Debug_1st(struct _TASK *task_ptr) {
+    struct _TASK *ptr;
+    u16 sw;
+
     if (0) {
         sw = 0;
         ptr = task_ptr;
     }
-    
+
     sysFF = 1;
     return;
 }
 
-void Debug_2nd(struct _TASK* task_ptr) {
-    u16 sw; // r16
-    s16 offset_y[4];
+void Debug_2nd(struct _TASK *task_ptr) {
 #if defined(TARGET_PS2)
     void Debug_Menu_Disp(s16, s16);
 #endif
+
+    u16 sw;
+    s16 offset_y[4];
 
     offset_y[0] = 2;
     offset_y[1] = 6;
     offset_y[2] = 2;
     flPrintColor(-256);
     flPrintL(1, 1, "[DEBUG MODE]");
-    flPrintL(14, 1, (s8* ) debug_name_data[Debug_ID]);
-        
+    flPrintL(14, 1, (s8 *)debug_name_data[Debug_ID]);
+
     if (sw = Debug_Menu_Shot()) {
-        if (sw  == 256) {
+        if (sw == 256) {
             Debug_w[Debug_Index] = 0;
         }
-        if (sw == 32) {
 
-            if (--Debug_w[Debug_Index] < 0) {
-                Debug_w[Debug_Index] = debug_string_data[Debug_Index].max;
-            }
+        if ((sw == 32) && (--Debug_w[Debug_Index] < 0)) {
+            Debug_w[Debug_Index] = debug_string_data[Debug_Index].max;
         }
-        if (sw == 16) {
-            if (++Debug_w[Debug_Index] > debug_string_data[Debug_Index].max) {
-                Debug_w[Debug_Index] = 0;
-            }
+
+        if ((sw == 16) && (++Debug_w[Debug_Index] > debug_string_data[Debug_Index].max)) {
+            Debug_w[Debug_Index] = 0;
         }
     } else {
         sw = Debug_Menu_Lever();
         Debug_Move_Sub(sw);
     }
+
     Debug_Menu_Disp(offset_y[1], offset_y[2]);
+
     if (io_w.data[1].sw_new & 0x1000) {
         mpp_w.sysStop = 1;
         task_ptr->r_no[0] = 1;
@@ -141,38 +145,34 @@ void Debug_Menu_Disp(u32 /* unused */, u32 /* unused */) {
     s16 assignment_var2;
     s16 assignment_var3;
 
-
     side = 0;
     ix = 0;
     x = 1;
     assignment_var = y = 3;
-    
-    for ( ;side < 3;) {
-        for (i = 0; i < 24; ) {
+
+    for (; side < 3;) {
+        for (i = 0; i < 24;) {
             if (Debug_Index != ix) {
-                flPrintColor(-1);
+                flPrintColor(COLOR_WHITE);
             } else {
-                flPrintColor(-256);
+                flPrintColor(COLOR_YELLOW);
             }
-            
+
             flPrintL(x, y, debug_string_data[ix].name);
             flPrintL(x + 18, y, "%2X", Debug_w[ix]);
-            i++;
+            i += 1;
             y += 2;
             assignment_var2 = ix++;
         }
-        
+
         y = 3;
-        side++;
+        side += 1;
         assignment_var3 = x += 21;
     }
-    flPrintColor(-1);
+
+    flPrintColor(COLOR_WHITE);
     flPrintL(1, 52, "SPR-MAX : %d", seqsGetSprMax());
 }
-
-// rodata
-const u8 Debug_Deley_Time[6] = {15,10,6,15,15,15};
-const u8 Debug_Deley_Time2[4] = {15,10,6,4};
 
 void Debug_Move_Sub(u16 sw) {
     switch (sw) {
@@ -182,36 +182,36 @@ void Debug_Move_Sub(u16 sw) {
             Debug_Index = 23;
             return;
         }
-        
+
         if (Debug_Index == 23) {
             Debug_Index = 47;
             return;
         }
-        
+
         if (Debug_Index == 47) {
             Debug_Index = 71;
             return;
         }
         break;
-        
+
     case 2:
         Debug_Index += 1;
         if (Debug_Index >= 72) {
             Debug_Index = 48;
             return;
         }
-        
+
         if (Debug_Index == 24) {
             Debug_Index = 0;
             return;
         }
-        
+
         if (Debug_Index == 48) {
             Debug_Index = 24;
             return;
         }
         break;
-        
+
     case 4:
         Debug_Index -= 24;
         if (Debug_Index < 0) {
@@ -219,7 +219,7 @@ void Debug_Move_Sub(u16 sw) {
             return;
         }
         break;
-        
+
     case 8:
         Debug_Index += 24;
         if (Debug_Index > 71) {
@@ -227,12 +227,14 @@ void Debug_Move_Sub(u16 sw) {
             return;
         }
         break;
-        
+
     case 256:
         Debug_w[Debug_Index] ^= 1;
         break;
     }
 }
+
+const u8 Debug_Deley_Time[6] = { 15, 10, 6, 15, 15, 15 };
 
 s32 Debug_Menu_Lever() {
     u16 sw;
@@ -241,38 +243,42 @@ s32 Debug_Menu_Lever() {
 
     lever = io_w.data[1].sw & 0xF;
     sw = io_w.data[1].sw_new;
+
     if (sw & 0x130) {
         return sw;
     }
-    
+
     sw &= 0xF;
+
     if (sw) {
         return sw;
     }
-    
+
     if (lever == 0) {
         Deley_Debug_No = 0;
         Deley_Debug_Timer = Debug_Deley_Time[Deley_Debug_No];
         return 0;
     }
-    
+
     if (--Deley_Debug_Timer == 0) {
         if (++Deley_Debug_No > 2) {
             Deley_Debug_No = 2;
         }
-        
-        if (lever  & 3) {
+
+        if (lever & 3) {
             ix = 0;
         } else {
             ix = 3 & 0xFFFF;
         }
-        
+
         Deley_Debug_Timer = Debug_Deley_Time[Deley_Debug_No + ix];
         return lever;
     }
-    
+
     return 0;
 }
+
+const u8 Debug_Deley_Time2[4] = { 15, 10, 6, 4 };
 
 u16 Debug_Menu_Shot() {
     u16 sw;
@@ -280,18 +286,19 @@ u16 Debug_Menu_Shot() {
 
     shot = io_w.data[1].sw & 0x130;
     sw = io_w.data[1].sw_new;
+
     if (sw & 16) {
         return sw;
     }
-    
+
     if (sw & 32) {
         return sw;
     }
-    
+
     if (sw & 256) {
         return sw;
     }
-    
+
     if (shot == 0) {
         Deley_Debug_No2 = 0;
         Deley_Debug_Timer2 = Debug_Deley_Time2[Deley_Debug_No2];
@@ -302,11 +309,11 @@ u16 Debug_Menu_Shot() {
         if (++Deley_Debug_No2 > 3) {
             Deley_Debug_No2 = 3;
         }
-        
+
         Deley_Debug_Timer2 = Debug_Deley_Time2[Deley_Debug_No2];
         return shot;
     }
-    
+
     return 0;
 }
 
@@ -316,14 +323,15 @@ void Check_Check_Screen() {
     if ((test_flag) || (Debug_w[70] != 240)) {
         return;
     }
-    
+
     switch (check_screen_S) {
     case 0:
         if (~(p1sw_1) & (p1sw_0) & 0x40) {
             check_screen_S += 1;
         }
+
         break;
-        
+
     case 1:
         if (~(p1sw_1) & (p1sw_0) & 0x40) {
             check_screen_S += 1;
@@ -346,30 +354,33 @@ void Check_Check_Screen() {
             SSPutStr(40, 6, 9, "0123456789");
             SSPutStr(50, 6, 9, "0123456789");
         }
+
         break;
-        
+
     default:
         if (--check_time_S == 0) {
             check_screen_S = 0;
         }
+
         break;
     }
-    
+
     switch (check_screen_L) {
     case 0:
         if (~(p1sw_1) & (p1sw_0) & 0x400) {
             check_screen_L += 1;
             return;
         }
+
         break;
-        
+
     case 1:
         if (~(p1sw_1) & (p1sw_0) & 0x400) {
             check_screen_L += 1;
             check_time_L = 10;
             return;
         }
-        
+
         for (ix = 0; ix < 3; ix++) {
             SSPutStr(41, (ix * 10), 9, "0");
             SSPutStr(41, ((ix * 10) + 1), 9, "1");
@@ -392,12 +403,14 @@ void Check_Check_Screen() {
             SSPutStr(9, ((ix * 10) + 8), 9, "8");
             SSPutStr(9, ((ix * 10) + 9), 9, "9");
         }
+
         return;
-        
+
     default:
         if (--check_time_L == 0) {
             check_screen_L = 0;
         }
+
         break;
     }
 }
@@ -406,27 +419,28 @@ void Disp_Lever(u32 /* unused */, u32 /* unused */, u32 /* unused */) {
     // do nothing
 }
 
-void Check_Pos_OBJ(WORK_Other* ewk) {
+void Check_Pos_OBJ(WORK_Other *ewk) {
     if (Debug_w[0x46]) {
         if (p4sw_0 & 1) {
             ewk->wu.xyz[1].disp.pos += 3;
         }
-        
+
         if (p4sw_0 & 2) {
             ewk->wu.xyz[1].disp.pos -= 3;
         }
-        
+
         if (p4sw_0 & 8) {
             ewk->wu.xyz[0].disp.pos += 4;
         }
-        
+
         if (p4sw_0 & 4) {
             ewk->wu.xyz[0].disp.pos -= 4;
         }
-        
+
         ewk->wu.position_x = ewk->wu.xyz[0].disp.pos;
         ewk->wu.position_y = ewk->wu.xyz[1].disp.pos;
-        flPrintColor(-256);
+
+        flPrintColor(COLOR_YELLOW);
         flPrintL(2, 13, "%4X", ewk->wu.xyz[0].disp.pos);
         flPrintL(9, 13, "%4X", ewk->wu.position_x);
         flPrintL(2, 14, "%4X", ewk->wu.xyz[1].disp.pos);
@@ -435,25 +449,25 @@ void Check_Pos_OBJ(WORK_Other* ewk) {
     }
 }
 
-void Check_Pos_OBJ2(WORK_Other* ewk) {
+void Check_Pos_OBJ2(WORK_Other *ewk) {
     if (Debug_w[0x46]) {
         if (p4sw_0 & 1) {
             ewk->wu.position_y += 3;
         }
-        
+
         if (p4sw_0 & 2) {
             ewk->wu.position_y -= 3;
         }
-        
+
         if (p4sw_0 & 8) {
             ewk->wu.position_x += 4;
         }
-        
+
         if (p4sw_0 & 4) {
             ewk->wu.position_x -= 4;
         }
-        
-        flPrintColor(-1);
+
+        flPrintColor(COLOR_WHITE);
         flPrintL(12, 13, "%4X", ewk->wu.xyz[0].disp.pos);
         flPrintL(19, 13, "%4X", ewk->wu.position_x);
         flPrintL(12, 14, "%4X", ewk->wu.xyz[1].disp.pos);
@@ -467,22 +481,22 @@ void Check_Pos_BG() {
         if (p3sw_0 & 1) {
             bg_w.bgw[Debug_w[0x3E]].xy[1].disp.pos += 1;
         }
-        
+
         if (p3sw_0 & 2) {
             bg_w.bgw[Debug_w[0x3E]].xy[1].disp.pos -= 1;
         }
-        
+
         if (p3sw_0 & 8) {
             bg_w.bgw[Debug_w[0x3E]].wxy[0].disp.pos += 1;
         }
-        
+
         if (p3sw_0 & 4) {
             bg_w.bgw[Debug_w[0x3E]].wxy[0].disp.pos -= 1;
         }
-        
-        flPrintColor(-256);
+
+        flPrintColor(COLOR_YELLOW);
         flPrintL(39, 13, "BG POSITION:");
-        flPrintL(51, 13, "%4X", Debug_w[0x3E]);
+        flPrintL(51, 13, "%1X", Debug_w[0x3E]);
         flPrintL(48, 14, "%4X", bg_w.bgw[Debug_w[0x3E]].wxy[0].disp.pos);
         flPrintL(48, 15, "%4X", bg_w.bgw[Debug_w[0x3E]].xy[1].disp.pos);
     }
@@ -490,10 +504,11 @@ void Check_Pos_BG() {
 
 s32 Check_Exit_Check() {
     u16 sw = (p2sw_0 & 0xFF0);
+
     if (sw == 32) {
         return 1;
     }
-    
+
     return 0;
 }
 
@@ -503,58 +518,61 @@ void Disp_Rec_Time(s16 PL_id, u32 time) {
     s16 offset_y;
 
     if (Debug_w[0x46]) {
-        flPrintColor(-1);
+        flPrintColor(COLOR_WHITE);
+
         if (PL_id) {
             offset_y = 1;
         } else {
             offset_y = 0;
         }
-        
+
         time_buff = time;
         rec_time[0] = time_buff / 216000;
         time_buff -= rec_time[0] * 216000;
         rec_time[1] = time_buff / 3600;
         time_buff -= rec_time[1] * 3600;
         rec_time[2] = time_buff / 60;
-        flPrintL(2, offset_y + 0xC, "TIME:  h  m  s");
-        flPrintL(7, offset_y + 0xC, "%2d", rec_time[0]);
-        flPrintL(0xA, offset_y + 0xC, "%2d", rec_time[1]);
-        flPrintL(0xD, offset_y + 0xC, "%2d", rec_time[2]);
+        flPrintL(2, offset_y + 12, "TIME:  h  m  s");
+        flPrintL(7, offset_y + 12, "%2d", rec_time[0]);
+        flPrintL(10, offset_y + 12, "%2d", rec_time[1]);
+        flPrintL(13, offset_y + 12, "%2d", rec_time[2]);
     }
 }
 
-void Disp_Mode(PLW* wk) {
+void Disp_Mode(PLW *wk) {
     s16 x;
     s16 offset_y = 0;
 
     if (Debug_w[0x38]) {
-        flPrintColor(-256);
+        flPrintColor(COLOR_YELLOW);
+
         if (wk->wu.id) {
             x = 49;
         } else {
             x = 1;
         }
 
-        flPrintL(x , offset_y + 16, "%3X", Control_Time);
-        flPrintL(x + 1, offset_y  + 17, cpu_data[CP_No[wk->wu.id][0]]);
-        flPrintL(x , offset_y  + 18, "%3d", Pattern_Index[wk->wu.id]);
+        "%3d";
+
+        flPrintL(x, offset_y + 16, "%3X", Control_Time);
+        flPrintL(x + 1, offset_y + 17, cpu_data[CP_No[wk->wu.id][0]]);
+        flPrintL(x, offset_y + 18, "%3d", Pattern_Index[wk->wu.id]);
     }
 }
 
 void Disp_Free_work() {
     if (Debug_w[0x39]) {
-        flPrintColor(-1);
+        flPrintColor(COLOR_WHITE);
         flPrintL(1, 8, "%3d", frwctr);
         flPrintL(1, 9, "%3d", frwctr_min);
     }
 }
 
 void Disp_Random() {
-    s16 offset_y;
+    s16 offset_y = -4;
 
-    offset_y = -4;
     if (Debug_w[0x3B]) {
-        flPrintColor(-256);
+        flPrintColor(COLOR_YELLOW);
         flPrintL(8, offset_y + 32, "%4X", Random_ix16_com);
         flPrintL(8, offset_y + 33, "%4X", Random_ix32_com);
         flPrintL(8, offset_y + 34, "%4X", Random_ix16_ex_com);
@@ -579,3 +597,6 @@ void Disp_Random() {
         flPrintL(32, offset_y + 30, "%4X", bg_w.bgw[1].xy[0].disp.pos);
     }
 }
+
+// sdata
+s8 *cpu_data[16] = { "", "FR", "AC", "BF", "FW", "BP", "PS", "GD", "SH", "SG", "DM", "FL", "FP", "CT", "WL", "CH" };
