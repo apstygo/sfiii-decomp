@@ -52,7 +52,7 @@ void ppgWorkInitializeApprication() {
     for (i = 0; i < 4; i++) {
         ppgBgTex[i].be = 0;
     }
-    
+
     ppgRwBgTex.be = 0;
     ppgAkeTex.be = ppgAkePal.be = 0;
     ppgAkaneTex.be = ppgAkanePal.be = 0;
@@ -61,11 +61,11 @@ void ppgWorkInitializeApprication() {
     ppgTitleTex.be = 0;
     ppgWarTex.be = ppgWarPal.be = ppgAdxPal.be = 0;
     ppgCapLogoTex.be = ppgCapLogoPal.be = 0;
-    
+
     for (i = 0; i < 24; i++) {
         mts[i].tex.be = 0;
     }
-    
+
     col3rd_w.palDC.be = col3rd_w.palCP3.be = 0;
 }
 
@@ -91,7 +91,7 @@ void ppgPurgeFromVRAM(s32 type) {
             return;
         }
         break;
-        
+
     case 1:
         if (ppgWarTex.be) {
             ppgPurgeTextureFromVRAM(&ppgWarTex);
@@ -104,7 +104,7 @@ void ppgPurgeFromVRAM(s32 type) {
             return;
         }
         break;
-        
+
     case 2:
         if (ppgOpnBgTex.be) {
             ppgPurgeTextureFromVRAM(&ppgOpnBgTex);
@@ -123,21 +123,21 @@ void ppgPurgeFromVRAM(s32 type) {
             return;
         }
         break;
-        
+
     case 3:
         if (ppgTitleTex.be) {
             ppgPurgeTextureFromVRAM(&ppgTitleTex);
             return;
         }
         break;
-        
+
     case 4:
         for (i = 0; i < 4; i++) {
             if (ppgBgTex[i].be) {
                 ppgPurgeTextureFromVRAM(&ppgBgTex[i]);
             }
         }
-        
+
         if (col3rd_w.palDC.be) {
             ppgPurgePaletteFromVRAM(&col3rd_w.palDC);
         }
@@ -158,14 +158,14 @@ void ppgPurgeFromVRAM(s32 type) {
             return;
         }
         break;
-        
+
     case 5:
         for (i = 1; i < 0x18; i++) {
             if ((mts_ok[i].be) && (mts[i].tex.be)) {
                 ppgPurgeTextureFromVRAM(&mts[i].tex);
             }
         }
-        
+
         if (col3rd_w.palDC.be) {
             ppgPurgePaletteFromVRAM(&col3rd_w.palDC);
         }
@@ -176,7 +176,7 @@ void ppgPurgeFromVRAM(s32 type) {
     }
 }
 
-void ppgPurgeTextureFromVRAM(Texture* tex) {
+void ppgPurgeTextureFromVRAM(Texture *tex) {
     s32 i;
     s32 th;
 
@@ -188,7 +188,7 @@ void ppgPurgeTextureFromVRAM(Texture* tex) {
     }
 }
 
-void ppgPurgePaletteFromVRAM(Palette* pal) {
+void ppgPurgePaletteFromVRAM(Palette *pal) {
     s32 i;
     s32 ph;
 
