@@ -48,9 +48,11 @@ typedef struct {
     /* 0x9A */ Sint16 unk9A;
     /* 0x9C */ char pad9C[0x12];
     /* 0xB0 */ Sint32 unkB0;
-    /* 0xB4 */ char padB4[8];
+    /* 0xB4 */ Sint32 unkB4;
+    /* 0xB8 */ Sint32 unkB8;
     /* 0xBC */ Sint32 unkBC;
-    /* 0xC0 */ char padC0[8];
+    /* 0xC0 */ Sint32 unkC0;
+    /* 0xC4 */ Sint32 unkC4;
     /* 0xC8 */ Sint32 unkC8;
     /* 0xCC */ ADXB_UNK_1 adxb_unk_1;
     /* 0xDC */ Sint16 unkDC;
