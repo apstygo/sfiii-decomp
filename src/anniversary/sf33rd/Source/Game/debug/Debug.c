@@ -37,10 +37,6 @@ u32 Record_Timer;
 s16 time_check[4];
 u8 time_check_ix;
 
-// rodata
-const u8 Debug_Deley_Time[6] ATTR_ALIGNED(8) = {15,10,6,15,15,15};
-const u8 Debug_Deley_Time2[4] ATTR_ALIGNED(8) = {15,10,6,4};
-
 void Debug_Task(struct _TASK* task_ptr) {
     void (* Main_Jmp_Tbl[3])() = {Debug_Init, Debug_1st, Debug_2nd}; 
 
@@ -173,6 +169,10 @@ void Debug_Menu_Disp(u32 /* unused */, u32 /* unused */) {
     flPrintColor(-1);
     flPrintL(1, 52, "SPR-MAX : %d", seqsGetSprMax());
 }
+
+// rodata
+const u8 Debug_Deley_Time[6] = {15,10,6,15,15,15};
+const u8 Debug_Deley_Time2[4] = {15,10,6,4};
 
 void Debug_Move_Sub(u16 sw) {
     switch (sw) {
