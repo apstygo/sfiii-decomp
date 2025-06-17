@@ -29,5 +29,6 @@ Sint32 ADXSTM_Tell(ADXSTM stm);
 void ADXSTM_EntryEosFunc(ADXSTM stm, void (*func)(void *), void *context);
 void ADXSTM_ReleaseFileNw(ADXSTM stm);
 Sint32 ADXSTM_GetFileLen(ADXSTM stm);
+Sint32 ADXSTM_SetBufSize(ADXSTM stm, Sint32 arg1, Sint32 arg2);
 
 #endif
