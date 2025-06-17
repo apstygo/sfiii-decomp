@@ -38,9 +38,8 @@ s16 time_check[4];
 u8 time_check_ix;
 
 // rodata
-s8 * const cpu_data[16] = { "", "FR", "AC", "BF", "FW", "BP", "PS", "GD", "SH", "SG", "DM", "FL", "FP", "CT", "WL", "CH" };
-const u8 Debug_Deley_Time[6] = {15,10,6,15,15,15};
-const u8 Debug_Deley_Time2[4] = {15,10,6,4};
+const u8 Debug_Deley_Time[6] ATTR_ALIGNED(8) = {15,10,6,15,15,15};
+const u8 Debug_Deley_Time2[4] ATTR_ALIGNED(8) = {15,10,6,4};
 
 void Debug_Task(struct _TASK* task_ptr) {
     void (* Main_Jmp_Tbl[3])() = {Debug_Init, Debug_1st, Debug_2nd}; 
@@ -57,6 +56,9 @@ void Debug_Task(struct _TASK* task_ptr) {
     Disp_Free_work();
     Disp_Random();
 }
+
+// sdata
+s8 * cpu_data[16] = { "", "FR", "AC", "BF", "FW", "BP", "PS", "GD", "SH", "SG", "DM", "FL", "FP", "CT", "WL", "CH" };
 
 void Debug_Init(struct _TASK* task_ptr) {
     u8* ptr;

@@ -1467,8 +1467,8 @@ segments:
       - [0x474540, sdata, sf33rd/Source/Game/win_pl]
       - [0x474580, sdata, sf33rd/Source/Compress/zlib/inftrees]
       - [0x474590, sdata, sf33rd/Source/Compress/zlib/infutil]
-      - [0x4745D8, sdata, sf33rd/Source/Game/debug/Debug_more_sdata]
-      - [0x4745F0, .sdata, sf33rd/Source/Game/debug/Debug]
+      # - [0x4745D8, sdata, sf33rd/Source/Game/debug/Debug_more_sdata]
+      - [0x4745D8, .sdata, sf33rd/Source/Game/debug/Debug] #include the segment above
       - [0x474630, .sdata, sf33rd/Source/Game/debug/Deb_Data]
       - [0x474650, .sdata, sf33rd/Source/Common/PPGFile]
       - [0x4746B0, .sdata, sf33rd/AcrSDK/ps2/flps2render]
