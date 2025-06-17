@@ -6,6 +6,8 @@
 #include <libcdvd.h>
 #include <sifdev.h>
 
+#include <string.h>
+
 typedef struct {
     /* 0x00 */ Sint8 unk0;
     /* 0x01 */ Sint8 unk1;

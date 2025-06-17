@@ -127,13 +127,9 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sjx", sjx_rcvcbf_iop);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sjx", sjx_sndcbf_iop);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sjx", SJX_ExecServer);
-#else
 void SJX_ExecServer() {
-    not_implemented(__func__);
+    DTX_ExecServer();
 }
-#endif
 
 void SJX_Init() {
     if (sjx_init_cnt == 0) {

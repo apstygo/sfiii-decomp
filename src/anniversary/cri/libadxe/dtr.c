@@ -1,5 +1,6 @@
 #include "common.h"
 #include <cri/private/libadxe/dtr.h>
+#include <cri/private/libadxe/dtx.h>
 #include <cri/private/libadxe/structs.h>
 
 #include <cri/cri_xpts.h>
