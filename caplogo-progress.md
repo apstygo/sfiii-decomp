@@ -8,7 +8,7 @@ Notes:
 
 | Module   | Progress   |
 |----------|------------|
-| sf33rd   | 79.56%     |
+| sf33rd   | 79.74%     |
 | cri      | 67.00%     |
 
 | Function                         | File                                                 | Module   | Is decompiled   |
@@ -268,7 +268,7 @@ Notes:
 | SetVSyncFlag                     | sdk/libkernl/klib.c                                  | sdk      | –               |
 | flSetRenderState                 | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2SetClearColor               | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
-| ppgWorkInitializeApprication     | sf33rd/Source/Common/PPGWork.c                       | sf33rd   |                 |
+| ppgWorkInitializeApprication     | sf33rd/Source/Common/PPGWork.c                       | sf33rd   | ✅               |
 | distributeScratchPadAddress      | sf33rd/Source/Game/main.c                            | sf33rd   | ✅               |
 | njdp2d_init                      | sf33rd/Source/Game/DC_Ghost.c                        | sf33rd   | ✅               |
 | njUserInit                       | sf33rd/Source/Game/main.c                            | sf33rd   | ✅               |

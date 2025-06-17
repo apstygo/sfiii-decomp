@@ -20,5 +20,7 @@ extern PPGDataList ppgScrList;     // size: 0x8, address: 0x57B438
 
 void ppgWorkInitializeApprication();
 void ppgPurgeFromVRAM(s32 type);
+void ppgPurgePaletteFromVRAM(Palette *pal);
+void ppgPurgeTextureFromVRAM(Texture *tex);
 
 #endif

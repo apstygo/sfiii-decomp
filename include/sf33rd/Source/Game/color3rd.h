@@ -5,6 +5,7 @@
 #include "types.h"
 
 extern u16 ColorRAM[512][64];
+extern Col3rd_W col3rd_w;
 
 void q_ldreq_color_data(REQ *curr);
 void set_hitmark_color();
