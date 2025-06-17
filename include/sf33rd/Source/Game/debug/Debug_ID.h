@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-extern u8 Debug_ID; // size: 0x1, address: 0x57A7FC
+extern u8 Debug_ID;
 
 #endif
