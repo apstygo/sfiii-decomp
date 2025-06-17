@@ -160,7 +160,7 @@ void ppgPurgeFromVRAM(s32 type) {
         break;
 
     case 5:
-        for (i = 1; i < 0x18; i++) {
+        for (i = 1; i < 24; i++) {
             if ((mts_ok[i].be) && (mts[i].tex.be)) {
                 ppgPurgeTextureFromVRAM(&mts[i].tex);
             }
