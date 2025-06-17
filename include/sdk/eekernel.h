@@ -10,6 +10,8 @@
 
 #if defined(TARGET_PS2)
 #define ExitHandler() asm("sync.l; ei")
+#else
+void ExitHandler();
 #endif
 
 struct ThreadParam {
