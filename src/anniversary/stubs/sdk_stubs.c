@@ -15,7 +15,6 @@
 #include <sif.h>
 #include <sifrpc.h>
 
-
 // libcdvd
 
 int sceCdBreak(void) {
@@ -362,7 +361,7 @@ void ExitHandler() {
     not_implemented(__func__);
 }
 
-// vu0 
+// vu0
 
 float cosf(float) {
     not_implemented(__func__);
@@ -381,9 +380,5 @@ float sqrt(float) {
 void sceDmaRecvN(sceDmaChan *d, void *addr, int size) {
     not_implemented(__func__);
 }
-
-u32 flPs2StoreImageAdrs;                              // size: 0x4, address: 0x57AA3C
-u32 flPs2StoreImageSize;                              // size: 0x4, address: 0x57AA40
-s64 flPs2StoreImageOldIMR;                            // size: 0x8, address: 0x57AA48
 
 #endif

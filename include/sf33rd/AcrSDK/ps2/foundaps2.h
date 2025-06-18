@@ -13,9 +13,6 @@
 #define FL_PALETTE_MAX 1088
 #define FL_TEXTURE_MAX 256
 
-extern u32 flPs2StoreImageAdrs;                              // size: 0x4, address: 0x57AA3C
-extern u32 flPs2StoreImageSize;                              // size: 0x4, address: 0x57AA40
-extern s64 flPs2StoreImageOldIMR;                            // size: 0x8, address: 0x57AA48
 extern u32 flLoadCheckColor[20];                             // size: 0x50, address: 0x57AA50
 extern u32 flLoadCheckTime[LOAD_CHECK_TIME_SIZE];            // size: 0x4, address: 0x57AAA0
 extern s32 flLoadCheckTimeOld;                               // size: 0x4, address: 0x57AAF0

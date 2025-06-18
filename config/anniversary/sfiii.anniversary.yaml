@@ -1641,7 +1641,7 @@ segments:
       - { type: .sbss, vram: 0x57A994, name: sf33rd/Source/PS2/ps2Quad }
       - { type: .sbss, vram: 0x57A9A0, name: sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX }
       - { type: .sbss, vram: 0x57A9F0, name: sf33rd/Source/Game/main }
-      - { type: sbss, vram: 0x57AA40, name: sf33rd/AcrSDK/ps2/flps2dma }
+      - { type: .sbss, vram: 0x57AA40, name: sf33rd/AcrSDK/ps2/flps2dma }
       - { type: .sbss, vram: 0x57AA50, name: sf33rd/AcrSDK/ps2/foundaps2 }
       - { type: .sbss, vram: 0x57AF4C, name: sf33rd/AcrSDK/ps2/ps2PAD }
       - { type: .sbss, vram: 0x57B0B0, name: sf33rd/Source/PS2/mc/mcsub }

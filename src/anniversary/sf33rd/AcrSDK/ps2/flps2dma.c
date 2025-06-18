@@ -8,6 +8,11 @@
 #include <eeregs.h>
 #include <libdma.h>
 
+// sbss
+u64 flPs2StoreImageOldIMR;
+static u32 flPs2StoreImageSize;
+static u32 flPs2StoreImageAdrs;
+
 static __int128 vif1_fifo = (__int128)0x06000000;
 static u32 *dma_chcr_adrs[10] = { (u32 *)0x10008000, (u32 *)0x10009000, (u32 *)0x1000A000, (u32 *)0x1000B000,
                                   (u32 *)0x1000B400, (u32 *)0x1000C000, (u32 *)0x1000C400, (u32 *)0x1000C800,
@@ -96,7 +101,7 @@ u32 flPS2VIF1CalcLoadImageSize(u32 size) {
     data_size = 0;
     count = size / 0x70000;
 
-    if ((size % 458752) != 0) {
+    if ((size % 0x70000) != 0) {
         count += 1;
     }
 
@@ -116,13 +121,13 @@ u32 flPS2VIF1MakeLoadImage(u32 buff_ptr, u32 irq, u32 data_ptr, u32 size, s16 db
     u32 count;
     u32 trans_size;
     s16 wk_h;
-    FLPS2LoadImage *load_image;
+    FLPS2LoadImageData *load_image;
     u32 last_tag;
 
     last_tag = 0;
     count = size / 0x70000;
 
-    if ((size % 458752) != 0) {
+    if ((size % 0x70000) != 0) {
         count += 1;
     }
 
@@ -177,7 +182,7 @@ u32 flPS2VIF1MakeLoadImage(u32 buff_ptr, u32 irq, u32 data_ptr, u32 size, s16 db
             break;
         }
 
-        load_image = (FLPS2LoadImage *)work_ptr;
+        load_image = (FLPS2LoadImageData *)work_ptr;
         flPS2DmaAddCntTag((u32)load_image, 6, 0, 0);
         load_image->dmatag.data.UI32[2] = 0x13000000;
         load_image->dmatag.data.UI32[3] = 0x51000006;
@@ -228,7 +233,7 @@ u32 flPS2VIF1MakeLoadImage(u32 buff_ptr, u32 irq, u32 data_ptr, u32 size, s16 db
 }
 
 void flPS2VIF1MakeEndLoadImage(u32 buff_ptr, u32 irq) {
-    FLPS2LoadEnd *load_end = (FLPS2LoadEnd *)buff_ptr;
+    FLPS2LoadEndData *load_end = (FLPS2LoadEndData *)buff_ptr;
     flPS2DmaAddEndTag((u32)load_end, 3, irq, 0);
     flPS2VIF1CodeAddDirectHL((u32)load_end + 0x10, 2);
 
@@ -245,7 +250,7 @@ void flPS2StoreImageB(u32 load_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, s16 x,
     u32 count;
     u32 trans_size;
     s16 wk_h;
-    FLPS2StoreImage *store_image;
+    FLPS2StoreImageData *store_image;
 
     flPS2DmaWait();
     count = size / 0x70000;
@@ -305,7 +310,7 @@ void flPS2StoreImageB(u32 load_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, s16 x,
             break;
         }
 
-        store_image = (FLPS2StoreImage *)flPS2GetSystemTmpBuff(0x90, 0x10);
+        store_image = (FLPS2StoreImageData *)flPS2GetSystemTmpBuff(0x90, 0x10);
         flPS2DmaAddEndTag((u32)store_image, 7, 0, 0);
         store_image->dmatag.data.UI32[2] = 0;
         store_image->dmatag.data.UI32[3] = 0;
@@ -347,10 +352,11 @@ void flPS2StoreImageB(u32 load_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, s16 x,
         sceDmaSend(dma_channel, (u32 *)store_image);
         sceGsSyncPath(0, 0);
 
-        while (flPs2StoreImageSize != 0)
-            ;
+        while (flPs2StoreImageSize != 0) {
+            // Do nothing
+        }
 
-        sceGsSyncPath(0, 0U);
+        sceGsSyncPath(0, 0);
         *VIF1_STAT = 0;
         *GS_BUSDIR = 0;
         *GS_IMR = flPs2StoreImageOldIMR;
@@ -498,7 +504,7 @@ s32 flPS2DmaInterrupt(s32 ch) {
     u32 type;
     u32 *dma_queue;
     s32 dma_index;
-    FLPS2StoreImage *store_image;
+    FLPS2StoreImageData *store_image;
 
     dma_ptr = &flPs2VIF1Control;
 
@@ -557,7 +563,7 @@ s32 flPS2DmaInterrupt(s32 ch) {
                             break;
 
                         case 2:
-                            store_image = (FLPS2StoreImage *)dma_adrs;
+                            store_image = (FLPS2StoreImageData *)dma_adrs;
                             flPs2StoreImageAdrs = store_image->data.I32[0];
                             flPs2StoreImageSize = store_image->data.I32[1];
                             *GS_CSR = 2;
@@ -590,7 +596,7 @@ void flPS2DmaSend() {
     s32 dma_index;
     u32 dma_chcr;
     sceDmaChan *dma_channel;
-    FLPS2StoreImage *store_image;
+    FLPS2StoreImageData *store_image;
 
     dma_ptr = &flPs2VIF1Control;
     dma_index = flPs2State.SystemIndex;
@@ -617,10 +623,10 @@ void flPS2DmaSend() {
             dma_channel->chcr.TIE = 1;
             FlushCache(0);
             sceDmaSend(dma_channel, (u32 *)data_adrs);
-            return;
+            break;
 
         case 2:
-            store_image = (FLPS2StoreImage *)data_adrs;
+            store_image = (FLPS2StoreImageData *)data_adrs;
             flPs2StoreImageAdrs = store_image->data.UI32[0];
             flPs2StoreImageSize = store_image->data.UI32[1];
             *GS_CSR = 2;
@@ -640,8 +646,12 @@ void flPS2DmaSend() {
 s32 flPS2DmaWait() {
     s32 dma_index = flPs2State.SystemIndex ^ 1;
 
-    while (flPs2VIF1Control.queue_ctr[dma_index] != 0) {};
-    while (sceDmaSync(flPs2State.DmaChan[1], 1, 0) != 0) {}
+    while (flPs2VIF1Control.queue_ctr[dma_index] != 0) {
+        // Do nothing
+    }
+    while (sceDmaSync(flPs2State.DmaChan[1], 1, 0) != 0) {
+        // Do nothing
+    }
 
     return 1;
 }
