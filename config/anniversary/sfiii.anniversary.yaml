@@ -677,7 +677,7 @@ segments:
       - [0x2F84D0, c, sf33rd/AcrSDK/ps2/flps2vram]
       - [0x2FE130, c, sf33rd/AcrSDK/ps2/foundaps2]
       - [0x300130, c, sf33rd/AcrSDK/ps2/ps2PAD]
-      - [0x302570, asm, sf33rd/AcrSDK/ps2/flps2asm]
+      - [0x302570, c, sf33rd/AcrSDK/ps2/flps2asm]
 
       - [0x302760, asm, sdk/libdbc/libdbc]
       - [0x303680, asm, sdk/libpad2/libpad2]
