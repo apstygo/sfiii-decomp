@@ -148,25 +148,28 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ADXT_GetNumFiles
 - [x] ADXT_ResetEntry
 
-### adx_mps2
+### adx_mps2 ✅
 
-- [ ] _adxm_lock
-- [ ] _adxm_unlock
-- [ ] adxm_safe_trap
-- [ ] adxm_safe_proc
-- [ ] adxm_vsync_proc
-- [ ] adxm_fs_proc
-- [ ] adxm_iWakeupThread
-- [ ] adxm_SleepThread
-- [ ] adxm_ResumeThread
-- [ ] adxm_SuspendThread
-- [ ] adxm_SetupSafeThrd
-- [ ] adxm_SetupVsyncThrd
-- [ ] adxm_SetupFsThrd
-- [ ] adxm_SetupMwIdleThrd
-- [ ] adxm_IsSetupThrdEx
+- [x] _adxm_lock
+- [x] _adxm_unlock
+- [x] adxm_goto_svr_border
+- [x] adxm_goto_mwidle_border
+- [x] adxm_safe_trap
+- [x] adxm_safe_proc
+- [x] adxm_vsync_proc
+- [x] adxm_fs_proc
+- [x] adxm_iWakeupThread
+- [x] adxm_WakeupThread
+- [x] adxm_SleepThread
+- [x] adxm_ResumeThread
+- [x] adxm_SuspendThread
+- [x] adxm_SetupSafeThrd
+- [x] adxm_SetupVsyncThrd
+- [x] adxm_SetupFsThrd
+- [x] adxm_SetupMwIdleThrd
+- [x] adxm_IsSetupThrdEx
 - [x] ADXM_IsSetupThrd
-- [ ] ADXM_SetupThrd
+- [x] ADXM_SetupThrd
 - [x] adxm_ShutdownPreProcedure
 - [x] ADXM_ShutdownThrd
 - [x] adxm_ShutdownMwIdleThrd
@@ -175,10 +178,10 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] adxm_ShutdownSafeThrd
 - [x] ADXM_Lock
 - [x] ADXM_Unlock
-- [ ] ADXPS2_ExecVint
+- [x] ADXPS2_ExecVint
 - [x] ADXM_ExecMain
-- [ ] ADXPS2_WakeupMainThrd
-- [ ] ADXPS2_SetupThrd
+- [x] ADXPS2_WakeupMainThrd
+- [x] ADXPS2_SetupThrd
 
 ### adx_rnap ✅
 

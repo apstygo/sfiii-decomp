@@ -46,6 +46,16 @@ unsigned int iGetCop0(int);
  * Multi Thread
  */
 
+#define TH_SELF 0
+
+// Thread status
+#define THS_RUN 0x01
+#define THS_READY 0x02
+#define THS_WAIT 0x04
+#define THS_SUSPEND 0x08
+#define THS_WAITSUSPEND 0x0c
+#define THS_DORMANT 0x10
+
 int CreateThread(struct ThreadParam *);
 int DeleteThread(int);
 int StartThread(int, void *arg);

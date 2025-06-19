@@ -9,7 +9,7 @@ Notes:
 | Module   | Progress   |
 |----------|------------|
 | sf33rd   | 84.90%     |
-| cri      | 67.00%     |
+| cri      | 71.81%     |
 
 | Function                         | File                                                 | Module   | Is decompiled   |
 |----------------------------------|------------------------------------------------------|----------|-----------------|
@@ -180,7 +180,7 @@ Notes:
 | flPS2VSyncCallback               | sf33rd/AcrSDK/ps2/foundaps2.c                        | sf33rd   | ✅               |
 | flmwVSyncCallback                | sf33rd/AcrSDK/MiddleWare/PS2/acrmw.c                 | sf33rd   | ✅               |
 | flAdxControll                    | sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX.c             | sf33rd   | ✅               |
-| ADXPS2_ExecVint                  | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| ADXPS2_ExecVint                  | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | SVM_ExecSvrVint                  | cri/libadxe/svm.c                                    | cri      | ✅               |
 | SVM_ExecSvrFunc                  | cri/libadxe/svm.c                                    | cri      | ✅               |
 | flPS2SwapDBuff                   | sf33rd/AcrSDK/ps2/foundaps2.c                        | sf33rd   | ✅               |
@@ -328,31 +328,31 @@ Notes:
 | _printf                          | sdk/libkernl/kprintf2.c                              | sdk      | –               |
 | deci2Putchar                     | sdk/libkernl/kprintf2.c                              | sdk      | –               |
 | kputs                            | sdk/libkernl/deci2.c                                 | sdk      | –               |
-| ADXPS2_SetupThrd                 | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| ADXM_SetupThrd                   | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| ADXPS2_SetupThrd                 | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| ADXM_SetupThrd                   | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | SVM_Init                         | cri/libadxe/svm.c                                    | cri      | ✅               |
 | svm_reset_variable               | cri/libadxe/svm.c                                    | cri      | ✅               |
 | SVM_SetCbLock                    | cri/libadxe/svm.c                                    | cri      | ✅               |
 | SVM_SetCbUnlock                  | cri/libadxe/svm.c                                    | cri      | ✅               |
-| adxm_SetupSafeThrd               | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| adxm_SuspendThread               | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| adxm_SetupSafeThrd               | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| adxm_SuspendThread               | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | SuspendThread                    | sdk/libkernl/klib.c                                  | sdk      | –               |
-| adxm_SetupVsyncThrd              | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| adxm_SetupFsThrd                 | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| adxm_SetupMwIdleThrd             | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| adxm_vsync_proc                  | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| adxm_IsSetupThrdEx               | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| ADXPS2_WakeupMainThrd            | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| adxm_SetupVsyncThrd              | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| adxm_SetupFsThrd                 | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| adxm_SetupMwIdleThrd             | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| adxm_vsync_proc                  | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| adxm_IsSetupThrdEx               | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| ADXPS2_WakeupMainThrd            | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | SVM_ExecSvrVsync                 | cri/libadxe/svm.c                                    | cri      | ✅               |
-| adxm_SleepThread                 | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| adxm_SleepThread                 | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | SleepThread                      | sdk/libkernl/klib.c                                  | sdk      | –               |
-| adxm_fs_proc                     | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| adxm_fs_proc                     | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | SVM_ExecSvrFs                    | cri/libadxe/svm.c                                    | cri      | ✅               |
 | SVM_SetCbBdr                     | cri/libadxe/svm.c                                    | cri      | ✅               |
-| _adxm_lock                       | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| adxm_ResumeThread                | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| _adxm_lock                       | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| adxm_ResumeThread                | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | ResumeThread                     | sdk/libkernl/klib.c                                  | sdk      | –               |
-| _adxm_unlock                     | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| _adxm_unlock                     | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | ADXT_Init                        | cri/libadxe/adx_inis.c                               | cri      | ✅               |
 | ADXCRS_Init                      | cri/libadxe/adx_crs.c                                | cri      | ✅               |
 | ADXCRS_Lock                      | cri/libadxe/adx_crs.c                                | cri      | ✅               |
@@ -372,8 +372,8 @@ Notes:
 | PS2RNA_Init                      | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
 | SJRMT_Init                       | cri/libadxe/sjr_clt.c                                | cri      | ✅               |
 | DTX_Init                         | cri/libadxe/dtx.c                                    | cri      | ✅               |
-| adxm_safe_proc                   | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| adxm_safe_trap                   | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| adxm_safe_proc                   | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| adxm_safe_trap                   | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | SJX_Init                         | cri/libadxe/sjx.c                                    | cri      | ✅               |
 | sceSifAllocIopHeap               | sdk/libkernl/iopheap.c                               | sdk      | –               |
 | DTX_Create                       | cri/libadxe/dtx.c                                    | cri      | ✅               |
@@ -509,7 +509,7 @@ Notes:
 | ADXF_GetPtStat                   | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
 | ADXF_GetPtStatEx                 | cri/libadxe/adx_fs.c                                 | cri      |                 |
 | ADXF_GetStat                     | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
-| adxm_iWakeupThread               | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| adxm_iWakeupThread               | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | iReferThreadStatus               | sdk/libkernl/klib.c                                  | sdk      | –               |
 | iWakeupThread                    | sdk/libkernl/thread.c                                | sdk      | –               |
 | _iWakeupThread                   | sdk/libkernl/klib.c                                  | sdk      | –               |

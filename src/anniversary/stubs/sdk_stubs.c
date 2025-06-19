@@ -219,6 +219,42 @@ void scePrintf(const char *fmt, ...) {
     not_implemented(__func__);
 }
 
+int CreateThread(struct ThreadParam *) {
+    not_implemented(__func__);
+}
+
+int StartThread(int, void *arg) {
+    not_implemented(__func__);
+}
+
+void ExitDeleteThread(void) {
+    not_implemented(__func__);
+}
+
+int GetThreadId(void) {
+    not_implemented(__func__);
+}
+
+int ReferThreadStatus(int, struct ThreadParam *) {
+    not_implemented(__func__);
+}
+
+int iReferThreadStatus(int, struct ThreadParam *) {
+    not_implemented(__func__);
+}
+
+int SleepThread(void) {
+    not_implemented(__func__);
+}
+
+int iWakeupThread(int) {
+    not_implemented(__func__);
+}
+
+int SuspendThread(int) {
+    not_implemented(__func__);
+}
+
 int DelayThread(u_int) {
     not_implemented(__func__);
 }
