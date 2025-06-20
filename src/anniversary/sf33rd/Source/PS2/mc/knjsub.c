@@ -107,7 +107,9 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/knjsub", get_uni_
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/knjsub", get_uni_adrs2);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/knjsub", is_unicode_han);
+static s32 is_unicode_han(Kanji_W *kw, u32 index) {
+    return index < kw->uni_half ? 1 : 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/knjsub", unicode_puts);
 
