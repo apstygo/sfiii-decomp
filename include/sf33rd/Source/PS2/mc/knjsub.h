@@ -1,6 +1,7 @@
 #ifndef KNJSUB_H
 #define KNJSUB_H
 
+#include "structs.h"
 #include "types.h"
 
 void KnjInit(u32 type, u32 adrs, u32 disp_max, u32 top_dbp);
