@@ -8,8 +8,8 @@ Notes:
 
 | Module   | Progress   |
 |----------|------------|
-| sf33rd   | 79.56%     |
-| cri      | 67.00%     |
+| sf33rd   | 84.90%     |
+| cri      | 77.86%     |
 
 | Function                         | File                                                 | Module   | Is decompiled   |
 |----------------------------------|------------------------------------------------------|----------|-----------------|
@@ -133,7 +133,7 @@ Notes:
 | sceDmaPutEnv                     | sdk/libdma/libdma.c                                  | sdk      | –               |
 | sceDmaGetChan                    | sdk/libdma/libdma.c                                  | sdk      | –               |
 | sceVpu0Reset                     | sdk/libvu0/libvu0.c                                  | sdk      | –               |
-| flPS2DmaInitControl              | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
+| flPS2DmaInitControl              | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
 | flPS2GetSystemMemoryHandle       | sf33rd/AcrSDK/ps2/flps2etc.c                         | sf33rd   | ✅               |
 | mflRegisterS                     | sf33rd/AcrSDK/common/memfound.c                      | sf33rd   | ✅               |
 | plmemRegisterS                   | sf33rd/AcrSDK/common/memmgr.c                        | sf33rd   | ✅               |
@@ -168,19 +168,19 @@ Notes:
 | flInitPhaseStarted               | sf33rd/AcrSDK/ps2/foundaps2.c                        | sf33rd   | ✅               |
 | flPS2SendRenderState_ALPHA       | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2GetSystemTmpBuff            | sf33rd/AcrSDK/ps2/flps2etc.c                         | sf33rd   | ✅               |
-| flPS2DmaAddQueue2                | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
+| flPS2DmaAddQueue2                | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
 | flPS2SendRenderState_TEST        | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2SendRenderState_ZBUF        | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2SendRenderState_SCISSOR     | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2SendRenderState_FOGCOL      | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2SendRenderState_TEX1        | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flInitPhaseFinished              | sf33rd/AcrSDK/ps2/foundaps2.c                        | sf33rd   | ✅               |
-| flPS2DmaAddEndTag                | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
+| flPS2DmaAddEndTag                | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
 | sceGsSyncVCallback               | sdk/libgraph/graph019.c                              | sdk      | –               |
 | flPS2VSyncCallback               | sf33rd/AcrSDK/ps2/foundaps2.c                        | sf33rd   | ✅               |
 | flmwVSyncCallback                | sf33rd/AcrSDK/MiddleWare/PS2/acrmw.c                 | sf33rd   | ✅               |
 | flAdxControll                    | sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX.c             | sf33rd   | ✅               |
-| ADXPS2_ExecVint                  | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| ADXPS2_ExecVint                  | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | SVM_ExecSvrVint                  | cri/libadxe/svm.c                                    | cri      | ✅               |
 | SVM_ExecSvrFunc                  | cri/libadxe/svm.c                                    | cri      | ✅               |
 | flPS2SwapDBuff                   | sf33rd/AcrSDK/ps2/foundaps2.c                        | sf33rd   | ✅               |
@@ -268,7 +268,7 @@ Notes:
 | SetVSyncFlag                     | sdk/libkernl/klib.c                                  | sdk      | –               |
 | flSetRenderState                 | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2SetClearColor               | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
-| ppgWorkInitializeApprication     | sf33rd/Source/Common/PPGWork.c                       | sf33rd   |                 |
+| ppgWorkInitializeApprication     | sf33rd/Source/Common/PPGWork.c                       | sf33rd   | ✅               |
 | distributeScratchPadAddress      | sf33rd/Source/Game/main.c                            | sf33rd   | ✅               |
 | njdp2d_init                      | sf33rd/Source/Game/DC_Ghost.c                        | sf33rd   | ✅               |
 | njUserInit                       | sf33rd/Source/Game/main.c                            | sf33rd   | ✅               |
@@ -328,31 +328,31 @@ Notes:
 | _printf                          | sdk/libkernl/kprintf2.c                              | sdk      | –               |
 | deci2Putchar                     | sdk/libkernl/kprintf2.c                              | sdk      | –               |
 | kputs                            | sdk/libkernl/deci2.c                                 | sdk      | –               |
-| ADXPS2_SetupThrd                 | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| ADXM_SetupThrd                   | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| ADXPS2_SetupThrd                 | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| ADXM_SetupThrd                   | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | SVM_Init                         | cri/libadxe/svm.c                                    | cri      | ✅               |
 | svm_reset_variable               | cri/libadxe/svm.c                                    | cri      | ✅               |
 | SVM_SetCbLock                    | cri/libadxe/svm.c                                    | cri      | ✅               |
 | SVM_SetCbUnlock                  | cri/libadxe/svm.c                                    | cri      | ✅               |
-| adxm_SetupSafeThrd               | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| adxm_SuspendThread               | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| adxm_SetupSafeThrd               | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| adxm_SuspendThread               | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | SuspendThread                    | sdk/libkernl/klib.c                                  | sdk      | –               |
-| adxm_SetupVsyncThrd              | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| adxm_SetupFsThrd                 | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| adxm_SetupMwIdleThrd             | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| adxm_vsync_proc                  | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| adxm_IsSetupThrdEx               | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| ADXPS2_WakeupMainThrd            | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| adxm_SetupVsyncThrd              | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| adxm_SetupFsThrd                 | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| adxm_SetupMwIdleThrd             | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| adxm_vsync_proc                  | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| adxm_IsSetupThrdEx               | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| ADXPS2_WakeupMainThrd            | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | SVM_ExecSvrVsync                 | cri/libadxe/svm.c                                    | cri      | ✅               |
-| adxm_SleepThread                 | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| adxm_SleepThread                 | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | SleepThread                      | sdk/libkernl/klib.c                                  | sdk      | –               |
-| adxm_fs_proc                     | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| adxm_fs_proc                     | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | SVM_ExecSvrFs                    | cri/libadxe/svm.c                                    | cri      | ✅               |
 | SVM_SetCbBdr                     | cri/libadxe/svm.c                                    | cri      | ✅               |
-| _adxm_lock                       | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| adxm_ResumeThread                | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| _adxm_lock                       | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| adxm_ResumeThread                | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | ResumeThread                     | sdk/libkernl/klib.c                                  | sdk      | –               |
-| _adxm_unlock                     | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| _adxm_unlock                     | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | ADXT_Init                        | cri/libadxe/adx_inis.c                               | cri      | ✅               |
 | ADXCRS_Init                      | cri/libadxe/adx_crs.c                                | cri      | ✅               |
 | ADXCRS_Lock                      | cri/libadxe/adx_crs.c                                | cri      | ✅               |
@@ -372,8 +372,8 @@ Notes:
 | PS2RNA_Init                      | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
 | SJRMT_Init                       | cri/libadxe/sjr_clt.c                                | cri      | ✅               |
 | DTX_Init                         | cri/libadxe/dtx.c                                    | cri      | ✅               |
-| adxm_safe_proc                   | cri/libadxe/adx_mps2.c                               | cri      |                 |
-| adxm_safe_trap                   | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| adxm_safe_proc                   | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
+| adxm_safe_trap                   | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | SJX_Init                         | cri/libadxe/sjx.c                                    | cri      | ✅               |
 | sceSifAllocIopHeap               | sdk/libkernl/iopheap.c                               | sdk      | –               |
 | DTX_Create                       | cri/libadxe/dtx.c                                    | cri      | ✅               |
@@ -509,7 +509,7 @@ Notes:
 | ADXF_GetPtStat                   | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
 | ADXF_GetPtStatEx                 | cri/libadxe/adx_fs.c                                 | cri      |                 |
 | ADXF_GetStat                     | cri/libadxe/adx_fs.c                                 | cri      | ✅               |
-| adxm_iWakeupThread               | cri/libadxe/adx_mps2.c                               | cri      |                 |
+| adxm_iWakeupThread               | cri/libadxe/adx_mps2.c                               | cri      | ✅               |
 | iReferThreadStatus               | sdk/libkernl/klib.c                                  | sdk      | –               |
 | iWakeupThread                    | sdk/libkernl/thread.c                                | sdk      | –               |
 | _iWakeupThread                   | sdk/libkernl/klib.c                                  | sdk      | –               |
@@ -646,14 +646,14 @@ Notes:
 | flPS2PullVramWork                | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | flPS2ChainVramWork               | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | flPS2VramTrans                   | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
-| flPS2VIF1CalcLoadImageSize       | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
+| flPS2VIF1CalcLoadImageSize       | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
 | flPS2GetVramTransAdrs            | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
-| flPS2VIF1MakeLoadImage           | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
-| flPS2DmaAddCntTag                | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
-| flPS2DmaAddRefeTag               | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
-| flPS2VIF1CalcEndLoadImageSize    | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
-| flPS2VIF1MakeEndLoadImage        | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
-| flPS2VIF1CodeAddDirectHL         | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
+| flPS2VIF1MakeLoadImage           | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
+| flPS2DmaAddCntTag                | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
+| flPS2DmaAddRefeTag               | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
+| flPS2VIF1CalcEndLoadImageSize    | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
+| flPS2VIF1MakeEndLoadImage        | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
+| flPS2VIF1CodeAddDirectHL         | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
 | ppgMakeConvTableTexDC            | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
 | appSetupBasePriority             | sf33rd/Source/Game/MTRANS.c                          | sf33rd   |                 |
 | MemcardInit                      | sf33rd/Source/PS2/mc/mcsub.c                         | sf33rd   | ✅               |
@@ -718,12 +718,12 @@ Notes:
 | flReloadTexture                  | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | flPS2ReloadTexture               | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | flPS2SetTextureRegister          | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
-| flPS2DmaWait                     | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
+| flPS2DmaWait                     | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
 | flmwFlip                         | sf33rd/AcrSDK/MiddleWare/PS2/acrmw.c                 | sf33rd   | ✅               |
 | flmwFlipSub                      | sf33rd/AcrSDK/MiddleWare/PS2/acrmw.c                 | sf33rd   | ✅               |
 | iFlushCache                      | sdk/libkernl/klib.c                                  | sdk      | –               |
 | flPS2CheckDbChangeFlag           | sf33rd/AcrSDK/ps2/foundaps2.c                        | sf33rd   | ✅               |
-| flPS2DmaSend                     | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
+| flPS2DmaSend                     | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
 | flPS2DrawPreparation             | sf33rd/AcrSDK/ps2/foundaps2.c                        | sf33rd   | ✅               |
 | flPS2_Mem_move16_16A             | sf33rd/AcrSDK/ps2/flps2asm.c                         | sf33rd   |                 |
 | Scrn_Renew                       | sf33rd/Source/Game/bg.c                              | sf33rd   | ✅               |
@@ -731,7 +731,7 @@ Notes:
 | Irl_Scrn                         | sf33rd/Source/Game/bg.c                              | sf33rd   | ✅               |
 | BGM_Server                       | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
 | scePad2Read                      | sdk/libpad2/libpad2.c                                | sdk      | –               |
-| flPS2DmaInterrupt                | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
+| flPS2DmaInterrupt                | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
 | Init_Task                        | sf33rd/Source/Game/init3rd.c                         | sf33rd   | ✅               |
 | Init_Task_1st                    | sf33rd/Source/Game/init3rd.c                         | sf33rd   | ✅               |
 | init_texcash_1st                 | sf33rd/Source/Game/texcash.c                         | sf33rd   |                 |
@@ -879,7 +879,7 @@ Notes:
 | TexRelease                       | sf33rd/Source/Game/op_sub.c                          | sf33rd   | ✅               |
 | ppgReleaseTextureHandle          | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
 | flReleaseTextureHandle           | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
-| flPS2DmaTerminate                | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   |                 |
+| flPS2DmaTerminate                | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
 | flPS2DeleteVramList              | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | ppgReleasePaletteHandle          | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
 | flReleasePaletteHandle           | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
@@ -904,13 +904,13 @@ Notes:
 | Check_Off_Vib                    | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   |                 |
 | Check_LDREQ_Queue                | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
 | disp_ldreq_status                | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
-| Check_Check_Screen               | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   |                 |
-| Check_Pos_BG                     | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   |                 |
+| Check_Check_Screen               | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   | ✅               |
+| Check_Pos_BG                     | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   | ✅               |
 | Disp_Sound_Code                  | sf33rd/Source/Game/SE.c                              | sf33rd   | ✅               |
-| Debug_Task                       | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   |                 |
-| Debug_Init                       | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   |                 |
-| Disp_Free_work                   | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   |                 |
-| Disp_Random                      | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   |                 |
+| Debug_Task                       | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   | ✅               |
+| Debug_Init                       | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   | ✅               |
+| Disp_Free_work                   | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   | ✅               |
+| Disp_Random                      | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   | ✅               |
 | Basic_Sub                        | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   |                 |
 | move_effect_work                 | sf33rd/Source/Game/EFFECT.c                          | sf33rd   | ✅               |
 | CAPCOM_Logo                      | sf33rd/Source/Game/DEMO00.c                          | sf33rd   | ✅               |
@@ -919,7 +919,7 @@ Notes:
 | checkSelObjFileLoaded            | sf33rd/Source/Game/texgroup.c                        | sf33rd   | ✅               |
 | Clear_texcash_work               | sf33rd/Source/Game/texcash.c                         | sf33rd   |                 |
 | _clear_texcash_work              | sf33rd/Source/Game/texcash.c                         | sf33rd   |                 |
-| Debug_1st                        | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   |                 |
+| Debug_1st                        | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   | ✅               |
 | Standby_BGM                      | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
 | remake_sound_code_for_DC         | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
 | Store_Sound_Code                 | sf33rd/Source/Game/SE.c                              | sf33rd   |                 |
@@ -962,12 +962,12 @@ Notes:
 | ADXB_SetAc3InSj                  | cri/libadxe/adx_bahx.c                               | cri      | ✅               |
 | ADXSJD_Start                     | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
 | ADXSJD_GetStat                   | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| adxsjd_decode_prep               | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| ADXB_DecodeHeader                | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADXB_DecodeHeaderAdx             | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADX_DecodeInfo                   | cri/libadxe/adx_dcd.c                                | cri      |                 |
+| adxsjd_decode_prep               | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
+| ADXB_DecodeHeader                | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
+| ADXB_DecodeHeaderAdx             | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
+| ADX_DecodeInfo                   | cri/libadxe/adx_dcd.c                                | cri      | ✅               |
 | ADX_DecodeInfoExVer              | cri/libadxe/adx_dcd.c                                | cri      |                 |
-| adxb_get_key                     | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| adxb_get_key                     | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXPD_SetExtPrm                  | cri/libadxe/adx_xpnd.c                               | cri      |                 |
 | ADX_DecodeInfoExADPCM2           | cri/libadxe/adx_dcd.c                                | cri      |                 |
 | ADX_DecodeInfoExIdly             | cri/libadxe/adx_dcd.c                                | cri      |                 |
@@ -975,15 +975,15 @@ Notes:
 | ADXPD_SetDly                     | cri/libadxe/adx_xpnd.c                               | cri      |                 |
 | ADX_DecodeInfoExLoop             | cri/libadxe/adx_dcd.c                                | cri      |                 |
 | ADX_DecodeInfoAinf               | cri/libadxe/adx_dcd.c                                | cri      |                 |
-| ADXB_GetFormat                   | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_GetFormat                   | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXSJD_GetNumChan                | cri/libadxe/adx_sjd.c                                | cri      |                 |
 | ADXB_GetNumChan                  | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXSJD_GetSfreq                  | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
 | ADXB_GetSfreq                    | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXSJD_GetNumLoop                | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| ADXB_GetNumLoop                  | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_GetNumLoop                  | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXSJD_GetBlkSmpl                | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| ADXB_GetBlkSmpl                  | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_GetBlkSmpl                  | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXSJD_SetMaxDecSmpl             | cri/libadxe/adx_sjd.c                                | cri      |                 |
 | ADXB_SetAhxDecSmpl               | cri/libadxe/adx_bahx.c                               | cri      | ✅               |
 | ADXB_SetAc3DecSmpl               | cri/libadxe/adx_bahx.c                               | cri      | ✅               |
@@ -1013,17 +1013,17 @@ Notes:
 | DTR_Start                        | cri/libadxe/dtr.c                                    | cri      | ✅               |
 | SJUNI_UngetChunk                 | cri/libadxe/sj_uni.c                                 | cri      | ✅               |
 | adxsjd_decode_exec               | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| ADXB_GetStat                     | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_GetStat                     | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | adxsjd_decexec_start             | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| ADXB_EntryData                   | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADXB_Start                       | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADXB_ExecHndl                    | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADXB_ExecOneAdx                  | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_EntryData                   | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
+| ADXB_Start                       | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
+| ADXB_ExecHndl                    | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
+| ADXB_ExecOneAdx                  | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXPD_GetStat                    | cri/libadxe/adx_xpnd.c                               | cri      |                 |
 | adxsjd_get_wr                    | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
-| ADXB_GetPcmBuf                   | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_GetPcmBuf                   | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXB_EvokeDecode                 | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADXB_EvokeExpandSte              | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_EvokeExpandSte              | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXPD_EntrySte                   | cri/libadxe/adx_xpnd.c                               | cri      |                 |
 | ADXPD_Start                      | cri/libadxe/adx_xpnd.c                               | cri      |                 |
 | ADXPD_ExecHndl                   | cri/libadxe/adx_xpnd.c                               | cri      |                 |
@@ -1034,9 +1034,9 @@ Notes:
 | ADXPD_Reset                      | cri/libadxe/adx_xpnd.c                               | cri      |                 |
 | adxb_DefAddWr                    | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | adxsjd_decexec_end               | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| ADXB_GetDecDtLen                 | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADXB_GetDecNumSmpl               | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADXB_Reset                       | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_GetDecDtLen                 | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
+| ADXB_GetDecNumSmpl               | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
+| ADXB_Reset                       | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | adxt_stat_prep                   | cri/libadxe/adx_tsvr.c                               | cri      |                 |
 | ADXRNA_GetNumData                | cri/libadxe/adx_rnap.c                               | cri      | ✅               |
 | PS2RNA_GetNumData                | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
@@ -1063,8 +1063,8 @@ Notes:
 | flPS2ConvColor                   | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2ConvScreenFZ                | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | adxt_stat_playing                | cri/libadxe/adx_tsvr.c                               | cri      |                 |
-| ADXB_CopyExtraBufSte             | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| memcpy2                          | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_CopyExtraBufSte             | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
+| memcpy2                          | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | q_ldreq_texture_group            | sf33rd/Source/Game/texgroup.c                        | sf33rd   | ✅               |
 | FadeIn                           | sf33rd/Source/Game/sc_sub.c                          | sf33rd   | ✅               |
 | njColorBlendingMode              | sf33rd/Source/Game/DC_Ghost.c                        | sf33rd   | ✅               |

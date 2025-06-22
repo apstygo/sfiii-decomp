@@ -36,6 +36,7 @@ typedef struct {
 int sceDmaReset(int mode);
 sceDmaChan *sceDmaGetChan(int id);
 void sceDmaSend(sceDmaChan *d, void *tag);
+void sceDmaRecvN(sceDmaChan *d, void *addr, int size);
 int sceDmaSync(sceDmaChan *d, int mode, int timeout);
 
 #endif

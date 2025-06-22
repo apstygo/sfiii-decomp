@@ -556,11 +556,11 @@ segments:
 
       - [0x2C6F58, c, cri/libadxe/adx_amp]
       - [0x2C7678, c, cri/libadxe/adx_bahx]
-      - [0x2C7950, asm, cri/libadxe/adx_baif]
-      - [0x2C82B0, asm, cri/libadxe/adx_bau]
+      - [0x2C7950, c, cri/libadxe/adx_baif]
+      - [0x2C82B0, c, cri/libadxe/adx_bau]
       - [0x2C8D30, c, cri/libadxe/adx_bsc]
-      - [0x2CA218, asm, cri/libadxe/adx_bsps]
-      - [0x2CA5D0, asm, cri/libadxe/adx_bwav]
+      - [0x2CA218, c, cri/libadxe/adx_bsps]
+      - [0x2CA5D0, c, cri/libadxe/adx_bwav]
       - [0x2CAE70, c, cri/libadxe/adx_crs]
       - [0x2CAEB0, c, cri/libadxe/adx_dcd]
       - [0x2CB978, c, cri/libadxe/adx_dcd3]
@@ -1264,15 +1264,15 @@ segments:
       - [0x4589F0, rodata, sf33rd/Source/Compress/zlib/inftrees]
       - [0x458D08, rodata, sf33rd/Source/Compress/zlib/zutil]
       - [0x458D10, .rodata, sf33rd/Source/Game/debug/Debug]
-      - [0x458E78, rodata, sf33rd/Source/Game/debug/Deb_Data]
-      - [0x459600, rodata, sf33rd/Source/Game/debug/Nakai]
+      - [0x458E78, .rodata, sf33rd/Source/Game/debug/Deb_Data]
+      - [0x459600, .rodata, sf33rd/Source/Game/debug/Nakai]
       - [0x459650, .rodata, sf33rd/Source/Common/PPGFile]
 
-      - [0x4599A0, rodata, cri/libadxe/adx_baif]
-      - [0x4599B0, rodata, cri/libadxe/adx_bau]
+      - [0x4599A0, .rodata, cri/libadxe/adx_baif]
+      - [0x4599B0, .rodata, cri/libadxe/adx_bau]
       - [0x4599C0, .rodata, cri/libadxe/adx_bsc]
-      - [0x45A248, rodata, cri/libadxe/adx_bsps]
-      - [0x45A250, rodata, cri/libadxe/adx_bwav]
+      - [0x45A248, .rodata, cri/libadxe/adx_bsps]
+      - [0x45A250, .rodata, cri/libadxe/adx_bwav]
       - [0x45A270, .rodata, cri/libadxe/adx_dcd]
       - [0x45A278, rodata, cri/libadxe/adx_dcd5]
       - [0x45A2B8, .rodata, cri/libadxe/adx_errs]
@@ -1467,13 +1467,12 @@ segments:
       - [0x474540, sdata, sf33rd/Source/Game/win_pl]
       - [0x474580, sdata, sf33rd/Source/Compress/zlib/inftrees]
       - [0x474590, sdata, sf33rd/Source/Compress/zlib/infutil]
-      - [0x4745D8, sdata, sf33rd/Source/Game/debug/Debug_more_sdata]
-      - [0x4745F0, .sdata, sf33rd/Source/Game/debug/Debug]
-      - [0x474630, sdata, sf33rd/Source/Game/debug/Deb_Data]
+      - [0x4745D8, .sdata, sf33rd/Source/Game/debug/Debug]
+      - [0x474630, .sdata, sf33rd/Source/Game/debug/Deb_Data]
       - [0x474650, .sdata, sf33rd/Source/Common/PPGFile]
       - [0x4746B0, .sdata, sf33rd/AcrSDK/ps2/flps2render]
       - [0x474730, .sdata, sf33rd/AcrSDK/ps2/flps2debug]
-      - [0x474770, sdata, sf33rd/AcrSDK/ps2/flps2dma]
+      - [0x474770, .sdata, sf33rd/AcrSDK/ps2/flps2dma]
       - [0x4747A8, .sdata, sf33rd/AcrSDK/ps2/flps2shader]
       - [0x4747B0, .sdata, sf33rd/AcrSDK/ps2/flps2vram]
       - [0x4749F0, .sdata, sf33rd/AcrSDK/ps2/foundaps2]
@@ -1632,7 +1631,7 @@ segments:
       - { type: .sbss, vram: 0x579DB0, name: sf33rd/Source/Game/workuser }
       - { type: .sbss, vram: 0x57A780, name: sf33rd/Source/Compress/zlibApp }
       - { type: sbss, vram: 0x57A7F8, name: sf33rd/Source/Compress/zlib/zutil }
-      - { type: sbss, vram: 0x57A7FC, name: sf33rd/Source/Game/debug/Debug_ID }
+      - { type: .sbss, vram: 0x57A7FC, name: sf33rd/Source/Game/debug/Debug_ID }
       - { type: .sbss, vram: 0x57A800, name: sf33rd/Source/Game/debug/Debug }
       - { type: .sbss, vram: 0x57A8B0, name: sf33rd/Source/Game/debug/OBJTEST }
       - { type: .sbss, vram: 0x57A930, name: sf33rd/Source/Game/debug/OTESTDAT }
@@ -1641,7 +1640,7 @@ segments:
       - { type: .sbss, vram: 0x57A994, name: sf33rd/Source/PS2/ps2Quad }
       - { type: .sbss, vram: 0x57A9A0, name: sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX }
       - { type: .sbss, vram: 0x57A9F0, name: sf33rd/Source/Game/main }
-      - { type: sbss, vram: 0x57AA40, name: sf33rd/AcrSDK/ps2/flps2dma }
+      - { type: .sbss, vram: 0x57AA40, name: sf33rd/AcrSDK/ps2/flps2dma }
       - { type: .sbss, vram: 0x57AA50, name: sf33rd/AcrSDK/ps2/foundaps2 }
       - { type: .sbss, vram: 0x57AF4C, name: sf33rd/AcrSDK/ps2/ps2PAD }
       - { type: .sbss, vram: 0x57B0B0, name: sf33rd/Source/PS2/mc/mcsub }

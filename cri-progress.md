@@ -24,34 +24,34 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] adxb_DefAddWr
 - [x] ADXB_Create
 - [x] ADXB_Destroy
-- [ ] ADXB_DecodeHeaderAdx
-- [ ] ADXB_DecodeHeader
+- [x] ADXB_DecodeHeaderAdx
+- [x] ADXB_DecodeHeader
 - [x] ADXB_EntryGetWrFunc
-- [ ] ADXB_GetPcmBuf
-- [ ] ADXB_GetFormat
+- [x] ADXB_GetPcmBuf
+- [x] ADXB_GetFormat
 - [x] ADXB_GetSfreq
 - [x] ADXB_GetNumChan
 - [x] ADXB_GetOutBps
-- [ ] ADXB_GetBlkSmpl
+- [x] ADXB_GetBlkSmpl
 - [x] ADXB_GetTotalNumSmpl
-- [ ] ADXB_GetNumLoop
+- [x] ADXB_GetNumLoop
 - [x] ADXB_GetAinfLen
 - [x] ADXB_GetDefOutVol
-- [ ] adxb_get_key
-- [ ] ADXB_GetStat
-- [ ] ADXB_EntryData
-- [ ] ADXB_Start
+- [x] adxb_get_key
+- [x] ADXB_GetStat
+- [x] ADXB_EntryData
+- [x] ADXB_Start
 - [x] ADXB_Stop
-- [ ] ADXB_Reset
-- [ ] ADXB_GetDecDtLen
-- [ ] ADXB_GetDecNumSmpl
-- [ ] ADXB_EvokeExpandSte
+- [x] ADXB_Reset
+- [x] ADXB_GetDecDtLen
+- [x] ADXB_GetDecNumSmpl
+- [x] ADXB_EvokeExpandSte
 - [ ] ADXB_EvokeDecode
-- [ ] memcpy2
-- [ ] ADXB_CopyExtraBufSte
+- [x] memcpy2
+- [x] ADXB_CopyExtraBufSte
 - [ ] ADXB_EndDecode
-- [ ] ADXB_ExecOneAdx
-- [ ] ADXB_ExecHndl
+- [x] ADXB_ExecOneAdx
+- [x] ADXB_ExecHndl
 
 ### adx_crs ✅
 
@@ -62,7 +62,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 ### adx_dcd
 
 - [ ] ADX_GetCoefficient
-- [ ] ADX_DecodeInfo
+- [x] ADX_DecodeInfo
 - [ ] ADX_DecodeInfoExADPCM2
 - [ ] ADX_DecodeInfoExVer
 - [ ] ADX_DecodeInfoExIdly
@@ -148,25 +148,28 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ADXT_GetNumFiles
 - [x] ADXT_ResetEntry
 
-### adx_mps2
+### adx_mps2 ✅
 
-- [ ] _adxm_lock
-- [ ] _adxm_unlock
-- [ ] adxm_safe_trap
-- [ ] adxm_safe_proc
-- [ ] adxm_vsync_proc
-- [ ] adxm_fs_proc
-- [ ] adxm_iWakeupThread
-- [ ] adxm_SleepThread
-- [ ] adxm_ResumeThread
-- [ ] adxm_SuspendThread
-- [ ] adxm_SetupSafeThrd
-- [ ] adxm_SetupVsyncThrd
-- [ ] adxm_SetupFsThrd
-- [ ] adxm_SetupMwIdleThrd
-- [ ] adxm_IsSetupThrdEx
+- [x] _adxm_lock
+- [x] _adxm_unlock
+- [x] adxm_goto_svr_border
+- [x] adxm_goto_mwidle_border
+- [x] adxm_safe_trap
+- [x] adxm_safe_proc
+- [x] adxm_vsync_proc
+- [x] adxm_fs_proc
+- [x] adxm_iWakeupThread
+- [x] adxm_WakeupThread
+- [x] adxm_SleepThread
+- [x] adxm_ResumeThread
+- [x] adxm_SuspendThread
+- [x] adxm_SetupSafeThrd
+- [x] adxm_SetupVsyncThrd
+- [x] adxm_SetupFsThrd
+- [x] adxm_SetupMwIdleThrd
+- [x] adxm_IsSetupThrdEx
 - [x] ADXM_IsSetupThrd
-- [ ] ADXM_SetupThrd
+- [x] ADXM_SetupThrd
 - [x] adxm_ShutdownPreProcedure
 - [x] ADXM_ShutdownThrd
 - [x] adxm_ShutdownMwIdleThrd
@@ -175,10 +178,10 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] adxm_ShutdownSafeThrd
 - [x] ADXM_Lock
 - [x] ADXM_Unlock
-- [ ] ADXPS2_ExecVint
+- [x] ADXPS2_ExecVint
 - [x] ADXM_ExecMain
-- [ ] ADXPS2_WakeupMainThrd
-- [ ] ADXPS2_SetupThrd
+- [x] ADXPS2_WakeupMainThrd
+- [x] ADXPS2_SetupThrd
 
 ### adx_rnap ✅
 
@@ -213,7 +216,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [ ] ADXSJD_TermSupply
 - [x] ADXSJD_Start
 - [x] ADXSJD_Stop
-- [ ] adxsjd_decode_prep
+- [x] adxsjd_decode_prep
 - [x] adxsjd_get_wr
 - [ ] adxsjd_decexec_start
 - [ ] adxsjd_decexec_end
