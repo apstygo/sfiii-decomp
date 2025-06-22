@@ -9,6 +9,7 @@ extern u16 Screen_Switch_Buffer; // size: 0x2, address: 0x578B60
 extern u16 Screen_Switch;        // size: 0x2, address: 0x578B64
 
 extern BG bg_w; // size: 0x428, address: 0x595830
+extern u8 bg_disp_off;
 
 void Bg_TexInit();
 void Bg_Kakikae_Set();
