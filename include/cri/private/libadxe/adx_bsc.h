@@ -16,5 +16,7 @@ Sint32 ADXB_GetAinfLen(ADXB adxb);
 Sint16 ADXB_GetDefOutVol(ADXB adxb);
 Sint32 ADXB_GetPcmBuf(ADXB adxb); // Returns a void*?
 void ADXB_EntryGetWrFunc(ADXB adxb, Sint32 (*get_wr)(void *, Sint32 *, Sint32 *, Sint32 *), void *object);
+Sint32 ADXB_GetFormat(ADXB adxb);
+Sint32 ADXB_DecodeHeader(ADXB adxb, void *header, Sint32 len);
 
 #endif // ADX_BSC_H
