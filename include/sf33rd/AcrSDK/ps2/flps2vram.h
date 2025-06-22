@@ -26,5 +26,7 @@ void flReloadTexture(s32 count, u32 *texlist);
 s16 flPS2GetVramSize();
 s32 flLockPalette(Rect *lprect, u32 th, plContext *lpcontext, u32 flag);
 s32 flUnlockPalette(u32 th);
+void flPS2PurgePaletteFromVRAM(u32 ph);
+void flPS2PurgeTextureFromVRAM(u32 th);
 
 #endif

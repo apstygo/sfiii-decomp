@@ -8,7 +8,11 @@
 #include <stddef.h>
 #endif
 
+#if defined(TARGET_PS2)
 #define ExitHandler() asm("sync.l; ei")
+#else
+void ExitHandler();
+#endif
 
 struct ThreadParam {
     int status;
@@ -42,6 +46,16 @@ unsigned int iGetCop0(int);
  * Multi Thread
  */
 
+#define TH_SELF 0
+
+// Thread status
+#define THS_RUN 0x01
+#define THS_READY 0x02
+#define THS_WAIT 0x04
+#define THS_SUSPEND 0x08
+#define THS_WAITSUSPEND 0x0c
+#define THS_DORMANT 0x10
+
 int CreateThread(struct ThreadParam *);
 int DeleteThread(int);
 int StartThread(int, void *arg);
@@ -68,6 +82,18 @@ int iSuspendThread(int);
 int ResumeThread(int);
 int iResumeThread(int);
 int DelayThread(u_int);
+
+/*
+ * Interrupt
+ */
+
+int EnableIntc(int);
+int iEnableIntc(int);
+int iDisableIntc(int);
+int EnableDmac(int);
+
+int AddIntcHandler(int, int (*)(int), int);
+int AddDmacHandler(int, int (*)(int), int);
 
 void scePrintf(const char *fmt, ...);
 void sceVprintf(const char *fmt, va_list ap);

@@ -219,6 +219,42 @@ void scePrintf(const char *fmt, ...) {
     not_implemented(__func__);
 }
 
+int CreateThread(struct ThreadParam *) {
+    not_implemented(__func__);
+}
+
+int StartThread(int, void *arg) {
+    not_implemented(__func__);
+}
+
+void ExitDeleteThread(void) {
+    not_implemented(__func__);
+}
+
+int GetThreadId(void) {
+    not_implemented(__func__);
+}
+
+int ReferThreadStatus(int, struct ThreadParam *) {
+    not_implemented(__func__);
+}
+
+int iReferThreadStatus(int, struct ThreadParam *) {
+    not_implemented(__func__);
+}
+
+int SleepThread(void) {
+    not_implemented(__func__);
+}
+
+int iWakeupThread(int) {
+    not_implemented(__func__);
+}
+
+int SuspendThread(int) {
+    not_implemented(__func__);
+}
+
 int DelayThread(u_int) {
     not_implemented(__func__);
 }
@@ -330,6 +366,54 @@ void SyncDCache(void *, void *) {
 }
 
 int WakeupThread(int) {
+    not_implemented(__func__);
+}
+
+int EnableIntc(int) {
+    not_implemented(__func__);
+}
+
+int iEnableIntc(int) {
+    not_implemented(__func__);
+}
+
+int iDisableIntc(int) {
+    not_implemented(__func__);
+}
+
+int EnableDmac(int) {
+    not_implemented(__func__);
+}
+
+int AddIntcHandler(int, int (*)(int), int) {
+    not_implemented(__func__);
+}
+
+int AddDmacHandler(int, int (*)(int), int) {
+    not_implemented(__func__);
+}
+
+void ExitHandler() {
+    not_implemented(__func__);
+}
+
+// vu0
+
+float cosf(float) {
+    not_implemented(__func__);
+}
+
+float atan2(float) {
+    not_implemented(__func__);
+}
+
+float sqrt(float) {
+    not_implemented(__func__);
+}
+
+// libdma
+
+void sceDmaRecvN(sceDmaChan *d, void *addr, int size) {
     not_implemented(__func__);
 }
 
