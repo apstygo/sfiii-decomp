@@ -1,16 +1,22 @@
 #include "common.h"
+#include <cri/private/libadxe/adx_bahx.h>
+#include <cri/private/libadxe/adx_baif.h>
+#include <cri/private/libadxe/adx_bau.h>
 #include <cri/private/libadxe/adx_bsc.h>
+#include <cri/private/libadxe/adx_bsps.h>
+#include <cri/private/libadxe/adx_bwav.h>
 #include <cri/private/libadxe/adx_dcd.h>
 #include <cri/private/libadxe/adx_errs.h>
 #include <cri/private/libadxe/adx_xpnd.h>
 #include <cri/private/libadxe/structs.h>
 
+#include <stdio.h>
 #include <string.h>
 
 #define ADXB_MAX_OBJ 16
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
-s8 *skg_build = "\nSKG/PS2EE Ver.0.64 Build:Sep 18 2003 09:59:56\n";
+Char8 *skg_build = "\nSKG/PS2EE Ver.0.64 Build:Sep 18 2003 09:59:56\n";
 Sint32 skg_init_count = 0;
 Sint32 skg_err_func = 0;
 Sint32 skg_err_obj = 0;
@@ -22,7 +28,9 @@ Sint16 adxb_def_km = 0;
 Sint16 adxb_def_ka = 0;
 ADXB_OBJ adxb_obj[ADXB_MAX_OBJ] = { 0 };
 
-void ADXB_Destroy(ADXB);
+// forward decls
+void ADXB_Destroy(ADXB adxb);
+Sint32 adxb_get_key(ADXB adxb, Uint8 arg1, Uint8 arg2, Sint32 arg3, Sint16 *arg4, Sint16 *arg5, Sint16 *arg6);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", skg_prim_tbl);
 
@@ -250,18 +258,6 @@ Sint32 ADXB_DecodeHeaderAdx(ADXB adxb, void *header, Sint32 len) {
 
     return audio_offset;
 }
-
-Sint32 ADXB_CheckAc3(void *);
-Sint32 ADXB_CheckAiff(void *);
-Sint32 ADXB_CheckAu(void *);
-Sint32 ADXB_CheckSpsd(void *);
-Sint32 ADXB_CheckWav(void *);
-Sint32 ADXB_DecodeHeaderAc3(ADXB, void *, Sint32);
-Sint32 ADXB_DecodeHeaderAdx(ADXB, void *, Sint32);
-Sint32 ADXB_DecodeHeaderAiff(ADXB, void *, Sint32);
-Sint32 ADXB_DecodeHeaderAu(ADXB, void *, Sint32);
-Sint32 ADXB_DecodeHeaderSpsd(ADXB, void *, Sint32);
-Sint32 ADXB_DecodeHeaderWav(ADXB, void *, Sint32);
 
 Sint32 ADXB_DecodeHeader(ADXB adxb, void *header, Sint32 len) {
     Uint32 magic = *(Uint16 *)header;
@@ -632,13 +628,6 @@ void ADXB_ExecOneAdx(ADXB adxb) {
         }
     }
 }
-
-void ADXB_ExecOneAc3(ADXB adxb);
-void ADXB_ExecOneAhx(ADXB adxb);
-void ADXB_ExecOneAiff(ADXB adxb);
-void ADXB_ExecOneAu(ADXB adxb);
-void ADXB_ExecOneSpsd(ADXB adxb);
-void ADXB_ExecOneWav(ADXB adxb);
 
 void ADXB_ExecHndl(ADXB adxb) {
     if (adxb->format == 0) {
