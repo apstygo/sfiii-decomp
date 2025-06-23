@@ -11,14 +11,14 @@
 // sbss
 u64 flPs2StoreImageOldIMR;
 static u32 flPs2StoreImageSize;
-static u32 flPs2StoreImageAdrs;
+static uintptr_t flPs2StoreImageAdrs;
 
 static __int128 vif1_fifo = (__int128)0x06000000;
 static u32 *dma_chcr_adrs[10] = { (u32 *)0x10008000, (u32 *)0x10009000, (u32 *)0x1000A000, (u32 *)0x1000B000,
                                   (u32 *)0x1000B400, (u32 *)0x1000C000, (u32 *)0x1000C400, (u32 *)0x1000C800,
                                   (u32 *)0x1000D000, (u32 *)0x1000D400 };
 
-u32 flPS2DmaAddCntTag(u32 tag, s32 qwc, s32 irq, s32 /*unused*/) {
+uintptr_t flPS2DmaAddCntTag(uintptr_t tag, s32 qwc, s32 irq, s32 /*unused*/) {
     QWORD *wk_ptr = (QWORD *)tag;
     wk_ptr->UI128 = 0;
     wk_ptr->UI32[0] = qwc + 0x10000000;
@@ -30,9 +30,9 @@ u32 flPS2DmaAddCntTag(u32 tag, s32 qwc, s32 irq, s32 /*unused*/) {
     return tag + 0x10;
 }
 
-u32 flPS2DmaAddRefTag(u32 tag, s32 qwc, u32 data_adrs, s32 irq, s32 /*unused*/) {
+uintptr_t flPS2DmaAddRefTag(uintptr_t tag, s32 qwc, uintptr_t data_adrs, s32 irq, s32 /*unused*/) {
     QWORD *wk_ptr = (QWORD *)tag;
-    u32 addr = data_adrs & 0xFFFFFFF;
+    uintptr_t addr = data_adrs & 0xFFFFFFF;
     u32 spr_flag = 0;
 
     if ((data_adrs & 0x70000000) == 0x70000000) {
@@ -41,7 +41,7 @@ u32 flPS2DmaAddRefTag(u32 tag, s32 qwc, u32 data_adrs, s32 irq, s32 /*unused*/) 
 
     wk_ptr->UI128 = 0;
     wk_ptr->UI32[0] = qwc + 0x30000000;
-    wk_ptr->UI32[1] = addr | spr_flag;
+    wk_ptr->UI32[1] = (u32)(addr | spr_flag);
 
     if (irq == 1) {
         wk_ptr->UI32[0] |= 0x80000000;
@@ -50,9 +50,9 @@ u32 flPS2DmaAddRefTag(u32 tag, s32 qwc, u32 data_adrs, s32 irq, s32 /*unused*/) 
     return tag + 0x10;
 }
 
-u32 flPS2DmaAddRefeTag(u32 tag, s32 qwc, u32 data_adrs, s32 irq, s32 /*unused*/) {
+uintptr_t flPS2DmaAddRefeTag(uintptr_t tag, s32 qwc, uintptr_t data_adrs, s32 irq, s32 /*unused*/) {
     QWORD *wk_ptr = (QWORD *)tag;
-    u32 addr = data_adrs & 0xFFFFFFF;
+    uintptr_t addr = data_adrs & 0xFFFFFFF;
     u32 spr_flag = 0;
 
     if ((data_adrs & 0x70000000) == 0x70000000) {
@@ -61,7 +61,7 @@ u32 flPS2DmaAddRefeTag(u32 tag, s32 qwc, u32 data_adrs, s32 irq, s32 /*unused*/)
 
     wk_ptr->UI128 = 0;
     wk_ptr->UI32[0] = qwc;
-    wk_ptr->UI32[1] = addr | spr_flag;
+    wk_ptr->UI32[1] = (u32)(addr | spr_flag);
 
     if (irq == 1) {
         wk_ptr->UI32[0] |= 0x80000000;
@@ -70,7 +70,7 @@ u32 flPS2DmaAddRefeTag(u32 tag, s32 qwc, u32 data_adrs, s32 irq, s32 /*unused*/)
     return tag + 0x10;
 }
 
-u32 flPS2DmaAddEndTag(u32 tag, s32 qwc, s32 irq, s32 /*unused*/) {
+uintptr_t flPS2DmaAddEndTag(uintptr_t tag, s32 qwc, s32 irq, s32 /*unused*/) {
     QWORD *wk_ptr = (QWORD *)tag;
 
     wk_ptr->UI128 = 0;
@@ -83,7 +83,7 @@ u32 flPS2DmaAddEndTag(u32 tag, s32 qwc, s32 irq, s32 /*unused*/) {
     return tag + 0x10;
 }
 
-u32 flPS2VIF1CodeAddDirectHL(u32 tag, s32 qwc) {
+uintptr_t flPS2VIF1CodeAddDirectHL(uintptr_t tag, s32 qwc) {
     QWORD *pkt = (QWORD *)tag;
 
     pkt->UI32[0] = 0;
@@ -114,15 +114,15 @@ u32 flPS2VIF1CalcEndLoadImageSize(s32 /*unused*/) {
     return 0x40;
 }
 
-u32 flPS2VIF1MakeLoadImage(u32 buff_ptr, u32 irq, u32 data_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, s16 x, s16 y,
-                           s16 w, s16 h) {
+uintptr_t flPS2VIF1MakeLoadImage(uintptr_t buff_ptr, u32 irq, uintptr_t data_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm,
+                                 s16 x, s16 y, s16 w, s16 h) {
     u_long *work_ptr;
     u32 lp0;
     u32 count;
     u32 trans_size;
     s16 wk_h;
     FLPS2LoadImageData *load_image;
-    u32 last_tag;
+    uintptr_t last_tag;
 
     last_tag = 0;
     count = size / 0x70000;
@@ -183,7 +183,7 @@ u32 flPS2VIF1MakeLoadImage(u32 buff_ptr, u32 irq, u32 data_ptr, u32 size, s16 db
         }
 
         load_image = (FLPS2LoadImageData *)work_ptr;
-        flPS2DmaAddCntTag((u32)load_image, 6, 0, 0);
+        flPS2DmaAddCntTag((uintptr_t)load_image, 6, 0, 0);
         load_image->dmatag.data.UI32[2] = 0x13000000;
         load_image->dmatag.data.UI32[3] = 0x51000006;
 
@@ -205,15 +205,15 @@ u32 flPS2VIF1MakeLoadImage(u32 buff_ptr, u32 irq, u32 data_ptr, u32 size, s16 db
         if (lp0 >= count - 1) {
             load_image->giftag1.data.UI64[0] = SCE_GIF_SET_TAG(size / 16, 1, 0, 0, SCE_GIF_IMAGE, 0);
             load_image->giftag1.data.UI64[1] = 0;
-            flPS2DmaAddRefeTag((u32)load_image + 0x70, size / 16, data_ptr, irq, 0);
+            flPS2DmaAddRefeTag((uintptr_t)load_image + 0x70, size / 16, data_ptr, irq, 0);
 
             load_image->dmatag1.data.UI32[2] = 0;
             load_image->dmatag1.data.UI32[3] = (size / 16) | 0x51000000;
-            last_tag = (u32)load_image + 0x70;
+            last_tag = (uintptr_t)load_image + 0x70;
         } else {
             load_image->giftag1.data.UI64[0] = SCE_GIF_SET_TAG(0xF000, 0, 0, 0, 2, 0);
             load_image->giftag1.data.UI64[1] = 0;
-            flPS2DmaAddRefTag((u32)load_image + 0x70, 0x7000, data_ptr, 0, 0);
+            flPS2DmaAddRefTag((uintptr_t)load_image + 0x70, 0x7000, data_ptr, 0, 0);
 
             load_image->dmatag1.data.UI32[2] = 0;
             load_image->dmatag1.data.UI32[3] = 0x51000000 | 0x7000;
@@ -232,10 +232,10 @@ u32 flPS2VIF1MakeLoadImage(u32 buff_ptr, u32 irq, u32 data_ptr, u32 size, s16 db
     return last_tag;
 }
 
-void flPS2VIF1MakeEndLoadImage(u32 buff_ptr, u32 irq) {
+void flPS2VIF1MakeEndLoadImage(uintptr_t buff_ptr, u32 irq) {
     FLPS2LoadEndData *load_end = (FLPS2LoadEndData *)buff_ptr;
-    flPS2DmaAddEndTag((u32)load_end, 3, irq, 0);
-    flPS2VIF1CodeAddDirectHL((u32)load_end + 0x10, 2);
+    flPS2DmaAddEndTag((uintptr_t)load_end, 3, irq, 0);
+    flPS2VIF1CodeAddDirectHL((uintptr_t)load_end + 0x10, 2);
 
     load_end->giftag.UI64[0] = SCE_GIF_SET_TAG(1, 1, 0, 0, SCE_GIF_PACKED, 1);
     load_end->giftag.UI64[1] = SCE_GIF_PACKED_AD;
@@ -244,7 +244,7 @@ void flPS2VIF1MakeEndLoadImage(u32 buff_ptr, u32 irq) {
     load_end->texflush.UI64[1] = SCE_GS_TEXFLUSH;
 }
 
-void flPS2StoreImageB(u32 load_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, s16 x, s16 y, s16 w, s16 h) {
+void flPS2StoreImageB(uintptr_t load_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, s16 x, s16 y, s16 w, s16 h) {
     sceDmaChan *dma_channel;
     u32 lp0;
     u32 count;
@@ -311,7 +311,7 @@ void flPS2StoreImageB(u32 load_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, s16 x,
         }
 
         store_image = (FLPS2StoreImageData *)flPS2GetSystemTmpBuff(0x90, 0x10);
-        flPS2DmaAddEndTag((u32)store_image, 7, 0, 0);
+        flPS2DmaAddEndTag((uintptr_t)store_image, 7, 0, 0);
         store_image->dmatag.data.UI32[2] = 0;
         store_image->dmatag.data.UI32[3] = 0;
 
@@ -408,12 +408,12 @@ void flPS2DmaInitControl(FLPS2VIF1Control *dma_ptr, u32 queue_size, void *handle
     flPs2GsHandler = AddIntcHandler(0, &IntGsStoreImageHandler, 0);
 }
 
-s32 flPS2DmaAddQueue2(s32 type, u32 data_adrs, u32 endtag_adrs, FLPS2VIF1Control *dma_ptr) {
+s32 flPS2DmaAddQueue2(s32 type, uintptr_t data_adrs, uintptr_t endtag_adrs, FLPS2VIF1Control *dma_ptr) {
     u32 dma_chcr;
     sceDmaChan *dma_channel;
-    u32 *dma_queue;
+    uintptr_t *dma_queue;
     s32 dma_index;
-    u32 *old_tag;
+    uintptr_t *old_tag;
     u32 qwc;
 
     flDebugAQNum += 1;
@@ -429,7 +429,7 @@ s32 flPS2DmaAddQueue2(s32 type, u32 data_adrs, u32 endtag_adrs, FLPS2VIF1Control
         dma_index = flPs2State.SystemIndex;
 
         if (dma_ptr->queue_ctr[dma_index] <= dma_ptr->queue_size - 1) {
-            dma_queue = (u32 *)flPS2GetSystemBuffAdrs(dma_ptr->dma_queue_handle[dma_index]);
+            dma_queue = (uintptr_t *)flPS2GetSystemBuffAdrs(dma_ptr->dma_queue_handle[dma_index]);
             dma_ptr->queue_ctr[dma_index] += 1;
             dma_queue[dma_ptr->queue_ptr0[dma_index]++] = data_adrs;
 
@@ -443,7 +443,7 @@ s32 flPS2DmaAddQueue2(s32 type, u32 data_adrs, u32 endtag_adrs, FLPS2VIF1Control
             return 0;
         }
     } else if (dma_ptr->old_queue_data && dma_ptr->old_endtag) {
-        old_tag = (u32 *)dma_ptr->old_endtag;
+        old_tag = (uintptr_t *)dma_ptr->old_endtag;
 
         switch ((dma_ptr->old_queue_data & 0xF0000000) >> 0x1C) {
         default:

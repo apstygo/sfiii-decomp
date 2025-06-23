@@ -1419,7 +1419,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", check_cgd
 
 void set_new_attnum(WORK *wk) {
     s16 aag_sw;
-    u32 dspadrs;
+    uintptr_t dspadrs;
     static u16 att_req;
 
     wk->renew_attack = wk->cg_att_ix;
@@ -1446,7 +1446,7 @@ void set_new_attnum(WORK *wk) {
     }
 
     wk->att = *(wk->att_ix_table + wk->cg_att_ix);
-    dspadrs = (u32)(wk->att_ix_table + wk->cg_att_ix);
+    dspadrs = (uintptr_t)(wk->att_ix_table + wk->cg_att_ix);
     wk->zu_flag = wk->att.level & 0x80;
     wk->jump_att_flag = wk->att.level & 0x40;
     wk->at_attribute = (wk->att.level >> 4) & 3;

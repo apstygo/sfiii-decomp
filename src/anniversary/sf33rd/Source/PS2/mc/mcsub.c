@@ -1062,8 +1062,8 @@ void McActSaveSet(s32 port, void *bufs) {
     mw->port = port;
     sprintf(mw->path, "%s/%s", mw->dir, mw->dir);
     mw->size = mf->file[4].size;
-    mf->file[4].bufs = (s32)bufs;
-    mf->file[5].bufs = (s32)bufs + mw->size;
+    mf->file[4].bufs = (intptr_t)bufs;
+    mf->file[5].bufs = (intptr_t)bufs + mw->size;
     mw->exe_flag = 1;
 }
 
@@ -1400,7 +1400,7 @@ s32 McActNewChk(s32 port) {
 }
 
 s32 McActAvailSet(s32 *ico) {
-    s32 top;
+    intptr_t top;
     s32 i;
     s32 n;
     s32 cluster;
@@ -1408,7 +1408,7 @@ s32 McActAvailSet(s32 *ico) {
     _memcard_file *mf = mc_file_tbl[mw->file_type];
 
     if (ico != NULL) {
-        top = (s32)ico;
+        top = (intptr_t)ico;
         ico++;
         n = (s32)*ico++;
 
@@ -1418,9 +1418,9 @@ s32 McActAvailSet(s32 *ico) {
             }
 
             if (mf->file[i].flag != 0) {
-                mf->file[i].bufs = (s32)*ico++;
+                mf->file[i].bufs = *ico++;
                 mf->file[i].bufs += top;
-                mf->file[i].size = (s32)*ico++;
+                mf->file[i].size = *ico++;
                 n -= 1;
             }
         }

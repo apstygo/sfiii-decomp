@@ -403,11 +403,11 @@ s32 ppgWriteQuadUseTrans(Vertex *pos, u32 col, PPGDataList *tb, s32 tix, s32 cix
     return 1;
 }
 
-s32 ppgDecompress(s32 koCmpr, void *srcAdrs, s32 srcSize, void *dstAdrs, s32 dstSize) {
+ssize_t ppgDecompress(s32 koCmpr, void *srcAdrs, s32 srcSize, void *dstAdrs, s32 dstSize) {
     u8 *src;
     u8 *dst;
     s32 i;
-    s32 rnum = 0;
+    ssize_t rnum = 0;
 
     switch (koCmpr) {
     default:
@@ -961,7 +961,7 @@ s32 ppgRenewTexChunkSeqs(Texture *tch) {
     return 1;
 }
 
-s32 ppgSetupTexChunk_1st(Texture *tch, u8 *adrs, s32 size, s32 ixNum1st, s32 ixNums, s32 ar, s32 arcnt) {
+s32 ppgSetupTexChunk_1st(Texture *tch, u8 *adrs, ssize_t size, s32 ixNum1st, s32 ixNums, s32 ar, s32 arcnt) {
     PPGFileHeader *ppg;
     s32 i;
     s32 ofs;

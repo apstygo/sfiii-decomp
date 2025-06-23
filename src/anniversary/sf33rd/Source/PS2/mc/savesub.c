@@ -101,7 +101,7 @@ static void load_data(s32 fnum, void *adrs) {
     }
 
     nsct = ADXF_GetFsizeSct(save->adxf);
-    printf("load_data: fnum=%d adrs=0x%X size=0x%X\n", fnum, (u32)adrs, nsct << 11);
+    printf("load_data: fnum=%d adrs=0x%X size=0x%X\n", fnum, (uintptr_t)adrs, nsct << 11);
     ADXF_ReadNw(save->adxf, nsct, adrs);
 }
 
@@ -127,7 +127,7 @@ static s32 load_busy_ck() {
 
 void SaveInit(s32 file_type, s32 save_mode) {
     u32 size;
-    u32 adrs;
+    uintptr_t adrs;
     _save_work *save = &SaveWork;
 
     Forbid_Reset = 1;
@@ -243,7 +243,7 @@ static void save_move_init(_save_work *save) {
             break;
         }
 
-        KnjInit(knj_type, (u32)save->fnt_adrs, 0x200, flPs2State.ZBuffAdrs);
+        KnjInit(knj_type, (uintptr_t)save->fnt_adrs, 0x200, flPs2State.ZBuffAdrs);
         load_data(icon_fnum[save->file_type], save->ico_adrs);
         save->r_no_1 += 1;
         /* fallthrough */

@@ -106,7 +106,7 @@ static void lz_ext_p6_cx(u8 *srcptr, u16 *dstptr, u32 len, u16 *palptr);
 static u16 x16_mapping_set(PatternMap *map, s32 code);
 static u16 x32_mapping_set(PatternMap *map, s32 code);
 
-static void search_trsptr(u32 trstbl, s32 i, s32 n, s32 cods, s32 atrs, s32 codd, s32 atrd) {
+static void search_trsptr(uintptr_t trstbl, s32 i, s32 n, s32 cods, s32 atrs, s32 codd, s32 atrd) {
     s32 j;
     u16 *tmpbas;
     s32 ctemp;
@@ -425,7 +425,7 @@ void mlt_obj_trans_ext(MultiTexture *mt, WORK *wk, s32 base_y) {
                     y += trsptr->y;
                 }
 
-                texptr = (TEX *)((u32)textbl + ((u32 *)textbl)[trsptr->code]);
+                texptr = (TEX *)((uintptr_t)textbl + ((u32 *)textbl)[trsptr->code]);
                 dw = (texptr->wh & 0xE0) >> 2;
                 dh = (texptr->wh & 0x1C) * 2;
                 wh = (texptr->wh & 3) + 1;
@@ -520,7 +520,7 @@ void mlt_obj_trans_ext(MultiTexture *mt, WORK *wk, s32 base_y) {
                 y += trsptr->y;
             }
 
-            texptr = (TEX *)((u32)textbl + ((u32 *)textbl)[trsptr->code]);
+            texptr = (TEX *)((uintptr_t)textbl + ((u32 *)textbl)[trsptr->code]);
             dw = (texptr->wh & 0xE0) >> 2;
             dh = (texptr->wh & 0x1C) * 2;
             wh = (texptr->wh & 3) + 1;
@@ -650,7 +650,7 @@ void mlt_obj_trans(MultiTexture *mt, WORK *wk, s32 base_y) {
             y += trsptr->y;
         }
 
-        texptr = (TEX *)((u32)textbl + ((u32 *)textbl)[trsptr->code]);
+        texptr = (TEX *)((uintptr_t)textbl + ((u32 *)textbl)[trsptr->code]);
         dw = (texptr->wh & 0xE0) >> 2;
         dh = (texptr->wh & 0x1C) * 2;
         wh = (texptr->wh & 3) + 1;
@@ -802,7 +802,7 @@ void mlt_obj_trans_cp3_ext(MultiTexture *mt, WORK *wk, s32 base_y) {
                     y += trsptr->y;
                 }
 
-                texptr = (TEX *)((u32)textbl + ((u32 *)textbl)[trsptr->code]);
+                texptr = (TEX *)((uintptr_t)textbl + ((u32 *)textbl)[trsptr->code]);
                 dw = (texptr->wh & 0xE0) >> 2;
                 dh = (texptr->wh & 0x1C) * 2;
                 wh = (texptr->wh & 3) + 1;
@@ -902,7 +902,7 @@ void mlt_obj_trans_cp3_ext(MultiTexture *mt, WORK *wk, s32 base_y) {
                 y += trsptr->y;
             }
 
-            texptr = (TEX *)((u32)textbl + ((u32 *)textbl)[trsptr->code]);
+            texptr = (TEX *)((uintptr_t)textbl + ((u32 *)textbl)[trsptr->code]);
             dw = (texptr->wh & 0xE0) >> 2;
             dh = (texptr->wh & 0x1C) * 2;
             wh = (texptr->wh & 3) + 1;
@@ -1037,7 +1037,7 @@ void mlt_obj_trans_cp3(MultiTexture *mt, WORK *wk, s32 base_y) {
             y += trsptr->y;
         }
 
-        texptr = (TEX *)((u32)textbl + ((u32 *)textbl)[trsptr->code]);
+        texptr = (TEX *)((uintptr_t)textbl + ((u32 *)textbl)[trsptr->code]);
         dw = (s32)(texptr->wh & 0xE0) >> 2;
         dh = (texptr->wh & 0x1C) * 2;
         wh = (texptr->wh & 3) + 1;
@@ -1194,7 +1194,7 @@ void mlt_obj_trans_rgb_ext(MultiTexture *mt, WORK *wk, s32 base_y) {
                     y += trsptr->y;
                 }
 
-                texptr = (TEX *)((u32)textbl + ((u32 *)textbl)[trsptr->code]);
+                texptr = (TEX *)((uintptr_t)textbl + ((u32 *)textbl)[trsptr->code]);
                 dw = (texptr->wh & 0xE0) >> 2;
                 dh = (texptr->wh & 0x1C) * 2;
                 wh = (texptr->wh & 3) + 1;
@@ -1283,7 +1283,7 @@ void mlt_obj_trans_rgb_ext(MultiTexture *mt, WORK *wk, s32 base_y) {
                 y += trsptr->y;
             }
 
-            texptr = (TEX *)((u32)textbl + ((u32 *)textbl)[trsptr->code]);
+            texptr = (TEX *)((uintptr_t)textbl + ((u32 *)textbl)[trsptr->code]);
             dw = (texptr->wh & 0xE0) >> 2;
             dh = (texptr->wh & 0x1C) * 2;
             wh = (texptr->wh & 3) + 1;
@@ -1411,7 +1411,7 @@ void mlt_obj_trans_rgb(MultiTexture *mt, WORK *wk, s32 base_y) {
             y += trsptr->y;
         }
 
-        texptr = (TEX *)((u32)textbl + ((u32 *)textbl)[trsptr->code]);
+        texptr = (TEX *)((uintptr_t)textbl + ((u32 *)textbl)[trsptr->code]);
         dw = (texptr->wh & 0xE0) >> 2;
         dh = (texptr->wh & 0x1C) * 2;
         wh = (texptr->wh & 3) + 1;
@@ -2144,7 +2144,7 @@ void mlt_obj_melt2(MultiTexture *mt, u16 cg_number) {
             attr = trsptr->attr;
 
             if (!(attr & 0x1000)) {
-                texptr = (TEX *)((u32)textbl + ((u32 *)textbl)[trsptr->code]);
+                texptr = (TEX *)((uintptr_t)textbl + ((u32 *)textbl)[trsptr->code]);
                 dd = (((texptr->wh & 0xE0) << 5) - 0x400) | (((texptr->wh & 0x1C) << 6) - 0x100);
                 wh = (texptr->wh & 3) + 1;
                 size = (wh * wh) << 6;

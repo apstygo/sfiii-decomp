@@ -74,8 +74,10 @@ CLANG_FLAGS := $(CLANG_INCLUDES) -DTARGET_SDL3 -DXPT_TGT_EE -D_POSIX_C_SOURCE -s
 CLANG_FLAGS += -Wno-c2x-extensions -Wno-int-conversion -Wno-incompatible-function-pointer-types -w
 CLANG_LINKER_FLAGS := -lz -lm -g
 
-CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
-CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
+ifneq ($(PLATFORM),ps2)
+	CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
+	CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
+endif
 
 # Files
 
