@@ -79,8 +79,9 @@ void q_ldreq_color_data(REQ *curr) {
             break;
         }
         if (cfn->type == 10) {
-            if (sndCheckVTransStatus(0) == 0)
+            if (sndCheckVTransStatus(0) == 0) {
                 break;
+            }
             if (cfn->data + 1 == cseGetIdStoredBd(curr->id + 1)) {
                 *curr->result |= lpr_wrdata[curr->id];
                 curr->be = 0;
@@ -382,6 +383,7 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
             ldadrs[i] = palConvSrcToRam(adrs->col[My_char[0]][Player_Color[0]][i]);
             tradrs[i] = palConvSrcToRam(adrs->col[My_char[1]][Player_Color[1]][i]);
         }
+        
         Push_ramcnt_key(key);
         palUpdateGhostCP3(40, 2);
         break;
