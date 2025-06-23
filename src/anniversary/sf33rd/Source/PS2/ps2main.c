@@ -4,4 +4,9 @@
 void main() {
     AcrMain();
 }
+#else
+int main() {
+    AcrMain();
+    return 0;
+}
 #endif
