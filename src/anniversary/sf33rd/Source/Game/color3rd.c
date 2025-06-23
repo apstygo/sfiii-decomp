@@ -27,8 +27,8 @@ typedef struct {
 } col_file_data;
 
 typedef struct {
-    // total size: 1600
-    u16 col[2][16][64]; // offset 0x0, size 1600
+    // total size: 0x1000
+    u16 col[2][16][64]; // offset 0x0, size 0x1000
 } COL_x1000;
 
 typedef struct {
@@ -40,7 +40,7 @@ typedef struct {
 } COL_x180;
 
 typedef struct {
-    u16 col[2][64]; // offset 0x0, size 160
+    u16 col[2][64]; // offset 0x0, size 0x100
 } COL_x100;
 
 typedef struct {
@@ -64,18 +64,19 @@ const u16 hitmark_color[128];
 const col_file_data color_file[161];
 
 void q_ldreq_color_data(REQ *curr) {
-    col_file_data *cfn;
-    s32 err;
 #if defined(TARGET_PS2)
     void init_trans_color_ram(s32 id, s32 key, u32 type, u32 data);
 #endif
+    col_file_data *cfn;
+    s32 err;
 
     cfn = (col_file_data *)&color_file[curr->ix];
 
     switch (curr->rno) {
     case 0:
-        if (fsCheckCommandExecuting() != 0)
+        if (fsCheckCommandExecuting() != 0) {
             break;
+        }
         if (cfn->type == 10) {
             if (sndCheckVTransStatus(0) == 0)
                 break;
@@ -204,14 +205,14 @@ void set_hitmark_color() {
 }
 
 void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
+#if defined(TARGET_PS2)
+    void metamor_color_store(s32 wkid);
+#endif
     u16 *ldadrs;
     u16 *tradrs;
     s16 i;
     s16 j;
     s32 size;
-#if defined(TARGET_PS2)
-    void metamor_color_store(s32 wkid);
-#endif
 
     switch (type) {
     case 1:
@@ -255,13 +256,13 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
 
         Push_ramcnt_key(key);
         palUpdateGhostCP3(id * 16, 16);
+
         if (id) {
             palUpdateGhostCP3(506, 4);
-            return;
+        } else {
+            palUpdateGhostCP3(502, 4);
         }
-
-        palUpdateGhostCP3(502, 4);
-        return;
+        break;
 
     case 2:
         size = Get_size_data_ramcnt_key(key);
@@ -282,7 +283,7 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
         }
 
         palUpdateGhostCP3(data, size / 64);
-        return;
+        break;
     case 3: {
         COL_x1000 *dadr = (COL_x1000 *)Get_ramcnt_address(key);
         if (id == 2) {
@@ -311,7 +312,7 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
             metamor_color_store(id);
         }
         Push_ramcnt_key(key);
-        return;
+        break;
     }
     case 4: {
         COL_x80 *adr = (COL_x80 *)Get_ramcnt_address(key);
@@ -331,7 +332,7 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
         Push_ramcnt_key(key);
         palUpdateGhostCP3(data + (id * 16), 1);
         palUpdateGhostCP3(data + ((id * 16) + 8), 1);
-        return;
+        break;
     }
     case 5: {
         COL_x180 *adr = (COL_x180 *)Get_ramcnt_address(key);
@@ -349,7 +350,7 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
         Push_ramcnt_key(key);
         palUpdateGhostCP3((data) + (id * 16), 3);
         palUpdateGhostCP3((data) + ((id * 16) + 8), 3);
-        return;
+        break;
     }
     case 6: {
         COL_x100 *adr = (COL_x100 *)Get_ramcnt_address(key);
@@ -367,7 +368,7 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
         Push_ramcnt_key(key);
         palUpdateGhostCP3(data + (id * 16), 2);
         palUpdateGhostCP3((data) + ((id * 16) + 8), 2);
-        return;
+        break;
     }
     case 7: {
         COL_x2800 *adrs = (COL_x2800 *)Get_ramcnt_address(key);
@@ -380,7 +381,7 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
         }
         Push_ramcnt_key(key);
         palUpdateGhostCP3(40, 2);
-        return;
+        break;
     }
     case 8:
         cseSendBd2SpuWithId((void *)Get_ramcnt_address(key), Get_size_data_ramcnt_key(key), 0, 0);
