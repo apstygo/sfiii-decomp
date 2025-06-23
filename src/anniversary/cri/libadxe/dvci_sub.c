@@ -10,6 +10,10 @@
 
 #include <string.h>
 
+#if !defined(TARGET_PS2)
+#include <strings.h>
+#endif
+
 #define LAST_CHAR(str) ((str)[strlen(str) - 1])
 
 // data
