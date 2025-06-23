@@ -12,7 +12,7 @@
 #define S32_INCREMENT_WRAPAROUND(val) (((val) != S32_MAX) ? ((val) + 1) : 0)
 
 // Compilation with GNU C Compilier means we are compiling CRI
-#if defined(__GNUC__) && !defined(M2CTX) && !defined(TARGET_SDL2)
+#if defined(__GNUC__) && !defined(M2CTX) && !defined(TARGET_SDL3)
 #define INCLUDE_ASM(FOLDER, NAME)                                                                                      \
     __asm__("\t.text\n"                                                                                                \
             "\t.align\t3\n"                                                                                            \

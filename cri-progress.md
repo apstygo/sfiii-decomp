@@ -24,34 +24,34 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] adxb_DefAddWr
 - [x] ADXB_Create
 - [x] ADXB_Destroy
-- [ ] ADXB_DecodeHeaderAdx
-- [ ] ADXB_DecodeHeader
+- [x] ADXB_DecodeHeaderAdx
+- [x] ADXB_DecodeHeader
 - [x] ADXB_EntryGetWrFunc
-- [ ] ADXB_GetPcmBuf
-- [ ] ADXB_GetFormat
+- [x] ADXB_GetPcmBuf
+- [x] ADXB_GetFormat
 - [x] ADXB_GetSfreq
 - [x] ADXB_GetNumChan
 - [x] ADXB_GetOutBps
-- [ ] ADXB_GetBlkSmpl
+- [x] ADXB_GetBlkSmpl
 - [x] ADXB_GetTotalNumSmpl
-- [ ] ADXB_GetNumLoop
+- [x] ADXB_GetNumLoop
 - [x] ADXB_GetAinfLen
 - [x] ADXB_GetDefOutVol
-- [ ] adxb_get_key
-- [ ] ADXB_GetStat
-- [ ] ADXB_EntryData
-- [ ] ADXB_Start
+- [x] adxb_get_key
+- [x] ADXB_GetStat
+- [x] ADXB_EntryData
+- [x] ADXB_Start
 - [x] ADXB_Stop
-- [ ] ADXB_Reset
-- [ ] ADXB_GetDecDtLen
-- [ ] ADXB_GetDecNumSmpl
-- [ ] ADXB_EvokeExpandSte
+- [x] ADXB_Reset
+- [x] ADXB_GetDecDtLen
+- [x] ADXB_GetDecNumSmpl
+- [x] ADXB_EvokeExpandSte
 - [ ] ADXB_EvokeDecode
-- [ ] memcpy2
-- [ ] ADXB_CopyExtraBufSte
+- [x] memcpy2
+- [x] ADXB_CopyExtraBufSte
 - [ ] ADXB_EndDecode
-- [ ] ADXB_ExecOneAdx
-- [ ] ADXB_ExecHndl
+- [x] ADXB_ExecOneAdx
+- [x] ADXB_ExecHndl
 
 ### adx_crs ✅
 
@@ -62,7 +62,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 ### adx_dcd
 
 - [ ] ADX_GetCoefficient
-- [ ] ADX_DecodeInfo
+- [x] ADX_DecodeInfo
 - [ ] ADX_DecodeInfoExADPCM2
 - [ ] ADX_DecodeInfoExVer
 - [ ] ADX_DecodeInfoExIdly
@@ -216,7 +216,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [ ] ADXSJD_TermSupply
 - [x] ADXSJD_Start
 - [x] ADXSJD_Stop
-- [ ] adxsjd_decode_prep
+- [x] adxsjd_decode_prep
 - [x] adxsjd_get_wr
 - [ ] adxsjd_decexec_start
 - [ ] adxsjd_decexec_end

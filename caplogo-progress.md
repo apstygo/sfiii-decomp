@@ -9,7 +9,7 @@ Notes:
 | Module   | Progress   |
 |----------|------------|
 | sf33rd   | 84.90%     |
-| cri      | 71.81%     |
+| cri      | 77.86%     |
 
 | Function                         | File                                                 | Module   | Is decompiled   |
 |----------------------------------|------------------------------------------------------|----------|-----------------|
@@ -962,12 +962,12 @@ Notes:
 | ADXB_SetAc3InSj                  | cri/libadxe/adx_bahx.c                               | cri      | ✅               |
 | ADXSJD_Start                     | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
 | ADXSJD_GetStat                   | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| adxsjd_decode_prep               | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| ADXB_DecodeHeader                | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADXB_DecodeHeaderAdx             | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADX_DecodeInfo                   | cri/libadxe/adx_dcd.c                                | cri      |                 |
+| adxsjd_decode_prep               | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
+| ADXB_DecodeHeader                | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
+| ADXB_DecodeHeaderAdx             | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
+| ADX_DecodeInfo                   | cri/libadxe/adx_dcd.c                                | cri      | ✅               |
 | ADX_DecodeInfoExVer              | cri/libadxe/adx_dcd.c                                | cri      |                 |
-| adxb_get_key                     | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| adxb_get_key                     | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXPD_SetExtPrm                  | cri/libadxe/adx_xpnd.c                               | cri      |                 |
 | ADX_DecodeInfoExADPCM2           | cri/libadxe/adx_dcd.c                                | cri      |                 |
 | ADX_DecodeInfoExIdly             | cri/libadxe/adx_dcd.c                                | cri      |                 |
@@ -975,15 +975,15 @@ Notes:
 | ADXPD_SetDly                     | cri/libadxe/adx_xpnd.c                               | cri      |                 |
 | ADX_DecodeInfoExLoop             | cri/libadxe/adx_dcd.c                                | cri      |                 |
 | ADX_DecodeInfoAinf               | cri/libadxe/adx_dcd.c                                | cri      |                 |
-| ADXB_GetFormat                   | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_GetFormat                   | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXSJD_GetNumChan                | cri/libadxe/adx_sjd.c                                | cri      |                 |
 | ADXB_GetNumChan                  | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXSJD_GetSfreq                  | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
 | ADXB_GetSfreq                    | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXSJD_GetNumLoop                | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| ADXB_GetNumLoop                  | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_GetNumLoop                  | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXSJD_GetBlkSmpl                | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| ADXB_GetBlkSmpl                  | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_GetBlkSmpl                  | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXSJD_SetMaxDecSmpl             | cri/libadxe/adx_sjd.c                                | cri      |                 |
 | ADXB_SetAhxDecSmpl               | cri/libadxe/adx_bahx.c                               | cri      | ✅               |
 | ADXB_SetAc3DecSmpl               | cri/libadxe/adx_bahx.c                               | cri      | ✅               |
@@ -1013,17 +1013,17 @@ Notes:
 | DTR_Start                        | cri/libadxe/dtr.c                                    | cri      | ✅               |
 | SJUNI_UngetChunk                 | cri/libadxe/sj_uni.c                                 | cri      | ✅               |
 | adxsjd_decode_exec               | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| ADXB_GetStat                     | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_GetStat                     | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | adxsjd_decexec_start             | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| ADXB_EntryData                   | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADXB_Start                       | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADXB_ExecHndl                    | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADXB_ExecOneAdx                  | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_EntryData                   | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
+| ADXB_Start                       | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
+| ADXB_ExecHndl                    | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
+| ADXB_ExecOneAdx                  | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXPD_GetStat                    | cri/libadxe/adx_xpnd.c                               | cri      |                 |
 | adxsjd_get_wr                    | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
-| ADXB_GetPcmBuf                   | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_GetPcmBuf                   | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXB_EvokeDecode                 | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADXB_EvokeExpandSte              | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_EvokeExpandSte              | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXPD_EntrySte                   | cri/libadxe/adx_xpnd.c                               | cri      |                 |
 | ADXPD_Start                      | cri/libadxe/adx_xpnd.c                               | cri      |                 |
 | ADXPD_ExecHndl                   | cri/libadxe/adx_xpnd.c                               | cri      |                 |
@@ -1034,9 +1034,9 @@ Notes:
 | ADXPD_Reset                      | cri/libadxe/adx_xpnd.c                               | cri      |                 |
 | adxb_DefAddWr                    | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | adxsjd_decexec_end               | cri/libadxe/adx_sjd.c                                | cri      |                 |
-| ADXB_GetDecDtLen                 | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADXB_GetDecNumSmpl               | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADXB_Reset                       | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_GetDecDtLen                 | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
+| ADXB_GetDecNumSmpl               | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
+| ADXB_Reset                       | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | adxt_stat_prep                   | cri/libadxe/adx_tsvr.c                               | cri      |                 |
 | ADXRNA_GetNumData                | cri/libadxe/adx_rnap.c                               | cri      | ✅               |
 | PS2RNA_GetNumData                | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
@@ -1063,8 +1063,8 @@ Notes:
 | flPS2ConvColor                   | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flPS2ConvScreenFZ                | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | adxt_stat_playing                | cri/libadxe/adx_tsvr.c                               | cri      |                 |
-| ADXB_CopyExtraBufSte             | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| memcpy2                          | cri/libadxe/adx_bsc.c                                | cri      |                 |
+| ADXB_CopyExtraBufSte             | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
+| memcpy2                          | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | q_ldreq_texture_group            | sf33rd/Source/Game/texgroup.c                        | sf33rd   | ✅               |
 | FadeIn                           | sf33rd/Source/Game/sc_sub.c                          | sf33rd   | ✅               |
 | njColorBlendingMode              | sf33rd/Source/Game/DC_Ghost.c                        | sf33rd   | ✅               |
