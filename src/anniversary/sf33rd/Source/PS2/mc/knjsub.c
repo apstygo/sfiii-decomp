@@ -1,6 +1,9 @@
 #include "sf33rd/Source/PS2/mc/knjsub.h"
 #include "common.h"
+#include "sf33rd/AcrSDK/ps2/flps2dma.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
+
+#include <stdio.h>
 
 // sbss
 static s32 knj_use_flag;
