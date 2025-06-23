@@ -6,6 +6,9 @@
 static s32 knj_use_flag;
 static u8 ascii_chr_tbl[1];
 
+// bss
+Kanji_W kanji_w;
+
 // forward declarations
 static u32 *make_img_pkt(u32 *p, u32 *img, u32 dbp, u32 dbw, u32 dbsm, u32 dsax, u32 dsay, u32 rrw, u32 rrh);
 
