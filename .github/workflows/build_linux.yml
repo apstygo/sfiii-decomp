@@ -8,7 +8,9 @@ on:
 
 jobs:
     build:
-        runs-on: ubuntu-25.04
+        runs-on: ubuntu-latest
+        container:
+            image: ubuntu:25.04
 
         steps:
           - name: Checkout repository
@@ -16,8 +18,8 @@ jobs:
 
           - name: Install dependencies
             run: |
-                sudo apt update
-                sudo apt install -y clang libsdl3-0 libsdl3-dev
+                apt update
+                apt install -y build-essential make clang libsdl3-0 libsdl3-dev
 
           - name: Build for Linux
             run: |
