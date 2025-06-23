@@ -155,7 +155,7 @@ segments:
       - [0x064C70, c, sf33rd/Source/Game/appear]
       - [0x06AD00, c, sf33rd/Source/Game/BBBSCOM]
       - [0x06B840, c, sf33rd/Source/Game/BBBSCOM2]
-      - [0x06B9E0, asm, sf33rd/Source/Game/BCD]
+      - [0x06B9E0, c, sf33rd/Source/Game/BCD]
       - [0x06BB10, c, sf33rd/Source/Game/bg]
       - [0x0710D0, c, sf33rd/Source/Game/bg_sub]
       - [0x076120, c, sf33rd/Source/Game/bg000]
@@ -1557,7 +1557,7 @@ segments:
       - { type: .sbss, vram: 0x578A10, name: sf33rd/AcrSDK/common/prilay }
       - { type: .sbss, vram: 0x578A20, name: sf33rd/Source/Game/AcrUtil }
       - { type: .sbss, vram: 0x578A80, name: sf33rd/Source/Game/appear }
-      - { type: sbss, vram: 0x578A9C, name: sf33rd/Source/Game/BCD }
+      - { type: .sbss, vram: 0x578A9C, name: sf33rd/Source/Game/BCD }
       - { type: .sbss, vram: 0x578AA0, name: sf33rd/Source/Game/bg }
       - { type: .sbss, vram: 0x578C20, name: sf33rd/Source/Game/bg_data }
       - { type: .sbss, vram: 0x578CD0, name: sf33rd/Source/Game/CHARID }
