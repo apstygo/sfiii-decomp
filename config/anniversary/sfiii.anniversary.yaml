@@ -730,7 +730,7 @@ segments:
 
       - [0x369820, .data, sf33rd/Source/Game/appear]
       - [0x3698D0, data, sf33rd/Source/Game/bg_data]
-      - [0x3699E0, data, sf33rd/Source/Game/bg_sub]
+      - [0x3699E0, .data, sf33rd/Source/Game/bg_sub]
       - [0x369A70, .data, sf33rd/Source/Game/cmd_data]
       - [0x36BD70, .data, sf33rd/Source/Game/Com_Data]
       - [0x36C4F0, .data, sf33rd/Source/Game/DEMO00]
@@ -745,7 +745,7 @@ segments:
       - [0x36D620, data, sf33rd/Source/Game/EFFA8]
       - [0x36D860, data, sf33rd/Source/Game/EFFB6]
       - [0x36F860, data, sf33rd/Source/Game/effe6]
-      - [0x36F8F0, data, sf33rd/Source/Game/end_data]
+      - [0x36F8F0, .data, sf33rd/Source/Game/end_data]
       - [0x36F9F0, .data, sf33rd/Source/Game/EX_DATA]
       - [0x370160, .data, sf33rd/Source/Game/IOConv]
       - [0x370220, .data, sf33rd/Source/Game/OPENING]
@@ -1138,7 +1138,7 @@ segments:
       - [0x41C2D0, rodata, sf33rd/Source/Game/end_7]
       - [0x41C2F0, rodata, sf33rd/Source/Game/end_8]
       - [0x41C310, rodata, sf33rd/Source/Game/end_9]
-      - [0x41C340, rodata, sf33rd/Source/Game/end_data]
+      - [0x41C340, .rodata, sf33rd/Source/Game/end_data]
       - [0x41F1E0, .rodata, sf33rd/Source/Game/end_main]
       - [0x41F218, .rodata, sf33rd/Source/Game/Entry]
       - [0x41F340, .rodata, sf33rd/Source/Game/EX_DATA]
@@ -1589,7 +1589,7 @@ segments:
       - { type: sbss, vram: 0x578FE8, name: sf33rd/Source/Game/end_0 }
       - { type: sbss, vram: 0x578FF8, name: sf33rd/Source/Game/end_14 }
       - { type: sbss, vram: 0x579000, name: sf33rd/Source/Game/end_5 }
-      - { type: sbss, vram: 0x57900C, name: sf33rd/Source/Game/end_data }
+      - { type: .sbss, vram: 0x57900C, name: sf33rd/Source/Game/end_data }
       - { type: .sbss, vram: 0x57903C, name: sf33rd/Source/Game/Entry }
       - { type: .sbss, vram: 0x579078, name: sf33rd/Source/Game/GameOver }
       - { type: .sbss, vram: 0x57907C, name: sf33rd/Source/Game/GD3rd }

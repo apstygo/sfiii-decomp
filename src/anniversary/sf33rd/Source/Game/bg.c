@@ -7,6 +7,7 @@
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/bg_data.h"
 #include "sf33rd/Source/Game/color3rd.h"
+#include "sf33rd/Source/Game/end_data.h"
 #include "structs.h"
 
 // sbss
@@ -52,9 +53,161 @@ void Bg_TexInit() {
     ppgAkaneList.pal = &ppgAkanePal;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Kakikae_Set);
+void Bg_Kakikae_Set() {
+    u8 i;
+    const u32 *rwtbl_ptr;
+    s8 rw;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Ed_Kakikae_Set);
+    switch (bg_w.stage) {
+    case 3:
+        tokusyu_stage = 1;
+        stage_flash = 0;
+        stage_ftimer = 0;
+        rw_dat->rwd_ptr = rw_dat->brw_ptr = (s16 *)rw30;
+        rw_dat->rw_cnt = 2;
+        i = 0;
+
+        while (i < 13) {
+            rw_gbix[i] = stage03rw_data_tbl[i];
+            i++;
+        }
+
+        rw3col_ptr = (u32 *)rw30col;
+        i = 0;
+
+        while (i < 4) {
+            rw = bgrw_on[bg_w.stage][i];
+            rwtbl_ptr = &bgrw_data_tbl[rw][0];
+            rw_dat[i + 1].bg_num = *rwtbl_ptr++;
+            rw_dat[i + 1].rwgbix = *rwtbl_ptr++;
+            rw_dat[i + 1].rwd_ptr = rw_dat[i + 1].brw_ptr = (s16 *)rwtbl_ptr[0];
+            rw_dat[i + 1].rw_cnt = *rw_dat[i + 1].rwd_ptr++;
+            rw_dat[i + 1].gbix = *rw_dat[i + 1].rwd_ptr++;
+            i++;
+        }
+        break;
+
+    case 10:
+        tokusyu_stage = 2;
+        yang_ix = 0;
+        yang_ix_plus = 0;
+        yang_timer = 4;
+        break;
+
+    case 19:
+        tokusyu_stage = 3;
+        stage_flash = 0;
+        stage_ftimer = 2;
+        rw_dat->rwd_ptr = rw_dat->brw_ptr = (s16 *)rw190;
+        rw_dat->rw_cnt = 2;
+        i = 0;
+
+        while (i < 4) {
+            rw_gbix[i] = stage19rw_data_tbl[i];
+            i++;
+        }
+
+        rw = bgrw_on[bg_w.stage][0];
+        rwtbl_ptr = &bgrw_data_tbl[rw][0];
+        rw_dat[1].bg_num = *rwtbl_ptr++;
+        rw_dat[1].rwgbix = *rwtbl_ptr++;
+        rw_dat[1].rwd_ptr = rw_dat[1].brw_ptr = (s16 *)rwtbl_ptr[0];
+        rw_dat[1].rw_cnt = *rw_dat[1].rwd_ptr++;
+        rw_dat[1].gbix = *rw_dat[1].rwd_ptr++;
+        break;
+
+    default:
+        if (bg_w.stage == 7) {
+            tokusyu_stage = 4;
+        } else {
+            tokusyu_stage = 0;
+        }
+
+        rw_num = 0;
+        i = 0;
+
+        while (i < 4) {
+            rw_bg_flag[i] = 0;
+            i++;
+        }
+
+        i = 0;
+
+        while (i < 8) {
+            rw = bgrw_on[bg_w.stage][i];
+            if (rw == -1)
+                return;
+            rw_num++;
+            rwtbl_ptr = &bgrw_data_tbl[rw][0];
+            rw_dat[i].bg_num = *rwtbl_ptr++;
+            rw_bg_flag[rw_dat[i].bg_num] = 1;
+            rw_dat[i].rwgbix = *rwtbl_ptr++;
+            rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
+            rw_dat[i].rw_cnt = *rw_dat[i].rwd_ptr++;
+            rw_dat[i].gbix = *rw_dat[i].rwd_ptr++;
+
+            i++;
+        }
+        break;
+    }
+}
+
+// INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Ed_Kakikae_Set);
+
+void Ed_Kakikae_Set(s16 type) {
+    u8 i;
+    const u32 *rwtbl_ptr;
+    s8 rw;
+
+    rw_num = 0;
+    i = 0;
+
+    while (i < 4) {
+        rw_bg_flag[i] = 0;
+        i++;
+    }
+
+    switch (type) {
+    case 14:
+        i = 0;
+        while (i < 0x14) {
+            rwtbl_ptr = &gedrw_data_tbl[i][0];
+            rw_dat[i].rwgbix = *rwtbl_ptr++;
+            rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
+            i++;
+        }
+        break;
+
+    case 15:
+        i = 0;
+        while (i < 0x10) {
+            rwtbl_ptr = &cedrw_data_tbl[i][0];
+            rw_dat[i].rwgbix = *rwtbl_ptr++;
+            rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
+            i++;
+        }
+        break;
+
+    default:
+        if (edrw_num[type][0] != -1) {
+            rw = edrw_num[type][0];
+            i = 0;
+
+            while (i < edrw_num[type][1]) {
+                rw_num += 1;
+                rwtbl_ptr = &edrw_data_tbl[rw + i][0];
+                rw_dat[i].bg_num = *rwtbl_ptr++;
+                rw_bg_flag[rw_dat[i].bg_num] = 1;
+                rw_dat[i].rwgbix = *rwtbl_ptr++;
+                rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
+                rw_dat[i].rw_cnt = *rw_dat[i].rwd_ptr++;
+                rw_dat[i].gbix = *rw_dat[i].rwd_ptr++;
+                i++;
+            }
+        }
+        break;
+    }
+}
 
 void Bg_Close() {
     u32 i;
@@ -78,7 +231,13 @@ void Bg_Close() {
     bg_disp_off = 0;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Texture_Load_EX);
+#else
+void Bg_Texture_Load_EX() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Texture_Load2);
 

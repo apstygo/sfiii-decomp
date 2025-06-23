@@ -7,6 +7,12 @@
 #include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
 
+void (*scr_x_mv_jp[35])() = { scr_10_20,   scr_10_21,   scr_10_22,   scr_x_dummy, scr_x_dummy, scr_x_dummy, scr_x_dummy,
+                              scr_x_dummy, scr_x_dummy, scr_x_dummy, scr_x_dummy, scr_x_dummy, scr_x_dummy, scr_x_dummy,
+                              scr_x_dummy, scr_x_dummy, scr_11_20,   scr_11_21,   scr_11_22,   scr_x_dummy, scr_x_dummy,
+                              scr_x_dummy, scr_x_dummy, scr_x_dummy, scr_x_dummy, scr_x_dummy, scr_x_dummy, scr_x_dummy,
+                              scr_x_dummy, scr_x_dummy, scr_x_dummy, scr_x_dummy, scr_12_20,   scr_12_21,   scr_12_22 };
+
 void check_cg_zoom() {
     s16 i;
     s16 zoom_wk;
@@ -260,7 +266,13 @@ void bg_chase_move() {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", chase_start_check);
+#else
+void chase_start_check() {
+    not_implemented(__func__);
+}
+#endif
 
 void chase_xy_move() {
     if (bg_w.chase_flag & 0xF) {
@@ -693,7 +705,19 @@ void suzi_offset_set(WORK_Other *ewk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", suzi_offset_set_sub);
+static s32 suzi_offset_set_sub(WORK_Other *ewk) {
+    s16 work, work2;
+
+    work = ewk->wu.xyz[1].disp.pos & 0x300;
+    work = 0x300 - work;
+
+    work2 = ewk->wu.xyz[1].disp.pos & 0xff;
+    work2 = 0x100 - work2;
+
+    work += work2;
+
+    return 0;
+}
 
 void suzi_sync_pos_set(WORK_Other *ewk) {
     s16 work;
@@ -747,29 +771,90 @@ void Bg_Family_Set_2_appoint(s32 num_of_bg) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", ake_Family_Set2);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", bg_pos_hosei_sub2);
-#else
 void bg_pos_hosei_sub2(s16 bg_no) {
-    not_implemented(__func__);
-}
-#endif
+    u16 pos;
+    s16 pos2;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", bg_pos_hosei_sub3);
-#else
+    pos2 = bg_w.bgw[bg_no].wxy[0].disp.pos;
+    pos = pos2 & 0xFFFF;
+
+    pos -= bg_w.pos_offset;
+    pos2 -= bg_w.pos_offset;
+    pos += quake_x_tbl[bg_w.quake_x_index];
+    pos2 += quake_x_tbl[bg_w.quake_x_index];
+
+    bg_w.bgw[bg_no].position_x = pos & 0xFFFF;
+    bg_w.bgw[bg_no].abs_x = pos2;
+
+    pos2 = bg_w.bgw[bg_no].xy[1].disp.pos;
+    pos = pos2 & 0xFFFF;
+
+    pos += quake_y_tbl[bg_w.quake_y_index];
+    pos2 += quake_y_tbl[bg_w.quake_y_index];
+
+    bg_w.bgw[bg_no].position_y = pos & 0xFFFF;
+    bg_w.bgw[bg_no].abs_y = pos2;
+}
+
 void bg_pos_hosei_sub3(s16 bg_no) {
-    not_implemented(__func__);
-}
-#endif
+    u16 pos;
+    s16 pos2;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", bg_pos_hosei2);
-#else
-void bg_pos_hosei2() {
-    not_implemented(__func__);
+    pos2 = bg_w.bgw[bg_no].wxy[0].disp.pos;
+    pos = pos2 & 0xFFFF;
+
+    pos -= bg_w.pos_offset;
+    pos2 -= bg_w.pos_offset;
+
+    bg_w.bgw[bg_no].position_x = pos & 0xFFFF;
+    bg_w.bgw[bg_no].abs_x = pos2;
+
+    pos2 = bg_w.bgw[bg_no].xy[1].disp.pos;
+    pos = pos2 & 0xFFFF;
+
+    bg_w.bgw[bg_no].position_y = pos & 0xFFFF;
+    bg_w.bgw[bg_no].abs_y = pos2;
 }
-#endif
+
+void bg_pos_hosei2() {
+    s16 bg_no = 0;
+    u16 pos;
+    u16 pos2;
+
+    while (bg_no < bg_w.scno) {
+        if ((bg_w.chase_flag & 0xF) != 0) {
+            pos2 = bg_w.bgw[bg_no].chase_xy[0].disp.pos;
+        } else {
+            pos2 = bg_w.bgw[bg_no].wxy[0].disp.pos;
+        }
+
+        pos = pos2 & 0xFFFF;
+        pos -= bg_w.pos_offset;
+        pos += quake_x_tbl[bg_w.quake_x_index];
+
+        bg_w.bgw[bg_no].position_x = pos & 0xFFFF;
+
+        pos2 -= bg_w.pos_offset;
+        pos2 += quake_x_tbl[bg_w.quake_x_index];
+
+        bg_w.bgw[bg_no].abs_x = pos2;
+
+        if ((bg_w.chase_flag & 0xF0) != 0) {
+            pos2 = bg_w.bgw[bg_no].chase_xy[1].disp.pos;
+        } else {
+            pos2 = bg_w.bgw[bg_no].xy[1].disp.pos;
+        }
+
+        pos = pos2 & 0xFFFF;
+        pos += quake_y_tbl[bg_w.quake_y_index];
+        pos2 += quake_y_tbl[bg_w.quake_y_index];
+
+        bg_w.bgw[bg_no].position_y = pos & 0xFFFF;
+        bg_w.bgw[bg_no].abs_y = pos2;
+
+        bg_no++;
+    }
+}
 
 s16 get_center_position() {
     if (Bonus_Game_Flag == 0x15) {

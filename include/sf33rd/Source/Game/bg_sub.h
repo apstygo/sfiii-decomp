@@ -4,8 +4,6 @@
 #include "structs.h"
 #include "types.h"
 
-extern void (*scr_x_mv_jp[35])();
-
 void check_cg_zoom();
 void bg_chase_move();
 void chase_start_check();
@@ -51,6 +49,7 @@ void akebono_initialize();
 void bg_etc_write(s16 type);
 s32 Ck_Range_Out_S(WORK_Other *ewk, s16 BG_No, s16 R);
 
-static s16 remake_x_mvstep(s16 mvstep); // remove this before commit
+static s16 remake_x_mvstep(s16 mvstep);
+static s32 suzi_offset_set_sub(WORK_Other *ewk);
 
 #endif // BG_SUB_H
