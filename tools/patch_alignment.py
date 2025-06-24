@@ -25,12 +25,16 @@ special_cases = {
     ("EFF00", ".rodata", 0): 16,
     ("knjsub", ".rodata", 0): 16,
     ("msgsub", ".rodata", 0): 16,
+    ("Com_Pl", ".rodata", 0): 16,
+    ("appear", ".rodata", 1): 16,
 
+    ("bg_data", ".data", 0): 16,
     ("PulPul", ".data", 0): 16,
     ("flps2vram", ".data", 0): 16,
     ("PulPul", ".data", 1): 16,
     ("Sound3rd", ".data", 0): 16,
 
+    ("bg_data", ".sdata", 0): 16,
     ("VM_DATA", ".sdata", 0): 16,
     ("Demo_Dat", ".sdata", 0): 16,
     ("BBBSCOM", ".sdata", 0): 16,
@@ -64,7 +68,6 @@ special_cases = {
     ("libpad2", ".bss", 0): 8,
     ("color3rd", ".bss", 2): 32,
     ("Sound3rd", ".bss", 0): 256,
-    ("eflSifRpc", ".bss", 0): 256,
     ("Sound3rd", ".bss", 1): 256,
 }
 

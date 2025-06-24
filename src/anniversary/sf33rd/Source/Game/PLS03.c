@@ -43,7 +43,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", check_catch
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", set_attack_routine_number);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", get_nearing_range);
+#else
+u16 get_nearing_range(s16 pnum, s16 kos) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", waza_select);
 
@@ -63,9 +69,21 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", shot_data_r
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", rc_shot_conv);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", renbanshot_conpaneshot);
+#else
+s16 renbanshot_conpaneshot(const s16 *dadr, s16 pow) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", datacmd_conpanecmd);
+#else
+s16 datacmd_conpanecmd(s16 dat) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", renda_status_table);
 
@@ -79,8 +97,21 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", _cnmc_z_
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", check_meoshi_cancel);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", gml_real_lever_data);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", get_meoshi_lever);
 
+#if defined(TARGET_PS2)
+INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", get_meoshi_lever);
+#else
+s16 get_meoshi_lever(s16 data) {
+    not_implemented(__func__);
+}
+#endif
+
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", get_meoshi_shot);
+#else
+s16 get_meoshi_shot(s16 data) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", cmdshot_conv_tbl);

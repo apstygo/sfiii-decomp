@@ -134,11 +134,14 @@
     "adx_mps2": [
         "_adxm_lock",
         "_adxm_unlock",
+        "adxm_goto_svr_border",
+        "adxm_goto_mwidle_border",
         "adxm_safe_trap",
         "adxm_safe_proc",
         "adxm_vsync_proc",
         "adxm_fs_proc",
         "adxm_iWakeupThread",
+        "adxm_WakeupThread",
         "adxm_SleepThread",
         "adxm_ResumeThread",
         "adxm_SuspendThread",
@@ -251,6 +254,7 @@
         "ADXSTM_OpenCvfs"
     ],
     "adx_sudv": [
+        "adxps2_err_dvd",
         "ADXPS2_SetupDvdFs",
         "ADXPS2_LoadFcacheDvd"
     ],

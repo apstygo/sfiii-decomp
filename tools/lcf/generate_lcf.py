@@ -97,8 +97,6 @@ def generate_lcf():
     runs = split_into_runs(split.linker_writer.entries)
 
     with LCFWriter(config_path) as lcf:
-        lcf.write_line("_gp = 0x57A3F0;")
-
         # text
 
         lcf.begin_section("text sections")
@@ -166,6 +164,11 @@ def generate_lcf():
 
                 lcf.align_all(align)
                 lcf.add_entry(entry, ".rodata")
+
+        # gp
+
+        lcf.begin_section("gp")
+        lcf.write_line("_gp	= ALIGN(128) + 0x7FF0;")
 
         # small data
 

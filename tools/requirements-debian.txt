@@ -13,3 +13,4 @@ libc6:i386
 graphviz
 zsh
 locales
+clang

@@ -100,7 +100,13 @@ void set_char_move_init2(WORK *wk, s16 koc, s16 index, s16 ip, s16 scf) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", exset_char_move_init);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_z);
+#else
+void char_move_z(WORK *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_wca);
 
@@ -1259,7 +1265,11 @@ void check_cgd_patdat(WORK *wk) {
         }
 
         if (wk->cg_effect) {
+#if defined(TARGET_PS2)
             effinitjptbl[wk->cg_effect](wk, wk->cg_eftype);
+#else
+            fatal_error("effinitjptbl is not decompiled.");
+#endif
         }
 
         break;

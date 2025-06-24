@@ -152,10 +152,12 @@ segments:
       - [0x058FE0, c, sf33rd/Source/Game/active17]
       - [0x05CDF0, c, sf33rd/Source/Game/active18]
       - [0x061730, c, sf33rd/Source/Game/active19]
-      - [0x064C70, asm, sf33rd/Source/Game/appear]
+      - [0x064C70, c, sf33rd/Source/Game/appear]
       - [0x06AD00, c, sf33rd/Source/Game/BBBSCOM]
       - [0x06B840, asm, sf33rd/Source/Game/BBBSCOM2]
       - [0x06B9E0, c, sf33rd/Source/Game/BCD]
+      - [0x06B840, c, sf33rd/Source/Game/BBBSCOM2]
+      - [0x06B9E0, asm, sf33rd/Source/Game/BCD]
       - [0x06BB10, c, sf33rd/Source/Game/bg]
       - [0x0710D0, c, sf33rd/Source/Game/bg_sub]
       - [0x076120, asm, sf33rd/Source/Game/bg000]
@@ -181,11 +183,11 @@ segments:
       - [0x07AFC0, c, sf33rd/Source/Game/CALDIR]
       - [0x07C870, c, sf33rd/Source/Game/CHARID]
       - [0x07CAB0, c, sf33rd/Source/Game/CHARSET]
-      - [0x085A80, asm, sf33rd/Source/Game/Ck_Pass]
+      - [0x085A80, c, sf33rd/Source/Game/Ck_Pass]
       - [0x08F240, c, sf33rd/Source/Game/cmb_win]
-      - [0x0943E0, asm, sf33rd/Source/Game/CMD_MAIN]
+      - [0x0943E0, c, sf33rd/Source/Game/CMD_MAIN]
       - [0x09D880, c, sf33rd/Source/Game/color3rd]
-      - [0x09FE50, asm, sf33rd/Source/Game/Com_Pl]
+      - [0x09FE50, c, sf33rd/Source/Game/Com_Pl]
       - [0x0A6CA0, c, sf33rd/Source/Game/Com_Sub]
       - [0x0BEC20, c, sf33rd/Source/Game/Continue]
       - [0x0BF1C0, c, sf33rd/Source/Game/count]
@@ -208,7 +210,7 @@ segments:
       - [0x0CC960, asm, sf33rd/Source/Game/eff12]
       - [0x0CCD20, asm, sf33rd/Source/Game/EFF13]
       - [0x0D2650, asm, sf33rd/Source/Game/eff14]
-      - [0x0D2980, asm, sf33rd/Source/Game/EFF15]
+      - [0x0D2980, c, sf33rd/Source/Game/EFF15]
       - [0x0D2E20, asm, sf33rd/Source/Game/EFF16]
       - [0x0D34E0, asm, sf33rd/Source/Game/EFF17]
       - [0x0D3680, c, sf33rd/Source/Game/EFF18]
@@ -288,7 +290,7 @@ segments:
       - [0x0FBC30, asm, sf33rd/Source/Game/eff94]
       - [0x0FC9E0, c, sf33rd/Source/Game/Eff95]
       - [0x0FD2A0, asm, sf33rd/Source/Game/EFF96]
-      - [0x0FD5F0, asm, sf33rd/Source/Game/eff97]
+      - [0x0FD5F0, c, sf33rd/Source/Game/eff97]
       - [0x0FDB20, asm, sf33rd/Source/Game/EFF98]
       - [0x0FE410, asm, sf33rd/Source/Game/Eff99]
       - [0x0FEA40, asm, sf33rd/Source/Game/EFFA0]
@@ -398,9 +400,9 @@ segments:
       - [0x137BE0, asm, sf33rd/Source/Game/EffM3]
       - [0x138180, asm, sf33rd/Source/Game/effM5]
       - [0x138880, asm, sf33rd/Source/Game/effM6]
-      - [0x138C00, asm, sf33rd/Source/Game/effM7]
+      - [0x138C00, c, sf33rd/Source/Game/effM7]
       - [0x139340, asm, sf33rd/Source/Game/effM8]
-      - [0x139D20, asm, sf33rd/Source/Game/EFFXX]
+      - [0x139D20, c, sf33rd/Source/Game/EFFXX]
       - [0x139D40, asm, sf33rd/Source/Game/end_0]
       - [0x13B080, asm, sf33rd/Source/Game/end_1]
       - [0x13B900, asm, sf33rd/Source/Game/end_10]
@@ -556,11 +558,11 @@ segments:
 
       - [0x2C6F58, c, cri/libadxe/adx_amp]
       - [0x2C7678, c, cri/libadxe/adx_bahx]
-      - [0x2C7950, asm, cri/libadxe/adx_baif]
-      - [0x2C82B0, asm, cri/libadxe/adx_bau]
+      - [0x2C7950, c, cri/libadxe/adx_baif]
+      - [0x2C82B0, c, cri/libadxe/adx_bau]
       - [0x2C8D30, c, cri/libadxe/adx_bsc]
-      - [0x2CA218, asm, cri/libadxe/adx_bsps]
-      - [0x2CA5D0, asm, cri/libadxe/adx_bwav]
+      - [0x2CA218, c, cri/libadxe/adx_bsps]
+      - [0x2CA5D0, c, cri/libadxe/adx_bwav]
       - [0x2CAE70, c, cri/libadxe/adx_crs]
       - [0x2CAEB0, c, cri/libadxe/adx_dcd]
       - [0x2CB978, c, cri/libadxe/adx_dcd3]
@@ -580,7 +582,7 @@ segments:
       - [0x2D34D0, c, cri/libadxe/adx_suht]
       - [0x2D3690, c, cri/libadxe/adx_tlk]
       - [0x2D5730, c, cri/libadxe/adx_tlk2]
-      - [0x2D5B30, asm, cri/libadxe/adx_tsvr]
+      - [0x2D5B30, c, cri/libadxe/adx_tsvr]
       - [0x2D7068, c, cri/libadxe/adx_xpnd]
       - [0x2D74D8, c, cri/libadxe/cri_cvfs]
       - [0x2D9618, c, cri/libadxe/cri_srd]
@@ -687,11 +689,11 @@ segments:
       - [0x30A130, c, sf33rd/Source/PS2/mc/savesub]
       - [0x310840, c, sf33rd/Source/PS2/mc/msgsub]
       - [0x310CF0, c, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap]
-      - [0x310E60, asm, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc]
-      - [0x311400, asm, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap]
+      - [0x310E60, c, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc]
+      - [0x311400, c, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap]
       - [0x311690, c, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse]
-      - [0x311B70, asm, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRefPhd]
-      - [0x312400, asm, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue]
+      - [0x311B70, c, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRefPhd]
+      - [0x312400, c, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue]
       - [0x312790, c, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv]
       - [0x312F10, c, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB]
       - [0x3139A0, c, sf33rd/Source/Common/PPGWork] # Good first decomp
@@ -728,11 +730,11 @@ segments:
       - [0x3697E8, data, sdk/libcdvd/cdvd036]
       - [0x3697F8, data, sdk/libmc/libmc]
 
-      - [0x369820, data, sf33rd/Source/Game/appear]
+      - [0x369820, .data, sf33rd/Source/Game/appear]
       - [0x3698D0, data, sf33rd/Source/Game/bg_data]
       - [0x3699E0, data, sf33rd/Source/Game/bg_sub]
-      - [0x369A70, data, sf33rd/Source/Game/cmd_data]
-      - [0x36BD70, data, sf33rd/Source/Game/Com_Data]
+      - [0x369A70, .data, sf33rd/Source/Game/cmd_data]
+      - [0x36BD70, .data, sf33rd/Source/Game/Com_Data]
       - [0x36C4F0, .data, sf33rd/Source/Game/DEMO00]
       - [0x36C580, .data, sf33rd/Source/Game/DIR_DATA]
       - [0x36C940, data, sf33rd/Source/Game/EFF10]
@@ -806,7 +808,7 @@ segments:
       - [0x3AB2A0, data, cri/libadxe/adx_mps2]
       - [0x3B2BE0, .data, cri/libadxe/adx_sjd]
       - [0x3B35E8, .data, cri/libadxe/adx_stmc]
-      - [0x3B4508, data, cri/libadxe/adx_sudv] # Not needed
+      - [0x3B4508, .data, cri/libadxe/adx_sudv]
       - [0x3B4538, .data, cri/libadxe/adx_tlk]
       - [0x3B4588, data, cri/libadxe/adx_tsvr]
       - [0x3B4598, data, cri/libadxe/adx_xpnd]
@@ -817,13 +819,13 @@ segments:
       - [0x3B59C0, .data, cri/libadxe/dvci]
       - [0x3B66B0, .data, cri/libadxe/dvci_sub]
       - [0x3B6858, data, cri/libadxe/htci]
-      - [0x3B6C70, data, cri/libadxe/htci_sub]
+      - [0x3B6C70, .data, cri/libadxe/htci_sub]
       - [0x3B6DB8, data, cri/libadxe/lsc]
       - [0x3B6DC8, .data, cri/libadxe/lsc_err]
       - [0x3B6ED0, .data, cri/libadxe/lsc_ini]
       - [0x3B9270, data, cri/libadxe/pl2enc]
       - [0x3B92B0, .data, cri/libadxe/ps2_rna]
-      - [0x3BD5C0, data, cri/libadxe/rna_crs]
+      - [0x3BD5C0, .data, cri/libadxe/rna_crs]
       - [0x3BD5C8, data, cri/libadxe/sj_crs]
       - [0x3BD5D0, .data, cri/libadxe/sj_mem]
       - [0x3BDA88, .data, cri/libadxe/sj_rbf]
@@ -950,7 +952,7 @@ segments:
       - [0x3E0D80, .rodata, sf33rd/Source/Game/active18]
       - [0x3E0F60, .rodata, sf33rd/Source/Game/active19]
       - [0x3E10C0, rodata, sf33rd/Source/Game/app_data]
-      - [0x3E5580, rodata, sf33rd/Source/Game/appear]
+      - [0x3E5580, .rodata, sf33rd/Source/Game/appear]
       - [0x3E5900, .rodata, sf33rd/Source/Game/BBBSCOM]
       - [0x3E6F48, .rodata, sf33rd/Source/Game/bg]
       - [0x3E6FD0, .rodata, sf33rd/Source/Game/bg_data]
@@ -958,13 +960,14 @@ segments:
       - [0x3EDD50, .rodata, sf33rd/Source/Game/CHARID]
       - [0x3EDEE0, .rodata, sf33rd/Source/Game/CHARSET]
       - [0x3EE2E0, .rodata, sf33rd/Source/Game/chren3rd]
-      - [0x3F7600, rodata, sf33rd/Source/Game/Ck_Pass]
+      - [0x3F7600, .rodata, sf33rd/Source/Game/Ck_Pass]
       - [0x3F7940, .rodata, sf33rd/Source/Game/cmb_win]
-      - [0x3F79D0, rodata, sf33rd/Source/Game/cmd_data]
+      - [0x3F79D0, .rodata, sf33rd/Source/Game/cmd_data]
       - [0x3FC000, .rodata, sf33rd/Source/Game/color3rd]
-      - [0x3FC630, rodata, sf33rd/Source/Game/Com_Data]
-      - [0x4046F8, rodata, sf33rd/Source/Game/COM_DATU]
-      - [0x404890, rodata, sf33rd/Source/Game/Com_Pl]
+      - [0x3FC630, .rodata, sf33rd/Source/Game/Com_Data]
+      - [0x4046F8, .rodata, sf33rd/Source/Game/COM_DATU]
+      - [0x404890, .rodata, sf33rd/Source/Game/Com_Pl]
+      - [0x404920, .rodata, sf33rd/Source/Game/Com_Sub]
       - [0x404C30, .rodata, sf33rd/Source/Game/DC_Ghost]
       - [0x404C70, rodata, sf33rd/Source/Game/Demo_Dat]
       - [0x404E90, .rodata, sf33rd/Source/Game/DEMO00]
@@ -1114,9 +1117,9 @@ segments:
       - [0x41B630, rodata, sf33rd/Source/Game/EFFM2]
       - [0x41B638, rodata, sf33rd/Source/Game/EffM3]
       - [0x41B650, rodata, sf33rd/Source/Game/effM5]
-      - [0x41B670, rodata, sf33rd/Source/Game/effM7]
+      - [0x41B670, .rodata, sf33rd/Source/Game/effM7]
       - [0x41B6F0, rodata, sf33rd/Source/Game/effM8]
-      - [0x41B710, rodata, sf33rd/Source/Game/EFFXX]
+      - [0x41B710, .rodata, sf33rd/Source/Game/EFFXX]
       - [0x41BBA0, rodata, sf33rd/Source/Game/end_0]
       - [0x41BD30, rodata, sf33rd/Source/Game/end_1]
       - [0x41BD80, rodata, sf33rd/Source/Game/end_10]
@@ -1141,8 +1144,8 @@ segments:
       - [0x41F1E0, .rodata, sf33rd/Source/Game/end_main]
       - [0x41F218, .rodata, sf33rd/Source/Game/Entry]
       - [0x41F340, .rodata, sf33rd/Source/Game/EX_DATA]
-      - [0x41F890, rodata, sf33rd/Source/Game/fl_com00]
-      - [0x41FAA0, rodata, sf33rd/Source/Game/FL_COM02]
+      - [0x41F890, .rodata, sf33rd/Source/Game/fl_com00]
+      - [0x41FAA0, .rodata, sf33rd/Source/Game/FL_COM02]
       - [0x41FCB0, .rodata, sf33rd/Source/Game/Flash_LP]
       - [0x41FCC0, .rodata, sf33rd/Source/Game/FOLLOW02]
       - [0x41FCD0, .rodata, sf33rd/Source/Game/Game]
@@ -1162,10 +1165,10 @@ segments:
       - [0x422FB0, .rodata, sf33rd/Source/Game/Next_CPU]
       - [0x423000, .rodata, sf33rd/Source/Game/OPENING]
       - [0x4238B0, rodata, sf33rd/Source/Game/pass00]
-      - [0x423BF0, rodata, sf33rd/Source/Game/pass0000]
-      - [0x42DBF0, rodata, sf33rd/Source/Game/pass0001]
-      - [0x437BF0, rodata, sf33rd/Source/Game/pass0002]
-      - [0x441BF0, rodata, sf33rd/Source/Game/pass0003]
+      - [0x423BF0, .rodata, sf33rd/Source/Game/pass0000]
+      - [0x42DBF0, .rodata, sf33rd/Source/Game/pass0001]
+      - [0x437BF0, .rodata, sf33rd/Source/Game/pass0002]
+      - [0x441BF0, .rodata, sf33rd/Source/Game/pass0003]
       - [0x446BF0, rodata, sf33rd/Source/Game/PASS01]
       - [0x446F10, rodata, sf33rd/Source/Game/PASS02]
       - [0x447220, rodata, sf33rd/Source/Game/PASS03]
@@ -1263,15 +1266,15 @@ segments:
       - [0x4589F0, rodata, sf33rd/Source/Compress/zlib/inftrees]
       - [0x458D08, rodata, sf33rd/Source/Compress/zlib/zutil]
       - [0x458D10, .rodata, sf33rd/Source/Game/debug/Debug]
-      - [0x458E78, rodata, sf33rd/Source/Game/debug/Deb_Data]
-      - [0x459600, rodata, sf33rd/Source/Game/debug/Nakai]
+      - [0x458E78, .rodata, sf33rd/Source/Game/debug/Deb_Data]
+      - [0x459600, .rodata, sf33rd/Source/Game/debug/Nakai]
       - [0x459650, .rodata, sf33rd/Source/Common/PPGFile]
 
-      - [0x4599A0, rodata, cri/libadxe/adx_baif]
-      - [0x4599B0, rodata, cri/libadxe/adx_bau]
+      - [0x4599A0, .rodata, cri/libadxe/adx_baif]
+      - [0x4599B0, .rodata, cri/libadxe/adx_bau]
       - [0x4599C0, .rodata, cri/libadxe/adx_bsc]
-      - [0x45A248, rodata, cri/libadxe/adx_bsps]
-      - [0x45A250, rodata, cri/libadxe/adx_bwav]
+      - [0x45A248, .rodata, cri/libadxe/adx_bsps]
+      - [0x45A250, .rodata, cri/libadxe/adx_bwav]
       - [0x45A270, .rodata, cri/libadxe/adx_dcd]
       - [0x45A278, rodata, cri/libadxe/adx_dcd5]
       - [0x45A2B8, .rodata, cri/libadxe/adx_errs]
@@ -1288,7 +1291,7 @@ segments:
       - [0x45B4D8, .rodata, cri/libadxe/adx_suht]
       - [0x45B4E0, .rodata, cri/libadxe/adx_tlk]
       - [0x45BC08, .rodata, cri/libadxe/adx_tlk2]
-      - [0x45BD50, rodata, cri/libadxe/adx_tsvr]
+      - [0x45BD50, .rodata, cri/libadxe/adx_tsvr]
       - [0x45BE08, .rodata, cri/libadxe/cri_cvfs]
       - [0x45CAC0, .rodata, cri/libadxe/cri_srd]
       - [0x45CE50, .rodata, cri/libadxe/dtr]
@@ -1339,11 +1342,11 @@ segments:
       - [0x4602B8, .rodata, sf33rd/Source/PS2/mc/savesub]
       - [0x460500, .rodata, sf33rd/Source/PS2/mc/msgsub]
       - [0x460520, .rodata, sf33rd/Source/Game/vm]
-      - [0x460530, rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc]
-      - [0x460648, rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap]
+      - [0x460530, .rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc]
+      - [0x460648, .rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap]
       - [0x460678, .rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse]
-      - [0x460708, rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRefPhd]
-      - [0x460728, rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue]
+      - [0x460708, .rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRefPhd]
+      - [0x460728, .rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue]
       - [0x460768, .rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv]
       - [0x4607A0, .rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB]
       - [0x4607D8, rodata, sf33rd/Source/PS2/mc/msgtblj]
@@ -1355,7 +1358,7 @@ segments:
       # .sdata
 
       - [0x472480, .sdata, sf33rd/Source/Game/AcrUtil]
-      - [0x472520, sdata, sf33rd/Source/Game/BBBSCOM]
+      - [0x472520, .sdata, sf33rd/Source/Game/BBBSCOM]
       - [0x472550, sdata, sf33rd/Source/Game/bg_data]
       - [0x472600, sdata, sf33rd/Source/Game/bg000]
       - [0x472620, sdata, sf33rd/Source/Game/bg010]
@@ -1377,11 +1380,11 @@ segments:
       - [0x472768, sdata, sf33rd/Source/Game/bg190]
       - [0x472778, sdata, sf33rd/Source/Game/bns_bg2]
       - [0x472790, sdata, sf33rd/Source/Game/bonus_bg]
-      - [0x4727B0, sdata, sf33rd/Source/Game/cmd_data]
+      - [0x4727B0, .sdata, sf33rd/Source/Game/cmd_data]
       - [0x472900, sdata, sf33rd/Source/Game/CMD_MAIN]
       - [0x472970, .sdata, sf33rd/Source/Game/color3rd]
       - [0x472990, sdata, sf33rd/Source/Game/Com_Pl]
-      - [0x472B70, sdata, sf33rd/Source/Game/Com_Sub]
+      - [0x472B70, .sdata, sf33rd/Source/Game/Com_Sub]
       - [0x472C30, .sdata, sf33rd/Source/Game/Continue]
       - [0x472C50, sdata, sf33rd/Source/Game/Demo_Dat]
       - [0x472C60, .sdata, sf33rd/Source/Game/DEMO00]
@@ -1466,13 +1469,12 @@ segments:
       - [0x474540, sdata, sf33rd/Source/Game/win_pl]
       - [0x474580, sdata, sf33rd/Source/Compress/zlib/inftrees]
       - [0x474590, sdata, sf33rd/Source/Compress/zlib/infutil]
-      - [0x4745D8, sdata, sf33rd/Source/Game/debug/Debug_more_sdata]
-      - [0x4745F0, .sdata, sf33rd/Source/Game/debug/Debug]
-      - [0x474630, sdata, sf33rd/Source/Game/debug/Deb_Data]
+      - [0x4745D8, .sdata, sf33rd/Source/Game/debug/Debug]
+      - [0x474630, .sdata, sf33rd/Source/Game/debug/Deb_Data]
       - [0x474650, .sdata, sf33rd/Source/Common/PPGFile]
       - [0x4746B0, .sdata, sf33rd/AcrSDK/ps2/flps2render]
       - [0x474730, .sdata, sf33rd/AcrSDK/ps2/flps2debug]
-      - [0x474770, sdata, sf33rd/AcrSDK/ps2/flps2dma]
+      - [0x474770, .sdata, sf33rd/AcrSDK/ps2/flps2dma]
       - [0x4747A8, .sdata, sf33rd/AcrSDK/ps2/flps2shader]
       - [0x4747B0, .sdata, sf33rd/AcrSDK/ps2/flps2vram]
       - [0x4749F0, .sdata, sf33rd/AcrSDK/ps2/foundaps2]
@@ -1556,7 +1558,7 @@ segments:
       - { type: .sbss, vram: 0x5789A8, name: sf33rd/AcrSDK/common/mlPAD }
       - { type: .sbss, vram: 0x578A10, name: sf33rd/AcrSDK/common/prilay }
       - { type: .sbss, vram: 0x578A20, name: sf33rd/Source/Game/AcrUtil }
-      - { type: sbss, vram: 0x578A80, name: sf33rd/Source/Game/appear }
+      - { type: .sbss, vram: 0x578A80, name: sf33rd/Source/Game/appear }
       - { type: sbss, vram: 0x578A9C, name: sf33rd/Source/Game/BCD }
       - { type: .sbss, vram: 0x578AA0, name: sf33rd/Source/Game/bg }
       - { type: .sbss, vram: 0x578C20, name: sf33rd/Source/Game/bg_data }
@@ -1564,9 +1566,9 @@ segments:
       - { type: .sbss, vram: 0x578D20, name: sf33rd/Source/Game/CHARSET }
       - { type: sbss, vram: 0x578D24, name: sf33rd/Source/Game/Ck_Pass }
       - { type: sbss, vram: 0x578D28, name: sf33rd/Source/Game/cmb_win }
-      - { type: sbss, vram: 0x578DBC, name: sf33rd/Source/Game/cmd_data }
+      - { type: .sbss, vram: 0x578DBC, name: sf33rd/Source/Game/cmd_data }
       - { type: .sbss, vram: 0x578DD8, name: sf33rd/Source/Game/color3rd }
-      - { type: sbss, vram: 0x578E48, name: sf33rd/Source/Game/Com_Sub }
+      - { type: .sbss, vram: 0x578E48, name: sf33rd/Source/Game/Com_Sub }
       - { type: .sbss, vram: 0x578E50, name: sf33rd/Source/Game/Continue }
       - { type: sbss, vram: 0x578E54, name: sf33rd/Source/Game/count }
       - { type: .sbss, vram: 0x578E80, name: sf33rd/Source/Game/DC_Ghost }
@@ -1631,7 +1633,7 @@ segments:
       - { type: .sbss, vram: 0x579DB0, name: sf33rd/Source/Game/workuser }
       - { type: .sbss, vram: 0x57A780, name: sf33rd/Source/Compress/zlibApp }
       - { type: sbss, vram: 0x57A7F8, name: sf33rd/Source/Compress/zlib/zutil }
-      - { type: sbss, vram: 0x57A7FC, name: sf33rd/Source/Game/debug/Debug_ID }
+      - { type: .sbss, vram: 0x57A7FC, name: sf33rd/Source/Game/debug/Debug_ID }
       - { type: .sbss, vram: 0x57A800, name: sf33rd/Source/Game/debug/Debug }
       - { type: .sbss, vram: 0x57A8B0, name: sf33rd/Source/Game/debug/OBJTEST }
       - { type: .sbss, vram: 0x57A930, name: sf33rd/Source/Game/debug/OTESTDAT }
@@ -1640,19 +1642,19 @@ segments:
       - { type: .sbss, vram: 0x57A994, name: sf33rd/Source/PS2/ps2Quad }
       - { type: .sbss, vram: 0x57A9A0, name: sf33rd/AcrSDK/MiddleWare/PS2/ADX/flADX }
       - { type: .sbss, vram: 0x57A9F0, name: sf33rd/Source/Game/main }
-      - { type: sbss, vram: 0x57AA40, name: sf33rd/AcrSDK/ps2/flps2dma }
+      - { type: .sbss, vram: 0x57AA40, name: sf33rd/AcrSDK/ps2/flps2dma }
       - { type: .sbss, vram: 0x57AA50, name: sf33rd/AcrSDK/ps2/foundaps2 }
       - { type: .sbss, vram: 0x57AF4C, name: sf33rd/AcrSDK/ps2/ps2PAD }
       - { type: .sbss, vram: 0x57B0B0, name: sf33rd/Source/PS2/mc/mcsub }
       - { type: sbss, vram: 0x57B140, name: sf33rd/Source/PS2/mc/knjsub }
       - { type: .sbss, vram: 0x57B148, name: sf33rd/Source/PS2/mc/savesub }
       - { type: .sbss, vram: 0x57B150, name: sf33rd/Source/PS2/mc/msgsub }
-      - { type: sbss, vram: 0x57B160, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap }
-      - { type: sbss, vram: 0x57B1A0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc }
-      - { type: sbss, vram: 0x57B248, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap }
-      - { type: sbss, vram: 0x57B260, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse }
-      - { type: sbss, vram: 0x57B2A8, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue }
-      - { type: sbss, vram: 0x57B2C0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB }
+      - { type: .sbss, vram: 0x57B160, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap }
+      - { type: .sbss, vram: 0x57B1A0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc }
+      - { type: .sbss, vram: 0x57B248, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap }
+      - { type: .sbss, vram: 0x57B260, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse }
+      - { type: .sbss, vram: 0x57B2A8, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue }
+      - { type: .sbss, vram: 0x57B2C0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB }
       - { type: sbss, vram: 0x57B300, name: sf33rd/Source/PS2/mc/msgtblj }
       - { type: sbss, vram: 0x57B304, name: sf33rd/Source/PS2/mc/msgtble }
       - { type: .sbss, vram: 0x57B308, name: sf33rd/Source/Common/PPGWork }
@@ -1684,7 +1686,7 @@ segments:
       - { type: .bss, vram: 0x5956A0, name: sf33rd/Source/Game/bg }
       - { type: .bss, vram: 0x595C60, name: sf33rd/Source/Game/CHARID }
       - { type: bss, vram: 0x596560, name: sf33rd/Source/Game/cmb_win }
-      - { type: bss, vram: 0x596680, name: sf33rd/Source/Game/cmd_data }
+      - { type: .bss, vram: 0x596680, name: sf33rd/Source/Game/cmd_data }
       - { type: .bss, vram: 0x597B60, name: sf33rd/Source/Game/color3rd }
       - { type: .bss, vram: 0x5A8420, name: sf33rd/Source/Game/DC_Ghost }
       - { type: .bss, vram: 0x5A9BA0, name: sf33rd/Source/Game/EFFECT }
@@ -1723,10 +1725,10 @@ segments:
       - { type: .bss, vram: 0x6E9950, name: sf33rd/Source/PS2/mc/mcsub }
       - { type: bss, vram: 0x6E9A40, name: sf33rd/Source/PS2/mc/knjsub }
       - { type: .bss, vram: 0x6E9AE0, name: sf33rd/Source/PS2/mc/savesub }
-      - { type: bss, vram: 0x6E9D00, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc }
-      - { type: bss, vram: 0x6EA200, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap }
-      - { type: bss, vram: 0x6EA2C0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue }
-      - { type: bss, vram: 0x6EABC0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB }
+      - { type: .bss, vram: 0x6E9D00, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc }
+      - { type: .bss, vram: 0x6EA200, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap }
+      - { type: .bss, vram: 0x6EA2C0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue }
+      - { type: .bss, vram: 0x6EABC0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB }
 
       - { type: bss, vram: 0x6EAF40, name: bss_6EAF40 } # libc?
 

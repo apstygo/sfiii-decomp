@@ -73,6 +73,7 @@ extern VRAMBlockHeader flVramStatic[VRAM_BLOCK_HEADER_SIZE]; // size: 0x18, addr
 extern s32 flPTNum;                                          // size: 0x4, address: 0x57AE38
 extern s32 flVramNum;                                        // size: 0x4, address: 0x57AE3C
 extern LPVram *flVramList;                                   // size: 0x4, address: 0x57AE40
+extern s32 flPs2GsHandler;                                   // size: 0x4, address: 0x57AE44
 extern FLPS2VIF1Control flPs2VIF1Control;                    // size: 0x3C, address: 0x57AE50
 extern u32 flDebugFlag;                                      // size: 0x4, address: 0x57AE8C
 extern u32 flAlphaRefValue;                                  // size: 0x4, address: 0x57AE90

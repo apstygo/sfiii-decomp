@@ -141,7 +141,7 @@ $(CRI_O_FILES): $(BUILD_DIR)/%.c.o: %.c
 else
 
 $(MAIN_TARGET): $(ALL_O_FILES)
-	clang $(ALL_O_FILES) -lz -g -o $@
+	clang $(ALL_O_FILES) -lz -lm -g -o $@
 
 $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)

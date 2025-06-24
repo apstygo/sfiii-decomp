@@ -1,0 +1,33 @@
+name: Build (Linux)
+
+on:
+    push:
+        branches: [ "main" ]
+    pull_request:
+        branches: [ "main" ]
+
+jobs:
+    build:
+        runs-on: ubuntu-22.04
+
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v4
+
+          - name: Install Clang
+            run: |
+                sudo apt update
+                sudo apt install -y clang
+
+          - name: Build for Linux
+            run: |
+                set -o pipefail
+                make PLATFORM=linux 2>&1 | tee build.log
+            shell: bash
+
+          - name: Upload build log
+            if: always()
+            uses: actions/upload-artifact@v4
+            with:
+                name: build-log
+                path: build.log
