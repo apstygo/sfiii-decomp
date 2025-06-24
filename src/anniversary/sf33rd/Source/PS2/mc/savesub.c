@@ -1805,7 +1805,7 @@ static s32 yes_no_check(_save_work *save) {
             break;
         }
 
-        if (((save->tr & 8) && (save->yes_no_flag == 1)) || (save->tr & 4) && (save->yes_no_flag == 2)) {
+        if (((save->tr & 8) && (save->yes_no_flag == 1)) || ((save->tr & 4) && (save->yes_no_flag == 2))) {
             save->yes_no_flag ^= 3;
             select_se();
         }

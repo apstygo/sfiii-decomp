@@ -397,7 +397,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_SetExtStrin
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_SetDefExtString);
 
 Sint32 adxb_get_key(ADXB adxb, Uint8 arg1, Uint8 arg2, Sint32 arg3, Sint16 *arg4, Sint16 *arg5, Sint16 *arg6) {
-    Char8 sp[8];
+    Char8 sp[9];
 
     if (arg1 >= 4) {
         if (arg2 >= 0x10) {

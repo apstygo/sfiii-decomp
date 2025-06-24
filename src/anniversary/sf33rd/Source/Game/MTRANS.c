@@ -471,7 +471,7 @@ void mlt_obj_trans_ext(MultiTexture *mt, WORK *wk, s32 base_y) {
                                          dh,
                                          mt->mltgidx32,
                                          code,
-                                         palo | ((trsptr->attr ^ attr) & 0xC000 | 0x2000),
+                                         palo | (((trsptr->attr ^ attr) & 0xC000) | 0x2000),
                                          wk->my_clear_level,
                                          mt->id);
                     break;
@@ -560,7 +560,7 @@ void mlt_obj_trans_ext(MultiTexture *mt, WORK *wk, s32 base_y) {
                                      dh,
                                      mt->mltgidx32,
                                      code,
-                                     palo | ((trsptr->attr ^ attr) & 0xC000 | 0x2000),
+                                     palo | (((trsptr->attr ^ attr) & 0xC000) | 0x2000),
                                      wk->my_clear_level,
                                      mt->id);
                 break;

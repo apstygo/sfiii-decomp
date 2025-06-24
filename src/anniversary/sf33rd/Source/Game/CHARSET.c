@@ -1424,9 +1424,14 @@ void set_new_attnum(WORK *wk) {
 
     wk->renew_attack = wk->cg_att_ix;
 
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wunsequenced"
+
     if ((att_req = (++att_req & 0x7FFF)) == 0) {
         att_req++;
     }
+
+    #pragma clang diagnostic pop
 
     aag_sw = 0;
 

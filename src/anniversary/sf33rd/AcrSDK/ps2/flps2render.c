@@ -500,6 +500,9 @@ s32 flSetRenderState(enum _FLSETRENDERSTATE func, u32 value) {
         }
 
         break;
+
+    default:
+        break;
     }
 
     return 1;

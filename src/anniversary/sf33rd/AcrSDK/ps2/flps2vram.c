@@ -1222,7 +1222,7 @@ s32 flPS2UnlockTexture(FLTexture *lpflTexture) {
 
     lpflTexture->desc &= ~2;
 
-    if (trans_ptr != NULL) {
+    if (trans_ptr != 0) {
         if (lpflTexture->flag == 1 || lpflTexture->flag == 4) {
             flPS2DeleteVramList(lpflTexture);
             return 1;
@@ -1959,7 +1959,12 @@ void flPS2VramInit() {
     }
 }
 
-LPVram *flPS2PullVramWork() {
+#if defined(TARGET_PS2)
+LPVram *flPS2PullVramWork()
+#else
+LPVram *flPS2PullVramWork(LPVram * /* unused */, s32 /* unused */)
+#endif
+{
     s32 i;
 
     for (i = 0; i < VRAM_CONTROL_SIZE; i++) {

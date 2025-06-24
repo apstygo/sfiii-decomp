@@ -199,7 +199,7 @@ void make_texcash_work(s16 ix) {
         mts[ix].mltcshtime16 = mts_base[ix].life16;
         mts[ix].mltcshtime32 = mts_base[ix].life32;
 
-        if (mts[ix].ext = (mts_base[ix].mode & 0x2000) != 0) {
+        if ((mts[ix].ext = ((mts_base[ix].mode & 0x2000) != 0))) {
             memreq = (mts[ix].mltnum16 * 8) + (mts[ix].mltnum32 * 8) + sizeof(PatternCollection) +
                      sizeof(TexturePoolFree) + sizeof(TexturePoolUsed);
             mts_ok[ix].key0 = Pull_ramcnt_key(memreq, mts_base[ix].type, 0, 0);

@@ -403,14 +403,6 @@ float cosf(float) {
     not_implemented(__func__);
 }
 
-float atan2(float) {
-    not_implemented(__func__);
-}
-
-float sqrt(float) {
-    not_implemented(__func__);
-}
-
 // libdma
 
 void sceDmaRecvN(sceDmaChan *d, void *addr, int size) {
