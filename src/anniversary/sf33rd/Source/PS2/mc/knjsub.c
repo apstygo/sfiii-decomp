@@ -40,7 +40,6 @@ void KnjSetSize(s32 dispw, s32 disph) {
 }
 
 void KnjLocate(s32 x, s32 y) {
-
     if (KnjUseCheck() != 0) {
         kanji_w.x = x;
         kanji_w.y = y;
@@ -93,7 +92,7 @@ void KnjPrintf(const s8 *fmt, ...) {
 void KnjFlush() {
     u32 *pp;
     u32 psize;
-    u32 ptr;
+    uintptr_t ptr;
     Kanji_W *kw = &kanji_w;
 
     if (KnjUseCheck() != 0) {
