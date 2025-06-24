@@ -12,9 +12,6 @@ static u8 ascii_chr_tbl[1];
 // bss
 Kanji_W kanji_w;
 
-// forward declarations
-static u32 *make_img_pkt(u32 *p, u32 *img, u32 dbp, u32 dbw, u32 dbsm, u32 dsax, u32 dsay, u32 rrw, u32 rrh);
-
 #if defined(TARGET_PS2)
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/knjsub", literal_225_005601F0);
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/knjsub", KnjInit);
@@ -67,7 +64,7 @@ void KnjSetRgb(u32 color) {
     Kanji_W *kw = &kanji_w;
 
     if (KnjUseCheck() != 0) {
-        kw->color = kw->color & 0xFF000000 | (color & 0xFFFFFF);
+        kw->color = (kw->color & 0xFF000000) | (color & 0xFFFFFF);
     }
 }
 
@@ -101,7 +98,7 @@ void KnjFlush() {
         *pp++ = 0;
         *pp++ = 0;
         *pp++ = 0;
-        psize = (u32)pp - (u32)kw->pack_top[kw->pack_idx];
+        psize = (uintptr_t)pp - (uintptr_t)kw->pack_top[kw->pack_idx];
 
         if (kw->pack_size < psize) {
             printf("KnjFlush: packet over, 0x%X > 0x%X.\n", psize, kw->pack_size);
@@ -112,7 +109,7 @@ void KnjFlush() {
         }
 
         if (kw->dcur != 0) {
-            ptr = (u32)kw->pack_top[kw->pack_idx];
+            ptr = (uintptr_t)kw->pack_top[kw->pack_idx];
             flPS2DmaAddQueue2(0, (ptr & 0xFFFFFFF) | 0x40000000, ptr, &flPs2VIF1Control);
         }
 
@@ -161,7 +158,14 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/knjsub", KnjCheck
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/knjsub", make_env_pkt);
 
+#if defined(TARGET_PS2)
+static u32 *make_img_pkt(u32 *p, u32 *img, u32 dbp, u32 dbw, u32 dbsm, u32 dsax, u32 dsay, u32 rrw, u32 rrh);
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/knjsub", make_img_pkt);
+#else
+static u32 *make_img_pkt(u32 *p, u32 *img, u32 dbp, u32 dbw, u32 dbsm, u32 dsax, u32 dsay, u32 rrw, u32 rrh) {
+    not_implemented(__func__);
+}
+#endif
 
 static u32 *make_pal_pkt(Kanji_W *kw, u32 *p) {
     s32 i;
