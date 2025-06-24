@@ -2,6 +2,7 @@
 #define CHARID_H
 
 #include "structs.h"
+#include "types.h"
 
 extern UNK_Data *parabora_own_table[20]; // size: 0x50, address: 0x578CD0
 

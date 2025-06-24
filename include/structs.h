@@ -1618,6 +1618,14 @@ typedef struct {
     UNK_Data *prot; // offset 0x60, size 0x4
 } CharInitData;
 
+typedef struct /* @anon0 */ {
+    // total size: 0x8
+    s16 my_cm; // offset 0x0, size 0x2
+    s16 my_cc; // offset 0x2, size 0x2
+    s16 my_pr; // offset 0x4, size 0x2
+    s16 my_fm; // offset 0x6, size 0x2
+} CharInitData2;
+
 typedef struct {
     // total size: 0xC
     u32 adr;        // offset 0x0, size 0x4
