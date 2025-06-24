@@ -15,7 +15,7 @@ s32 ppgWriteQuadWithST_B2(Vertex *pos, u32 col, PPGDataList *tb, s32 tix, s32 ci
 s32 ppgSetupPalChunk(Palette *pch, u8 *adrs, s32 size, s32 ixNum1st, s32 num, s32 /* unused */);
 void ppgRenewDotDataSeqs(Texture *tch, u32 gix, u32 *srcRam, u32 code, u32 size);
 void ppgMakeConvTableTexDC();
-s32 ppgSetupTexChunk_1st(Texture *tch, u8 *adrs, s32 size, s32 ixNum1st, s32 ixNums, s32 ar, s32 arcnt);
+s32 ppgSetupTexChunk_1st(Texture *tch, u8 *adrs, ssize_t size, s32 ixNum1st, s32 ixNums, s32 ar, s32 arcnt);
 s32 ppgSetupTexChunk_2nd(Texture *tch, s32 ixNum);
 s32 ppgSetupTexChunk_3rd(Texture *tch, s32 ixNum, u32 attribute);
 s32 ppgWriteQuadUseTrans(Vertex *pos, u32 col, PPGDataList *tb, s32 tix, s32 cix, s32 flip, s32 pal);
@@ -27,5 +27,6 @@ s32 ppgReleaseTextureHandle(Texture *tch, s32 ixNum);
 s32 ppgSetupTexChunkSeqs(Texture *tch, PPGFileHeader *ppg, u8 *adrs, s32 ixNum1st, s32 ixNums, u32 attribute);
 s32 ppgRenewTexChunkSeqs(Texture *tch);
 s32 ppgSetupCmpChunk(u8 *srcAdrs, s32 num, u8 *dstAdrs);
+s32 ppgSetupPalChunkDir(Palette *pch, PPLFileHeader *ppl, u8 *adrs, s32 ixNum1st, s32 /* unused */);
 
 #endif // PPGFILE_H

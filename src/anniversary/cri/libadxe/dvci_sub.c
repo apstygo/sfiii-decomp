@@ -80,7 +80,7 @@ Sint32 dvci_charicmp(Char8 a, Char8 b) {
 }
 
 Sint32 dvci_stricmp(const Char8 *a, const Char8 *b) {
-    Sint32 len_a = strlen(a);
+    strlen_t len_a = strlen(a);
     Sint32 i;
 
     if (len_a != strlen(b)) {

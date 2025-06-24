@@ -15,6 +15,8 @@
 /*      Include file */
 /****************************************************************************/
 
+#include "types.h"
+
 #include "cri/ee/cri_xpt.h"
 #include "sj.h"
 
@@ -218,10 +220,10 @@ typedef struct _adxf_add_info {
 #ifndef ADXF_CMD_HSTRY_DEFINED
 #define ADXF_CMD_HSTRY_DEFINED
 typedef struct _adxf_cmd_hstry {
-    Uint8 cmdid;   /*	コマンド(関数)ID					*/
-    Uint8 fg;      /*	関数の入り口か出口かを示すフラグ	*/
-    Uint16 ncall;  /*	コマンドの呼び出し回数				*/
-    Sint32 prm[3]; /*	コマンドパラメータ					*/
+    Uint8 cmdid;     /*	コマンド(関数)ID					*/
+    Uint8 fg;        /*	関数の入り口か出口かを示すフラグ	*/
+    Uint16 ncall;    /*	コマンドの呼び出し回数				*/
+    intptr_t prm[3]; /*	コマンドパラメータ					*/
 } ADXF_CMD_HSTRY;
 #endif
 

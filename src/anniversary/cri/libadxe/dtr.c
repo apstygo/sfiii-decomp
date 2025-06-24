@@ -84,7 +84,7 @@ void DTR_ExecHndl(DTR dtr) {
         }
     }
 
-    if ((u32)cks.data & 0x3F) {
+    if ((uintptr_t)cks.data & 0x3F) {
         scePrintf("DTR_ExecHndl: Internal Error cks.data\n");
         scePrintf("cks.data=%08x, ckd.data=%08x, cks.len=%d\n", cks.data, ckd.data, cks.len);
 
@@ -93,7 +93,7 @@ void DTR_ExecHndl(DTR dtr) {
         }
     }
 
-    if ((u32)ckd.data & 0x3F) {
+    if ((uintptr_t)ckd.data & 0x3F) {
         scePrintf("DTR_ExecHndl: Internal Error ckd.data\n");
         scePrintf("cks.data=%08x, ckd.data=%08x, cks.len=%d\n", cks.data, ckd.data, cks.len);
 
@@ -103,8 +103,8 @@ void DTR_ExecHndl(DTR dtr) {
     }
 
     SyncDCache(cks.data, cks.data + cks.len - 1);
-    dtr->dma_data.data = (u32)cks.data & 0x0FFFFFFF;
-    dtr->dma_data.addr = (u32)ckd.data;
+    dtr->dma_data.data = (u32)((uintptr_t)cks.data & 0x0FFFFFFF);
+    dtr->dma_data.addr = (u32)(uintptr_t)ckd.data;
     dtr->dma_data.size = cks.len;
     dtr->dma_data.mode = 0;
     dtr->unk2C = sceSifSetDma(&dtr->dma_data, 1);
@@ -142,7 +142,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtr", DTR_Init);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtr", DTR_Finish);
 
-DTR DTR_Create(SJ sj, Sint32 arg1) {
+DTR DTR_Create(SJ sj, SJ arg1) {
     DTR dtr;
     Sint32 i;
 

@@ -219,11 +219,9 @@ s32 flPS2GetTextureInfoFromContext(plContext *bits, s32 bnum, u32 th, u32 flag) 
 }
 
 s32 flPS2CreateTextureHandle(u32 th, u32 flag) {
-    FLTexture *lpflTexture;
+    FLTexture *lpflTexture = &flTexture[LO_16_BITS(th) - 1];
     u32 dma_size;
-    u32 dma_ptr;
-
-    lpflTexture = &flTexture[LO_16_BITS(th) - 1];
+    uintptr_t dma_ptr;
 
     while (1) {
         switch (flag) {
@@ -249,23 +247,25 @@ s32 flPS2CreateTextureHandle(u32 th, u32 flag) {
             break;
         }
 
-        flCTNum += 1;
-        return 1;
+        break;
     }
+
+    flCTNum += 1;
+    return 1;
 }
 
 void flPS2VramTrans(FLTexture *lpflTexture) {
-    u32 pixel_ptr;
+    uintptr_t pixel_ptr;
     u32 dma_size;
-    u32 dma_ptr;
+    uintptr_t dma_ptr;
     s32 lp0;
     s32 dw;
     s32 dh;
     s32 tex_size;
     s32 tbp;
-    u32 last_tag;
+    uintptr_t last_tag;
 
-    pixel_ptr = (u32)flPS2GetSystemBuffAdrs(lpflTexture->mem_handle);
+    pixel_ptr = (uintptr_t)flPS2GetSystemBuffAdrs(lpflTexture->mem_handle);
     dw = lpflTexture->width;
     dh = lpflTexture->height;
 
@@ -473,9 +473,9 @@ s32 flPS2GetPaletteInfoFromContext(plContext *bits, u32 ph, u32 flag) {
 }
 
 s32 flPS2CreatePaletteHandle(u32 ph, u32 flag) {
-    FLTexture *lpflPalette = &flPalette[((ph & 0xFFFF0000) >> 0x10) - 1];
+    FLTexture *lpflPalette = &flPalette[HI_16_BITS(ph) - 1];
     u32 dma_size;
-    u32 dma_ptr;
+    uintptr_t dma_ptr;
 
     while (1) {
         switch (flag) {
@@ -494,12 +494,13 @@ s32 flPS2CreatePaletteHandle(u32 ph, u32 flag) {
             }
 
             flPS2VramTrans(lpflPalette);
-            dma_ptr = flPS2VIF1CalcEndLoadImageSize(lpflPalette->size);
-            dma_size = flPS2GetSystemTmpBuff(dma_ptr, 0x10);
-            flPS2VIF1MakeEndLoadImage(dma_size, 1U);
-            flPS2DmaAddQueue2(0, dma_size & 0x0FFFFFFF, dma_size, &flPs2VIF1Control);
+            dma_size = flPS2VIF1CalcEndLoadImageSize(lpflPalette->size);
+            dma_ptr = flPS2GetSystemTmpBuff(dma_size, 0x10);
+            flPS2VIF1MakeEndLoadImage(dma_ptr, 1);
+            flPS2DmaAddQueue2(0, dma_ptr & 0x0FFFFFFF, dma_ptr, &flPs2VIF1Control);
             break;
         }
+
         break;
     }
 
@@ -617,7 +618,7 @@ s32 flPS2LockTexture(Rect * /* unused */, FLTexture *lpflTexture, plContext *lpc
         if (lpflTexture->mem_handle == 0) {
             buff_ptr1 = mflTemporaryUse(lpflTexture->size * 2);
             buff_ptr = buff_ptr1 + lpflTexture->size;
-            flPS2StoreImageB((u32)buff_ptr1,
+            flPS2StoreImageB((uintptr_t)buff_ptr1,
                              lpflTexture->size,
                              lpflTexture->tbp,
                              lpflTexture->width / 64,
@@ -631,7 +632,7 @@ s32 flPS2LockTexture(Rect * /* unused */, FLTexture *lpflTexture, plContext *lpc
             buff_ptr1 = flPS2GetSystemBuffAdrs(lpflTexture->mem_handle);
         }
 
-        lpflTexture->lock_ptr = (u32)buff_ptr;
+        lpflTexture->lock_ptr = (uintptr_t)buff_ptr;
         lpcontext->ptr = buff_ptr;
         src.desc = lpcontext->desc;
         src.width = lpcontext->width;
@@ -762,7 +763,7 @@ s32 flPS2LockTexture(Rect * /* unused */, FLTexture *lpflTexture, plContext *lpc
         buff_ptr = mflTemporaryUse(lpflTexture->size);
 
         if (lpflTexture->mem_handle == 0) {
-            flPS2StoreImageB((u32)buff_ptr,
+            flPS2StoreImageB((uintptr_t)buff_ptr,
                              lpflTexture->size,
                              lpflTexture->tbp,
                              lpflTexture->width / 64,
@@ -776,7 +777,7 @@ s32 flPS2LockTexture(Rect * /* unused */, FLTexture *lpflTexture, plContext *lpc
             flMemcpy(buff_ptr, buff_ptr1, lpflTexture->size);
         }
 
-        lpflTexture->lock_ptr = (u32)buff_ptr;
+        lpflTexture->lock_ptr = (uintptr_t)buff_ptr;
         lpcontext->ptr = buff_ptr;
 
         switch (lpflTexture->format) {
@@ -859,7 +860,7 @@ s32 flPS2LockTexture(Rect * /* unused */, FLTexture *lpflTexture, plContext *lpc
             buff_ptr = flPS2GetSystemBuffAdrs(lpflTexture->mem_handle);
         }
 
-        lpflTexture->lock_ptr = (u32)buff_ptr;
+        lpflTexture->lock_ptr = (uintptr_t)buff_ptr;
         lpcontext->ptr = buff_ptr;
 
         switch (lpflTexture->format) {
@@ -942,7 +943,7 @@ s32 flPS2LockTexture(Rect * /* unused */, FLTexture *lpflTexture, plContext *lpc
             buff_ptr = flPS2GetSystemBuffAdrs(lpflTexture->mem_handle);
         }
 
-        lpflTexture->lock_ptr = (u32)buff_ptr;
+        lpflTexture->lock_ptr = (uintptr_t)buff_ptr;
         lpcontext->ptr = buff_ptr;
 
         switch (lpflTexture->format) {
@@ -1052,14 +1053,14 @@ s32 flUnlockPalette(u32 th) {
 }
 
 s32 flPS2UnlockTexture(FLTexture *lpflTexture) {
-    u32 trans_ptr;
+    uintptr_t trans_ptr;
     u8 *buff_ptr;
     u8 *buff_ptr1;
     plContext src;
     plContext dst;
     u32 dma_size;
-    u32 dma_ptr;
-    u32 last_tag;
+    uintptr_t dma_ptr;
+    uintptr_t last_tag;
 
     trans_ptr = NULL;
 
@@ -1068,11 +1069,11 @@ s32 flPS2UnlockTexture(FLTexture *lpflTexture) {
         if (lpflTexture->mem_handle != 0) {
             buff_ptr = flPS2GetSystemBuffAdrs(lpflTexture->mem_handle);
             buff_ptr1 = (u8 *)lpflTexture->lock_ptr;
-            trans_ptr = (u32)buff_ptr;
+            trans_ptr = (uintptr_t)buff_ptr;
         } else {
             buff_ptr = mflTemporaryUse(lpflTexture->size);
             buff_ptr1 = (u8 *)lpflTexture->lock_ptr;
-            trans_ptr = (u32)buff_ptr;
+            trans_ptr = (uintptr_t)buff_ptr;
         }
 
         src.desc = lpflTexture->desc;
@@ -1202,10 +1203,10 @@ s32 flPS2UnlockTexture(FLTexture *lpflTexture) {
             buff_ptr = flPS2GetSystemBuffAdrs(lpflTexture->mem_handle);
             buff_ptr1 = (u8 *)lpflTexture->lock_ptr;
             flMemcpy(buff_ptr, buff_ptr1, lpflTexture->size);
-            trans_ptr = (u32)buff_ptr;
+            trans_ptr = (uintptr_t)buff_ptr;
         } else {
             buff_ptr = (u8 *)lpflTexture->lock_ptr;
-            trans_ptr = (u32)buff_ptr;
+            trans_ptr = (uintptr_t)buff_ptr;
         }
 
         break;
@@ -1221,7 +1222,7 @@ s32 flPS2UnlockTexture(FLTexture *lpflTexture) {
 
     lpflTexture->desc &= ~2;
 
-    if (trans_ptr != NULL) {
+    if (trans_ptr != 0) {
         if (lpflTexture->flag == 1 || lpflTexture->flag == 4) {
             flPS2DeleteVramList(lpflTexture);
             return 1;
@@ -1279,7 +1280,7 @@ s32 flPS2ReloadTexture(s32 count, u32 *texlist) {
     s32 i;
     s32 j;
     u32 dma_size;
-    u32 dma_ptr;
+    uintptr_t dma_ptr;
     s32 trans_ctr;
 
     lpflKeep = NULL;
@@ -1958,7 +1959,12 @@ void flPS2VramInit() {
     }
 }
 
-LPVram *flPS2PullVramWork() {
+#if defined(TARGET_PS2)
+LPVram *flPS2PullVramWork()
+#else
+LPVram *flPS2PullVramWork(LPVram * /* unused */, s32 /* unused */)
+#endif
+{
     s32 i;
 
     for (i = 0; i < VRAM_CONTROL_SIZE; i++) {
@@ -1976,7 +1982,7 @@ void flPS2PushVramWork(LPVram *lpVram) {
     LPVram *lpChild = (LPVram *)lpVram->child;
 
     if (lpParent != 0) {
-        lpParent->child = (u32)lpChild;
+        lpParent->child = (uintptr_t)lpChild;
     } else if (lpChild != 0) {
         flVramList = (LPVram *)lpChild;
     } else {
@@ -1984,7 +1990,7 @@ void flPS2PushVramWork(LPVram *lpVram) {
     }
 
     if (lpChild != 0) {
-        lpChild->parent = (u32)lpParent;
+        lpChild->parent = (uintptr_t)lpParent;
     }
 
     if (lpVram->tex_ptr != NULL) {
@@ -2002,7 +2008,7 @@ void flPS2ChainVramWork(LPVram *lpParent, LPVram *lpVram) {
 
     if (lpParent != NULL) {
         lpChild = (LPVram *)lpParent->child;
-        lpParent->child = (u32)lpVram;
+        lpParent->child = (uintptr_t)lpVram;
     } else if (flVramList == NULL) {
         flVramList = lpVram;
     } else {
@@ -2010,11 +2016,11 @@ void flPS2ChainVramWork(LPVram *lpParent, LPVram *lpVram) {
         flVramList = lpVram;
     }
 
-    lpVram->parent = (u32)lpParent;
-    lpVram->child = (u32)lpChild;
+    lpVram->parent = (uintptr_t)lpParent;
+    lpVram->child = (uintptr_t)lpChild;
 
     if (lpChild != 0) {
-        lpChild->parent = (u32)lpVram;
+        lpChild->parent = (uintptr_t)lpVram;
     }
 }
 
