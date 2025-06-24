@@ -113,7 +113,7 @@ s32 flFileWrite(s8 *filename, void *buf, s32 len) {
     return 1;
 }
 
-s32 flFileAppend(s8 *filename, void *buf, s32 len) {
+s32 flFileAppend(s8 *filename, void *buf, ssize_t len) {
     s32 fd;
     s8 temp[2048];
     s8 *p;
@@ -131,7 +131,7 @@ s32 flFileAppend(s8 *filename, void *buf, s32 len) {
     }
 
     sceLseek(fd, 0, 2);
-    sceWrite(fd, buf, len);
+    sceWrite(fd, buf, (s32)len);
     sceClose(fd);
     ADXM_Unlock();
     return 1;
@@ -294,7 +294,7 @@ void flPS2SystemTmpBuffFlush() {
     case 1:
         len = 0x80000;
         flPs2State.SystemTmpBuffStartAdrs =
-            (u32)flPS2GetSystemBuffAdrs(flPs2State.SystemTmpBuffHandle[flPs2State.SystemIndex]);
+            (uintptr_t)flPS2GetSystemBuffAdrs(flPs2State.SystemTmpBuffHandle[flPs2State.SystemIndex]);
         flPs2State.SystemTmpBuffNow = flPs2State.SystemTmpBuffStartAdrs;
         flPs2State.SystemTmpBuffEndAdrs = flPs2State.SystemTmpBuffStartAdrs + len;
 
@@ -305,9 +305,9 @@ void flPS2SystemTmpBuffFlush() {
     }
 }
 
-u32 flPS2GetSystemTmpBuff(s32 len, s32 align) {
-    u32 now;
-    u32 new_now;
+uintptr_t flPS2GetSystemTmpBuff(s32 len, s32 align) {
+    uintptr_t now;
+    uintptr_t new_now;
 
     now = flPs2State.SystemTmpBuffNow;
     now = ~(align - 1) & (now + align - 1);

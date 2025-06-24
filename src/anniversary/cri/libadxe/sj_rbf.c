@@ -200,8 +200,8 @@ void SJRBF_GetChunk(SJRBF sjrbf, Sint32 id, Sint32 nbyte, SJCK *ck) {
 }
 
 void SJRBF_PutChunk(SJRBF sjrbf, Sint32 id, SJCK *ck) {
-    Sint32 temp_a2_4;
-    Sint32 temp_a3;
+    ptrdiff_t temp_a2_4;
+    ptrdiff_t temp_a3;
 
     if ((ck->len <= 0) || (ck->data == NULL)) {
         return;
@@ -220,7 +220,7 @@ void SJRBF_PutChunk(SJRBF sjrbf, Sint32 id, SJCK *ck) {
         temp_a3 = (ck->data - sjrbf->buf) + ck->len;
 
         if (sjrbf->bsize < temp_a3) {
-            temp_a2_4 = MIN(ck->len, temp_a3 - sjrbf->bsize);
+            temp_a2_4 = MIN(ck->len, temp_a3 - (ptrdiff_t)sjrbf->bsize);
             memcpy(sjrbf->buf, sjrbf->buf + (temp_a3 - temp_a2_4), temp_a2_4);
         }
 
@@ -314,7 +314,7 @@ Sint32 SJRBF_IsGetChunk(SJRBF sjrbf, Sint32 id, Sint32 nbyte, Sint32 *rbyte) {
     return unk == nbyte;
 }
 
-Sint32 SJRBF_GetBufPtr(SJ sj) {
+void *SJRBF_GetBufPtr(SJ sj) {
     SJRBF sjrbf = (SJRBF)sj;
     return sjrbf->buf;
 };

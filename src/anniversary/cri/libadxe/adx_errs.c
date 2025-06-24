@@ -52,9 +52,9 @@ void ADXERR_CallErrFunc2(s8 *arg0, s8 *arg1) {
 
 #pragma divbyzerocheck
 
-void ADXERR_ItoA(s32 value, s8 *str, s32 base) {
+void ADXERR_ItoA(s32 value, s8 *str, strlen_t base) {
     s32 i;
-    s32 len;
+    strlen_t len;
 
     for (i = 0; i < 32; i++) {
         str[i] = value % 10;

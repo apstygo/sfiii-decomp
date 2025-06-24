@@ -19,8 +19,8 @@ Sint32 dtx_proc_init_flag = 0;
 Sint32 dtx_send_sw = 1;
 
 // bss
-Sint32 dtx_rpc_rcv_buf[64];
-Sint32 dtx_rpc_snd_buf[64];
+intptr_t dtx_rpc_rcv_buf[64];
+intptr_t dtx_rpc_snd_buf[64];
 
 // forward declarations
 void DTX_ExecServer();
@@ -32,18 +32,18 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", dtx_rpc_func);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", dtx_svr_proc);
 
-Sint32 dtx_create_rmt(Sint32 id, void *eewk, void *iopwk, Sint32 wklen) {
+void *dtx_create_rmt(Sint32 id, void *eewk, void *iopwk, Sint32 wklen) {
     dtx_rpc_snd_buf[0] = id;
     dtx_rpc_snd_buf[1] = eewk;
     dtx_rpc_snd_buf[2] = iopwk;
     dtx_rpc_snd_buf[3] = wklen;
-    sceSifCallRpc(&dtx_cd, 2, 0, dtx_rpc_snd_buf, 4 * 4, dtx_rpc_rcv_buf, 1 * 4, 0, 0);
-    return dtx_rpc_rcv_buf[0];
+    sceSifCallRpc(&dtx_cd, 2, 0, dtx_rpc_snd_buf, 4 * sizeof(intptr_t), dtx_rpc_rcv_buf, 1 * sizeof(intptr_t), 0, 0);
+    return (void *)dtx_rpc_rcv_buf[0];
 }
 
-void dtx_destroy_rmt(Sint32 arg0) {
+void dtx_destroy_rmt(void *arg0) {
     dtx_rpc_snd_buf[0] = arg0;
-    sceSifCallRpc(&dtx_cd, 3, 0, dtx_rpc_snd_buf, 1 * 4, dtx_rpc_rcv_buf, 0, 0, 0);
+    sceSifCallRpc(&dtx_cd, 3, 0, dtx_rpc_snd_buf, 1 * sizeof(intptr_t), dtx_rpc_rcv_buf, 0, 0, 0);
 }
 
 void dtx_def_rcvcbf(void *arg0, void *arg1, Sint32 arg2) {
@@ -70,12 +70,12 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", DTX_Close);
 DTX DTX_Create(Sint32 id, void *eewk, void *iopwk, Sint32 wklen) {
     DTX dtx;
 
-    if ((Uint32)eewk & 0x3F) {
+    if ((uintptr_t)eewk & 0x3F) {
         scePrintf("eewk is not alignment 64 byte\n");
         return NULL;
     }
 
-    if ((Uint32)iopwk & 0x1F) {
+    if ((uintptr_t)iopwk & 0x1F) {
         scePrintf("iopwk is not alignment 32 byte\n");
         return NULL;
     }
@@ -85,7 +85,7 @@ DTX DTX_Create(Sint32 id, void *eewk, void *iopwk, Sint32 wklen) {
         return NULL;
     }
 
-    if ((Uint32)id >= DTX_MAX_OBJ) {
+    if ((uintptr_t)id >= DTX_MAX_OBJ) {
         scePrintf("illeagal ID (%d) \n", id);
         return NULL;
     }
@@ -98,7 +98,7 @@ DTX DTX_Create(Sint32 id, void *eewk, void *iopwk, Sint32 wklen) {
 
     dtx->unk4 = dtx_create_rmt(id, eewk, iopwk, wklen);
 
-    if (dtx->unk4 == 0) {
+    if (dtx->unk4 == NULL) {
         scePrintf("DTX_Create: can't create DTX of server\n");
         return NULL;
     }
@@ -106,7 +106,7 @@ DTX DTX_Create(Sint32 id, void *eewk, void *iopwk, Sint32 wklen) {
     dtx->unk10 = wklen - 0x40;
     dtx->unk1C = wklen;
     dtx->unk18 = iopwk;
-    dtx->unk14 = ((Uint32)eewk + dtx->unk10) | 0x20000000;
+    dtx->unk14 = ((uintptr_t)eewk + dtx->unk10) | 0x20000000;
     dtx->unk8 = 0;
     dtx->unkC = eewk;
     dtx->unk1 = 0;
@@ -161,7 +161,7 @@ void DTX_ExecHndl(DTX dtx) {
         dtx->unk14[0xF] = dtx->unk8;
         SyncDCache(dtx->unkC, dtx->unkC + dtx->unk10 - 1);
         InvalidDCache(dtx->unkC, dtx->unkC + dtx->unk10 + 0x3F);
-        dtx->dma_data.data = (s32)dtx->unkC & 0x0FFFFFFF;
+        dtx->dma_data.data = (uintptr_t)dtx->unkC & 0x0FFFFFFF;
         dtx->dma_data.addr = dtx->unk18;
         dtx->dma_data.size = dtx->unk1C;
         dtx->dma_data.mode = 0;
@@ -216,19 +216,27 @@ void DTX_Finish() {
     }
 }
 
-Sint32 DTX_CallUrpc(Sint32 arg0, Sint32 *args, Sint32 arg_num, Sint32 *arg3, Sint32 arg4) {
+intptr_t DTX_CallUrpc(Uint32 call_id, intptr_t *snd_buf, Sint32 snd_buf_len, intptr_t *rcv_buf, Sint32 rcv_buf_len) {
     Sint32 i;
 
     SVM_Lock();
 
-    for (i = 0; i < arg_num; i++) {
-        dtx_rpc_snd_buf[i] = args[i];
+    for (i = 0; i < snd_buf_len; i++) {
+        dtx_rpc_snd_buf[i] = snd_buf[i];
     }
 
-    sceSifCallRpc(&dtx_cd, arg0 + 0x400, 0, dtx_rpc_snd_buf, arg_num * 4, dtx_rpc_rcv_buf, arg4 * 4, 0, 0);
+    sceSifCallRpc(&dtx_cd,
+                  call_id + 0x400,
+                  0,
+                  dtx_rpc_snd_buf,
+                  snd_buf_len * sizeof(intptr_t),
+                  dtx_rpc_rcv_buf,
+                  rcv_buf_len * sizeof(intptr_t),
+                  0,
+                  0);
 
-    for (i = 0; i < arg4; i++) {
-        arg3[i] = dtx_rpc_rcv_buf[i];
+    for (i = 0; i < rcv_buf_len; i++) {
+        rcv_buf[i] = dtx_rpc_rcv_buf[i];
     }
 
     SVM_Unlock();

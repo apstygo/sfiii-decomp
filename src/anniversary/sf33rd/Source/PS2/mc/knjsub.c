@@ -5,7 +5,7 @@
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/knjsub", literal_225_005601F0);
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/knjsub", KnjInit);
 #else
-void KnjInit(u32 type, u32 adrs, u32 disp_max, u32 top_dbp) {
+void KnjInit(u32 type, uintptr_t adrs, u32 disp_max, u32 top_dbp) {
     not_implemented(__func__);
 }
 #endif

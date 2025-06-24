@@ -79,22 +79,25 @@ void ADXB_Finish() {
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_Finish);
 #endif
 
-Sint32 adxb_DefGetWr(void *object, Sint32 *arg1, Sint32 *arg2, Sint32 *arg3) {
+void *adxb_DefGetWr(void *object, Sint32 *arg1, Sint32 *arg2, Sint32 *arg3) {
     ADXB adxb = (ADXB)object;
-    Sint32 ret = adxb->unk3C;
+    void *ret = adxb->unk3C;
+
     *arg1 = adxb->unk8C;
     *arg2 = adxb->unk40 - adxb->unk8C;
     *arg3 = adxb->total_samples - adxb->unk88;
+
     return ret;
 }
 
 void adxb_DefAddWr(void *object, Sint32 arg1, Sint32 arg2) {
     ADXB adxb = (ADXB)object;
+
     adxb->unk8C += arg2;
     adxb->unk88 += arg2;
 }
 
-ADXB ADXB_Create(Sint32 arg0, Sint32 arg1, Sint32 arg2, Sint32 arg3) {
+ADXB ADXB_Create(Sint32 arg0, void *arg1, Sint32 arg2, Sint32 arg3) {
     ADXB adxb;
     ADXB chk_adxb;
     ADXPD adxpd;
@@ -289,14 +292,14 @@ Sint32 ADXB_DecodeHeader(ADXB adxb, void *header, Sint32 len) {
     return -1;
 }
 
-void ADXB_EntryGetWrFunc(ADXB adxb, Sint32 (*get_wr)(void *, Sint32 *, Sint32 *, Sint32 *), void *object) {
+void ADXB_EntryGetWrFunc(ADXB adxb, void *(*get_wr)(void *, ptrdiff_t *, Sint32 *, Sint32 *), void *object) {
     adxb->get_wr = get_wr;
     adxb->object = object;
 }
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_EntryAddWrFunc);
 
-Sint32 ADXB_GetPcmBuf(ADXB adxb) {
+void *ADXB_GetPcmBuf(ADXB adxb) {
     return adxb->unk3C;
 }
 
@@ -394,7 +397,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_SetExtStrin
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_SetDefExtString);
 
 Sint32 adxb_get_key(ADXB adxb, Uint8 arg1, Uint8 arg2, Sint32 arg3, Sint16 *arg4, Sint16 *arg5, Sint16 *arg6) {
-    Char8 sp[8];
+    Char8 sp[9];
 
     if (arg1 >= 4) {
         if (arg2 >= 0x10) {

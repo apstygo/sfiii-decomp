@@ -369,7 +369,7 @@ u8 *GetTim2PictureData(u8 *lpFile, s32 /* unused */, s32 Mipmap) {
         lpTim2MipmapHead = lpData;
 
         for (lp0 = 0; lp0 < lpTim2PictureHead[0x11] - 1; lp0++) {
-            lpTim2MipmapSubHead[lp0] = (u8 *)((u32)lpData + (lp0 << 2) + 0x10);
+            lpTim2MipmapSubHead[lp0] = (u8 *)((uintptr_t)lpData + (lp0 << 2) + 0x10);
         }
 
         if (lpTim2PictureHead[0x11] < 5) {
@@ -429,7 +429,7 @@ u8 *GetTim2ClutData(u8 *lpFile, s32 /* unused */) {
         lpTim2MipmapHead = lpData;
 
         for (lp0 = 0; lp0 < lpTim2PictureHead[0x11]; lp0++) {
-            lpTim2MipmapSubHead[lp0] = (u8 *)((u32)lpData + (lp0 << 2) + 0x10);
+            lpTim2MipmapSubHead[lp0] = (u8 *)((uintptr_t)lpData + (lp0 << 2) + 0x10);
         }
 
         if (lpTim2PictureHead[0x11] < 5) {

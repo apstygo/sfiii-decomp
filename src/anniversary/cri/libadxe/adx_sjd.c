@@ -15,7 +15,7 @@ void (*pl2setsfreqfunc)(ADXB, Sint32) = NULL;
 ADXSJD_OBJ adxsjd_obj[ADXSJD_MAX_OBJ] = { 0 };
 
 // forward decls
-Sint32 adxsjd_get_wr(ADXSJD sjd, Sint32 *arg1, Sint32 *arg2, Sint32 *arg3);
+void *adxsjd_get_wr(ADXSJD sjd, ptrdiff_t *arg1, Sint32 *arg2, Sint32 *arg3);
 
 void ADXSJD_Init() {
     ADXB_Init();
@@ -41,7 +41,7 @@ void adxsjd_clear(ADXSJD sjd) {
 ADXSJD ADXSJD_Create(SJ sj, Sint32 maxnch, SJ *sjo) {
     ADXSJD sjd;
     SJ out;
-    Sint32 buf_ptr;
+    void *buf_ptr;
     Sint32 i;
     Sint32 y;
     Sint32 buf_size;
@@ -198,7 +198,7 @@ void adxsjd_decode_prep(ADXSJD sjd) {
     sjd->state = state;
 }
 
-Sint32 adxsjd_get_wr(ADXSJD sjd, Sint32 *arg1, Sint32 *arg2, Sint32 *arg3) {
+void *adxsjd_get_wr(ADXSJD sjd, ptrdiff_t *arg1, Sint32 *arg2, Sint32 *arg3) {
     Sint32 temp_v0_3;
     Sint32 i;
     Sint32 var_v0;
@@ -215,7 +215,7 @@ Sint32 adxsjd_get_wr(ADXSJD sjd, Sint32 *arg1, Sint32 *arg2, Sint32 *arg3) {
         SJ_GetChunk(sjo[i], 0, 0x4000, &chunk_p[i]);
     }
 
-    *arg1 = (Sint32)(sjd->chunks[0].data - SJRBF_GetBufPtr(first_out)) / 2;
+    *arg1 = ((void *)sjd->chunks[0].data - SJRBF_GetBufPtr(first_out)) / 2;
 
     a0 = sjd->unk38;
     temp_v0_3 = sjd->chunks[0].len / 2;

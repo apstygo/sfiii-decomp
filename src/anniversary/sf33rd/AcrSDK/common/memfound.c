@@ -16,7 +16,7 @@ u32 mflGetSpace() {
     return plmemGetSpace(&sysmemmgr);
 }
 
-u32 mflGetFreeSpace() {
+size_t mflGetFreeSpace() {
     return plmemGetFreeSpace(&sysmemmgr);
 }
 

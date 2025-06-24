@@ -20,9 +20,9 @@ typedef struct {
 typedef struct {
     // total size: 0x3C
     Vec3 v[4]; // offset 0x0, size 0x30
-    u32 col;    // offset 0x30, size 0x4
-    u32 type;   // offset 0x34, size 0x4
-    s32 next;   // offset 0x38, size 0x4
+    u32 col;   // offset 0x30, size 0x4
+    u32 type;  // offset 0x34, size 0x4
+    s32 next;  // offset 0x38, size 0x4
 } NJDP2D_PRIM;
 
 typedef struct {
