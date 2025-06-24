@@ -132,7 +132,7 @@ s32 cseSendBd2SpuWithId(void *ee_addr, u32 size, u32 bank, u32 id) {
     if (cseSysWork.SpuBankId[bank] != id) {
         cseSysWork.SpuBankId[bank] = id;
         param.cmd = 0x30000000;
-        param.e_addr = (u32)ee_addr;
+        param.e_addr = (uintptr_t)ee_addr;
         param.s_addr = mlMemMapGetBankAddr(bank);
         param.size = size;
         mlRpcQueueSetData(3, &param, sizeof(CSE_SPUID_PARAM));

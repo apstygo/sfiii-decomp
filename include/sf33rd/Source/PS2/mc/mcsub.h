@@ -5,11 +5,11 @@
 
 typedef struct _file {
     // total size: 0x10
-    s32 flag; // offset 0x0, size 0x4
-    s8 *name; // offset 0x4, size 0x4
-    s32 bufs; // offset 0x8, size 0x4
-    s32 size; // offset 0xC, size 0x4
-};
+    s32 flag;      // offset 0x0, size 0x4
+    s8 *name;      // offset 0x4, size 0x4
+    intptr_t bufs; // offset 0x8, size 0x4
+    s32 size;      // offset 0xC, size 0x4
+} _file;
 
 typedef struct _memcard_file {
     // total size: 0x74

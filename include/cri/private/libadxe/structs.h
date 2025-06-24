@@ -1,6 +1,8 @@
 #ifndef LIBADXE_STRUCTS_H
 #define LIBADXE_STRUCTS_H
 
+#include "types.h"
+
 #include <cri/cri_xpts.h>
 #include <cri/sj.h>
 
@@ -32,7 +34,7 @@ typedef struct {             // offset in ADXB
     /* 0x08 */ Sint32 unk8;  // 0x50
     /* 0x0C */ Sint32 unkC;  // 0x54
     /* 0x10 */ Sint32 unk10; // 0x58
-    /* 0x14 */ Sint32 unk14; // 0x5C
+    /* 0x14 */ void *unk14;  // 0x5C
     /* 0x18 */ Sint32 unk18; // 0x60
     /* 0x1C */ Sint32 unk1C; // 0x64
     /* 0x20 */ Sint32 unk20; // 0x68
@@ -62,12 +64,12 @@ typedef struct {
     /* 0x30 */ Sint32 unk30;
     /* 0x34 */ Sint32 unk34;
     /* 0x38 */ Sint32 unk38;
-    /* 0x3C */ Sint32 unk3C;
+    /* 0x3C */ void *unk3C;
     /* 0x40 */ Sint32 unk40;
     /* 0x44 */ Sint32 unk44;
     /* 0x48 */ ADXB_UNK unk48;
     /* 0x74 */ Sint32 unk74;
-    /* 0x78 */ Sint32 (*get_wr)(void *, Sint32 *, Sint32 *, Sint32 *);
+    /* 0x78 */ void *(*get_wr)(void *, ptrdiff_t *, Sint32 *, Sint32 *);
     /* 0x7C */ void *object;
     /* 0x80 */ void (*add_wr)(void *, Sint32, Sint32);
     /* 0x84 */ Sint32 unk84;
@@ -149,14 +151,51 @@ typedef struct {
 
 typedef ADXAMP_OBJ *ADXAMP;
 
+// SJX
+
+#define SJX_MAX_OBJ 32
+
+typedef struct {
+    Sint32 unk0;
+    SJ sj;
+} SJX_UNK_0;
+
+typedef struct {
+    Sint8 unk0;
+    Sint8 id;
+    Sint16 unk2;
+    SJX_UNK_0 *unk4;
+    SJCK chunk;
+} SJX_UNK_1;
+
+typedef struct {
+    Sint32 count;
+    Sint32 reserved4;
+    Sint32 reserved8;
+    Sint32 reservedC;
+    SJX_UNK_1 items[0];
+} SJX_UNK_2;
+
+typedef struct {
+    Sint8 used;
+    Sint8 unk1;
+    Sint16 unk2;
+    SJ sj;
+    void *unk8;
+    Sint32 unkC;
+    SJX_UNK_0 *unk10;
+} SJX_OBJ;
+
+typedef SJX_OBJ *SJX;
+
 // PS2PSJ
 
 typedef struct {
     Sint8 used;
     char pad1[3];
-    Sint32 unk4;
+    void *unk4;
     SJ unk8;
-    Sint32 unkC;
+    SJX unkC;
     SJCK chunk;
 } PS2PSJ_OBJ;
 
@@ -190,7 +229,7 @@ typedef struct {
     PS2PSJ psj[2];
     DTR dtr[2];
     SJ sjo[2];
-    Sint32 unk20;
+    intptr_t unk20;
     Sint32 unk24;
     Sint32 unk28;
     Sint32 unk2C;
@@ -228,7 +267,7 @@ typedef struct {
     Sint8 unk1;
     Sint8 unk2;
     Sint8 unk3;
-    Sint32 unk4;
+    void *unk4;
     Sint32 unk8;
     void *unkC;
     Sint32 unk10;
@@ -253,7 +292,7 @@ typedef struct {
     Sint8 read_flg;
     Sint8 unk3;
     SJ sj;
-    Sint32 cvfs;
+    void *cvfs;
     Sint32 unkC; // some offset
     Sint32 file_len;
     Sint32 file_sct;

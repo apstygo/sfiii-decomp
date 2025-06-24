@@ -28,11 +28,11 @@ typedef struct {
 
 typedef struct {
     // total size: 0x14
-    u32 cmd;    // offset 0x0, size 0x4
-    u32 guid;   // offset 0x4, size 0x4
-    u32 e_addr; // offset 0x8, size 0x4
-    u32 s_addr; // offset 0xC, size 0x4
-    u32 size;   // offset 0x10, size 0x4
+    u32 cmd;          // offset 0x0, size 0x4
+    u32 guid;         // offset 0x4, size 0x4
+    uintptr_t e_addr; // offset 0x8, size 0x4
+    u32 s_addr;       // offset 0xC, size 0x4
+    u32 size;         // offset 0x10, size 0x4
 } CSE_SPUID_PARAM;
 
 s32 cseInitSndDrv();

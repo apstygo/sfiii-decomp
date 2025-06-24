@@ -69,13 +69,31 @@ EEGCC_FLAGS := $(PS2_INCLUDES) -O2 -G0 -c $(PS2_DEFINES) -DXPT_TGT_EE
 AS_FLAGS += -EL -I $(INCLUDE_DIR) -G 128 -march=r5900 -mabi=eabi -no-pad-sections
 LD_FLAGS := -main func_00100008 -map
 
+CLANG_WARNINGS := -Wall -Werror
+CLANG_WARNINGS += -Wpointer-to-int-cast
+CLANG_WARNINGS += -Wno-macro-redefined -Wno-deprecated-non-prototype
+CLANG_WARNINGS += -Wno-missing-braces -Wno-self-assign -Wno-format
+CLANG_WARNINGS += -Wno-tautological-constant-out-of-range-compare -Wno-tautological-overlap-compare
+CLANG_WARNINGS += -Wno-gcc-compat -Wno-unknown-pragmas -Wno-c2x-extensions
+CLANG_WARNINGS += -Wno-unused-value -Wno-unused-variable -Wno-unused-but-set-variable -Wno-unused-comparison -Wno-unused-function
+
+# These should be enabled in the future
+CLANG_WARNINGS += -Wno-int-to-pointer-cast
+CLANG_WARNINGS += -Wno-int-conversion
+CLANG_WARNINGS += -Wno-incompatible-pointer-types
+CLANG_WARNINGS += -Wno-incompatible-function-pointer-types
+CLANG_WARNINGS += -Wno-pointer-sign
+CLANG_WARNINGS += -Wno-shift-count-overflow
+
 CLANG_INCLUDES := $(COMMON_INCLUDES)
-CLANG_FLAGS := $(CLANG_INCLUDES) -DTARGET_SDL3 -DXPT_TGT_EE -D_POSIX_C_SOURCE -std=c99
-CLANG_FLAGS += -Wno-c2x-extensions -Wno-int-conversion -Wno-incompatible-function-pointer-types -w
+CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) -DTARGET_SDL3 -DXPT_TGT_EE -D_POSIX_C_SOURCE -std=c99
+
 CLANG_LINKER_FLAGS := -lz -lm -g
 
-CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
-CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
+ifneq ($(PLATFORM),ps2)
+	CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
+	CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
+endif
 
 # Files
 

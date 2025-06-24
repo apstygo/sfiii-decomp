@@ -39,6 +39,6 @@ void *plmemRetrieve(MEM_MGR *memmgr, u32 handle);            // Range: 0x116AB0 
 s32 plmemRelease(MEM_MGR *memmgr, u32 handle);               // Range: 0x116B20 -> 0x116BFC
 void *plmemCompact(MEM_MGR *memmgr);                         // Range: 0x116C00 -> 0x116E9C
 u32 plmemGetSpace(MEM_MGR *memmgr);                          // Range: 0x116EA0 -> 0x116EC8
-u32 plmemGetFreeSpace(MEM_MGR *memmgr);                      // Range: 0x116ED0 -> 0x116F5C
+size_t plmemGetFreeSpace(MEM_MGR *memmgr);                   // Range: 0x116ED0 -> 0x116F5C
 
 #endif

@@ -754,62 +754,62 @@ typedef struct {
 
 typedef struct {
     // total size: 0x470
-    u32 VideoMode;              // offset 0x0, size 0x4
-    u32 InterlaceMode;          // offset 0x4, size 0x4
-    u32 DisplayMode;            // offset 0x8, size 0x4
-    s32 DispWidth;              // offset 0xC, size 0x4
-    s32 DispHeight;             // offset 0x10, size 0x4
-    u32 MAGH;                   // offset 0x14, size 0x4
-    u32 FrameBitDepth;          // offset 0x18, size 0x4
-    u32 FrameBuffForm;          // offset 0x1C, size 0x4
-    u32 FrameBuffPageX;         // offset 0x20, size 0x4
-    u32 FrameBuffPageY;         // offset 0x24, size 0x4
-    u32 FrameBuffAdrs0;         // offset 0x28, size 0x4
-    u32 FrameBuffAdrs1;         // offset 0x2C, size 0x4
-    u32 ZBuffBitDepth;          // offset 0x30, size 0x4
-    u32 ZBuffForm;              // offset 0x34, size 0x4
-    u32 ZBuffPageX;             // offset 0x38, size 0x4
-    u32 ZBuffPageY;             // offset 0x3C, size 0x4
-    u32 ZBuffAdrs;              // offset 0x40, size 0x4
-    f32 ZBuffMax;               // offset 0x44, size 0x4
-    u32 TextureStartAdrs;       // offset 0x48, size 0x4
-    s32 Oddeven;                // offset 0x4C, size 0x4
-    s32 Dbi;                    // offset 0x50, size 0x4
-    s32 FrameCount;             // offset 0x54, size 0x4
-    s32 FrameCountNext;         // offset 0x58, size 0x4
-    s32 Irq_count;              // offset 0x5C, size 0x4
-    s32 Db_change_enable;       // offset 0x60, size 0x4
-    s8 pad64[0xC];              // offset 0x64, size 0xC
-    sceGsDBuffDc Db;            // offset 0x70, size 0x330
-    u32 FrameClearColor;        // offset 0x3A0, size 0x4
-    s32 D2dOffsetX;             // offset 0x3A4, size 0x4
-    s32 D2dOffsetY;             // offset 0x3A8, size 0x4
-    s32 ScreenOffsetX;          // offset 0x3AC, size 0x4
-    s32 ScreenOffsetY;          // offset 0x3B0, size 0x4
-    s32 ScreenDispX;            // offset 0x3B4, size 0x4
-    s32 ScreenDispY;            // offset 0x3B8, size 0x4
-    s32 ScreenAdjustX;          // offset 0x3BC, size 0x4
-    s32 ScreenAdjustY;          // offset 0x3C0, size 0x4
-    sceDmaChan *DmaChan[10];    // offset 0x3C4, size 0x28
-    s32 NowVu1Code;             // offset 0x3EC, size 0x4
-    s32 NowVu1Size;             // offset 0x3F0, size 0x4
-    s32 DrawDisable;            // offset 0x3F4, size 0x4
-    u32 system_memory_start;    // offset 0x3F8, size 0x4
-    s32 system_memory_size;     // offset 0x3FC, size 0x4
-    u32 SystemStatus;           // offset 0x400, size 0x4
-    s32 SystemIndex;            // offset 0x404, size 0x4
-    u32 SystemTmpBuffStartAdrs; // offset 0x408, size 0x4
-    u32 SystemTmpBuffEndAdrs;   // offset 0x40C, size 0x4
-    u32 SystemTmpBuffNow;       // offset 0x410, size 0x4
-    u32 SystemTmpBuffHandle[2]; // offset 0x414, size 0x8
-    u64 RenderTESTStatus1;      // offset 0x420, size 0x4
-    u64 RenderTESTStatus2;      // offset 0x428, size 0x4
-    u64 RenderZBUFStatus1;      // offset 0x430, size 0x4
-    u64 RenderZBUFStatus2;      // offset 0x438, size 0x4
-    u64 RenderSCISSORStatus1;   // offset 0x440, size 0x4
-    s32 RenderSCISSORValue1[4]; // offset 0x448, size 0x10
-    u64 RenderSCISSORStatus2;   // offset 0x458, size 0x4
-    s32 RenderSCISSORValue2[4]; // offset 0x460, size 0x10
+    u32 VideoMode;                    // offset 0x0, size 0x4
+    u32 InterlaceMode;                // offset 0x4, size 0x4
+    u32 DisplayMode;                  // offset 0x8, size 0x4
+    s32 DispWidth;                    // offset 0xC, size 0x4
+    s32 DispHeight;                   // offset 0x10, size 0x4
+    u32 MAGH;                         // offset 0x14, size 0x4
+    u32 FrameBitDepth;                // offset 0x18, size 0x4
+    u32 FrameBuffForm;                // offset 0x1C, size 0x4
+    u32 FrameBuffPageX;               // offset 0x20, size 0x4
+    u32 FrameBuffPageY;               // offset 0x24, size 0x4
+    u32 FrameBuffAdrs0;               // offset 0x28, size 0x4
+    u32 FrameBuffAdrs1;               // offset 0x2C, size 0x4
+    u32 ZBuffBitDepth;                // offset 0x30, size 0x4
+    u32 ZBuffForm;                    // offset 0x34, size 0x4
+    u32 ZBuffPageX;                   // offset 0x38, size 0x4
+    u32 ZBuffPageY;                   // offset 0x3C, size 0x4
+    u32 ZBuffAdrs;                    // offset 0x40, size 0x4
+    f32 ZBuffMax;                     // offset 0x44, size 0x4
+    u32 TextureStartAdrs;             // offset 0x48, size 0x4
+    s32 Oddeven;                      // offset 0x4C, size 0x4
+    s32 Dbi;                          // offset 0x50, size 0x4
+    s32 FrameCount;                   // offset 0x54, size 0x4
+    s32 FrameCountNext;               // offset 0x58, size 0x4
+    s32 Irq_count;                    // offset 0x5C, size 0x4
+    s32 Db_change_enable;             // offset 0x60, size 0x4
+    s8 pad64[0xC];                    // offset 0x64, size 0xC
+    sceGsDBuffDc Db;                  // offset 0x70, size 0x330
+    u32 FrameClearColor;              // offset 0x3A0, size 0x4
+    s32 D2dOffsetX;                   // offset 0x3A4, size 0x4
+    s32 D2dOffsetY;                   // offset 0x3A8, size 0x4
+    s32 ScreenOffsetX;                // offset 0x3AC, size 0x4
+    s32 ScreenOffsetY;                // offset 0x3B0, size 0x4
+    s32 ScreenDispX;                  // offset 0x3B4, size 0x4
+    s32 ScreenDispY;                  // offset 0x3B8, size 0x4
+    s32 ScreenAdjustX;                // offset 0x3BC, size 0x4
+    s32 ScreenAdjustY;                // offset 0x3C0, size 0x4
+    sceDmaChan *DmaChan[10];          // offset 0x3C4, size 0x28
+    s32 NowVu1Code;                   // offset 0x3EC, size 0x4
+    s32 NowVu1Size;                   // offset 0x3F0, size 0x4
+    s32 DrawDisable;                  // offset 0x3F4, size 0x4
+    uintptr_t system_memory_start;    // offset 0x3F8, size 0x4
+    s32 system_memory_size;           // offset 0x3FC, size 0x4
+    u32 SystemStatus;                 // offset 0x400, size 0x4
+    s32 SystemIndex;                  // offset 0x404, size 0x4
+    uintptr_t SystemTmpBuffStartAdrs; // offset 0x408, size 0x4
+    uintptr_t SystemTmpBuffEndAdrs;   // offset 0x40C, size 0x4
+    uintptr_t SystemTmpBuffNow;       // offset 0x410, size 0x4
+    u32 SystemTmpBuffHandle[2];       // offset 0x414, size 0x8
+    u64 RenderTESTStatus1;            // offset 0x420, size 0x4
+    u64 RenderTESTStatus2;            // offset 0x428, size 0x4
+    u64 RenderZBUFStatus1;            // offset 0x430, size 0x4
+    u64 RenderZBUFStatus2;            // offset 0x438, size 0x4
+    u64 RenderSCISSORStatus1;         // offset 0x440, size 0x4
+    s32 RenderSCISSORValue1[4];       // offset 0x448, size 0x10
+    u64 RenderSCISSORStatus2;         // offset 0x458, size 0x4
+    s32 RenderSCISSORValue2[4];       // offset 0x460, size 0x10
 } FLPS2State;
 
 typedef struct {
@@ -823,8 +823,8 @@ typedef struct {
     u32 queue_ptr1[2];          // offset 0x24, size 0x8
     u32 now_adrs;               // offset 0x2C, size 0x4
     u32 dma_normal_mode_status; // offset 0x30, size 0x4
-    u32 old_queue_data;         // offset 0x34, size 0x4
-    u32 old_endtag;             // offset 0x38, size 0x4
+    uintptr_t old_queue_data;   // offset 0x34, size 0x4
+    uintptr_t old_endtag;       // offset 0x38, size 0x4
 } FLPS2VIF1Control;
 
 typedef union {
@@ -997,17 +997,17 @@ struct _MEMMAN_CELL {
     // total size: 0xC
     struct _MEMMAN_CELL *prev; // offset 0x0, size 0x4
     struct _MEMMAN_CELL *next; // offset 0x4, size 0x4
-    s32 size;                  // offset 0x8, size 0x4
+    ssize_t size;              // offset 0x8, size 0x4
 };
 
 typedef struct {
     // total size: 0x2C
     u8 *memHead;                   // offset 0x0, size 0x4
-    s32 memSize;                   // offset 0x4, size 0x4
+    ssize_t memSize;               // offset 0x4, size 0x4
     u32 ownNumber;                 // offset 0x8, size 0x4
     s32 ownUnit;                   // offset 0xC, size 0x4
-    s32 remainder;                 // offset 0x10, size 0x4
-    s32 remainderMin;              // offset 0x14, size 0x4
+    ssize_t remainder;             // offset 0x10, size 0x4
+    ssize_t remainderMin;          // offset 0x14, size 0x4
     struct _MEMMAN_CELL *cell_1st; // offset 0x18, size 0x4
     struct _MEMMAN_CELL *cell_fin; // offset 0x1C, size 0x4
     u8 *oriHead;                   // offset 0x20, size 0x4
@@ -1534,11 +1534,11 @@ typedef union {
 
 typedef struct {
     // total size: 0xC
-    s8 ok;             // offset 0x0, size 0x1
-    s8 type;           // offset 0x1, size 0x1
-    s16 key;           // offset 0x2, size 0x2
-    u32 texture_table; // offset 0x4, size 0x4
-    u32 trans_table;   // offset 0x8, size 0x4
+    s8 ok;                   // offset 0x0, size 0x1
+    s8 type;                 // offset 0x1, size 0x1
+    s16 key;                 // offset 0x2, size 0x2
+    uintptr_t texture_table; // offset 0x4, size 0x4
+    uintptr_t trans_table;   // offset 0x8, size 0x4
 } TEX_GRP_LD;
 
 typedef struct {
@@ -1620,8 +1620,8 @@ typedef struct {
 
 typedef struct {
     // total size: 0xC
-    u32 adr;        // offset 0x0, size 0x4
-    u32 size;       // offset 0x4, size 0x4
+    uintptr_t adr;  // offset 0x0, size 0x4
+    size_t size;    // offset 0x4, size 0x4
     u8 search_type; // offset 0x8, size 0x1
     u8 group_num;   // offset 0x9, size 0x1
     u8 type;        // offset 0xA, size 0x1
@@ -1697,7 +1697,7 @@ typedef struct {
     u16 accnum;            // offset 0x12, size 0x2
     u32 *offset;           // offset 0x14, size 0x4
     u8 *srcAdrs;           // offset 0x18, size 0x4
-    u32 srcSize;           // offset 0x1C, size 0x4
+    size_t srcSize;        // offset 0x1C, size 0x4
 } Texture;
 
 typedef struct {
@@ -2035,8 +2035,8 @@ typedef struct {
 
 typedef struct {
     // total size: 0x1C
-    u32 parent;         // offset 0x0, size 0x4
-    u32 child;          // offset 0x4, size 0x4
+    uintptr_t parent;   // offset 0x0, size 0x4
+    uintptr_t child;    // offset 0x4, size 0x4
     FLTexture *tex_ptr; // offset 0x8, size 0x4
     u32 desc;           // offset 0xC, size 0x4
     u32 flag;           // offset 0x10, size 0x4

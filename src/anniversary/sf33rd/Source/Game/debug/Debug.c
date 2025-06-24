@@ -109,7 +109,7 @@ void Debug_2nd(struct _TASK *task_ptr) {
     flPrintL(1, 1, "[DEBUG MODE]");
     flPrintL(14, 1, (s8 *)debug_name_data[Debug_ID]);
 
-    if (sw = Debug_Menu_Shot()) {
+    if ((sw = Debug_Menu_Shot())) {
         if (sw == 256) {
             Debug_w[Debug_Index] = 0;
         }

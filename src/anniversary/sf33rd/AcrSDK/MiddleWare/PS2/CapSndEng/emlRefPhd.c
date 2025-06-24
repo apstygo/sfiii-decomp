@@ -44,7 +44,7 @@ s32 GetNumSplit(_ps2_head_chunk *pHEAD, u8 prog) {
         return -1;
     }
 
-    pPROG = (_ps2_prog_chunk *)((u32)&pHEAD->tag + (u32)pHEAD->progChunkOffset);
+    pPROG = (_ps2_prog_chunk *)((uintptr_t)&pHEAD->tag + (u32)pHEAD->progChunkOffset);
     if (IsSafeProgChunk(pPROG) != 1) {
         return -2;
     }
@@ -58,7 +58,7 @@ s32 GetNumSplit(_ps2_head_chunk *pHEAD, u8 prog) {
         return -11;
     }
 
-    pPPRM = (_ps2_prog_param *)((u32)pPROG + offset);
+    pPPRM = (_ps2_prog_param *)((uintptr_t)pPROG + offset);
     return pPPRM->nSplit;
 }
 
@@ -71,10 +71,10 @@ s32 GetPhdParam(CSE_PHDPADDR *pHDPA, _ps2_head_chunk *pHEAD, u8 prog, u8 note, u
     _ps2_smpl_param *pSPRM;
     _ps2_vagi_param *pVPRM;
 
-    pPROG = (_ps2_prog_chunk *)((u32)&pHEAD->tag + (u32)pHEAD->progChunkOffset);
-    pSMPL = (_ps2_smpl_chunk *)((u32)&pHEAD->tag + (u32)pHEAD->smplChunkOffset);
-    pVAGI = (_ps2_vagi_chunk *)((u32)&pHEAD->tag + (u32)pHEAD->vagiChunkOffset);
-    
+    pPROG = (_ps2_prog_chunk *)((uintptr_t)&pHEAD->tag + (u32)pHEAD->progChunkOffset);
+    pSMPL = (_ps2_smpl_chunk *)((uintptr_t)&pHEAD->tag + (u32)pHEAD->smplChunkOffset);
+    pVAGI = (_ps2_vagi_chunk *)((uintptr_t)&pHEAD->tag + (u32)pHEAD->vagiChunkOffset);
+
     if (IsSafeHeadChunk(pHEAD) != 1) {
         return -1;
     }
@@ -91,11 +91,11 @@ s32 GetPhdParam(CSE_PHDPADDR *pHDPA, _ps2_head_chunk *pHEAD, u8 prog, u8 note, u
         return -4;
     }
 
-    pPPRM = (_ps2_prog_param *)((u32)pPROG + pPROG->progParamOffset[prog]);
+    pPPRM = (_ps2_prog_param *)((uintptr_t)pPROG + pPROG->progParamOffset[prog]);
     pSBLK = &pPPRM->splitBlock[index];
     pSPRM = &pSMPL->smplParam[pSBLK->sampleIndex];
     pVPRM = &pVAGI->vagiParam[pSPRM->vagiIndex];
-    
+
     if (!(pSBLK->lowKey > note) && !(note > pSBLK->highKey)) {
         pHDPA->pPprm = pPPRM;
         pHDPA->pSblk = pSBLK;
@@ -114,7 +114,7 @@ s32 CalcPhdParam(CSE_PHDP *pPHDP, CSE_PHDPADDR *pHDPA, u8 note, u32 SpuTopAddr) 
     pPHDP->vol = ((pPHDP->vol * pHDPA->pSblk->vol) / 127);
     pPHDP->vol = ((pPHDP->vol * pHDPA->pSprm->vol) / 127);
     pan = pHDPA->pPprm->pan - 64;
-    
+
     if (pan < -64) {
         pan = -64;
     } else if (pan > 63) {

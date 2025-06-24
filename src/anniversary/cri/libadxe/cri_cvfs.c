@@ -45,7 +45,7 @@ void getDefDev(Char8 *arg0);
 void addDevName(const Char8 *device_name, Char8 *out);
 CVFSDevice *getDevice(const Char8 *name);
 CVFSDevice *addDevice(const Char8 *device_name, CVFSDevice *(*device_provider)());
-Sint32 isExistDev(const Char8 *, Sint32);
+Sint32 isExistDev(const Char8 *, strlen_t);
 void toUpperStr(Char8 *str);
 
 void cvFsCallUsrErrFn(void *object, const Char8 *msg, Sint32 arg2) {
@@ -116,7 +116,7 @@ CVFSDevice *addDevice(const Char8 *device_name, CVFSDevice *(*device_provider)()
 }
 
 CVFSDevice *getDevice(const Char8 *name) {
-    Sint32 len = strlen(name);
+    strlen_t len = strlen(name);
     Uint32 i;
 
     for (i = 0; i < CVFS_DEVICE_MAX; i++) {
@@ -129,7 +129,7 @@ CVFSDevice *getDevice(const Char8 *name) {
 }
 
 void toUpperStr(Char8 *str) {
-    Uint32 len = strlen(str);
+    size_t len = strlen(str);
     Sint32 i;
 
     for (i = 0; i < len + 1; i++) {
@@ -143,7 +143,7 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", D_0055BE38);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_cvfs", cvFsDelDev);
 
 void cvFsSetDefDev(const Char8 *device_name) {
-    Sint32 device_name_len;
+    strlen_t device_name_len;
 
     if (device_name == NULL) {
         cvFsError("cvFsSetDefDev #1:illegal device name");
@@ -167,7 +167,7 @@ void cvFsSetDefDev(const Char8 *device_name) {
     cvFsError("cvFsSetDefDev #2:unknown device name");
 }
 
-Sint32 isExistDev(const Char8 *device_name, Sint32 device_name_length) {
+Sint32 isExistDev(const Char8 *device_name, strlen_t device_name_length) {
     Sint32 i;
 
     for (i = 0; i < CVFS_DEVICE_MAX; i++) {
@@ -331,10 +331,10 @@ void getDevName(Char8 *filename, Char8 *device_name, const Char8 *full_path) {
 }
 
 void getDefDev(Char8 *arg0) {
-    Sint32 len = strlen(D_006BDDA8);
+    strlen_t len = strlen(D_006BDDA8);
 
-    if (*D_006BDDA8 == 0) {
-        *arg0 = 0;
+    if (D_006BDDA8[0] == '\0') {
+        arg0[0] = '\0';
         return;
     }
 

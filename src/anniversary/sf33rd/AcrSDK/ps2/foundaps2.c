@@ -141,9 +141,11 @@ s32 flInitialize(s32 /* unused */, s32 /* unused */) {
         return 0;
     }
 
+#if defined(TARGET_PS2)
     if (system_hard_init() == 0) {
         return 0;
     }
+#endif
 
     flPS2SystemTmpBuffInit();
     flPs2State.FrameCount = 0;
@@ -181,7 +183,7 @@ s32 system_work_init() {
     fmsInitialize(&flFMS, temp, 0x01800000, 0x40);
     flPs2State.system_memory_size = 0xA00000;
     temp = flAllocMemoryS(flPs2State.system_memory_size);
-    flPs2State.system_memory_start = (u32)temp;
+    flPs2State.system_memory_start = (uintptr_t)temp;
     mflInit(temp, flPs2State.system_memory_size, 0x40);
 
     plmalloc = flAllocMemory;
@@ -541,8 +543,8 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
     db1 = &flPs2Db[1];
     qwc = 9;
 
-    flPS2DmaAddEndTag((u32)db0, qwc, 0, 0);
-    flPS2DmaAddEndTag((u32)db1, qwc, 0, 0);
+    flPS2DmaAddEndTag((uintptr_t)db0, qwc, 0, 0);
+    flPS2DmaAddEndTag((uintptr_t)db1, qwc, 0, 0);
 
     qwc -= 1;
     db0->giftag.I64[0] = SCE_GIF_SET_TAG(qwc, 1, 0, 0, 0, 1);
@@ -591,7 +593,7 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
 
     ds = &flPs2DrawStart;
     qwc = 19;
-    flPS2DmaAddEndTag((u32)ds, qwc, 1, 0);
+    flPS2DmaAddEndTag((uintptr_t)ds, qwc, 1, 0);
 
     ds->dmatag.I32[2] = 0x13000000;
     ds->dmatag.I32[3] = qwc | 0x51000000;
@@ -750,7 +752,7 @@ void flPS2DrawPreparation() {
 
     dst = (u32 *)flPS2GetSystemTmpBuff(sizeof(FLPS2DrawStart), 0x10);
     flPS2_Mem_move16_16A(ds, dst, 0x14);
-    flPS2DmaAddQueue2(0, (u32)dst & 0xFFFFFFF, (u32)dst, &flPs2VIF1Control);
+    flPS2DmaAddQueue2(0, (uintptr_t)dst & 0xFFFFFFF, (uintptr_t)dst, &flPs2VIF1Control);
 }
 
 s32 flLogOut(s8 *format, ...) {

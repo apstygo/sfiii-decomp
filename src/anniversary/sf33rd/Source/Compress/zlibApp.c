@@ -46,7 +46,7 @@ void zlib_Free(void *opaque, void *adrs) {
     mmFree(&zlib.mobj, (u8 *)adrs);
 }
 
-s32 zlib_Decompress(void *srcBuff, s32 srcSize, void *dstBuff, s32 dstSize) {
+ssize_t zlib_Decompress(void *srcBuff, s32 srcSize, void *dstBuff, s32 dstSize) {
     zlib.info.next_in = srcBuff;
     zlib.info.avail_in = srcSize;
     zlib.info.next_out = dstBuff;
