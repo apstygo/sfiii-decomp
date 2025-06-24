@@ -70,6 +70,7 @@ AS_FLAGS += -EL -I $(INCLUDE_DIR) -G 128 -march=r5900 -mabi=eabi -no-pad-section
 LD_FLAGS := -main func_00100008 -map
 
 CLANG_WARNINGS := -Wall -Werror
+CLANG_WARNINGS += -Wpointer-to-int-cast
 CLANG_WARNINGS += -Wno-macro-redefined -Wno-deprecated-non-prototype
 CLANG_WARNINGS += -Wno-missing-braces -Wno-self-assign -Wno-format
 CLANG_WARNINGS += -Wno-tautological-constant-out-of-range-compare -Wno-tautological-overlap-compare

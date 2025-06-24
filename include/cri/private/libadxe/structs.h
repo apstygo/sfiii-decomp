@@ -151,6 +151,43 @@ typedef struct {
 
 typedef ADXAMP_OBJ *ADXAMP;
 
+// SJX
+
+#define SJX_MAX_OBJ 32
+
+typedef struct {
+    Sint32 unk0;
+    SJ sj;
+} SJX_UNK_0;
+
+typedef struct {
+    Sint8 unk0;
+    Sint8 id;
+    Sint16 unk2;
+    SJX_UNK_0 *unk4;
+    SJCK chunk;
+} SJX_UNK_1;
+
+typedef struct {
+    Sint32 count;
+    Sint32 reserved4;
+    Sint32 reserved8;
+    Sint32 reservedC;
+    SJX_UNK_1 items[0];
+} SJX_UNK_2;
+
+typedef struct {
+    Sint8 used;
+    Sint8 unk1;
+    Sint16 unk2;
+    SJ sj;
+    void *unk8;
+    Sint32 unkC;
+    SJX_UNK_0 *unk10;
+} SJX_OBJ;
+
+typedef SJX_OBJ *SJX;
+
 // PS2PSJ
 
 typedef struct {
@@ -158,7 +195,7 @@ typedef struct {
     char pad1[3];
     void *unk4;
     SJ unk8;
-    Sint32 unkC;
+    SJX unkC;
     SJCK chunk;
 } PS2PSJ_OBJ;
 
@@ -255,7 +292,7 @@ typedef struct {
     Sint8 read_flg;
     Sint8 unk3;
     SJ sj;
-    Sint32 cvfs;
+    void *cvfs;
     Sint32 unkC; // some offset
     Sint32 file_len;
     Sint32 file_sct;
@@ -393,42 +430,5 @@ typedef struct {
     Sint32 unk8;
     Sint32 unkC;
 } DVG_FLIST_TBL;
-
-// SJX
-
-#define SJX_MAX_OBJ 32
-
-typedef struct {
-    Sint32 unk0;
-    SJ sj;
-} SJX_UNK_0;
-
-typedef struct {
-    Sint8 unk0;
-    Sint8 id;
-    Sint16 unk2;
-    SJX_UNK_0 *unk4;
-    SJCK chunk;
-} SJX_UNK_1;
-
-typedef struct {
-    Sint32 count;
-    Sint32 reserved4;
-    Sint32 reserved8;
-    Sint32 reservedC;
-    SJX_UNK_1 items[0];
-} SJX_UNK_2;
-
-typedef struct {
-    Sint8 used;
-    Sint8 unk1;
-    Sint16 unk2;
-    SJ sj;
-    void *unk8;
-    Sint32 unkC;
-    SJX_UNK_0 *unk10;
-} SJX_OBJ;
-
-typedef SJX_OBJ *SJX;
 
 #endif
