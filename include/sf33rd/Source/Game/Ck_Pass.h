@@ -4,15 +4,15 @@
 #include "structs.h"
 #include "types.h"
 
-extern void (*const Passive_jmp_tbl[21])(); // size: 0x54, address: 0x4F75E0
-extern s32 (*const Passive_AS_tbl[20])();   // size: 0x50, address: 0x4F7640
-extern s32 (*const Passive_A_tbl[20])();    // size: 0x50, address: 0x4F7690
-extern s32 (*const Passive_BS_tbl[20])();   // size: 0x50, address: 0x4F76E0
-extern s32 (*const Passive_B_tbl[20])();    // size: 0x50, address: 0x4F7730
-extern s32 (*const Passive_CS_tbl[20])();   // size: 0x50, address: 0x4F7780
-extern s32 (*const Passive_C_tbl[20])();    // size: 0x50, address: 0x4F77D0
-extern s32 (*const Passive_DS_tbl[20])();   // size: 0x50, address: 0x4F7820
-extern s32 (*const Passive_D_tbl[20])();    // size: 0x50, address: 0x4F7870
+extern void (*const Passive_jmp_tbl[21])();
+extern s32 (*const Passive_AS_tbl[20])();
+extern s32 (*const Passive_A_tbl[20])();
+extern s32 (*const Passive_BS_tbl[20])();
+extern s32 (*const Passive_B_tbl[20])();
+extern s32 (*const Passive_CS_tbl[20])();
+extern s32 (*const Passive_C_tbl[20])();
+extern s32 (*const Passive_DS_tbl[20])();
+extern s32 (*const Passive_D_tbl[20])();
 
 extern s8 PASSIVE_X; // size: 0x1, address: 0x578D24
 
