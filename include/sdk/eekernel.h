@@ -14,6 +14,11 @@
 void ExitHandler();
 #endif
 
+#define WRITEBACK_DCACHE 0
+#define INVALIDATE_DCACHE 1
+#define INVALIDATE_ICACHE 2
+#define INVALIDATE_CACHE 3
+
 struct ThreadParam {
     int status;
     void (*entry)(void *);

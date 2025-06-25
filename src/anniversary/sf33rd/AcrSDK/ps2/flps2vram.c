@@ -55,7 +55,7 @@ u16 flPS2GetStaticVramArea(u32 size) {
     }
 
     flPS2DeleteAllVramList();
-    block_size = (size + 0xFF) / 256;
+    block_size = (size + 256 - 1) / 256;
     block_size = (block_size + 0x1F) & ~0x1F;
     lpVramStatic = flVramStatic;
 
