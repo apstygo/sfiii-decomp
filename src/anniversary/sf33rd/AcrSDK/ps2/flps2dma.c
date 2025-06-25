@@ -409,6 +409,11 @@ void flPS2DmaInitControl(FLPS2VIF1Control *dma_ptr, u32 queue_size, void *handle
 }
 
 s32 flPS2DmaAddQueue2(s32 type, uintptr_t data_adrs, uintptr_t endtag_adrs, FLPS2VIF1Control *dma_ptr) {
+#if !defined(TARGET_PS2)
+    // Return early because we don't need to handle DMA stuff on non-PS2 systems
+    return 0;
+#endif
+
     u32 dma_chcr;
     sceDmaChan *dma_channel;
     uintptr_t *dma_queue;

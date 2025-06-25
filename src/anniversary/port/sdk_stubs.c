@@ -5,6 +5,8 @@
 #include "common.h"
 #include "types.h"
 
+#include "port/sdl_app.h"
+
 #include <eekernel.h>
 #include <libcdvd.h>
 #include <libdma.h>
@@ -14,6 +16,12 @@
 #include <libvu0.h>
 #include <sif.h>
 #include <sifrpc.h>
+
+#include <fcntl.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 
 // libcdvd
 
@@ -51,11 +59,91 @@ int sceCdLayerSearchFile(sceCdlFILE *fp, const char *name, int layer) {
 
 // sifdev
 
-int sceRead(int fd, void *buf, int nbyte) {
-    not_implemented(__func__);
+static bool starts_with(const char *prefix, const char *str) {
+    return strncmp(prefix, str, strlen(prefix)) == 0;
+}
+
+static void convert_filename(char *dest, const char *src) {
+    const char device_name[] = "cdrom0:";
+
+    if (starts_with(device_name, src)) {
+        // Skip device name
+        src += strlen(device_name);
+    } else {
+        fatal_error("Can't handle filename: %s.", src);
+    }
+
+    // FIXME: Figure out a way to package resources with the executable
+    //        instead of relying on relative paths
+    strcpy(dest, "rom");
+    strcat(dest, src);
+
+    for (; *dest; dest++) {
+        // Convert \ to /
+        if (*dest == '\\') {
+            *dest = '/';
+        }
+
+        // Remove ;1 from the end
+        if (*dest == ';') {
+            *dest = '\0';
+            break;
+        }
+    }
+}
+
+int sceOpen(const char *filename, int flag, ...) {
+    // Convert SCE flags to Unix flags
+    int _flag = 0;
+
+    switch (flag & 0xF) {
+    case SCE_RDONLY:
+        _flag = O_RDONLY;
+        break;
+
+    case SCE_WRONLY:
+        _flag = O_WRONLY;
+        break;
+
+    case SCE_RDWR:
+        _flag = O_RDWR;
+        break;
+    }
+
+    if (flag & SCE_APPEND) {
+        _flag |= O_APPEND;
+    }
+
+    if (flag & SCE_CREAT) {
+        _flag |= O_CREAT;
+    }
+
+    if (flag & SCE_TRUNC) {
+        _flag |= O_TRUNC;
+    }
+
+    // Convert filenames
+    // Example: cdrom0:\THIRD\IOP\FONT8_8.TM2;1 -> rom/THIRD/IOP/FONT8_8.TM2
+    char converted_filename[2048];
+    memset(converted_filename, 0, sizeof(converted_filename));
+    convert_filename(converted_filename, filename);
+
+    return open(converted_filename, _flag);
 }
 
 int sceClose(int fd) {
+    return close(fd);
+}
+
+int sceRead(int fd, void *buf, int nbyte) {
+    return read(fd, buf, nbyte);
+}
+
+int sceLseek(int fd, int offset, int whence) {
+    return lseek(fd, offset, whence);
+}
+
+long sceLseek64(int fd, long offset, int whence) {
     not_implemented(__func__);
 }
 
@@ -64,18 +152,6 @@ int sceFsReset(void) {
 }
 
 int sceIoctl(int fd, int req, void *) {
-    not_implemented(__func__);
-}
-
-int sceLseek(int fd, int offset, int where) {
-    not_implemented(__func__);
-}
-
-long sceLseek64(int fd, long offset, int whence) {
-    not_implemented(__func__);
-}
-
-int sceOpen(const char *filename, int flag, ...) {
     not_implemented(__func__);
 }
 
@@ -146,11 +222,12 @@ int sceDmaReset(int mode) {
 }
 
 void sceDmaSend(sceDmaChan *d, void *tag) {
-    not_implemented(__func__);
+    printf("[SDK] sceDmaSend(d: %X, tag: %X)\n", d, tag);
 }
 
 int sceDmaSync(sceDmaChan *d, int mode, int timeout) {
-    not_implemented(__func__);
+    printf("[SDK] sceDmaSync(d: %X, mode: %d, timeout: %d)\n", d, mode, timeout);
+    return 0;
 }
 
 // libgraph
@@ -160,7 +237,7 @@ int sceGsExecLoadImage(sceGsLoadImage *lp, unsigned int *srcaddr) {
 }
 
 void sceGsResetGraph(short mode, short inter, short omode, short ffmode) {
-    not_implemented(__func__);
+    printf("[SDK] sceGsResetGraph(mode: %d, inter: %d, omode: %d, ffmode: %d)\n", mode, inter, omode, ffmode);
 }
 
 void sceGsResetPath() {
@@ -176,11 +253,14 @@ int sceGsSyncPath(int mode, unsigned short timeout) {
 }
 
 int sceGsSyncV(int mode) {
-    not_implemented(__func__);
+    // FIXME: Handle blocking VSync properly
+    printf("[SDK] sceGsSyncV(mode: %d)", mode);
+    return 0;
 }
 
 int *sceGsSyncVCallback(int (*func)(int)) {
-    not_implemented(__func__);
+    SDLApp_SetVSyncCallback(func);
+    return NULL;
 }
 
 // libpad2
@@ -345,12 +425,12 @@ int ChangeThreadPriority(int, int) {
     not_implemented(__func__);
 }
 
-void FlushCache(int) {
-    not_implemented(__func__);
+void FlushCache(int operation) {
+    printf("[SDK] FlushCache called (operation: %d)\n", operation);
 }
 
-void iFlushCache(int) {
-    not_implemented(__func__);
+void iFlushCache(int operation) {
+    printf("[SDK] iFlushCache called (operation: %d)\n", operation);
 }
 
 void InvalidDCache(void *, void *) {

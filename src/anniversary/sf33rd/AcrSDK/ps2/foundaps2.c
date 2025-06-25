@@ -141,11 +141,9 @@ s32 flInitialize(s32 /* unused */, s32 /* unused */) {
         return 0;
     }
 
-#if defined(TARGET_PS2)
     if (system_hard_init() == 0) {
         return 0;
     }
-#endif
 
     flPS2SystemTmpBuffInit();
     flPs2State.FrameCount = 0;
@@ -154,7 +152,12 @@ s32 flInitialize(s32 /* unused */, s32 /* unused */) {
     flPS2VramFullClear();
     flPS2InitRenderBuff(4, 2, 1, 0, 1);
     flPS2SwapDBuff(0, 1);
+
+    // For now we'll just omit pads entirely in ports
+#if !defined(PAD_DISABLED)
     flPADInitialize();
+#endif
+
     flPS2DebugInit();
 
     while (1) {
@@ -163,8 +166,8 @@ s32 flInitialize(s32 /* unused */, s32 /* unused */) {
         }
     }
 
-    *T1_MODE = 0x80;
-    *T1_COUNT = 0;
+    DPUT_T1_MODE(0x80);
+    DPUT_T1_COUNT(0);
 
     return 1;
 }
@@ -202,6 +205,11 @@ s32 system_work_init() {
 }
 
 s32 system_hard_init() {
+#if !defined(TARGET_PS2)
+    // This is PS2-specific hardware initialization code, which means we can omit it for non-PS2 systems
+    return 1;
+#endif
+
     s32 i;
 
     sceSifInitRpc(0);
@@ -269,18 +277,18 @@ u32 flPS2CheckDbChangeFlag() {
 }
 
 s32 flFlip(u32 flag) {
-    flDebugTrueTime[2] = *T0_COUNT;
+    flDebugTrueTime[2] = DGET_T0_COUNT();
 
     if (flag == 0) {
         flPS2DispSystemInfo(2, 0);
     }
 
     flPS2DebugStrDisp();
-    flDebugTrueTime[3] = *T0_COUNT;
+    flDebugTrueTime[3] = DGET_T0_COUNT();
     flPS2DmaWait();
     flmwFlip(flag);
-    *T0_MODE = 0x83;
-    *T0_COUNT = 0;
+    DPUT_T0_MODE(0x83);
+    DPUT_T0_COUNT(0);
     flPs2State.Irq_count = 0;
     flFrame += 1;
     flPS2DmaSend();
@@ -293,6 +301,11 @@ s32 flFlip(u32 flag) {
 }
 
 void flPS2VramFullClear() {
+#if !defined(TARGET_PS2)
+    // We don't need to clear VRAM on non-PS2 systems
+    return;
+#endif
+
     u32 handle;
     u8 *lpBuff;
     u32 i;
@@ -687,52 +700,53 @@ void flPS2SwapDBuff(s32 dbi, s32 irq_type) {
     disp_y = flPs2State.ScreenDispY + flPs2State.ScreenAdjustY;
 
     if (flPs2State.InterlaceMode == 0) {
-        *GS_SMODE2 = SCE_GS_SET_SMODE2(1, 1, 0);
-        *GS_PMODE = SCE_GS_SET_PMODE(0, 1, 1, 1, 1, 0, 0);
+        DPUT_GS_SMODE2(SCE_GS_SET_SMODE2(1, 1, 0));
+        DPUT_GS_PMODE(SCE_GS_SET_PMODE(0, 1, 1, 1, 1, 0, 0));
 
         if (dbi == 0) {
-            *GS_DISPFB2 =
-                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs0 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0);
+            DPUT_GS_DISPFB2(
+                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs0 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0));
         } else {
-            *GS_DISPFB2 =
-                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0);
+            DPUT_GS_DISPFB2(
+                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0));
         }
 
-        *GS_DISPLAY2 = SCE_GS_SET_DISPLAY1(disp_x, disp_y, flPs2State.MAGH, 0, 0x9FF, (flPs2State.DispHeight - 1));
+        DPUT_GS_DISPLAY2(SCE_GS_SET_DISPLAY1(disp_x, disp_y, flPs2State.MAGH, 0, 0x9FF, (flPs2State.DispHeight - 1)));
     } else if (flPs2State.DisplayMode == 0) {
-        *GS_SMODE2 = SCE_GS_SET_SMODE2(1, 0, 0);
-        *GS_PMODE = SCE_GS_SET_PMODE(1, 1, 1, 1, 0, 0, 0x7F);
+        DPUT_GS_SMODE2(SCE_GS_SET_SMODE2(1, 0, 0));
+        DPUT_GS_PMODE(SCE_GS_SET_PMODE(1, 1, 1, 1, 0, 0, 0x7F));
 
         if (dbi == 0) {
-            *GS_DISPFB1 =
-                SCE_GS_SET_DISPFB1(flPs2State.FrameBuffAdrs0 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0);
-            *GS_DISPFB2 =
-                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs0 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0);
+            DPUT_GS_DISPFB1(
+                SCE_GS_SET_DISPFB1(flPs2State.FrameBuffAdrs0 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0));
+            DPUT_GS_DISPFB2(
+                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs0 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0));
         } else {
-            *GS_DISPFB1 =
-                SCE_GS_SET_DISPFB1(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0);
-            *GS_DISPFB2 =
-                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0);
+            DPUT_GS_DISPFB1(
+                SCE_GS_SET_DISPFB1(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0));
+            DPUT_GS_DISPFB2(
+                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0));
         }
 
-        *GS_DISPLAY1 = SCE_GS_SET_DISPLAY1(disp_x, disp_y + 1, flPs2State.MAGH, 0, 0x9FF, (flPs2State.DispHeight - 1));
-        *GS_DISPLAY2 = SCE_GS_SET_DISPLAY2(disp_x, disp_y, flPs2State.MAGH, 0, 0x9FF, (flPs2State.DispHeight - 1));
+        DPUT_GS_DISPLAY1(
+            SCE_GS_SET_DISPLAY1(disp_x, disp_y + 1, flPs2State.MAGH, 0, 0x9FF, (flPs2State.DispHeight - 1)));
+        DPUT_GS_DISPLAY2(SCE_GS_SET_DISPLAY2(disp_x, disp_y, flPs2State.MAGH, 0, 0x9FF, (flPs2State.DispHeight - 1)));
     } else {
-        *GS_SMODE2 = SCE_GS_SET_SMODE2(1, 0, 0);
-        *GS_PMODE = SCE_GS_SET_PMODE(0, 1, 1, 1, 1, 0, 0);
+        DPUT_GS_SMODE2(SCE_GS_SET_SMODE2(1, 0, 0));
+        DPUT_GS_PMODE(SCE_GS_SET_PMODE(0, 1, 1, 1, 1, 0, 0));
 
         if (dbi == 0) {
-            *GS_DISPFB2 =
-                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs0 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0);
+            DPUT_GS_DISPFB2(
+                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs0 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0));
         } else {
-            *GS_DISPFB2 =
-                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0);
+            DPUT_GS_DISPFB2(
+                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0));
         }
 
-        *GS_DISPLAY2 = SCE_GS_SET_DISPLAY2(disp_x, disp_y, flPs2State.MAGH, 0, 0x9FF, (flPs2State.DispHeight - 1));
+        DPUT_GS_DISPLAY2(SCE_GS_SET_DISPLAY2(disp_x, disp_y, flPs2State.MAGH, 0, 0x9FF, (flPs2State.DispHeight - 1)));
     }
 
-    *GS_EXTWRITE = SCE_GS_SET_EXTWRITE(0);
+    DPUT_GS_EXTWRITE(SCE_GS_SET_EXTWRITE(0));
 }
 
 void flPS2DrawPreparation() {

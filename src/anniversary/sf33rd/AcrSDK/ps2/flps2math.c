@@ -112,7 +112,7 @@ void flPS2MakeClipViewport(s32 /* unused */, s32 /* unused */, s32 dwWidth, s32 
 
 void flmatInit(MTX *lpmat) {
 #if !defined(TARGET_PS2)
-    not_implemented(__func__);
+    *lpmat = flPS2INITMATRIX;
 #else
     __asm__ __volatile__("lqc2 $vf4, 0(%1)"
                          "lqc2 $vf5, 0x10(%1)"

@@ -65,9 +65,9 @@ void ps2SeqsRenderQuadInit_B() {
 }
 
 void ps2SeqsRenderQuad_Ax(Sprite2 *spr) {
-    #if !defined(TARGET_PS2)
+#if !defined(TARGET_PS2)
     not_implemented(__func__);
-    #else
+#else
     u32 data_ptr;
     u32 col;
     u64 rgbaq;
@@ -122,13 +122,13 @@ void ps2SeqsRenderQuad_Ax(Sprite2 *spr) {
     *p++ = SCE_GS_SET_XYZ((flPs2State.D2dOffsetX + x) << 4, (flPs2State.D2dOffsetY + y) << 4, (u32)z);
 
     flPS2DmaAddQueue2(0, DMArefs | (data_ptr & 0xFFFFFFF), data_ptr, &flPs2VIF1Control);
-    #endif
+#endif
 }
 
 void ps2SeqsRenderQuad_A2(Sprite *spr, u32 col) {
-    #if !defined(TARGET_PS2)
+#if !defined(TARGET_PS2)
     not_implemented(__func__);
-    #else
+#else
     u32 data_ptr;
     u64 rgbaq;
     u64 *p;
@@ -183,7 +183,7 @@ void ps2SeqsRenderQuad_A2(Sprite *spr, u32 col) {
     *p++ = SCE_GS_SET_XYZ((flPs2State.D2dOffsetX + x) << 4, (flPs2State.D2dOffsetY + y) << 4, (u32)z);
 
     flPS2DmaAddQueue2(0, DMArefs | (data_ptr & 0xFFFFFFF), data_ptr, &flPs2VIF1Control);
-    #endif
+#endif
 }
 
 void ps2SeqsRenderQuad_A(Sprite *spr, u32 col) {
@@ -201,12 +201,13 @@ void ps2SeqsRenderQuad_A(Sprite *spr, u32 col) {
 }
 
 void ps2QuadTexture(VecUnk *ptr, u32 num) {
-    #if !defined(TARGET_PS2)
+#if !defined(TARGET_PS2)
     not_implemented(__func__);
-    #else
+#endif
+
     u32 qwc;
     u32 work;
-    u32 data_ptr;
+    uintptr_t data_ptr;
     QWORD *dma_data;
     u64 *vtx_data;
     s32 x;
@@ -270,7 +271,6 @@ void ps2QuadTexture(VecUnk *ptr, u32 num) {
     } while (--num);
 
     flPS2DmaAddQueue2(0, (data_ptr & 0xFFFFFFF) | 0x40000000, data_ptr, &flPs2VIF1Control);
-    #endif
 }
 
 void ps2SeqsRenderQuad_B(Quad *spr, u32 col) {
@@ -287,9 +287,9 @@ void ps2SeqsRenderQuad_B(Quad *spr, u32 col) {
 }
 
 void ps2QuadSolid(VecUnk *ptr, u32 num) {
-    #if !defined(TARGET_PS2)
+#if !defined(TARGET_PS2)
     not_implemented(__func__);
-    #else
+#else
     u32 qwc;
     u32 work;
     u32 data_ptr;
@@ -356,7 +356,7 @@ void ps2QuadSolid(VecUnk *ptr, u32 num) {
     } while (--num);
 
     flPS2DmaAddQueue2(0, (data_ptr & 0xFFFFFFF) | 0x40000000, data_ptr, &flPs2VIF1Control);
-    #endif
+#endif
 }
 
 void ps2SeqsRenderQuadEnd() {
@@ -376,9 +376,9 @@ void CP3toPS2DrawOff() {
 }
 
 void CP3toPS2Draw() {
-    #if !defined(TARGET_PS2)
+#if !defined(TARGET_PS2)
     not_implemented(__func__);
-    #else
+#else
     s32 ofx;
     s32 ofy;
     s32 m;
@@ -528,5 +528,5 @@ void CP3toPS2Draw() {
     *((u64 *)p)++ = SCE_GS_SET_XYZ2(x1, y1, 0);
 
     flPS2DmaAddQueue2(0, (top & 0xFFFFFFF) | 0x40000000, top, &flPs2VIF1Control);
-    #endif
+#endif
 }

@@ -155,7 +155,7 @@ s32 flFileLength(s8 *filename) {
         return 0;
     }
 
-    length = sceLseek(fd, 0, 2);
+    length = sceLseek(fd, 0, SCE_SEEK_END);
     sceClose(fd);
     ADXM_Unlock();
     return length;
