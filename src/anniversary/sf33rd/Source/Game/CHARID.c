@@ -18,6 +18,7 @@ const CharInitData2 char_init_data2[23] = {
     { 0x4200, 0x2000, 0x0038, 0x0002 }, { 0x4200, 0x2000, 0x0028, 0x0002 }
 };
 
+#if defined(TARGET_PS2)
 const CharInitData char_init_data_ex[2] = {
     { (u32 *)0x00491560,    (u32 *)0x00000000,   (u32 *)0x00000000,   (u32 *)0x00000000,   (u32 *)0x00000000,
       (u32 *)0x00000000,    (u32 *)0x00000000,   (u32 *)0x00000000,   (u32 *)0x00000000,   (u32 *)0x00000000,
@@ -30,6 +31,9 @@ const CharInitData char_init_data_ex[2] = {
       (UNK_10 *)0x00000000, (UNK_0 *)0x004a1f48, (UNK_1 *)0x004a2cc8, (UNK_2 *)0x004a3a48, (UNK_3 *)0x004a5450,
       (UNK_4 *)0x004a5458,  (UNK_5 *)0x004a3c50, (UNK_6 *)0x004a3a68, (UNK_7 *)0x0049af28, (UNK_Data *)0x00000000 }
 };
+#else
+const CharInitData char_init_data_ex[2];
+#endif
 
 void set_char_base_data(WORK *wk) {
     CharInitData *cdat;
