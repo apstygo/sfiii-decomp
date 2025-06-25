@@ -1000,12 +1000,12 @@ s16 cal_move_quantity2(s16 x1, s16 x2, s16 y1, s16 y2) {
     x2 = y2;
 
     if (y1 > y2) {
-        while (((y1)) >= 0x80) {
+        while (y1 >= 0x80) {
             y1 >>= 1;
             y2 >>= 1;
         }
     } else {
-        while (((y2)) >= 0x80) {
+        while (y2 >= 0x80) {
             y1 >>= 1;
             y2 >>= 1;
         }
@@ -1064,8 +1064,6 @@ void cmsd_swy_0(MotionState *cc) {
 }
 
 void cmsd_swx_1(MotionState *cc) {
-    s32 temp_lo;
-
     cc->amx = cc->x.pl % cc->timer2;
     cc->spx = cc->dlx = cc->x.pl / cc->timer2;
 }
