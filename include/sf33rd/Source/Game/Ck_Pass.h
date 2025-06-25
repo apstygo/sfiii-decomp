@@ -14,7 +14,7 @@ extern s32 (*const Passive_C_tbl[20])();
 extern s32 (*const Passive_DS_tbl[20])();
 extern s32 (*const Passive_D_tbl[20])();
 
-extern s8 PASSIVE_X; // size: 0x1, address: 0x578D24
+extern s8 PASSIVE_X;
 
 s32 Ck_Passive_Term(PLW *wk);
 void KEN_vs(PLW *wk);
