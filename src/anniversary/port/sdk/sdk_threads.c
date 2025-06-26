@@ -11,7 +11,9 @@
 
 #define THREAD_MAX_PRIORITY 127
 #define READY_QUEUE_SIZE THREAD_MAX_PRIORITY + 1
+#define MAIN_THREAD_ID 1
 #define MAX_THREADS 256 - 3
+#define ONE_MB 1024 * 1024
 
 typedef struct Thread {
     cothread_t cothread;
@@ -36,7 +38,7 @@ static void initialize_if_needed() {
 
     Thread *main_thread = &threads[0];
     main_thread->cothread = co_active();
-    main_thread->id = 1;
+    main_thread->id = MAIN_THREAD_ID;
     main_thread->state = THS_RUN;
     main_thread->init_priority = 1;
     main_thread->current_priority = 1;
@@ -86,38 +88,21 @@ static void remove_from_ready_queue(Thread *thread) {
     }
 
     Thread *head = ready_queue[thread->current_priority];
-    Thread *node = head;
+    Thread *prev = thread->prev;
+    Thread *next = thread->next;
 
-    while (node != NULL) {
-        // If it's not the node we're looking for, go to the next one
-        if (node->id != thread->id) {
-            node = node->next;
-            continue;
-        }
-
-        // Found the node. Let's remove it
-        Thread *prev = node->prev;
-        Thread *next = node->next;
-
-        if (prev != NULL) {
-            prev->next = next;
-        }
-
-        if (next != NULL) {
-            next->prev = prev;
-        }
-
-        // If we remove the head we must adjust the ready queue too
-        if (node->id == head->id) {
-            ready_queue[thread->current_priority] = next;
-        }
-
-        return;
+    if (prev != NULL) {
+        prev->next = next;
     }
 
-    // Getting to this point means the thread's priority doesn't match
-    // its position in ready queue, which is an implementation error
-    fatal_error("Implementation error");
+    if (next != NULL) {
+        next->prev = prev;
+    }
+
+    // If we remove the head we must adjust the ready queue too
+    if (thread->id == head->id) {
+        ready_queue[thread->current_priority] = next;
+    }
 }
 
 void switch_to_next_thread() {
@@ -152,16 +137,17 @@ int CreateThread(struct ThreadParam *param) {
         return -1;
     }
 
-    if (param->initPriority < 1 || param->initPriority > THREAD_MAX_PRIORITY) {
+    if ((param->initPriority < 1) || (param->initPriority > THREAD_MAX_PRIORITY)) {
         printf("Invalid priority: %d\n", param->initPriority);
         return -1;
     }
 
     Thread *new_thread = &threads[thread_count];
-    new_thread->cothread = co_derive(param->stack, param->stackSize, param->entry);
+    new_thread->cothread = co_create(ONE_MB, param->entry);
     new_thread->id = thread_count + 1;
     new_thread->state = THS_DORMANT;
     new_thread->init_priority = param->initPriority;
+    new_thread->current_priority = param->initPriority;
     new_thread->wakeup_request_count = 0;
     new_thread->prev = NULL;
     new_thread->next = NULL;
@@ -327,7 +313,7 @@ int ResumeThread(int tid) {
 void ExitDeleteThread(void) {
     initialize_if_needed();
 
-    if (current_thread->id == 1) {
+    if (current_thread->id == MAIN_THREAD_ID) {
         fatal_error("Can't exit main thread");
     }
 
