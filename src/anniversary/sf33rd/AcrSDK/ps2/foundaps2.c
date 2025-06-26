@@ -141,11 +141,9 @@ s32 flInitialize(s32 /* unused */, s32 /* unused */) {
         return 0;
     }
 
-#if defined(TARGET_PS2)
     if (system_hard_init() == 0) {
         return 0;
     }
-#endif
 
     flPS2SystemTmpBuffInit();
     flPs2State.FrameCount = 0;
@@ -154,7 +152,12 @@ s32 flInitialize(s32 /* unused */, s32 /* unused */) {
     flPS2VramFullClear();
     flPS2InitRenderBuff(4, 2, 1, 0, 1);
     flPS2SwapDBuff(0, 1);
+
+    // For now we'll just omit pads entirely in ports
+#if !defined(PAD_DISABLED)
     flPADInitialize();
+#endif
+
     flPS2DebugInit();
 
     while (1) {
@@ -163,8 +166,8 @@ s32 flInitialize(s32 /* unused */, s32 /* unused */) {
         }
     }
 
-    *T1_MODE = 0x80;
-    *T1_COUNT = 0;
+    DPUT_T1_MODE(0x80);
+    DPUT_T1_COUNT(0);
 
     return 1;
 }
@@ -188,7 +191,7 @@ s32 system_work_init() {
 
     plmalloc = flAllocMemory;
     plfree = free;
-    flLoadCount = 0x64;
+    flLoadCount = 100;
     flPs2State.NowVu1Code = -1;
     flPs2State.NowVu1Size = 0;
     flSystemRenderState = 0x202;
@@ -202,6 +205,11 @@ s32 system_work_init() {
 }
 
 s32 system_hard_init() {
+#if !defined(TARGET_PS2)
+    // This is PS2-specific hardware initialization code, which means we can omit it for non-PS2 systems
+    return 1;
+#endif
+
     s32 i;
 
     sceSifInitRpc(0);
@@ -269,18 +277,18 @@ u32 flPS2CheckDbChangeFlag() {
 }
 
 s32 flFlip(u32 flag) {
-    flDebugTrueTime[2] = *T0_COUNT;
+    flDebugTrueTime[2] = DGET_T0_COUNT();
 
     if (flag == 0) {
         flPS2DispSystemInfo(2, 0);
     }
 
     flPS2DebugStrDisp();
-    flDebugTrueTime[3] = *T0_COUNT;
+    flDebugTrueTime[3] = DGET_T0_COUNT();
     flPS2DmaWait();
     flmwFlip(flag);
-    *T0_MODE = 0x83;
-    *T0_COUNT = 0;
+    DPUT_T0_MODE(0x83);
+    DPUT_T0_COUNT(0);
     flPs2State.Irq_count = 0;
     flFrame += 1;
     flPS2DmaSend();
@@ -293,6 +301,11 @@ s32 flFlip(u32 flag) {
 }
 
 void flPS2VramFullClear() {
+#if !defined(TARGET_PS2)
+    // We don't need to clear VRAM on non-PS2 systems
+    return;
+#endif
+
     u32 handle;
     u8 *lpBuff;
     u32 i;
@@ -306,7 +319,7 @@ void flPS2VramFullClear() {
     do {
         sceGsSetDefLoadImage(&Loadimage, 0, 16, 0, 0, i * 64, 0x400, 0x40);
 
-        FlushCache(0);
+        FlushCache(WRITEBACK_DCACHE);
         sceGsExecLoadImage(&Loadimage, (u32 *)lpBuff);
         sceGsSyncPath(0, 0);
 
@@ -336,15 +349,18 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
     switch (dispw) {
     default:
     case 0:
-        width = 0x280;
+        width = 640;
         flPs2State.MAGH = 3;
         break;
+
     case 1:
-        width = 0x200;
+        // This is the taken branch
+        width = 512;
         flPs2State.MAGH = 4;
         break;
+
     case 2:
-        width = 0x180;
+        width = 384;
         flPs2State.MAGH = 6;
         break;
     }
@@ -354,49 +370,54 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
         default:
         case 0:
             sceGsResetGraph(0, 1, 2, 1);
-            height = 0xE0;
-            disp_height = 0x1C0;
-            flPs2State.ScreenDispX = 0x27C;
-            flPs2State.ScreenDispY = 0x32;
+            height = 224;
+            disp_height = 448;
+            flPs2State.ScreenDispX = 636;
+            flPs2State.ScreenDispY = 50;
             break;
+
         case 1:
             sceGsResetGraph(0, 1, 3, 1);
-            height = 0xE0;
-            disp_height = 0x1C0;
-            flPs2State.ScreenDispX = 0x290;
-            flPs2State.ScreenDispY = 0x62;
+            height = 224;
+            disp_height = 448;
+            flPs2State.ScreenDispX = 656;
+            flPs2State.ScreenDispY = 98;
             break;
+
         case 2:
             sceGsResetGraph(0, 1, 3, 1);
-            height = 0x100;
-            disp_height = 0x200;
-            flPs2State.ScreenDispX = 0x290;
-            flPs2State.ScreenDispY = 0x48;
+            height = 256;
+            disp_height = 512;
+            flPs2State.ScreenDispX = 656;
+            flPs2State.ScreenDispY = 72;
             break;
         }
     } else {
         switch (video_mode) {
         default:
         case 0:
+            // This is the taken branch
             sceGsResetGraph(0, 1, 2, 0);
-            height = 0x1C0;
-            disp_height = 0x1C0;
-            flPs2State.ScreenDispX = 0x27C;
-            flPs2State.ScreenDispY = 0x32;
+            height = 448;
+            disp_height = 448;
+            flPs2State.ScreenDispX = 636;
+            flPs2State.ScreenDispY = 50;
             break;
+
         case 1:
             sceGsResetGraph(0, 1, 3, 0);
-            height = 0x1C0;
-            disp_height = 0x1C0;
-            flPs2State.ScreenDispX = 0x290;
-            flPs2State.ScreenDispY = 0x62;
+            height = 448;
+            disp_height = 448;
+            flPs2State.ScreenDispX = 656;
+            flPs2State.ScreenDispY = 98;
             break;
+
         case 2:
             sceGsResetGraph(0, 1, 3, 0);
-            height = 0x200;
-            disp_height = 0x200;
-            flPs2State.ScreenDispX = 0x290;
-            flPs2State.ScreenDispY = 0x48;
+            height = 512;
+            disp_height = 512;
+            flPs2State.ScreenDispX = 656;
+            flPs2State.ScreenDispY = 72;
             break;
         }
     }
@@ -412,13 +433,16 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
         flPs2State.FrameBuffPageX = 0x40;
         flPs2State.FrameBuffPageY = 0x40;
         break;
+
     case 3:
         flPs2State.FrameBuffForm = 1;
         flPs2State.FrameBuffPageX = 0x40;
         flPs2State.FrameBuffPageY = 0x20;
         break;
+
     default:
     case 4:
+        // This is the taken branch
         flPs2State.FrameBuffForm = 0;
         flPs2State.FrameBuffPageX = 0x40;
         flPs2State.FrameBuffPageY = 0x20;
@@ -434,6 +458,7 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
 
     switch (flPs2State.ZBuffBitDepth) {
     case 2:
+        // This is the taken branch
         if (flPs2State.FrameBitDepth == 2) {
             flPs2State.ZBuffForm = 0x32;
         } else {
@@ -468,8 +493,8 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
     size = zbdepth * (flPs2State.ZBuffPageX * (((width + flPs2State.ZBuffPageX) - 1) / flPs2State.ZBuffPageX) *
                       (flPs2State.ZBuffPageY * (((height + flPs2State.ZBuffPageY) - 1) / flPs2State.ZBuffPageY)));
     flPs2State.ZBuffAdrs = flPS2GetStaticVramArea(size);
-    flPs2State.D2dOffsetX = 0x800 - (width >> 1);
-    flPs2State.D2dOffsetY = 0x800 - (height >> 1);
+    flPs2State.D2dOffsetX = (4096 / 2) - (width >> 1);
+    flPs2State.D2dOffsetY = (4096 / 2) - (height >> 1);
     flPs2State.ScreenOffsetX = 0;
     flPs2State.ScreenOffsetY = 0;
     flFrameBuf.width = width;
@@ -547,9 +572,9 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
     flPS2DmaAddEndTag((uintptr_t)db1, qwc, 0, 0);
 
     qwc -= 1;
-    db0->giftag.I64[0] = SCE_GIF_SET_TAG(qwc, 1, 0, 0, 0, 1);
+    db0->giftag.I64[0] = SCE_GIF_SET_TAG(qwc, 1, 0, 0, SCE_GIF_PACKED, 1);
     db0->giftag.I64[1] = SCE_GIF_PACKED_AD;
-    db1->giftag.I64[0] = SCE_GIF_SET_TAG(qwc, 1, 0, 0, 0, 1);
+    db1->giftag.I64[0] = SCE_GIF_SET_TAG(qwc, 1, 0, 0, SCE_GIF_PACKED, 1);
     db1->giftag.I64[1] = SCE_GIF_PACKED_AD;
     db0->frame_1.I64[0] = SCE_GS_SET_FRAME_1(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 1);
     db0->frame_2.I64[0] = SCE_GS_SET_FRAME_2(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 1);
@@ -567,21 +592,21 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
     db1->zbuf_2.I64[0] = SCE_GS_SET_ZBUF_2(flPs2State.ZBuffAdrs / 32, flPs2State.ZBuffForm, 0);
     db1->zbuf_1.I64[1] = SCE_GS_ZBUF_1;
     db1->zbuf_2.I64[1] = SCE_GS_ZBUF_2;
-    db0->xyoffset_1.I64[0] = SCE_GS_SET_XYOFFSET_1(flPs2State.D2dOffsetX * 16, flPs2State.D2dOffsetY * 16);
-    db0->xyoffset_2.I64[0] = SCE_GS_SET_XYOFFSET_2(flPs2State.D2dOffsetX * 16, flPs2State.D2dOffsetY * 16);
+    db0->xyoffset_1.I64[0] = SCE_GS_SET_XYOFFSET_1(flPs2State.D2dOffsetX << 4, flPs2State.D2dOffsetY << 4);
+    db0->xyoffset_2.I64[0] = SCE_GS_SET_XYOFFSET_2(flPs2State.D2dOffsetX << 4, flPs2State.D2dOffsetY << 4);
     db0->xyoffset_1.I64[1] = SCE_GS_XYOFFSET_1;
     db0->xyoffset_2.I64[1] = SCE_GS_XYOFFSET_2;
-    db1->xyoffset_1.I64[0] = SCE_GS_SET_XYOFFSET_1(flPs2State.D2dOffsetX * 16, flPs2State.D2dOffsetY * 16);
-    db1->xyoffset_2.I64[0] = SCE_GS_SET_XYOFFSET_2(flPs2State.D2dOffsetX * 16, flPs2State.D2dOffsetY * 16);
+    db1->xyoffset_1.I64[0] = SCE_GS_SET_XYOFFSET_1(flPs2State.D2dOffsetX << 4, flPs2State.D2dOffsetY << 4);
+    db1->xyoffset_2.I64[0] = SCE_GS_SET_XYOFFSET_2(flPs2State.D2dOffsetX << 4, flPs2State.D2dOffsetY << 4);
     db1->xyoffset_1.I64[1] = SCE_GS_XYOFFSET_1;
     db1->xyoffset_2.I64[1] = SCE_GS_XYOFFSET_2;
 
     if (flPs2State.FrameBitDepth == 2) {
-        db0->dthe.I64[0] = 1;
-        db1->dthe.I64[0] = 1;
+        db0->dthe.I64[0] = SCE_GS_SET_DTHE(1);
+        db1->dthe.I64[0] = SCE_GS_SET_DTHE(1);
     } else {
-        db0->dthe.I64[0] = 0;
-        db1->dthe.I64[0] = 0;
+        db0->dthe.I64[0] = SCE_GS_SET_DTHE(0);
+        db1->dthe.I64[0] = SCE_GS_SET_DTHE(0);
     }
 
     db0->dthe.I64[1] = SCE_GS_DTHE;
@@ -607,7 +632,7 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
     ds->clr_scissor.I64[1] = SCE_GS_SCISSOR_1;
     ds->clr_test.I64[0] = SCE_GS_SET_TEST_1(1, 1, 0, 0, 0, 0, 3, 0);
     ds->clr_test.I64[1] = SCE_GS_TEST_1;
-    ds->clr_prim.I64[0] = SCE_GS_SET_PRIM(6, 0, 0, 0, 0, 0, 0, 0, 0);
+    ds->clr_prim.I64[0] = SCE_GS_SET_PRIM(SCE_GS_PRIM_SPRITE, 0, 0, 0, 0, 0, 0, 0, 0);
     ds->clr_prim.I64[1] = SCE_GS_PRIM;
     ds->clr_rgbaq.I64[0] = SCE_GS_SET_RGBAQ(0, 0, 0, 0, 0);
     ds->clr_rgbaq.I64[1] = SCE_GS_RGBAQ;
@@ -649,20 +674,18 @@ void flPS2SwapDBuff(s32 dbi, s32 irq_type) {
 
     if (flPs2State.InterlaceMode != 1) {
         if (flPs2State.Oddeven == 1) {
-            db->xyoffset_1.I64[0] = SCE_GS_SET_XYOFFSET_1(flPs2State.D2dOffsetX * 0x10, flPs2State.D2dOffsetY * 0x10);
-            db->xyoffset_2.I64[0] = SCE_GS_SET_XYOFFSET_2(flPs2State.D2dOffsetX * 0x10, flPs2State.D2dOffsetY * 0x10);
+            db->xyoffset_1.I64[0] = SCE_GS_SET_XYOFFSET_1(flPs2State.D2dOffsetX << 4, flPs2State.D2dOffsetY << 4);
+            db->xyoffset_2.I64[0] = SCE_GS_SET_XYOFFSET_2(flPs2State.D2dOffsetX << 4, flPs2State.D2dOffsetY << 4);
         } else {
-            db->xyoffset_1.I64[0] =
-                SCE_GS_SET_XYOFFSET_1(flPs2State.D2dOffsetX * 0x10, flPs2State.D2dOffsetY * 0x10 + 8);
-            db->xyoffset_2.I64[0] =
-                SCE_GS_SET_XYOFFSET_2(flPs2State.D2dOffsetX * 0x10, flPs2State.D2dOffsetY * 0x10 + 8);
+            db->xyoffset_1.I64[0] = SCE_GS_SET_XYOFFSET_1(flPs2State.D2dOffsetX << 4, (flPs2State.D2dOffsetY << 4) + 8);
+            db->xyoffset_2.I64[0] = SCE_GS_SET_XYOFFSET_2(flPs2State.D2dOffsetX << 4, (flPs2State.D2dOffsetY << 4) + 8);
         }
     }
 
     if (irq_type == 0) {
-        iFlushCache(0);
+        iFlushCache(WRITEBACK_DCACHE);
     } else {
-        FlushCache(0);
+        FlushCache(WRITEBACK_DCACHE);
     }
 
     sceDmaSend(flPs2State.DmaChan[2], db);
@@ -677,53 +700,53 @@ void flPS2SwapDBuff(s32 dbi, s32 irq_type) {
     disp_y = flPs2State.ScreenDispY + flPs2State.ScreenAdjustY;
 
     if (flPs2State.InterlaceMode == 0) {
-        *GS_SMODE2 = SCE_GS_SET_SMODE2(1, 1, 0);
-        *GS_PMODE = SCE_GS_SET_PMODE(0, 1, 1, 1, 1, 0, 0);
+        DPUT_GS_SMODE2(SCE_GS_SET_SMODE2(1, 1, 0));
+        DPUT_GS_PMODE(SCE_GS_SET_PMODE(0, 1, 1, 1, 1, 0, 0));
 
         if (dbi == 0) {
-            *GS_DISPFB2 =
-                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs0 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0);
+            DPUT_GS_DISPFB2(
+                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs0 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0));
         } else {
-            *GS_DISPFB2 =
-                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0);
+            DPUT_GS_DISPFB2(
+                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0));
         }
 
-        *GS_DISPLAY2 = SCE_GS_SET_DISPLAY1(disp_x, disp_y, flPs2State.MAGH, 0, 0x9FF, (flPs2State.DispHeight - 1));
+        DPUT_GS_DISPLAY2(SCE_GS_SET_DISPLAY1(disp_x, disp_y, flPs2State.MAGH, 0, 0x9FF, (flPs2State.DispHeight - 1)));
     } else if (flPs2State.DisplayMode == 0) {
-        *GS_SMODE2 = SCE_GS_SET_SMODE2(1, 0, 0);
-        *GS_PMODE = SCE_GS_SET_PMODE(1, 1, 1, 1, 0, 0, 0x7F);
+        DPUT_GS_SMODE2(SCE_GS_SET_SMODE2(1, 0, 0));
+        DPUT_GS_PMODE(SCE_GS_SET_PMODE(1, 1, 1, 1, 0, 0, 0x7F));
 
         if (dbi == 0) {
-            *GS_DISPFB1 =
-                SCE_GS_SET_DISPFB1(flPs2State.FrameBuffAdrs0 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0);
-            *GS_DISPFB2 =
-                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs0 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0);
+            DPUT_GS_DISPFB1(
+                SCE_GS_SET_DISPFB1(flPs2State.FrameBuffAdrs0 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0));
+            DPUT_GS_DISPFB2(
+                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs0 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0));
         } else {
-            *GS_DISPFB1 =
-                SCE_GS_SET_DISPFB1(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0);
-            *GS_DISPFB2 =
-                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0);
-            ;
+            DPUT_GS_DISPFB1(
+                SCE_GS_SET_DISPFB1(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0));
+            DPUT_GS_DISPFB2(
+                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0));
         }
 
-        *GS_DISPLAY1 = SCE_GS_SET_DISPLAY1(disp_x, disp_y + 1, flPs2State.MAGH, 0, 0x9FF, (flPs2State.DispHeight - 1));
-        *GS_DISPLAY2 = SCE_GS_SET_DISPLAY2(disp_x, disp_y, flPs2State.MAGH, 0, 0x9FF, (flPs2State.DispHeight - 1));
+        DPUT_GS_DISPLAY1(
+            SCE_GS_SET_DISPLAY1(disp_x, disp_y + 1, flPs2State.MAGH, 0, 0x9FF, (flPs2State.DispHeight - 1)));
+        DPUT_GS_DISPLAY2(SCE_GS_SET_DISPLAY2(disp_x, disp_y, flPs2State.MAGH, 0, 0x9FF, (flPs2State.DispHeight - 1)));
     } else {
-        *GS_SMODE2 = SCE_GS_SET_SMODE2(1, 0, 0);
-        *GS_PMODE = SCE_GS_SET_PMODE(0, 1, 1, 1, 1, 0, 0);
+        DPUT_GS_SMODE2(SCE_GS_SET_SMODE2(1, 0, 0));
+        DPUT_GS_PMODE(SCE_GS_SET_PMODE(0, 1, 1, 1, 1, 0, 0));
 
         if (dbi == 0) {
-            *GS_DISPFB2 =
-                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs0 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0);
+            DPUT_GS_DISPFB2(
+                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs0 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0));
         } else {
-            *GS_DISPFB2 =
-                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0);
+            DPUT_GS_DISPFB2(
+                SCE_GS_SET_DISPFB2(flPs2State.FrameBuffAdrs1 / 32, flWidth / 64, flPs2State.FrameBuffForm, 0, 0));
         }
 
-        *GS_DISPLAY2 = SCE_GS_SET_DISPLAY2(disp_x, disp_y, flPs2State.MAGH, 0, 0x9FF, (flPs2State.DispHeight - 1));
+        DPUT_GS_DISPLAY2(SCE_GS_SET_DISPLAY2(disp_x, disp_y, flPs2State.MAGH, 0, 0x9FF, (flPs2State.DispHeight - 1)));
     }
 
-    *GS_EXTWRITE = SCE_GS_SET_EXTWRITE(0);
+    DPUT_GS_EXTWRITE(SCE_GS_SET_EXTWRITE(0));
 }
 
 void flPS2DrawPreparation() {
@@ -738,9 +761,9 @@ void flPS2DrawPreparation() {
                                             flPs2State.FrameClearColor & 0xFF,
                                             (flPs2State.FrameClearColor >> 24) & 0xFF,
                                             1);
-    ds->clr_xyz2_0.I64[0] = SCE_GS_SET_XYZ(flPs2State.D2dOffsetX * 16, flPs2State.D2dOffsetY * 16, 0);
+    ds->clr_xyz2_0.I64[0] = SCE_GS_SET_XYZ(flPs2State.D2dOffsetX << 4, flPs2State.D2dOffsetY << 4, 0);
     ds->clr_xyz2_1.I64[0] =
-        SCE_GS_SET_XYZ((flPs2State.D2dOffsetX + flWidth) * 16, (flPs2State.D2dOffsetY + flHeight) * 16, 0);
+        SCE_GS_SET_XYZ((flPs2State.D2dOffsetX + flWidth) << 4, (flPs2State.D2dOffsetY + flHeight) << 4, 0);
     ds->acr_scissor_1.I64[0] = flPs2State.RenderSCISSORStatus1;
     ds->acr_scissor_2.I64[0] = flPs2State.RenderSCISSORStatus2;
     ds->acr_test_1.I64[0] = flPs2State.RenderTESTStatus1;
@@ -751,7 +774,7 @@ void flPS2DrawPreparation() {
     ds->acr_fba_2.I64[0] = flPs2FBA;
 
     dst = (u32 *)flPS2GetSystemTmpBuff(sizeof(FLPS2DrawStart), 0x10);
-    flPS2_Mem_move16_16A(ds, dst, 0x14);
+    flPS2_Mem_move16_16A(ds, dst, sizeof(FLPS2DrawStart) / 16);
     flPS2DmaAddQueue2(0, (uintptr_t)dst & 0xFFFFFFF, (uintptr_t)dst, &flPs2VIF1Control);
 }
 
@@ -766,9 +789,9 @@ s32 flLogOut(s8 *format, ...) {
 
     vsprintf(str, format, args);
     lp = strlen(str) + str;
-    *(lp++) = 0xD;
-    *(lp++) = 0xA;
-    *lp = 0;
+    *(lp++) = '\r';
+    *(lp++) = '\n';
+    *lp = '\0';
 
     if (bflLogOutFirst != 0) {
         flFileWrite("../acrout.txt", "Debug Message Output for PS2\r\n", strlen("Debug Message Output for PS2\r\n"));

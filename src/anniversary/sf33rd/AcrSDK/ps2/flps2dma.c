@@ -348,7 +348,7 @@ void flPS2StoreImageB(uintptr_t load_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, 
         EnableIntc(0);
         dma_channel->chcr.TTE = 0;
         dma_channel->chcr.TIE = 0;
-        FlushCache(0);
+        FlushCache(WRITEBACK_DCACHE);
         sceDmaSend(dma_channel, (u32 *)store_image);
         sceGsSyncPath(0, 0);
 
@@ -409,6 +409,11 @@ void flPS2DmaInitControl(FLPS2VIF1Control *dma_ptr, u32 queue_size, void *handle
 }
 
 s32 flPS2DmaAddQueue2(s32 type, uintptr_t data_adrs, uintptr_t endtag_adrs, FLPS2VIF1Control *dma_ptr) {
+#if !defined(TARGET_PS2)
+    // Return early because we don't need to handle DMA stuff on non-PS2 systems
+    return 0;
+#endif
+
     u32 dma_chcr;
     sceDmaChan *dma_channel;
     uintptr_t *dma_queue;
@@ -621,7 +626,7 @@ void flPS2DmaSend() {
         case 5:
             dma_channel->chcr.TTE = 1;
             dma_channel->chcr.TIE = 1;
-            FlushCache(0);
+            FlushCache(WRITEBACK_DCACHE);
             sceDmaSend(dma_channel, (u32 *)data_adrs);
             break;
 
@@ -636,7 +641,7 @@ void flPS2DmaSend() {
             dma_ptr->dma_normal_mode_status |= 1;
             dma_channel->chcr.TTE = 0;
             dma_channel->chcr.TIE = 0;
-            FlushCache(0);
+            FlushCache(WRITEBACK_DCACHE);
             sceDmaSend(dma_channel, (u32 *)data_adrs);
             break;
         }

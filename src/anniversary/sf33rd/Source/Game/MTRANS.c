@@ -1,24 +1,29 @@
 #include "sf33rd/Source/Game/MTRANS.h"
 #include "common.h"
+#include "sf33rd/AcrSDK/ps2/flps2render.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "sf33rd/Source/Common/PPGFile.h"
 #include "sf33rd/Source/Game/DC_Ghost.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/chren3rd.h"
 #include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/texgroup.h"
+#include "sf33rd/Source/PS2/ps2Quad.h"
 #include "structs.h"
+
+#define PRIO_BASE_SIZE 128
 
 // sbss
 s32 curr_bright;
 SpriteChipSet seqs_w;
 
 // bss
-f32 PrioBase[128];
-f32 PrioBaseOriginal[128];
+f32 PrioBase[PRIO_BASE_SIZE];
+f32 PrioBaseOriginal[PRIO_BASE_SIZE];
 
 // rodata
 static const u16 flptbl[4] = { 0x0000, 0x8000, 0x4000, 0xC000 };
@@ -1490,21 +1495,21 @@ void mlt_obj_matrix(WORK *wk, s32 base_y) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", appSetupBasePriority);
-#else
 void appSetupBasePriority() {
-    not_implemented(__func__);
-}
-#endif
+    s32 i;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", appSetupTempPriority);
-#else
-void appSetupTempPriority() {
-    not_implemented(__func__);
+    for (i = 0; i < PRIO_BASE_SIZE; i++) {
+        PrioBaseOriginal[i] = ((i * 512) + 1) / 65535.0f;
+    }
 }
-#endif
+
+void appSetupTempPriority() {
+    s32 i;
+
+    for (i = 0; i < PRIO_BASE_SIZE; i++) {
+        PrioBase[i] = PrioBaseOriginal[i];
+    }
+}
 
 void appRenewTempPriority_1_Chip() {
     njTranslate(NULL, 0, 0, 1.0f / 65536.0f); // 1 / 2^(-16)
@@ -1516,13 +1521,16 @@ void appRenewTempPriority(s32 z) {
     PrioBase[z] = mtx.a[3][2];
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", seqsInitialize);
-#else
 void seqsInitialize(void *adrs) {
-    not_implemented(__func__);
+    if (adrs == NULL) {
+        while (1) {
+            // Do nothing
+        }
+    }
+
+    seqs_w.chip = (Sprite2 *)adrs;
+    seqs_w.sprMax = 0;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", seqsGetSprMax);
@@ -1532,29 +1540,61 @@ u16 seqsGetSprMax() {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", seqsGetUseMemorySize);
-#else
 u32 seqsGetUseMemorySize() {
-    not_implemented(__func__);
+    return 0xD000;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", seqsBeforeProcess);
-#else
 void seqsBeforeProcess() {
-    not_implemented(__func__);
-}
-#endif
+    s32 i;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", seqsAfterProcess);
-#else
-void seqsAfterProcess() {
-    not_implemented(__func__);
+    seqs_w.sprTotal = 0;
+
+    // FIXME: Extract 24 into a define
+    for (i = 0; i < 24; i++) {
+        seqs_w.up[i] = 0;
+    }
 }
-#endif
+
+void seqsAfterProcess() {
+    s32 i;
+    u32 keep = 0;
+    u32 val = 0;
+
+    if ((Debug_w[0x27] != 3) && (seqs_w.sprTotal != 0)) {
+        for (i = 0; i < 24; i++) {
+            if (seqs_w.up[i]) {
+                if (Debug_w[0x22]) {
+                    if (ppgCheckTextureDataBe(mts[i].texList.tex) == 0) {
+                        seqs_w.up[i] = 0;
+                    }
+                } else if (ppgRenewTexChunkSeqs(mts[i].texList.tex) == 0) {
+                    seqs_w.up[i] = 0;
+                }
+            }
+        }
+
+        if (seqs_w.sprMax < seqs_w.sprTotal) {
+            seqs_w.sprMax = seqs_w.sprTotal;
+        }
+
+        ps2SeqsRenderQuadInit_A();
+
+        for (i = 0; i < seqs_w.sprTotal; i++) {
+            if (seqs_w.up[seqs_w.chip[i].id]) {
+                val = seqs_w.chip[i].texCode;
+
+                if (keep != val) {
+                    keep = val;
+                    flSetRenderState(FLRENDER_TEXSTAGE0, val);
+                }
+
+                ps2SeqsRenderQuad_Ax(&seqs_w.chip[i]);
+            }
+        }
+
+        ps2SeqsRenderQuadEnd();
+    }
+}
 
 s32 seqsStoreChip(f32 x, f32 y, s32 w, s32 h, s32 gix, s32 code, s32 attr, s32 alpha, s32 id) {
     Sprite2 *chip;

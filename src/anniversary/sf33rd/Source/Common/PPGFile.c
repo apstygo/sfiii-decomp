@@ -38,7 +38,6 @@ const u8 pplColorModeWidth[4] = { 0xF, 0x3F, 0xFF, 0 };
 PPG_W ppg_w;
 s16 *dctex_linear;
 
-s32 ppgCheckTextureDataBe(Texture *tch);
 s32 ppgCheckPaletteDataBe(Palette *pch);
 void ppgWriteQuadOnly(Vertex *pos, u32 col, u32 texCode);
 void ppgWriteQuadOnly2(Vertex *pos, u32 col, u32 texCode);

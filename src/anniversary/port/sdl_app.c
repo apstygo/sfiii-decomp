@@ -1,10 +1,12 @@
+#include "port/sdl_app.h"
 #include "sf33rd/Source/Game/main.h"
 
 #include <SDL3/SDL.h>
 
+static const char *app_name = "Street Fighter III: 3rd Strike";
 static SDL_Window *window = NULL;
 static SDL_Renderer *renderer = NULL;
-static const char *app_name = "Street Fighter III: 3rd Strike";
+static void (*vsync_callback)() = NULL;
 
 int SDLApp_Init() {
     SDL_SetAppMetadata(app_name, "0.1", NULL);
@@ -61,4 +63,14 @@ void SDLApp_Render() {
 
     /* put the newly-cleared rendering on the screen. */
     SDL_RenderPresent(renderer);
+
+    // Calling vsync_callback right after SDL_RenderPresent is not the most reliable way
+    // of catching a VSync, but it'll suffice for now.
+    if (vsync_callback != NULL) {
+        vsync_callback();
+    }
+}
+
+void SDLApp_SetVSyncCallback(SDLApp_VSyncCallback callback) {
+    vsync_callback = callback;
 }

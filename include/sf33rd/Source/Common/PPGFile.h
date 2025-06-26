@@ -28,5 +28,6 @@ s32 ppgSetupTexChunkSeqs(Texture *tch, PPGFileHeader *ppg, u8 *adrs, s32 ixNum1s
 s32 ppgRenewTexChunkSeqs(Texture *tch);
 s32 ppgSetupCmpChunk(u8 *srcAdrs, s32 num, u8 *dstAdrs);
 s32 ppgSetupPalChunkDir(Palette *pch, PPLFileHeader *ppl, u8 *adrs, s32 ixNum1st, s32 /* unused */);
+s32 ppgCheckTextureDataBe(Texture *tch);
 
 #endif // PPGFILE_H
