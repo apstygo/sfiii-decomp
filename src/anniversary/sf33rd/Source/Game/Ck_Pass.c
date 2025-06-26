@@ -12,11 +12,371 @@ s32 Ck_Passive_Term(PLW *wk) {
     return PASSIVE_X;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Ck_Pass", KEN_vs);
+void KEN_vs(PLW *wk) {
+    WORK *em = (WORK *)wk->wu.target_adrs;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Ck_Pass", HUGO_vs);
+    switch (Passive_Mode + Area_Number[wk->wu.id]) {
+    case 0:
+        Check_Dash(wk, em, 1);
+        break;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Ck_Pass", GILL_vs);
+    case 1:
+        Check_Dash(wk, em, 1);
+        break;
+
+    case 2:
+        Check_Dash(wk, em, 1);
+        break;
+
+    case 3:
+        Check_Dash(wk, em, 1);
+        break;
+
+    case 4:
+        if (Attack_Flag[wk->wu.id]) {
+            if (Check_PL_Unit_A(wk))
+                return;
+
+            if (Check_Limited_Attack(wk, em, 0xc, 0x20, 3, 0))
+                return;
+
+            if (Check_Limited_Attack(wk, em, 7, 0x20, 5, 0))
+                return;
+
+            if (Check_Special_Technique(wk, em, 0xf, 0, 0x21, 1, -1))
+                return;
+        } else {
+            if (Check_PL_Unit_AS(wk))
+                return;
+
+            if (Check_After_Attack(wk, em, 0x1c))
+                return;
+
+            if (Check_VS_Squat(wk, em, 0x1d, 0x21, 0x20))
+                return;
+
+            if (Check_Stand(wk, em, 0x1009))
+                return;
+        }
+
+        if (Check_VS_Jump(wk, (PLW *)em, 0x10))
+            return;
+
+        Check_Personal_Action(wk, em);
+        break;
+
+    case 5:
+        if (Attack_Flag[wk->wu.id]) {
+            if (Check_PL_Unit_B(wk))
+                return;
+
+            if (Check_Limited_Attack(wk, em, 0xc, 0x20, 3, 0))
+                return;
+
+            if (Check_Limited_Attack(wk, em, 7, 0x20, 5, 0))
+                return;
+
+            if (Check_Special_Technique(wk, em, 0xf, 0, 0x21, 1, -1))
+                return;
+        } else {
+            if (Check_PL_Unit_BS(wk))
+                return;
+
+            if (Check_After_Attack(wk, em, 0x1c))
+                return;
+
+            if (Check_VS_Squat(wk, em, 0x1d, 0x21, 0x20))
+                return;
+
+            if (Check_Stand(wk, em, 0x1009))
+                return;
+        }
+
+        if (Check_VS_Jump(wk, (PLW *)em, 0x20))
+            return;
+
+        Check_Personal_Action(wk, em);
+        break;
+
+    case 6:
+        if (Attack_Flag[wk->wu.id]) {
+            if (Check_PL_Unit_C(wk))
+                return;
+
+            if (Check_Limited_Attack(wk, em, 0xc, 0x20, 3, 0))
+                return;
+
+            if (Check_Limited_Attack(wk, em, 7, 0x20, 5, 0))
+                return;
+        } else {
+            if (Check_PL_Unit_CS(wk))
+                return;
+
+            if (Check_After_Attack(wk, em, 0x1c))
+                return;
+
+            if (Check_Stand(wk, em, 0x1009))
+                return;
+        }
+
+        if (Check_VS_Jump(wk, (PLW *)em, 0x40))
+            return;
+
+        Check_Personal_Action(wk, em);
+
+        break;
+
+    default:
+        if (Attack_Flag[wk->wu.id]) {
+            if (Check_PL_Unit_D(wk))
+                return;
+        } else {
+            if (Check_PL_Unit_DS(wk))
+                return;
+
+            if (Check_Stand(wk, em, 0x1009))
+                return;
+        }
+
+        Check_Personal_Action(wk, em);
+        break;
+    }
+
+    return;
+}
+
+void HUGO_vs(PLW *wk) {
+    WORK *em = (WORK *)wk->wu.target_adrs;
+
+    switch (Passive_Mode + Area_Number[wk->wu.id]) {
+    case 0:
+        Check_Dash(wk, em, 1);
+        break;
+
+    case 1:
+        Check_Dash(wk, em, 1);
+        break;
+
+    case 2:
+        Check_Dash(wk, em, 1);
+        break;
+
+    case 3:
+        Check_Dash(wk, em, 1);
+        break;
+
+    case 4:
+        if (Attack_Flag[wk->wu.id]) {
+            if (Check_PL_Unit_A(wk))
+                return;
+
+            if (Check_Limited_Attack(wk, em, 7, 0x20, 3, 0))
+                return;
+
+            if (Check_Special_Technique(wk, em, 0xf, 0, 0x21, 1, -1))
+                return;
+        } else {
+            if (Check_PL_Unit_AS(wk))
+                return;
+
+            if (Check_After_Attack(wk, em, 0x1c))
+                return;
+
+            if (Check_VS_Squat(wk, em, 0x1d, 0x21, 0x20))
+                return;
+
+            if (Check_Stand(wk, em, 0x1009))
+                return;
+        }
+
+        Check_VS_Jump(wk, (PLW *)em, 0x10);
+        break;
+
+    case 5:
+        if (Attack_Flag[wk->wu.id]) {
+            if (Check_PL_Unit_B(wk))
+                return;
+
+            if (Check_Limited_Attack(wk, em, 7, 0x20, 3, 0))
+                return;
+
+            if (Check_Special_Technique(wk, em, 0xf, 0, 0x21, 1, -1))
+                return;
+        } else {
+            if (Check_PL_Unit_BS(wk))
+                return;
+
+            if (Check_After_Attack(wk, em, 0x1c))
+                return;
+
+            if (Check_VS_Squat(wk, em, 0x1d, 0x21, 0x20))
+                return;
+
+            if (Check_Stand(wk, em, 0x1009))
+                return;
+        }
+
+        Check_VS_Jump(wk, (PLW *)em, 0x20);
+        break;
+
+    case 6:
+        if (Attack_Flag[wk->wu.id]) {
+            if (Check_PL_Unit_C(wk))
+                return;
+
+            if (Check_Limited_Attack(wk, em, 7, 0x20, 3, 0))
+                return;
+        } else {
+            if (Check_PL_Unit_CS(wk))
+                return;
+
+            if (Check_After_Attack(wk, em, 0x1c))
+                return;
+
+            if (Check_Stand(wk, em, 0x1009))
+                return;
+        }
+
+        Check_VS_Jump(wk, (PLW *)em, 0x40);
+        break;
+
+    default:
+        if (Attack_Flag[wk->wu.id]) {
+            Check_PL_Unit_D(wk);
+            return;
+        } else {
+            if (Check_PL_Unit_DS(wk))
+                return;
+
+            Check_Stand(wk, em, 0x1009);
+        }
+    }
+
+    return;
+}
+
+void GILL_vs(PLW *wk) {
+    WORK *em = (WORK *)wk->wu.target_adrs;
+
+    switch (Passive_Mode + Area_Number[wk->wu.id]) {
+    case 0:
+        Check_Dash(wk, em, 1);
+        break;
+
+    case 1:
+        Check_Dash(wk, em, 1);
+        break;
+
+    case 2:
+        Check_Dash(wk, em, 1);
+        break;
+
+    case 3:
+        Check_Dash(wk, em, 1);
+        break;
+
+    case 4:
+        if (Attack_Flag[wk->wu.id]) {
+            if (Check_PL_Unit_A(wk))
+                return;
+
+            if (Check_Limited_Attack(wk, em, 0xc, 0x20, 3, 0))
+                return;
+
+            if (Check_Limited_Attack(wk, em, 7, 0x20, 5, 0))
+                return;
+
+            if (Check_Special_Technique(wk, em, 0xf, 0, 0x21, 1, -1))
+                return;
+        } else {
+            if (Check_PL_Unit_AS(wk))
+                return;
+
+            if (Check_After_Attack(wk, em, 0x1c))
+                return;
+
+            if (Check_VS_Squat(wk, em, 0x1d, 0x21, 0x20))
+                return;
+
+            if (Check_Stand(wk, em, 0x1009))
+                return;
+        }
+
+        Check_VS_Jump(wk, (PLW *)em, 0x10);
+        break;
+
+    case 5:
+        if (Attack_Flag[wk->wu.id]) {
+            if (Check_PL_Unit_B(wk))
+                return;
+
+            if (Check_Limited_Attack(wk, em, 0xc, 0x20, 3, 0))
+                return;
+
+            if (Check_Limited_Attack(wk, em, 7, 0x20, 5, 0))
+                return;
+
+            if (Check_Special_Technique(wk, em, 0xf, 0, 0x21, 1, -1))
+                return;
+        } else {
+            if (Check_PL_Unit_BS(wk))
+                return;
+
+            if (Check_After_Attack(wk, em, 0x1c))
+                return;
+
+            if (Check_VS_Squat(wk, em, 0x1d, 0x21, 0x20))
+                return;
+
+            if (Check_Stand(wk, em, 0x1009))
+                return;
+        }
+
+        Check_VS_Jump(wk, (PLW *)em, 0x20);
+        break;
+
+    case 6:
+        if (Attack_Flag[wk->wu.id]) {
+            if (Check_PL_Unit_C(wk))
+                return;
+
+            if (Check_Limited_Attack(wk, em, 0xc, 0x20, 3, 0))
+                return;
+
+            if (Check_Limited_Attack(wk, em, 7, 0x20, 5, 0))
+                return;
+        } else {
+            if (Check_PL_Unit_CS(wk))
+                return;
+
+            if (Check_After_Attack(wk, em, 0x1c))
+                return;
+
+            if (Check_Stand(wk, em, 0x1009))
+                return;
+        }
+
+        Check_VS_Jump(wk, (PLW *)em, 0x40);
+        break;
+
+    default:
+        if (Attack_Flag[wk->wu.id]) {
+            Check_PL_Unit_D(wk);
+            return;
+        } else {
+            if (Check_PL_Unit_DS(wk))
+                return;
+
+            if (Check_Stand(wk, em, 0x1009))
+                return;
+        }
+
+        Check_VS_Squat(wk, em, 7, 0x21, 0x20);
+        break;
+    }
+
+    return;
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Ck_Pass", Check_Special_Technique);
