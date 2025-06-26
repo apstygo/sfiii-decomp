@@ -6,6 +6,15 @@
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/workuser.h"
 
+static s32 Check_PL_Unit_AS(PLW *wk);
+static s32 Check_PL_Unit_A(PLW *wk);
+static s32 Check_PL_Unit_BS(PLW *wk);
+static s32 Check_PL_Unit_B(PLW *wk);
+static s32 Check_PL_Unit_CS(PLW *wk);
+static s32 Check_PL_Unit_C(PLW *wk);
+static s32 Check_PL_Unit_DS(PLW *wk);
+static s32 Check_PL_Unit_D(PLW *wk);
+
 s8 PASSIVE_X;
 
 s32 Ck_Passive_Term(PLW *wk) {
@@ -884,7 +893,7 @@ s32 Check_F_Cross_Chop(PLW *wk, WORK *em, s16 VS_Technique) {
     return PASSIVE_X = 1;
 }
 
-s32 Check_PL_Unit_AS(PLW *wk) {
+static s32 Check_PL_Unit_AS(PLW *wk) {
     return Passive_AS_tbl[((PLW *)wk->wu.target_adrs)->player_number](wk);
 }
 
@@ -1174,7 +1183,7 @@ s32 VS_REMY_AS(PLW *wk) {
     return 0;
 }
 
-s32 Check_PL_Unit_A(PLW *wk) {
+static s32 Check_PL_Unit_A(PLW *wk) {
     return Passive_A_tbl[((PLW *)wk->wu.target_adrs)->player_number](wk);
 }
 
@@ -1508,7 +1517,7 @@ s32 VS_REMY_A(PLW *wk) {
     return 0;
 }
 
-s32 Check_PL_Unit_BS(PLW *wk) {
+static s32 Check_PL_Unit_BS(PLW *wk) {
     return Passive_BS_tbl[((PLW *)wk->wu.target_adrs)->player_number](wk);
 }
 
@@ -1832,7 +1841,7 @@ s32 VS_REMY_BS(PLW *wk) {
     return 0;
 }
 
-s32 Check_PL_Unit_B(PLW *wk) {
+static s32 Check_PL_Unit_B(PLW *wk) {
     return Passive_B_tbl[((PLW *)wk->wu.target_adrs)->player_number](wk);
 }
 
@@ -2210,7 +2219,7 @@ s32 VS_REMY_B(PLW *wk) {
     return 0;
 }
 
-s32 Check_PL_Unit_CS(PLW *wk) {
+static s32 Check_PL_Unit_CS(PLW *wk) {
     return Passive_CS_tbl[((PLW *)wk->wu.target_adrs)->player_number](wk);
 }
 
@@ -2513,7 +2522,7 @@ s32 VS_REMY_CS(PLW *wk) {
     return 0;
 }
 
-s32 Check_PL_Unit_C(PLW *wk) {
+static s32 Check_PL_Unit_C(PLW *wk) {
     return Passive_C_tbl[((PLW *)wk->wu.target_adrs)->player_number](wk);
 }
 
@@ -2867,7 +2876,7 @@ s32 VS_REMY_C(PLW *wk) {
     return 0;
 }
 
-s32 Check_PL_Unit_DS(PLW *wk) {
+static s32 Check_PL_Unit_DS(PLW *wk) {
     return Passive_DS_tbl[((PLW *)wk->wu.target_adrs)->player_number](wk);
 }
 
@@ -2982,7 +2991,7 @@ s32 VS_REMY_DS(PLW *wk) {
     return 0;
 }
 
-s32 Check_PL_Unit_D(PLW *wk) {
+static s32 Check_PL_Unit_D(PLW *wk) {
     return Passive_D_tbl[((PLW *)wk->wu.target_adrs)->player_number](wk);
 }
 
