@@ -18,12 +18,16 @@
 #include <sifrpc.h>
 
 #include <fcntl.h>
+#include <stdarg.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 
 // libcdvd
+
+static const char flist_path[] = "\\THIRD\\0FLIST.DIR;1";
+static const char afs_path[] = "\\THIRD\\SF33RD.AFS;1";
 
 int sceCdBreak(void) {
     not_implemented(__func__);
@@ -45,16 +49,42 @@ int sceCdMmode(int media) {
     not_implemented(__func__);
 }
 
-int sceCdRead(u_int lbn, u_int sectors, void *buf, sceCdRMode *mode) {
-    not_implemented(__func__);
+int sceCdRead(u_int lsn, u_int sectors, void *buf, sceCdRMode *mode) {
+    switch (lsn) {
+    case -1:
+        // No need to actually read a file or write to the buffer
+        // because we are handling flist read and we don't
+        // need to read from buf
+        break;
+
+        // case -2:
+        //     break;
+
+    default:
+        fatal_error("Can't handle lsn %u", lsn);
+        break;
+    }
+
+    return 1;
 }
 
 int sceCdSync(int mode) {
-    not_implemented(__func__);
+    printf("[SDK] sceCdSync(mode: %d)\n", mode);
+    return 0;
 }
 
 int sceCdLayerSearchFile(sceCdlFILE *fp, const char *name, int layer) {
-    not_implemented(__func__);
+    if (strncmp(name, flist_path, strlen(flist_path)) == 0) {
+        fp->size = 12;
+        fp->lsn = -1; // Set a wacky lsn on purpose to recognize it in sceCdRead
+    } else if (strncmp(name, afs_path, strlen(afs_path)) == 0) {
+        fp->size = 642492416;
+        fp->lsn = -2; // Set a wacky lsn on purpose to recognize it in sceCdRead
+    } else {
+        fatal_error("Can't handle filename %s", name);
+    }
+
+    return 1;
 }
 
 // sifdev
@@ -296,7 +326,12 @@ s32 scePad2DeleteSocket(s32) {
 // eekernel
 
 void scePrintf(const char *fmt, ...) {
-    not_implemented(__func__);
+    va_list args;
+    va_start(args, fmt);
+
+    vprintf(fmt, args);
+
+    va_end(args);
 }
 
 int CreateThread(struct ThreadParam *) {
