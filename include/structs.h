@@ -2665,6 +2665,15 @@ typedef struct {
     QWORD texflush; // offset 0x30, size 0x10
 } FLPS2LoadEndData; // Not Sure about this name
 
+typedef union {
+    signed int psi; // offset 0x0, size 0x4
+    struct /* @anon6 */ {
+        // total size: 0x4
+        signed short l; // offset 0x0, size 0x2
+        signed short h; // offset 0x2, size 0x2
+    } pss;              // offset 0x0, size 0x4
+} MS;
+
 typedef struct {
     // total size: 0x4
     u8 r; // offset 0x0, size 0x1
