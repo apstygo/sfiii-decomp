@@ -484,7 +484,13 @@ s32 Check_Dash(PLW *wk, WORK *em, s16 VS_Technique) {
     return 0;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Ck_Pass", Check_Limited_Attack);
+#else
+s32 Check_Limited_Attack(PLW *wk, WORK *em, s16 VS_Technique, u8 PL_Status, s8 Status_00, s16 Limit_Number) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Ck_Pass", Check_Limited_Jump_Attack);
