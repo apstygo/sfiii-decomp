@@ -1,5 +1,3 @@
-// This file exists to make clang linker happy
-
 #if !defined(TARGET_PS2)
 
 #include "common.h"
@@ -334,46 +332,6 @@ void scePrintf(const char *fmt, ...) {
     va_end(args);
 }
 
-int CreateThread(struct ThreadParam *) {
-    not_implemented(__func__);
-}
-
-int StartThread(int, void *arg) {
-    not_implemented(__func__);
-}
-
-void ExitDeleteThread(void) {
-    not_implemented(__func__);
-}
-
-int GetThreadId(void) {
-    not_implemented(__func__);
-}
-
-int ReferThreadStatus(int, struct ThreadParam *) {
-    not_implemented(__func__);
-}
-
-int iReferThreadStatus(int, struct ThreadParam *) {
-    not_implemented(__func__);
-}
-
-int SleepThread(void) {
-    not_implemented(__func__);
-}
-
-int iWakeupThread(int) {
-    not_implemented(__func__);
-}
-
-int SuspendThread(int) {
-    not_implemented(__func__);
-}
-
-int DelayThread(u_int) {
-    not_implemented(__func__);
-}
-
 // libvib
 
 int sceVibGetProfile(int, unsigned char *) {
@@ -456,10 +414,6 @@ int sceMcSync(int, int *, int *) {
 
 // eekernel
 
-int ChangeThreadPriority(int, int) {
-    not_implemented(__func__);
-}
-
 void FlushCache(int operation) {
     printf("[SDK] FlushCache called (operation: %d)\n", operation);
 }
@@ -472,15 +426,7 @@ void InvalidDCache(void *, void *) {
     not_implemented(__func__);
 }
 
-int ResumeThread(int) {
-    not_implemented(__func__);
-}
-
 void SyncDCache(void *, void *) {
-    not_implemented(__func__);
-}
-
-int WakeupThread(int) {
     not_implemented(__func__);
 }
 

@@ -85,10 +85,10 @@ CLANG_WARNINGS += -Wno-incompatible-function-pointer-types
 CLANG_WARNINGS += -Wno-pointer-sign
 CLANG_WARNINGS += -Wno-shift-count-overflow
 
-CLANG_INCLUDES := $(COMMON_INCLUDES)
+CLANG_INCLUDES := $(COMMON_INCLUDES) -Ilibco
 CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) -DTARGET_SDL3 -DPAD_DISABLED -DXPT_TGT_EE -D_POSIX_C_SOURCE -std=c99
 
-CLANG_LINKER_FLAGS := -lz -lm -g
+CLANG_LINKER_FLAGS := -lz -lm -g -Llibco/build -llibco
 
 ifneq ($(PLATFORM),ps2)
 	CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
@@ -165,12 +165,20 @@ $(CRI_O_FILES): $(BUILD_DIR)/%.c.o: %.c
 
 else
 
-$(MAIN_TARGET): $(ALL_O_FILES)
+$(MAIN_TARGET): $(ALL_O_FILES) libco/build/liblibco.o
 	clang $(ALL_O_FILES) $(CLANG_LINKER_FLAGS) -o $@
 
 $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)
 	clang -g -c $< -o $@ $(CLANG_FLAGS)
+
+libco/build/liblibco.o:
+	@mkdir -p $(dir $@)
+	cd libco && \
+		mkdir -p build && \
+		cd build && \
+		cmake .. && \
+		cmake --build .
 
 endif
 
