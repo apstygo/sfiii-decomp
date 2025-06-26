@@ -37,29 +37,29 @@ void KEN_vs(PLW *wk) {
             if (Check_PL_Unit_A(wk))
                 return;
 
-            if (Check_Limited_Attack(wk, em, 0xc, 0x20, 3, 0))
+            if (Check_Limited_Attack(wk, em, 12, 32, 3, 0))
                 return;
 
-            if (Check_Limited_Attack(wk, em, 7, 0x20, 5, 0))
+            if (Check_Limited_Attack(wk, em, 7, 32, 5, 0))
                 return;
 
-            if (Check_Special_Technique(wk, em, 0xf, 0, 0x21, 1, -1))
+            if (Check_Special_Technique(wk, em, 15, 0, 33, 1, -1))
                 return;
         } else {
             if (Check_PL_Unit_AS(wk))
                 return;
 
-            if (Check_After_Attack(wk, em, 0x1c))
+            if (Check_After_Attack(wk, em, 28))
                 return;
 
-            if (Check_VS_Squat(wk, em, 0x1d, 0x21, 0x20))
+            if (Check_VS_Squat(wk, em, 29, 33, 32))
                 return;
 
-            if (Check_Stand(wk, em, 0x1009))
+            if (Check_Stand(wk, em, 4105))
                 return;
         }
 
-        if (Check_VS_Jump(wk, (PLW *)em, 0x10))
+        if (Check_VS_Jump(wk, (PLW *)em, 16))
             return;
 
         Check_Personal_Action(wk, em);
@@ -70,29 +70,29 @@ void KEN_vs(PLW *wk) {
             if (Check_PL_Unit_B(wk))
                 return;
 
-            if (Check_Limited_Attack(wk, em, 0xc, 0x20, 3, 0))
+            if (Check_Limited_Attack(wk, em, 12, 32, 3, 0))
                 return;
 
-            if (Check_Limited_Attack(wk, em, 7, 0x20, 5, 0))
+            if (Check_Limited_Attack(wk, em, 7, 32, 5, 0))
                 return;
 
-            if (Check_Special_Technique(wk, em, 0xf, 0, 0x21, 1, -1))
+            if (Check_Special_Technique(wk, em, 15, 0, 33, 1, -1))
                 return;
         } else {
             if (Check_PL_Unit_BS(wk))
                 return;
 
-            if (Check_After_Attack(wk, em, 0x1c))
+            if (Check_After_Attack(wk, em, 28))
                 return;
 
-            if (Check_VS_Squat(wk, em, 0x1d, 0x21, 0x20))
+            if (Check_VS_Squat(wk, em, 29, 33, 32))
                 return;
 
-            if (Check_Stand(wk, em, 0x1009))
+            if (Check_Stand(wk, em, 4105))
                 return;
         }
 
-        if (Check_VS_Jump(wk, (PLW *)em, 0x20))
+        if (Check_VS_Jump(wk, (PLW *)em, 32))
             return;
 
         Check_Personal_Action(wk, em);
@@ -103,23 +103,23 @@ void KEN_vs(PLW *wk) {
             if (Check_PL_Unit_C(wk))
                 return;
 
-            if (Check_Limited_Attack(wk, em, 0xc, 0x20, 3, 0))
+            if (Check_Limited_Attack(wk, em, 12, 32, 3, 0))
                 return;
 
-            if (Check_Limited_Attack(wk, em, 7, 0x20, 5, 0))
+            if (Check_Limited_Attack(wk, em, 7, 32, 5, 0))
                 return;
         } else {
             if (Check_PL_Unit_CS(wk))
                 return;
 
-            if (Check_After_Attack(wk, em, 0x1c))
+            if (Check_After_Attack(wk, em, 28))
                 return;
 
-            if (Check_Stand(wk, em, 0x1009))
+            if (Check_Stand(wk, em, 4105))
                 return;
         }
 
-        if (Check_VS_Jump(wk, (PLW *)em, 0x40))
+        if (Check_VS_Jump(wk, (PLW *)em, 64))
             return;
 
         Check_Personal_Action(wk, em);
@@ -134,7 +134,7 @@ void KEN_vs(PLW *wk) {
             if (Check_PL_Unit_DS(wk))
                 return;
 
-            if (Check_Stand(wk, em, 0x1009))
+            if (Check_Stand(wk, em, 4105))
                 return;
         }
 
@@ -170,26 +170,26 @@ void HUGO_vs(PLW *wk) {
             if (Check_PL_Unit_A(wk))
                 return;
 
-            if (Check_Limited_Attack(wk, em, 7, 0x20, 3, 0))
+            if (Check_Limited_Attack(wk, em, 7, 32, 3, 0))
                 return;
 
-            if (Check_Special_Technique(wk, em, 0xf, 0, 0x21, 1, -1))
+            if (Check_Special_Technique(wk, em, 15, 0, 33, 1, -1))
                 return;
         } else {
             if (Check_PL_Unit_AS(wk))
                 return;
 
-            if (Check_After_Attack(wk, em, 0x1c))
+            if (Check_After_Attack(wk, em, 28))
                 return;
 
-            if (Check_VS_Squat(wk, em, 0x1d, 0x21, 0x20))
+            if (Check_VS_Squat(wk, em, 29, 33, 32))
                 return;
 
-            if (Check_Stand(wk, em, 0x1009))
+            if (Check_Stand(wk, em, 4105))
                 return;
         }
 
-        Check_VS_Jump(wk, (PLW *)em, 0x10);
+        Check_VS_Jump(wk, (PLW *)em, 16);
         break;
 
     case 5:
@@ -197,26 +197,26 @@ void HUGO_vs(PLW *wk) {
             if (Check_PL_Unit_B(wk))
                 return;
 
-            if (Check_Limited_Attack(wk, em, 7, 0x20, 3, 0))
+            if (Check_Limited_Attack(wk, em, 7, 32, 3, 0))
                 return;
 
-            if (Check_Special_Technique(wk, em, 0xf, 0, 0x21, 1, -1))
+            if (Check_Special_Technique(wk, em, 15, 0, 33, 1, -1))
                 return;
         } else {
             if (Check_PL_Unit_BS(wk))
                 return;
 
-            if (Check_After_Attack(wk, em, 0x1c))
+            if (Check_After_Attack(wk, em, 28))
                 return;
 
-            if (Check_VS_Squat(wk, em, 0x1d, 0x21, 0x20))
+            if (Check_VS_Squat(wk, em, 29, 33, 32))
                 return;
 
-            if (Check_Stand(wk, em, 0x1009))
+            if (Check_Stand(wk, em, 4105))
                 return;
         }
 
-        Check_VS_Jump(wk, (PLW *)em, 0x20);
+        Check_VS_Jump(wk, (PLW *)em, 32);
         break;
 
     case 6:
@@ -224,20 +224,20 @@ void HUGO_vs(PLW *wk) {
             if (Check_PL_Unit_C(wk))
                 return;
 
-            if (Check_Limited_Attack(wk, em, 7, 0x20, 3, 0))
+            if (Check_Limited_Attack(wk, em, 7, 32, 3, 0))
                 return;
         } else {
             if (Check_PL_Unit_CS(wk))
                 return;
 
-            if (Check_After_Attack(wk, em, 0x1c))
+            if (Check_After_Attack(wk, em, 28))
                 return;
 
-            if (Check_Stand(wk, em, 0x1009))
+            if (Check_Stand(wk, em, 4105))
                 return;
         }
 
-        Check_VS_Jump(wk, (PLW *)em, 0x40);
+        Check_VS_Jump(wk, (PLW *)em, 64);
         break;
 
     default:
@@ -248,7 +248,7 @@ void HUGO_vs(PLW *wk) {
             if (Check_PL_Unit_DS(wk))
                 return;
 
-            Check_Stand(wk, em, 0x1009);
+            Check_Stand(wk, em, 4105);
         }
     }
 
@@ -280,29 +280,29 @@ void GILL_vs(PLW *wk) {
             if (Check_PL_Unit_A(wk))
                 return;
 
-            if (Check_Limited_Attack(wk, em, 0xc, 0x20, 3, 0))
+            if (Check_Limited_Attack(wk, em, 12, 32, 3, 0))
                 return;
 
-            if (Check_Limited_Attack(wk, em, 7, 0x20, 5, 0))
+            if (Check_Limited_Attack(wk, em, 7, 32, 5, 0))
                 return;
 
-            if (Check_Special_Technique(wk, em, 0xf, 0, 0x21, 1, -1))
+            if (Check_Special_Technique(wk, em, 15, 0, 33, 1, -1))
                 return;
         } else {
             if (Check_PL_Unit_AS(wk))
                 return;
 
-            if (Check_After_Attack(wk, em, 0x1c))
+            if (Check_After_Attack(wk, em, 28))
                 return;
 
-            if (Check_VS_Squat(wk, em, 0x1d, 0x21, 0x20))
+            if (Check_VS_Squat(wk, em, 29, 33, 32))
                 return;
 
-            if (Check_Stand(wk, em, 0x1009))
+            if (Check_Stand(wk, em, 4105))
                 return;
         }
 
-        Check_VS_Jump(wk, (PLW *)em, 0x10);
+        Check_VS_Jump(wk, (PLW *)em, 16);
         break;
 
     case 5:
@@ -310,29 +310,29 @@ void GILL_vs(PLW *wk) {
             if (Check_PL_Unit_B(wk))
                 return;
 
-            if (Check_Limited_Attack(wk, em, 0xc, 0x20, 3, 0))
+            if (Check_Limited_Attack(wk, em, 12, 32, 3, 0))
                 return;
 
-            if (Check_Limited_Attack(wk, em, 7, 0x20, 5, 0))
+            if (Check_Limited_Attack(wk, em, 7, 32, 5, 0))
                 return;
 
-            if (Check_Special_Technique(wk, em, 0xf, 0, 0x21, 1, -1))
+            if (Check_Special_Technique(wk, em, 15, 0, 33, 1, -1))
                 return;
         } else {
             if (Check_PL_Unit_BS(wk))
                 return;
 
-            if (Check_After_Attack(wk, em, 0x1c))
+            if (Check_After_Attack(wk, em, 28))
                 return;
 
-            if (Check_VS_Squat(wk, em, 0x1d, 0x21, 0x20))
+            if (Check_VS_Squat(wk, em, 29, 33, 32))
                 return;
 
-            if (Check_Stand(wk, em, 0x1009))
+            if (Check_Stand(wk, em, 4105))
                 return;
         }
 
-        Check_VS_Jump(wk, (PLW *)em, 0x20);
+        Check_VS_Jump(wk, (PLW *)em, 32);
         break;
 
     case 6:
@@ -340,23 +340,23 @@ void GILL_vs(PLW *wk) {
             if (Check_PL_Unit_C(wk))
                 return;
 
-            if (Check_Limited_Attack(wk, em, 0xc, 0x20, 3, 0))
+            if (Check_Limited_Attack(wk, em, 12, 32, 3, 0))
                 return;
 
-            if (Check_Limited_Attack(wk, em, 7, 0x20, 5, 0))
+            if (Check_Limited_Attack(wk, em, 7, 32, 5, 0))
                 return;
         } else {
             if (Check_PL_Unit_CS(wk))
                 return;
 
-            if (Check_After_Attack(wk, em, 0x1c))
+            if (Check_After_Attack(wk, em, 28))
                 return;
 
-            if (Check_Stand(wk, em, 0x1009))
+            if (Check_Stand(wk, em, 4105))
                 return;
         }
 
-        Check_VS_Jump(wk, (PLW *)em, 0x40);
+        Check_VS_Jump(wk, (PLW *)em, 64);
         break;
 
     default:
@@ -367,11 +367,11 @@ void GILL_vs(PLW *wk) {
             if (Check_PL_Unit_DS(wk))
                 return;
 
-            if (Check_Stand(wk, em, 0x1009))
+            if (Check_Stand(wk, em, 4105))
                 return;
         }
 
-        Check_VS_Squat(wk, em, 7, 0x21, 0x20);
+        Check_VS_Squat(wk, em, 7, 33, 32);
         break;
     }
 
@@ -413,7 +413,7 @@ s32 Check_VS_Jump(PLW *wk, PLW *em, s16 Height) {
     if ((em->wu.mvxy.a[1].real.h) < 0 && (em->wu.xyz[1].disp.pos <= Height))
         return 0;
 
-    if (Check_Specific_Term(wk, &em->wu, 0x1003, 14, 20, 26))
+    if (Check_Specific_Term(wk, &em->wu, 4099, 14, 20, 26))
         return Counter_Attack[wk->wu.id] = 1;
 
     if (em->wu.xyz[1].disp.pos == 0)
@@ -450,10 +450,10 @@ s32 Check_Rolling(PLW *wk, WORK *em) {
 s32 Check_Personal_Action(PLW *wk, WORK *em) {
     if (em->routine_no[1] != 4)
         return 0;
-    if (em->routine_no[2] != 0x1E)
+    if (em->routine_no[2] != 30)
         return 0;
 
-    VS_Tech[wk->wu.id] = 0x1009;
+    VS_Tech[wk->wu.id] = 4105;
 
     return PASSIVE_X = 1;
 }
@@ -626,8 +626,8 @@ s32 Check_After_Attack(PLW *wk, WORK *em, s16 VS_Technique) {
 
     Last_Attack_Counter[wk->wu.id] = Attack_Counter[wk->wu.id];
 
-    if (!(em->kind_of_waza & 0x20) && !(em->kind_of_waza & 0x30) && !(em->kind_of_waza & 0x28) &&
-        !(em->kind_of_waza & 0x38) && !(em->kind_of_waza & 8)) {
+    if (!(em->kind_of_waza & 32) && !(em->kind_of_waza & 48) && !(em->kind_of_waza & 40) &&
+        !(em->kind_of_waza & 56) && !(em->kind_of_waza & 8)) {
         xx = em->kind_of_waza & 6;
 
         if (xx == 0)
@@ -649,7 +649,7 @@ s32 Check_F_Cross_Chop(PLW *wk, WORK *em, s16 VS_Technique) {
     if ((em->kind_of_waza) != 4)
         return 0;
 
-    if ((em->pat_status != 0x16) && (em->pat_status != 0x14) && (em->pat_status != 0x1A) && (em->pat_status != 0x1C))
+    if ((em->pat_status != 22) && (em->pat_status != 20) && (em->pat_status != 26) && (em->pat_status != 28))
         return 0;
 
     VS_Tech[wk->wu.id] = VS_Technique;
@@ -665,10 +665,10 @@ s32 Check_PL_Unit_AS(PLW *wk) {
 s32 VS_GILL_AS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x3d, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 61, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x40, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 64, -1, -1))
         return 1;
 
     return 0;
@@ -677,13 +677,13 @@ s32 VS_GILL_AS(PLW *wk) {
 s32 VS_ALEX_AS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x18, 0x17, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 24, 23, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x18, 0x16, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 24, 22, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x38, 0x25, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 56, 37, -1, -1))
         return 1;
 
     if (Check_Rolling(wk, em))
@@ -695,16 +695,16 @@ s32 VS_ALEX_AS(PLW *wk) {
 s32 VS_RYU_AS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 1, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 1, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 0x20, 4, -1, -1))
+    if (Check_Special_Technique(wk, em, 11, 32, 4, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 0x20, 5, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 32, 5, 1, -1))
         return 1;
 
     return 0;
@@ -713,13 +713,13 @@ s32 VS_RYU_AS(PLW *wk) {
 s32 VS_YUN_AS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 0x1D, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 8, 29, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 0x24, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 36, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x18, 0x4A, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 24, 74, -1, -1))
         return 1;
 
     return 0;
@@ -728,19 +728,19 @@ s32 VS_YUN_AS(PLW *wk) {
 s32 VS_DUDLEY_AS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 1, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 8, 1, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 2, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 2, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x20, 0xD, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 32, 13, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 0xB, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 11, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x20, 0xC, -1, 0))
+    if (Check_Special_Technique(wk, em, 14, 32, 12, -1, 0))
         return 1;
 
     return 0;
@@ -754,19 +754,19 @@ s32 VS_NECRO_AS(PLW *wk) {
 s32 VS_HUGO_AS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xE, 8, 0x3D, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 8, 61, -1, -1))
         return 1;
 
-    if (Check_Limited_Attack(wk, em, 0x18, 0x20, 5, 0x7FFF))
+    if (Check_Limited_Attack(wk, em, 24, 32, 5, 32767))
         return 1;
 
-    if (Check_Limited_Attack(wk, em, 0x18, 0x20, 4, 0x7FFF))
+    if (Check_Limited_Attack(wk, em, 24, 32, 4, 32767))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x13, 0x18, 0x3A, -1, -1))
+    if (Check_Special_Technique(wk, em, 19, 24, 58, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 0x18, 0x3D, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 24, 61, 1, -1))
         return 1;
 
     return 0;
@@ -775,10 +775,10 @@ s32 VS_HUGO_AS(PLW *wk) {
 s32 VS_IBUKI_AS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 0x1C, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 28, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 0x19, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 25, -1, -1))
         return 1;
 
     return 0;
@@ -787,16 +787,16 @@ s32 VS_IBUKI_AS(PLW *wk) {
 s32 VS_ELENA_AS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 0x11, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 8, 17, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 0xE, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 14, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x20, 0xF, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 32, 15, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 2, 0x30, 0x10, -1, -1))
+    if (Check_Special_Technique(wk, em, 2, 48, 16, -1, -1))
         return 1;
 
     return 0;
@@ -805,7 +805,7 @@ s32 VS_ELENA_AS(PLW *wk) {
 s32 VS_ORO_AS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 0x27, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 39, -1, 0))
         return 1;
 
     return 0;
@@ -814,16 +814,16 @@ s32 VS_ORO_AS(PLW *wk) {
 s32 VS_KEN_AS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 1, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 1, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 8, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 8, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 6, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 6, -1, -1))
         return 1;
 
     return 0;
@@ -832,7 +832,7 @@ s32 VS_KEN_AS(PLW *wk) {
 s32 VS_SEAN_AS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 8, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 8, -1, -1))
         return 1;
 
     return 0;
@@ -841,10 +841,10 @@ s32 VS_SEAN_AS(PLW *wk) {
 s32 VS_URIEN_AS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x41, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 65, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x40, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 64, -1, -1))
         return 1;
 
     return 0;
@@ -853,13 +853,13 @@ s32 VS_URIEN_AS(PLW *wk) {
 s32 VS_GOUKI_AS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 1, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 1, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 0x45, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 69, -1, -1))
         return 1;
 
     return 0;
@@ -873,7 +873,7 @@ s32 VS_CHUN_LI_AS(PLW *wk) {
 s32 VS_MAKOTO_AS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x18, 0x5F, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 24, 95, -1, -1))
         return 1;
 
     return 0;
@@ -882,7 +882,7 @@ s32 VS_MAKOTO_AS(PLW *wk) {
 s32 VS_Q_AS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x19, 0x18, 0x58, 1, -1))
+    if (Check_Special_Technique(wk, em, 25, 24, 88, 1, -1))
         return 1;
 
     return 0;
@@ -895,10 +895,10 @@ s32 VS_NO12_AS(PLW *wk) {
 s32 VS_REMY_AS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 0x65, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 101, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
     return 0;
@@ -911,16 +911,16 @@ s32 Check_PL_Unit_A(PLW *wk) {
 s32 VS_GILL_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x40, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 64, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x3F, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 63, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x3D, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 61, -1, -1))
         return 1;
 
     return 0;
@@ -953,16 +953,16 @@ s32 VS_ALEX_A(PLW *wk) {
 s32 VS_RYU_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x30, 3, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 48, 3, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x10, 0x20, 4, -1, -1))
+    if (Check_Special_Technique(wk, em, 16, 32, 4, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 0x20, 5, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 32, 5, 1, -1))
         return 1;
 
     return 0;
@@ -971,10 +971,10 @@ s32 VS_RYU_A(PLW *wk) {
 s32 VS_YUN_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x14, 8, 0x34, 1, -1))
+    if (Check_Special_Technique(wk, em, 20, 8, 52, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x19, 0x18, 0x4A, 1, -1))
+    if (Check_Special_Technique(wk, em, 25, 24, 74, 1, -1))
         return 1;
 
     return 0;
@@ -983,13 +983,13 @@ s32 VS_YUN_A(PLW *wk) {
 s32 VS_DUDLEY_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 2, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 2, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x12, 8, 0x4B, 1, 0))
+    if (Check_Special_Technique(wk, em, 18, 8, 75, 1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x20, 0xC, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 32, 12, -1, -1))
         return 1;
 
     return 0;
@@ -998,16 +998,16 @@ s32 VS_DUDLEY_A(PLW *wk) {
 s32 VS_NECRO_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x26, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 38, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x28, -1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 40, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x11, 0x18, 0x18, 1, -1))
+    if (Check_Special_Technique(wk, em, 17, 24, 24, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 0x20, 0x29, -1, -1))
+    if (Check_Special_Technique(wk, em, 11, 32, 41, -1, -1))
         return 1;
 
     return 0;
@@ -1016,22 +1016,22 @@ s32 VS_NECRO_A(PLW *wk) {
 s32 VS_HUGO_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x13, 0x18, 0x3A, 1, -1))
+    if (Check_Special_Technique(wk, em, 19, 24, 58, 1, -1))
         return 1;
 
-    if (Check_Limited_Attack(wk, em, 0x18, 0x20, 5, 0x7FFF))
+    if (Check_Limited_Attack(wk, em, 24, 32, 5, 32767))
         return 1;
 
-    if (Check_Limited_Attack(wk, em, 0x18, 0x20, 4, 0x7FFF))
+    if (Check_Limited_Attack(wk, em, 24, 32, 4, 32767))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x13, 0x18, 0x3E, 1, -1))
+    if (Check_Special_Technique(wk, em, 19, 24, 62, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x13, 0x38, 0x37, 1, -1))
+    if (Check_Special_Technique(wk, em, 19, 56, 55, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 0x18, 0x3D, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 24, 61, 1, -1))
         return 1;
 
     return 0;
@@ -1040,7 +1040,7 @@ s32 VS_HUGO_A(PLW *wk) {
 s32 VS_IBUKI_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 0x18, 0x1A, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 24, 26, 1, -1))
         return 1;
 
     return 0;
@@ -1049,13 +1049,13 @@ s32 VS_IBUKI_A(PLW *wk) {
 s32 VS_ELENA_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 8, 8, 0x12, -1, -1))
+    if (Check_Special_Technique(wk, em, 8, 8, 18, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 2, 0x30, 0x10, -1, -1))
+    if (Check_Special_Technique(wk, em, 2, 48, 16, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x13, -1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 19, -1, -1))
         return 1;
 
     return 0;
@@ -1064,7 +1064,7 @@ s32 VS_ELENA_A(PLW *wk) {
 s32 VS_ORO_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x2C, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 44, 1, -1))
         return 1;
 
     return 0;
@@ -1073,7 +1073,7 @@ s32 VS_ORO_A(PLW *wk) {
 s32 VS_KEN_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
     return 0;
@@ -1082,13 +1082,13 @@ s32 VS_KEN_A(PLW *wk) {
 s32 VS_SEAN_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x15, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 21, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x20, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 32, 1, -1))
         return 1;
 
-    if (Check_Limited_Attack(wk, em, 0x18, 0, 5, 0x7FFF))
+    if (Check_Limited_Attack(wk, em, 24, 0, 5, 32767))
         return 1;
 
     if (Check_Rolling(wk, em))
@@ -1100,16 +1100,16 @@ s32 VS_SEAN_A(PLW *wk) {
 s32 VS_URIEN_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 8, 8, 0x41, 1, -1))
+    if (Check_Special_Technique(wk, em, 8, 8, 65, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x40, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 64, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x3F, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 63, 1, -1))
         return 1;
 
     return 0;
@@ -1118,13 +1118,13 @@ s32 VS_URIEN_A(PLW *wk) {
 s32 VS_GOUKI_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x10, 0x20, 4, 1, -1))
+    if (Check_Special_Technique(wk, em, 16, 32, 4, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xD, 0x40, 0x2F, 1, -1))
+    if (Check_Special_Technique(wk, em, 13, 64, 47, 1, -1))
         return 1;
 
     return 0;
@@ -1133,13 +1133,13 @@ s32 VS_GOUKI_A(PLW *wk) {
 s32 VS_CHUN_LI_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0x4E, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 78, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x72, 1, 0))
+    if (Check_Special_Technique(wk, em, 15, 8, 114, 1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x15, 8, 0x4D, 1, -1))
+    if (Check_Special_Technique(wk, em, 21, 8, 77, 1, -1))
         return 1;
 
     return 0;
@@ -1148,7 +1148,7 @@ s32 VS_CHUN_LI_A(PLW *wk) {
 s32 VS_MAKOTO_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x19, 0x18, 0x5F, 1, -1))
+    if (Check_Special_Technique(wk, em, 25, 24, 95, 1, -1))
         return 1;
 
     return 0;
@@ -1157,7 +1157,7 @@ s32 VS_MAKOTO_A(PLW *wk) {
 s32 VS_Q_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x19, 0x18, 0x58, 1, -1))
+    if (Check_Special_Technique(wk, em, 25, 24, 88, 1, -1))
         return 1;
 
     return 0;
@@ -1166,10 +1166,10 @@ s32 VS_Q_A(PLW *wk) {
 s32 VS_NO12_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x11, 8, 0x69, 1, -1))
+    if (Check_Special_Technique(wk, em, 17, 8, 105, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x16, 8, 0x6B, 1, -1))
+    if (Check_Special_Technique(wk, em, 22, 8, 107, 1, -1))
         return 1;
 
     return 0;
@@ -1178,7 +1178,7 @@ s32 VS_NO12_A(PLW *wk) {
 s32 VS_REMY_A(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
     return 0;
@@ -1191,10 +1191,10 @@ s32 Check_PL_Unit_BS(PLW *wk) {
 s32 VS_GILL_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x3D, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 61, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x40, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 64, -1, -1))
         return 1;
 
     return 0;
@@ -1203,13 +1203,13 @@ s32 VS_GILL_BS(PLW *wk) {
 s32 VS_ALEX_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x18, 0x17, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 24, 23, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x18, 0x16, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 24, 22, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x38, 0x25, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 56, 37, -1, -1))
         return 1;
 
     if (Check_Rolling(wk, em))
@@ -1221,22 +1221,22 @@ s32 VS_ALEX_BS(PLW *wk) {
 s32 VS_RYU_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 1, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 1, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 2, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 2, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x30, 3, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 48, 3, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x10, 0x20, 4, -1, -1))
+    if (Check_Special_Technique(wk, em, 16, 32, 4, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 0x20, 5, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 32, 5, 1, -1))
         return 1;
 
     return 0;
@@ -1245,13 +1245,13 @@ s32 VS_RYU_BS(PLW *wk) {
 s32 VS_YUN_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 0x1D, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 8, 29, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 0x24, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 36, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x18, 0x4A, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 24, 74, -1, -1))
         return 1;
 
     return 0;
@@ -1260,16 +1260,16 @@ s32 VS_YUN_BS(PLW *wk) {
 s32 VS_DUDLEY_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 1, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 1, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x20, 0xD, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 32, 13, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 0xB, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 11, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x20, 0xC, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 32, 12, -1, -1))
         return 1;
 
     return 0;
@@ -1283,22 +1283,22 @@ s32 VS_NECRO_BS(PLW *wk) {
 s32 VS_HUGO_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x3D, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 61, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x3D, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 61, -1, -1))
         return 1;
 
-    if (Check_Limited_Attack(wk, em, 0x18, 0x20, 5, 0x7FFF))
+    if (Check_Limited_Attack(wk, em, 24, 32, 5, 32767))
         return 1;
 
-    if (Check_Limited_Attack(wk, em, 0x18, 0x20, 4, 0x7FFF))
+    if (Check_Limited_Attack(wk, em, 24, 32, 4, 32767))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x13, 0x18, 0x3A, -1, -1))
+    if (Check_Special_Technique(wk, em, 19, 24, 58, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 0x18, 0x3D, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 24, 61, 1, -1))
         return 1;
 
     return 0;
@@ -1307,10 +1307,10 @@ s32 VS_HUGO_BS(PLW *wk) {
 s32 VS_IBUKI_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 0x1C, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 28, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 0x19, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 25, -1, -1))
         return 1;
 
     return 0;
@@ -1319,16 +1319,16 @@ s32 VS_IBUKI_BS(PLW *wk) {
 s32 VS_ELENA_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 0x11, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 8, 17, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 0xE, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 14, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x20, 0xF, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 32, 15, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 2, 0x30, 0x10, -1, -1))
+    if (Check_Special_Technique(wk, em, 2, 48, 16, -1, -1))
         return 1;
 
     return 0;
@@ -1337,7 +1337,7 @@ s32 VS_ELENA_BS(PLW *wk) {
 s32 VS_ORO_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 0x27, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 39, -1, 0))
         return 1;
 
     return 0;
@@ -1346,19 +1346,19 @@ s32 VS_ORO_BS(PLW *wk) {
 s32 VS_KEN_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 1, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 1, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 2, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 2, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 8, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 8, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 6, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 6, -1, -1))
         return 1;
 
     return 0;
@@ -1367,7 +1367,7 @@ s32 VS_KEN_BS(PLW *wk) {
 s32 VS_SEAN_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 8, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 8, -1, -1))
         return 1;
 
     return 0;
@@ -1376,10 +1376,10 @@ s32 VS_SEAN_BS(PLW *wk) {
 s32 VS_URIEN_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x41, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 65, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x40, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 64, -1, -1))
         return 1;
 
     return 0;
@@ -1388,19 +1388,19 @@ s32 VS_URIEN_BS(PLW *wk) {
 s32 VS_GOUKI_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 1, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 1, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 2, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 2, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x10, 0x20, 4, -1, -1))
+    if (Check_Special_Technique(wk, em, 16, 32, 4, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 0x45, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 69, -1, -1))
         return 1;
 
     return 0;
@@ -1409,10 +1409,10 @@ s32 VS_GOUKI_BS(PLW *wk) {
 s32 VS_CHUN_LI_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0x4E, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 78, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x4C, -1, 0))
+    if (Check_Special_Technique(wk, em, 24, 8, 76, -1, 0))
         return 1;
 
     return 0;
@@ -1421,10 +1421,10 @@ s32 VS_CHUN_LI_BS(PLW *wk) {
 s32 VS_MAKOTO_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 8, 8, 0x5C, -1, -1))
+    if (Check_Special_Technique(wk, em, 8, 8, 92, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x18, 0x5F, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 24, 95, -1, -1))
         return 1;
 
     return 0;
@@ -1433,7 +1433,7 @@ s32 VS_MAKOTO_BS(PLW *wk) {
 s32 VS_Q_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x19, 0x18, 0x58, 1, -1))
+    if (Check_Special_Technique(wk, em, 25, 24, 88, 1, -1))
         return 1;
 
     return 0;
@@ -1447,10 +1447,10 @@ s32 VS_NO12_BS(PLW *wk) {
 s32 VS_REMY_BS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 0x65, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 101, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
     return 0;
@@ -1463,16 +1463,16 @@ s32 Check_PL_Unit_B(PLW *wk) {
 s32 VS_GILL_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x40, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 64, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x3F, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 63, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x3D, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 61, -1, -1))
         return 1;
 
     return 0;
@@ -1481,22 +1481,22 @@ s32 VS_GILL_B(PLW *wk) {
 s32 VS_ALEX_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x19, 0x18, 0x16, 1, -1))
+    if (Check_Special_Technique(wk, em, 25, 24, 22, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 0x18, 0x73, 1, 0))
+    if (Check_Special_Technique(wk, em, 24, 24, 115, 1, 0))
         return 1;
 
-    if (Check_F_Cross_Chop(wk, em, 0xF))
+    if (Check_F_Cross_Chop(wk, em, 15))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x49, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 73, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x1E, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 30, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 0x28, 0x48, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 40, 72, 1, -1))
         return 1;
 
     return 0;
@@ -1505,16 +1505,16 @@ s32 VS_ALEX_B(PLW *wk) {
 s32 VS_RYU_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 2, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 2, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x10, 0x20, 4, 1, -1))
+    if (Check_Special_Technique(wk, em, 16, 32, 4, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 0x20, 5, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 32, 5, 1, -1))
         return 1;
 
     return 0;
@@ -1523,13 +1523,13 @@ s32 VS_RYU_B(PLW *wk) {
 s32 VS_YUN_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 8, 8, 0x1F, -1, -1))
+    if (Check_Special_Technique(wk, em, 8, 8, 31, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x14, 8, 0x34, 1, -1))
+    if (Check_Special_Technique(wk, em, 20, 8, 52, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x19, 0x18, 0x4A, 1, -1))
+    if (Check_Special_Technique(wk, em, 25, 24, 74, 1, -1))
         return 1;
 
     return 0;
@@ -1538,13 +1538,13 @@ s32 VS_YUN_B(PLW *wk) {
 s32 VS_DUDLEY_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 2, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 2, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x12, 8, 0x4B, 1, 0))
+    if (Check_Special_Technique(wk, em, 18, 8, 75, 1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x20, 0xC, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 32, 12, -1, -1))
         return 1;
 
     return 0;
@@ -1553,16 +1553,16 @@ s32 VS_DUDLEY_B(PLW *wk) {
 s32 VS_NECRO_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x26, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 38, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x28, -1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 40, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x11, 0x18, 0x18, 1, -1))
+    if (Check_Special_Technique(wk, em, 17, 24, 24, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 0x20, 0x29, -1, -1))
+    if (Check_Special_Technique(wk, em, 11, 32, 41, -1, -1))
         return 1;
 
     return 0;
@@ -1571,28 +1571,28 @@ s32 VS_NECRO_B(PLW *wk) {
 s32 VS_HUGO_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 2, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 2, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x3D, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 61, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x13, 0x18, 0x3A, 1, -1))
+    if (Check_Special_Technique(wk, em, 19, 24, 58, 1, -1))
         return 1;
 
-    if (Check_Limited_Attack(wk, em, 0x18, 0x20, 5, 0x7FFF))
+    if (Check_Limited_Attack(wk, em, 24, 32, 5, 32767))
         return 1;
 
-    if (Check_Limited_Attack(wk, em, 0x18, 0x20, 4, 0x7FFF))
+    if (Check_Limited_Attack(wk, em, 24, 32, 4, 32767))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x13, 0x18, 0x3E, 1, -1))
+    if (Check_Special_Technique(wk, em, 19, 24, 62, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x13, 0x38, 0x37, 1, -1))
+    if (Check_Special_Technique(wk, em, 19, 56, 55, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 0x18, 0x3D, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 24, 61, 1, -1))
         return 1;
 
     return 0;
@@ -1601,7 +1601,7 @@ s32 VS_HUGO_B(PLW *wk) {
 s32 VS_IBUKI_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 0x18, 0x1A, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 24, 26, 1, -1))
         return 1;
 
     return 0;
@@ -1610,13 +1610,13 @@ s32 VS_IBUKI_B(PLW *wk) {
 s32 VS_ELENA_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 8, 8, 0x12, -1, -1))
+    if (Check_Special_Technique(wk, em, 8, 8, 18, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x13, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 19, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 2, 0x30, 0x10, -1, -1))
+    if (Check_Special_Technique(wk, em, 2, 48, 16, -1, -1))
         return 1;
 
     return 0;
@@ -1625,7 +1625,7 @@ s32 VS_ELENA_B(PLW *wk) {
 s32 VS_ORO_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x2C, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 44, 1, -1))
         return 1;
 
     return 0;
@@ -1634,10 +1634,10 @@ s32 VS_ORO_B(PLW *wk) {
 s32 VS_KEN_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 2, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 2, 1, -1))
         return 1;
 
     return 0;
@@ -1646,16 +1646,16 @@ s32 VS_KEN_B(PLW *wk) {
 s32 VS_SEAN_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x20, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 32, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x15, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 21, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x14, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 20, 1, -1))
         return 1;
 
-    if (Check_Limited_Attack(wk, em, 0x18, 0, 5, 0x7FFF))
+    if (Check_Limited_Attack(wk, em, 24, 0, 5, 32767))
         return 1;
 
     if (Check_Rolling(wk, em))
@@ -1667,16 +1667,16 @@ s32 VS_SEAN_B(PLW *wk) {
 s32 VS_URIEN_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 8, 8, 0x41, 1, -1))
+    if (Check_Special_Technique(wk, em, 8, 8, 65, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x40, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 64, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x3F, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 63, 1, -1))
         return 1;
 
     return 0;
@@ -1685,19 +1685,19 @@ s32 VS_URIEN_B(PLW *wk) {
 s32 VS_GOUKI_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 2, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 2, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x10, 0x20, 4, 1, -1))
+    if (Check_Special_Technique(wk, em, 16, 32, 4, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x10, 0x20, 5, 1, -1))
+    if (Check_Special_Technique(wk, em, 16, 32, 5, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xD, 0x40, 0x2F, 1, -1))
+    if (Check_Special_Technique(wk, em, 13, 64, 47, 1, -1))
         return 1;
 
     return 0;
@@ -1706,16 +1706,16 @@ s32 VS_GOUKI_B(PLW *wk) {
 s32 VS_CHUN_LI_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0x4E, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 78, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x4C, 1, 0))
+    if (Check_Special_Technique(wk, em, 24, 8, 76, 1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x72, 1, 0))
+    if (Check_Special_Technique(wk, em, 15, 8, 114, 1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x15, 8, 0x4D, 1, -1))
+    if (Check_Special_Technique(wk, em, 21, 8, 77, 1, -1))
         return 1;
 
     return 0;
@@ -1724,10 +1724,10 @@ s32 VS_CHUN_LI_B(PLW *wk) {
 s32 VS_MAKOTO_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 8, 8, 0x5C, 1, -1))
+    if (Check_Special_Technique(wk, em, 8, 8, 92, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x19, 0x18, 0x5F, 1, -1))
+    if (Check_Special_Technique(wk, em, 25, 24, 95, 1, -1))
         return 1;
 
     return 0;
@@ -1736,13 +1736,13 @@ s32 VS_MAKOTO_B(PLW *wk) {
 s32 VS_Q_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x54, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 84, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x15, 8, 0x57, 1, -1))
+    if (Check_Special_Technique(wk, em, 21, 8, 87, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x19, 0x18, 0x58, 1, -1))
+    if (Check_Special_Technique(wk, em, 25, 24, 88, 1, -1))
         return 1;
 
     return 0;
@@ -1751,10 +1751,10 @@ s32 VS_Q_B(PLW *wk) {
 s32 VS_NO12_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x16, 8, 0x6B, 1, -1))
+    if (Check_Special_Technique(wk, em, 22, 8, 107, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x11, 8, 0x69, 1, -1))
+    if (Check_Special_Technique(wk, em, 17, 8, 105, 1, -1))
         return 1;
 
     return 0;
@@ -1763,7 +1763,7 @@ s32 VS_NO12_B(PLW *wk) {
 s32 VS_REMY_B(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
     return 0;
@@ -1776,10 +1776,10 @@ s32 Check_PL_Unit_CS(PLW *wk) {
 s32 VS_GILL_CS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x41, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 65, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x40, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 64, -1, -1))
         return 1;
 
     return 0;
@@ -1788,13 +1788,13 @@ s32 VS_GILL_CS(PLW *wk) {
 s32 VS_ALEX_CS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x18, 0x17, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 24, 23, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x18, 0x16, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 24, 22, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x38, 0x25, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 56, 37, -1, -1))
         return 1;
 
     return 0;
@@ -1803,19 +1803,19 @@ s32 VS_ALEX_CS(PLW *wk) {
 s32 VS_RYU_CS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 1, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 1, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x30, 3, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 48, 3, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x10, 0x20, 4, -1, -1))
+    if (Check_Special_Technique(wk, em, 16, 32, 4, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 0x20, 5, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 32, 5, 1, -1))
         return 1;
 
     return 0;
@@ -1824,13 +1824,13 @@ s32 VS_RYU_CS(PLW *wk) {
 s32 VS_YUN_CS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 0x1D, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 8, 29, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 0x24, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 36, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x18, 0x4A, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 24, 74, -1, -1))
         return 1;
 
     return 0;
@@ -1839,19 +1839,19 @@ s32 VS_YUN_CS(PLW *wk) {
 s32 VS_DUDLEY_CS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 1, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 1, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 2, -1, 0))
+    if (Check_Special_Technique(wk, em, 24, 8, 2, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x20, 0xD, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 32, 13, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 0xB, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 11, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x20, 0xC, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 32, 12, -1, -1))
         return 1;
 
     return 0;
@@ -1865,22 +1865,22 @@ s32 VS_NECRO_CS(PLW *wk) {
 s32 VS_HUGO_CS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x3D, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 61, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x3D, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 61, -1, -1))
         return 1;
 
-    if (Check_Limited_Attack(wk, em, 0x18, 0x20, 5, 0x7FFF))
+    if (Check_Limited_Attack(wk, em, 24, 32, 5, 32767))
         return 1;
 
-    if (Check_Limited_Attack(wk, em, 0x18, 0x20, 4, 0x7FFF))
+    if (Check_Limited_Attack(wk, em, 24, 32, 4, 32767))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x13, 0x18, 0x3A, -1, -1))
+    if (Check_Special_Technique(wk, em, 19, 24, 58, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 0x18, 0x3D, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 24, 61, 1, -1))
         return 1;
 
     return 0;
@@ -1889,7 +1889,7 @@ s32 VS_HUGO_CS(PLW *wk) {
 s32 VS_IBUKI_CS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 0x19, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 25, -1, -1))
         return 1;
 
     return 0;
@@ -1898,16 +1898,16 @@ s32 VS_IBUKI_CS(PLW *wk) {
 s32 VS_ELENA_CS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 0x11, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 17, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 0xE, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 14, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x20, 0xF, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 32, 15, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 2, 0x30, 0x10, -1, -1))
+    if (Check_Special_Technique(wk, em, 2, 48, 16, -1, -1))
         return 1;
 
     return 0;
@@ -1916,7 +1916,7 @@ s32 VS_ELENA_CS(PLW *wk) {
 s32 VS_ORO_CS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 0x27, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 39, -1, 0))
         return 1;
 
     return 0;
@@ -1925,16 +1925,16 @@ s32 VS_ORO_CS(PLW *wk) {
 s32 VS_KEN_CS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 1, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 1, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 8, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 8, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 6, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 6, -1, -1))
         return 1;
 
     return 0;
@@ -1943,7 +1943,7 @@ s32 VS_KEN_CS(PLW *wk) {
 s32 VS_SEAN_CS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 8, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 8, -1, -1))
         return 1;
 
     return 0;
@@ -1952,10 +1952,10 @@ s32 VS_SEAN_CS(PLW *wk) {
 s32 VS_URIEN_CS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x41, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 65, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x40, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 64, -1, -1))
         return 1;
 
     return 0;
@@ -1964,16 +1964,16 @@ s32 VS_URIEN_CS(PLW *wk) {
 s32 VS_GOUKI_CS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 1, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 1, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x10, 0x20, 4, -1, -1))
+    if (Check_Special_Technique(wk, em, 16, 32, 4, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x17, 0x20, 0x45, -1, -1))
+    if (Check_Special_Technique(wk, em, 23, 32, 69, -1, -1))
         return 1;
 
     return 0;
@@ -1982,10 +1982,10 @@ s32 VS_GOUKI_CS(PLW *wk) {
 s32 VS_CHUN_LI_CS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0x4E, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 78, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x4C, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 76, -1, -1))
         return 1;
 
     return 0;
@@ -1994,10 +1994,10 @@ s32 VS_CHUN_LI_CS(PLW *wk) {
 s32 VS_MAKOTO_CS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 8, 8, 0x5C, -1, -1))
+    if (Check_Special_Technique(wk, em, 8, 8, 92, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x18, 0x5F, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 24, 95, -1, -1))
         return 1;
 
     return 0;
@@ -2016,10 +2016,10 @@ s32 VS_NO12_CS(PLW *wk) {
 s32 VS_REMY_CS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x17, 8, 0x65, -1, 0))
+    if (Check_Special_Technique(wk, em, 23, 8, 101, -1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
     return 0;
@@ -2032,16 +2032,16 @@ s32 Check_PL_Unit_C(PLW *wk) {
 s32 VS_GILL_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x40, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 64, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x3F, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 63, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x3D, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 61, -1, -1))
         return 1;
 
     return 0;
@@ -2050,19 +2050,19 @@ s32 VS_GILL_C(PLW *wk) {
 s32 VS_ALEX_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 0x18, 0x73, 1, 0))
+    if (Check_Special_Technique(wk, em, 24, 24, 115, 1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x1E, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 30, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x49, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 73, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 0x28, 0x48, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 40, 72, 1, -1))
         return 1;
 
-    if (Check_F_Cross_Chop(wk, em, 0xF))
+    if (Check_F_Cross_Chop(wk, em, 15))
         return 1;
 
     return 0;
@@ -2071,16 +2071,16 @@ s32 VS_ALEX_C(PLW *wk) {
 s32 VS_RYU_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 2, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 2, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x10, 0x20, 4, 1, -1))
+    if (Check_Special_Technique(wk, em, 16, 32, 4, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 0x20, 5, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 32, 5, 1, -1))
         return 1;
 
     return 0;
@@ -2089,10 +2089,10 @@ s32 VS_RYU_C(PLW *wk) {
 s32 VS_YUN_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 8, 8, 0x1F, -1, -1))
+    if (Check_Special_Technique(wk, em, 8, 8, 31, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x14, 8, 0x34, 1, -1))
+    if (Check_Special_Technique(wk, em, 20, 8, 52, 1, -1))
         return 1;
 
     return 0;
@@ -2101,13 +2101,13 @@ s32 VS_YUN_C(PLW *wk) {
 s32 VS_DUDLEY_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 2, 1, 0))
+    if (Check_Special_Technique(wk, em, 24, 8, 2, 1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x12, 8, 0x4B, 1, 0))
+    if (Check_Special_Technique(wk, em, 18, 8, 75, 1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xE, 0x20, 0xC, -1, -1))
+    if (Check_Special_Technique(wk, em, 14, 32, 12, -1, -1))
         return 1;
 
     return 0;
@@ -2116,16 +2116,16 @@ s32 VS_DUDLEY_C(PLW *wk) {
 s32 VS_NECRO_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x26, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 38, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x28, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 40, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x11, 0x18, 0x18, -1, -1))
+    if (Check_Special_Technique(wk, em, 17, 24, 24, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 0x20, 0x29, -1, -1))
+    if (Check_Special_Technique(wk, em, 11, 32, 41, -1, -1))
         return 1;
 
     return 0;
@@ -2134,28 +2134,28 @@ s32 VS_NECRO_C(PLW *wk) {
 s32 VS_HUGO_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 2, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 2, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x3D, -1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 61, -1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x13, 0x18, 0x3A, 1, -1))
+    if (Check_Special_Technique(wk, em, 19, 24, 58, 1, -1))
         return 1;
 
-    if (Check_Limited_Attack(wk, em, 0x18, 0x20, 5, 0x7FFF))
+    if (Check_Limited_Attack(wk, em, 24, 32, 5, 32767))
         return 1;
 
-    if (Check_Limited_Attack(wk, em, 0x18, 0x20, 4, 0x7FFF))
+    if (Check_Limited_Attack(wk, em, 24, 32, 4, 32767))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x13, 0x18, 0x3E, 1, -1))
+    if (Check_Special_Technique(wk, em, 19, 24, 62, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x13, 0x38, 0x37, 1, -1))
+    if (Check_Special_Technique(wk, em, 19, 56, 55, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 0x18, 0x3D, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 24, 61, 1, -1))
         return 1;
 
     return 0;
@@ -2164,7 +2164,7 @@ s32 VS_HUGO_C(PLW *wk) {
 s32 VS_IBUKI_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 8, 0x18, 0x1A, 1, -1))
+    if (Check_Special_Technique(wk, em, 8, 24, 26, 1, -1))
         return 1;
 
     return 0;
@@ -2173,13 +2173,13 @@ s32 VS_IBUKI_C(PLW *wk) {
 s32 VS_ELENA_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 8, 8, 0x12, 1, -1))
+    if (Check_Special_Technique(wk, em, 8, 8, 18, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x13, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 19, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 2, 0x30, 0x10, -1, -1))
+    if (Check_Special_Technique(wk, em, 2, 48, 16, -1, -1))
         return 1;
 
     return 0;
@@ -2188,7 +2188,7 @@ s32 VS_ELENA_C(PLW *wk) {
 s32 VS_ORO_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x2C, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 44, 1, -1))
         return 1;
 
     return 0;
@@ -2197,10 +2197,10 @@ s32 VS_ORO_C(PLW *wk) {
 s32 VS_KEN_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 2, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 2, 1, -1))
         return 1;
 
     return 0;
@@ -2209,16 +2209,16 @@ s32 VS_KEN_C(PLW *wk) {
 s32 VS_SEAN_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x20, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 32, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x15, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 21, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x14, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 20, 1, -1))
         return 1;
 
-    if (Check_Limited_Attack(wk, em, 0x18, 0, 5, 0x7FFF))
+    if (Check_Limited_Attack(wk, em, 24, 0, 5, 32767))
         return 1;
 
     return 0;
@@ -2227,16 +2227,16 @@ s32 VS_SEAN_C(PLW *wk) {
 s32 VS_URIEN_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 8, 8, 0x41, 1, -1))
+    if (Check_Special_Technique(wk, em, 8, 8, 65, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x40, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 64, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x3F, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 63, 1, -1))
         return 1;
 
     return 0;
@@ -2245,13 +2245,13 @@ s32 VS_URIEN_C(PLW *wk) {
 s32 VS_GOUKI_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 2, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 2, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x10, 0x20, 4, 1, -1))
+    if (Check_Special_Technique(wk, em, 16, 32, 4, 1, -1))
         return 1;
 
     return 0;
@@ -2260,16 +2260,16 @@ s32 VS_GOUKI_C(PLW *wk) {
 s32 VS_CHUN_LI_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x4C, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 76, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x72, 1, 0))
+    if (Check_Special_Technique(wk, em, 15, 8, 114, 1, 0))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x15, 8, 0x4D, 1, -1))
+    if (Check_Special_Technique(wk, em, 21, 8, 77, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0x4E, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 78, 1, -1))
         return 1;
 
     return 0;
@@ -2278,10 +2278,10 @@ s32 VS_CHUN_LI_C(PLW *wk) {
 s32 VS_MAKOTO_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 8, 8, 0x5C, 1, -1))
+    if (Check_Special_Technique(wk, em, 8, 8, 92, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x19, 0x18, 0x5F, 1, -1))
+    if (Check_Special_Technique(wk, em, 25, 24, 95, 1, -1))
         return 1;
 
     return 0;
@@ -2290,10 +2290,10 @@ s32 VS_MAKOTO_C(PLW *wk) {
 s32 VS_Q_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x18, 8, 0x54, 1, -1))
+    if (Check_Special_Technique(wk, em, 24, 8, 84, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x15, 8, 0x57, 1, -1))
+    if (Check_Special_Technique(wk, em, 21, 8, 87, 1, -1))
         return 1;
 
     return 0;
@@ -2302,10 +2302,10 @@ s32 VS_Q_C(PLW *wk) {
 s32 VS_NO12_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0x16, 8, 0x6B, 1, -1))
+    if (Check_Special_Technique(wk, em, 22, 8, 107, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0x11, 8, 0x69, 1, -1))
+    if (Check_Special_Technique(wk, em, 17, 8, 105, 1, -1))
         return 1;
 
     return 0;
@@ -2314,7 +2314,7 @@ s32 VS_NO12_C(PLW *wk) {
 s32 VS_REMY_C(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 8, 0, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 8, 0, 1, -1))
         return 1;
 
     return 0;
@@ -2337,7 +2337,7 @@ s32 VS_ALEX_DS(PLW *wk) {
 s32 VS_RYU_DS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 0x20, 5, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 32, 5, 1, -1))
         return 1;
 
     return 0;
@@ -2371,7 +2371,7 @@ s32 VS_HUGO_DS(PLW *wk) {
 s32 VS_ELENA_DS(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 2, 0x30, 0x10, -1, -1))
+    if (Check_Special_Technique(wk, em, 2, 48, 16, -1, -1))
         return 1;
 
     return 0;
@@ -2420,8 +2420,8 @@ s32 VS_Q_DS(PLW *wk) {
 s32 VS_NO12_DS(PLW *wk) {
     PLW *em = (PLW *)wk->wu.target_adrs;
 
-    if (Check_VS_Jump(wk, em, 0x20)) {
-        VS_Tech[wk->wu.id] = 0xF;
+    if (Check_VS_Jump(wk, em, 32)) {
+        VS_Tech[wk->wu.id] = 15;
         return 1;
     }
 
@@ -2450,7 +2450,7 @@ s32 VS_ALEX_D(PLW *wk) {
 s32 VS_RYU_D(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xB, 0x20, 5, 1, -1))
+    if (Check_Special_Technique(wk, em, 11, 32, 5, 1, -1))
         return 1;
 
     return 0;
@@ -2484,7 +2484,7 @@ s32 VS_IBUKI_D(PLW *wk) {
 s32 VS_ELENA_D(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 2, 0x30, 0x10, -1, -1))
+    if (Check_Special_Technique(wk, em, 2, 48, 16, -1, -1))
         return 1;
 
     return 0;
@@ -2508,7 +2508,7 @@ s32 VS_SEAN_D(PLW *wk) {
 s32 VS_URIEN_D(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 0xC, 8, 0x3F, 1, 0xC))
+    if (Check_Special_Technique(wk, em, 12, 8, 63, 1, 12))
         return 1;
 
     return 0;
@@ -2537,10 +2537,10 @@ s32 VS_Q_D(PLW *wk) {
 s32 VS_NO12_D(PLW *wk) {
     WORK *em = (WORK *)wk->wu.target_adrs;
 
-    if (Check_Special_Technique(wk, em, 8, 8, 0x69, 1, -1))
+    if (Check_Special_Technique(wk, em, 8, 8, 105, 1, -1))
         return 1;
 
-    if (Check_Special_Technique(wk, em, 0xF, 8, 0x6B, 1, -1))
+    if (Check_Special_Technique(wk, em, 15, 8, 107, 1, -1))
         return 1;
 
     return 0;
