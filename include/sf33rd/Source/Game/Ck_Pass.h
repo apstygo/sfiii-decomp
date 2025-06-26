@@ -33,7 +33,7 @@ s32 Check_Limited_Jump_Attack(PLW *wk, WORK *em, u8 PL_Status, s8 Status_00);
 s32 Check_Stand(PLW *wk, WORK *em, s16 VS_Technique);
 s32 Setup_Next_Stand_Timer(PLW *wk);
 s32 Check_VS_Squat(PLW *wk, WORK *em, s16 VS_Technique, u8 Status_00, u8 Status_01);
-s32 Setup_Next_Squat_Timer();
+s32 Setup_Next_Squat_Timer(PLW *wk);
 s32 Check_Thrown(PLW *wk, WORK *em);
 s32 Check_Catch(PLW *wk, WORK *em, s16 VS_Technique);
 s32 Check_Lie(PLW *wk);

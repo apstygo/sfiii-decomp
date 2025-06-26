@@ -379,14 +379,43 @@ void GILL_vs(PLW *wk) {
     return;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Ck_Pass", Check_Special_Technique);
-#else
 s32 Check_Special_Technique(PLW *wk, WORK *em, s16 VS_Technique, u8 Kind_of_Tech, u8 SP_Tech_ID, s16 Option,
                             s16 Option2) {
-    not_implemented(__func__);
+    u8 xx;
+
+    if (Option == 8 && Attack_Flag[wk->wu.id] != 0)
+        return 0;
+
+    if (VS_Technique != 23 && Check_Attack_Direction(wk, em))
+        return 0;
+
+    if (Last_Attack_Counter[wk->wu.id] == Attack_Counter[wk->wu.id])
+        return 0;
+
+    xx = em->kind_of_waza & 0xF8;
+
+    if (xx == Kind_of_Tech && (em->sp_tech_id == SP_Tech_ID)) {
+        if ((Option2 == -1 || !(Option2 & 8))) {
+            if (Option2 == (em->kind_of_waza & 6)) {
+                Last_Attack_Counter[(wk->wu.id)] = Attack_Counter[(wk->wu.id)];
+                return 0;
+            }
+        } else if (!((Option2 & 6) & (em->kind_of_waza & 6)))
+            return 0;
+
+        if (Option == 8)
+            Counter_Attack[(wk->wu.id)] = 1;
+
+        if (Option == 1)
+            Counter_Attack[(wk->wu.id)] = 1;
+
+        VS_Tech[wk->wu.id] = VS_Technique;
+
+        return PASSIVE_X = 1;
+    }
+
+    return 0;
 }
-#endif
 
 s32 Check_Attack_Direction(PLW *wk, WORK *em) {
     if (wk->wu.xyz[0].disp.pos < em->xyz[0].disp.pos) {
@@ -484,21 +513,56 @@ s32 Check_Dash(PLW *wk, WORK *em, s16 VS_Technique) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Ck_Pass", Check_Limited_Attack);
-#else
 s32 Check_Limited_Attack(PLW *wk, WORK *em, s16 VS_Technique, u8 PL_Status, s8 Status_00, s16 Limit_Number) {
-    not_implemented(__func__);
-}
-#endif
+    s16 xx;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Ck_Pass", Check_Limited_Jump_Attack);
-#else
-s32 Check_Limited_Jump_Attack(PLW *wk, WORK *em, u8 PL_Status, s8 Status_00) {
-    not_implemented(__func__);
+    if (Attack_Flag[wk->wu.id] == 0)
+        return 0;
+
+    if (Last_Attack_Counter[wk->wu.id] == Attack_Counter[wk->wu.id])
+        return 0;
+
+    if (em->pat_status == PL_Status) {
+        if (em->kind_of_waza != Status_00) {
+        zero:
+            return 0;
+        }
+
+        xx = (em->cg_ix / em->cgd_type);
+
+        if ((((PLW *)em)->player_number == 17) && (VS_Technique == 7)) {
+            Limit_Number += 1;
+        }
+
+        if ((((PLW *)em)->player_number == 10) && (VS_Technique == 7)) {
+            Limit_Number += 1;
+        }
+
+        if ((((PLW *)em)->player_number == 3) && (VS_Technique == 7)) {
+            Limit_Number += 2;
+        }
+
+        if (xx > Limit_Number) {
+            return 0;
+        }
+
+        VS_Tech[wk->wu.id] = VS_Technique;
+        Limited_Flag[wk->wu.id] = 1;
+        Counter_Attack[wk->wu.id] = 1;
+    } else {
+        goto zero;
+    }
+
+    return PASSIVE_X = 1;
 }
-#endif
+
+s32 Check_Limited_Jump_Attack(PLW *wk, WORK *em, u8 PL_Status, s8 Status_00) {
+    if ((em->pat_status != PL_Status) || (em->kind_of_waza != Status_00)) {
+        return 0;
+    }
+
+    return 1;
+}
 
 s32 Check_Stand(PLW *wk, WORK *em, s16 VS_Technique) {
     if (Attack_Flag[wk->wu.id])
@@ -516,13 +580,13 @@ s32 Check_Stand(PLW *wk, WORK *em, s16 VS_Technique) {
     return PASSIVE_X = 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Ck_Pass", Setup_Next_Stand_Timer);
-#else
 s32 Setup_Next_Stand_Timer(PLW *wk) {
-    not_implemented(__func__);
+    if (EM_Rank != 0) {
+        return Standing_Time_Data[17][Area_Number[wk->wu.id]][(random_16_com() & 7)];
+    }
+
+    return Standing_Time_Data[wk->player_number][Area_Number[wk->wu.id]][(random_16_com() & 7)];
 }
-#endif
 
 s32 Check_VS_Squat(PLW *wk, WORK *em, s16 VS_Technique, u8 Status_00, u8 Status_01) {
     if (Attack_Flag[wk->wu.id])
@@ -546,21 +610,42 @@ s32 Check_VS_Squat(PLW *wk, WORK *em, s16 VS_Technique, u8 Status_00, u8 Status_
     return PASSIVE_X = 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Ck_Pass", Setup_Next_Squat_Timer);
-#else
-s32 Setup_Next_Squat_Timer() {
-    not_implemented(__func__);
+s32 Setup_Next_Squat_Timer(PLW *wk) {
+    return Squat_Time_Data[Setup_Lv08(0)][(random_16_com() & 7)];
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Ck_Pass", Check_Thrown);
-#else
 s32 Check_Thrown(PLW *wk, WORK *em) {
-    not_implemented(__func__);
+    s16 Rnd;
+    s16 x;
+
+    if (em->xyz[1].disp.pos)
+        return 0;
+
+    x = Setup_VS_Catch_Data(wk);
+    Rnd = random_32_com();
+
+    if (x < Rnd)
+        return 0;
+
+    switch (Area_Number[wk->wu.id]) {
+    case 0:
+        if (Check_Catch(wk, em, 25))
+            return 1;
+
+        break;
+
+    case 1:
+        if (Check_Catch(wk, em, 25))
+            return 1;
+
+        break;
+
+    default:
+        break;
+    }
+
+    return 0;
 }
-#endif
 
 s32 Check_Catch(PLW *wk, WORK *em, s16 VS_Technique) {
     u16 xx;
@@ -620,13 +705,23 @@ s32 Check_Faint(PLW *wk, PLW *enemy, s16 VS_Technique) {
     return Counter_Attack[wk->wu.id] = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Ck_Pass", Check_Blow_Off);
-#else
 s32 Check_Blow_Off(PLW *wk, WORK *em, s16 VS_Technique) {
-    not_implemented(__func__);
+    if (em->routine_no[1] != 1) {
+        return 0;
+    }
+
+    if (PL_Blow_Off_Data[em->routine_no[2]] == 0) {
+        return 0;
+    }
+
+    if (em->xyz[1].disp.pos == 0) {
+        return 0;
+    }
+
+    VS_Tech[(wk->wu.id)] = VS_Technique;
+
+    return PASSIVE_X = 1;
 }
-#endif
 
 s32 Check_After_Attack(PLW *wk, WORK *em, s16 VS_Technique) {
     u8 xx;
