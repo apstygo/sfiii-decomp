@@ -2665,7 +2665,6 @@ typedef struct {
     QWORD texflush; // offset 0x30, size 0x10
 } FLPS2LoadEndData; // Not Sure about this name
 
-<<<<<<< caldir
 typedef union {
     signed int psi; // offset 0x0, size 0x4
     struct /* @anon6 */ {
@@ -2674,7 +2673,7 @@ typedef union {
         signed short h; // offset 0x2, size 0x2
     } pss;              // offset 0x0, size 0x4
 } MS;
-=======
+
 typedef struct {
     // total size: 0x4
     u8 r; // offset 0x0, size 0x1
@@ -2722,6 +2721,5 @@ typedef struct {
     u32 uni_table;         // offset 0x94, size 0x4
     u32 uni_ascii;         // offset 0x98, size 0x4
 } Kanji_W;
->>>>>>> main
 
 #endif
