@@ -57,5 +57,7 @@ void Hi_Jump_Command_Attack_Term(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Pow
 void Next_Another_Menu(PLW *wk, s16 Next_Action, u16 Next_Menu);
 void ETC_Term(PLW *wk, s16 Exit_No, u32 Next_Action, u16 Next_Menu);
 s32 Select_Passive(PLW *wk);
+s32 Setup_Lv08(s16 xx);
+s32 Setup_VS_Catch_Data(PLW *wk);
 
 #endif
