@@ -1,6 +1,7 @@
 #include "sf33rd/Source/Game/Ck_Pass.h"
 #include "common.h"
 #include "sf33rd/Source/Game/Com_Data.h"
+#include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/workuser.h"
 
@@ -626,8 +627,8 @@ s32 Check_After_Attack(PLW *wk, WORK *em, s16 VS_Technique) {
 
     Last_Attack_Counter[wk->wu.id] = Attack_Counter[wk->wu.id];
 
-    if (!(em->kind_of_waza & 32) && !(em->kind_of_waza & 48) && !(em->kind_of_waza & 40) &&
-        !(em->kind_of_waza & 56) && !(em->kind_of_waza & 8)) {
+    if (!(em->kind_of_waza & 32) && !(em->kind_of_waza & 48) && !(em->kind_of_waza & 40) && !(em->kind_of_waza & 56) &&
+        !(em->kind_of_waza & 8)) {
         xx = em->kind_of_waza & 6;
 
         if (xx == 0)
