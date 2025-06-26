@@ -80,7 +80,7 @@ void flPS2DebugStrDisp() {
     u64 *giftag_keep_ptr;
     u32 code;
     u32 disp_ctr;
-    s32 length;
+    ptrdiff_t length;
     s32 lp0;
     u32 col;
     u32 colold;
@@ -174,7 +174,7 @@ void flPS2DebugStrDisp() {
             buff_ptr++;
         }
 
-        flPs2State.SystemTmpBuffNow = (u32)work_ptr;
+        flPs2State.SystemTmpBuffNow = (uintptr_t)work_ptr;
 
         if (disp_ctr != 0) {
             *giftag_keep_ptr++ = SCE_GIF_SET_TAG(disp_ctr, 1, 0, 0, SCE_GIF_REGLIST, 6);
@@ -190,8 +190,8 @@ void flPS2DebugStrDisp() {
         *work_ptr = length + 0x6FFFFFFF;
         ((u32 *)work_ptr)[0] |= 0x80000000;
         ((u32 *)work_ptr)[2] = 0x13000000;
-        ((u32 *)work_ptr)[3] = (length - 1) | 0x51000000;
-        flPS2DmaAddQueue2(0, ((u32)keep_ptr & 0xFFFFFFF) | 0x40000000, (u32)keep_ptr, &flPs2VIF1Control);
+        ((u32 *)work_ptr)[3] = (u32)((length - 1) | 0x51000000);
+        flPS2DmaAddQueue2(0, ((uintptr_t)keep_ptr & 0xFFFFFFF) | 0x40000000, (uintptr_t)keep_ptr, &flPs2VIF1Control);
     }
 
     flPS2DebugStrClear();
@@ -201,7 +201,7 @@ s32 flPrintL(s32 posi_x, s32 posi_y, const s8 *format, ...) {
     s8 *va_ptr;
     s8 code;
     s8 str[512];
-    s32 len;
+    strlen_t len;
     s32 i;
     RenderBuffer *buff_ptr;
 
@@ -221,8 +221,7 @@ s32 flPrintL(s32 posi_x, s32 posi_y, const s8 *format, ...) {
     for (i = 0; i < len; i++) {
         code = str[i];
 
-        // code != 0x20 skips spaces
-        if ((code >= 0x10) && (code < 0x80) && (code != 0x20)) {
+        if ((code >= 0x10) && (code < 0x80) && (code != ' ')) {
             buff_ptr->x = posi_x * 8;
             buff_ptr->y = posi_y * 8;
             buff_ptr->code = code;
@@ -465,7 +464,7 @@ void flPS2LoadCheckFlush() {
 void flPS2SystemError(s32 error_level, s8 *format, ...) {
     va_list args;
     s8 str[512];
-    s32 len;
+    strlen_t len;
 
     flFlip(0);
     va_start(args, format);

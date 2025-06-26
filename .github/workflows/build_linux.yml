@@ -8,16 +8,18 @@ on:
 
 jobs:
     build:
-        runs-on: ubuntu-22.04
+        runs-on: ubuntu-latest
+        container:
+            image: ubuntu:25.04
 
         steps:
           - name: Checkout repository
             uses: actions/checkout@v4
 
-          - name: Install Clang
+          - name: Install dependencies
             run: |
-                sudo apt update
-                sudo apt install -y clang
+                apt update
+                apt install -y build-essential make cmake clang libsdl3-0 libsdl3-dev
 
           - name: Build for Linux
             run: |

@@ -14,6 +14,9 @@ jobs:
           - name: Checkout repository
             uses: actions/checkout@v4
 
+          - name: Install SDL3
+            run: brew install sdl3
+
           - name: Build for macOS
             run: |
                 set -o pipefail

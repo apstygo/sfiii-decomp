@@ -197,12 +197,12 @@ typedef signed int				Sint32;		/* 符号つき４バイト整数 */
 
 #ifndef _TYPEDEF_Uint32
 #define _TYPEDEF_Uint32
-typedef unsigned long			Uint32;		/* 符号なし４バイト整数 */
+typedef unsigned int			Uint32;		/* 符号なし４バイト整数 */
 #endif
 
 #ifndef _TYPEDEF_Sint32
 #define _TYPEDEF_Sint32
-typedef signed long				Sint32;		/* 符号つき４バイト整数 */
+typedef signed int				Sint32;		/* 符号つき４バイト整数 */
 #endif
 
 #endif /* endif 他すべてのターゲット */

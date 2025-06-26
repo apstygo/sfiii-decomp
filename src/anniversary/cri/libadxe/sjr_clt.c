@@ -8,27 +8,27 @@ Sint32 sjrmt_init_cnt = 0;
 
 // bss
 #if defined(TARGET_PS2)
-extern Sint32 D_006C0240[64];
-extern Sint32 D_006C0140[52];
+extern intptr_t D_006C0240[64];
+extern intptr_t D_006C0140[52];
 #else
-Sint32 D_006C0240[64];
-Sint32 D_006C0140[52];
+intptr_t D_006C0240[64]; // sjr_rpc_rcv_buf
+intptr_t D_006C0140[52]; // sjr_rpc_snd_buf
 #endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sjr_clt", SJRBF_CreateRmt);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sjr_clt", SJMEM_CreateRmt);
 
-Sint32 SJUNI_CreateRmt(Sint32 arg0, Sint8 *arg1, Sint32 arg2) {
+void *SJUNI_CreateRmt(Sint32 arg0, Sint8 *arg1, Sint32 arg2) {
     D_006C0140[0] = arg0;
-    D_006C0140[1] = arg1;
+    D_006C0140[1] = (intptr_t)arg1;
     D_006C0140[2] = arg2;
     DTX_CallUrpc(34, D_006C0140, 3, D_006C0240, 1);
-    return D_006C0240[0];
+    return (void *)D_006C0240[0];
 }
 
-void SJRMT_Destroy(Sint32 sjrmt_han) {
-    D_006C0140[0] = sjrmt_han;
+void SJRMT_Destroy(void *sjrmt) {
+    D_006C0140[0] = sjrmt;
     DTX_CallUrpc(35, D_006C0140, 1, NULL, 0);
 }
 

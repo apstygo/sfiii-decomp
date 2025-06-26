@@ -159,7 +159,7 @@ void dvCiEntryErrFunc(void (*func)(void *, const Char8 *, void *), void *obj) {
 }
 
 void dvci_to_large_to_yen(Char8 *path) {
-    Uint32 len = strlen(path);
+    size_t len = strlen(path);
     Sint32 i;
 
     for (i = 0; i < len; i++) {
