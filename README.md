@@ -25,6 +25,6 @@ Join `PS1/PS2 Decompilation` server on Discord to discuss the project and ask qu
 
 [![Join the Discord](https://dcbadge.limes.pink/api/server/https://discord.gg/tch8h5Vw8E)](https://discord.gg/https://discord.gg/tch8h5Vw8E)
 
-## Licences
+## Licenses
 
 - Uses libco from the [ares](https://github.com/ares-emulator/ares) emulator
