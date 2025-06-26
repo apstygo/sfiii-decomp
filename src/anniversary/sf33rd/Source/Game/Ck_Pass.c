@@ -516,7 +516,13 @@ s32 Check_Stand(PLW *wk, WORK *em, s16 VS_Technique) {
     return PASSIVE_X = 1;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Ck_Pass", Setup_Next_Stand_Timer);
+#else
+s32 Setup_Next_Stand_Timer(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 s32 Check_VS_Squat(PLW *wk, WORK *em, s16 VS_Technique, u8 Status_00, u8 Status_01) {
     if (Attack_Flag[wk->wu.id])
@@ -540,7 +546,13 @@ s32 Check_VS_Squat(PLW *wk, WORK *em, s16 VS_Technique, u8 Status_00, u8 Status_
     return PASSIVE_X = 1;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Ck_Pass", Setup_Next_Squat_Timer);
+#else
+s32 Setup_Next_Squat_Timer() {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Ck_Pass", Check_Thrown);
