@@ -2713,4 +2713,20 @@ typedef struct {
     u32 uni_ascii;         // offset 0x98, size 0x4
 } Kanji_W;
 
+typedef struct {
+    // total size: 0x1C
+    s16 x_pos_num;   // offset 0x0, size 0x2
+    s8 routine_num;  // offset 0x2, size 0x1
+    u8 hit_hi;       // offset 0x3, size 0x1
+    u8 hit_low;      // offset 0x4, size 0x1
+    s8 kind;         // offset 0x5, size 0x1
+    u32 pts;         // offset 0x8, size 0x4
+    s8 pts_digit[4]; // offset 0xC, size 0x4
+    s8 pts_flag;     // offset 0x10, size 0x1
+    s8 first_digit;  // offset 0x11, size 0x1
+    u8 move[2];      // offset 0x12, size 0x2
+    u8 x_posnum[2];  // offset 0x14, size 0x2
+    s16 timer[2];    // offset 0x16, size 0x4
+} CMST_BUFF;
+
 #endif
