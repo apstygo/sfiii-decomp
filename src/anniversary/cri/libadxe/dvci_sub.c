@@ -100,8 +100,14 @@ Sint32 dvci_stricmp(const Char8 *a, const Char8 *b) {
 Sint32 analysis_flist_003DC6A0(Sint8 *, Sint8 *, Sint32, Sint32, Sint32);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", analysis_flist_003DC6A0);
 #else
-Sint32 analysis_flist_003DC6A0(Sint8 *, Sint8 *, Sint32, Sint32, Sint32) {
-    not_implemented(__func__);
+// This is a kludge, not a decompilation
+Sint32 analysis_flist_003DC6A0(Sint8 *fcbuf, Sint8 *filelist_buf, Sint32 arg2, Sint32 arg3, Sint32 arg4) {
+    strcpy(fcbuf + 0x140, "SF33RD.AFS");
+    dvg_flist_tbl.unk0 = (uintptr_t)fcbuf;
+    dvg_flist_tbl.unk4 = 1;
+    dvg_flist_tbl.unk8 = arg3;
+    dvg_flist_tbl.unkC = arg4;
+    return 1;
 }
 #endif
 

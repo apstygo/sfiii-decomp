@@ -425,7 +425,7 @@ typedef struct {
 } DVG_FLIST_SUB;
 
 typedef struct {
-    Sint32 unk0;
+    uintptr_t unk0;
     Sint32 unk4;
     Sint32 unk8;
     Sint32 unkC;
