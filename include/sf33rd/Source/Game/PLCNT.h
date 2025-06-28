@@ -98,6 +98,8 @@ extern char cmd_sel[2];
 extern s8 vib_sel[2]; // size: 0x2, address: 0x579488
 extern s16 sag_inc_timer[2];
 extern char no_sa[2];
+extern ComboType combo_type[2];
+extern ComboType remake_power[2];
 
 extern PLW plw[2]; // size: 0x8D8, address: 0x5E4D20
 
@@ -106,5 +108,6 @@ void reqPlayerDraw();
 void erase_extra_plef_work();
 void set_kizetsu_status(s16 ix);
 void set_super_arts_status(s16 ix);
+s16 check_combo_end(s16 ix);
 
 #endif

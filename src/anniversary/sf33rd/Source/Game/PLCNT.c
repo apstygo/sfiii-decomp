@@ -216,6 +216,12 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", set_super_a
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", clear_super_arts_point);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", check_combo_end);
+#else
+s16 check_combo_end(s16 ix) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", set_scrrrl);
