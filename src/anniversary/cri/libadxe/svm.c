@@ -28,7 +28,7 @@ typedef struct {
 } SVMSVRCallback;
 
 typedef struct {
-    Sint32 unk0;
+    void (*unk0)();
     Sint32 unk4;
 } SVM_UNK;
 
@@ -216,7 +216,7 @@ void SVM_SetCbSvrId(Sint32 svtype, Sint32 id, Sint32 (*func)(void *), void *obje
     SVM_Unlock();
 }
 
-void SVM_SetCbBdr(Sint32 arg0, Sint32 arg1, Sint32 arg2) {
+void SVM_SetCbBdr(Sint32 arg0, void (*arg1)(), Sint32 arg2) {
     SVM_Lock();
     D_006C04E0[arg0].unk0 = arg1;
     D_006C04E0[arg0].unk4 = arg2;
