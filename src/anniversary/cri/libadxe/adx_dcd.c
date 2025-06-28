@@ -9,7 +9,13 @@
 // data
 Sint32 adx_decode_output_mono_flag = 0;
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_dcd", ADX_GetCoefficient);
+#else
+void ADX_GetCoefficient(Sint16 *, Sint32, Sint16 *, Sint16 *) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_dcd", ADX_ScanInfoCode);
 
