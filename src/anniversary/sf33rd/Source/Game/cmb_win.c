@@ -190,7 +190,13 @@ void check_and_set_combo(s8 PL) {
     combo_hensuu_clear(PL);
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/cmb_win", combo_hensuu_clear);
+#else
+void combo_hensuu_clear(s8 PL) {
+    not_implemented(__func__);
+}
+#endif
 
 void combo_rp_clear_check(s8 PL) {
     if (plw[PL].wu.routine_no[1] != 1 || plw[PL].wu.routine_no[2] != 17 || plw[PL].wu.routine_no[3] == 0 ||
@@ -400,7 +406,13 @@ void SCORE_PLUS(s8 PL, u32 PTS) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/cmb_win", combo_window_push);
+#else
+void combo_window_push(s8 PL, s8 KIND) {
+    not_implemented(__func__);
+}
+#endif
 
 void combo_window_trans(s8 PL) {
     s8 PLS;
@@ -616,4 +628,10 @@ void combo_window_trans(s8 PL) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/cmb_win", training_disp_data_set);
+#else
+void training_disp_data_set(s8 PL, s16 hnum) {
+    not_implemented(__func__);
+}
+#endif
