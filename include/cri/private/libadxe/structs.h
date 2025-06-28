@@ -12,12 +12,17 @@
 // ADXPD
 
 typedef struct {
-    /* 0x00 */ char pad0[0x10];
-    /* 0x10 */ Sint32 unk10;
-    /* 0x14 */ char pad14[0xC];
+    /* 0x00 */ Sint32 unk0;
+    /* 0x04 */ Sint32 unk4;
+    /* 0x08 */ Sint32 mode;
+    /* 0x0C */ Sint32 Stat;
+    /* 0x10 */ Sint32 NumBlk;
+    /* 0x14 */ Sint32 unk14;
+    /* 0x18 */ Sint32 unk18;
+    /* 0x1C */ Sint32 unk1C;
     /* 0x20 */ Sint32 unk20;
     /* 0x24 */ Sint32 unk24;
-    /* 0x28 */ char pad28[0x14];
+    /* 0x28 */ Sint16 unk28[10];
 } ADXPD_OBJ;
 
 typedef ADXPD_OBJ *ADXPD;
