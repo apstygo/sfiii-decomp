@@ -56,8 +56,8 @@ void combo_cont_init() {
         cmb_calc_now[i] = 0;
         cst_read[i] = 0;
         cst_write[i] = 0;
-        work_init_zero(&combo_type[i], 0xA8);
-        work_init_zero(&remake_power[i], 0xA8);
+        work_init_zero((s32 *)&combo_type[i], 0xA8);
+        work_init_zero((s32 *)&remake_power[i], 0xA8);
         memset(calc_hit[i], 0, 0x14);
         memset(score_calc[i], 0, 0x18);
         i++;
@@ -201,7 +201,7 @@ void combo_hensuu_clear(s8 PL) {
 void combo_rp_clear_check(s8 PL) {
     if (plw[PL].wu.routine_no[1] != 1 || plw[PL].wu.routine_no[2] != 17 || plw[PL].wu.routine_no[3] == 0 ||
         plw[PL].wu.routine_no[3] == 3) {
-        work_init_zero(plw[PL].rp, 0xA8);
+        work_init_zero((s32 *)plw[PL].rp, 0xA8);
     }
 }
 
