@@ -4,7 +4,7 @@
 #include "structs.h"
 #include "types.h"
 
-extern s16 eff_hit_flag[11]; // size: 0x16, address: 0x579A70
+extern s16 eff_hit_flag[11];
 
 void sync_fam_set3(s16 my_fam);
 void win_lose_work_clear();
