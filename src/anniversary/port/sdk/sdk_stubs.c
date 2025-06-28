@@ -46,8 +46,8 @@ int sceCdMmode(int media) {
 
 #define AFS_LENGTH 642492416
 #define AFS_START_LSN 0x100
-#define AFS_LSN_COUNT ((AFS_LENGTH + 2047) / 2048)
-#define AFS_END_LSN (AFS_START_LSN + AFS_LSN_COUNT)
+#define AFS_SECTOR_COUNT ((AFS_LENGTH + 2047) / 2048)
+#define AFS_END_LSN (AFS_START_LSN + AFS_SECTOR_COUNT)
 
 static const char flist_path[] = "\\THIRD\\0FLIST.DIR;1";
 static const char afs_path[] = "\\THIRD\\SF33RD.AFS;1";

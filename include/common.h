@@ -51,6 +51,7 @@ __asm__(".include \"include/cri_macro.inc\"\n");
 
 void fatal_error(const s8 *fmt, ...) __dead2;
 void not_implemented(const s8 *func) __dead2;
+void debug_print(const char *fmt, ...);
 
 #endif
 

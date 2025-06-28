@@ -32,9 +32,24 @@ static Thread *current_thread = NULL;
 static Thread *ready_queue[READY_QUEUE_SIZE];
 static int thread_count = 0;
 static bool interrupt = false;
+static bool logging_enabled = false;
+
+static void log(const char *fmt, ...) {
+#if defined(DEBUG)
+    if (!logging_enabled) {
+        return;
+    }
+
+    va_list args;
+    va_start(args, fmt);
+    vfprintf(stdout, fmt, args);
+    fprintf(stdout, "\n");
+    va_end(args);
+#endif
+}
 
 static void switch_to_current_thread() {
-    printf("🧵 Switching to [%d]\n", current_thread->id);
+    log("🧵 Switching to [%d]\n", current_thread->id);
     co_switch(current_thread->cothread);
 }
 
@@ -194,7 +209,7 @@ int CreateThread(struct ThreadParam *param) {
 
     thread_count += 1;
 
-    printf("🧵 Created [%d]\n", new_thread->id);
+    log("🧵 Created [%d]\n", new_thread->id);
 
     return new_thread->id;
 }
@@ -217,7 +232,7 @@ int StartThread(int tid, void *arg) {
     thread->state = THS_READY;
     append_to_ready_queue(thread);
 
-    printf("🧵 Started [%d]\n", thread->id);
+    log("🧵 Started [%d]\n", thread->id);
 
     return thread->id;
 }
@@ -225,7 +240,7 @@ int StartThread(int tid, void *arg) {
 int SleepThread(void) {
     initialize_if_needed();
 
-    printf("🧵 Sleeping [%d]\n", current_thread->id);
+    log("🧵 Sleeping [%d]\n", current_thread->id);
 
     if (current_thread->wakeup_request_count > 0) {
         current_thread->wakeup_request_count -= 1;
@@ -261,7 +276,7 @@ static int wakeup_thread(int tid, bool irq) {
 
     Thread *thread = &threads[tid - 1];
 
-    printf("🧵 Waking up [%d]\n", thread->id);
+    log("🧵 Waking up [%d]\n", thread->id);
 
     switch (thread->state) {
     case THS_WAIT:
@@ -313,7 +328,7 @@ int SuspendThread(int tid) {
 
     Thread *thread = &threads[tid - 1];
 
-    printf("🧵 Suspending [%d]\n", thread->id);
+    log("🧵 Suspending [%d]\n", thread->id);
 
     switch (thread->state) {
     case THS_WAIT:
@@ -358,7 +373,7 @@ int ResumeThread(int tid) {
 
     Thread *thread = &threads[tid - 1];
 
-    printf("🧵 Resuming thread %d\n", thread->id);
+    log("🧵 Resuming thread %d\n", thread->id);
 
     switch (thread->state) {
     case THS_SUSPEND:
@@ -417,7 +432,7 @@ int ChangeThreadPriority(int tid, int prio) {
     bool reschedule_needed = false;
     const int current_highest_priority = highest_priority();
 
-    printf("🧵 Changing priority of [%d] from %d to %d\n", thread->id, old_priority, prio);
+    log("🧵 Changing priority of [%d] from %d to %d\n", thread->id, old_priority, prio);
 
     switch (thread->state) {
     case THS_RUN:
