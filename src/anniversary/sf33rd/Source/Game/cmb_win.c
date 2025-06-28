@@ -190,13 +190,16 @@ void check_and_set_combo(s8 PL) {
     combo_hensuu_clear(PL);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/cmb_win", combo_hensuu_clear);
-#else
 void combo_hensuu_clear(s8 PL) {
-    not_implemented(__func__);
+    work_init_zero((s32 *)plw[PL].cb, 0xA8);
+    combo_rp_clear_check(PL);
+    memset(calc_hit[PL], 0, 0x14);
+    memset(score_calc[PL], 0, 0x18);
+    bonus_pts[PL] = 0;
+    plw[PL].cb->total = 0;
+    hit_num = 0;
+    tr_data[PL].total_damage = 0;
 }
-#endif
 
 void combo_rp_clear_check(s8 PL) {
     if (plw[PL].wu.routine_no[1] != 1 || plw[PL].wu.routine_no[2] != 17 || plw[PL].wu.routine_no[3] == 0 ||
@@ -406,13 +409,153 @@ void SCORE_PLUS(s8 PL, u32 PTS) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/cmb_win", combo_window_push);
-#else
 void combo_window_push(s8 PL, s8 KIND) {
-    not_implemented(__func__);
+    u32 score;
+    s8 PLS;
+    u32 Pts_Buff;
+    s32 xx;
+    s16 i;
+
+    s32 assign1;
+    s32 assign2;
+
+    if (KIND < 3) {
+        score = SCORE_CALCULATION(PL);
+        grade_max_combo_check(PL ^ 1, hit_num);
+    }
+
+    if (PL == 0) {
+        PLS = 1;
+    } else {
+        PLS = 0;
+    }
+
+    if (cmb_stock[PL] == 5) {
+        switch (KIND) {
+        case 2:
+            if (sa_kind == 2) {
+                score += 20000;
+            } else {
+                score += 30000;
+            }
+            break;
+
+        case 3:
+            if (sa_kind == 2) {
+                score = 20000;
+            } else {
+                score = 30000;
+            }
+            break;
+
+        case 4:
+            score = 1500;
+            grade_get_first_attack(PLS);
+            break;
+
+        case 6:
+            score = paring_counter[PLS] * 100;
+            break;
+        }
+
+        if (score >= 1000000) {
+            score = 999900;
+        }
+
+        SCORE_PLUS(PLS, score);
+
+        if (Mode_Type == 1) {
+            Score_Sub();
+        } else if (plw[PLS].wu.operator) {
+            Score_Sub();
+        }
+
+        return;
+    } else {
+        cmb_stock[PL]++;
+        cmst_buff[PL][cst_write[PL]].routine_num = 0;
+        cmst_buff[PL][cst_write[PL]].hit_hi = (u8)hit_num / 10;
+        cmst_buff[PL][cst_write[PL]].hit_low = (u8)hit_num - (cmst_buff[PL][cst_write[PL]].hit_hi * 10);
+        cmst_buff[PL][cst_write[PL]].kind = KIND;
+
+        if (Mode_Type == 1) {
+            cmst_buff[PL][cst_write[PL]].pts_flag = 1;
+        } else if (Mode_Type == 5) {
+            cmst_buff[PL][cst_write[PL]].pts_flag = 1;
+        } else if (plw[PLS].wu.operator) {
+            cmst_buff[PL][cst_write[PL]].pts_flag = 1;
+        } else {
+            cmst_buff[PL][cst_write[PL]].pts_flag = 0;
+        }
+
+        switch (KIND) {
+        case 0:
+        case 1:
+            break;
+
+        case 2:
+            if (sa_kind == 2) {
+                score += 20000;
+            } else {
+                score += 30000;
+            }
+            break;
+
+        case 3:
+            if (sa_kind == 2) {
+                score = 20000;
+            } else {
+                score = 30000;
+            }
+            break;
+
+        case 4:
+            score = 1500;
+            grade_get_first_attack(PLS);
+            break;
+
+        case 5:
+            score = 0;
+            cmst_buff[PL][cst_write[PL]].pts_flag = 0;
+            break;
+
+        case 6:
+            score = paring_counter[PLS] * 100;
+            break;
+        }
+
+        if (score >= 1000000) {
+            score = 999900;
+        }
+
+        Pts_Buff = cmst_buff[PL][cst_write[PL]].pts = score;
+        i = 3;
+        xx = 100000;
+
+        assign1 = cmst_buff[PL][cst_write[PL]].first_digit = -1;
+
+        while (i >= 0) {
+            cmst_buff[PL][cst_write[PL]].pts_digit[i] = Pts_Buff / xx & 0xFF;
+            Pts_Buff -= (cmst_buff[PL][cst_write[PL]].pts_digit[i] * xx);
+
+            if (cmst_buff[PL][cst_write[PL]].first_digit < 0 && cmst_buff[PL][cst_write[PL]].pts_digit[i]) {
+                cmst_buff[PL][cst_write[PL]].first_digit = i;
+            }
+
+            i--;
+            assign2 = xx /= 10;
+        }
+
+        cmst_buff[PL][cst_write[PL]].move[1] = cmst_buff[PL][cst_write[PL]].first_digit + 6;
+
+        if (cst_write[PL] == 4) {
+            cst_write[PL] = 0;
+        } else {
+            cst_write[PL]++;
+        }
+    }
+    return;
 }
-#endif
 
 void combo_window_trans(s8 PL) {
     s8 PLS;
@@ -628,10 +771,22 @@ void combo_window_trans(s8 PL) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/cmb_win", training_disp_data_set);
-#else
 void training_disp_data_set(s8 PL, s16 hnum) {
-    not_implemented(__func__);
+    if (tr_data[PL].max_hitcombo < (u8)hnum) {
+        if (Disp_Attack_Data != 0) {
+            if (Champion != PL) {
+                SsRequest(0x9C);
+            }
+
+            tr_data[PL].new_max_flag = 0x14;
+            tr_data[PL].frash_switch = 2;
+        }
+
+        tr_data[PL].frash_flag = 0;
+        tr_data[PL].max_hitcombo = hnum;
+
+        if (tr_data[PL].max_hitcombo > 99) {
+            tr_data[PL].max_hitcombo = 99;
+        }
+    }
 }
-#endif
