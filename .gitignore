@@ -26,4 +26,4 @@ build
 ctx.c
 .splache
 temp
-dwarf.txt
+rom

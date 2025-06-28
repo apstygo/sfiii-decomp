@@ -8,7 +8,7 @@ Notes:
 
 | Module   | Progress   |
 |----------|------------|
-| sf33rd   | 84.90%     |
+| sf33rd   | 90.61%     |
 | cri      | 77.86%     |
 
 | Function                         | File                                                 | Module   | Is decompiled   |
@@ -280,10 +280,10 @@ Notes:
 | mmSystemInitialize               | sf33rd/Source/Common/MemMan.c                        | sf33rd   | ✅               |
 | flGetFrame                       | sf33rd/AcrSDK/ps2/flps2etc.c                         | sf33rd   | ✅               |
 | fmsGetFrame                      | sf33rd/AcrSDK/common/fbms.c                          | sf33rd   | ✅               |
-| seqsGetUseMemorySize             | sf33rd/Source/Game/MTRANS.c                          | sf33rd   |                 |
+| seqsGetUseMemorySize             | sf33rd/Source/Game/MTRANS.c                          | sf33rd   | ✅               |
 | mppMalloc                        | sf33rd/Source/Game/main.c                            | sf33rd   | ✅               |
 | flAllocMemory                    | sf33rd/AcrSDK/ps2/flps2etc.c                         | sf33rd   | ✅               |
-| seqsInitialize                   | sf33rd/Source/Game/MTRANS.c                          | sf33rd   |                 |
+| seqsInitialize                   | sf33rd/Source/Game/MTRANS.c                          | sf33rd   | ✅               |
 | ppg_Initialize                   | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
 | mmHeapInitialize                 | sf33rd/Source/Common/MemMan.c                        | sf33rd   | ✅               |
 | mmRoundUp                        | sf33rd/Source/Common/MemMan.c                        | sf33rd   | ✅               |
@@ -582,11 +582,11 @@ Notes:
 | mlMemMapInit                     | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap.c   | sf33rd   | ✅               |
 | flSpuMapInit                     | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap.c   | sf33rd   | ✅               |
 | flSpuMapChgPage                  | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap.c   | sf33rd   | ✅               |
-| cseMemMapSetPhdAddr              | sf33rd/Source/Game/color3rd.c                        | sf33rd   |                 |
+| cseMemMapSetPhdAddr              | sf33rd/Source/Game/color3rd.c                        | sf33rd   | ✅               |
 | mlMemMapSetPhdAddr               | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap.c   | sf33rd   | ✅               |
-| cseTsbSetBankAddr                | sf33rd/Source/Game/color3rd.c                        | sf33rd   |                 |
+| cseTsbSetBankAddr                | sf33rd/Source/Game/color3rd.c                        | sf33rd   | ✅               |
 | mlTsbSetBankAddr                 | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB.c      | sf33rd   | ✅               |
-| load_any_color                   | sf33rd/Source/Game/color3rd.c                        | sf33rd   |                 |
+| load_any_color                   | sf33rd/Source/Game/color3rd.c                        | sf33rd   | ✅               |
 | load_it_use_any_key              | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
 | load_it_use_any_key2             | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
 | fsGetFileSize                    | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
@@ -614,7 +614,7 @@ Notes:
 | mlRpcQueueSend                   | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue.c | sf33rd   | ✅               |
 | fsClose                          | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
 | Set_size_data_ramcnt_key         | sf33rd/Source/Game/RAMCNT.c                          | sf33rd   | ✅               |
-| init_trans_color_ram             | sf33rd/Source/Game/color3rd.c                        | sf33rd   |                 |
+| init_trans_color_ram             | sf33rd/Source/Game/color3rd.c                        | sf33rd   | ✅               |
 | Get_size_data_ramcnt_key         | sf33rd/Source/Game/RAMCNT.c                          | sf33rd   | ✅               |
 | cseSendBd2SpuWithId              | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.c         | sf33rd   | ✅               |
 | mlMemMapGetBankAddr              | sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap.c   | sf33rd   | ✅               |
@@ -632,7 +632,7 @@ Notes:
 | mmFree                           | sf33rd/Source/Common/MemMan.c                        | sf33rd   | ✅               |
 | cpInitTask                       | sf33rd/Source/Game/main.c                            | sf33rd   | ✅               |
 | cpReadyTask                      | sf33rd/Source/Game/main.c                            | sf33rd   | ✅               |
-| palCreateGhost                   | sf33rd/Source/Game/color3rd.c                        | sf33rd   |                 |
+| palCreateGhost                   | sf33rd/Source/Game/color3rd.c                        | sf33rd   | ✅               |
 | ppgSetupPalChunkDir              | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
 | ppgSetupContextFromPPL           | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
 | ppgMallocF                       | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
@@ -655,7 +655,7 @@ Notes:
 | flPS2VIF1MakeEndLoadImage        | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
 | flPS2VIF1CodeAddDirectHL         | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
 | ppgMakeConvTableTexDC            | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
-| appSetupBasePriority             | sf33rd/Source/Game/MTRANS.c                          | sf33rd   |                 |
+| appSetupBasePriority             | sf33rd/Source/Game/MTRANS.c                          | sf33rd   | ✅               |
 | MemcardInit                      | sf33rd/Source/PS2/mc/mcsub.c                         | sf33rd   | ✅               |
 | sceMcInit                        | sdk/libmc/libmc.c                                    | sdk      | –               |
 | sceMcSync                        | sdk/libmc/libmc.c                                    | sdk      | –               |
@@ -666,7 +666,7 @@ Notes:
 | setFilterMode                    | sf33rd/Source/Game/AcrUtil.c                         | sf33rd   | ✅               |
 | flAdjustScreen                   | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | setBackGroundColor               | sf33rd/Source/Game/AcrUtil.c                         | sf33rd   | ✅               |
-| appSetupTempPriority             | sf33rd/Source/Game/MTRANS.c                          | sf33rd   |                 |
+| appSetupTempPriority             | sf33rd/Source/Game/MTRANS.c                          | sf33rd   | ✅               |
 | flPADGetALL                      | sf33rd/AcrSDK/common/mlPAD.c                         | sf33rd   | ✅               |
 | tarPADRead                       | sf33rd/AcrSDK/ps2/ps2PAD.c                           | sf33rd   | ✅               |
 | PADRead_for_PS2                  | sf33rd/AcrSDK/ps2/ps2PAD.c                           | sf33rd   | ✅               |
@@ -699,15 +699,15 @@ Notes:
 | disp_ramcnt_free_area            | sf33rd/Source/Game/RAMCNT.c                          | sf33rd   | ✅               |
 | MaskScreenEdge                   | sf33rd/Source/Game/main.c                            | sf33rd   | ✅               |
 | appViewGetItems                  | sf33rd/Source/Game/AcrUtil.c                         | sf33rd   | ✅               |
-| seqsBeforeProcess                | sf33rd/Source/Game/MTRANS.c                          | sf33rd   |                 |
+| seqsBeforeProcess                | sf33rd/Source/Game/MTRANS.c                          | sf33rd   | ✅               |
 | njdp2d_draw                      | sf33rd/Source/Game/DC_Ghost.c                        | sf33rd   | ✅               |
 | ps2SeqsRenderQuadInit_B          | sf33rd/Source/PS2/ps2Quad.c                          | sf33rd   | ✅               |
 | setZ_Operation                   | sf33rd/Source/Game/AcrUtil.c                         | sf33rd   | ✅               |
 | ps2SeqsRenderQuadEnd             | sf33rd/Source/PS2/ps2Quad.c                          | sf33rd   | ✅               |
-| seqsAfterProcess                 | sf33rd/Source/Game/MTRANS.c                          | sf33rd   |                 |
+| seqsAfterProcess                 | sf33rd/Source/Game/MTRANS.c                          | sf33rd   | ✅               |
 | CP3toPS2Draw                     | sf33rd/Source/PS2/ps2Quad.c                          | sf33rd   | ✅               |
-| KnjFlush                         | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| KnjUseCheck                      | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
+| KnjFlush                         | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| KnjUseCheck                      | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | render_end                       | sf33rd/Source/Game/AcrUtil.c                         | sf33rd   | ✅               |
 | flEndRender                      | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | disp_effect_work                 | sf33rd/Source/Game/EFFECT.c                          | sf33rd   | ✅               |
@@ -738,8 +738,8 @@ Notes:
 | Init_texgrplds_work              | sf33rd/Source/Game/texgroup.c                        | sf33rd   | ✅               |
 | Init_load_on_memory_data         | sf33rd/Source/Game/aboutspr.c                        | sf33rd   | ✅               |
 | copy_char_base_data              | sf33rd/Source/Game/CHARID.c                          | sf33rd   |                 |
-| palConvSrcToRam                  | sf33rd/Source/Game/color3rd.c                        | sf33rd   |                 |
-| palUpdateGhostCP3                | sf33rd/Source/Game/color3rd.c                        | sf33rd   |                 |
+| palConvSrcToRam                  | sf33rd/Source/Game/color3rd.c                        | sf33rd   | ✅               |
+| palUpdateGhostCP3                | sf33rd/Source/Game/color3rd.c                        | sf33rd   | ✅               |
 | flLockPalette                    | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | flPS2LockTexture                 | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
 | palConvRowTim2CI8Clut            | sf33rd/Source/Game/color3rd.c                        | sf33rd   | ✅               |
@@ -834,7 +834,7 @@ Notes:
 | Check_Reset                      | sf33rd/Source/Game/Reset.c                           | sf33rd   | ✅               |
 | KnjInit                          | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
 | make_env_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| make_pal_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
+| make_pal_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | make_img_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
 | McActAvailSet                    | sf33rd/Source/PS2/mc/mcsub.c                         | sf33rd   | ✅               |
 | save_move_aload                  | sf33rd/Source/PS2/mc/savesub.c                       | sf33rd   | ✅               |
@@ -850,28 +850,28 @@ Notes:
 | sceMcGetInfo                     | sdk/libmc/libmc.c                                    | sdk      | –               |
 | mc_act_return                    | sf33rd/Source/PS2/mc/mcsub.c                         | sf33rd   | ✅               |
 | GetMemCardMsg                    | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
-| KnjSetSize                       | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| KnjSetColor                      | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
+| KnjSetSize                       | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| KnjSetColor                      | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | FormStrDisp                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
-| KnjLocate                        | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
+| KnjLocate                        | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | str_tag_get                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
 | str_str_get                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
 | KnjCheckCode                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
 | utf82unicode                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
 | unicode2index                    | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| is_unicode_han                   | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
+| is_unicode_han                   | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | KnjPuts                          | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
 | unicode_puts                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
 | get_uni_adrs                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
 | make_fnt_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
 | make_fbg_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
 | str_tag_check                    | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
-| KnjSetRgb                        | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
+| KnjSetRgb                        | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | mceGetInfoApdx                   | sdk/libmc/libmc.c                                    | sdk      | –               |
 | McActStopSet                     | sf33rd/Source/PS2/mc/mcsub.c                         | sf33rd   | ✅               |
 | auto_load_exit                   | sf33rd/Source/PS2/mc/savesub.c                       | sf33rd   | ✅               |
 | save_move_exit                   | sf33rd/Source/PS2/mc/savesub.c                       | sf33rd   | ✅               |
-| KnjFinish                        | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
+| KnjFinish                        | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | Init_Task_2nd                    | sf33rd/Source/Game/init3rd.c                         | sf33rd   | ✅               |
 | Warning                          | sf33rd/Source/Game/DEMO00.c                          | sf33rd   | ✅               |
 | setTexAdrsMode                   | sf33rd/Source/Game/AcrUtil.c                         | sf33rd   | ✅               |
@@ -892,7 +892,7 @@ Notes:
 | nowSoftReset                     | sf33rd/Source/Game/Reset.c                           | sf33rd   | ✅               |
 | Entry_00                         | sf33rd/Source/Game/Entry.c                           | sf33rd   | ✅               |
 | Game_Task                        | sf33rd/Source/Game/Game.c                            | sf33rd   | ✅               |
-| init_color_trans_req             | sf33rd/Source/Game/color3rd.c                        | sf33rd   |                 |
+| init_color_trans_req             | sf33rd/Source/Game/color3rd.c                        | sf33rd   | ✅               |
 | init_texcash_before_process      | sf33rd/Source/Game/texcash.c                         | sf33rd   |                 |
 | Loop_Demo                        | sf33rd/Source/Game/Game.c                            | sf33rd   | ✅               |
 | Ck_Coin                          | sf33rd/Source/Game/Game.c                            | sf33rd   | ✅               |
@@ -927,7 +927,7 @@ Notes:
 | CAPLOGO_Init                     | sf33rd/Source/Game/DEMO00.c                          | sf33rd   | ✅               |
 | Push_LDREQ_Queue_Direct          | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
 | Push_LDREQ_Queue                 | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
-| q_ldreq_color_data               | sf33rd/Source/Game/color3rd.c                        | sf33rd   |                 |
+| q_ldreq_color_data               | sf33rd/Source/Game/color3rd.c                        | sf33rd   | ✅               |
 | fsCheckCommandExecuting          | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
 | ADXT_Stop                        | cri/libadxe/adx_tlk.c                                | cri      | ✅               |
 | ADXT_StopWithoutLsc              | cri/libadxe/adx_tlk.c                                | cri      | ✅               |

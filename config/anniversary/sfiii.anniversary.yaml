@@ -439,7 +439,7 @@ segments:
       - [0x1671A0, c, sf33rd/Source/Game/LOSE_PL]
       - [0x167F10, c, sf33rd/Source/Game/Manage]
       - [0x16EBE0, c, sf33rd/Source/Game/menu]
-      - [0x1802E0, asm, sf33rd/Source/Game/meta_col]
+      - [0x1802E0, c, sf33rd/Source/Game/meta_col]
       - [0x180C00, c, sf33rd/Source/Game/MMTMCNT] # Good first decomp
       - [0x180ED0, c, sf33rd/Source/Game/MTRANS]
       - [0x188DB0, c, sf33rd/Source/Game/n_input]
@@ -1156,7 +1156,7 @@ segments:
       - [0x422560, .rodata, sf33rd/Source/Game/LOSE_PL]
       - [0x4225C0, .rodata, sf33rd/Source/Game/Manage]
       - [0x422630, .rodata, sf33rd/Source/Game/menu]
-      - [0x4228E8, rodata, sf33rd/Source/Game/meta_col]
+      - [0x4228E8, .rodata, sf33rd/Source/Game/meta_col]
       - [0x4228F0, .rodata, sf33rd/Source/Game/MMTMCNT]
       - [0x422C08, .rodata, sf33rd/Source/Game/MTRANS]
       - [0x422EF0, .rodata, sf33rd/Source/Game/n_input]
@@ -1644,7 +1644,7 @@ segments:
       - { type: .sbss, vram: 0x57AA50, name: sf33rd/AcrSDK/ps2/foundaps2 }
       - { type: .sbss, vram: 0x57AF4C, name: sf33rd/AcrSDK/ps2/ps2PAD }
       - { type: .sbss, vram: 0x57B0B0, name: sf33rd/Source/PS2/mc/mcsub }
-      - { type: sbss, vram: 0x57B140, name: sf33rd/Source/PS2/mc/knjsub }
+      - { type: .sbss, vram: 0x57B140, name: sf33rd/Source/PS2/mc/knjsub }
       - { type: .sbss, vram: 0x57B148, name: sf33rd/Source/PS2/mc/savesub }
       - { type: .sbss, vram: 0x57B150, name: sf33rd/Source/PS2/mc/msgsub }
       - { type: .sbss, vram: 0x57B160, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlMemMap }
@@ -1691,7 +1691,7 @@ segments:
       - { type: .bss, vram: 0x5E1CA0, name: sf33rd/Source/Game/GD3rd }
       - { type: .bss, vram: 0x5E2D70, name: sf33rd/Source/Game/Grade }
       - { type: bss, vram: 0x5E3450, name: sf33rd/Source/Game/HITCHECK }
-      - { type: bss, vram: 0x5E3650, name: sf33rd/Source/Game/meta_col }
+      - { type: .bss, vram: 0x5E3650, name: sf33rd/Source/Game/meta_col }
       - { type: .bss, vram: 0x5E3D50, name: sf33rd/Source/Game/MTRANS }
       - { type: .bss, vram: 0x5E4150, name: sf33rd/Source/Game/OPENING }
       - { type: .bss, vram: 0x5E4480, name: sf33rd/Source/Game/PLCNT }
@@ -1721,7 +1721,7 @@ segments:
       - { type: bss, vram: 0x6E3048, name: sdk/libdbc/libdbc }
       - { type: bss, vram: 0x6E6608, name: sdk/libpad2/libpad2 }
       - { type: .bss, vram: 0x6E9950, name: sf33rd/Source/PS2/mc/mcsub }
-      - { type: bss, vram: 0x6E9A40, name: sf33rd/Source/PS2/mc/knjsub }
+      - { type: .bss, vram: 0x6E9A40, name: sf33rd/Source/PS2/mc/knjsub }
       - { type: .bss, vram: 0x6E9AE0, name: sf33rd/Source/PS2/mc/savesub }
       - { type: .bss, vram: 0x6E9D00, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSifRpc }
       - { type: .bss, vram: 0x6EA200, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/eflSpuMap }

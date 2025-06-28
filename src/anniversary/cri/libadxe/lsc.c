@@ -82,7 +82,7 @@ Sint32 LSC_EntryFname(LSC lsc) {
 Sint32 LSC_EntryFileRange(LSC lsc, const Char8 *fname, void *dir, Sint32 ofst, Sint32 fnsct) {
     LSC_STM *stm;
     Sint32 id;
-    Uint32 fname_length;
+    size_t fname_length;
     Sint32 i;
     Sint32 prev_stm_index;
 

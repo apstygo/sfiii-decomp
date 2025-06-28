@@ -195,7 +195,7 @@ s16 TITLE_Move(u16 type) {
 
 void OPBG_Init() {
     void *loadAdrs;
-    u32 loadSize;
+    size_t loadSize;
     s16 i;
     s16 key;
 

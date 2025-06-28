@@ -2,8 +2,8 @@
 #include "common.h"
 #include "sf33rd/AcrSDK/common/prilay.h"
 
-#define ALIGN(ptr, len, alignment) ((~(alignment - 1)) & ((u32)(ptr) + len + alignment - 1))
-#define ALIGN_DOWN(ptr, len, alignment) ((~(alignment - 1)) & ((u32)(ptr) - len))
+#define ALIGN(ptr, len, alignment) ((~(alignment - 1)) & ((uintptr_t)(ptr) + len + alignment - 1))
+#define ALIGN_DOWN(ptr, len, alignment) ((~(alignment - 1)) & ((uintptr_t)(ptr) - len))
 
 static u32 plmemPullHandle(MEM_MGR *memmgr);
 static void plmemAppendBlockList(MEM_MGR *memmgr, u32 han);
@@ -17,9 +17,9 @@ void plmemInit(MEM_MGR *memmgr, MEM_BLOCK *block, s32 count, void *mem_ptr, s32 
     memmgr->memalign = memalign;
 
     if (direction != 0) {
-        memmgr->memptr = (u8 *)(~(memalign - 1) & ((u32)mem_ptr + memalign - 1));
+        memmgr->memptr = (u8 *)(~(memalign - 1) & ((uintptr_t)mem_ptr + memalign - 1));
     } else {
-        memmgr->memptr = (u8 *)(~(memalign - 1) & ((u32)mem_ptr + memsize));
+        memmgr->memptr = (u8 *)(~(memalign - 1) & ((uintptr_t)mem_ptr + memsize));
     }
 
     memmgr->memnow = memmgr->memptr;
@@ -57,10 +57,10 @@ u32 plmemRegisterAlign(MEM_MGR *memmgr, s32 len, s32 align) {
 
     if (memmgr->direction != 0) {
         memmgr->block[han].ptr = memmgr->memnow;
-        memmgr->memnow = (u8 *)(~(align - 1) & ((u32)&memmgr->block[han].ptr[len] + align - 1));
+        memmgr->memnow = (u8 *)(~(align - 1) & ((uintptr_t)&memmgr->block[han].ptr[len] + align - 1));
         // memmgr->memnow = (u8*)ALIGN(memmgr->block[han].ptr, len, align);
     } else {
-        memmgr->block[han].ptr = (u8 *)(~(align - 1) & (u32)(memmgr->memnow - len));
+        memmgr->block[han].ptr = (u8 *)(~(align - 1) & (uintptr_t)(memmgr->memnow - len));
         // memmgr->block[han].ptr = (u8 *)ALIGN_DOWN(memmgr->memnow, len, align);
         memmgr->memnow = memmgr->block[han].ptr;
     }
@@ -73,7 +73,7 @@ u32 plmemRegisterAlign(MEM_MGR *memmgr, s32 len, s32 align) {
 
 u32 plmemRegisterS(MEM_MGR *memmgr, s32 len) {
     u32 han;
-    u32 len2;
+    size_t len2;
     u32 size;
     MEM_BLOCK *now_block;
     MEM_BLOCK *next_block;
@@ -159,7 +159,7 @@ u32 plmemRegisterS(MEM_MGR *memmgr, s32 len) {
 }
 
 void *plmemTemporaryUse(MEM_MGR *memmgr, s32 len) {
-    u32 tmp;
+    size_t tmp;
 
     len = ALIGN(NULL, len, memmgr->memalign);
     tmp = plmemGetFreeSpace(memmgr);
@@ -277,7 +277,7 @@ u32 plmemGetSpace(MEM_MGR *memmgr) {
     return memmgr->memsize - memmgr->used_size;
 }
 
-u32 plmemGetFreeSpace(MEM_MGR *memmgr) {
+size_t plmemGetFreeSpace(MEM_MGR *memmgr) {
     if (memmgr->direction != 0) {
         return memmgr->memptr + memmgr->memsize - memmgr->memnow - memmgr->tmemsize;
     }

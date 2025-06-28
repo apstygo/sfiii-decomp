@@ -16,7 +16,7 @@ Char8 htg_ci_root_dir[257] = { 0 };
 Char8 htg_ci_head_name[33] = { 0 };
 
 Sint32 htci_is_inc_colon(const Char8 *str) {
-    Uint32 len;
+    size_t len;
     Sint32 i;
 
     len = strlen(str);
@@ -51,7 +51,7 @@ asm(".section .text");
 #endif
 
 void htci_conv_fname(const Char8 *flist, Char8 *fname) {
-    Sint32 len;
+    strlen_t len;
     Sint32 i;
     Char8 root_dir_last_char;
 
@@ -120,7 +120,7 @@ Sint32 htci_load_flist(const Char8 *flist, Sint8 *buf) {
     }
 
     SRD_SetHistory(0x6200);
-    offset_start = SRD_SceLseek(fd, 0, SCE_SEEK_SET);
+    offset_start = (Sint32)SRD_SceLseek(fd, 0, SCE_SEEK_SET);
     SRD_SetHistory(0x6201);
 
     if (offset_start < 0) {
@@ -132,7 +132,7 @@ Sint32 htci_load_flist(const Char8 *flist, Sint8 *buf) {
     }
 
     SRD_SetHistory(0x6300);
-    read_err = SRD_SceRead(fd, buf, offset_end);
+    read_err = SRD_SceRead(fd, buf, (Sint32)offset_end);
     SRD_SetHistory(0x6301);
 
     if (read_err < 0) {

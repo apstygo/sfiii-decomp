@@ -48,12 +48,12 @@ ADXT ADXT_Create(Sint32 maxnch, void *work, Sint32 worksize) {
     Sint32 _maxnch;
     Sint32 i;
     Sint32 ix;
-    Sint32 aligned_work;
-    Sint32 size;
-    Sint32 ibuf_len;
+    intptr_t aligned_work;
+    ptrdiff_t size;
+    ptrdiff_t ibuf_len;
 
-    aligned_work = ((Uint32)work + 0x40 - 1) & ~(0x40 - 1);
-    size = worksize - (aligned_work - (Uint32)work);
+    aligned_work = ((uintptr_t)work + 0x40 - 1) & ~(0x40 - 1);
+    size = worksize - (aligned_work - (uintptr_t)work);
 
     if ((maxnch < 0) || (work == NULL) || (worksize < 0)) {
         ADXERR_CallErrFunc1("E02080804 ADXT_Create: parameter error");
@@ -82,7 +82,7 @@ ADXT ADXT_Create(Sint32 maxnch, void *work, Sint32 worksize) {
     adxt->obufdist = ADXT_OBUF_DIST;
     adxt->ibufxlen = ADXT_IBUF_XLEN;
     ibuf_len = size - ADXT_CALC_OBUFSIZE(_maxnch) - 0x124;
-    adxt->ibuflen = ibuf_len / 0x800 * 0x800;
+    adxt->ibuflen = (Sint32)(ibuf_len / 0x800 * 0x800);
 
     adxt->sji = NULL;
     adxt->unkB0 = adxt->ibuf + (adxt->ibuflen + adxt->ibufxlen);

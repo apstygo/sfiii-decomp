@@ -48,30 +48,32 @@ void Init_ram_control_work(u8 *adrs, s32 size) {
 }
 
 void Push_ramcnt_key(s16 key) {
-    RCKeyWork *rwk;
+    RCKeyWork *rwk = &rckey_work[key];
 
-    rwk = &rckey_work[key];
     if (rwk->use != 0) {
         if ((rwk->type == 8) || (rwk->type == 9)) {
             flLogOut("TEXCASH KEY PUSH ERROR\n");
             ERR_STOP;
         }
+
         Push_ramcnt_key_original_2(key);
     }
+
     return;
 }
 
 void Push_ramcnt_key_original(s16 key) {
-    RCKeyWork *rwk;
+    RCKeyWork *rwk = &rckey_work[key];
 
-    rwk = &rckey_work[key];
     if (rwk->use != 0) {
         if ((rwk->type != 8) && (rwk->type != 9)) {
             flLogOut("TEXCASH KEY PUSH ERROR2\n");
             ERR_STOP;
         }
+
         Push_ramcnt_key_original_2(key);
     }
+
     return;
 }
 
@@ -80,16 +82,17 @@ void Push_ramcnt_key_original_2(s16 key) {
     void purge_texture_group(u16 grp);
 #endif
 
-    RCKeyWork *rwk;
+    RCKeyWork *rwk = &rckey_work[key];
 
-    rwk = &rckey_work[key];
     if (rwk->use != 0) {
         mmFree(&rckey_mmobj, (u8 *)rwk->adr);
         rwk->type = 0;
         rwk->use = 0;
+
         if (rwk->group_num) {
             purge_texture_group(rwk->group_num);
         }
+
         rwk->group_num = 0;
         rckeyque[rckeyctr++] = key;
     }
@@ -101,6 +104,7 @@ void Purge_memory_of_kind_of_key(u8 kokey) {
 
     for (i = 0; i < RCKEY_WORK_MAX; i++) {
         rwk = &rckey_work[i];
+
         if (rwk->use && (rwk->type == kokey)) {
             Push_ramcnt_key(i);
         }
@@ -113,34 +117,39 @@ void Set_size_data_ramcnt_key(s16 key, u32 size) {
         flLogOut("未使用のメモリキーへファイルサイズを格納しようとしました。\n");
         ERR_STOP;
     }
+
     rckey_work[key].size = size;
 }
 
-u32 Get_size_data_ramcnt_key(s16 key) {
+size_t Get_size_data_ramcnt_key(s16 key) {
     if (key <= 0) {
         // An attempt was made to get a file size from an unused memory key.\n
         flLogOut("未使用のメモリキーからファイルサイズを取得しようとしました。\n");
         ERR_STOP;
     }
+
     return rckey_work[key].size;
 }
 
-u32 Get_ramcnt_address(s16 key) {
+uintptr_t Get_ramcnt_address(s16 key) {
     if (key <= 0) {
         // An attempt was made to obtain an address from an unused memory key.\n
         flLogOut("未使用のメモリキーからアドレスを取得しようとしました。\n");
         ERR_STOP;
     }
+
     return rckey_work[key].adr;
 }
 
 s16 Search_ramcnt_type(u8 kokey) {
     s16 i;
+
     for (i = 1; i < RCKEY_WORK_MAX; i++) {
         if ((rckey_work[i].use) && (kokey == (rckey_work[i].type))) {
             return i;
         }
     }
+
     return 0;
 }
 
@@ -148,16 +157,19 @@ s32 Test_ramcnt_key(s16 key) {
     if (key == 0) {
         return 1;
     }
+
     if (rckey_work[key].use == 0) {
         return 0;
     }
+
     if (rckey_work[key].group_num != 0) {
         return 0;
     }
+
     return 1;
 }
 
-s16 Pull_ramcnt_key(u32 memreq, u8 kokey, u8 group, u8 frre) {
+s16 Pull_ramcnt_key(size_t memreq, u8 kokey, u8 group, u8 frre) {
     RCKeyWork *rwk;
     s16 key;
 
@@ -176,10 +188,12 @@ s16 Pull_ramcnt_key(u32 memreq, u8 kokey, u8 group, u8 frre) {
 
     if (memreq != 0) {
         rwk->size = memreq;
+
         if (frre != 0) {
             frre--;
         }
-        rwk->adr = (u32)mmAlloc(&rckey_mmobj, memreq, frre);
+
+        rwk->adr = (uintptr_t)mmAlloc(&rckey_mmobj, memreq, frre);
     } else {
         goto err;
     }

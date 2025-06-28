@@ -161,9 +161,12 @@ void make_texcash_work(s16 ix) {
     void init_texcash_2nd(s32 ix);
 #endif
 
-    u32 memreq;
+    size_t memreq;
     u8 *adrs;
-    u32 page16;
+    // For some reason page16 is reused later as a pointer.
+    // That's why it's uintptr_t and not u32 like page32.
+    // I guess the devs were too lazy to make another var or something.
+    uintptr_t page16;
     u32 page32;
 
     if (mts_ok[ix].be) {
@@ -188,15 +191,15 @@ void make_texcash_work(s16 ix) {
             page32 = mts_base[ix].p32;
         }
 
-        mts[ix].mltnum16 = page16 << 8;
+        mts[ix].mltnum16 = (u32)page16 << 8;
         mts[ix].mltnum32 = page32 << 6;
-        mts[ix].mltnum = page16 + page32;
+        mts[ix].mltnum = (u32)page16 + page32;
         mts[ix].mltgidx16 = mts_base[ix].gix;
-        mts[ix].mltgidx32 = page16 + mts_base[ix].gix;
+        mts[ix].mltgidx32 = (u32)page16 + mts_base[ix].gix;
         mts[ix].mltcshtime16 = mts_base[ix].life16;
         mts[ix].mltcshtime32 = mts_base[ix].life32;
 
-        if (mts[ix].ext = (mts_base[ix].mode & 0x2000) != 0) {
+        if ((mts[ix].ext = ((mts_base[ix].mode & 0x2000) != 0))) {
             memreq = (mts[ix].mltnum16 * 8) + (mts[ix].mltnum32 * 8) + sizeof(PatternCollection) +
                      sizeof(TexturePoolFree) + sizeof(TexturePoolUsed);
             mts_ok[ix].key0 = Pull_ramcnt_key(memreq, mts_base[ix].type, 0, 0);
