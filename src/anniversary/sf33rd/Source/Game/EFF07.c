@@ -41,4 +41,4 @@ s32 effect_07_init() {
 }
 #endif
 
-const s16 eff07_data_tbl[2][3] = { { 0x0004, 0x02e6, 0x001c }, { 0x0005, 0x0326, 0x001c } };
+const s16 eff07_data_tbl[2][3] = { { 0x0004, 0x02E6, 0x001C }, { 0x0005, 0x0326, 0x001C } };

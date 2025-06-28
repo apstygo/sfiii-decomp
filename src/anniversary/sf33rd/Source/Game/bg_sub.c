@@ -498,13 +498,13 @@ void bg_base_x_move_sub() {
 
     if (work[0] < 0) {
         work[0] = 0;
-    } else if (work[0] > 0x17f) {
+    } else if (work[0] > 0x17F) {
         work[0] = 0x17F;
     }
 
     if (work[1] < 0) {
         work[1] = 0;
-    } else if (work[1] > 0x17f) {
+    } else if (work[1] > 0x17F) {
         work[1] = 0x17F;
     }
 
@@ -711,7 +711,7 @@ static s32 suzi_offset_set_sub(WORK_Other *ewk) {
     work = ewk->wu.xyz[1].disp.pos & 0x300;
     work = 0x300 - work;
 
-    work2 = ewk->wu.xyz[1].disp.pos & 0xff;
+    work2 = ewk->wu.xyz[1].disp.pos & 0xFF;
     work2 = 0x100 - work2;
 
     work += work2;

@@ -67,7 +67,7 @@ s32 crow_fuss_check(WORK_Other *ewk) {
     return 1;
 }
 
-const s16 eff78_data_tbl[4] = { 0x1a0, 0x047, 0x390, 0x040 };
+const s16 eff78_data_tbl[4] = { 0x1A0, 0x047, 0x390, 0x040 };
 
 const s16 crow_char_tbl[3][3] = { { 8, 0, 64 }, { 18, -16, 64 }, { 13, 16, 64 } };
 
@@ -88,7 +88,7 @@ void crow_fuss_move(WORK_Other *ewk) {
         if (ewk->wu.cg_type == 0xFF) {
             ewk->wu.routine_no[1]++;
             set_char_move_init(&ewk->wu, 0, (ewk->wu.old_rno[0]) + 1);
-            ewk->wu.dir_timer = 0x1c;
+            ewk->wu.dir_timer = 0x1C;
             ewk->wu.old_rno[1] = ewk->wu.xyz[0].disp.pos + crow_char_tbl[ewk->wu.direction][1];
             ewk->wu.old_rno[2] = ewk->wu.xyz[1].disp.pos + crow_char_tbl[ewk->wu.direction][2];
             cal_all_speed_data(&ewk->wu, ewk->wu.dir_timer, ewk->wu.old_rno[1], ewk->wu.old_rno[2], 2, 2);

@@ -65,9 +65,9 @@ void eff11_quake_sub(WORK_Other *ewk) {
     }
 }
 
-const s16 eff11_data_tbl[24] = { 0x212c, 0x0330, 0x0033, 0x0050, 0x0006, 0x0000, 0x212c, 0x00b0,
-                                 0x0033, 0x0050, 0x0006, 0x0000, 0x212c, 0x02d0, 0x0037, 0x0050,
-                                 0x000c, 0x0001, 0x212c, 0x00f0, 0x0037, 0x0050, 0x000c, 0x0001 };
+const s16 eff11_data_tbl[24] = { 0x212C, 0x0330, 0x0033, 0x0050, 0x0006, 0x0000, 0x212C, 0x00B0,
+                                 0x0033, 0x0050, 0x0006, 0x0000, 0x212C, 0x02D0, 0x0037, 0x0050,
+                                 0x000C, 0x0001, 0x212C, 0x00F0, 0x0037, 0x0050, 0x000C, 0x0001 };
 
 const s16 eff11_quake_index_tbl[111] = { 0, 0, 0, 1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 7, 7, 7,
                                          7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
@@ -81,11 +81,11 @@ const s32 eff11_quake_speed_y_tbl[2][8] = {
 };
 
 const s32 eff11_quake_speed_y_tbl2[2][4] = { { 0x30000, 0x20000, 0x18000, 0x10000 },
-                                             { 0x28000, 0x18000, 0x0c000, 0x0a000 } };
+                                             { 0x28000, 0x18000, 0x0C000, 0x0A000 } };
 
 const s32 eff11_quake_speed_x_tbl[2][8] = {
-    { 0x0c000, 0x0c000, 0x0a000, 0x0a000, 0x08000, 0x06000, 0x0a000, 0x0c000 },
-    { 0x0a000, 0x0a000, 0x0c000, 0x0c000, 0x10000, 0x0a000, 0x0a000, 0x08000 }
+    { 0x0C000, 0x0C000, 0x0A000, 0x0A000, 0x08000, 0x06000, 0x0A000, 0x0C000 },
+    { 0x0A000, 0x0A000, 0x0C000, 0x0C000, 0x10000, 0x0A000, 0x0A000, 0x08000 }
 };
 
 void quake_level_middle(WORK_Other *ewk) {
@@ -98,7 +98,7 @@ void quake_level_middle(WORK_Other *ewk) {
         ewk->wu.routine_no[2]++;
         set_char_move_init(&ewk->wu, 0, ewk->wu.old_rno[6] + 1);
         ewk->wu.mvxy.a[1].sp = (eff11_quake_speed_y_tbl[ewk->wu.old_rno[3]][ewk->wu.old_rno[1]]);
-        ewk->wu.mvxy.d[1].sp = 0xffffa000;
+        ewk->wu.mvxy.d[1].sp = 0xFFFFA000;
         /* fallthrough */
 
     case 1:
@@ -111,7 +111,7 @@ void quake_level_middle(WORK_Other *ewk) {
 
         if (ewk->wu.mvxy.a[1].sp < 0) {
             ewk->wu.routine_no[2]++;
-            set_char_move_init2(&ewk->wu, 0, ewk->wu.old_rno[6] + 1, 0xd, 0);
+            set_char_move_init2(&ewk->wu, 0, ewk->wu.old_rno[6] + 1, 0xD, 0);
             ewk->wu.old_rno[0] = 0;
         }
 
@@ -159,7 +159,7 @@ void quake_level_large(WORK_Other *ewk) {
         ewk->wu.routine_no[2]++;
         set_char_move_init(&ewk->wu, 0, ewk->wu.old_rno[6] + 1);
         ewk->wu.mvxy.a[1].sp = (eff11_quake_speed_y_tbl[ewk->wu.old_rno[3]][ewk->wu.old_rno[1]]);
-        ewk->wu.mvxy.d[1].sp = 0xffffa000;
+        ewk->wu.mvxy.d[1].sp = 0xFFFFA000;
         ewk->wu.mvxy.a[0].sp = (eff11_quake_speed_x_tbl[ewk->wu.old_rno[3]][ewk->wu.old_rno[1]]);
         work = random_16();
 
@@ -175,7 +175,7 @@ void quake_level_large(WORK_Other *ewk) {
 
         if (ewk->wu.mvxy.a[1].sp < 0) {
             ewk->wu.routine_no[2]++;
-            set_char_move_init2(&ewk->wu, 0, ewk->wu.old_rno[6] + 1, 0xd, 0);
+            set_char_move_init2(&ewk->wu, 0, ewk->wu.old_rno[6] + 1, 0xD, 0);
             return;
         }
 
@@ -194,7 +194,7 @@ void quake_level_large(WORK_Other *ewk) {
         ewk->wu.xyz[1].disp.pos = ewk->wu.old_rno[2];
         ewk->wu.xyz[1].disp.low = 0;
         set_char_move_init(&ewk->wu, 0, ewk->wu.old_rno[6] + 3);
-        ewk->wu.old_rno[5] = 0x1c;
+        ewk->wu.old_rno[5] = 0x1C;
         ewk->wu.mvxy.d[0].sp = 0;
 
         if (ewk->wu.old_rno[3]) {
