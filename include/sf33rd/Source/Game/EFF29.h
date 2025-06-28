@@ -4,7 +4,7 @@
 #include "structs.h"
 #include "types.h"
 
-extern const s16 eff29_vanish_time[8]; // size: 0x10, address: 0x509BF0
+extern const s16 eff29_vanish_time[8];
 
 s32 effect_29_init();
 

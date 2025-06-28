@@ -4,9 +4,9 @@
 #include "structs.h"
 #include "types.h"
 
-extern const s16 effj8_timer_tbl[8]; // size: 0x10, address: 0x519870
-extern const s16 effj8_y_tbl[8];     // size: 0x10, address: 0x519880
-extern const s32 effj8_sp_tbl[8][4]; // size: 0x80, address: 0x5198D0
+extern const s16 effj8_timer_tbl[8];
+extern const s16 effj8_y_tbl[8];
+extern const s32 effj8_sp_tbl[8][4];
 
 void effect_J8_move(WORK_Other *ewk);
 void dragonfly_move(WORK_Other *ewk);

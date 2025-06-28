@@ -36,6 +36,13 @@ s32 bgPalCodeOffset[8];
 BG bg_w;
 RW_DATA rw_dat[20];
 
+static void bgRWWorkUpdate();
+static void bgDrawOneScreen(s32 bgnum, s32 gixbase, s32 *xx, s32 *yy, s32 /* unused */, s32 ofsPal,
+                            PPGDataList *curDataList);
+static void bgDrawOneChip(s32 x, s32 y, s32 xs, s32 ys, s32 gbix, u32 vtxCol, s32 ofsPal);
+static void bgAkebonoDraw();
+static void ppgCalScrPosition(s32 x, s32 y, s32 xs, s32 ys);
+
 void Bg_TexInit() {
     s32 i = 0;
 

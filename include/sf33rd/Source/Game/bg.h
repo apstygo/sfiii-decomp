@@ -19,12 +19,6 @@ void Bg_Texture_Load_EX();
 void Bg_Texture_Load2(u8 type);
 void Bg_Texture_Load_Ending(s16 type);
 void scr_trans(u8 bgnm);
-static void bgRWWorkUpdate();
-static void bgDrawOneScreen(s32 bgnum, s32 gixbase, s32 *xx, s32 *yy, s32 /* unused */, s32 ofsPal,
-                            PPGDataList *curDataList);
-static void bgDrawOneChip(s32 x, s32 y, s32 xs, s32 ys, s32 gbix, u32 vtxCol, s32 ofsPal);
-static void bgAkebonoDraw();
-static void ppgCalScrPosition(s32 x, s32 y, s32 xs, s32 ys);
 void scr_trans_sub2(s32 x, s32 y, s32 suzi);
 void scr_calc(u8 bgnm);
 void scr_calc2(u8 bgnm);

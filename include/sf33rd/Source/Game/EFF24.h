@@ -4,11 +4,11 @@
 #include "structs.h"
 #include "types.h"
 
-extern const s16 eff24_data_tbl[56];            // size: 0x70, address: 0x509830
-extern const s16 eff24_quake_index_tbl[111];    // size: 0xDE, address: 0x5098A0
-extern const s32 eff24_quake_speed_y_tbl[4][8]; // size: 0x80, address: 0x509980
-extern const s32 eff24_quake_speed_x_tbl[4][8]; // size: 0x80, address: 0x509A00
-extern const s16 dog24_x_data[8];               // size: 0x10, address: 0x509A80
+extern const s16 eff24_data_tbl[56];
+extern const s16 eff24_quake_index_tbl[111];
+extern const s32 eff24_quake_speed_y_tbl[4][8];
+extern const s32 eff24_quake_speed_x_tbl[4][8];
+extern const s16 dog24_x_data[8];
 
 void effect_24_move(WORK_Other *ewk);
 void eff24_quake_sub(WORK_Other *ewk);

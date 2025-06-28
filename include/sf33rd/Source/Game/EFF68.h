@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern const s16 eff68_data_tbl[52]; // size: 0x68, address: 0x50BCC0
+extern const s16 eff68_data_tbl[52];
 
 s32 effect_68_init();
 

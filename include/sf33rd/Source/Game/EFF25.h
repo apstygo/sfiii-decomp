@@ -4,8 +4,8 @@
 #include "structs.h"
 #include "types.h"
 
-extern const s16 eff25_data_0000[16]; // size: 0x20, address: 0x509A90
-extern const s16 *scr_obj_data25[1];  // size: 0x4, address: 0x572DBC
+extern const s16 eff25_data_0000[16];
+extern const s16 *scr_obj_data25[1];
 
 void effect_25_move(WORK_Other *ewk);
 void eff25_char_set(WORK_Other *ewk);

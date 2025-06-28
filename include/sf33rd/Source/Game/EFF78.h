@@ -4,8 +4,8 @@
 #include "structs.h"
 #include "types.h"
 
-extern const s16 eff78_data_tbl[4];   // size: 0x8, address: 0x50BFB8
-extern const s16 crow_char_tbl[3][3]; // size: 0x12, address: 0x50BFC0
+extern const s16 eff78_data_tbl[4];
+extern const s16 crow_char_tbl[3][3];
 
 void effect_78_move(WORK_Other *ewk);
 s32 crow_fuss_check(WORK_Other *ewk);

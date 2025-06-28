@@ -4,7 +4,7 @@
 #include "structs.h"
 #include "types.h"
 
-extern const s16 eff85_char_index_tbl[9]; // size: 0x12, address: 0x50C050
+extern const s16 eff85_char_index_tbl[9];
 
 void effect_85_move(WORK_Other *ewk);
 void eff85_0000(WORK_Other *ewk);
