@@ -1,27 +1,27 @@
 #include "sf33rd/Source/Game/end_data.h"
 #include "common.h"
 
-const u16 *ending_map_tbl[21][3] = { { ending000_map, 0x00000000, 0x00000000 },
-                                     { ending010_map, 0x00000000, 0x00000000 },
-                                     { ending020_map, ending021_map, 0x00000000 },
-                                     { ending030_map, 0x00000000, 0x00000000 },
-                                     { ending040_map, ending041_map, 0x00000000 },
-                                     { ending050_map, ending051_map, 0x00000000 },
-                                     { ending060_map, ending061_map, 0x00000000 },
-                                     { ending070_map, ending071_map, 0x00000000 },
-                                     { ending080_map, 0x00000000, 0x00000000 },
-                                     { ending090_map, 0x00000000, 0x00000000 },
-                                     { ending100_map, 0x00000000, 0x00000000 },
-                                     { ending110_map, ending111_map, 0x00000000 },
-                                     { ending120_map, ending121_map, 0x00000000 },
-                                     { ending130_map, 0x00000000, 0x00000000 },
+const u16 *ending_map_tbl[21][3] = { { ending000_map, NULL, NULL },
+                                     { ending010_map, NULL, NULL },
+                                     { ending020_map, ending021_map, NULL },
+                                     { ending030_map, NULL, NULL },
+                                     { ending040_map, ending041_map, NULL },
+                                     { ending050_map, ending051_map, NULL },
+                                     { ending060_map, ending061_map, NULL },
+                                     { ending070_map, ending071_map, NULL },
+                                     { ending080_map, NULL, NULL },
+                                     { ending090_map, NULL, NULL },
+                                     { ending100_map, NULL, NULL },
+                                     { ending110_map, ending111_map, NULL },
+                                     { ending120_map, ending121_map, NULL },
+                                     { ending130_map, NULL, NULL },
                                      { ending140_map, ending141_map, ending142_map },
-                                     { ending150_map, 0x00000000, 0x00000000 },
+                                     { ending150_map, NULL, NULL },
                                      { ending160_map, ending160_map, ending161_map },
-                                     { ending170_map, 0x00000000, 0x00000000 },
-                                     { ending180_map, 0x00000000, 0x00000000 },
-                                     { ending190_map, ending191_map, 0x00000000 },
-                                     { gouki_nosekae_map1, gouki_nosekae_map2, 0x00000000 } };
+                                     { ending170_map, NULL, NULL },
+                                     { ending180_map, NULL, NULL },
+                                     { ending190_map, ending191_map, NULL },
+                                     { gouki_nosekae_map1, gouki_nosekae_map2, NULL } };
 
 // sbss
 
