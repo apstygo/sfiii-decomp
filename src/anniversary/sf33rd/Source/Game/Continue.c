@@ -84,7 +84,7 @@ void Continue_2nd() {
 }
 
 void Continue_3rd() {
-    if (Cont_Timer = Check_Exit_Continue()) {
+    if ((Cont_Timer = Check_Exit_Continue())) {
         Cont_No[0] += 1;
     }
 }

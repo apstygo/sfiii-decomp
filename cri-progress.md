@@ -8,14 +8,14 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ADXAMP_Start
 - [x] ADXAMP_Stop
 
-### adx_bahx
+### adx_bahx ✅
 
 - [x] ADXB_SetAc3InSj
-- [ ] ADXB_SetAc3DecSmpl
-- [ ] ADXB_Ac3TermSupply
+- [x] ADXB_SetAc3DecSmpl
+- [x] ADXB_Ac3TermSupply
 - [x] ADXB_SetAhxInSj
-- [ ] ADXB_SetAhxDecSmpl
-- [ ] ADXB_AhxTermSupply
+- [x] ADXB_SetAhxDecSmpl
+- [x] ADXB_AhxTermSupply
 
 ### adx_bsc
 
@@ -24,34 +24,34 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] adxb_DefAddWr
 - [x] ADXB_Create
 - [x] ADXB_Destroy
-- [ ] ADXB_DecodeHeaderAdx
-- [ ] ADXB_DecodeHeader
+- [x] ADXB_DecodeHeaderAdx
+- [x] ADXB_DecodeHeader
 - [x] ADXB_EntryGetWrFunc
-- [ ] ADXB_GetPcmBuf
-- [ ] ADXB_GetFormat
+- [x] ADXB_GetPcmBuf
+- [x] ADXB_GetFormat
 - [x] ADXB_GetSfreq
 - [x] ADXB_GetNumChan
 - [x] ADXB_GetOutBps
-- [ ] ADXB_GetBlkSmpl
+- [x] ADXB_GetBlkSmpl
 - [x] ADXB_GetTotalNumSmpl
-- [ ] ADXB_GetNumLoop
+- [x] ADXB_GetNumLoop
 - [x] ADXB_GetAinfLen
 - [x] ADXB_GetDefOutVol
-- [ ] adxb_get_key
-- [ ] ADXB_GetStat
-- [ ] ADXB_EntryData
-- [ ] ADXB_Start
+- [x] adxb_get_key
+- [x] ADXB_GetStat
+- [x] ADXB_EntryData
+- [x] ADXB_Start
 - [x] ADXB_Stop
-- [ ] ADXB_Reset
-- [ ] ADXB_GetDecDtLen
-- [ ] ADXB_GetDecNumSmpl
-- [ ] ADXB_EvokeExpandSte
+- [x] ADXB_Reset
+- [x] ADXB_GetDecDtLen
+- [x] ADXB_GetDecNumSmpl
+- [x] ADXB_EvokeExpandSte
 - [ ] ADXB_EvokeDecode
-- [ ] memcpy2
-- [ ] ADXB_CopyExtraBufSte
+- [x] memcpy2
+- [x] ADXB_CopyExtraBufSte
 - [ ] ADXB_EndDecode
-- [ ] ADXB_ExecOneAdx
-- [ ] ADXB_ExecHndl
+- [x] ADXB_ExecOneAdx
+- [x] ADXB_ExecHndl
 
 ### adx_crs ✅
 
@@ -62,7 +62,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 ### adx_dcd
 
 - [ ] ADX_GetCoefficient
-- [ ] ADX_DecodeInfo
+- [x] ADX_DecodeInfo
 - [ ] ADX_DecodeInfoExADPCM2
 - [ ] ADX_DecodeInfoExVer
 - [ ] ADX_DecodeInfoExIdly
@@ -148,25 +148,28 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ADXT_GetNumFiles
 - [x] ADXT_ResetEntry
 
-### adx_mps2
+### adx_mps2 ✅
 
-- [ ] _adxm_lock
-- [ ] _adxm_unlock
-- [ ] adxm_safe_trap
-- [ ] adxm_safe_proc
-- [ ] adxm_vsync_proc
-- [ ] adxm_fs_proc
-- [ ] adxm_iWakeupThread
-- [ ] adxm_SleepThread
-- [ ] adxm_ResumeThread
-- [ ] adxm_SuspendThread
-- [ ] adxm_SetupSafeThrd
-- [ ] adxm_SetupVsyncThrd
-- [ ] adxm_SetupFsThrd
-- [ ] adxm_SetupMwIdleThrd
-- [ ] adxm_IsSetupThrdEx
+- [x] _adxm_lock
+- [x] _adxm_unlock
+- [x] adxm_goto_svr_border
+- [x] adxm_goto_mwidle_border
+- [x] adxm_safe_trap
+- [x] adxm_safe_proc
+- [x] adxm_vsync_proc
+- [x] adxm_fs_proc
+- [x] adxm_iWakeupThread
+- [x] adxm_WakeupThread
+- [x] adxm_SleepThread
+- [x] adxm_ResumeThread
+- [x] adxm_SuspendThread
+- [x] adxm_SetupSafeThrd
+- [x] adxm_SetupVsyncThrd
+- [x] adxm_SetupFsThrd
+- [x] adxm_SetupMwIdleThrd
+- [x] adxm_IsSetupThrdEx
 - [x] ADXM_IsSetupThrd
-- [ ] ADXM_SetupThrd
+- [x] ADXM_SetupThrd
 - [x] adxm_ShutdownPreProcedure
 - [x] ADXM_ShutdownThrd
 - [x] adxm_ShutdownMwIdleThrd
@@ -175,10 +178,10 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] adxm_ShutdownSafeThrd
 - [x] ADXM_Lock
 - [x] ADXM_Unlock
-- [ ] ADXPS2_ExecVint
+- [x] ADXPS2_ExecVint
 - [x] ADXM_ExecMain
-- [ ] ADXPS2_WakeupMainThrd
-- [ ] ADXPS2_SetupThrd
+- [x] ADXPS2_WakeupMainThrd
+- [x] ADXPS2_SetupThrd
 
 ### adx_rnap ✅
 
@@ -213,7 +216,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [ ] ADXSJD_TermSupply
 - [x] ADXSJD_Start
 - [x] ADXSJD_Stop
-- [ ] adxsjd_decode_prep
+- [x] adxsjd_decode_prep
 - [x] adxsjd_get_wr
 - [ ] adxsjd_decexec_start
 - [ ] adxsjd_decexec_end
@@ -236,7 +239,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ADXSJD_GetDefOutVol
 - [ ] ADXSJD_GetDefPan
 
-### adx_stmc
+### adx_stmc ✅
 
 - [x] ADXSTM_Init
 - [x] ADXSTM_Finish
@@ -263,17 +266,18 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] adxstmf_stat_exec
 - [x] ADXSTMF_ExecHndl
 - [x] ADXSTM_ExecServer
-- [ ] ADXSTM_SetBufSize
+- [x] ADXSTM_SetBufSize
 - [x] ADXSTM_SetReqRdSize
-- [ ] ADXSTM_GetFileLen
+- [x] ADXSTM_GetFileLen
 - [x] ADXSTM_GetFileSct
 - [x] ADXSTM_SetPause
 - [x] ADXSTM_SetSj
 - [x] ADXSTM_OpenCvfs
 
-### adx_sudv
+### adx_sudv ✅
 
-- [ ] ADXPS2_SetupDvdFs
+- [x] adxps2_err_dvd
+- [x] ADXPS2_SetupDvdFs
 - [x] ADXPS2_LoadFcacheDvd
 
 ### adx_suht
@@ -281,7 +285,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [ ] ADXPS2_SetupHostFs
 - [ ] ADXPS2_LoadFcacheHost
 
-### adx_tlk
+### adx_tlk ✅
 
 - [x] ADXT_Create
 - [x] adxt_detach_ahx
@@ -289,7 +293,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] adxt_detach_pl2
 - [x] ADXT_Destroy
 - [x] adxt_start_sj
-- [ ] adxt_start_stm
+- [x] adxt_start_stm
 - [x] ADXT_StopWithoutLsc
 - [x] ADXT_Stop
 - [x] ADXT_GetStat
@@ -299,7 +303,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ADXT_SetOutVol
 - [x] ADXT_SetDefSvrFreq
 - [x] ADXT_GetNumSmplObuf
-- [ ] ADXT_ExecServer
+- [x] ADXT_ExecServer
 - [x] ADXT_Pause
 - [x] ADXT_GetStatPause
 - [x] ADXT_GetTranspose
@@ -367,11 +371,11 @@ If you don't see a function in this list it doesn't need to be decompiled.
 
 ### cri_srd
 
-- [ ] srd_reset_obj
+- [x] srd_reset_obj
 - [ ] SRD_Create
-- [ ] SRD_Destroy
-- [ ] SRD_ReqRdDvd
-- [ ] SRD_GetStat
+- [x] SRD_Destroy
+- [x] SRD_ReqRdDvd
+- [x] SRD_GetStat
 - [x] srd_wait
 - [x] srd_wait_hst
 - [x] srd_check_dvd_error
@@ -387,14 +391,14 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] SRD_SceClose
 - [x] SRD_SceRead
 
-### dtr
+### dtr ✅
 
-- [ ] DTR_ExecHndl
-- [ ] DTR_GetStat
-- [ ] DTR_ExecServer
+- [x] DTR_ExecHndl
+- [x] DTR_GetStat
+- [x] DTR_ExecServer
 - [x] DTR_Create
 - [x] DTR_Destroy
-- [ ] DTR_Start
+- [x] DTR_Start
 - [x] DTR_Stop
 
 ### dtx ✅
@@ -427,7 +431,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] dvci_alloc
 - [x] dvci_free
 - [x] dvCiOpen
-- [ ] dvCiClose
+- [x] dvCiClose
 - [x] dvCiSeek
 - [x] dvCiTell
 - [x] dvCiReqRd
@@ -454,15 +458,15 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] dvci_init_flist
 - [x] dvci_get_fstate
 - [x] dvCiLoadFcache
-- [ ] dvCiSetRdMode
+- [x] dvCiSetRdMode
 - [ ] dvCiSetRootDir
 
-### htci_sub
+### htci_sub ✅
 
-- [ ] htci_is_inc_colon
-- [ ] htci_is_bgn_host
-- [ ] htci_conv_fname
-- [ ] htci_load_flist
+- [x] htci_is_inc_colon
+- [x] htci_is_bgn_host
+- [x] htci_conv_fname
+- [x] htci_load_flist
 
 ### lsc ✅
 
@@ -528,10 +532,10 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] PS2RNA_SetOutPan
 - [x] PS2RNA_SetBitPerSmpl
 
-### rna_crs
+### rna_crs ✅
 
-- [ ] RNACRS_Lock
-- [ ] RNACRS_Unlock
+- [x] RNACRS_Lock
+- [x] RNACRS_Unlock
 
 ### sj_crs ✅
 
@@ -600,38 +604,38 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] SJRMT_Init
 - [x] SJRMT_Finish
 
-### sjx
+### sjx ✅
 
 - [x] sjx_rcvcbf
 - [x] sjx_sndcbf
-- [ ] SJX_ExecServer
+- [x] SJX_ExecServer
 - [x] SJX_Init
 - [x] SJX_Finish
 - [x] SJX_Create
 - [x] SJX_Destroy
 
-### svm
+### svm ✅
 
 - [x] svm_lock
 - [x] svm_unlock
 - [x] SVM_Lock
 - [x] SVM_Unlock
-- [ ] SVM_LockVar
+- [x] SVM_LockVar
 - [x] SVM_LockRsc
-- [ ] SVM_UnlockVar
+- [x] SVM_UnlockVar
 - [x] SVM_UnlockRsc
 - [x] SVM_CallErr
 - [x] SVM_CallErr1
 - [x] SVM_SetCbSvr
 - [x] SVM_DelCbSvr
 - [x] SVM_SetCbSvrId
-- [ ] SVM_SetCbBdr
+- [x] SVM_SetCbBdr
 - [x] SVM_SetCbLock
 - [x] SVM_SetCbUnlock
 - [x] SVM_ExecSvrFunc
-- [ ] SVM_ExecSvrVint
-- [ ] SVM_ExecSvrVsync
-- [ ] SVM_ExecSvrFs
+- [x] SVM_ExecSvrVint
+- [x] SVM_ExecSvrVsync
+- [x] SVM_ExecSvrFs
 - [x] SVM_ExecSvrMain
 - [x] svm_reset_variable
 - [x] SVM_Init

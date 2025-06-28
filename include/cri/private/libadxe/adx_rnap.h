@@ -14,5 +14,6 @@ Sint32 ADXRNA_GetNumData(ADXRNA);
 void ADXRNA_SetOutVol(ADXRNA, Sint32);
 void ADXRNA_SetPlaySw(ADXRNA, Sint32);
 void ADXRNA_SetTransSw(ADXRNA rna, Sint32 sw);
+void ADXRNA_ExecServer();
 
 #endif

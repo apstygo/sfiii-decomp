@@ -1,16 +1,23 @@
 #ifndef LIBADXE_STRUCTS_H
 #define LIBADXE_STRUCTS_H
 
+#include "types.h"
+
 #include <cri/cri_xpts.h>
 #include <cri/sj.h>
-#include <sif.h>
 
 #include <libcdvd.h>
+#include <sif.h>
 
 // ADXPD
 
 typedef struct {
-    char pad0[0x3C];
+    /* 0x00 */ char pad0[0x10];
+    /* 0x10 */ Sint32 unk10;
+    /* 0x14 */ char pad14[0xC];
+    /* 0x20 */ Sint32 unk20;
+    /* 0x24 */ Sint32 unk24;
+    /* 0x28 */ char pad28[0x14];
 } ADXPD_OBJ;
 
 typedef ADXPD_OBJ *ADXPD;
@@ -19,40 +26,71 @@ typedef ADXPD_OBJ *ADXPD;
 
 typedef struct {
     char pad0[0x10];
-} ADXB_UNK_1;
+} ADX_UNK;
+
+typedef struct {             // offset in ADXB
+    /* 0x00 */ Sint32 unk0;  // 0x48
+    /* 0x04 */ Sint32 unk4;  // 0x4C
+    /* 0x08 */ Sint32 unk8;  // 0x50
+    /* 0x0C */ Sint32 unkC;  // 0x54
+    /* 0x10 */ Sint32 unk10; // 0x58
+    /* 0x14 */ void *unk14;  // 0x5C
+    /* 0x18 */ Sint32 unk18; // 0x60
+    /* 0x1C */ Sint32 unk1C; // 0x64
+    /* 0x20 */ Sint32 unk20; // 0x68
+    /* 0x24 */ Sint32 unk24; // 0x6C
+    /* 0x28 */ Sint32 unk28; // 0x70
+} ADXB_UNK;                  // total size: 0x2C
 
 typedef struct {
     /* 0x00 */ Sint16 unk0;
-    /* 0x02 */ char pad2[2];
-    /* 0x04 */ Sint32 unk4;
+    /* 0x02 */ Sint16 unk2;
+    /* 0x04 */ Sint32 stat;
     /* 0x08 */ ADXPD adxpd;
-    /* 0x0C */ char padC[2];
-    /* 0x0E */ Sint8 unkE;
-    /* 0x0F */ char padF[5];
-    /* 0x14 */ Sint32 unk14;
-    /* 0x18 */ Sint32 unk18;
-    /* 0x1C */ char pad1C[0x1C];
+    /* 0x0C */ Sint8 encoding_type;
+    /* 0x0D */ Sint8 sample_bitdepth;
+    /* 0x0E */ Sint8 channel_count;
+    /* 0x0F */ Sint8 block_size;
+    /* 0x10 */ Sint32 samples_per_block;
+    /* 0x14 */ Sint32 sample_rate;
+    /* 0x18 */ Sint32 total_samples;
+    /* 0x1C */ Sint16 unk1C;
+    /* 0x1E */ char pad1E[2];
+    /* 0x20 */ Sint32 unk20;
+    /* 0x24 */ Sint16 unk24;
+    /* 0x26 */ Sint16 unk26;
+    /* 0x28 */ Sint32 unk28;
+    /* 0x2C */ Sint32 unk2C;
+    /* 0x30 */ Sint32 unk30;
+    /* 0x34 */ Sint32 unk34;
     /* 0x38 */ Sint32 unk38;
-    /* 0x3C */ Sint32 unk3C;
+    /* 0x3C */ void *unk3C;
     /* 0x40 */ Sint32 unk40;
     /* 0x44 */ Sint32 unk44;
-    /* 0x48 */ char pad48[0x30];
-    /* 0x78 */ Sint32 (*get_wr)(void *, Sint32 *, Sint32 *, Sint32 *);
+    /* 0x48 */ ADXB_UNK unk48;
+    /* 0x74 */ Sint32 unk74;
+    /* 0x78 */ void *(*get_wr)(void *, ptrdiff_t *, Sint32 *, Sint32 *);
     /* 0x7C */ void *object;
-    /* 0x80 */ Sint32 unk80;
+    /* 0x80 */ void (*add_wr)(void *, Sint32, Sint32);
     /* 0x84 */ Sint32 unk84;
     /* 0x88 */ Sint32 unk88;
     /* 0x8C */ Sint32 unk8C;
-    /* 0x90 */ char pad90[8];
-    /* 0x98 */ Sint16 unk98;
+    /* 0x90 */ Sint32 dec_num_sample;
+    /* 0x94 */ Sint32 dec_data_len;
+    /* 0x98 */ Sint16 format;
     /* 0x9A */ Sint16 unk9A;
-    /* 0x9C */ char pad9C[0x12];
+    /* 0x9C */ Sint16 unk9C;
+    /* 0x9E */ Sint16 unk9E;
+    /* 0xA0 */ Sint16 unkA0;
+    /* 0xA2 */ char padA2[0xE];
     /* 0xB0 */ Sint32 unkB0;
-    /* 0xB4 */ char padB4[8];
+    /* 0xB4 */ Sint32 unkB4;
+    /* 0xB8 */ Sint32 unkB8;
     /* 0xBC */ Sint32 unkBC;
-    /* 0xC0 */ char padC0[8];
+    /* 0xC0 */ Sint32 unkC0;
+    /* 0xC4 */ Sint32 unkC4;
     /* 0xC8 */ Sint32 unkC8;
-    /* 0xCC */ ADXB_UNK_1 adxb_unk_1;
+    /* 0xCC */ ADX_UNK unkCC;
     /* 0xDC */ Sint16 unkDC;
     /* 0xDE */ Sint16 unkDE;
     /* 0xE0 */ Sint16 unkE0;
@@ -74,7 +112,7 @@ typedef struct {
     ADXB adxb;
     SJ sji;
     SJ sjo[2];
-    Char8 pad14[8];
+    char pad14[8];
     SJCK chunks[2];
     Sint32 unk2C;
     Sint32 unk30;
@@ -87,7 +125,7 @@ typedef struct {
     Sint32 unk4C;
     Sint32 unk50;
     Sint32 unk54;
-    Char8 pad58[64];
+    Sint8 unk58[0x40];
     Sint32 unk98;
     Sint32 lnkflg;
 } ADXSJD_OBJ;
@@ -113,14 +151,51 @@ typedef struct {
 
 typedef ADXAMP_OBJ *ADXAMP;
 
+// SJX
+
+#define SJX_MAX_OBJ 32
+
+typedef struct {
+    Sint32 unk0;
+    SJ sj;
+} SJX_UNK_0;
+
+typedef struct {
+    Sint8 unk0;
+    Sint8 id;
+    Sint16 unk2;
+    SJX_UNK_0 *unk4;
+    SJCK chunk;
+} SJX_UNK_1;
+
+typedef struct {
+    Sint32 count;
+    Sint32 reserved4;
+    Sint32 reserved8;
+    Sint32 reservedC;
+    SJX_UNK_1 items[0];
+} SJX_UNK_2;
+
+typedef struct {
+    Sint8 used;
+    Sint8 unk1;
+    Sint16 unk2;
+    SJ sj;
+    void *unk8;
+    Sint32 unkC;
+    SJX_UNK_0 *unk10;
+} SJX_OBJ;
+
+typedef SJX_OBJ *SJX;
+
 // PS2PSJ
 
 typedef struct {
     Sint8 used;
     char pad1[3];
-    Sint32 unk4;
+    void *unk4;
     SJ unk8;
-    Sint32 unkC;
+    SJX unkC;
     SJCK chunk;
 } PS2PSJ_OBJ;
 
@@ -129,20 +204,19 @@ typedef PS2PSJ_OBJ *PS2PSJ;
 // DTR
 
 typedef struct {
-    // total size: 0x40
-    Sint8 unk0; // state or used?
-    Sint8 unk1;
-    Sint8 unk2;
-    SJ unk4;
-    SJ unk8;
-    SJCK unkC;
-    SJCK unk14;
-    char pad1C[16];
-    Sint32 unk2C;
-    Sint32 unk30;
-    Sint32 unk34;
-    Sint32 unk38;
-    Sint32 unk3C;
+    /* 0x00 */ Sint8 unk0;
+    /* 0x01 */ Sint8 unk1;
+    /* 0x02 */ Sint8 unk2;
+    /* 0x04 */ SJ unk4;
+    /* 0x08 */ SJ unk8;
+    /* 0x0C */ SJCK unkC;
+    /* 0x14 */ SJCK unk14;
+    /* 0x1C */ sceSifDmaData dma_data;
+    /* 0x2C */ Sint32 unk2C;
+    /* 0x30 */ Sint32 unk30;
+    /* 0x34 */ Sint32 unk34;
+    /* 0x38 */ Sint32 unk38;
+    /* 0x3C */ Sint32 unk3C;
 } DTR_OBJ;
 
 typedef DTR_OBJ *DTR;
@@ -155,7 +229,7 @@ typedef struct {
     PS2PSJ psj[2];
     DTR dtr[2];
     SJ sjo[2];
-    Sint32 unk20;
+    intptr_t unk20;
     Sint32 unk24;
     Sint32 unk28;
     Sint32 unk2C;
@@ -193,7 +267,7 @@ typedef struct {
     Sint8 unk1;
     Sint8 unk2;
     Sint8 unk3;
-    Sint32 unk4;
+    void *unk4;
     Sint32 unk8;
     void *unkC;
     Sint32 unk10;
@@ -218,7 +292,7 @@ typedef struct {
     Sint8 read_flg;
     Sint8 unk3;
     SJ sj;
-    Sint32 cvfs;
+    void *cvfs;
     Sint32 unkC; // some offset
     Sint32 file_len;
     Sint32 file_sct;
@@ -351,7 +425,7 @@ typedef struct {
 } DVG_FLIST_SUB;
 
 typedef struct {
-    Sint32 unk0;
+    uintptr_t unk0;
     Sint32 unk4;
     Sint32 unk8;
     Sint32 unkC;

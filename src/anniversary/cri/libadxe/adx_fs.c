@@ -36,23 +36,23 @@ Sint32 ADXF_CALC_BYTE2SCT(Sint32 bytes) {
     return result;
 }
 
-void adxf_SetCmdHstry(Sint32 cmdid, Sint32 fg, Sint32 ptid, Sint32 flid, Sint32 type) {
+void adxf_SetCmdHstry(Sint32 cmdid, Sint32 fg, intptr_t prm_0, intptr_t prm_1, intptr_t prm_2) {
     ADXF_CMD_HSTRY *cmd_hstry;
 
     adxf_hstry_no %= ADXF_CMD_HSTRY_MAX;
     cmd_hstry = &adxf_cmd_hstry[adxf_hstry_no];
 
     if (fg == 0) {
-        adxf_cmd_ncall[cmdid]++;
+        adxf_cmd_ncall[cmdid] += 1;
     }
 
-    adxf_hstry_no++;
+    adxf_hstry_no += 1;
     cmd_hstry->cmdid = cmdid;
     cmd_hstry->fg = fg;
     cmd_hstry->ncall = adxf_cmd_ncall[cmdid];
-    cmd_hstry->prm[0] = ptid;
-    cmd_hstry->prm[1] = flid;
-    cmd_hstry->prm[2] = type;
+    cmd_hstry->prm[0] = prm_0;
+    cmd_hstry->prm[1] = prm_1;
+    cmd_hstry->prm[2] = prm_2;
 }
 
 void adxf_wait_1ms() {
@@ -82,7 +82,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_LoadPartitio
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_LoadPartitionEx);
 
 Sint32 ADXF_LoadPartitionNw(Sint32 ptid, Char8 *fname, void *dir, void *ptinfo) {
-    void *tmpbuf = (void *)(((Uint32)&adxf_ldpt_work + 0x40) & ~0x3F);
+    void *tmpbuf = (void *)(((uintptr_t)&adxf_ldpt_work + 0x40) & ~0x3F);
     return ADXF_LoadPtNwEx(ptid, fname, dir, ptinfo, tmpbuf, 0x800);
 }
 
@@ -314,7 +314,7 @@ Sint32 adxf_SetFileInfoEx(ADXF adxf, Char8 *fname, void *dir) {
 ADXF ADXF_Open(Char8 *fname, void *atr) {
     ADXF adxf;
 
-    adxf_SetCmdHstry(ADXF_CMD_OPEN, 0, (Sint32)fname, (Sint32)atr, -1);
+    adxf_SetCmdHstry(ADXF_CMD_OPEN, 0, (intptr_t)fname, (intptr_t)atr, -1);
     adxf = adxf_CreateAdxFs();
 
     if (adxf != NULL) {
@@ -324,7 +324,7 @@ ADXF ADXF_Open(Char8 *fname, void *atr) {
         }
     }
 
-    adxf_SetCmdHstry(ADXF_CMD_OPEN, 1, (Sint32)fname, (Sint32)atr, -1);
+    adxf_SetCmdHstry(ADXF_CMD_OPEN, 1, (intptr_t)fname, (intptr_t)atr, -1);
     return adxf;
 }
 
@@ -360,7 +360,7 @@ Sint32 adxf_SetAfsFileInfo(ADX_FS *adxf, Sint32 ptid, Sint32 flid) {
 ADXF ADXF_OpenAfs(Sint32 ptid, Sint32 flid) {
     ADXF adxf;
 
-    adxf_SetCmdHstry(ADXF_CMD_OPEN_AFS, 0, ptid, flid, -1);
+    adxf_SetCmdHstry(ADXF_CMD_OPEN_AFS, 0, (intptr_t)ptid, (intptr_t)flid, -1);
     adxf = adxf_CreateAdxFs();
 
     if ((adxf != NULL) && (adxf_SetAfsFileInfo(adxf, ptid, flid) < 0)) {
@@ -368,7 +368,7 @@ ADXF ADXF_OpenAfs(Sint32 ptid, Sint32 flid) {
         adxf = NULL;
     }
 
-    adxf_SetCmdHstry(ADXF_CMD_OPEN_AFS, 1, ptid, flid, -1);
+    adxf_SetCmdHstry(ADXF_CMD_OPEN_AFS, 1, (intptr_t)ptid, (intptr_t)flid, -1);
     return adxf;
 }
 
@@ -391,7 +391,7 @@ void adxf_CloseSjStm(ADXF adxf) {
 void ADXF_Close(ADXF adxf) {
     ADXSTM stm;
 
-    adxf_SetCmdHstry(ADXF_CMD_CLOSE, 0, (Sint32)adxf, -1, -1);
+    adxf_SetCmdHstry(ADXF_CMD_CLOSE, 0, (intptr_t)adxf, -1, -1);
 
     if (adxf == NULL) {
         return;
@@ -411,7 +411,7 @@ void ADXF_Close(ADXF adxf) {
     }
 
     memset(adxf, 0, sizeof(ADX_FS));
-    adxf_SetCmdHstry(ADXF_CMD_CLOSE, 1, (Sint32)adxf, -1, -1);
+    adxf_SetCmdHstry(ADXF_CMD_CLOSE, 1, (intptr_t)adxf, -1, -1);
 }
 
 void ADXF_CloseAll() {
@@ -475,7 +475,7 @@ Sint32 ADXF_ReadNw32(ADXF adxf, Sint32 nsct, void *buf) {
     Sint32 bsize;
     Sint32 temp_v0_2;
 
-    adxf_SetCmdHstry(ADXF_CMD_READ_NW32, 0, adxf, nsct, buf);
+    adxf_SetCmdHstry(ADXF_CMD_READ_NW32, 0, (intptr_t)adxf, (intptr_t)nsct, buf);
 
     if (adxf == 0) {
         ADXERR_CallErrFunc1("E9040816:'adxf' is NULL.(ADXF_ReadNw32)");
@@ -533,12 +533,12 @@ Sint32 ADXF_ReadNw32(ADXF adxf, Sint32 nsct, void *buf) {
     }
 
     adxf->sjflag = 0;
-    adxf_SetCmdHstry(ADXF_CMD_READ_NW32, 1, adxf, nsct, buf);
+    adxf_SetCmdHstry(ADXF_CMD_READ_NW32, 1, (intptr_t)adxf, (intptr_t)nsct, buf);
     return temp_v0_2;
 }
 
 Sint32 ADXF_ReadNw(ADXF adxf, Sint32 nsct, void *buf) {
-    if ((Sint32)buf & 0x3F) {
+    if ((uintptr_t)buf & 0x3F) {
         ADXERR_CallErrFunc1("E0120401:'buf' isn't 64byte alignment.(ADXF_ReadNw)");
         return ADXF_ERR_PRM;
     }
@@ -549,7 +549,7 @@ Sint32 ADXF_ReadNw(ADXF adxf, Sint32 nsct, void *buf) {
 Sint32 ADXF_Stop(ADXF adxf) {
     ADXSTM stm;
 
-    adxf_SetCmdHstry(ADXF_CMD_STOP, 0, adxf, -1, -1);
+    adxf_SetCmdHstry(ADXF_CMD_STOP, 0, (intptr_t)adxf, -1, -1);
 
     if (adxf == NULL) {
         ADXERR_CallErrFunc1("E9040822:'adxf' is NULL.(ADXF_Stop)");
@@ -578,7 +578,7 @@ Sint32 ADXF_Stop(ADXF adxf) {
         adxf_CloseSjStm(adxf);
         adxf->stat = 1;
         ADXCRS_Unlock();
-        adxf_SetCmdHstry(ADXF_CMD_STOP, 1, adxf, -1, -1);
+        adxf_SetCmdHstry(ADXF_CMD_STOP, 1, (intptr_t)adxf, -1, -1);
         break;
     }
 
@@ -586,7 +586,7 @@ Sint32 ADXF_Stop(ADXF adxf) {
 }
 
 Sint32 ADXF_StopNw(ADXF adxf) {
-    adxf_SetCmdHstry(ADXF_CMD_STOP_NW, 0, (Sint32)adxf, -1, -1);
+    adxf_SetCmdHstry(ADXF_CMD_STOP_NW, 0, (intptr_t)adxf, -1, -1);
 
     if (adxf == NULL) {
         ADXERR_CallErrFunc1("E2092301:'adxf' is NULL.(ADXF_StopNw)");
@@ -610,7 +610,7 @@ Sint32 ADXF_StopNw(ADXF adxf) {
 
         ADXSTM_StopNw(adxf->stm);
         adxf->stopnw_flg = 1;
-        adxf_SetCmdHstry(ADXF_CMD_STOP_NW, 1, (Sint32)adxf, -1, -1);
+        adxf_SetCmdHstry(ADXF_CMD_STOP_NW, 1, (intptr_t)adxf, -1, -1);
         break;
     }
 

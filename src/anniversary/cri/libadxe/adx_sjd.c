@@ -2,6 +2,7 @@
 #include <cri/private/libadxe/adx_bahx.h>
 #include <cri/private/libadxe/adx_bsc.h>
 #include <cri/private/libadxe/adx_crs.h>
+#include <cri/private/libadxe/adx_errs.h>
 #include <cri/private/libadxe/adx_sjd.h>
 #include <cri/private/libadxe/sj_rbf.h>
 
@@ -10,11 +11,11 @@
 #include <string.h>
 
 // data
-Sint32 pl2setsfreqfunc = 0;
+void (*pl2setsfreqfunc)(ADXB, Sint32) = NULL;
 ADXSJD_OBJ adxsjd_obj[ADXSJD_MAX_OBJ] = { 0 };
 
 // forward decls
-Sint32 adxsjd_get_wr(ADXSJD sjd, Sint32 *arg1, Sint32 *arg2, Sint32 *arg3);
+void *adxsjd_get_wr(ADXSJD sjd, ptrdiff_t *arg1, Sint32 *arg2, Sint32 *arg3);
 
 void ADXSJD_Init() {
     ADXB_Init();
@@ -40,7 +41,7 @@ void adxsjd_clear(ADXSJD sjd) {
 ADXSJD ADXSJD_Create(SJ sj, Sint32 maxnch, SJ *sjo) {
     ADXSJD sjd;
     SJ out;
-    Sint32 buf_ptr;
+    void *buf_ptr;
     Sint32 i;
     Sint32 y;
     Sint32 buf_size;
@@ -129,11 +130,75 @@ void ADXSJD_Stop(ADXSJD sjd) {
     sjd->state = 0;
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", D_0055B3D8);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", D_0055B3F8);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", adxsjd_decode_prep);
+void adxsjd_decode_prep(ADXSJD sjd) {
+    SJCK ck_0;
+    SJCK ck_1;
+    Sint32 header_len;
+    Uint32 format;
+    Sint32 nbyte;
+    Sint8 state;
+    SJ_OBJ *sji = sjd->sji;
+    ADXB_OBJ *adxb = sjd->adxb;
 
-Sint32 adxsjd_get_wr(ADXSJD sjd, Sint32 *arg1, Sint32 *arg2, Sint32 *arg3) {
+    SJ_GetChunk(sji, 1, 0x1000, &ck_0);
+
+    for (nbyte = 0; nbyte < ck_0.len; nbyte++) {
+        if (ck_0.data[nbyte] != 0) {
+            break;
+        }
+    }
+
+    SJ_SplitChunk(&ck_0, nbyte, &ck_1, &ck_0);
+    SJ_PutChunk(sji, 0, &ck_1);
+
+    if (ck_0.len < 16) {
+        SJ_UngetChunk(sji, 1, &ck_0);
+        return;
+    }
+
+    header_len = ADXB_DecodeHeader(adxb, ck_0.data, ck_0.len);
+
+    if ((header_len == 0) || (ck_0.len < header_len)) {
+        SJ_UngetChunk(sji, 1, &ck_0);
+        return;
+    }
+
+    if (header_len < 0) {
+        SJ_UngetChunk(sji, 1, &ck_0);
+        ADXERR_CallErrFunc2("E03010901 ADXB_DecodeHeader: ", "Can not decode this file format.");
+        state = 4;
+    } else {
+        sjd->unk98 = header_len;
+
+        if (ADXB_GetFormat(adxb) == 4) {
+            sjd->unk3 = 1;
+        }
+
+        if (ADXB_GetFormat(adxb) == 2) {
+            memcpy(sjd->unk58, ck_0.data, (ck_0.len > 0x40) ? 0x40 : ck_0.len);
+        }
+
+        format = ADXB_GetFormat(adxb);
+
+        if (((format - 10) < 2) || (format == 20) || (format == 15)) {
+            SJ_UngetChunk(sji, 1, &ck_0);
+        } else {
+            SJ_SplitChunk(&ck_0, header_len, &ck_0, &ck_1);
+            SJ_PutChunk(sji, 0, &ck_0);
+            SJ_UngetChunk(sji, 1, &ck_1);
+        }
+
+        if ((adxb->unkE4 != 0) && (pl2setsfreqfunc != NULL)) {
+            pl2setsfreqfunc(adxb, adxb->sample_rate);
+        }
+
+        state = 2;
+    }
+
+    sjd->state = state;
+}
+
+void *adxsjd_get_wr(ADXSJD sjd, ptrdiff_t *arg1, Sint32 *arg2, Sint32 *arg3) {
     Sint32 temp_v0_3;
     Sint32 i;
     Sint32 var_v0;
@@ -150,7 +215,7 @@ Sint32 adxsjd_get_wr(ADXSJD sjd, Sint32 *arg1, Sint32 *arg2, Sint32 *arg3) {
         SJ_GetChunk(sjo[i], 0, 0x4000, &chunk_p[i]);
     }
 
-    *arg1 = (Sint32)(sjd->chunks[0].data - SJRBF_GetBufPtr(first_out)) / 2;
+    *arg1 = ((void *)sjd->chunks[0].data - SJRBF_GetBufPtr(first_out)) / 2;
 
     a0 = sjd->unk38;
     temp_v0_3 = sjd->chunks[0].len / 2;
@@ -181,7 +246,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", adxsjd_decode_ex
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_ExecHndl);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_ExecServer);
+#else
+void ADXSJD_ExecServer() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetDecDtLen);
 

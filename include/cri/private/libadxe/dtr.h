@@ -6,7 +6,7 @@
 #include <cri/cri_xpts.h>
 #include <cri/sj.h>
 
-DTR DTR_Create(SJ sj, Sint32 arg1);
+DTR DTR_Create(SJ sj, SJ arg1);
 void DTR_Destroy(DTR dtr);
 void DTR_Start(DTR dtr);
 void DTR_Stop(DTR dtr);

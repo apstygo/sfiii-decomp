@@ -22,5 +22,8 @@ extern const u8 Flip_Data[20][8];
 extern const u8 VS_Diagonal_Shell_Data[8];
 extern const s8 Shell_Guard_Data[20][10];
 extern const u8 Shell_Change_Data_For_Reaction[];
+extern const u8 Standing_Time_Data[20][4][8];
+extern const s8 PL_Blow_Off_Data[27];
+extern const u8 Squat_Time_Data[8][8];
 
 #endif

@@ -1,5 +1,6 @@
 #include "common.h"
 #include <cri/private/libadxe/dtx.h>
+#include <cri/private/libadxe/structs.h>
 
 #include <cri/cri_xpts.h>
 #include <cri/sj.h>
@@ -8,41 +9,6 @@
 #include <sifdev.h>
 
 #include <string.h>
-
-typedef struct {
-    Sint32 unk0;
-    SJ sj;
-} SJX_UNK_0;
-
-typedef struct {
-    Sint8 unk0;
-    Sint8 id;
-    Sint16 unk2;
-    SJX_UNK_0 *unk4;
-    SJCK chunk;
-} SJX_UNK_1;
-
-typedef struct {
-    Sint32 count;
-    Sint32 reserved4;
-    Sint32 reserved8;
-    Sint32 reservedC;
-    SJX_UNK_1 items[0];
-} SJX_UNK_2;
-
-typedef struct {
-    Sint8 used;
-    Sint8 unk1;
-    Sint16 unk2;
-    SJ sj;
-    Sint32 unk8;
-    Sint32 unkC;
-    SJX_UNK_0 *unk10;
-} SJX_OBJ;
-
-typedef SJX_OBJ *SJX;
-
-#define SJX_MAX_OBJ 32
 
 Char8 *sjx_build = "\nSJX Ver 1.05 Build:Sep 18 2003 09:59:53\n";
 Sint32 sjx_init_cnt = 0;
@@ -127,20 +93,16 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sjx", sjx_rcvcbf_iop);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sjx", sjx_sndcbf_iop);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/sjx", SJX_ExecServer);
-#else
 void SJX_ExecServer() {
-    not_implemented(__func__);
+    DTX_ExecServer();
 }
-#endif
 
 void SJX_Init() {
     if (sjx_init_cnt == 0) {
         memset(sjx_ee_work, 0, sizeof(sjx_ee_work));
         DTX_Init();
         sjx_wklen = 0x880;
-        sjx_eewk = (void *)(((Uint32)sjx_ee_work + 0x40) & ~0x3F);
+        sjx_eewk = (void *)(((uintptr_t)sjx_ee_work + 0x40) & ~0x3F);
 
         if (sjx_iopwk0 == NULL) {
             sjx_iopwk0 = sceSifAllocIopHeap(0x8D0);
@@ -151,7 +113,7 @@ void SJX_Init() {
             }
         }
 
-        sjx_iopwk = (void *)(((Uint32)sjx_iopwk0 + 0x40) & ~0x3F);
+        sjx_iopwk = (void *)(((uintptr_t)sjx_iopwk0 + 0x40) & ~0x3F);
         sjx_dtx = DTX_Create(0, sjx_eewk, sjx_iopwk, sjx_wklen);
 
         if (sjx_dtx == NULL) {
@@ -181,8 +143,8 @@ void SJX_Finish() {
     }
 }
 
-SJX SJX_Create(SJ sj, Sint32 arg1, Sint32 arg2) {
-    Sint32 rpc_buf[4];
+SJX SJX_Create(SJ sj, void *arg1, Sint32 arg2) {
+    uintptr_t rpc_buf[4];
     SJX sjx;
     Sint32 i;
 
@@ -202,10 +164,10 @@ SJX SJX_Create(SJ sj, Sint32 arg1, Sint32 arg2) {
     sjx->sj = sj;
     sjx->unkC = arg2;
     sjx->unk8 = arg1;
-    rpc_buf[0] = (Sint32)sj;
+    rpc_buf[0] = (uintptr_t)sj;
     rpc_buf[1] = arg1;
     rpc_buf[2] = arg2;
-    rpc_buf[3] = (Sint32)sjx;
+    rpc_buf[3] = (uintptr_t)sjx;
     sjx->unk10 = DTX_CallUrpc(0, rpc_buf, 4, rpc_buf, 1);
 
     if (sjx->unk10 == NULL) {

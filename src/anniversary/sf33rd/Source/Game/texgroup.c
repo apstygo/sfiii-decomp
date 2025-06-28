@@ -129,8 +129,8 @@ void q_ldreq_texture_group(REQ *curr) {
     const TexGroupData *bsd;
     CharInitData *cit;
     CharInitData *cit2;
-    u32 ldadr;
-    u32 ldchd;
+    uintptr_t ldadr;
+    uintptr_t ldchd;
     s32 err;
     s16 i;
     u32 *patchAdrs;
@@ -250,8 +250,9 @@ void q_ldreq_texture_group(REQ *curr) {
             case 1:
                 ldchd = ldadr + bsd->to_chd;
 
+                // 25 is the number of members in CharInitData struct
                 for (i = 0; i < 25; i++) {
-                    ((u32 *)ldchd)[i] += ldchd;
+                    ((uintptr_t *)ldchd)[i] += ldchd;
                 }
 
                 cit = (CharInitData *)ldchd;
@@ -332,7 +333,7 @@ void reservMemKeySelObj() {
 void checkSelObjFileLoaded() {
     const TexGroupData *bsd;
     TEX_GRP_LD *lds;
-    u32 ldadr;
+    uintptr_t ldadr;
     s32 rnum;
 
     if (omSelObjNowOnMemoryType == mpp_w.language) {
@@ -416,7 +417,7 @@ s32 load_any_texture_patnum(u16 patnum, u8 kokey, u8 _unused) {
 s32 load_any_texture_grpnum(u8 grp, u8 kokey) {
     const TexGroupData *bsd;
     TEX_GRP_LD *lds;
-    u32 ldadr;
+    uintptr_t ldadr;
 
     if (grp == 0) {
         return 0;

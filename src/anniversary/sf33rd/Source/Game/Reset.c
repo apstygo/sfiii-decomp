@@ -117,7 +117,7 @@ s32 Setup_Next_Disposal() {
         return 1;
     }
 
-    if ((G_No[0] == 1) || (G_No[0] == 2) && (G_No[1] == 0)) {
+    if ((G_No[0] == 1) || ((G_No[0] == 2) && (G_No[1] == 0))) {
         return 1;
     }
 

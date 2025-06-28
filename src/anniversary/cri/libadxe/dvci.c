@@ -159,7 +159,7 @@ void dvCiEntryErrFunc(void (*func)(void *, const Char8 *, void *), void *obj) {
 }
 
 void dvci_to_large_to_yen(Char8 *path) {
-    Uint32 len = strlen(path);
+    size_t len = strlen(path);
     Sint32 i;
 
     for (i = 0; i < len; i++) {
@@ -309,13 +309,16 @@ DVG_CI dvCiOpen(Char8 *fname, void *arg1, Sint32 rw) {
     return dvg_ci;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci", dvCiClose);
-#else
 void dvCiClose(DVG_CI handl) {
-    not_implemented(__func__);
+    if (handl != NULL) {
+        if ((Uint8)handl->stat >= 2) {
+            dvCiStopTr(handl);
+        }
+
+        handl->used = 0;
+        dvci_free(handl);
+    }
 }
-#endif
 
 Sint32 dvCiSeek(DVG_CI handl, Sint32 offset, Sint32 whence) {
     if (handl == NULL) {

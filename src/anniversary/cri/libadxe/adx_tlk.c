@@ -48,12 +48,12 @@ ADXT ADXT_Create(Sint32 maxnch, void *work, Sint32 worksize) {
     Sint32 _maxnch;
     Sint32 i;
     Sint32 ix;
-    Sint32 aligned_work;
-    Sint32 size;
-    Sint32 ibuf_len;
+    intptr_t aligned_work;
+    ptrdiff_t size;
+    ptrdiff_t ibuf_len;
 
-    aligned_work = ((Uint32)work + 0x40 - 1) & ~(0x40 - 1);
-    size = worksize - (aligned_work - (Uint32)work);
+    aligned_work = ((uintptr_t)work + 0x40 - 1) & ~(0x40 - 1);
+    size = worksize - (aligned_work - (uintptr_t)work);
 
     if ((maxnch < 0) || (work == NULL) || (worksize < 0)) {
         ADXERR_CallErrFunc1("E02080804 ADXT_Create: parameter error");
@@ -82,7 +82,7 @@ ADXT ADXT_Create(Sint32 maxnch, void *work, Sint32 worksize) {
     adxt->obufdist = ADXT_OBUF_DIST;
     adxt->ibufxlen = ADXT_IBUF_XLEN;
     ibuf_len = size - ADXT_CALC_OBUFSIZE(_maxnch) - 0x124;
-    adxt->ibuflen = ibuf_len / 0x800 * 0x800;
+    adxt->ibuflen = (Sint32)(ibuf_len / 0x800 * 0x800);
 
     adxt->sji = NULL;
     adxt->unkB0 = adxt->ibuf + (adxt->ibuflen + adxt->ibufxlen);
@@ -307,7 +307,17 @@ void adxt_start_sj(ADXT adxt, SJ sj) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", adxt_start_stm);
+void adxt_start_stm(ADXT adxt, const Char8 *fname, void *dir, s32 arg3, Sint32 file_sct) {
+    ADXSTM_SetBufSize(adxt->stm, adxt->minsct << 11, adxt->maxsct << 11);
+    ADXSTM_SetEos(adxt->stm, 25);
+    ADXSTM_EntryEosFunc(adxt->stm, NULL, NULL);
+    ADXSTM_Seek(adxt->stm, 0);
+    ADXSTM_StopNw(adxt->stm);
+    ADXSTM_ReleaseFileNw(adxt->stm);
+    ADXSTM_BindFileNw(adxt->stm, fname, dir, arg3, file_sct);
+    ADXSTM_Start(adxt->stm);
+    adxt_start_sj(adxt, adxt->sjf);
+}
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B508);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_StartSj);
@@ -564,13 +574,34 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_SetAutoRcvr
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B940);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_IsCompleted);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_ExecServer);
-#else
 void ADXT_ExecServer() {
-    not_implemented(__func__);
+    Sint32 i;
+
+    ADXCRS_Lock();
+
+    if (adxt_tsvr_enter_cnt != 0) {
+        ADXCRS_Unlock();
+        return;
+    }
+
+    adxt_tsvr_enter_cnt = 1;
+    ADXCRS_Unlock();
+
+    ADXCRS_Lock();
+    ADXSJD_ExecServer();
+    adxt_tsvr_enter_cnt = 2;
+
+    for (i = 0; i < ADXT_MAX_OBJ; i++) {
+        if (adxt_obj[i].used == 1) {
+            ADXT_ExecHndl(&adxt_obj[i]);
+        }
+    }
+
+    adxt_tsvr_enter_cnt = 3;
+    ADXRNA_ExecServer();
+    adxt_tsvr_enter_cnt = 0;
+    ADXCRS_Unlock();
 }
-#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_ExecDecServer);
 

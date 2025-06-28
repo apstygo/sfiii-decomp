@@ -1,18 +1,43 @@
 #include "common.h"
+#include <cri/private/libadxe/adx_errs.h>
+#include <cri/private/libadxe/cri_cvfs.h>
+#include <cri/private/libadxe/dvci.h>
 #include <cri/private/libadxe/dvci_sub.h>
 
 #include <cri/ee/adx_ps2.h>
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sudv", adxps2_err_dvd);
+// data
+Char8 volatile adxps2_rt_ver0[12] = "\nADXRT  Ver.";
+Char8 volatile adxps2_rt_ver1 = '2';
+Char8 volatile adxps2_rt_ver2 = '8';
+Char8 volatile adxps2_rt_ver3 = '1';
+Char8 volatile adxps2_rt_ver4 = '0';
+Char8 volatile adxps2_rt_ver5[29] = " Build:Sep 18 2003 10:00:02\n";
 
-#if defined(TARGET_PS2)
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_sudv", D_0055B450);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sudv", ADXPS2_SetupDvdFs);
-#else
-void ADXPS2_SetupDvdFs(ADXPS2_SPRM_DVD *sprmd) {
-    not_implemented(__func__);
+void adxps2_err_dvd(void *obj, const Char8 *fmt) {
+    ADXERR_CallErrFunc1(fmt);
 }
-#endif
+
+void ADXPS2_SetupDvdFs(ADXPS2_SPRM_DVD *sprmd) {
+    adxps2_rt_ver0;
+    adxps2_rt_ver1;
+    adxps2_rt_ver2;
+    adxps2_rt_ver3;
+    adxps2_rt_ver4;
+    adxps2_rt_ver5;
+
+    cvFsEntryErrFunc(adxps2_err_dvd, NULL);
+    cvFsAddDev("CDV", dvCiGetInterface, 0);
+    cvFsSetDefDev("CDV");
+
+    if (sprmd != NULL) {
+        dvCiSetRdMode(sprmd->nrtry, sprmd->speed, sprmd->dtype, sprmd->rdmode);
+        dvCiSetRootDir(sprmd->rtdir);
+    } else {
+        dvCiSetRdMode(0, 0, 0, 0);
+        dvCiSetRootDir(NULL);
+    }
+}
 
 Sint32 ADXPS2_LoadFcacheDvd(ADXPS2_FCPRM *fcprm) {
     Sint32 ret = 0;

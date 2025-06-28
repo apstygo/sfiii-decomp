@@ -1,9 +1,9 @@
-// This file exists to make clang linker happy
-
 #if !defined(TARGET_PS2)
 
 #include "common.h"
 #include "types.h"
+
+#include "port/sdl_app.h"
 
 #include <eekernel.h>
 #include <libcdvd.h>
@@ -15,7 +15,17 @@
 #include <sif.h>
 #include <sifrpc.h>
 
+#include <fcntl.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+
 // libcdvd
+
+static const char flist_path[] = "\\THIRD\\0FLIST.DIR;1";
+static const char afs_path[] = "\\THIRD\\SF33RD.AFS;1";
 
 int sceCdBreak(void) {
     not_implemented(__func__);
@@ -37,25 +47,131 @@ int sceCdMmode(int media) {
     not_implemented(__func__);
 }
 
-int sceCdRead(u_int lbn, u_int sectors, void *buf, sceCdRMode *mode) {
-    not_implemented(__func__);
+int sceCdRead(u_int lsn, u_int sectors, void *buf, sceCdRMode *mode) {
+    switch (lsn) {
+    case -1:
+        // No need to actually read a file or write to the buffer
+        // because we are handling flist read and we don't
+        // need to read from buf
+        break;
+
+        // case -2:
+        //     break;
+
+    default:
+        fatal_error("Can't handle lsn %u", lsn);
+        break;
+    }
+
+    return 1;
 }
 
 int sceCdSync(int mode) {
-    not_implemented(__func__);
+    printf("[SDK] sceCdSync(mode: %d)\n", mode);
+    return 0;
 }
 
 int sceCdLayerSearchFile(sceCdlFILE *fp, const char *name, int layer) {
-    not_implemented(__func__);
+    if (strncmp(name, flist_path, strlen(flist_path)) == 0) {
+        fp->size = 12;
+        fp->lsn = -1; // Set a wacky lsn on purpose to recognize it in sceCdRead
+    } else if (strncmp(name, afs_path, strlen(afs_path)) == 0) {
+        fp->size = 642492416;
+        fp->lsn = -2; // Set a wacky lsn on purpose to recognize it in sceCdRead
+    } else {
+        fatal_error("Can't handle filename %s", name);
+    }
+
+    return 1;
 }
 
 // sifdev
 
-int sceRead(int fd, void *buf, int nbyte) {
-    not_implemented(__func__);
+static bool starts_with(const char *prefix, const char *str) {
+    return strncmp(prefix, str, strlen(prefix)) == 0;
+}
+
+static void convert_filename(char *dest, const char *src) {
+    const char device_name[] = "cdrom0:";
+
+    if (starts_with(device_name, src)) {
+        // Skip device name
+        src += strlen(device_name);
+    } else {
+        fatal_error("Can't handle filename: %s.", src);
+    }
+
+    // FIXME: Figure out a way to package resources with the executable
+    //        instead of relying on relative paths
+    strcpy(dest, "rom");
+    strcat(dest, src);
+
+    for (; *dest; dest++) {
+        // Convert \ to /
+        if (*dest == '\\') {
+            *dest = '/';
+        }
+
+        // Remove ;1 from the end
+        if (*dest == ';') {
+            *dest = '\0';
+            break;
+        }
+    }
+}
+
+int sceOpen(const char *filename, int flag, ...) {
+    // Convert SCE flags to Unix flags
+    int _flag = 0;
+
+    switch (flag & 0xF) {
+    case SCE_RDONLY:
+        _flag = O_RDONLY;
+        break;
+
+    case SCE_WRONLY:
+        _flag = O_WRONLY;
+        break;
+
+    case SCE_RDWR:
+        _flag = O_RDWR;
+        break;
+    }
+
+    if (flag & SCE_APPEND) {
+        _flag |= O_APPEND;
+    }
+
+    if (flag & SCE_CREAT) {
+        _flag |= O_CREAT;
+    }
+
+    if (flag & SCE_TRUNC) {
+        _flag |= O_TRUNC;
+    }
+
+    // Convert filenames
+    // Example: cdrom0:\THIRD\IOP\FONT8_8.TM2;1 -> rom/THIRD/IOP/FONT8_8.TM2
+    char converted_filename[2048];
+    memset(converted_filename, 0, sizeof(converted_filename));
+    convert_filename(converted_filename, filename);
+
+    return open(converted_filename, _flag);
 }
 
 int sceClose(int fd) {
+    return close(fd);
+}
+
+int sceRead(int fd, void *buf, int nbyte) {
+    return read(fd, buf, nbyte);
+}
+
+int sceLseek(int fd, int offset, int whence) {
+    return lseek(fd, offset, whence);
+}
+
+long sceLseek64(int fd, long offset, int whence) {
     not_implemented(__func__);
 }
 
@@ -64,18 +180,6 @@ int sceFsReset(void) {
 }
 
 int sceIoctl(int fd, int req, void *) {
-    not_implemented(__func__);
-}
-
-int sceLseek(int fd, int offset, int where) {
-    not_implemented(__func__);
-}
-
-long sceLseek64(int fd, long offset, int whence) {
-    not_implemented(__func__);
-}
-
-int sceOpen(const char *filename, int flag, ...) {
     not_implemented(__func__);
 }
 
@@ -146,11 +250,12 @@ int sceDmaReset(int mode) {
 }
 
 void sceDmaSend(sceDmaChan *d, void *tag) {
-    not_implemented(__func__);
+    printf("[SDK] sceDmaSend(d: %X, tag: %X)\n", d, tag);
 }
 
 int sceDmaSync(sceDmaChan *d, int mode, int timeout) {
-    not_implemented(__func__);
+    printf("[SDK] sceDmaSync(d: %X, mode: %d, timeout: %d)\n", d, mode, timeout);
+    return 0;
 }
 
 // libgraph
@@ -160,7 +265,7 @@ int sceGsExecLoadImage(sceGsLoadImage *lp, unsigned int *srcaddr) {
 }
 
 void sceGsResetGraph(short mode, short inter, short omode, short ffmode) {
-    not_implemented(__func__);
+    printf("[SDK] sceGsResetGraph(mode: %d, inter: %d, omode: %d, ffmode: %d)\n", mode, inter, omode, ffmode);
 }
 
 void sceGsResetPath() {
@@ -176,11 +281,14 @@ int sceGsSyncPath(int mode, unsigned short timeout) {
 }
 
 int sceGsSyncV(int mode) {
-    not_implemented(__func__);
+    // FIXME: Handle blocking VSync properly
+    printf("[SDK] sceGsSyncV(mode: %d)", mode);
+    return 0;
 }
 
 int *sceGsSyncVCallback(int (*func)(int)) {
-    not_implemented(__func__);
+    SDLApp_SetVSyncCallback(func);
+    return NULL;
 }
 
 // libpad2
@@ -216,11 +324,12 @@ s32 scePad2DeleteSocket(s32) {
 // eekernel
 
 void scePrintf(const char *fmt, ...) {
-    not_implemented(__func__);
-}
+    va_list args;
+    va_start(args, fmt);
 
-int DelayThread(u_int) {
-    not_implemented(__func__);
+    vprintf(fmt, args);
+
+    va_end(args);
 }
 
 // libvib
@@ -305,23 +414,15 @@ int sceMcSync(int, int *, int *) {
 
 // eekernel
 
-int ChangeThreadPriority(int, int) {
-    not_implemented(__func__);
+void FlushCache(int operation) {
+    printf("[SDK] FlushCache called (operation: %d)\n", operation);
 }
 
-void FlushCache(int) {
-    not_implemented(__func__);
-}
-
-void iFlushCache(int) {
-    not_implemented(__func__);
+void iFlushCache(int operation) {
+    printf("[SDK] iFlushCache called (operation: %d)\n", operation);
 }
 
 void InvalidDCache(void *, void *) {
-    not_implemented(__func__);
-}
-
-int ResumeThread(int) {
     not_implemented(__func__);
 }
 
@@ -329,7 +430,43 @@ void SyncDCache(void *, void *) {
     not_implemented(__func__);
 }
 
-int WakeupThread(int) {
+int EnableIntc(int) {
+    not_implemented(__func__);
+}
+
+int iEnableIntc(int) {
+    not_implemented(__func__);
+}
+
+int iDisableIntc(int) {
+    not_implemented(__func__);
+}
+
+int EnableDmac(int) {
+    not_implemented(__func__);
+}
+
+int AddIntcHandler(int, int (*)(int), int) {
+    not_implemented(__func__);
+}
+
+int AddDmacHandler(int, int (*)(int), int) {
+    not_implemented(__func__);
+}
+
+void ExitHandler() {
+    not_implemented(__func__);
+}
+
+// vu0
+
+float cosf(float) {
+    not_implemented(__func__);
+}
+
+// libdma
+
+void sceDmaRecvN(sceDmaChan *d, void *addr, int size) {
     not_implemented(__func__);
 }
 
