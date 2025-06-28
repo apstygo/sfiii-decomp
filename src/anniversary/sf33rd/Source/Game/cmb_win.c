@@ -1,5 +1,7 @@
 #include "sf33rd/Source/Game/cmb_win.h"
 #include "common.h"
+#include "gcc/memory.h"
+#include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/SYS_sub.h"
 #include "sf33rd/Source/Game/Sound3rd.h"
