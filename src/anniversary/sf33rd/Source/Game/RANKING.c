@@ -19,6 +19,9 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
+// sbss
+RANK_DATA Present_Data[2];
+
 // bss
 RANK_DATA Ranking_Data[20];
 

@@ -4,6 +4,7 @@
 #include "structs.h"
 #include "types.h"
 
+extern RANK_DATA Present_Data[2];
 extern RANK_DATA Ranking_Data[20];
 
 s32 Ranking();
