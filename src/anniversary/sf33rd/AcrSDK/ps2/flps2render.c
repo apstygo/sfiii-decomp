@@ -500,6 +500,9 @@ s32 flSetRenderState(enum _FLSETRENDERSTATE func, u32 value) {
         }
 
         break;
+
+    default:
+        break;
     }
 
     return 1;
@@ -513,7 +516,7 @@ s32 flPS2SendRenderState_SCISSOR(s32 dx, s32 dy, s32 dw, s32 dh, u32 flag) {
     s32 dx2;
     s32 dy2;
     u32 qwc;
-    u32 keep_ptr;
+    uintptr_t keep_ptr;
     QWORD *lpWork;
 
     if (dx < 0) {
@@ -542,7 +545,7 @@ s32 flPS2SendRenderState_SCISSOR(s32 dx, s32 dy, s32 dw, s32 dh, u32 flag) {
         qwc = 3;
     }
 
-    keep_ptr = (u32)lpWork;
+    keep_ptr = (uintptr_t)lpWork;
     lpWork->UI64[0] = (qwc + 0x70000000) | 0x80000000;
     lpWork->UI32[2] = 0x13000000;
     lpWork->UI32[3] = (qwc | 0x50000000);
@@ -603,7 +606,7 @@ s32 flPS2SendRenderState_SCISSOR(s32 dx, s32 dy, s32 dw, s32 dh, u32 flag) {
 
 s32 flPS2SendRenderState_ZBUF(u32 render_state, u32 flag) {
     u32 qwc;
-    u32 keep_ptr;
+    uintptr_t keep_ptr;
     s32 zbp;
     s32 psm;
     s32 zmsk;
@@ -628,7 +631,7 @@ s32 flPS2SendRenderState_ZBUF(u32 render_state, u32 flag) {
         qwc = 3;
     }
 
-    keep_ptr = (u32)lpWork;
+    keep_ptr = (uintptr_t)lpWork;
     lpWork->UI64[0] = (qwc + 0x70000000) | 0x80000000;
     lpWork->UI32[2] = 0x13000000;
     lpWork->UI32[3] = (qwc | 0x50000000);
@@ -665,7 +668,7 @@ s32 flPS2SendRenderState_ZBUF(u32 render_state, u32 flag) {
 
 s32 flPS2SendRenderState_TEST(u32 render_state, u32 flag) {
     u32 qwc;
-    u32 keep_ptr;
+    uintptr_t keep_ptr;
     QWORD *lpWork;
     u_long test;
     s32 ate;
@@ -765,7 +768,7 @@ s32 flPS2SendRenderState_TEST(u32 render_state, u32 flag) {
         qwc = 3;
     }
 
-    keep_ptr = (u32)lpWork;
+    keep_ptr = (uintptr_t)lpWork;
     (void)test;
 
     lpWork->UI64[0] = (qwc + 0x70000000) | 0x80000000;
@@ -811,7 +814,7 @@ s32 flPS2SendRenderState_TEST(u32 render_state, u32 flag) {
 
 s32 flPS2SendRenderState_ALPHA(u32 render_state, u32 flag) {
     u32 qwc;
-    u32 keep_ptr;
+    uintptr_t keep_ptr;
     u_long alpha;
     QWORD *lpWork;
     u32 blend_ope;
@@ -824,7 +827,7 @@ s32 flPS2SendRenderState_ALPHA(u32 render_state, u32 flag) {
         qwc = 3;
     }
 
-    keep_ptr = (u32)lpWork;
+    keep_ptr = (uintptr_t)lpWork;
 
     lpWork->UI64[0] = (qwc + 0x70000000) | 0x80000000;
     lpWork->UI32[2] = 0x13000000;
@@ -1193,12 +1196,12 @@ s32 flPS2SendRenderState_ALPHA(u32 render_state, u32 flag) {
 
 s32 flPS2SendRenderState_FOGCOL(u32 fogcol) {
     u32 qwc;
-    u32 keep_ptr;
+    uintptr_t keep_ptr;
     QWORD *lpWork;
 
     lpWork = (QWORD *)flPS2GetSystemTmpBuff(0x30, 0x10);
     qwc = 2;
-    keep_ptr = (u32)lpWork;
+    keep_ptr = (uintptr_t)lpWork;
 
     lpWork->UI64[0] = (qwc + 0x70000000) | 0x80000000;
     lpWork->UI32[2] = 0x13000000;
@@ -1218,12 +1221,12 @@ s32 flPS2SendRenderState_FOGCOL(u32 fogcol) {
 
 s32 flPS2SendRenderState_TEX1(u32 render_state, u32 flag) {
     u32 qwc;
-    u32 keep_ptr;
+    uintptr_t keep_ptr;
     QWORD *lpWork;
 
     lpWork = (QWORD *)flPS2GetSystemTmpBuff(0x30, 0x10);
     qwc = 2;
-    keep_ptr = (u32)lpWork;
+    keep_ptr = (uintptr_t)lpWork;
 
     lpWork->UI64[0] = (qwc + 0x70000000) | 0x80000000;
     lpWork->UI32[2] = 0x13000000;

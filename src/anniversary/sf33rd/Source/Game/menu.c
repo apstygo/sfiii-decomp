@@ -2436,7 +2436,7 @@ void Sound_Test(struct _TASK *task_ptr) {
             }
         }
 
-        if (IO_Result == 0x200 || (Menu_Cursor_Y[0] == 6) && (IO_Result == 0x100 || IO_Result == 0x4000)) {
+        if (IO_Result == 0x200 || ((Menu_Cursor_Y[0] == 6) && (IO_Result == 0x100 || IO_Result == 0x4000))) {
             SE_selected();
             Return_Option_Mode_Sub(task_ptr);
             setupAlwaysSeamlessFlag(0);

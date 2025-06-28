@@ -393,7 +393,7 @@ void adxstmf_stat_exec(ADXSTM stm) {
 }
 
 void ADXSTMF_ExecHndl(ADXSTM stm) {
-    Sint32 cvfs;
+    void *cvfs;
     Sint32 cur_pos;
 
     if (stm->read_flg == 0) {

@@ -1,6 +1,8 @@
 #ifndef DTX_H
 #define DTX_H
 
+#include "types.h"
+
 #include <cri/private/libadxe/structs.h>
 
 #include <cri/cri_xpts.h>
@@ -12,7 +14,7 @@ DTX DTX_Create(Sint32 id, void *eewk, void *iopwk, Sint32 wklen);
 void DTX_Destroy(DTX dtx);
 void DTX_SetRcvCbf(DTX dtx, void (*func)(), void *object);
 void DTX_SetSndCbf(DTX dtx, void (*func)(), void *object);
-Sint32 DTX_CallUrpc(Sint32 arg0, Sint32 *args, Sint32 arg_num, Sint32 *arg3, Sint32 arg4);
+intptr_t DTX_CallUrpc(Uint32 call_id, intptr_t *snd_buf, Sint32 snd_buf_len, intptr_t *rcv_buf, Sint32 rcv_buf_len);
 void DTX_Finish();
 void DTX_ExecServer();
 

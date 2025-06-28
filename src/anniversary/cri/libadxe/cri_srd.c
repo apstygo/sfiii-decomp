@@ -345,7 +345,7 @@ void srd_exec_hst(SRD srd) {
 
         if (offset < 0) {
             srd->stat = 9;
-            srd->unk34 = offset;
+            srd->unk34 = (Sint32)offset;
         }
 
         SRD_SetHistory(0x2100);
@@ -357,7 +357,7 @@ void srd_exec_hst(SRD srd) {
             srd_debug_rdbg_cnt += 1;
         } else {
             srd->stat = 9;
-            srd->unk34 = offset;
+            srd->unk34 = (Sint32)offset;
         }
 
         break;
@@ -510,7 +510,7 @@ Sint64 SRD_SceLseek(Sint32 fd, Sint64 offset, Sint32 whence) {
             scePrintf("SRD: sceLseek64 error = %d\r\n", ofst);
         }
     } else {
-        ofst = sceLseek(fd, offset, whence);
+        ofst = sceLseek(fd, (Sint32)offset, whence);
 
         if (ofst < 0) {
             scePrintf("SRD: sceLseek error = %d\r\n", ofst);

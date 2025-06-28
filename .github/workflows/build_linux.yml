@@ -19,7 +19,7 @@ jobs:
           - name: Install dependencies
             run: |
                 apt update
-                apt install -y build-essential make clang libsdl3-0 libsdl3-dev
+                apt install -y build-essential make cmake clang libsdl3-0 libsdl3-dev
 
           - name: Build for Linux
             run: |

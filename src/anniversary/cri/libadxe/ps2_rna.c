@@ -77,7 +77,7 @@ void *ps2psj_iop_work = NULL;
 Sint8 ps2psj_alloc_flag = 0;
 Sint32 ps2rna_psm_wksize = 0;
 void *ps2rna_psm_wk0 = NULL;
-Sint32 ps2rna_psm_wk = 0;
+uintptr_t ps2rna_psm_wk = 0;
 Sint32 ps2rna_psm_max_voice = 0;
 Sint32 ps2rna_max_nste = 0;
 Sint32 ps2rna_max_nmono = 0;
@@ -148,7 +148,7 @@ void ps2rna_init_psj() {
         }
 
         scePrintf("PS2RNA: sceSifAllocIopHeap(%d) ret=0x%08x\n", ps2psj_iop_wksize + 0x40, ps2psj_iop_work0);
-        ps2psj_iop_work = (Sint32)(ps2psj_iop_work0 + 0x40) & ~(0x40 - 1);
+        ps2psj_iop_work = (uintptr_t)(ps2psj_iop_work0 + 0x40) & ~(0x40 - 1);
         ps2psj_alloc_flag = 1;
     }
 
@@ -159,7 +159,7 @@ void ps2rna_init_psj() {
         psj = &ps2psj_obj[j];
         psj->used = 0;
 
-        if ((Uint32)wk & 0x3F) {
+        if ((uintptr_t)wk & 0x3F) {
             scePrintf("E0110101: ps2rna_init_psj wk size error\n");
             while (1) {}
         }
@@ -172,7 +172,7 @@ void ps2rna_init_psj() {
             while (1) {}
         }
 
-        if ((Uint32)wk & 0x3F) {
+        if ((uintptr_t)wk & 0x3F) {
             scePrintf("E0110103: ps2rna_init_psj: wk size error\n");
             while (1) {}
         }
@@ -276,7 +276,7 @@ void ps2rna_sndcbf() {
 #endif
 
 void PS2RNA_Init() {
-    Sint32 unk[3];
+    intptr_t snd_buf[3];
 
     *ps2rna_build;
 
@@ -288,7 +288,7 @@ void PS2RNA_Init() {
         ps2rna_init_psj();
         memset(ps2rna_ee_work, 0, sizeof(ps2rna_ee_work));
         ps2rna_wklen = 0x880;
-        ps2rna_eewk = (Sint32)(ps2rna_ee_work + 0x40) & ~0x3F;
+        ps2rna_eewk = (uintptr_t)(ps2rna_ee_work + 0x40) & ~0x3F;
 
         if (ps2rna_iopwk0 == NULL) {
             ps2rna_iopwk0 = sceSifAllocIopHeap(PS2RNA_WORK_SIZE);
@@ -300,7 +300,7 @@ void PS2RNA_Init() {
         }
 
         scePrintf("PS2RNA: sceSifAllocIopHeap(%d) ret=0x%08x\n", PS2RNA_WORK_SIZE, ps2rna_iopwk0);
-        ps2rna_iopwk = (Sint32)(ps2rna_iopwk0 + 0x40) & ~0x3F;
+        ps2rna_iopwk = (uintptr_t)(ps2rna_iopwk0 + 0x40) & ~0x3F;
         ps2rna_dtx = DTX_Create(1, ps2rna_eewk, ps2rna_iopwk, ps2rna_wklen);
 
         if (ps2rna_dtx == NULL) {
@@ -324,10 +324,10 @@ void PS2RNA_Init() {
             scePrintf("PS2RNA: sceSifAllocIopHeap(%d) ret=0x%08x\n", ps2rna_psm_wksize, ps2rna_psm_wk0);
         }
 
-        unk[0] = ps2rna_psm_max_voice;
-        ps2rna_psm_wk = unk[1] = (Sint32)(ps2rna_psm_wk0 + 0x3F) & ~0x3F;
-        unk[2] = ps2rna_psm_wksize;
-        DTX_CallUrpc(10, unk, 3, NULL, 0);
+        snd_buf[0] = ps2rna_psm_max_voice;
+        ps2rna_psm_wk = snd_buf[1] = (uintptr_t)(ps2rna_psm_wk0 + 0x3F) & ~0x3F;
+        snd_buf[2] = ps2rna_psm_wksize;
+        DTX_CallUrpc(10, snd_buf, 3, NULL, 0);
     }
 
     ps2rna_init_cnt += 1;
@@ -368,8 +368,8 @@ void PS2RNA_Finish() {
 }
 
 ADXRNA PS2RNA_Create(SJ *sjo, Sint32 maxnch) {
-    Sint32 args[4];
-    Sint32 results[1];
+    intptr_t snd_buf[4];
+    intptr_t rcv_buf[1];
     PS2PSJ psj;
     Sint32 i;
     Sint32 j;
@@ -410,14 +410,14 @@ ADXRNA PS2RNA_Create(SJ *sjo, Sint32 maxnch) {
         }
     }
 
-    args[0] = maxnch;
-    args[1] = 0;
+    snd_buf[0] = maxnch;
+    snd_buf[1] = 0;
 
     for (i = 0; i < maxnch; i++) {
-        args[2 + i] = rna->psj[i]->unk4;
+        snd_buf[2 + i] = rna->psj[i]->unk4;
     }
 
-    rna->unk20 = DTX_CallUrpc(8, args, 4, results, 1);
+    rna->unk20 = DTX_CallUrpc(8, snd_buf, 4, rcv_buf, 1);
 
     if (rna->unk20 == 0) {
         scePrintf("E0100401: can't create PS2RNA of IOP\n");
@@ -436,11 +436,11 @@ ADXRNA PS2RNA_Create(SJ *sjo, Sint32 maxnch) {
                 }
 
                 if (rna->unk20 != 0) {
-                    args[0] = rna->unk20;
-                    DTX_CallUrpc(9, args, 1, NULL, 0);
+                    snd_buf[0] = rna->unk20;
+                    DTX_CallUrpc(9, snd_buf, 1, NULL, 0);
                 }
 
-                if (rna->psj[k] != 0) {
+                if (rna->psj[k] != NULL) {
                     ps2rna_release_psj(rna->psj[k]);
                 }
             }
@@ -479,7 +479,7 @@ ADXRNA PS2RNA_Create(SJ *sjo, Sint32 maxnch) {
 }
 
 void PS2RNA_Destroy(ADXRNA rna) {
-    Sint32 args[1];
+    intptr_t snd_buf[1];
     Sint32 i;
 
     for (i = 0; i < rna->maxnch; i++) {
@@ -488,11 +488,11 @@ void PS2RNA_Destroy(ADXRNA rna) {
         }
     }
 
-    args[0] = rna->unk20;
-    DTX_CallUrpc(9, args, 1, NULL, 0);
+    snd_buf[0] = rna->unk20;
+    DTX_CallUrpc(9, snd_buf, 1, NULL, 0);
 
     for (i = 0; i < rna->maxnch; i++) {
-        if (rna->psj[i] != 0) {
+        if (rna->psj[i] != NULL) {
             ps2rna_release_psj(rna->psj[i]);
         }
     }
