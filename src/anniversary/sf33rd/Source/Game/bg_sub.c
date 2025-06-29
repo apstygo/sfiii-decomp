@@ -64,7 +64,13 @@ void suzi_sync_pos_set(WORK_Other *ewk) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", Bg_Family_Set);
+#else
+void Bg_Family_Set() {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", Bg_Family_Set_appoint);
@@ -90,7 +96,13 @@ void bg_pos_hosei_sub2(s16 bg_no) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", bg_pos_hosei_sub3);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", bg_pos_hosei2);
+#else
+void bg_pos_hosei2() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", get_center_position);
 

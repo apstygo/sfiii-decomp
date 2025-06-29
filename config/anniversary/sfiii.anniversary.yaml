@@ -260,7 +260,7 @@ segments:
       - [0x0EC390, c, sf33rd/Source/Game/EFF64]
       - [0x0ECCA0, asm, sf33rd/Source/Game/EFF65]
       - [0x0ECF20, c, sf33rd/Source/Game/EFF66]
-      - [0x0EDF30, asm, sf33rd/Source/Game/EFF67]
+      - [0x0EDF30, c, sf33rd/Source/Game/EFF67]
       - [0x0EEE80, asm, sf33rd/Source/Game/EFF68]
       - [0x0EF5D0, asm, sf33rd/Source/Game/EFF69]
       - [0x0EFFE0, asm, sf33rd/Source/Game/EFF70]
@@ -995,7 +995,7 @@ segments:
       - [0x40B818, .rodata, sf33rd/Source/Game/EFF63]
       - [0x40B900, .rodata, sf33rd/Source/Game/EFF64]
       - [0x40BB70, .rodata, sf33rd/Source/Game/EFF66]
-      - [0x40BC80, rodata, sf33rd/Source/Game/EFF67]
+      - [0x40BC80, .rodata, sf33rd/Source/Game/EFF67]
       - [0x40BD20, rodata, sf33rd/Source/Game/EFF68]
       - [0x40BDB0, rodata, sf33rd/Source/Game/EFF69]
       - [0x40BDD0, rodata, sf33rd/Source/Game/EFF71]
@@ -1419,7 +1419,7 @@ segments:
       - [0x473EA0, sdata, sf33rd/Source/Game/PLCNT]
       - [0x473F30, sdata, sf33rd/Source/Game/PLPAT]
       - [0x474070, .sdata, sf33rd/Source/Game/PulPul]
-      - [0x474080, sdata, sf33rd/Source/Game/RANKING]
+      - [0x474080, .sdata, sf33rd/Source/Game/RANKING]
       - [0x4740D0, .sdata, sf33rd/Source/Game/Reset]
       - [0x4740E0, sdata, sf33rd/Source/Game/Saver]
       - [0x4740F0, .sdata, sf33rd/Source/Game/sc_sub]
@@ -1579,7 +1579,7 @@ segments:
       - { type: sbss, vram: 0x5795D8, name: sf33rd/Source/Game/plpat14 }
       - { type: .sbss, vram: 0x5795DC, name: sf33rd/Source/Game/PulPul }
       - { type: .sbss, vram: 0x579678, name: sf33rd/Source/Game/RAMCNT }
-      - { type: sbss, vram: 0x579730, name: sf33rd/Source/Game/RANKING }
+      - { type: .sbss, vram: 0x579730, name: sf33rd/Source/Game/RANKING }
       - { type: .sbss, vram: 0x579758, name: sf33rd/Source/Game/Reset }
       - { type: .sbss, vram: 0x579760, name: sf33rd/Source/Game/sc_data }
       - { type: .sbss, vram: 0x579778, name: sf33rd/Source/Game/sc_sub }
