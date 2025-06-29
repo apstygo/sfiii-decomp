@@ -1,4 +1,4 @@
-#include "sf33rd/Source/Game/EFFL4.h"
+#include "sf33rd/Source/Game/effL4.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
