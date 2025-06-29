@@ -16,11 +16,11 @@
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_data.h"
 #include "sf33rd/Source/Game/eff97.h"
+#include "sf33rd/Source/Game/effM0.h"
 #include "sf33rd/Source/Game/effM7.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 // effect_86_init
-// effect_M0_init
 // effect_M1_init
 // effect_M5_init
 
