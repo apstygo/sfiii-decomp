@@ -7,6 +7,7 @@
 #include "sf33rd/Source/Game/EFF46.h"
 #include "sf33rd/Source/Game/EFFC5.h"
 #include "sf33rd/Source/Game/EFFC8.h"
+#include "sf33rd/Source/Game/EFFM1.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/SE.h"
@@ -17,12 +18,11 @@
 #include "sf33rd/Source/Game/bg_data.h"
 #include "sf33rd/Source/Game/eff97.h"
 #include "sf33rd/Source/Game/effM0.h"
-#include "sf33rd/Source/Game/effM1.h"
+#include "sf33rd/Source/Game/effM5.h"
 #include "sf33rd/Source/Game/effM7.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 // effect_86_init
-// effect_M5_init
 
 s8 Appear_car_stop[] = { 0, 0 };
 s8 Appear_hv[] = { 0, 0 };
@@ -355,7 +355,7 @@ void Appear_06000(PLW *wk) {
             effect_C5_init(wk, 1);
             break;
         case 40:
-            effect_M5_init(&wk->wu);
+            effect_M5_init(wk);
             break;
         }
         wk->wu.disp_flag = 0;
