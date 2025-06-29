@@ -4,6 +4,7 @@
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFF09.h"
 #include "sf33rd/Source/Game/EFF15.h"
+#include "sf33rd/Source/Game/EFF46.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/SE.h"
@@ -16,7 +17,6 @@
 #include "sf33rd/Source/Game/effM7.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
-// effect_46_init
 // effect_86_init
 // effect_C5_init
 // effect_C8_init
@@ -32,7 +32,7 @@ s16 app_counter[] = { 0, 0 };
 s16 appear_work[] = { 0, 0 };
 s16 Appear_end;
 
-void appear_work_clear(void) {
+void appear_work_clear() {
     Appear_end = 0;
     Appear_flag[0] = 0;
     Appear_flag[1] = 0;
@@ -1479,10 +1479,10 @@ void Appear_29000(PLW *wk) {
         work = random_16();
 
         if (work & 1) {
-            effect_09_init2(wk, 0x19);
+            effect_09_init2(&wk->wu, 0x19);
         }
         if (8 < work) {
-            effect_09_init2(wk, 0x1b);
+            effect_09_init2(&wk->wu, 0x1b);
         }
 
         animal_decide(wk);
