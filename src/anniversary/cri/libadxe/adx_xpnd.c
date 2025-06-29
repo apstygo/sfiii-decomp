@@ -18,7 +18,7 @@ void ADXPD_Finish() {
     memset(&adxpd_obj, 0, sizeof(adxpd_obj));
 }
 
-ADXPD_OBJ *ADXPD_Create() {
+ADXPD ADXPD_Create() {
     ADXPD_OBJ *adxpd;
     ADXPD_OBJ *chk_adxpd;
     s32 i;
@@ -41,40 +41,40 @@ ADXPD_OBJ *ADXPD_Create() {
     adxpd->unk4 = i;
     adxpd->mode = 0;
     adxpd->stat = 0;
-    ADX_GetCoefficient(0x1F4, 0xAC44, &adxpd->unk30[0], &adxpd->unk30[1]);
-    memset(&adxpd->unk28, 0, 8);
+    ADX_GetCoefficient(0x1F4, 0xAC44, &adxpd->unk30, &adxpd->unk32);
+    memset(&adxpd->ADXPD_OBJ_SUB, 0, 8);
 
     return adxpd;
 }
 
 void ADXPD_SetCoef(ADXPD_OBJ *adxpd, s32 arg1, s16 *arg2) {
-    ADX_GetCoefficient(arg2, arg1, &adxpd->unk30[0], &adxpd->unk30[1]);
+    ADX_GetCoefficient(arg2, arg1, &adxpd->unk30, &adxpd->unk32);
 }
 
 void ADXPD_SetDly(ADXPD_OBJ *arg0, s16 *arg1, s16 *arg2) {
-    arg0->unk28.unk0 = arg1[0];
-    arg0->unk28.unk2 = arg2[0];
-    arg0->unk28.unk4 = arg1[1];
-    arg0->unk28.unk6 = arg2[1];
+    arg0->ADXPD_OBJ_SUB.unk0 = arg1[0];
+    arg0->ADXPD_OBJ_SUB.unk2 = arg2[0];
+    arg0->ADXPD_OBJ_SUB.unk4 = arg1[1];
+    arg0->ADXPD_OBJ_SUB.unk6 = arg2[1];
 }
 
 void ADXPD_GetDly(ADXPD_OBJ *adxpd, s16 *arg1, s16 *arg2) {
-    arg1[0] = adxpd->unk28.unk0;
-    arg2[0] = adxpd->unk28.unk2;
-    arg1[1] = adxpd->unk28.unk4;
-    arg2[1] = adxpd->unk28.unk6;
+    arg1[0] = adxpd->ADXPD_OBJ_SUB.unk0;
+    arg2[0] = adxpd->ADXPD_OBJ_SUB.unk2;
+    arg1[1] = adxpd->ADXPD_OBJ_SUB.unk4;
+    arg2[1] = adxpd->ADXPD_OBJ_SUB.unk6;
 }
 
 void ADXPD_SetExtPrm(ADXPD_OBJ *adxpd, s16 arg1, s16 arg2, s16 arg3) {
-    adxpd->unk30[2] = arg1;
-    adxpd->unk30[3] = arg2;
-    adxpd->unk30[4] = arg3;
+    adxpd->unk34 = arg1;
+    adxpd->unk36 = arg2;
+    adxpd->unk38 = arg3;
 }
 
 void ADXPD_GetExtPrm(ADXPD_OBJ *adxpd, u16 *arg1, u16 *arg2, u16 *arg3) {
-    *arg1 = adxpd->unk30[2];
-    *arg2 = adxpd->unk30[3];
-    *arg3 = adxpd->unk30[4];
+    *arg1 = adxpd->unk34;
+    *arg2 = adxpd->unk36;
+    *arg3 = adxpd->unk38;
 }
 
 void ADXPD_Destroy(ADXPD_OBJ *adxpd) {
@@ -140,7 +140,7 @@ void ADXPD_Start(ADXPD adxpd) {
 
 void ADXPD_Stop(ADXPD adxpd) {
     adxpd->stat = 0;
-    memset(&adxpd->unk28, 0, 8);
+    memset(&adxpd->ADXPD_OBJ_SUB, 0, sizeof(adxpd->ADXPD_OBJ_SUB));
 }
 
 void ADXPD_Reset(ADXPD adxpd) {
@@ -170,24 +170,24 @@ void ADXPD_ExecHndl(ADXPD adxpd) {
         adxpd->num_blk = ADX_DecodeMono4(adxpd->unk18,
                                          adxpd->unk1C,
                                          adxpd->unk20,
-                                         &adxpd->unk28.unk0,
-                                         adxpd->unk30[0],
-                                         adxpd->unk30[1],
-                                         &adxpd->unk30[2],
-                                         adxpd->unk30[3],
-                                         adxpd->unk30[4]);
+                                         &adxpd->ADXPD_OBJ_SUB.unk0,
+                                         adxpd->unk30,
+                                         adxpd->unk32,
+                                         &adxpd->unk34,
+                                         adxpd->unk36,
+                                         adxpd->unk38);
     } else {
         adxpd->num_blk = ADX_DecodeSte4(adxpd->unk18,
                                         adxpd->unk1C,
                                         adxpd->unk20,
-                                        &adxpd->unk28.unk0,
+                                        &adxpd->ADXPD_OBJ_SUB.unk0,
                                         adxpd->unk24,
-                                        &adxpd->unk28.unk4,
-                                        adxpd->unk30[0],
-                                        adxpd->unk30[1],
-                                        &adxpd->unk30[2],
-                                        adxpd->unk30[3],
-                                        adxpd->unk30[4]);
+                                        &adxpd->ADXPD_OBJ_SUB.unk4,
+                                        adxpd->unk30,
+                                        adxpd->unk32,
+                                        &adxpd->unk34,
+                                        adxpd->unk36,
+                                        adxpd->unk38);
 
         if ((adxpd->num_blk % 2) == 1) {
             adxpd_error();
