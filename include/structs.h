@@ -1619,6 +1619,14 @@ typedef struct {
 } CharInitData;
 
 typedef struct {
+    // total size: 0x8
+    s16 my_cm; // offset 0x0, size 0x2
+    s16 my_cc; // offset 0x2, size 0x2
+    s16 my_pr; // offset 0x4, size 0x2
+    s16 my_fm; // offset 0x6, size 0x2
+} CharInitData2;
+
+typedef struct {
     // total size: 0xC
     uintptr_t adr;  // offset 0x0, size 0x4
     size_t size;    // offset 0x4, size 0x4
