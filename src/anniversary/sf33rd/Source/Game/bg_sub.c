@@ -154,7 +154,7 @@ void check_cg_zoom() {
         switch (zoom_wk) {
         case 0x1000:
             zoom_request_flag |= 0x1000;
-            scr_req_y = plw[0].wu.xyz[1].disp.pos + plw[1].wu.xyz[1].disp.pos >> 1;
+            scr_req_y = (plw[0].wu.xyz[1].disp.pos + plw[1].wu.xyz[1].disp.pos) >> 1;
             break;
 
         case 0x100:
@@ -182,7 +182,7 @@ void check_cg_zoom() {
 
         case 0x100:
             zoom_request_flag |= 0x1000;
-            scr_req_y = plw[0].wu.xyz[1].disp.pos + plw[1].wu.xyz[1].disp.pos >> 1;
+            scr_req_y = (plw[0].wu.xyz[1].disp.pos + plw[1].wu.xyz[1].disp.pos) >> 1;
             break;
 
         case 0x4000:
@@ -206,7 +206,7 @@ void check_cg_zoom() {
 
         case 0x1100:
             zoom_request_flag |= 0x1000;
-            scr_req_y = plw[0].wu.xyz[1].disp.pos + plw[1].wu.xyz[1].disp.pos >> 1;
+            scr_req_y = (plw[0].wu.xyz[1].disp.pos + plw[1].wu.xyz[1].disp.pos) >> 1;
             break;
 
         case 0x0:
@@ -234,7 +234,7 @@ void check_cg_zoom() {
         case 0x1100:
         case 0x0:
             zoom_request_flag |= 0x1000;
-            scr_req_y = plw[0].wu.xyz[1].disp.pos + plw[1].wu.xyz[1].disp.pos >> 1;
+            scr_req_y = (plw[0].wu.xyz[1].disp.pos + plw[1].wu.xyz[1].disp.pos) >> 1;
             break;
 
         case 0x4000:
