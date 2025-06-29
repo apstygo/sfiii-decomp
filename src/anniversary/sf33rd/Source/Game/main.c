@@ -82,7 +82,7 @@ void AcrMain() {
 #else
     while (is_running) {
         is_running = SDLApp_PollEvents();
-        SDLApp_Render();
+        SDLApp_BeginFrame();
 #endif
 
         initRenderState(0);
@@ -107,8 +107,11 @@ void AcrMain() {
         }
 
         appSetupTempPriority();
+
+#if !defined(PAD_DISABLED)
         flPADGetALL();
         keyConvert();
+#endif
 
         if (((Usage == 7) || (Usage == 2)) && !test_flag) {
             if (mpp_w.sysStop) {

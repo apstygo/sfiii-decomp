@@ -15,6 +15,8 @@
 #include "sf33rd/AcrSDK/ps2/ps2PAD.h"
 #include "structs.h"
 
+#include "port/sdk_threads.h"
+
 #include <eekernel.h>
 #include <libcdvd.h>
 #include <libdma.h>
@@ -160,11 +162,14 @@ s32 flInitialize(s32 /* unused */, s32 /* unused */) {
 
     flPS2DebugInit();
 
+#if defined(TARGET_PS2)
+    // This loop waits until we're on an even frame
     while (1) {
         if ((flPs2State.Oddeven = sceGsSyncV(0)) == 0) {
             break;
         }
     }
+#endif
 
     DPUT_T1_MODE(0x80);
     DPUT_T1_COUNT(0);
@@ -266,10 +271,7 @@ void flPS2VSyncCallback() {
     }
 
     flmwVSyncCallback();
-
-#if defined(TARGET_PS2)
     ExitHandler();
-#endif
 }
 
 u32 flPS2CheckDbChangeFlag() {

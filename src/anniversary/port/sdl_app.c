@@ -1,12 +1,16 @@
 #include "port/sdl_app.h"
+#include "port/sdk_threads.h"
 #include "sf33rd/Source/Game/main.h"
 
 #include <SDL3/SDL.h>
 
+// We can't include cri_mw.h because it leads to conflicts
+// with SDL types
+int ADXPS2_ExecVint(int mode);
+
 static const char *app_name = "Street Fighter III: 3rd Strike";
 static SDL_Window *window = NULL;
 static SDL_Renderer *renderer = NULL;
-static void (*vsync_callback)() = NULL;
 
 int SDLApp_Init() {
     SDL_SetAppMetadata(app_name, "0.1", NULL);
@@ -50,7 +54,7 @@ int SDLApp_PollEvents() {
     return continue_running;
 }
 
-void SDLApp_Render() {
+void SDLApp_BeginFrame() {
     const double now = ((double)SDL_GetTicks()) / 1000.0; /* convert from milliseconds to seconds. */
     /* choose the color for the frame we will draw. The sine wave trick makes it fade between colors smoothly. */
     const float red = (float)(0.5 + 0.5 * SDL_sin(now));
@@ -60,17 +64,13 @@ void SDLApp_Render() {
 
     /* clear the window to the draw color. */
     SDL_RenderClear(renderer);
+}
 
+void SDLApp_EndFrame() {
     /* put the newly-cleared rendering on the screen. */
     SDL_RenderPresent(renderer);
 
-    // Calling vsync_callback right after SDL_RenderPresent is not the most reliable way
-    // of catching a VSync, but it'll suffice for now.
-    if (vsync_callback != NULL) {
-        vsync_callback();
-    }
-}
-
-void SDLApp_SetVSyncCallback(SDLApp_VSyncCallback callback) {
-    vsync_callback = callback;
+    begin_interrupt();
+    ADXPS2_ExecVint(0);
+    end_interrupt();
 }

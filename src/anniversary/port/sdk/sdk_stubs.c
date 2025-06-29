@@ -3,8 +3,6 @@
 #include "common.h"
 #include "types.h"
 
-#include "port/sdl_app.h"
-
 #include <eekernel.h>
 #include <libcdvd.h>
 #include <libdma.h>
@@ -286,13 +284,10 @@ int sceGsSyncPath(int mode, unsigned short timeout) {
 }
 
 int sceGsSyncV(int mode) {
-    // FIXME: Handle blocking VSync properly
-    // printf("[SDK] sceGsSyncV(mode: %d)\n", mode);
-    return 0;
+    fatal_error("sceGsSyncV should never be called in ports");
 }
 
 int *sceGsSyncVCallback(int (*func)(int)) {
-    SDLApp_SetVSyncCallback(func);
     return NULL;
 }
 
@@ -370,7 +365,7 @@ void sceDbcEnd() {
 // libmc
 
 int sceMcInit(void) {
-    not_implemented(__func__);
+    return sceMcIniSucceed;
 }
 
 int sceMcOpen(int, int, const char *, int) {
