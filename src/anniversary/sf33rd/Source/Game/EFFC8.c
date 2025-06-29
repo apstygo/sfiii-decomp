@@ -1,3 +1,4 @@
+#include "sf33rd/Source/Game/EFFC8.h"
 #include "common.h"
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC8", effc8_data_tbl);

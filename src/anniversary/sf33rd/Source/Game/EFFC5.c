@@ -1,3 +1,4 @@
+#include "sf33rd/Source/Game/EFFC5.h"
 #include "common.h"
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC5", effect_C5_move);

@@ -22,7 +22,6 @@
 #include "sf33rd/Source/Game/effM7.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
-// effect_86_init
 
 s8 Appear_car_stop[] = { 0, 0 };
 s8 Appear_hv[] = { 0, 0 };
@@ -1310,6 +1309,8 @@ void Appear_25000(PLW *wk) {
 const s16 smoke_check[] = { 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0 };
 
 void Appear_26000(PLW *wk) {
+    s32 effect_86_init(s16 type86);
+
     switch (wk->wu.routine_no[3]) {
     case 0:
         bg_app_stop = 1;
