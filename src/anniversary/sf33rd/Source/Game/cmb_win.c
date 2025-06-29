@@ -68,7 +68,7 @@ void combo_cont_init() {
     sa_kind = 0;
     cmb_all_stock = 0;
     last_hit_time = 0;
-    memset(&cmst_buff, 0, 0x118);
+    memset(&cmst_buff, 0, sizeof(cmst_buff));
 }
 
 void combo_cont_main() {
@@ -146,17 +146,17 @@ void combo_control(s8 PL) {
                 super_arts_last_check(PL);
             }
 
-            if (cmb_flag == 0) {
-                if (plw[PL].cb->total == 1) {
-                    training_disp_data_set(PL, 1);
-                    super_arts_finish_check(PL);
-                    combo_hensuu_clear(PL);
-                    first_attack = 3;
-                    return;
-                }
-
-                check_and_set_combo(PL);
+            if (cmb_flag != 0) {
+                return;
+            } else if (plw[PL].cb->total == 1) {
+                training_disp_data_set(PL, 1);
+                super_arts_finish_check(PL);
+                combo_hensuu_clear(PL);
+                first_attack = 3;
+                return;
             }
+
+            check_and_set_combo(PL);
         }
     }
 }
@@ -295,13 +295,10 @@ s32 paring_check(s8 PL) {
 }
 
 void hit_combo_check(s8 PL) {
-    s32 *sa_ptr;
-    s8 lpx;
+    s32 *sa_ptr = (s32 *)plw[PL].cb->kind_of[4][0];
+    s8 lpx = 0;
 
-    sa_ptr = (s32 *)plw[PL].cb->kind_of[4][0];
-    lpx = 0;
-
-    while (!(lpx >= 20)) {
+    while (lpx < 20) {
         if (!(*sa_ptr++ == 0)) {
             if (arts_finish_check(PL)) {
                 if (lpx < 8) {
@@ -554,7 +551,6 @@ void combo_window_push(s8 PL, s8 KIND) {
             cst_write[PL]++;
         }
     }
-    return;
 }
 
 void combo_window_trans(s8 PL) {
