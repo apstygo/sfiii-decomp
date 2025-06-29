@@ -17,11 +17,11 @@
 #include "sf33rd/Source/Game/bg_data.h"
 #include "sf33rd/Source/Game/eff97.h"
 #include "sf33rd/Source/Game/effM0.h"
+#include "sf33rd/Source/Game/effM1.h"
 #include "sf33rd/Source/Game/effM7.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 // effect_86_init
-// effect_M1_init
 // effect_M5_init
 
 s8 Appear_car_stop[] = { 0, 0 };
@@ -1866,7 +1866,7 @@ void Appear_37000(PLW *wk) {
         set_char_move_init(&wk->wu, 9, 0x11);
         bg_app_stop = 1;
         wk->wu.cmwk[0] = 0;
-        effect_M1_init(wk);
+        effect_M1_init(&wk->wu);
         break;
 
     case 1:

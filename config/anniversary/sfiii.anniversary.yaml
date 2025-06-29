@@ -393,7 +393,7 @@ segments:
       - [0x1354B0, asm, sf33rd/Source/Game/effl8]
       - [0x1359C0, asm, sf33rd/Source/Game/effL9]
       - [0x135D60, c, sf33rd/Source/Game/effM0]
-      - [0x136DE0, asm, sf33rd/Source/Game/EFFM1]
+      - [0x136DE0, c, sf33rd/Source/Game/EFFM1]
       - [0x137370, asm, sf33rd/Source/Game/EFFM2]
       - [0x137BE0, asm, sf33rd/Source/Game/EffM3]
       - [0x138180, asm, sf33rd/Source/Game/effM5]
