@@ -56,10 +56,10 @@ void combo_cont_init() {
         cmb_calc_now[i] = 0;
         cst_read[i] = 0;
         cst_write[i] = 0;
-        work_init_zero((s32 *)&combo_type[i], 0xA8);
-        work_init_zero((s32 *)&remake_power[i], 0xA8);
-        memset(calc_hit[i], 0, 0x14);
-        memset(score_calc[i], 0, 0x18);
+        work_init_zero((s32 *)&combo_type[i], sizeof(ComboType));
+        work_init_zero((s32 *)&remake_power[i], sizeof(ComboType));
+        memset(calc_hit[i], 0, sizeof(calc_hit[0]));
+        memset(score_calc[i], 0, sizeof(score_calc[0]));
     }
 
     first_attack = 0;
@@ -181,10 +181,10 @@ void check_and_set_combo(s8 PL) {
 }
 
 void combo_hensuu_clear(s8 PL) {
-    work_init_zero((s32 *)plw[PL].cb, 0xA8);
+    work_init_zero((s32 *)plw[PL].cb, sizeof(ComboType));
     combo_rp_clear_check(PL);
-    memset(calc_hit[PL], 0, 0x14);
-    memset(score_calc[PL], 0, 0x18);
+    memset(calc_hit[PL], 0, sizeof(calc_hit[0]));
+    memset(score_calc[PL], 0, sizeof(score_calc[0]));
     bonus_pts[PL] = 0;
     plw[PL].cb->total = 0;
     hit_num = 0;
@@ -194,7 +194,7 @@ void combo_hensuu_clear(s8 PL) {
 void combo_rp_clear_check(s8 PL) {
     if (plw[PL].wu.routine_no[1] != 1 || plw[PL].wu.routine_no[2] != 17 || plw[PL].wu.routine_no[3] == 0 ||
         plw[PL].wu.routine_no[3] == 3) {
-        work_init_zero((s32 *)plw[PL].rp, 0xA8);
+        work_init_zero((s32 *)plw[PL].rp, sizeof(ComboType));
     }
 }
 
