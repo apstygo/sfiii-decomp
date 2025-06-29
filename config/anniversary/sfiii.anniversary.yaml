@@ -949,7 +949,7 @@ segments:
       - [0x3E0B90, .rodata, sf33rd/Source/Game/active17]
       - [0x3E0D80, .rodata, sf33rd/Source/Game/active18]
       - [0x3E0F60, .rodata, sf33rd/Source/Game/active19]
-      - [0x3E10C0, rodata, sf33rd/Source/Game/app_data]
+      - [0x3E10C0, .rodata, sf33rd/Source/Game/app_data]
       - [0x3E5580, .rodata, sf33rd/Source/Game/appear]
       - [0x3E5900, .rodata, sf33rd/Source/Game/BBBSCOM]
       - [0x3E6F48, .rodata, sf33rd/Source/Game/bg]

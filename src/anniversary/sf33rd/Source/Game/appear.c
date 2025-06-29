@@ -4,9 +4,11 @@
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFF15.h"
 #include "sf33rd/Source/Game/PLCNT.h"
+#include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/SE.h"
 #include "sf33rd/Source/Game/Sound3rd.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/app_data.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_data.h"
 #include "sf33rd/Source/Game/eff97.h"
@@ -74,13 +76,27 @@ void appear_data_set(PLW *wk, APPEAR_DATA *dtbl) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", appear_data_init_set);
-#else
 void appear_data_init_set(PLW *wk) {
-    not_implemented(__func__);
+    APPEAR_DATA *dtbl;
+    s8 ap_work;
+    s16 id_work;
+
+    Appear_hv[wk->wu.id] = home_visitor_check(wk);
+
+    id_work = wk->wu.id ^ 1;
+
+    if (bg_w.area) {
+        ap_work = 0;
+    } else if (Appear_hv[wk->wu.id]) {
+        ap_work = app_type_tbl2[wk->player_number][plw[id_work].player_number][bg_w.stage];
+    } else {
+        ap_work = app_type_tbl[wk->player_number][plw[id_work].player_number][bg_w.stage];
+    }
+
+    dtbl = (APPEAR_DATA *)&appear_data[ap_work];
+
+    appear_data_set(wk, dtbl);
 }
-#endif
 
 void appear_player(PLW *wk) {
     void (*appear_jmp_tbl[42])(
@@ -99,21 +115,92 @@ void Appear_00000(PLW *wk) {
     wk->wu.routine_no[3] = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_01000);
-#else
 void Appear_01000(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_03000);
-#else
-void Appear_03000(PLW *wk) {
-    not_implemented(__func__);
+    s16 work;
+    s16 id_w;
+
+    id_w = wk->wu.id ^ 1;
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        wk->wu.disp_flag = 1;
+        bg_app_stop = 1;
+        work = random_16();
+
+        switch (wk->wu.routine_no[4]) {
+        case 1:
+            work &= 3;
+            set_char_move_init(&wk->wu, 9, work);
+            break;
+
+        case 2:
+            work &= 3;
+            set_char_move_init(&wk->wu, 9, work + 4);
+            break;
+
+        case 35:
+            work &= 7;
+            set_char_move_init(&wk->wu, 9, work);
+            break;
+        }
+        break;
+
+    case 1:
+        if (Appear_flag[wk->wu.id]) {
+            wk->wu.routine_no[3]++;
+            char_move(&wk->wu);
+            return;
+        }
+        wk->wu.routine_no[3] = 3;
+        set_char_move_init(&wk->wu, 9, wk->wu.char_index + 8);
+        break;
+
+    case 2:
+        char_move(&wk->wu);
+        if (wk->wu.cg_type == 9 && Appear_flag[wk->wu.id] == 0) {
+            wk->wu.routine_no[3]++;
+            set_char_move_init(&wk->wu, 9, wk->wu.char_index + 8);
+        }
+        break;
+
+    case 3:
+        char_move(&wk->wu);
+        if (wk->wu.cg_type == 0xFF) {
+            wk->wu.routine_no[2] = 1;
+            wk->wu.routine_no[3] = 0;
+            Appear_end++;
+        }
+        break;
+    }
 }
+
+void Appear_03000(PLW *wk) {
+#if defined(TARGET_PS2)
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        wk->wu.disp_flag = 1;
+        set_char_move_init(&wk->wu, 9, wk->wu.char_index);
+        bg_app_stop = 1;
+        return;
+
+    case 1:
+        char_move(&wk->wu);
+        if (wk->wu.cg_type == 0xFF) {
+            wk->wu.routine_no[2] = 1;
+            wk->wu.routine_no[3] = 0;
+            Appear_end++;
+        }
+    }
+}
 
 void Appear_04000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
@@ -227,7 +314,7 @@ void Appear_05000(PLW *wk) {
 
         if ((wk->wu.cg_type) == 9) {
             wk->wu.routine_no[3]++;
-            wk->wu.rl_flag ^= 1; // Toggle flag
+            wk->wu.rl_flag ^= 1;
             return;
         }
 
@@ -246,13 +333,94 @@ void Appear_05000(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_06000);
-#else
 void Appear_06000(PLW *wk) {
-    not_implemented(__func__);
+    s16 work;
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        switch (wk->wu.routine_no[4]) {
+        case 6:
+            effect_C5_init(&wk->wu, 0);
+            break;
+        case 27:
+            effect_C5_init(&wk->wu, 1);
+            break;
+        case 40:
+            effect_M5_init(&wk->wu);
+            break;
+        }
+        wk->wu.disp_flag = 0;
+        set_char_move_init(&wk->wu, 9, 0x13);
+        bg_app_stop = 1;
+        break;
+
+    case 1:
+        if (demo_car_flag[wk->wu.id]) {
+            wk->wu.routine_no[3]++;
+            wk->wu.disp_flag = 1;
+            wk->wu.my_mr_flag = 0;
+            set_char_move_init(&wk->wu, 9, 0x13);
+            wk->wu.position_z = wk->wu.next_z = 0x6E;
+            wk->wu.mvxy.d[0].sp = 0;
+            wk->wu.mvxy.d[1].sp = -0x8000;
+
+            if (wk->wu.routine_no[4] == 0x1B) {
+                appear_work[wk->wu.id] = 0x34;
+            } else {
+                appear_work[wk->wu.id] = 0x2A;
+            }
+
+            work = 88;
+            if (wk->wu.id) {
+                cal_initial_speed(&wk->wu, appear_work[wk->wu.id], bg_w.bgw[1].pos_x_work + work, 0);
+                break;
+            }
+            cal_initial_speed(&wk->wu, appear_work[wk->wu.id], bg_w.bgw[1].pos_x_work - work, 0);
+        }
+        break;
+
+    case 2:
+        char_move(&wk->wu);
+        appear_work[wk->wu.id]--;
+
+        if (*&appear_work[wk->wu.id] <= 0) {
+            wk->wu.routine_no[3]++;
+            wk->wu.xyz[1].cal = 0;
+            set_char_move_init(&wk->wu, 9, 0x10);
+            Appear_end++;
+        } else {
+            add_x_sub((WORK_Other *)&wk->wu);
+            add_y_sub((WORK_Other *)&wk->wu);
+        }
+        break;
+
+    case 3:
+        char_move(&wk->wu);
+        if (wk->wu.cg_type) {
+            wk->wu.routine_no[3]++;
+            if (wk->wu.routine_no[4] == 0x1B) {
+                wk->wu.rl_flag ^= 1;
+                set_char_move_init(&wk->wu, 0, 1);
+            } else {
+                wk->wu.routine_no[2] = 1;
+                wk->wu.routine_no[3] = 0;
+            }
+        }
+        break;
+
+    case 4:
+        char_move(&wk->wu);
+        if (wk->wu.cg_type == 0xFF) {
+            wk->wu.routine_no[2] = 1;
+            wk->wu.routine_no[3] = 0;
+        }
+        break;
+    }
+
+    wk->wu.position_x = wk->wu.xyz[0].disp.pos;
+    wk->wu.position_y = wk->wu.xyz[1].disp.pos;
 }
-#endif
 
 const APPEAR_DATA appear_data[] = {
     { -88, 0, -88, 0, 1, 0, 0 },    { -88, 0, -88, 0, 1, 1, 0 },     { -88, 0, -88, 0, 1, 2, 0 },
@@ -276,13 +444,93 @@ const APPEAR_DATA appear_data[] = {
     { -88, 0, -88, 0, 1, 3, 17 },
 };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_07000);
-#else
 void Appear_07000(PLW *wk) {
-    not_implemented(__func__);
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.disp_flag = 1;
+        bg_app_stop = 1;
+
+        if (plw[wk->wu.id ^ 1].player_number == 12 && bg_w.stage == 12 && bg_w.area == 0) {
+            wk->wu.routine_no[4] = 1;
+            set_char_move_init(&wk->wu, 9, 17);
+            wk->wu.routine_no[3] = 3;
+        } else {
+            set_char_move_init(&wk->wu, 9, 8);
+            effect_C8_init(wk);
+
+            if (Appear_flag[wk->wu.id]) {
+                wk->wu.routine_no[3]++;
+            } else {
+                wk->wu.routine_no[3] = 2;
+            }
+        }
+
+        break;
+
+    case 1:
+        if (Appear_flag[wk->wu.id] != 0) {
+            break;
+        }
+        wk->wu.routine_no[3]++;
+        /* fallthrough */
+
+    case 2:
+        char_move(&wk->wu);
+        if (wk->wu.cg_type == 9) {
+            wk->wu.routine_no[3]++;
+            wk->wu.cg_type = 0;
+        }
+        break;
+
+    case 3:
+    case 4:
+        switch (wk->wu.cg_type) {
+        case 1:
+            wk->wu.mvxy.a[1].sp = 0x30000;
+            wk->wu.mvxy.d[1].sp = 0xffffa000;
+            wk->wu.cg_type = 0;
+            char_move_z(&wk->wu);
+            break;
+
+        case 2:
+        case 3:
+            char_move(&wk->wu);
+            add_y_sub((WORK_Other *)wk);
+            if (wk->wu.xyz[1].disp.pos < 0) {
+                wk->wu.xyz[1].disp.pos = wk->wu.position_y = 0;
+                wk->wu.xyz[1].disp.low = 0;
+                char_move_z(&wk->wu);
+            }
+            break;
+
+        case 4:
+            wk->wu.cg_type = 0;
+            char_move_z(&wk->wu);
+            wk->wu.routine_no[3]++;
+            break;
+
+        default:
+            char_move(&wk->wu);
+            break;
+        }
+
+        break;
+
+    case 5:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 0xFF) {
+            wk->wu.routine_no[2] = 1;
+            wk->wu.routine_no[3] = 0;
+            Appear_end++;
+        }
+
+        break;
+    }
+
+    wk->wu.position_x = wk->wu.xyz[0].disp.pos;
+    wk->wu.position_y = wk->wu.xyz[1].disp.pos;
 }
-#endif
 
 void Appear_08000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
@@ -379,13 +627,46 @@ void Appear_09000(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_10000);
-#else
 void Appear_10000(PLW *wk) {
-    not_implemented(__func__);
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        wk->wu.disp_flag = 1;
+        set_char_move_init(&wk->wu, 9, 0x13);
+        bg_app_stop = 1;
+        wk->wu.mvxy.d[0].sp = 0;
+        if (wk->wu.id) {
+            wk->wu.mvxy.a[0].sp = -0x18000;
+            break;
+        }
+        wk->wu.mvxy.a[0].sp = 0x18000;
+        break;
+
+    case 1:
+        char_move(&wk->wu);
+        add_x_sub((WORK_Other *)&wk->wu);
+
+        if (wk->wu.id) {
+            if (!(wk->wu.xyz[0].disp.pos <= bg_w.bgw[1].pos_x_work + 0x58)) {
+                return;
+            }
+        } else if (!(wk->wu.xyz[0].disp.pos >= bg_w.bgw[1].pos_x_work - 0x58)) {
+            return;
+        }
+        wk->wu.routine_no[3]++;
+        set_char_move_init(&wk->wu, 9, 0x14);
+        Appear_end++;
+        break;
+
+    case 2:
+        char_move(&wk->wu);
+        if (wk->wu.cg_type == 0xFF) {
+            wk->wu.routine_no[2] = 1;
+            wk->wu.routine_no[3] = 0;
+        }
+        break;
+    }
 }
-#endif
 
 void Appear_11000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
@@ -412,13 +693,54 @@ void Appear_11000(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_12000);
-#else
 void Appear_12000(PLW *wk) {
-    not_implemented(__func__);
+    s16 work;
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        wk->wu.disp_flag = 1;
+        bg_app_stop = 1;
+        set_char_move_init(&wk->wu, 9, 12);
+        effect_46_init(&wk->wu, 0);
+        work = 88;
+        wk->wu.mvxy.d[0].sp = 0;
+        wk->wu.mvxy.d[1].sp = -0x8000;
+        app_counter[wk->wu.id] = 0x30;
+
+        if (wk->wu.id) {
+            cal_initial_speed(&wk->wu, app_counter[wk->wu.id], bg_w.bgw[1].pos_x_work + work, 0);
+            return;
+        }
+        cal_initial_speed(&wk->wu, app_counter[wk->wu.id], bg_w.bgw[1].pos_x_work - work, 0);
+        return;
+
+    case 1:
+        char_move(&wk->wu);
+        app_counter[wk->wu.id]--;
+
+        if (app_counter[wk->wu.id] <= 0) {
+            wk->wu.routine_no[3]++;
+            wk->wu.xyz[1].cal = 0;
+            set_char_move_init2(&wk->wu, 9, 12, 19, 0);
+            Appear_end++;
+            return;
+        }
+
+        add_x_sub((WORK_Other *)&wk->wu);
+        add_y_sub((WORK_Other *)&wk->wu);
+        return;
+
+    case 2:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 0xFF) {
+            wk->wu.cg_type = 0;
+            wk->wu.routine_no[2] = 1;
+            wk->wu.routine_no[3] = 0;
+        }
+    }
 }
-#endif
 
 void Appear_13000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
@@ -461,13 +783,54 @@ void Appear_13000(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_14000);
-#else
 void Appear_14000(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
+
+    s16 work;
+    s16 id_w = wk->wu.id ^ 1;
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3] += 1;
+        wk->wu.disp_flag = 1;
+        wk->gill_ccch_go = 1;
+
+        if (sean_appear_check(wk, id_w)) {
+            set_char_move_init(&wk->wu, 9, 0x3C);
+            return;
+        }
+
+        wk->wu.routine_no[2] = 1;
+        wk->wu.routine_no[3] = 0;
+        Appear_end++;
+        break;
+
+    case 1:
+        switch (Appear_free[id_w]) {
+        case 0:
+            char_move(&wk->wu);
+            break;
+
+        case 1:
+            work = wk->wu.cg_ix / wk->wu.cgd_type;
+            set_char_move_init2(&wk->wu, 0, 0, work + 1, 0);
+            wk->wu.routine_no[2] = 1;
+            wk->wu.routine_no[3] = 1;
+            Appear_end += 1;
+            break;
+
+        case 2:
+            char_move(&wk->wu);
+            if (wk->wu.cg_type == 0xFF) {
+                wk->wu.routine_no[2] = 1;
+                wk->wu.routine_no[3] = 0;
+                Appear_end += 1;
+            }
+        }
+    }
+}
 
 void Appear_15000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
@@ -819,21 +1182,13 @@ void Appear_20000(PLW *wk) {
     }
 }
 
-// #if defined(TARGET_PS2)
-// INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_21000);
-// #else
-// void Appear_21000(PLW *wk) {
-//     not_implemented(__func__);
-// }
-// #endif
-
 void Appear_21000(PLW *wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
     s16 work;
 
-    switch (wk->wu.routine_no[3]) { /* irregular */
+    switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3] += 1;
         wk->wu.disp_flag = 1;
@@ -891,7 +1246,7 @@ void Appear_23000(PLW *wk) {
 #endif
 
     s16 work;
-    switch (wk->wu.routine_no[3]) { /* irregular */
+    switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3] += 1;
         wk->wu.disp_flag = 1;
@@ -946,50 +1301,328 @@ void Appear_25000(PLW *wk) {
 
 const s16 smoke_check[] = { 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0 };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_26000);
-#else
 void Appear_26000(PLW *wk) {
-    not_implemented(__func__);
-}
-#endif
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        bg_app_stop = 1;
+        wk->wu.routine_no[3]++;
+        wk->wu.disp_flag = 1;
+        set_char_move_init(&wk->wu, 9, 0x10);
+        appear_work[wk->wu.id] = 0x14;
+        Appear_free[wk->wu.id] = 0;
+        break;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_28000);
-#else
+    case 1:
+        appear_work[wk->wu.id]--;
+
+        if (appear_work[wk->wu.id] < 1) {
+            wk->wu.routine_no[3]++;
+            appear_work[wk->wu.id] = 0x14;
+
+            if (wk->wu.id) {
+                cal_all_speed_data(&wk->wu, appear_work[wk->wu.id], bg_w.bgw[1].pos_x_work + 88, 0, 0, 1);
+            } else {
+                cal_all_speed_data(&wk->wu, appear_work[wk->wu.id], bg_w.bgw[1].pos_x_work - 88, 0, 0, 1);
+            }
+        }
+
+        break;
+
+    case 2:
+        char_move(&wk->wu);
+        appear_work[wk->wu.id]--;
+        add_x_sub((WORK_Other *)wk);
+        add_y_sub((WORK_Other *)wk);
+
+        if (wk->wu.xyz[1].disp.pos < 0x41) {
+            wk->wu.routine_no[3]++;
+            wk->wu.hit_quake = 0x18;
+
+            if (wk->wu.id == 0) {
+                effect_86_init(0);
+            }
+            Sound_SE(0x109);
+        }
+
+        break;
+
+    case 3:
+        char_move(&wk->wu);
+
+        if (wk->wu.hit_quake < 1) {
+            wk->wu.routine_no[3]++;
+            Appear_free[wk->wu.id] = 1;
+        }
+
+        break;
+
+    case 4:
+        char_move(&wk->wu);
+        appear_work[wk->wu.id]--;
+
+        if (appear_work[wk->wu.id] < 1) {
+            wk->wu.routine_no[3]++;
+            set_char_move_init2(&wk->wu, 9, 0x10, 3, 0);
+            wk->wu.xyz[1].cal = 0;
+        } else {
+            add_x_sub((WORK_Other *)wk);
+            add_y_sub((WORK_Other *)wk);
+        }
+
+        break;
+
+    case 5:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 9) {
+            wk->wu.rl_flag ^= 1;
+            wk->wu.routine_no[3]++;
+        }
+
+        break;
+
+    case 6:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 0xFF) {
+            wk->wu.routine_no[2] = 1;
+            wk->wu.routine_no[3] = 0;
+            Appear_end++;
+        }
+
+        break;
+    }
+}
+
 void Appear_28000(PLW *wk) {
-    not_implemented(__func__);
-}
-#endif
+    s16 id_w = wk->wu.id ^ 1;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_29000);
-#else
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        wk->wu.disp_flag = 1;
+        Appear_car_stop[id_w] = 0;
+        set_char_move_init(&wk->wu, 9, 17);
+        bg_app_stop = 1;
+        break;
+
+    case 1:
+        if (Appear_car_stop[id_w]) {
+            wk->wu.routine_no[3]++;
+            set_char_move_init2(&wk->wu, 9, 17, 2, 0);
+        }
+
+        break;
+
+    case 2:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 9) {
+            wk->wu.routine_no[3]++;
+        }
+
+        break;
+
+    case 3:
+        if (plw[id_w].wu.routine_no[3] >= 3) {
+            wk->wu.routine_no[3]++;
+            appear_work[wk->wu.id] = 20;
+        }
+
+        break;
+
+    case 4:
+        appear_work[wk->wu.id]--;
+
+        if (appear_work[wk->wu.id] < 1) {
+            wk->wu.routine_no[3]++;
+            set_char_move_init2(&wk->wu, 9, 17, 15, 0);
+        }
+
+        break;
+
+    case 5:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 0xFF) {
+            wk->wu.routine_no[2] = 1;
+            wk->wu.routine_no[3] = 0;
+            Appear_end++;
+        }
+
+        break;
+    }
+}
+
 void Appear_29000(PLW *wk) {
-    not_implemented(__func__);
-}
-#endif
+    s16 work;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", animal_decide);
-#else
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        bg_app_stop = 1;
+        wk->wu.disp_flag = 1;
+        wk->wu.cmwk[1] = 0;
+        wk->wu.cmwk[2] = 0;
+        work = random_16();
+        work &= 3;
+        wk->wu.cmwk[2] = work;
+        set_char_move_init(&wk->wu, 9, 0);
+        work = random_16();
+
+        if (work & 1) {
+            effect_09_init2(wk, 0x19);
+        }
+        if (8 < work) {
+            effect_09_init2(wk, 0x1b);
+        }
+
+        animal_decide(wk);
+        break;
+
+    case 1:
+        if (wk->wu.cmwk[1]) {
+            switch (wk->wu.cmwk[2]) {
+            case 0:
+            case 1:
+                wk->wu.routine_no[3] = 2;
+
+                if (wk->wu.id) {
+                    wk->wu.mvxy.a[0].sp = 0xffff0000;
+                } else {
+                    wk->wu.mvxy.a[0].sp = 0x10000;
+                }
+
+                set_char_move_init(&wk->wu, 9, 8);
+                break;
+
+            case 2:
+                wk->wu.routine_no[3] = 3;
+
+                if (wk->wu.id) {
+                    wk->wu.xyz[0].disp.pos = bg_w.bgw[1].pos_x_work + 0xd8;
+                } else {
+                    wk->wu.xyz[0].disp.pos = bg_w.bgw[1].pos_x_work + -0xd8;
+                }
+
+                set_char_move_init(&wk->wu, 9, 10);
+                break;
+
+            case 3:
+                wk->wu.routine_no[3] = 4;
+                set_char_move_init(&wk->wu, 9, 0xb);
+                wk->wu.mvxy.d[0].sp = 0;
+                wk->wu.mvxy.d[1].sp = 0xffff8000;
+                wk->wu.xyz[1].disp.pos = 0xb0;
+                app_counter[wk->wu.id] = 0x20;
+
+                if (wk->wu.id) {
+                    cal_initial_speed(&wk->wu, app_counter[wk->wu.id], bg_w.bgw[1].pos_x_work + 0x58, 0);
+                } else {
+                    cal_initial_speed(&wk->wu, app_counter[wk->wu.id], bg_w.bgw[1].pos_x_work - 0x58, 0);
+                }
+            }
+        }
+
+        break;
+
+    case 2:
+        char_move(&wk->wu);
+        add_x_sub((WORK_Other *)&wk->wu);
+
+        if (wk->wu.id) {
+            if (!(wk->wu.xyz[0].disp.pos <= (bg_w.bgw[1].pos_x_work + 0x58))) {
+                return;
+            }
+        } else if (wk->wu.xyz[0].disp.pos < (bg_w.bgw[1].pos_x_work - 0x58)) {
+            return;
+        }
+
+        wk->wu.routine_no[2] = 1;
+        wk->wu.routine_no[3] = 0;
+        Appear_end++;
+        break;
+
+    case 3:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 0xFF) {
+            wk->wu.routine_no[2] = 1;
+            wk->wu.routine_no[3] = 0;
+            Appear_end++;
+        }
+        break;
+
+    case 4:
+        app_counter[wk->wu.id]--;
+
+        if (app_counter[wk->wu.id] < 1) {
+            wk->wu.routine_no[3]++;
+            set_char_move_init2(&wk->wu, 9, 0xb, 5, 0);
+            wk->wu.xyz[1].disp.pos = 0;
+        } else {
+            add_x_sub((WORK_Other *)&wk->wu);
+            add_y_sub((WORK_Other *)&wk->wu);
+        }
+
+        break;
+
+    case 5:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 0xFF) {
+            wk->wu.routine_no[2] = 1;
+            wk->wu.routine_no[3] = 0;
+            Appear_end++;
+        }
+
+        break;
+    }
+}
+
 void animal_decide(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s32 effect_M0_init(u8 pl_rl, u8 animal_type);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", don_appear_check);
-#else
-void don_appear_check(PLW *wk) {
-    not_implemented(__func__);
+    u8 work2;
+    s16 work = random_16();
+
+    work2 = animal_decide_tbl[work];
+    don_appear_check(wk);
+
+    switch (work2) {
+    case 0:
+        break;
+
+    case 1:
+        effect_M0_init(wk->wu.rl_flag, 0);
+        effect_M0_init(wk->wu.rl_flag, 1);
+        break;
+
+    default:
+        effect_M0_init(wk->wu.rl_flag, work2);
+        break;
+    }
+
+    return;
 }
+
+void don_appear_check(PLW *wk) {
+#if defined(TARGET_PS2)
+    s32 effect_M0_init(u8 pl_rl, u8 animal_type);
 #endif
+
+    s16 id_w = wk->wu.id ^ 1;
+    if (plw[id_w].player_number == 7) {
+        effect_M0_init(wk->wu.rl_flag, 6);
+    }
+}
 
 void Appear_30000(PLW *wk) {
     s16 work;
 
-    switch (wk->wu.routine_no[3]) { /* irregular */
+    switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
         wk->wu.disp_flag = 1;
@@ -1065,13 +1698,50 @@ void Appear_32000(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_33000);
-#else
 void Appear_33000(PLW *wk) {
-    not_implemented(__func__);
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        set_char_move_init(&wk->wu, 9, 0xC);
+        wk->wu.mvxy.d[0].sp = 0;
+        wk->wu.mvxy.d[1].sp = -0x8000;
+        wk->wu.xyz[1].disp.pos = 0x50;
+        app_counter[wk->wu.id] = 0x2A;
+
+        if (wk->wu.id) {
+            cal_initial_speed(&wk->wu, app_counter[wk->wu.id], bg_w.bgw[1].pos_x_work + 0x58, 0);
+        } else {
+            cal_initial_speed(&wk->wu, app_counter[wk->wu.id], bg_w.bgw[1].pos_x_work - 0x58, 0);
+        }
+
+        bg_app_stop = 1;
+        don_appear_check(wk);
+        break;
+
+    case 1:
+        app_counter[wk->wu.id]--;
+
+        if (app_counter[wk->wu.id] <= 0) {
+            wk->wu.routine_no[3]++;
+            set_char_move_init2(&wk->wu, 9, 0xC, 2, 0);
+            wk->wu.xyz[1].disp.pos = 0;
+            return;
+        }
+
+        add_x_sub((WORK_Other *)wk);
+        add_y_sub((WORK_Other *)wk);
+        break;
+
+    case 2:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 0xFF) {
+            wk->wu.routine_no[2] = 1;
+            wk->wu.routine_no[3] = 0;
+            Appear_end++;
+        }
+    }
 }
-#endif
 
 void Appear_34000(PLW *wk) {
 #if defined(TARGET_PS2)
@@ -1178,13 +1848,95 @@ void Appear_36000(PLW *wk) {
 
 const u8 animal_decide_tbl[] = { 0, 1, 2, 3, 4, 5, 0, 2, 0, 1, 2, 3, 4, 5, 0, 0 };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_37000);
-#else
 void Appear_37000(PLW *wk) {
-    not_implemented(__func__);
+    s16 id_w = wk->wu.id ^ 1;
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        wk->wu.disp_flag = 1;
+        set_char_move_init(&wk->wu, 9, 0x11);
+        bg_app_stop = 1;
+        wk->wu.cmwk[0] = 0;
+        effect_M1_init(wk);
+        break;
+
+    case 1:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 0xFF) {
+            wk->wu.routine_no[3]++;
+            wk->wu.cmwk[0] = 1;
+        }
+        break;
+
+    case 2:
+        char_move(&wk->wu);
+
+        if (wk->wu.cmwk[0] == 2) {
+            wk->wu.routine_no[3]++;
+            set_char_move_init(&wk->wu, 9, 0x12);
+        }
+
+        break;
+
+    case 3:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 0xFF) {
+            wk->wu.routine_no[3]++;
+            set_char_move_init(&wk->wu, 9, 0x13);
+        }
+
+        break;
+
+    case 4:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 9) {
+            wk->wu.routine_no[3]++;
+            wk->wu.cmwk[0] = 3;
+            wk->wu.next_z = plw[id_w].wu.my_priority;
+        }
+
+        break;
+
+    case 5:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 0xFF) {
+            wk->wu.routine_no[3]++;
+            set_char_move_init(&wk->wu, 0, 3);
+            app_counter[wk->wu.id] = 0x2a;
+
+            if (wk->wu.id) {
+                cal_all_speed_data(&wk->wu, app_counter[wk->wu.id], bg_w.bgw[1].pos_x_work + 0x58, 0, 0, 0);
+            } else {
+                cal_all_speed_data(&wk->wu, app_counter[wk->wu.id], bg_w.bgw[1].pos_x_work - 0x58, 0, 0, 0);
+            }
+
+            wk->wu.next_z = wk->wu.my_priority;
+        } else {
+            wk->wu.next_z = plw[id_w].wu.my_priority;
+        }
+
+        break;
+
+    case 6:
+        char_move(&wk->wu);
+        app_counter[wk->wu.id]--;
+
+        if (app_counter[wk->wu.id] < 1) {
+            wk->wu.routine_no[2] = 1;
+            wk->wu.routine_no[3] = 0;
+            Appear_end++;
+        } else {
+            add_x_sub((WORK_Other *)&wk->wu);
+        }
+
+        break;
+    }
 }
-#endif
 
 void Appear_38000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
@@ -1212,13 +1964,59 @@ void Appear_38000(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/appear", Appear_39000);
-#else
 void Appear_39000(PLW *wk) {
-    not_implemented(__func__);
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        wk->wu.disp_flag = 1;
+
+        if (Gill_Appear_Flag) {
+            appear_data_set(wk, (APPEAR_DATA *)appear_data);
+            Appear_00000(wk);
+            return;
+        }
+
+        bg_app_stop = 1;
+        set_char_move_init(&wk->wu, 0, 2);
+
+        if (wk->wu.id) {
+            wk->wu.xyz[0].disp.pos = bg_w.bgw[1].pos_x_work + 0x200;
+        }
+
+        setup_mvxy_data(&wk->wu, 0);
+        wk->wu.mvxy.a[0].sp >>= 1;
+        add_mvxy_speed(&wk->wu);
+        wk->wu.mvxy.a[0].sp *= 2;
+        break;
+
+    case 1:
+        cal_mvxy_speed(&wk->wu);
+        add_mvxy_speed(&wk->wu);
+        char_move(&wk->wu);
+
+        if (wk->wu.id) {
+            if (wk->wu.xyz[0].disp.pos < (bg_w.bgw[1].pos_x_work + 88)) {
+                wk->wu.routine_no[3]++;
+                wk->wu.xyz[0].disp.pos = bg_w.bgw[1].pos_x_work + 88;
+                return;
+            }
+        } else {
+            if (wk->wu.xyz[0].disp.pos > (bg_w.bgw[1].pos_x_work - 88)) {
+                wk->wu.routine_no[3] += 1;
+                wk->wu.xyz[0].disp.pos = (bg_w.bgw[1].pos_x_work - 88);
+                return;
+            }
+        }
+
+        break;
+
+    case 2:
+        wk->wu.routine_no[2] = 1;
+        wk->wu.routine_no[3] = 0;
+        Appear_end += 1;
+        break;
+    }
 }
-#endif
 
 void Appear_41000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {

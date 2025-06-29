@@ -21,5 +21,6 @@ extern BGW *bgw_ptr;       // size: 0x4, address: 0x578CB8
 extern s8 bg_app_stop;     // size: 0x1, address: 0x578CBC
 extern s16 bg_stop;        // size: 0x2, address: 0x578CC0
 extern s16 base_y_pos;     // size: 0x2, address: 0x578CC4
+extern s8 demo_car_flag[2];
 
 #endif
