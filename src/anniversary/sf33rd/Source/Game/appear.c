@@ -6,6 +6,7 @@
 #include "sf33rd/Source/Game/EFF15.h"
 #include "sf33rd/Source/Game/EFF46.h"
 #include "sf33rd/Source/Game/EFFC5.h"
+#include "sf33rd/Source/Game/EFFC8.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/SE.h"
@@ -19,7 +20,6 @@
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 // effect_86_init
-// effect_C8_init
 // effect_M0_init
 // effect_M1_init
 // effect_M5_init
@@ -349,10 +349,10 @@ void Appear_06000(PLW *wk) {
         wk->wu.routine_no[3]++;
         switch (wk->wu.routine_no[4]) {
         case 6:
-            effect_C5_init(&wk->wu, 0);
+            effect_C5_init(wk, 0);
             break;
         case 27:
-            effect_C5_init(&wk->wu, 1);
+            effect_C5_init(wk, 1);
             break;
         case 40:
             effect_M5_init(&wk->wu);
