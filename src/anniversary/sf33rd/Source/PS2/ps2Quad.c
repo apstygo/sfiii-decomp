@@ -376,9 +376,7 @@ void CP3toPS2DrawOff() {
 }
 
 void CP3toPS2Draw() {
-#if !defined(TARGET_PS2)
-    not_implemented(__func__);
-#else
+#if defined(TARGET_PS2)
     s32 ofx;
     s32 ofy;
     s32 m;
@@ -452,12 +450,12 @@ void CP3toPS2Draw() {
     *((u64 *)p)++ = SCE_GS_SET_TEST_1(1, 0, 0, 1, 0, 0, 1, 1);
     *((u64 *)p)++ = SCE_GS_TEST_1;
 
-    ofx = ((0x1000 - fw) / 2) << 4;
-    ofy = ((0x1000 - fh) / 2) << 4;
+    ofx = ((4096 - fw) / 2) << 4;
+    ofy = ((4096 - fh) / 2) << 4;
     x0 = ofx;
     y0 = ofy;
-    x1 = ofx + (fw * 16);
-    y1 = ofy + (fh * 16);
+    x1 = ofx + (fw << 4);
+    y1 = ofy + (fh << 4);
 
     *((u64 *)p)++ = SCE_GIF_SET_TAG(1, 0, 0, 0, SCE_GIF_REGLIST, 4);
     *((u64 *)p)++ = SCE_GS_PRIM | SCE_GS_RGBAQ << 4 | SCE_GS_XYZ2 << 8 | SCE_GS_XYZ2 << 12;

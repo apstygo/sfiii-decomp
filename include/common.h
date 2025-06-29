@@ -11,6 +11,8 @@
 #define S32_MAX 0x7FFFFFFF
 #define S32_INCREMENT_WRAPAROUND(val) (((val) != S32_MAX) ? ((val) + 1) : 0)
 
+#define ALIGN_UP(x, a) (((x) + ((a) - 1)) & ~((a) - 1))
+
 // Compilation with GNU C Compilier means we are compiling CRI
 #if defined(__GNUC__) && !defined(M2CTX) && !defined(TARGET_SDL3)
 #define INCLUDE_ASM(FOLDER, NAME)                                                                                      \
@@ -49,6 +51,7 @@ __asm__(".include \"include/cri_macro.inc\"\n");
 
 void fatal_error(const s8 *fmt, ...) __dead2;
 void not_implemented(const s8 *func) __dead2;
+void debug_print(const char *fmt, ...);
 
 #endif
 
