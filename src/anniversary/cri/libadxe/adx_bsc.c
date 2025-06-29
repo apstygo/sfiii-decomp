@@ -615,7 +615,7 @@ void ADXB_ExecOneAdx(ADXB adxb) {
                 adxpd = adxb->adxpd;
 
                 // This code path is never taken, so we can leave it dirty for now
-                for (i = 0; i < (adxpd->NumBlk << 5); i++) {
+                for (i = 0; i < (adxpd->num_blk << 5); i++) {
                     temp_a3 = i * 2;
                     temp_a2 = temp_a3 + adxpd->unk20;
                     temp_a1 = *temp_a2;
