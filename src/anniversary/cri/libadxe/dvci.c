@@ -379,15 +379,15 @@ Sint32 dvCiReqRd(DVG_CI handl, Sint32 nsct, void *buf) {
         return NULL;
     }
 
-    handl->unk44.trycount = dvg_ci_cdrmode.trycount;
-    handl->unk44.spindlctrl = dvg_ci_cdrmode.spindlctrl;
-    handl->unk44.datapattern = dvg_ci_cdrmode.datapattern;
+    handl->cdrmode.trycount = dvg_ci_cdrmode.trycount;
+    handl->cdrmode.spindlctrl = dvg_ci_cdrmode.spindlctrl;
+    handl->cdrmode.datapattern = dvg_ci_cdrmode.datapattern;
     handl->unk18 = buf;
     handl->unk10 = MIN(nsct, handl->unk8 - handl->unkC);
 
     InvalidDCache(buf, buf + (handl->unk10 << 11) - 1);
 
-    if (SRD_ReqRdDvd(handl->srd, handl->unk20.lsn + handl->unkC, handl->unk10, handl->unk18, &handl->unk44) == 0) {
+    if (SRD_ReqRdDvd(handl->srd, handl->unk20.lsn + handl->unkC, handl->unk10, handl->unk18, &handl->cdrmode) == 0) {
         SRD_Destroy(handl->srd);
         return NULL;
     }

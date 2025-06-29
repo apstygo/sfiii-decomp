@@ -993,12 +993,12 @@ enum _FLSETRENDERSTATE {
     FLRENDER_ZOPE = 109,
 };
 
-struct _MEMMAN_CELL {
+typedef struct _MEMMAN_CELL {
     // total size: 0xC
     struct _MEMMAN_CELL *prev; // offset 0x0, size 0x4
     struct _MEMMAN_CELL *next; // offset 0x4, size 0x4
     ssize_t size;              // offset 0x8, size 0x4
-};
+} _MEMMAN_CELL;
 
 typedef struct {
     // total size: 0x2C

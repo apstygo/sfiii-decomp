@@ -414,7 +414,7 @@ typedef struct {
     /* 0x18 */ void *unk18;
     /* 0x1C */ SRD srd;
     /* 0x20 */ sceCdlFILE unk20;
-    /* 0x44 */ sceCdRMode unk44;
+    /* 0x44 */ sceCdRMode cdrmode;
 } DVG_CI_OBJ; /* total size: 0x48 */
 
 typedef DVG_CI_OBJ *DVG_CI;

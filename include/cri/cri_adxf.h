@@ -203,6 +203,7 @@ typedef struct _adxf_ptinfo {
     void *curdir;                /*	カレントディレクトリ(NULL:指定なし)	*/
     Sint32 ofst;                 /*	入れ子AFSファイル用					*/
     Sint32 top;                  /*	ファイル情報の先頭					*/
+    Sint32 file_sizes[0];
 } ADXF_PTINFO;
 #endif
 

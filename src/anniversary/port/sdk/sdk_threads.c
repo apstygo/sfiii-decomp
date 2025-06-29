@@ -1,3 +1,4 @@
+#include "port/sdk_threads.h"
 #include "common.h"
 #include "libco.h"
 
@@ -30,6 +31,54 @@ static Thread threads[MAX_THREADS];
 static Thread *current_thread = NULL;
 static Thread *ready_queue[READY_QUEUE_SIZE];
 static int thread_count = 0;
+static bool interrupt = false;
+static bool logging_enabled = false;
+
+static void log(const char *fmt, ...) {
+#if defined(DEBUG)
+    if (!logging_enabled) {
+        return;
+    }
+
+    va_list args;
+    va_start(args, fmt);
+    vfprintf(stdout, fmt, args);
+    fprintf(stdout, "\n");
+    va_end(args);
+#endif
+}
+
+static void switch_to_current_thread() {
+    log("🧵 Switching to [%d]\n", current_thread->id);
+    co_switch(current_thread->cothread);
+}
+
+static int highest_priority() {
+    for (int priority = 1; priority < READY_QUEUE_SIZE; priority++) {
+        if (ready_queue[priority] != NULL) {
+            return priority;
+        }
+    }
+
+    return 127;
+}
+
+void begin_interrupt() {
+    if (interrupt) {
+        fatal_error("Already in an interrupt");
+    }
+
+    interrupt = true;
+}
+
+void end_interrupt() {
+    if (!interrupt) {
+        fatal_error("Not in an interrupt");
+    }
+
+    interrupt = false;
+    switch_to_current_thread();
+}
 
 static void initialize_if_needed() {
     if (thread_count > 0) {
@@ -65,16 +114,16 @@ static Thread *find_tail(Thread *node) {
     return tail;
 }
 
-static void append_to_ready_queue(Thread *thread, int priority) {
+static void append_to_ready_queue(Thread *thread) {
     if (thread == NULL) {
         return;
     }
 
-    Thread *tail = find_tail(ready_queue[priority]);
+    Thread *tail = find_tail(ready_queue[thread->current_priority]);
 
     if (tail == NULL) {
         // Queue is empty. Let's put the thread at the head
-        ready_queue[priority] = thread;
+        ready_queue[thread->current_priority] = thread;
     } else {
         // Queue has some threads. Let's append the thread
         tail->next = thread;
@@ -105,7 +154,7 @@ static void remove_from_ready_queue(Thread *thread) {
     }
 }
 
-void switch_to_next_thread() {
+void reschedule() {
     for (int i = 1; i < READY_QUEUE_SIZE; i++) {
         Thread *thread = ready_queue[i];
 
@@ -113,10 +162,16 @@ void switch_to_next_thread() {
             continue;
         }
 
-        remove_from_ready_queue(thread);
         thread->state = THS_RUN;
-        co_switch(thread->cothread);
         current_thread = thread;
+
+        if (interrupt) {
+            // Switching is going to occur after the interrupt handler "returns"
+        } else {
+            // Switch immediately if not inside an interrupt handler
+            switch_to_current_thread();
+        }
+
         return;
     }
 
@@ -154,6 +209,8 @@ int CreateThread(struct ThreadParam *param) {
 
     thread_count += 1;
 
+    log("🧵 Created [%d]\n", new_thread->id);
+
     return new_thread->id;
 }
 
@@ -173,7 +230,9 @@ int StartThread(int tid, void *arg) {
     }
 
     thread->state = THS_READY;
-    append_to_ready_queue(thread, thread->current_priority);
+    append_to_ready_queue(thread);
+
+    log("🧵 Started [%d]\n", thread->id);
 
     return thread->id;
 }
@@ -181,19 +240,34 @@ int StartThread(int tid, void *arg) {
 int SleepThread(void) {
     initialize_if_needed();
 
+    log("🧵 Sleeping [%d]\n", current_thread->id);
+
     if (current_thread->wakeup_request_count > 0) {
         current_thread->wakeup_request_count -= 1;
         return current_thread->id;
     }
 
     current_thread->state = THS_WAIT;
-    switch_to_next_thread();
+    remove_from_ready_queue(current_thread);
+
+    reschedule();
 
     return current_thread->id;
 }
 
-int WakeupThread(int tid) {
+static void check_irq(bool irq) {
+    if (irq && !interrupt) {
+        fatal_error("Can't call an interrupt API from a thread");
+    }
+
+    if (!irq && interrupt) {
+        fatal_error("Can't call a thread API from an interrupt");
+    }
+}
+
+static int wakeup_thread(int tid, bool irq) {
     initialize_if_needed();
+    check_irq(irq);
 
     if (tid > thread_count) {
         printf("Can't wakeup a non-existent thread %d\n", tid);
@@ -202,10 +276,18 @@ int WakeupThread(int tid) {
 
     Thread *thread = &threads[tid - 1];
 
+    log("🧵 Waking up [%d]\n", thread->id);
+
     switch (thread->state) {
     case THS_WAIT:
         thread->state = THS_READY;
-        append_to_ready_queue(thread, thread->current_priority);
+        append_to_ready_queue(thread);
+
+        if (irq && (thread->current_priority < current_thread->current_priority)) {
+            current_thread->state = THS_READY;
+            reschedule();
+        }
+
         break;
 
     case THS_WAITSUSPEND:
@@ -223,8 +305,12 @@ int WakeupThread(int tid) {
     return tid;
 }
 
+int WakeupThread(int tid) {
+    return wakeup_thread(tid, false);
+}
+
 int iWakeupThread(int tid) {
-    return WakeupThread(tid);
+    return wakeup_thread(tid, true);
 }
 
 int SuspendThread(int tid) {
@@ -241,6 +327,8 @@ int SuspendThread(int tid) {
     }
 
     Thread *thread = &threads[tid - 1];
+
+    log("🧵 Suspending [%d]\n", thread->id);
 
     switch (thread->state) {
     case THS_WAIT:
@@ -285,10 +373,12 @@ int ResumeThread(int tid) {
 
     Thread *thread = &threads[tid - 1];
 
+    log("🧵 Resuming thread %d\n", thread->id);
+
     switch (thread->state) {
     case THS_SUSPEND:
         thread->state = THS_READY;
-        append_to_ready_queue(thread, thread->current_priority);
+        append_to_ready_queue(thread);
         break;
 
     case THS_WAITSUSPEND:
@@ -319,8 +409,9 @@ void ExitDeleteThread(void) {
 
     thread_count -= 1;
     co_delete(current_thread->cothread);
+    remove_from_ready_queue(current_thread);
     memset(current_thread, 0, sizeof(Thread));
-    switch_to_next_thread();
+    reschedule();
 }
 
 int ChangeThreadPriority(int tid, int prio) {
@@ -338,22 +429,40 @@ int ChangeThreadPriority(int tid, int prio) {
 
     Thread *thread = &threads[tid - 1];
     int old_priority = thread->current_priority;
+    bool reschedule_needed = false;
+    const int current_highest_priority = highest_priority();
 
-    if (thread->current_priority == prio) {
-        return prio;
+    log("🧵 Changing priority of [%d] from %d to %d\n", thread->id, old_priority, prio);
+
+    switch (thread->state) {
+    case THS_RUN:
+        reschedule_needed = prio > current_highest_priority;
+        break;
+
+    case THS_READY:
+        reschedule_needed = prio < current_highest_priority;
+        break;
+
+    default:
+        thread->current_priority = prio;
+        return old_priority;
     }
 
-    if (thread->state == THS_READY) {
-        remove_from_ready_queue(thread);
-        append_to_ready_queue(thread, prio);
-    }
-
+    // This puts the thread at the bottom of the ready queue for its priority
+    remove_from_ready_queue(thread);
     thread->current_priority = prio;
+    append_to_ready_queue(thread);
+
+    if (reschedule_needed) {
+        reschedule();
+    }
+
     return old_priority;
 }
 
-int ReferThreadStatus(int tid, struct ThreadParam *info) {
+static int refer_thread_status(int tid, struct ThreadParam *info, bool irq) {
     initialize_if_needed();
+    check_irq(irq);
 
     if (tid > thread_count) {
         printf("Can't get status of a non-existent thread %d\n", tid);
@@ -371,8 +480,12 @@ int ReferThreadStatus(int tid, struct ThreadParam *info) {
     return tid;
 }
 
+int ReferThreadStatus(int tid, struct ThreadParam *info) {
+    return refer_thread_status(tid, info, false);
+}
+
 int iReferThreadStatus(int tid, struct ThreadParam *info) {
-    return ReferThreadStatus(tid, info);
+    return refer_thread_status(tid, info, true);
 }
 
 int DelayThread(u_int) {

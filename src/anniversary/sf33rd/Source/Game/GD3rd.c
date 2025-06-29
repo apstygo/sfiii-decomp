@@ -11,6 +11,9 @@
 #include "sf33rd/Source/Game/texgroup.h"
 #include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
+
+#include "port/sdk_threads.h"
+
 #include <cri_mw.h>
 #include <libcdvd.h>
 #include <libgraph.h>
@@ -70,11 +73,22 @@ s32 Setup_Directory_Record_Data() {
     ADXF_LoadPartitionNw(0, "SF33RD.AFS", NULL, sf3ptinfo);
 
     while (1) {
-        if (ADXF_GetPtStat(0) == 3) {
+        if (ADXF_GetPtStat(0) == ADXF_STAT_READEND) {
             break;
         }
 
+#if defined(TARGET_PS2)
         sceGsSyncV(0);
+#else
+        // CRI relies on VSync interrupts to execute its file system server.
+        // On modern platforms we don't call the VSync interrupt handler until
+        // we get to the main loop. That's why we have to emulate the interrupt
+        // manually like this.
+        begin_interrupt();
+        ADXPS2_ExecVint(0);
+        end_interrupt();
+#endif
+
         ADXM_ExecMain();
     }
 

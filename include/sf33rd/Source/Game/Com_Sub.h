@@ -34,19 +34,30 @@ void EM_Term(PLW *wk, s16 Range_X, s16 Range_Y, s16 Exit_Number, s16 Next_Action
 void Jump(PLW *wk, s16 Time);
 void Hi_Jump(PLW *wk, s16 Pl_Number, s16 Jump_Dir);
 void Jump_Attack(PLW *wk, s16 Reaction, s16 Time_Data, u16 Lever_Data, s16 Jump_Dir);
-void Jump_Attack_Term(PLW *wk, s16 Range_X, s16 Range_Y, s16 Reaction, u16 Lever_Data, s16 Jump_Dir, s16 Range_JX, s16 Range_JY, s16 J_Lever_Data);
+void Jump_Attack_Term(PLW *wk, s16 Range_X, s16 Range_Y, s16 Reaction, u16 Lever_Data, s16 Jump_Dir, s16 Range_JX,
+                      s16 Range_JY, s16 J_Lever_Data);
 void Hi_Jump_Attack(PLW *wk, s16 Reaction, s16 Time_Data, u16 Lever_Data, s16 Jump_Dir);
-void Hi_Jump_Attack_Term(PLW *wk, s16 Range_X, s16 Range_Y, s16 Reaction, u16 Lever_Data, s16 Jump_Dir, s16 Range_JX, s16 Range_JY, u16 J_Lever_Data);
-void ORO_JA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Lever_Data, s16 RJX, s16 RJY, u16 JLD);
-void ORO_HJA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Lever_Data, s16 RJX, s16 RJY, u16 JLD);
+void Hi_Jump_Attack_Term(PLW *wk, s16 Range_X, s16 Range_Y, s16 Reaction, u16 Lever_Data, s16 Jump_Dir, s16 Range_JX,
+                         s16 Range_JY, u16 J_Lever_Data);
+void ORO_JA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Lever_Data, s16 RJX,
+                 s16 RJY, u16 JLD);
+void ORO_HJA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Lever_Data, s16 RJX,
+                  s16 RJY, u16 JLD);
 void Command_Attack(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot);
-void ORO_JCA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RJX, s16 RJY, u16 JLD);
-void ORO_HJCA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RJX, s16 RJY, u16 JLD);
+void ORO_JCA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Tech_Number,
+                  s16 Power_Level, s16 Ex_Shot, s16 RJX, s16 RJY, u16 JLD);
+void ORO_HJCA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Tech_Number,
+                   s16 Power_Level, s16 Ex_Shot, s16 RJX, s16 RJY, u16 JLD);
 void J_Command_Attack(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot);
 void Rapid_Command_Attack(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Shot, u16 Time);
-void Jump_Command_Attack_Term(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RX, s16 RY, s16 Jump_Dir, s16 JRX, s16 JRY, u16 JLD);
-void Hi_Jump_Command_Attack_Term(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RX, s16 RY, s16 Jump_Dir, s16 JRX, s16 JRY, u16 JLD);
+void Jump_Command_Attack_Term(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RX, s16 RY,
+                              s16 Jump_Dir, s16 JRX, s16 JRY, u16 JLD);
+void Hi_Jump_Command_Attack_Term(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RX, s16 RY,
+                                 s16 Jump_Dir, s16 JRX, s16 JRY, u16 JLD);
 void Next_Another_Menu(PLW *wk, s16 Next_Action, u16 Next_Menu);
 void ETC_Term(PLW *wk, s16 Exit_No, u32 Next_Action, u16 Next_Menu);
+s32 Select_Passive(PLW *wk);
+s32 Setup_Lv08(s16 xx);
+s32 Setup_VS_Catch_Data(PLW *wk);
 
 #endif

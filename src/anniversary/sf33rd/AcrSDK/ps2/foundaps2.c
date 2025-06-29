@@ -801,6 +801,10 @@ s32 flLogOut(s8 *format, ...) {
     flFileAppend("../acrout.txt", str, strlen(str));
     va_end(args);
 
+#if !defined(TARGET_PS2)
+    fatal_error(str);
+#endif
+
     return 1;
 }
 

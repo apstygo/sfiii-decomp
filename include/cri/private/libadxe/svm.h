@@ -11,7 +11,7 @@ void SVM_UnlockRsc();
 void SVM_LockVar();
 void SVM_UnlockVar();
 void SVM_CallErr(const Char8 *format, ...);
-void SVM_SetCbBdr(Sint32 arg0, Sint32 arg1, Sint32 arg2);
+void SVM_SetCbBdr(Sint32 arg0, void (*arg1)(), Sint32 arg2);
 void SVM_SetCbErr(void (*callback)(void *, Char8 *), void *object);
 Sint32 SVM_SetCbSvr(Sint32, Sint32 (*)(void *), void *);
 void SVM_SetCbSvrId(Sint32, Sint32, Sint32 (*)(void *), void *);

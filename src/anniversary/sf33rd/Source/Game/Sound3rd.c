@@ -143,7 +143,9 @@ void Init_sound_system() {
     sys_w.bgm_type = 0;
     flAdxInitialize(NULL, "\\THIRD\\");
     ADXT_Init();
+#if !defined(SOUND_DISABLED)
     adxt = ADXT_Create(2, adx_stm_work, ADX_STM_WORK_SIZE);
+#endif
     system_init_level |= 2;
     cseInitSndDrv();
     system_init_level |= 1;
