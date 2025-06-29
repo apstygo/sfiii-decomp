@@ -5,6 +5,7 @@
 #include "sf33rd/Source/Game/EFF09.h"
 #include "sf33rd/Source/Game/EFF15.h"
 #include "sf33rd/Source/Game/EFF46.h"
+#include "sf33rd/Source/Game/EFFC5.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/SE.h"
@@ -18,7 +19,6 @@
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 // effect_86_init
-// effect_C5_init
 // effect_C8_init
 // effect_M0_init
 // effect_M1_init
