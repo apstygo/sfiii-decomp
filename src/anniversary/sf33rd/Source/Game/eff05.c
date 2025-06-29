@@ -5,14 +5,15 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_sub.h"
+#include "sf33rd/Source/Game/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 
-u32 *char_add[22] = { (u32 *)0x484FF0, (u32 *)0x488AD8, (u32 *)0x487060, (u32 *)0x4865B0, (u32 *)0x47E548,
-                      (u32 *)0x488570, (u32 *)0x486258, (u32 *)0x486AE8, (u32 *)0x488850, (u32 *)0x47A740,
-                      (u32 *)0x4865B0, (u32 *)0x488AD8, (u32 *)0x47A740, (u32 *)0x488550, (u32 *)0x487908,
-                      (u32 *)0x47AB58, (u32 *)0x487B40, (u32 *)0x488AD8, (u32 *)0x488570, (u32 *)0x485360,
-                      (u32 *)0x47A0E0, (u32 *)0x47A0E0 };
+u32 *char_add[22] = { _fnl_char_table, _usa_char_table, _j10_char_table, _hkg_char_table, _eng_char_table,
+                      _rca_char_table, _grm_char_table, _j11_char_table, _afc_char_table, _brz_char_table,
+                      _hkg_char_table, _usa_char_table, _brz_char_table, _orm_char_table, _jp2_char_table,
+                      _chn_char_table, _jp3_char_table, _usa_char_table, _rca_char_table, _frc_char_table,
+                      _bns_char_table, _bns_char_table };
 
 const s16 *scr_obj_data[22] = { stg_dum_data_tbl, stg0100_data_tbl, stg_dum_data_tbl, stg_dum_data_tbl,
                                 stg_dum_data_tbl, stg0500_data_tbl, stg0600_data_tbl, stg0700_data_tbl,
