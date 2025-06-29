@@ -2,6 +2,7 @@
 #include "common.h"
 #include "sf33rd/Source/Game/CALDIR.h"
 #include "sf33rd/Source/Game/CHARSET.h"
+#include "sf33rd/Source/Game/EFF09.h"
 #include "sf33rd/Source/Game/EFF15.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/PLS02.h"
@@ -15,6 +16,13 @@
 #include "sf33rd/Source/Game/effM7.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
+// effect_46_init
+// effect_86_init
+// effect_C5_init
+// effect_C8_init
+// effect_M0_init
+// effect_M1_init
+// effect_M5_init
 
 s8 Appear_car_stop[] = { 0, 0 };
 s8 Appear_hv[] = { 0, 0 };
