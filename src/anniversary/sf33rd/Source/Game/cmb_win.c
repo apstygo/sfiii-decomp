@@ -44,9 +44,9 @@ const u16 combo_score_tbl[12][2] = { { 300, 200 },   { 500, 400 },   { 1000, 600
                                      { 6000, 2000 }, { 8000, 2000 }, { 9000, 3000 }, { 10000, 4000 } };
 
 void combo_cont_init() {
-    u8 i = 0;
+    u8 i;
 
-    while (i < 2) {
+    for (i = 0; i < 2; i++) {
         old_cmb_flag[i] = 0;
         cmb_stock[i] = 0;
         rever_attack[i] = 0;
@@ -60,7 +60,6 @@ void combo_cont_init() {
         work_init_zero((s32 *)&remake_power[i], 0xA8);
         memset(calc_hit[i], 0, 0x14);
         memset(score_calc[i], 0, 0x18);
-        i++;
     }
 
     first_attack = 0;
@@ -90,28 +89,19 @@ void combo_cont_main() {
     if (Demo_Flag != 0) {
         if (Game_pause == 0) {
             if (Game_timer & 1) {
-                i = 0;
-
-                while (i < 2) {
+                for (i = 0; i < 2; i++) {
                     combo_control(i);
                     combo_window_trans(i);
-                    i++;
                 }
             } else {
-                i = 1;
-
-                while (i > -1) {
+                for (i = 1; i > -1; i--) {
                     combo_control(i);
                     combo_window_trans(i);
-                    i--;
                 }
             }
         } else {
-            i = 0;
-
-            while (i < 2) {
+            for (i = 0; i < 2; i++) {
                 combo_window_trans(i);
-                i++;
             }
         }
 
@@ -296,9 +286,9 @@ s32 paring_check(s8 PL) {
 
 void hit_combo_check(s8 PL) {
     s32 *sa_ptr = (s32 *)plw[PL].cb->kind_of[4][0];
-    s8 lpx = 0;
+    s8 lpx;
 
-    while (lpx < 20) {
+    for (lpx = 0; lpx < 20; lpx++) {
         if (!(*sa_ptr++ == 0)) {
             if (arts_finish_check(PL)) {
                 if (lpx < 8) {
@@ -316,8 +306,6 @@ void hit_combo_check(s8 PL) {
             combo_window_push(PL, 1);
             return;
         }
-
-        lpx++;
     }
 
     combo_window_push(PL, 0);
@@ -353,27 +341,22 @@ u32 SCORE_CALCULATION(s8 PL) {
     k_ptr = plw[PL].cb->kind_of[0][0];
     c_ptr = &calc_hit[PL][1];
     s_ptr = score_calc[PL];
-    lpx = 0;
 
-    while (lpx < 4) {
+    for (lpx = 0; lpx < 4; lpx++) {
         *s_ptr++ = k_ptr[0] + k_ptr[1];
         k_ptr += 2;
-        lpx++;
     }
 
     s_ptr = &score_calc[PL][4];
-    lpy = 0;
 
-    while (lpy < 8) {
+    for (lpy = 0; lpy < 8; lpy++) {
         *s_ptr++ = *c_ptr++;
-        lpy++;
     }
 
     hit = 0;
     score = 0;
-    lpy = 0;
 
-    while (lpy < 12) {
+    for (lpy = 0; lpy < 12; lpy++) {
         if (score_calc[PL][lpy]) {
             last = lpy;
             h = score_calc[PL][lpy];
@@ -384,7 +367,6 @@ u32 SCORE_CALCULATION(s8 PL) {
                 score += (hit - 1) * combo_score_tbl[lpy][1];
             }
         }
-        lpy++;
     }
 
     if (bonus_pts[PL]) {
