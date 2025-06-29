@@ -16,7 +16,7 @@ void flPS2_Mem_move16_8A(const void *src, void *dst, size_t len) {
 }
 
 void flPS2_Mem_move16_16A(const void *src, void *dst, size_t len) {
-    not_implemented(__func__);
+    memcpy(dst, src, len * 16);
 }
 
 void flPS2_Mem_move32(const void *src, void *dst, size_t len) {
