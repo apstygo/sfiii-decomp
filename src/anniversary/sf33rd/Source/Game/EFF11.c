@@ -130,7 +130,7 @@ void quake_level_middle(WORK_Other *ewk) {
             ewk->wu.mvxy.a[1].sp >>= ewk->wu.routine_no[2];
             ewk->wu.old_rno[0]++;
             ewk->wu.old_rno[0] &= 3;
-            ewk->wu.mvxy.a[1].sp = (eff11_quake_speed_y_tbl2[ewk->wu.old_rno[3]][ewk->wu.old_rno[0])];
+            ewk->wu.mvxy.a[1].sp = eff11_quake_speed_y_tbl2[ewk->wu.old_rno[3]][ewk->wu.old_rno[0]];
         }
 
         break;
@@ -233,7 +233,7 @@ void quake_level_large(WORK_Other *ewk) {
             ewk->wu.xyz[1].disp.low = 0;
             set_char_move_init(&ewk->wu, 0, ewk->wu.old_rno[6] + 3);
             ewk->wu.old_rno[0] = 0;
-            ewk->wu.mvxy.a[1].sp = (eff11_quake_speed_y_tbl2[ewk->wu.old_rno[3]][ewk->wu.old_rno[0])];
+            ewk->wu.mvxy.a[1].sp = eff11_quake_speed_y_tbl2[ewk->wu.old_rno[3]][ewk->wu.old_rno[0]];
             ewk->wu.mvxy.d[1].sp = -0x6000;
         }
 
@@ -267,7 +267,7 @@ void quake_level_large(WORK_Other *ewk) {
             set_char_move_init(&ewk->wu, 0, ewk->wu.old_rno[6] + 3);
             ewk->wu.old_rno[0]++;
             ewk->wu.old_rno[0] &= 3;
-            ewk->wu.mvxy.a[1].sp = (eff11_quake_speed_y_tbl2[ewk->wu.old_rno[3]][ewk->wu.old_rno[0])];
+            ewk->wu.mvxy.a[1].sp = eff11_quake_speed_y_tbl2[ewk->wu.old_rno[3]][ewk->wu.old_rno[0]];
             ewk->wu.mvxy.d[1].sp = -0x6000;
         }
 
