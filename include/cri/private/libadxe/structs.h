@@ -12,6 +12,13 @@
 // ADXPD
 
 typedef struct {
+    /* 0x00 */ Sint16 unk0;
+    /* 0x02 */ Sint16 unk2;
+    /* 0x04 */ Sint16 unk4;
+    /* 0x06 */ Sint16 unk6;
+} ADXPD_OBJ_SUB;
+
+typedef struct {
     /* 0x00 */ Sint32 used;
     /* 0x04 */ Sint32 unk4;
     /* 0x08 */ Sint32 mode;
@@ -22,20 +29,13 @@ typedef struct {
     /* 0x1C */ Sint32 unk1C;
     /* 0x20 */ Sint32 unk20;
     /* 0x24 */ Sint32 unk24;
-    struct {
-        /* 0x28 */ Sint16 unk0;
-        /* 0x2A */ Sint16 unk2;
-        /* 0x2C */ Sint16 unk4;
-        /* 0x2E*/ Sint16 unk6;
-    } ADXPD_OBJ_SUB;
-
+    /* 0x28 */ ADXPD_OBJ_SUB unk28;
     /* 0x30 */ Sint16 unk30;
     /* 0x32 */ Sint16 unk32;
     /* 0x34 */ Sint16 unk34;
     /* 0x36 */ Sint16 unk36;
     /* 0x38 */ Sint16 unk38;
     /* 0x3A */ Sint16 unk3A;
-
 } ADXPD_OBJ;
 
 typedef ADXPD_OBJ *ADXPD;

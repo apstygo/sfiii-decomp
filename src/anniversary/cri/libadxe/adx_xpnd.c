@@ -42,7 +42,7 @@ ADXPD ADXPD_Create() {
     adxpd->mode = 0;
     adxpd->stat = 0;
     ADX_GetCoefficient(0x1F4, 0xAC44, &adxpd->unk30, &adxpd->unk32);
-    memset(&adxpd->ADXPD_OBJ_SUB, 0, 8);
+    memset(&adxpd->unk28, 0, 8);
 
     return adxpd;
 }
@@ -52,17 +52,17 @@ void ADXPD_SetCoef(ADXPD_OBJ *adxpd, s32 arg1, s16 *arg2) {
 }
 
 void ADXPD_SetDly(ADXPD_OBJ *arg0, s16 *arg1, s16 *arg2) {
-    arg0->ADXPD_OBJ_SUB.unk0 = arg1[0];
-    arg0->ADXPD_OBJ_SUB.unk2 = arg2[0];
-    arg0->ADXPD_OBJ_SUB.unk4 = arg1[1];
-    arg0->ADXPD_OBJ_SUB.unk6 = arg2[1];
+    arg0->unk28.unk0 = arg1[0];
+    arg0->unk28.unk2 = arg2[0];
+    arg0->unk28.unk4 = arg1[1];
+    arg0->unk28.unk6 = arg2[1];
 }
 
 void ADXPD_GetDly(ADXPD_OBJ *adxpd, s16 *arg1, s16 *arg2) {
-    arg1[0] = adxpd->ADXPD_OBJ_SUB.unk0;
-    arg2[0] = adxpd->ADXPD_OBJ_SUB.unk2;
-    arg1[1] = adxpd->ADXPD_OBJ_SUB.unk4;
-    arg2[1] = adxpd->ADXPD_OBJ_SUB.unk6;
+    arg1[0] = adxpd->unk28.unk0;
+    arg2[0] = adxpd->unk28.unk2;
+    arg1[1] = adxpd->unk28.unk4;
+    arg2[1] = adxpd->unk28.unk6;
 }
 
 void ADXPD_SetExtPrm(ADXPD_OBJ *adxpd, s16 arg1, s16 arg2, s16 arg3) {
@@ -140,7 +140,7 @@ void ADXPD_Start(ADXPD adxpd) {
 
 void ADXPD_Stop(ADXPD adxpd) {
     adxpd->stat = 0;
-    memset(&adxpd->ADXPD_OBJ_SUB, 0, sizeof(adxpd->ADXPD_OBJ_SUB));
+    memset(&adxpd->unk28, 0, sizeof(adxpd->unk28));
 }
 
 void ADXPD_Reset(ADXPD adxpd) {
@@ -170,7 +170,7 @@ void ADXPD_ExecHndl(ADXPD adxpd) {
         adxpd->num_blk = ADX_DecodeMono4(adxpd->unk18,
                                          adxpd->unk1C,
                                          adxpd->unk20,
-                                         &adxpd->ADXPD_OBJ_SUB.unk0,
+                                         &adxpd->unk28.unk0,
                                          adxpd->unk30,
                                          adxpd->unk32,
                                          &adxpd->unk34,
@@ -180,9 +180,9 @@ void ADXPD_ExecHndl(ADXPD adxpd) {
         adxpd->num_blk = ADX_DecodeSte4(adxpd->unk18,
                                         adxpd->unk1C,
                                         adxpd->unk20,
-                                        &adxpd->ADXPD_OBJ_SUB.unk0,
+                                        &adxpd->unk28.unk0,
                                         adxpd->unk24,
-                                        &adxpd->ADXPD_OBJ_SUB.unk4,
+                                        &adxpd->unk28.unk4,
                                         adxpd->unk30,
                                         adxpd->unk32,
                                         &adxpd->unk34,
