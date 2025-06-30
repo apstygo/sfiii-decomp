@@ -50,7 +50,7 @@ const s16 sag_stock_omake[11] = { -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 
 const s16 sag_length_omake[17] = { -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/SysDir", base_vital_omake);
+const s16 base_vital_omake[7] = { 0xfe3e, 0xfed4, 0xff6a, 0x0000, 0x0096, 0x012c, 0x01c2 };
 
 u32 sag_ikinari_max() {
     return ((omop_spmv_ng_table2[0] & 0x40000) + (omop_spmv_ng_table2[1] & 0x40000)) == 0x80000;
