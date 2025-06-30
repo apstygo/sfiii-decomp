@@ -29,7 +29,7 @@ s32 sort_push_request3(WORK *wk);
 s32 sort_push_request2(WORK_Other *wk);
 s16 exchange_current_colcd(WORK *wk);
 void Mtrans_use_trans_mode(WORK *wk, s16 bsy);
-void all_cgps_put_back(u32 /* unused */);
+void all_cgps_put_back(WORK *wk);
 s32 set_conn_sprite(WORK_Other_CONN *wk, s16 bsy);
 void set_judge_area_sprite(WORK_Other_JUDGE *wk, s16 bsy);
 void draw_hit_judge_line(f64 arg0, f64 arg1, f64 arg2, f64 arg3, u32 col, u32 attr);

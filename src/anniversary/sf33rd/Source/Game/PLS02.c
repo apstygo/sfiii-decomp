@@ -332,7 +332,7 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", asagh_zu
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", sel_hosei_tbl_ix);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", satse);
+const s16 satse[20] = { 32, 32, 28, 24, 32, 36, 40, 24, 28, 28, 24, 28, 28, 32, 30, 28, 28, 24, 36, 24 };
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_32);
 
