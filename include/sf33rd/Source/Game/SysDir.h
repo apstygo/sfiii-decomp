@@ -1,6 +1,7 @@
 #ifndef SYSDIR_H
 #define SYSDIR_H
 
+#include "structs.h"
 #include "types.h"
 
 extern const s16 sa_gauge_omake[4]; // size: 0x8, address: 0x5549A0
@@ -11,5 +12,7 @@ extern s16 omop_round_timer;
 
 void init_omop();
 u32 sag_ikinari_max();
+void get_extra_option_parameter(_EXTRA_OPTION *omop_extra);
+void get_system_direction_parameter(DirData *sysdir_data);
 
 #endif
