@@ -489,7 +489,7 @@ void Setup_Score(s16 y) {
         First_Digit = 0;
     }
 
-    for (i = 0, assign3 = xx = 7; i < 8; i++, assign4 = x--) {
+    for (i = 0, assign3 = xx = 7; i < 8; i++, assign4 = xx--) {
         Flash_Rank_Time += Flash_Rank_Interval;
         Rank_Pos_X += 16;
         if (First_Digit >= xx) {
