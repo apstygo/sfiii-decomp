@@ -387,9 +387,21 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", score16x24
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", literal_212_0054F7C0);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", combo_message_set);
+#else
+void combo_message_set(u8 pl, u8 kind, u8 x, u8 num, u8 hi, u8 low) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", combo_pts_set);
+#else
+void combo_pts_set(u8 pl, u8 x, u8 num, s8 *pts, s8 digit) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", naming_set);
 

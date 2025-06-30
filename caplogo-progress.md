@@ -8,7 +8,7 @@ Notes:
 
 | Module   | Progress   |
 |----------|------------|
-| sf33rd   | 90.61%     |
+| sf33rd   | 91.36%     |
 | cri      | 77.86%     |
 
 | Function                         | File                                                 | Module   | Is decompiled   |
@@ -694,7 +694,7 @@ Notes:
 | flBeginRender                    | sf33rd/AcrSDK/ps2/flps2render.c                      | sf33rd   | ✅               |
 | flGetSystemTime                  | sf33rd/AcrSDK/ps2/flps2debug.c                       | sf33rd   | ✅               |
 | njUserMain                       | sf33rd/Source/Game/main.c                            | sf33rd   | ✅               |
-| Check_Replay_Status              | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   |                 |
+| Check_Replay_Status              | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   | ✅               |
 | cpLoopTask                       | sf33rd/Source/Game/main.c                            | sf33rd   | ✅               |
 | disp_ramcnt_free_area            | sf33rd/Source/Game/RAMCNT.c                          | sf33rd   | ✅               |
 | MaskScreenEdge                   | sf33rd/Source/Game/main.c                            | sf33rd   | ✅               |
@@ -734,10 +734,10 @@ Notes:
 | flPS2DmaInterrupt                | sf33rd/AcrSDK/ps2/flps2dma.c                         | sf33rd   | ✅               |
 | Init_Task                        | sf33rd/Source/Game/init3rd.c                         | sf33rd   | ✅               |
 | Init_Task_1st                    | sf33rd/Source/Game/init3rd.c                         | sf33rd   | ✅               |
-| init_texcash_1st                 | sf33rd/Source/Game/texcash.c                         | sf33rd   |                 |
+| init_texcash_1st                 | sf33rd/Source/Game/texcash.c                         | sf33rd   | ✅               |
 | Init_texgrplds_work              | sf33rd/Source/Game/texgroup.c                        | sf33rd   | ✅               |
 | Init_load_on_memory_data         | sf33rd/Source/Game/aboutspr.c                        | sf33rd   | ✅               |
-| copy_char_base_data              | sf33rd/Source/Game/CHARID.c                          | sf33rd   |                 |
+| copy_char_base_data              | sf33rd/Source/Game/CHARID.c                          | sf33rd   | ✅               |
 | palConvSrcToRam                  | sf33rd/Source/Game/color3rd.c                        | sf33rd   | ✅               |
 | palUpdateGhostCP3                | sf33rd/Source/Game/color3rd.c                        | sf33rd   | ✅               |
 | flLockPalette                    | sf33rd/AcrSDK/ps2/flps2vram.c                        | sf33rd   | ✅               |
@@ -748,13 +748,13 @@ Notes:
 | reservMemKeySelObj               | sf33rd/Source/Game/texgroup.c                        | sf33rd   | ✅               |
 | load_any_texture_patnum          | sf33rd/Source/Game/texgroup.c                        | sf33rd   | ✅               |
 | load_any_texture_grpnum          | sf33rd/Source/Game/texgroup.c                        | sf33rd   | ✅               |
-| Pause_Family_On                  | sf33rd/Source/Game/bg.c                              | sf33rd   |                 |
+| Pause_Family_On                  | sf33rd/Source/Game/bg.c                              | sf33rd   | ✅               |
 | njUnitMatrix                     | sf33rd/Source/Game/DC_Ghost.c                        | sf33rd   | ✅               |
 | sceVu0UnitMatrix                 | sdk/libvu0/libvu0.c                                  | sdk      | –               |
 | njScale                          | sf33rd/Source/Game/DC_Ghost.c                        | sf33rd   | ✅               |
 | njTranslate                      | sf33rd/Source/Game/DC_Ghost.c                        | sf33rd   | ✅               |
 | njGetMatrix                      | sf33rd/Source/Game/DC_Ghost.c                        | sf33rd   | ✅               |
-| Bg_TexInit                       | sf33rd/Source/Game/bg.c                              | sf33rd   |                 |
+| Bg_TexInit                       | sf33rd/Source/Game/bg.c                              | sf33rd   | ✅               |
 | palGetChunkGhostCP3              | sf33rd/Source/Game/color3rd.c                        | sf33rd   | ✅               |
 | Scrscreen_Init                   | sf33rd/Source/Game/sc_sub.c                          | sf33rd   |                 |
 | ppgSetupCurrentDataList          | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
@@ -804,7 +804,7 @@ Notes:
 | Init_Load_Request_Queue_1st      | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
 | Game_Data_Init                   | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   |                 |
 | Setup_Default_Game_Option        | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   |                 |
-| Ranking_Init                     | sf33rd/Source/Game/RANKING.c                         | sf33rd   |                 |
+| Ranking_Init                     | sf33rd/Source/Game/RANKING.c                         | sf33rd   | ✅               |
 | Copy_Save_w                      | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   |                 |
 | Copy_Check_w                     | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   |                 |
 | Setup_Difficult_V                | sf33rd/Source/Game/init3rd.c                         | sf33rd   | ✅               |

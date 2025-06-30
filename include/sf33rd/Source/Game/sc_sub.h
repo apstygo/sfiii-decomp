@@ -22,5 +22,7 @@ void fade_cont_init();
 void fade_cont_main();
 void Akaobi();
 void scfont_put(u16 x, u16 y, u8 atr, u8 page, u8 cx, u8 cy, u16 priority);
+void combo_message_set(u8 pl, u8 kind, u8 x, u8 num, u8 hi, u8 low);
+void combo_pts_set(u8 pl, u8 x, u8 num, s8 *pts, s8 digit);
 
 #endif
