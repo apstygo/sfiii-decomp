@@ -1419,7 +1419,7 @@ segments:
       - [0x473EA0, sdata, sf33rd/Source/Game/PLCNT]
       - [0x473F30, sdata, sf33rd/Source/Game/PLPAT]
       - [0x474070, .sdata, sf33rd/Source/Game/PulPul]
-      - [0x474080, sdata, sf33rd/Source/Game/RANKING]
+      - [0x474080, .sdata, sf33rd/Source/Game/RANKING]
       - [0x4740D0, .sdata, sf33rd/Source/Game/Reset]
       - [0x4740E0, sdata, sf33rd/Source/Game/Saver]
       - [0x4740F0, .sdata, sf33rd/Source/Game/sc_sub]
@@ -1579,7 +1579,7 @@ segments:
       - { type: sbss, vram: 0x5795D8, name: sf33rd/Source/Game/plpat14 }
       - { type: .sbss, vram: 0x5795DC, name: sf33rd/Source/Game/PulPul }
       - { type: .sbss, vram: 0x579678, name: sf33rd/Source/Game/RAMCNT }
-      - { type: sbss, vram: 0x579730, name: sf33rd/Source/Game/RANKING }
+      - { type: .sbss, vram: 0x579730, name: sf33rd/Source/Game/RANKING }
       - { type: .sbss, vram: 0x579758, name: sf33rd/Source/Game/Reset }
       - { type: .sbss, vram: 0x579760, name: sf33rd/Source/Game/sc_data }
       - { type: .sbss, vram: 0x579778, name: sf33rd/Source/Game/sc_sub }
