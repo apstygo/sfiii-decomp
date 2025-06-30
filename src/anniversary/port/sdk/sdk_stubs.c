@@ -3,8 +3,6 @@
 #include "common.h"
 #include "types.h"
 
-#include "port/sdl_app.h"
-
 #include <eekernel.h>
 #include <libcdvd.h>
 #include <libdma.h>
@@ -24,19 +22,16 @@
 
 // libcdvd
 
-static const char flist_path[] = "\\THIRD\\0FLIST.DIR;1";
-static const char afs_path[] = "\\THIRD\\SF33RD.AFS;1";
-
 int sceCdBreak(void) {
     not_implemented(__func__);
 }
 
 int sceCdGetDiskType(void) {
-    not_implemented(__func__);
+    return SCECdPS2DVD;
 }
 
 int sceCdGetError(void) {
-    not_implemented(__func__);
+    return SCECdErNO;
 }
 
 int sceCdInit(int init_mode) {
@@ -47,20 +42,28 @@ int sceCdMmode(int media) {
     not_implemented(__func__);
 }
 
+#define AFS_LENGTH 642492416
+#define AFS_START_LSN 0x100
+#define AFS_SECTOR_COUNT ((AFS_LENGTH + 2047) / 2048)
+#define AFS_END_LSN (AFS_START_LSN + AFS_SECTOR_COUNT)
+
+static const char flist_path[] = "\\THIRD\\0FLIST.DIR;1";
+static const char afs_path[] = "\\THIRD\\SF33RD.AFS;1";
+
 int sceCdRead(u_int lsn, u_int sectors, void *buf, sceCdRMode *mode) {
-    switch (lsn) {
-    case -1:
+    if (lsn == -1) {
         // No need to actually read a file or write to the buffer
         // because we are handling flist read and we don't
         // need to read from buf
-        break;
-
-        // case -2:
-        //     break;
-
-    default:
+        return 1;
+    } else if ((lsn >= AFS_START_LSN) && (lsn < AFS_END_LSN)) {
+        const int file_offset = (lsn - AFS_START_LSN) * 2048;
+        const int fd = open("rom/THIRD/SF33RD.AFS", O_RDONLY);
+        lseek(fd, file_offset, SEEK_SET);
+        read(fd, buf, sectors * 2048);
+        close(fd);
+    } else {
         fatal_error("Can't handle lsn %u", lsn);
-        break;
     }
 
     return 1;
@@ -76,8 +79,8 @@ int sceCdLayerSearchFile(sceCdlFILE *fp, const char *name, int layer) {
         fp->size = 12;
         fp->lsn = -1; // Set a wacky lsn on purpose to recognize it in sceCdRead
     } else if (strncmp(name, afs_path, strlen(afs_path)) == 0) {
-        fp->size = 642492416;
-        fp->lsn = -2; // Set a wacky lsn on purpose to recognize it in sceCdRead
+        fp->size = AFS_LENGTH;
+        fp->lsn = AFS_START_LSN; // Set a wacky lsn on purpose to recognize it in sceCdRead
     } else {
         fatal_error("Can't handle filename %s", name);
     }
@@ -156,7 +159,7 @@ int sceOpen(const char *filename, int flag, ...) {
     memset(converted_filename, 0, sizeof(converted_filename));
     convert_filename(converted_filename, filename);
 
-    return open(converted_filename, _flag);
+    return open(converted_filename, _flag, 0644);
 }
 
 int sceClose(int fd) {
@@ -165,6 +168,10 @@ int sceClose(int fd) {
 
 int sceRead(int fd, void *buf, int nbyte) {
     return read(fd, buf, nbyte);
+}
+
+int sceWrite(int fd, const void *buf, int nbyte) {
+    return write(fd, buf, nbyte);
 }
 
 int sceLseek(int fd, int offset, int whence) {
@@ -180,10 +187,6 @@ int sceFsReset(void) {
 }
 
 int sceIoctl(int fd, int req, void *) {
-    not_implemented(__func__);
-}
-
-int sceWrite(int fd, const void *buf, int nbyte) {
     not_implemented(__func__);
 }
 
@@ -281,13 +284,10 @@ int sceGsSyncPath(int mode, unsigned short timeout) {
 }
 
 int sceGsSyncV(int mode) {
-    // FIXME: Handle blocking VSync properly
-    printf("[SDK] sceGsSyncV(mode: %d)", mode);
-    return 0;
+    fatal_error("sceGsSyncV should never be called in ports");
 }
 
 int *sceGsSyncVCallback(int (*func)(int)) {
-    SDLApp_SetVSyncCallback(func);
     return NULL;
 }
 
@@ -365,7 +365,7 @@ void sceDbcEnd() {
 // libmc
 
 int sceMcInit(void) {
-    not_implemented(__func__);
+    return sceMcIniSucceed;
 }
 
 int sceMcOpen(int, int, const char *, int) {
@@ -422,8 +422,8 @@ void iFlushCache(int operation) {
     printf("[SDK] iFlushCache called (operation: %d)\n", operation);
 }
 
-void InvalidDCache(void *, void *) {
-    not_implemented(__func__);
+void InvalidDCache(void *begin, void *end) {
+    printf("[SDK] InvalidDCache called (begin: %0X, end: %0X)\n", begin, end);
 }
 
 void SyncDCache(void *, void *) {

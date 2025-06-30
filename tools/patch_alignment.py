@@ -27,6 +27,7 @@ special_cases = {
     ("msgsub", ".rodata", 0): 16,
     ("Com_Pl", ".rodata", 0): 16,
     ("appear", ".rodata", 1): 16,
+    ("CHARSET", ".rodata", 0): 16,
 
     ("bg_data", ".data", 0): 16,
     ("PulPul", ".data", 0): 16,

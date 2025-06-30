@@ -28,3 +28,13 @@ void fatal_error(const s8 *fmt, ...) __dead2 {
 void not_implemented(const s8 *func) __dead2 {
     fatal_error("Function not implemented: %s\n", func);
 }
+
+void debug_print(const char *fmt, ...) {
+#if defined(DEBUG)
+    va_list args;
+    va_start(args, fmt);
+    vfprintf(stdout, fmt, args);
+    fprintf(stdout, "\n");
+    va_end(args);
+#endif
+}

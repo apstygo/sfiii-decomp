@@ -3,12 +3,11 @@
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/OPENING.h"
+#include "sf33rd/Source/Game/char_table.h"
 #include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
-
-extern u32 _op_char_table[];
 
 // forward decls
 void efff6_move_common(WORK_Other *ewk);
