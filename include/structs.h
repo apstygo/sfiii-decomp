@@ -2730,4 +2730,17 @@ typedef struct {
     u32 uni_ascii;         // offset 0x98, size 0x4
 } Kanji_W;
 
+typedef struct {
+    // total size: 0x8
+    union {
+        signed short full; // offset 0x0, size 0x2
+        struct {
+            // total size: 0x2
+            signed char l; // offset 0x0, size 0x1
+            signed char h; // offset 0x1, size 0x1
+        } half;            // offset 0x0, size 0x2
+    } size;                // offset 0x0, size 0x2
+    signed int step;       // offset 0x4, size 0x4
+} Round_Timer;
+
 #endif
