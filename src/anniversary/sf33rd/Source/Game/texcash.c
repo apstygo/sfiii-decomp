@@ -71,13 +71,19 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", disp_texc
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", search_texcash_free_area);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", init_texcash_1st);
-#else
 void init_texcash_1st() {
-    not_implemented(__func__);
+    s16 i;
+
+    for (i = 0; i < MULTITEXTURE_MAX; i++) {
+        mts_ok[i].be = 0;
+        mts_ok[i].mincg = 0;
+        mts_ok[i].min16 = 0x7FFF;
+        mts_ok[i].min32 = 0x7FFF;
+        mts_ok[i].key0 = 0;
+        mts_ok[i].key1 = 0;
+        mts[i].mode = -1;
+    }
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", init_texcash_before_process);

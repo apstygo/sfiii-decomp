@@ -50,7 +50,7 @@ void ppg_Initialize(void *lcmAdrs, s32 lcmSize) {
         while (1) {}
     }
 
-    mmHeapInitialize(&ppg_w.mm, lcmAdrs, lcmSize, 0x10, "- for PPG -");
+    mmHeapInitialize(&ppg_w.mm, lcmAdrs, lcmSize, ALIGN_UP(sizeof(_MEMMAN_CELL), 16), "- for PPG -");
 }
 
 void *ppgMallocF(s32 size) {
