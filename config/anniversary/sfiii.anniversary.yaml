@@ -1532,8 +1532,8 @@ segments:
       - { type: .sbss, vram: 0x578C20, name: sf33rd/Source/Game/bg_data }
       - { type: .sbss, vram: 0x578CD0, name: sf33rd/Source/Game/CHARID }
       - { type: .sbss, vram: 0x578D20, name: sf33rd/Source/Game/CHARSET }
-      - { type: .sbss, vram: 0x578D28, name: sf33rd/Source/Game/cmb_win }
       - { type: .sbss, vram: 0x578D24, name: sf33rd/Source/Game/Ck_Pass }
+      - { type: .sbss, vram: 0x578D28, name: sf33rd/Source/Game/cmb_win }
       - { type: .sbss, vram: 0x578DBC, name: sf33rd/Source/Game/cmd_data }
       - { type: .sbss, vram: 0x578DD8, name: sf33rd/Source/Game/color3rd }
       - { type: .sbss, vram: 0x578E48, name: sf33rd/Source/Game/Com_Sub }
