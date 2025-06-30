@@ -50,15 +50,106 @@ void count_cont_init(u8 type) {
     counter_color = 4;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/count", count_cont_main);
-#else
 void count_cont_main() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void counter_write(s32 atr);
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/count", counter_control);
+    if (Bonus_Game_Flag) {
+        return;
+    }
+
+    if (count_end) {
+        counter_write(4);
+        return;
+    }
+
+    if (Debug_w[24]) {
+        counter_write(counter_color);
+        return;
+    }
+
+    if (Allow_a_battle_f == 0 || Demo_Time_Stop != 0) {
+        counter_write(counter_color);
+        return;
+    }
+
+    if (Break_Into) {
+        counter_write(counter_color);
+        return;
+    }
+
+    if (sa_stop_check() != 0) {
+        counter_write(counter_color);
+        return;
+    }
+
+    if (mugen_flag == 1) {
+        counter_write(4);
+        return;
+    }
+
+    if (!EXE_flag && !Game_pause) {
+        counter_control();
+        return;
+    }
+
+    counter_write(counter_color);
+}
+
+void counter_control() {
+#if defined(TARGET_PS2)
+    void counter_write(s32 atr);
+#endif
+
+    if (Counter_hi == 0) {
+        if (No_Trans == 0) {
+            counter_write(counter_color);
+        }
+        return;
+    }
+
+    if (flash_r_num) {
+        if (Counter_hi == 10 && Counter_low == hoji_counter) {
+            flash_timer = 0;
+            counter_flash(1);
+        } else if (Counter_hi < 11) {
+            counter_flash(1);
+        } else {
+            counter_flash(0);
+        }
+    } else if (Counter_hi == 30 && Counter_low == hoji_counter) {
+        flash_r_num = 1;
+        flash_timer = 0;
+        counter_flash(0);
+    }
+
+    if (Counter_low != 0) {
+        Counter_low -= 1;
+
+        if (No_Trans == 0) {
+            counter_write(counter_color);
+        }
+
+        return;
+    }
+
+    Counter_low = hoji_counter;
+    Counter_hi -= 1;
+
+    if (Counter_hi == 0) {
+        counter_color = 4;
+    }
+
+    round_timer.size.half.h = Counter_hi;
+    math_counter_hi = Counter_hi;
+    math_counter_hi /= 10;
+    math_counter_low = Counter_hi - (math_counter_hi * 10);
+
+    if (No_Trans == 0) {
+        counter_write(counter_color);
+    }
+}
 
 void counter_write(u8 atr) {
     u8 i;
