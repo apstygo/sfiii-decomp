@@ -226,7 +226,7 @@ Sint32 search_fstate(Sint8 *arg0, Sint32 arg1) {
     return numf;
 }
 
-void get_fp_from_fname(sceCdlFILE *fp, const Char8 *fname, Sint32 arg2, Sint32 arg3) {
+void get_fp_from_fname(sceCdlFILE *fp, const Char8 *fname, uintptr_t arg2, Sint32 arg3) {
     DVG_FLIST_SUB *flist_sub = (DVG_FLIST_SUB *)arg2;
     Sint32 i;
 

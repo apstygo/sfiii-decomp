@@ -4,13 +4,15 @@
 #include "structs.h"
 #include "types.h"
 
-extern MultiTexture mts[24]; // size: 0x960, address: 0x6B4070
-extern MTS_OK mts_ok[24];
-extern WORK dmwk_moji;                   // size: 0x388, address: 0x6B3BC0
-extern WORK dmwk_kage;                   // size: 0x388, address: 0x6B3830
-extern const u16 effk8k9_pattern[18];    // size: 0x24, address: 0x5547D0
-extern const u32 judge_area_attr[17][2]; // size: 0x88, address: 0x554800
-extern const u32 box_color_attr[4][2];   // size: 0x20, address: 0x5548D0
+#define MULTITEXTURE_MAX 24
+
+extern MultiTexture mts[MULTITEXTURE_MAX];
+extern MTS_OK mts_ok[MULTITEXTURE_MAX];
+extern WORK dmwk_moji;
+extern WORK dmwk_kage;
+extern const u16 effk8k9_pattern[18];
+extern const u32 judge_area_attr[17][2];
+extern const u32 box_color_attr[4][2];
 extern const char gkw_table[64];
 
 void Init_load_on_memory_data();
@@ -27,7 +29,7 @@ s32 sort_push_request3(WORK *wk);
 s32 sort_push_request2(WORK_Other *wk);
 s16 exchange_current_colcd(WORK *wk);
 void Mtrans_use_trans_mode(WORK *wk, s16 bsy);
-void all_cgps_put_back(u32 /* unused */);
+void all_cgps_put_back(WORK *wk);
 s32 set_conn_sprite(WORK_Other_CONN *wk, s16 bsy);
 void set_judge_area_sprite(WORK_Other_JUDGE *wk, s16 bsy);
 void draw_hit_judge_line(f64 arg0, f64 arg1, f64 arg2, f64 arg3, u32 col, u32 attr);

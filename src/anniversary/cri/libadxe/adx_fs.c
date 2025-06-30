@@ -13,6 +13,20 @@
 
 #include <memory.h>
 
+typedef struct {
+    /* 0x000 */ struct _adxf_ptinfo *next;
+    /* 0x004 */ Sint32 size;
+    /* 0x008 */ Sint32 nfile;
+    /* 0x00C */ Uint16 nentry;
+    /* 0x00E */ Sint8 type;
+    /* 0x00F */ Sint8 rev;
+    /* 0x010 */ Sint8 fname[ADXF_FNAME_MAX];
+    /* 0x110 */ void *curdir;
+    /* 0x114 */ Sint32 ofst;
+    /* 0x118 */ Uint16 top;
+    Uint16 file_sizes[0];
+} ADXF_PTINFO_SMALL; /* 0x11A */
+
 // data
 void *adxf_ldpt_buf = NULL;
 Sint32 adxf_ldpt_rdsct = 0;
@@ -223,7 +237,136 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A448);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_GetPtStatEx);
 #else
 Sint32 ADXF_GetPtStatEx(Sint32 ptid) {
-    not_implemented(__func__);
+    ADXF_PTINFO *ptinfo;
+    ADXF_PTINFO_SMALL *ptinfo_small;
+    Sint32 temp_s4;
+    Sint32 temp_v0;
+    Sint32 temp_v0_2;
+    Sint16 var_a0_2;
+    Sint32 var_s1;
+    Sint32 var_s3_2;
+    Sint32 var_s6;
+    Sint32 var_v0;
+    Sint32 var_v0_2;
+    Sint8 var_s6_2;
+    Sint8 *var_a0;
+    Sint32 nfile;
+    Uint8 *temp_a3;
+    Uint8 *temp_t0;
+    Uint8 *temp_v0_3;
+    Uint8 *temp_v0_4;
+
+    Sint32 *top_rev1;
+    Sint16 *top_rev0;
+    Sint32 *fsizes_rev1;
+    Uint16 *fsizes_rev0;
+    Sint32 stat;
+    Uint8 *bytes = adxf_ldpt_buf;
+
+    top_rev1 = NULL;
+    top_rev0 = NULL;
+    fsizes_rev1 = NULL;
+    fsizes_rev0 = NULL;
+
+    if (ptid != adxf_ldptnw_ptid) {
+        ADXERR_CallErrFunc1("E0041303:illigal parameter 'ptid'.(ADXF_GetPtStat)");
+        return ADXF_ERR_PRM;
+    }
+
+    stat = ADXF_GetStat(adxf_ldptnw_hn);
+
+    if (stat != ADXF_STAT_READEND) {
+        return stat;
+    }
+
+    ptinfo = adxf_ptinfo[ptid];
+    ptinfo_small = (ADXF_PTINFO_SMALL *)ptinfo;
+
+    if (ptinfo->rev == 1) {
+        top_rev1 = &ptinfo->top;
+        fsizes_rev1 = &ptinfo->file_sizes;
+    } else {
+        fsizes_rev0 = &ptinfo_small->file_sizes;
+        top_rev0 = &ptinfo_small->top;
+    }
+
+    var_s1 = 1;
+    if (ptinfo->nfile == 0) {
+        if (memcmp(adxf_ldpt_buf, "AFS", 3) != 0) {
+            ADXERR_CallErrFunc1("E0040701:Illigal format(not AFS).(ADXF_GetPtStat)");
+            adxf_CloseLdptnwHn();
+            return ADXF_STAT_ERROR;
+        }
+
+        if ((bytes[4] | (bytes[5] << 8) | (bytes[6] << 16) | (bytes[7] << 24)) > 0x10000) {
+            ADXERR_CallErrFunc1("E0040702:Illigal number of file.(ADXF_GetPtStat)");
+            adxf_CloseLdptnwHn();
+            return ADXF_STAT_ERROR;
+        }
+
+        nfile = bytes[4] | (bytes[5] << 8);
+        ptinfo->nentry = nfile;
+        ptinfo->nfile = nfile;
+
+        if (ptinfo->rev == 1) {
+            ptinfo->size = (nfile * 4) + 0x120;
+        } else {
+            ptinfo->size = ((u32)((nfile * 2) + 0x11C) >> 2) * 4;
+        }
+
+        if (ptinfo->rev == 1) {
+            *top_rev1 = (bytes[8] | (bytes[9] << 8) | (bytes[10] << 16) | (bytes[11] << 24)) / 2048;
+        } else {
+            *top_rev0 = (bytes[8] | (bytes[9] << 8) | (bytes[10] << 16) | (bytes[11] << 24)) / 2048;
+        }
+
+        var_s1 = 3;
+    }
+
+    temp_s4 = adxf_ldpt_rdsct << 9;
+
+    while (var_s1 < temp_s4) {
+        if (ptinfo->rev == 1) {
+            temp_v0_3 = (var_s1 * 4) + adxf_ldpt_buf;
+            fsizes_rev1[adxf_flno] =
+                ADXF_CALC_BYTE2SCT(temp_v0_3[0] | (temp_v0_3[3] << 24) | ((temp_v0_3[2] << 16) | (temp_v0_3[1] << 8)));
+            adxf_flno += 1;
+        } else {
+            temp_v0_4 = (var_s1 * 4) + adxf_ldpt_buf;
+            var_a0_2 =
+                ADXF_CALC_BYTE2SCT(temp_v0_4[0] | (temp_v0_4[3] << 24) | ((temp_v0_4[2] << 16) | (temp_v0_4[1] << 8)));
+
+            if (var_a0_2 & 0xFFFF0000) {
+                ADXERR_CallErrFunc1("E2122501:AFS file has 128MB or more of inside file.(ADXF_GetPtStat)");
+                adxf_CloseLdptnwHn();
+                return ADXF_STAT_ERROR;
+            }
+
+            fsizes_rev0[adxf_flno] = var_a0_2;
+            adxf_flno += 1;
+        }
+
+        if (adxf_flno >= ptinfo->nfile) {
+            adxf_CloseLdptnwHn();
+            stat = ADXF_STAT_READEND;
+            break;
+        }
+
+        var_s1 += 2;
+    }
+
+    if (var_s1 < temp_s4) {
+        return stat;
+    }
+
+    if (ADXF_ReadNw(adxf_ldptnw_hn, adxf_ldpt_rdsct, adxf_ldpt_buf) < 0) {
+        stat = ADXF_STAT_ERROR;
+        adxf_CloseLdptnwHn();
+    } else {
+        stat = adxf_ldptnw_hn->stat;
+    }
+
+    return stat;
 }
 #endif
 
@@ -262,7 +405,7 @@ ADXF adxf_CreateAdxFs() {
         return NULL;
     }
 
-    stm = ADXSTM_Create(0, 0x100);
+    stm = ADXSTM_Create(NULL, 0x100);
     adxf->stm = stm;
 
     if (stm == NULL) {
@@ -270,7 +413,7 @@ ADXF adxf_CreateAdxFs() {
         return NULL;
     }
 
-    adxf->stat = 1;
+    adxf->stat = ADXF_STAT_STOP;
     adxf->rqrdsct = 0x200;
     adxf->used = 1;
     adxf->rdstpos = 0;
@@ -441,7 +584,7 @@ Sint32 adxf_read_sj32(ADXF adxf, Sint32 nsct, SJ sj) {
         adxf->stat = ADXF_STAT_READEND;
         rqsct = 0;
     } else {
-        ADXSTM_SetEos(adxf->stm, -1);
+        ADXSTM_SetEos(adxf->stm, -1); // Read to the end
         ADXSTM_SetSj(adxf->stm, sj);
         ADXSTM_SetReqRdSize(adxf->stm, adxf->rqrdsct);
         adxf->stat = ADXF_STAT_READING;
@@ -477,7 +620,7 @@ Sint32 ADXF_ReadNw32(ADXF adxf, Sint32 nsct, void *buf) {
 
     adxf_SetCmdHstry(ADXF_CMD_READ_NW32, 0, (intptr_t)adxf, (intptr_t)nsct, buf);
 
-    if (adxf == 0) {
+    if (adxf == NULL) {
         ADXERR_CallErrFunc1("E9040816:'adxf' is NULL.(ADXF_ReadNw32)");
         return ADXF_ERR_PRM;
     }
@@ -636,7 +779,7 @@ void adxf_ExecOne(ADXF adxf) {
     if (adxf->stopnw_flg == 1) {
         stat = ADXSTM_GetStat(adxf->stm);
 
-        if (stat == stopnw_flg) {
+        if (stat == 1) {
             adxf->rdsct = ADXSTM_Tell(adxf->stm) - adxf->skpos;
             adxf_CloseSjStm(adxf);
             adxf->stat = stat;
@@ -760,20 +903,6 @@ Sint32 ADXF_GetFnameRange(Sint32 ptid, Sint32 flid, Char8 *fname, Sint32 *ofst, 
     not_implemented(__func__);
 }
 #endif
-
-typedef struct {
-    /* 0x000 */ struct _adxf_ptinfo *next;
-    /* 0x004 */ Sint32 size;
-    /* 0x008 */ Sint32 nfile;
-    /* 0x00C */ Uint16 nentry;
-    /* 0x00E */ Sint8 type;
-    /* 0x00F */ Sint8 rev;
-    /* 0x010 */ Sint8 fname[ADXF_FNAME_MAX];
-    /* 0x110 */ void *curdir;
-    /* 0x114 */ Sint32 ofst;
-    /* 0x118 */ Uint16 top;
-    Uint16 file_sizes[0];
-} ADXF_PTINFO_SMALL; /* 0x11A */
 
 Sint32 ADXF_GetFnameRangeEx(Sint32 ptid, Sint32 flid, Char8 *fname, void **dir, Sint32 *ofst, Sint32 *fnsct) {
     ADXF_PTINFO *ptinfo;

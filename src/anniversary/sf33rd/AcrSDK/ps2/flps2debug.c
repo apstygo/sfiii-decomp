@@ -34,7 +34,7 @@ s32 flSetDebugMode(u32 flag) {
 }
 
 f64 flGetSystemTime() {
-    f32 sys_time = *T0_COUNT;
+    f32 sys_time = DGET_T0_COUNT();
     sys_time = ((1000.0f * sys_time) / 60.0f) / 240.0f;
     return sys_time;
 }

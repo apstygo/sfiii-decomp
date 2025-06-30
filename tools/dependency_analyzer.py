@@ -25,6 +25,7 @@ class FuncMap:
 FUNC_HEADER_PATTERN = re.compile(r"\w{8} <(\w+)>:")
 RELOC_PATTERN = re.compile(r"\s+\w+: \w+\s+(\w+)")
 SYMBOL_INFO_PATTERN = re.compile(r"F\s+\.text\s+(\w+)\s+(\w+)")
+SECTION_MARKER_PATTERN = re.compile(r"Disassembly of section (\.\w+):")
 CACHED_PATH = Path("temp/cached_func_map.pkl")
 
 def obj_path_to_source_path(obj_path: Path) -> Path:
@@ -107,8 +108,17 @@ def extract_func_calls(path: Path) -> dict[str, set[str]]:
     func_call_on_line = False
     calls: dict[str, set[str]] = dict()
     current_caller: str | None = None
+    skip_disassembly = False
 
     for line in output.splitlines():
+        if match := SECTION_MARKER_PATTERN.search(line):
+            section = match.group(1)
+            skip_disassembly = section != ".text"
+            continue
+
+        if skip_disassembly:
+            continue
+
         if match := FUNC_HEADER_PATTERN.search(line):
             current_caller = match.group(1)
             calls[current_caller] = set()

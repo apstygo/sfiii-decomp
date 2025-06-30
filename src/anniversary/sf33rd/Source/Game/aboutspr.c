@@ -198,7 +198,7 @@ s32 set_conn_sprite(WORK_Other_CONN *wk, s16 bsy) {
     return 2;
 }
 
-void all_cgps_put_back(u32 /* unused */) {}
+void all_cgps_put_back(WORK *wk) {}
 
 void Mtrans_use_trans_mode(WORK *wk, s16 bsy) {
     if (mts_ok[wk->my_mts].be == 0) {
