@@ -476,17 +476,12 @@ void Setup_Score(s16 y) {
 
     Score_Buff = Ranking_Data[Rank].score;
     First_Digit = -1;
-    i = 7;
-    assign1 = xx = 10000000;
-    for (; i > 0;) {
+    for (i = 7, assign1 = xx = 10000000; i > 0; i--, assign2 = xx /= 10) {
         Digit[i] = (Score_Buff / xx);
         Score_Buff -= xx * Digit[i];
         if ((First_Digit < 0) && (Digit[i])) {
             First_Digit = i;
         }
-
-        i--;
-        assign2 = xx /= 10;
     }
 
     Digit[0] = Score_Buff;
@@ -494,17 +489,12 @@ void Setup_Score(s16 y) {
         First_Digit = 0;
     }
 
-    i = 0;
-    assign3 = xx = 7;
-    for (; i < 8;) {
+    for (i = 0, assign3 = xx = 7; i < 8; i++, assign4 = x--) {
         Flash_Rank_Time += Flash_Rank_Interval;
         Rank_Pos_X += 16;
         if (First_Digit >= xx) {
             effect_67_init(26, Rank_Pos_X, Rank_Pos_Y, 180, Digit[xx] + 75, 10, y, 0);
         }
-
-        i++;
-        assign4 = xx--;
     }
 
     Rank_Pos_X += 24;
