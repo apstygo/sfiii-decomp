@@ -2682,6 +2682,7 @@ typedef struct {
     s16 end_flag; // offset 0x8, size 0x2
     s16 timer;    // offset 0xA, size 0x2
 } END_W;
+
 typedef union {
     signed int psi; // offset 0x0, size 0x4
     struct /* @anon6 */ {

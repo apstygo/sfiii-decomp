@@ -11,7 +11,7 @@
 void Bonus_bg() {
     bgw_ptr = &bg_w.bgw[1];
     bns02();
-    bgw_ptr = bg_w.bgw;
+    bgw_ptr = &bg_w.bgw[0];
     bns01();
     bgw_ptr = &bg_w.bgw[2];
     bns03();

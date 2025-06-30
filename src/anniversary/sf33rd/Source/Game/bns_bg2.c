@@ -13,7 +13,7 @@
 void Bonus_bg2() {
     bgw_ptr = &bg_w.bgw[1];
     bns11();
-    bgw_ptr = bg_w.bgw;
+    bgw_ptr = &bg_w.bgw[0];
     bns12();
     bgw_ptr = &bg_w.bgw[2];
     bns13();

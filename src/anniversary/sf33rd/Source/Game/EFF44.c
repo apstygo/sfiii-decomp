@@ -27,7 +27,7 @@ void effect_44_move(WORK_Other *ewk) {
             if (compel_dead_check(ewk) != 0) {
                 ewk->wu.routine_no[0]++;
                 ewk->wu.disp_flag = 0;
-                return;
+                break;
             }
 
             if (!EXE_flag && !Game_pause && !EXE_obroll) {

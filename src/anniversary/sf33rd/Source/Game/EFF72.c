@@ -37,7 +37,6 @@ void effect_72_move(WORK_Other *ewk) {
             break;
 
         default:
-
         case 2:
             all_cgps_put_back(&ewk->wu);
             push_effect_work(&ewk->wu);

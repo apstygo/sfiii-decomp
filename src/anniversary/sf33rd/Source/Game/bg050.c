@@ -12,7 +12,7 @@
 void BG050() {
     bgw_ptr = &bg_w.bgw[1];
     bg0502();
-    bgw_ptr = bg_w.bgw;
+    bgw_ptr = &bg_w.bgw[0];
     bg0501();
     bgw_ptr = &bg_w.bgw[2];
     bg050_sync_common();

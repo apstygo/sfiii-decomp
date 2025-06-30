@@ -14,7 +14,7 @@
 void BG060() {
     bgw_ptr = &bg_w.bgw[1];
     bg0602();
-    bgw_ptr = bg_w.bgw;
+    bgw_ptr = &bg_w.bgw[0];
     bg0601();
     bgw_ptr = &bg_w.bgw[2];
     bg0603();

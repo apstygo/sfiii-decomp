@@ -42,8 +42,8 @@ void eff11_quake_sub(WORK_Other *ewk) {
     case 0:
         if (bg_w.quake_y_index > 1) {
             ewk->wu.routine_no[1]++;
-            ewk->wu.old_rno[1] = *(&eff11_quake_index_tbl[bg_w.quake_y_index]);
-            return;
+            ewk->wu.old_rno[1] = eff11_quake_index_tbl[bg_w.quake_y_index];
+            break;
         }
 
         break;
@@ -51,7 +51,7 @@ void eff11_quake_sub(WORK_Other *ewk) {
     case 1:
         if (ewk->wu.old_rno[1] > 4) {
             quake_level_large(ewk);
-            return;
+            break;
         }
 
         quake_level_middle(ewk);
@@ -102,9 +102,7 @@ void quake_level_middle(WORK_Other *ewk) {
         /* fallthrough */
 
     case 1:
-
     case 3:
-
     case 5:
         char_move(&ewk->wu);
         add_y_sub(ewk);
@@ -118,7 +116,6 @@ void quake_level_middle(WORK_Other *ewk) {
         break;
 
     case 2:
-
     case 4:
         char_move(&ewk->wu);
         add_y_sub(ewk);
@@ -176,7 +173,7 @@ void quake_level_large(WORK_Other *ewk) {
         if (ewk->wu.mvxy.a[1].sp < 0) {
             ewk->wu.routine_no[2]++;
             set_char_move_init2(&ewk->wu, 0, ewk->wu.old_rno[6] + 1, 0xD, 0);
-            return;
+            break;
         }
 
         break;
@@ -240,9 +237,7 @@ void quake_level_large(WORK_Other *ewk) {
         break;
 
     case 5:
-
     case 7:
-
     case 9:
         char_move(&ewk->wu);
         add_y_sub(ewk);
@@ -255,7 +250,6 @@ void quake_level_large(WORK_Other *ewk) {
         break;
 
     case 6:
-
     case 8:
         char_move(&ewk->wu);
         add_y_sub(ewk);

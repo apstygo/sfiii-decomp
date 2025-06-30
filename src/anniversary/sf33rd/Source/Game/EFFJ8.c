@@ -26,7 +26,7 @@ void effect_J8_move(WORK_Other *ewk) {
             if (compel_dead_check(ewk)) {
                 ewk->wu.routine_no[0] += 1;
                 ewk->wu.disp_flag = 0;
-                return;
+                break;
             }
 
             if (!EXE_flag && !Game_pause && !EXE_obroll) {
@@ -145,7 +145,7 @@ void dragonfly_l_move(WORK_Other *ewk) {
 
         if (dragonfly_l_move_4(ewk)) {
             ewk->wu.routine_no[2] = 1;
-            return;
+            break;
         }
 
         break;
@@ -302,7 +302,7 @@ void dragonfly_move_0000(WORK_Other *ewk) {
             ewk->wu.xyz[0].disp.low = 0;
             ewk->wu.xyz[1].disp.pos = 0x5B;
             ewk->wu.xyz[1].disp.low = 0;
-            return;
+            break;
         }
 
         add_x_sub(ewk);
@@ -353,7 +353,7 @@ void dragonfly_move_0001(WORK_Other *ewk) {
 
         if (dragonfly_l_move_4(ewk)) {
             ewk->wu.routine_no[2] = 2;
-            return;
+            break;
         }
 
         break;
@@ -403,7 +403,7 @@ void dragonfly_move_0004(WORK_Other *ewk) {
             ewk->wu.xyz[0].disp.low = 0;
             ewk->wu.xyz[1].disp.pos = 0x5C;
             ewk->wu.xyz[1].disp.low = 0;
-            return;
+            break;
         }
 
         add_x_sub(ewk);
@@ -448,7 +448,7 @@ void dragonfly_move_0005(WORK_Other *ewk) {
 
         if (dragonfly_r_move_4(ewk)) {
             ewk->wu.routine_no[2] = 2;
-            return;
+            break;
         }
 
         break;

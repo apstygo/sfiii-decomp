@@ -40,9 +40,8 @@ void check_cg_zoom() {
 
     zoom_req_flag_old = zoom_request_flag;
     zoom_request_flag = 0;
-    i = 0;
 
-    while (i < 2) {
+    for (i = 0; i < 2; i++) {
         if (plw[i].scr_pos_set_flag) {
             plw[i].wu.scr_mv_x = plw[i].wu.xyz[0].disp.pos;
             plw[i].wu.scr_mv_y = plw[i].wu.xyz[1].disp.pos;
@@ -50,7 +49,6 @@ void check_cg_zoom() {
             plw[i].wu.scr_mv_x = plw[i + 1 & 1].wu.xyz[0].disp.pos;
             plw[i].wu.scr_mv_y = plw[i + 1 & 1].wu.xyz[1].disp.pos;
         }
-        i++;
     }
 
     zoom_wk = p2zoom & 0xE200;
@@ -508,9 +506,7 @@ void bg_base_x_move_sub() {
         work[1] = 0x17F;
     }
 
-    i = 0;
-
-    while (i < 2) {
+    for (i = 0; i < 2; i++) {
         if (0 <= work[i] && work[i] < 0x40) {
             st[i] = 1;
         } else if (work[i] >= 0x140 && work[i] < 0x180) {
@@ -518,8 +514,6 @@ void bg_base_x_move_sub() {
         } else {
             st[i] = 0;
         }
-
-        i++;
     }
 
     scr_x_mv_jp[(st[0] << 4) + st[1]]();
@@ -677,6 +671,7 @@ void bg_y_move_check() {
         }
 
         bgw_ptr->chase_xy[1].disp.pos += bgw_ptr->pos_y_work;
+
         return;
     }
 
@@ -882,13 +877,11 @@ void bg_work_clear() {
     sa_pa_flag = 0;
     bg_app = 0;
     bg_app_stop = 0;
-    i = 0;
 
-    while (i < 7) {
+    for (i = 0; i < 7; i++) {
         bg_w.bgw[i].r_no_0 = 0;
         bg_w.bgw[i].r_no_1 = 0;
         bg_w.bgw[i].r_no_2 = 0;
-        i++;
     }
 }
 
@@ -902,15 +895,13 @@ void compel_bg_init_position() {
     bg_w.scr_stop = 0;
     bg_w.frame_flag = 0;
     bg_w.bg2_sp_x2 = bg_w.bg2_sp_x = 0;
-    i = 0;
 
-    while (i < 7) {
+    for (i = 0; i < 7; i++) {
         bg_w.bgw[(i)].xy[0].disp.pos = bg_w.bgw[(i)].wxy[0].disp.pos = bg_w.bgw[(i)].pos_x_work;
         bg_w.bgw[(i)].xy[1].disp.pos = bg_w.bgw[(i)].wxy[1].disp.pos = bg_w.bgw[(i)].pos_y_work;
         bg_w.bgw[(i)].xy[0].disp.low = bg_w.bgw[(i)].wxy[0].disp.low = 0;
         bg_w.bgw[(i)].xy[0].disp.low = bg_w.bgw[(i)].wxy[0].disp.low = 0;
         bg_w.bgw[(i)].old_pos_x = bg_w.bgw[(i)].wxy[0].disp.pos;
-        i++;
     }
 }
 
@@ -949,9 +940,8 @@ void bg_initialize() {
 
     Bg_Kakikae_Set();
     bg_w.pos_offset = 0xC0;
-    i = 0;
 
-    while (i < 7) {
+    for (i = 0; i < 7; i++) {
         bg_w.bgw[i].pos_x_work = bg_w.bgw[i].pos_y_work = 0;
         bg_w.bgw[i].zuubun = 0;
         bg_w.bgw[i].xy[0].cal = 0;
@@ -966,7 +956,6 @@ void bg_initialize() {
         bg_w.bgw[i].fam_no = i;
         bg_w.bgw[i].r_no_1 = bg_w.bgw[i].r_no_2 = 0;
         bg_w.bgw[i].speed_x = 0;
-        i++;
     }
 
     bg_w.scr_stop = 0;
@@ -979,9 +968,8 @@ void bg_initialize() {
     bg_w.quake_x_index = 0;
     bg_w.quake_y_index = 0;
     bg_w.frame_deff = 0x40;
-    i = 0;
 
-    while (i < bg_w.scno) {
+    for (i = 0; i < bg_w.scno; i++) {
         bg_w.bgw[i].speed_x = *msp[bg_w.bg_index][i];
         bg_w.bgw[i].speed_y = msp[bg_w.bg_index][i][1];
         bg_w.bgw[i].rewrite_flag = 0;
@@ -993,7 +981,6 @@ void bg_initialize() {
         bg_w.bgw[i].y_limit2 = *ptr++;
         bg_w.bgw[i].frame_deff = 0;
         bg_w.bgw[i].max_x_limit = bg_w.bgw[i].speed_x * bg_w.max_x;
-        i++;
     }
 
     if (bg_w.stage != 4) {

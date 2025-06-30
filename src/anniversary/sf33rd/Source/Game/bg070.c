@@ -13,7 +13,7 @@
 void BG070() {
     bgw_ptr = &bg_w.bgw[1];
     bg0702();
-    bgw_ptr = bg_w.bgw;
+    bgw_ptr = &bg_w.bgw[0];
     bg0701();
     bgw_ptr = &bg_w.bgw[2];
     bg0704();

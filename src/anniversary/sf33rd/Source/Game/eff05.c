@@ -37,7 +37,7 @@ void effect_05_move(WORK_Other *ewk) {
         case 1:
             if (compel_dead_check(ewk) != 0) {
                 ewk->wu.routine_no[0]++;
-                return;
+                break;
             }
             disp_pos_trans_entry_s(ewk);
             break;
@@ -67,8 +67,7 @@ s32 effect_05_init() {
 
     data_ptr = scr_obj_data[bg_w.bg_index];
 
-    i = 0;
-    while (i < lp_cnt) {
+    for (i = 0; i < lp_cnt; i++) {
         if ((ix = pull_effect_work(4)) == -1) {
             return -1;
         }
@@ -96,8 +95,6 @@ s32 effect_05_init() {
 
         ewk->wu.my_mts = 7;
         ewk->wu.my_trans_mode = get_my_trans_mode(ewk->wu.my_mts);
-
-        i++;
     }
 
     return 0;

@@ -16,7 +16,7 @@
 void BG090() {
     bgw_ptr = &bg_w.bgw[1];
     bg0902();
-    bgw_ptr = bg_w.bgw;
+    bgw_ptr = &bg_w.bgw[0];
     bg0901();
     bgw_ptr = &bg_w.bgw[2];
     bg_fam0900();
@@ -31,10 +31,12 @@ void BG090() {
 
 void bg0901() {
     void (*bg0901_jmp[3])() = { bg0901_init00, demo90_base, bg_move_common };
+
     if (win_sp_flag) {
         jijii_win_bg2();
         return;
     }
+
     bg0901_jmp[bgw_ptr->r_no_0]();
 }
 
@@ -47,10 +49,12 @@ void bg0901_init00() {
 
 void bg0902() {
     void (*bg0902_jmp[3])() = { bg0902_init00, demo90_base, bg_base_move_common };
+
     if (win_sp_flag) {
         jijii_win_bg();
         return;
     }
+
     bg0902_jmp[bgw_ptr->r_no_0]();
 }
 
@@ -140,7 +144,7 @@ void demo90_base() {
     }
 
     switch (bgw_ptr->r_no_1) {
-    case 0: {
+    case 0:
         chk_pl = 0;
 
         if (plw->player_number == 9 && plw[1].player_number == 9) {
@@ -153,9 +157,10 @@ void demo90_base() {
 
         if (Appear_free[chk_pl]) {
             bgw_ptr->r_no_1++;
-            return;
+            break;
         }
-    } break;
+
+        break;
 
     case 1:
         bgw_ptr->xy[1].cal -= bgw_ptr->speed_y * 0xA;
@@ -165,7 +170,7 @@ void demo90_base() {
             bgw_ptr->r_no_1++;
             bgw_ptr->xy[1].cal = 0;
             bgw_ptr->wxy[1].cal = 0;
-            return;
+            break;
         }
         break;
 

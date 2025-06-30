@@ -22,7 +22,7 @@ void effect_71_move(WORK_Other *ewk) {
                     ewk->wu.old_rno[1] = 0;
                     effect_72_init(ewk, 0);
                     effect_72_init(ewk, 1);
-                    return;
+                    break;
                 }
             }
             break;
@@ -34,7 +34,7 @@ void effect_71_move(WORK_Other *ewk) {
                 work = random_16();
                 work &= 7;
                 ewk->wu.old_rno[0] = eff71_time_tbl[work];
-                return;
+                break;
             }
             break;
 

@@ -14,7 +14,7 @@
 void BG080() {
     bgw_ptr = &bg_w.bgw[1];
     bg0802();
-    bgw_ptr = bg_w.bgw;
+    bgw_ptr = &bg_w.bgw[0];
     bg0801();
     bgw_ptr = &bg_w.bgw[2];
     bg080_sync_common();

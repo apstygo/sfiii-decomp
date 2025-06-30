@@ -29,10 +29,12 @@ void effect_94_move(WORK_Other *ewk) {
         if (!EXE_flag && !Game_pause && !EXE_obroll) {
             eff94_move_jp[ewk->wu.routine_no[1]](ewk);
         }
+
         if (ewk->wu.old_rno[1]) {
             disp_pos_trans_entry_r(ewk);
-            return;
+            break;
         }
+
         disp_pos_trans_entry(ewk);
         break;
 
@@ -93,7 +95,7 @@ void eff94_1000(WORK_Other *ewk) {
                 ewk->wu.mvxy.a[1].sp = 0;
                 ewk->wu.mvxy.d[0].sp = 0;
                 ewk->wu.mvxy.d[1].sp = -0x6000;
-                return;
+                break;
             }
 
             ewk->wu.routine_no[2] = 0;
@@ -113,7 +115,7 @@ void eff94_1000(WORK_Other *ewk) {
             set_char_move_init(&ewk->wu, 0, 0x30);
             ewk->wu.xyz[0].disp.pos += 2;
             ewk->wu.old_rno[1] = 0;
-            return;
+            break;
         }
 
         break;
@@ -264,7 +266,7 @@ void eff94_4000(WORK_Other *ewk) {
         if (ewk->wu.cg_type == 9) {
             if (bg_w.quake_y_index > 3) {
                 ewk->wu.routine_no[2] = 1;
-                return;
+                break;
             }
         } else if (ewk->wu.cg_type == 0xFF) {
             ewk->wu.routine_no[2] = 0;

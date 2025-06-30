@@ -21,7 +21,7 @@ void effect_I4_move(WORK_Other *ewk) {
 
             if (eff_hit_flag[1]) {
                 ewk->wu.routine_no[0] = 2;
-                return;
+                break;
             }
 
             break;
@@ -55,7 +55,7 @@ void effect_i4_hit_sub(WORK_Other *ewk) {
             ewk->wu.routine_no[1]++;
             ewk->wu.routine_no[2] = 1;
             ewk->wu.routine_no[3] = 0;
-            return;
+            break;
         }
 
         if (eff_hit_check2(ewk, 0, 0)) {
@@ -70,7 +70,7 @@ void effect_i4_hit_sub(WORK_Other *ewk) {
     case 1:
         if (ewk->wu.routine_no[2]) {
             effi4_up_to_down(ewk);
-            return;
+            break;
         }
 
         effi4_down_to_up(ewk);
@@ -88,14 +88,14 @@ void effi4_down_to_up(WORK_Other *ewk) {
 
             if (eff_hit_check2(ewk, 0, 2)) {
                 ewk->wu.routine_no[3]++;
-                return;
+                break;
             }
 
             if (ewk->wu.cg_type == 0xFF) {
                 eff_hit_flag[1] = 0;
                 ewk->wu.routine_no[1] = 0;
                 ewk->wu.type = 1;
-                return;
+                break;
             }
         }
 
@@ -107,7 +107,7 @@ void effi4_down_to_up(WORK_Other *ewk) {
         if (ewk->wu.cg_type) {
             ewk->wu.routine_no[3]++;
             set_char_move_init(&ewk->wu, 0, 0x1A);
-            return;
+            break;
         }
 
         break;

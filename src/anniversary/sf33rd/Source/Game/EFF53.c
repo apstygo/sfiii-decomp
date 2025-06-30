@@ -15,7 +15,7 @@ void effect_53_move(WORK_Other *ewk) {
         return;
     }
 
-    if (!(!EXE_flag && !Game_pause && EXE_obroll)) {
+    if (EXE_flag || Game_pause || !EXE_obroll) {
         return;
     }
 

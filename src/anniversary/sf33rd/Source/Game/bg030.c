@@ -14,7 +14,7 @@
 void BG030() {
     bgw_ptr = &bg_w.bgw[1];
     bg0301();
-    bgw_ptr = bg_w.bgw;
+    bgw_ptr = &bg_w.bgw[0];
     bg0300();
     zoom_ud_check();
     bg_pos_hosei2();

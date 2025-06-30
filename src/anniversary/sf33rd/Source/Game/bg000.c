@@ -16,7 +16,7 @@
 void BG000() {
     bgw_ptr = &bg_w.bgw[1];
     bg0001();
-    bgw_ptr = bg_w.bgw;
+    bgw_ptr = &bg_w.bgw[0];
     bg0000();
     zoom_ud_check();
     bg_pos_hosei2();
@@ -114,23 +114,25 @@ void bg0000_demo() {
     case 2:
         if (bgw_ptr->u_line) {
             bgw_ptr->wxy[0].cal += bgw_ptr->speed_x;
+
             if (bgw_ptr->wxy[0].disp.pos > 0x1D0) {
                 bgw_ptr->r_no_1 += 1;
                 bgw_ptr->wxy[0].disp.pos = 0x1D0;
                 bgw_ptr->wxy[0].disp.low = 0;
                 bgw_ptr->xy[0].cal = bgw_ptr->wxy[0].cal;
                 bgw_ptr->old_pos_x = 0x1D0;
-                return;
+                break;
             }
         } else {
             bgw_ptr->wxy[0].cal -= bgw_ptr->speed_x;
+
             if (bgw_ptr->wxy[0].disp.pos < 0x1D0) {
                 bgw_ptr->r_no_1 += 1;
                 bgw_ptr->wxy[0].disp.pos = 0x1D0;
                 bgw_ptr->wxy[0].disp.low = 0;
                 bgw_ptr->xy[0].cal = bgw_ptr->wxy[0].cal;
                 bgw_ptr->old_pos_x = 0x1D0;
-                return;
+                break;
             }
         }
         break;

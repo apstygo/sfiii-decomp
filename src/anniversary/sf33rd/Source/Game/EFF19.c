@@ -62,7 +62,7 @@ void eff19_quake_sub(WORK_Other *ewk) {
                 ewk->wu.mvxy.a[1].sp = 0;
                 ewk->wu.mvxy.d[1].sp = -0x6000;
                 ewk->wu.old_rno[0] = eff19_wait_tbl[work];
-                return;
+                break;
             }
 
             ewk->wu.routine_no[1]++;
@@ -77,7 +77,7 @@ void eff19_quake_sub(WORK_Other *ewk) {
             ewk->wu.old_rno[0]--;
 
             if (!(ewk->wu.old_rno[0] < 0)) {
-                return;
+                break;
             }
 
             ewk->wu.routine_no[1] = 0;
@@ -98,7 +98,7 @@ void eff19_quake_sub(WORK_Other *ewk) {
 
         if (ewk->wu.xyz[1].disp.pos < 0x42) {
             ewk->wu.routine_no[1]++;
-            return;
+            break;
         }
 
         break;
@@ -109,7 +109,7 @@ void eff19_quake_sub(WORK_Other *ewk) {
         if (ewk->wu.cg_type) {
             ewk->wu.routine_no[1]++;
             ewk->wu.disp_flag = 0;
-            return;
+            break;
         }
 
         break;

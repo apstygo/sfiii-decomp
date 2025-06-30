@@ -28,7 +28,7 @@ void effect_06_move(WORK_Other *ewk) {
         case 1:
             if (compel_dead_check(ewk)) {
                 ewk->wu.routine_no[0]++;
-                return;
+                break;
             }
 
             disp_pos_trans_entry_rs(ewk);

@@ -24,7 +24,7 @@ void effect_29_move(WORK_Other *ewk) {
                     ewk->wu.routine_no[0]++;
                     ewk->wu.disp_flag = 1;
                     set_char_move_init(&ewk->wu, 0, 0);
-                    return;
+                    break;
                 }
             }
 

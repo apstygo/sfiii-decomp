@@ -109,7 +109,7 @@ void eff85_3000(WORK_Other *ewk) {
             ewk->wu.routine_no[2] = 0;
             ewk->wu.xyz[0].cal = 0x01900000;
             ewk->wu.xyz[1].cal = 0x510000;
-            return;
+            break;
         }
 
         add_x_sub(ewk);
@@ -161,7 +161,7 @@ void eff85_7000(WORK_Other *ewk) {
             ewk->wu.routine_no[2] = 0;
             ewk->wu.xyz[0].cal = 0x01EB0000;
             ewk->wu.xyz[1].cal = 0x2C0000;
-            return;
+            break;
         }
 
         add_x_sub(ewk);
@@ -220,7 +220,7 @@ void eff85_9000(WORK_Other *ewk) {
 
         if (ewk->wu.xyz[0].disp.pos >= bg_w.bgw[1].l_limit2 - bg_w.pos_offset &&
             !(ewk->wu.xyz[0].disp.pos > bg_w.bgw[1].r_limit2 + bg_w.pos_offset)) {
-            return;
+            break;
         }
 
         ewk->wu.routine_no[2]++;

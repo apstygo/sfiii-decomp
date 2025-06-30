@@ -29,7 +29,7 @@ void effect_24_move(WORK_Other *ewk) {
 
         if (ewk->wu.old_rno[7]) {
             disp_pos_trans_entry_r(ewk);
-            return;
+            break;
         }
 
         disp_pos_trans_entry(ewk);
@@ -47,7 +47,6 @@ void eff24_quake_sub(WORK_Other *ewk) {
         if (bg_w.quake_y_index > 0) {
             ewk->wu.routine_no[1]++;
             eff24_sp_data_set(ewk);
-            return;
         }
 
         break;
@@ -61,7 +60,6 @@ void eff24_quake_sub(WORK_Other *ewk) {
             ewk->wu.xyz[1].disp.pos = ewk->wu.old_rno[2];
             ewk->wu.xyz[1].disp.low = 0;
             eff24_sp_data_set(ewk);
-            return;
         }
 
         break;
@@ -70,6 +68,7 @@ void eff24_quake_sub(WORK_Other *ewk) {
         add_x_sub(ewk);
         add_y_sub(ewk);
         ewk->wu.old_rno[5]--;
+
         if (ewk->wu.old_rno[5] <= 0) {
             ewk->wu.xyz[0].disp.pos = ewk->wu.old_rno[4];
             ewk->wu.xyz[0].disp.low = 0;
@@ -79,20 +78,22 @@ void eff24_quake_sub(WORK_Other *ewk) {
             if (ewk->wu.type == 0 && ewk->wu.old_rno[1] > 2) {
                 ewk->wu.routine_no[1]++;
                 dog24_data_set(ewk);
+
                 if (ewk->wu.old_rno[6]) {
                     set_char_move_init(&ewk->wu, 0, 0xE);
                 } else {
                     set_char_move_init(&ewk->wu, 0, 0xD);
                 }
+
                 ewk->wu.old_rno[6] ^= 1;
-                return;
+                break;
             }
 
             ewk->wu.routine_no[1] = 0;
             ewk->wu.old_rno[1] = 0;
             ewk->wu.old_rno[0] = 0;
-            return;
         }
+
         break;
 
     case 3:
@@ -100,22 +101,27 @@ void eff24_quake_sub(WORK_Other *ewk) {
         add_x_sub(ewk);
         ewk->wu.old_rno[5]--;
 
-        if (ewk->wu.old_rno[5] <= 0) {
-            ewk->wu.routine_no[1]++;
-        case 4:
-            char_move(&ewk->wu);
-            add_x_sub(ewk);
-
-            if (ewk->wu.cg_type) {
-                ewk->wu.routine_no[1] = 0;
-                ewk->wu.old_rno[1] = 0;
-                ewk->wu.old_rno[0] = 0;
-                ewk->wu.old_rno[4] = ewk->wu.xyz[0].disp.pos;
-                ewk->wu.xyz[0].disp.low = 0;
-                ewk->wu.old_rno[2] = ewk->wu.xyz[1].disp.pos;
-                ewk->wu.xyz[1].disp.low = 0;
-            }
+        if (ewk->wu.old_rno[5] > 0) {
+            break;
         }
+
+        ewk->wu.routine_no[1]++;
+        // fallthrough
+
+    case 4:
+        char_move(&ewk->wu);
+        add_x_sub(ewk);
+
+        if (ewk->wu.cg_type) {
+            ewk->wu.routine_no[1] = 0;
+            ewk->wu.old_rno[1] = 0;
+            ewk->wu.old_rno[0] = 0;
+            ewk->wu.old_rno[4] = ewk->wu.xyz[0].disp.pos;
+            ewk->wu.xyz[0].disp.low = 0;
+            ewk->wu.old_rno[2] = ewk->wu.xyz[1].disp.pos;
+            ewk->wu.xyz[1].disp.low = 0;
+        }
+
         break;
     }
 }
@@ -143,13 +149,11 @@ void eff24_sp_data_set(WORK_Other *ewk) {
 
         switch (ewk->wu.old_rno[1]) {
         case 0:
-
         case 1:
             ewk->wu.mvxy.d[1].sp = -0x2000;
             break;
 
         case 2:
-
         case 3:
             ewk->wu.mvxy.d[1].sp = -0x4000;
             break;

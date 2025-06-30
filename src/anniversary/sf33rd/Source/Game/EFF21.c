@@ -35,7 +35,7 @@ void effect_21_move(WORK_Other *ewk) {
 
         if (ewk->wu.old_rno[3]) {
             disp_pos_trans_entry_rs(ewk);
-            return;
+            break;
         }
 
         disp_pos_trans_entry_s(ewk);

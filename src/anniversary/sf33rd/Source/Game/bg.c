@@ -44,12 +44,11 @@ static void bgAkebonoDraw();
 static void ppgCalScrPosition(s32 x, s32 y, s32 xs, s32 ys);
 
 void Bg_TexInit() {
-    s32 i = 0;
+    s32 i;
 
-    while (i < 3) {
+    for (i = 0; i < 3; i++) {
         ppgBgList[i].tex = &ppgBgTex[i];
         ppgBgList[i].pal = palGetChunkGhostCP3();
-        i++;
     }
 
     ppgRwBgList.tex = &ppgRwBgTex;
@@ -72,17 +71,14 @@ void Bg_Kakikae_Set() {
         stage_ftimer = 0;
         rw_dat->rwd_ptr = rw_dat->brw_ptr = (s16 *)rw30;
         rw_dat->rw_cnt = 2;
-        i = 0;
 
-        while (i < 13) {
+        for (i = 0; i < 13; i++) {
             rw_gbix[i] = stage03rw_data_tbl[i];
-            i++;
         }
 
         rw3col_ptr = (u32 *)rw30col;
-        i = 0;
 
-        while (i < 4) {
+        for (i = 0; i < 4; i++) {
             rw = bgrw_on[bg_w.stage][i];
             rwtbl_ptr = &bgrw_data_tbl[rw][0];
             rw_dat[i + 1].bg_num = *rwtbl_ptr++;
@@ -90,7 +86,6 @@ void Bg_Kakikae_Set() {
             rw_dat[i + 1].rwd_ptr = rw_dat[i + 1].brw_ptr = (s16 *)rwtbl_ptr[0];
             rw_dat[i + 1].rw_cnt = *rw_dat[i + 1].rwd_ptr++;
             rw_dat[i + 1].gbix = *rw_dat[i + 1].rwd_ptr++;
-            i++;
         }
         break;
 
@@ -107,11 +102,9 @@ void Bg_Kakikae_Set() {
         stage_ftimer = 2;
         rw_dat->rwd_ptr = rw_dat->brw_ptr = (s16 *)rw190;
         rw_dat->rw_cnt = 2;
-        i = 0;
 
-        while (i < 4) {
+        for (i = 0; i < 4; i++) {
             rw_gbix[i] = stage19rw_data_tbl[i];
-            i++;
         }
 
         rw = bgrw_on[bg_w.stage][0];
@@ -131,19 +124,18 @@ void Bg_Kakikae_Set() {
         }
 
         rw_num = 0;
-        i = 0;
 
-        while (i < 4) {
+        for (i = 0; i < 4; i++) {
             rw_bg_flag[i] = 0;
-            i++;
         }
 
-        i = 0;
-
-        while (i < 8) {
+        for (i = 0; i < 8; i++) {
             rw = bgrw_on[bg_w.stage][i];
-            if (rw == -1)
-                return;
+
+            if (rw == -1) {
+                break;
+            }
+
             rw_num++;
             rwtbl_ptr = &bgrw_data_tbl[rw][0];
             rw_dat[i].bg_num = *rwtbl_ptr++;
@@ -152,14 +144,11 @@ void Bg_Kakikae_Set() {
             rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
             rw_dat[i].rw_cnt = *rw_dat[i].rwd_ptr++;
             rw_dat[i].gbix = *rw_dat[i].rwd_ptr++;
-
-            i++;
         }
+
         break;
     }
 }
-
-// INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Ed_Kakikae_Set);
 
 void Ed_Kakikae_Set(s16 type) {
     u8 i;
@@ -167,40 +156,35 @@ void Ed_Kakikae_Set(s16 type) {
     s8 rw;
 
     rw_num = 0;
-    i = 0;
 
-    while (i < 4) {
+    for (i = 0; i < 4; i++) {
         rw_bg_flag[i] = 0;
-        i++;
     }
 
     switch (type) {
     case 14:
-        i = 0;
-        while (i < 0x14) {
+        for (i = 0; i < 20; i++) {
             rwtbl_ptr = &gedrw_data_tbl[i][0];
             rw_dat[i].rwgbix = *rwtbl_ptr++;
             rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
-            i++;
         }
+
         break;
 
     case 15:
-        i = 0;
-        while (i < 0x10) {
+        for (i = 0; i < 16; i++) {
             rwtbl_ptr = &cedrw_data_tbl[i][0];
             rw_dat[i].rwgbix = *rwtbl_ptr++;
             rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
-            i++;
         }
+
         break;
 
     default:
         if (edrw_num[type][0] != -1) {
             rw = edrw_num[type][0];
-            i = 0;
 
-            while (i < edrw_num[type][1]) {
+            for (i = 0; i < edrw_num[type][1]; i++) {
                 rw_num += 1;
                 rwtbl_ptr = &edrw_data_tbl[rw + i][0];
                 rw_dat[i].bg_num = *rwtbl_ptr++;
@@ -209,9 +193,9 @@ void Ed_Kakikae_Set(s16 type) {
                 rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
                 rw_dat[i].rw_cnt = *rw_dat[i].rwd_ptr++;
                 rw_dat[i].gbix = *rw_dat[i].rwd_ptr++;
-                i++;
             }
         }
+
         break;
     }
 }
@@ -221,11 +205,9 @@ void Bg_Close() {
 
     tokusyu_stage = 0;
     rw_num = 0;
-    i = 0;
 
-    while (i < 3) {
+    for (i = 0; i < 3; i++) {
         ppgReleaseTextureHandle(&ppgBgTex[i], -1);
-        i += 1;
     }
 
     ppgReleaseTextureHandle(&ppgRwBgTex, -1);
@@ -261,9 +243,9 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", literal_502
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", scr_trans);
 
 void bgRWWorkUpdate() {
-    s32 i = 0;
+    s32 i;
 
-    while (i < rw_num) {
+    for (i = 0; i < rw_num; i++) {
         rw_dat[i].rw_cnt--;
 
         if (rw_dat[i].rw_cnt == 0) {
@@ -276,18 +258,14 @@ void bgRWWorkUpdate() {
                 rw_dat[i].gbix = *rw_dat[i].rwd_ptr++;
             }
         }
-
-        i++;
     }
 }
 
 void bgDrawOneScreen(s32 bgnum, s32 gixbase, s32 *xx, s32 *yy, s32 /* unused */, s32 ofsPal, PPGDataList *curDataList) {
     s32 i, x, y, gbix;
 
-    y = yy[0];
-    while (y < yy[1]) {
-        x = xx[0];
-        while (x < xx[1]) {
+    for (y = yy[0]; y < yy[1]; y += 128) {
+        for (x = xx[0]; x < xx[1]; x += 128) {
             gbix = ((y >> 7) << 3) + (x >> 7) + gixbase;
 
             if (rw_bg_flag[bgnum] && rw_num) {
@@ -304,9 +282,7 @@ void bgDrawOneScreen(s32 bgnum, s32 gixbase, s32 *xx, s32 *yy, s32 /* unused */,
 
             bgDrawOneChip(x, y, 128, 128, gbix, -1, ofsPal);
             ppgSetupCurrentDataList(curDataList);
-            x += 128;
         }
-        y += 128;
     }
 }
 
@@ -331,17 +307,15 @@ void bgAkebonoDraw() {
     scrDrawPos->y = 0.0f;
     scrDrawPos[3].x = 128.0f;
     scrDrawPos[3].y = 224.0f;
-    scrDrawPos->z = scrDrawPos[3].z = *(&PrioBase[bg_priority[3]]);
+    scrDrawPos->z = scrDrawPos[3].z = PrioBase[bg_priority[3]];
     scrDrawPos->s = scrDrawPos->t = 0.0f;
     scrDrawPos[3].s = 1.0f;
     scrDrawPos[3].t = 0.875f;
-    i = 0;
 
-    while (i < 3) {
-        ppgWriteQuadUseTrans(scrDrawPos, -1U, NULL, i, i, 0, 0);
+    for (i = 0; i < 3; i++) {
+        ppgWriteQuadUseTrans(scrDrawPos, 0xFFFFFFFF, NULL, i, i, 0, 0);
         scrDrawPos->x += 128.0f;
         scrDrawPos[3].x += 128.0f;
-        i++;
     }
 }
 
@@ -353,7 +327,7 @@ void ppgCalScrPosition(s32 x, s32 y, s32 xs, s32 ys) {
     point[1].x = (f32)(x + xs);
     point[1].y = (f32)(y + ys);
     point[0].z = point[1].z = 0;
-    njCalcPoints(0, &point[0], &point[0], 2);
+    njCalcPoints(0, point, point, 2);
     scrDrawPos[0].x = scrDrawPos[2].x = point[0].x;
     scrDrawPos[0].y = scrDrawPos[1].y = point[0].y;
     scrDrawPos[1].x = scrDrawPos[3].x = point[1].x;
@@ -387,25 +361,25 @@ void scr_trans_sub2(s32 x, s32 y, s32 suzi) {
     bgpoly[0].z = point[0].z;
     bgpoly[0].u = 0.0f;
     bgpoly[0].v = 0.0f;
-    bgpoly[0].col = -1;
+    bgpoly[0].col = 0xFFFFFFFF;
     bgpoly[1].x = spoint[1].x;
     bgpoly[1].y = point[0].y;
     bgpoly[1].z = point[0].z;
     bgpoly[1].u = 1.0f;
     bgpoly[1].v = 0.0f;
-    bgpoly[1].col = -1;
+    bgpoly[1].col = 0xFFFFFFFF;
     bgpoly[2].x = point[0].x;
     bgpoly[2].y = point[1].y;
     bgpoly[2].z = point[1].z;
     bgpoly[2].u = 0.0f;
     bgpoly[2].v = 1.0f;
-    bgpoly[2].col = -1;
+    bgpoly[2].col = 0xFFFFFFFF;
     bgpoly[3].x = point[1].x;
     bgpoly[3].y = point[1].y;
     bgpoly[3].z = point[1].z;
     bgpoly[3].u = 1.0f;
     bgpoly[3].v = 1.0f;
-    bgpoly[3].col = -1;
+    bgpoly[3].col = 0xFFFFFFFF;
 }
 
 void scr_calc(u8 bgnm) {
