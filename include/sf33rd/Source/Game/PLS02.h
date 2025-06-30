@@ -4,6 +4,8 @@
 #include "structs.h"
 #include "types.h"
 
+extern const s16 satse[20];
+
 s32 random_16();
 s32 random_16_com();
 s32 random_16_ex_com();

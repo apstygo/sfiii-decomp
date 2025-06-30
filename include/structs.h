@@ -993,12 +993,12 @@ enum _FLSETRENDERSTATE {
     FLRENDER_ZOPE = 109,
 };
 
-struct _MEMMAN_CELL {
+typedef struct _MEMMAN_CELL {
     // total size: 0xC
     struct _MEMMAN_CELL *prev; // offset 0x0, size 0x4
     struct _MEMMAN_CELL *next; // offset 0x4, size 0x4
     ssize_t size;              // offset 0x8, size 0x4
-};
+} _MEMMAN_CELL;
 
 typedef struct {
     // total size: 0x2C
@@ -1617,6 +1617,14 @@ typedef struct {
     UNK_7 *atit;    // offset 0x5C, size 0x4
     UNK_Data *prot; // offset 0x60, size 0x4
 } CharInitData;
+
+typedef struct {
+    // total size: 0x8
+    s16 my_cm; // offset 0x0, size 0x2
+    s16 my_cc; // offset 0x2, size 0x2
+    s16 my_pr; // offset 0x4, size 0x2
+    s16 my_fm; // offset 0x6, size 0x2
+} CharInitData2;
 
 typedef struct {
     // total size: 0xC
@@ -2665,6 +2673,16 @@ typedef struct {
     QWORD texflush; // offset 0x30, size 0x10
 } FLPS2LoadEndData; // Not Sure about this name
 
+typedef struct {
+    // total size: 0xC
+    s16 r_no_0;   //  offset 0x0, size 0x2
+    s16 r_no_1;   // offset 0x2, size 0x2
+    s16 r_no_2;   // offset 0x4, size 0x2
+    s16 type;     // offset 0x6, size 0x2
+    s16 end_flag; // offset 0x8, size 0x2
+    s16 timer;    // offset 0xA, size 0x2
+} END_W;
+
 typedef union {
     signed int psi; // offset 0x0, size 0x4
     struct /* @anon6 */ {
@@ -2721,5 +2739,21 @@ typedef struct {
     u32 uni_table;         // offset 0x94, size 0x4
     u32 uni_ascii;         // offset 0x98, size 0x4
 } Kanji_W;
+
+typedef struct {
+    // total size: 0x1C
+    s16 x_pos_num;   // offset 0x0, size 0x2
+    s8 routine_num;  // offset 0x2, size 0x1
+    u8 hit_hi;       // offset 0x3, size 0x1
+    u8 hit_low;      // offset 0x4, size 0x1
+    s8 kind;         // offset 0x5, size 0x1
+    u32 pts;         // offset 0x8, size 0x4
+    s8 pts_digit[4]; // offset 0xC, size 0x4
+    s8 pts_flag;     // offset 0x10, size 0x1
+    s8 first_digit;  // offset 0x11, size 0x1
+    u8 move[2];      // offset 0x12, size 0x2
+    u8 x_posnum[2];  // offset 0x14, size 0x2
+    s16 timer[2];    // offset 0x16, size 0x4
+} CMST_BUFF;
 
 #endif

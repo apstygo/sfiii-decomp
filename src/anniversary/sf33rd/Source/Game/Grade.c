@@ -187,7 +187,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", grade_add_g
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", grade_add_em_stun);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", grade_max_combo_check);
+#else
+void grade_max_combo_check(s16 ix, s16 num) {
+    not_implemented(__func__);
+}
+#endif
 
 void grade_add_leap_attack(s16 ix) {
     judge_item[ix][Play_Type].leap_attack += 1;
@@ -233,7 +239,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", grade_store
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", grade_add_blocking);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", grade_get_first_attack);
+#else
+void grade_get_first_attack(s16 ix) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", grade_set_round_result);
 

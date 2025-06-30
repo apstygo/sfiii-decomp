@@ -1,8 +1,13 @@
 #include "sf33rd/Source/Game/bg.h"
 #include "common.h"
+#include "sf33rd/Source/Common/PPGFile.h"
+#include "sf33rd/Source/Common/PPGWork.h"
 #include "sf33rd/Source/Game/DC_Ghost.h"
+#include "sf33rd/Source/Game/MTRANS.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/bg_data.h"
+#include "sf33rd/Source/Game/color3rd.h"
+#include "sf33rd/Source/Game/end_data.h"
 #include "structs.h"
 
 // sbss
@@ -31,21 +36,197 @@ s32 bgPalCodeOffset[8];
 BG bg_w;
 RW_DATA rw_dat[20];
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_TexInit);
-#else
+static void bgRWWorkUpdate();
+static void bgDrawOneScreen(s32 bgnum, s32 gixbase, s32 *xx, s32 *yy, s32 /* unused */, s32 ofsPal,
+                            PPGDataList *curDataList);
+static void bgDrawOneChip(s32 x, s32 y, s32 xs, s32 ys, s32 gbix, u32 vtxCol, s32 ofsPal);
+static void bgAkebonoDraw();
+static void ppgCalScrPosition(s32 x, s32 y, s32 xs, s32 ys);
+
 void Bg_TexInit() {
+    s32 i;
+
+    for (i = 0; i < 3; i++) {
+        ppgBgList[i].tex = &ppgBgTex[i];
+        ppgBgList[i].pal = palGetChunkGhostCP3();
+    }
+
+    ppgRwBgList.tex = &ppgRwBgTex;
+    ppgRwBgList.pal = palGetChunkGhostCP3();
+    ppgAkeList.tex = &ppgAkeTex;
+    ppgAkeList.pal = &ppgAkePal;
+    ppgAkaneList.tex = &ppgAkaneTex;
+    ppgAkaneList.pal = &ppgAkanePal;
+}
+
+void Bg_Kakikae_Set() {
+    u8 i;
+    const u32 *rwtbl_ptr;
+    s8 rw;
+
+    switch (bg_w.stage) {
+    case 3:
+        tokusyu_stage = 1;
+        stage_flash = 0;
+        stage_ftimer = 0;
+        rw_dat->rwd_ptr = rw_dat->brw_ptr = (s16 *)rw30;
+        rw_dat->rw_cnt = 2;
+
+        for (i = 0; i < 13; i++) {
+            rw_gbix[i] = stage03rw_data_tbl[i];
+        }
+
+        rw3col_ptr = (u32 *)rw30col;
+
+        for (i = 0; i < 4; i++) {
+            rw = bgrw_on[bg_w.stage][i];
+            rwtbl_ptr = &bgrw_data_tbl[rw][0];
+            rw_dat[i + 1].bg_num = *rwtbl_ptr++;
+            rw_dat[i + 1].rwgbix = *rwtbl_ptr++;
+            rw_dat[i + 1].rwd_ptr = rw_dat[i + 1].brw_ptr = (s16 *)rwtbl_ptr[0];
+            rw_dat[i + 1].rw_cnt = *rw_dat[i + 1].rwd_ptr++;
+            rw_dat[i + 1].gbix = *rw_dat[i + 1].rwd_ptr++;
+        }
+        break;
+
+    case 10:
+        tokusyu_stage = 2;
+        yang_ix = 0;
+        yang_ix_plus = 0;
+        yang_timer = 4;
+        break;
+
+    case 19:
+        tokusyu_stage = 3;
+        stage_flash = 0;
+        stage_ftimer = 2;
+        rw_dat->rwd_ptr = rw_dat->brw_ptr = (s16 *)rw190;
+        rw_dat->rw_cnt = 2;
+
+        for (i = 0; i < 4; i++) {
+            rw_gbix[i] = stage19rw_data_tbl[i];
+        }
+
+        rw = bgrw_on[bg_w.stage][0];
+        rwtbl_ptr = &bgrw_data_tbl[rw][0];
+        rw_dat[1].bg_num = *rwtbl_ptr++;
+        rw_dat[1].rwgbix = *rwtbl_ptr++;
+        rw_dat[1].rwd_ptr = rw_dat[1].brw_ptr = (s16 *)rwtbl_ptr[0];
+        rw_dat[1].rw_cnt = *rw_dat[1].rwd_ptr++;
+        rw_dat[1].gbix = *rw_dat[1].rwd_ptr++;
+        break;
+
+    default:
+        if (bg_w.stage == 7) {
+            tokusyu_stage = 4;
+        } else {
+            tokusyu_stage = 0;
+        }
+
+        rw_num = 0;
+
+        for (i = 0; i < 4; i++) {
+            rw_bg_flag[i] = 0;
+        }
+
+        for (i = 0; i < 8; i++) {
+            rw = bgrw_on[bg_w.stage][i];
+
+            if (rw == -1) {
+                break;
+            }
+
+            rw_num++;
+            rwtbl_ptr = &bgrw_data_tbl[rw][0];
+            rw_dat[i].bg_num = *rwtbl_ptr++;
+            rw_bg_flag[rw_dat[i].bg_num] = 1;
+            rw_dat[i].rwgbix = *rwtbl_ptr++;
+            rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
+            rw_dat[i].rw_cnt = *rw_dat[i].rwd_ptr++;
+            rw_dat[i].gbix = *rw_dat[i].rwd_ptr++;
+        }
+
+        break;
+    }
+}
+
+void Ed_Kakikae_Set(s16 type) {
+    u8 i;
+    const u32 *rwtbl_ptr;
+    s8 rw;
+
+    rw_num = 0;
+
+    for (i = 0; i < 4; i++) {
+        rw_bg_flag[i] = 0;
+    }
+
+    switch (type) {
+    case 14:
+        for (i = 0; i < 20; i++) {
+            rwtbl_ptr = &gedrw_data_tbl[i][0];
+            rw_dat[i].rwgbix = *rwtbl_ptr++;
+            rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
+        }
+
+        break;
+
+    case 15:
+        for (i = 0; i < 16; i++) {
+            rwtbl_ptr = &cedrw_data_tbl[i][0];
+            rw_dat[i].rwgbix = *rwtbl_ptr++;
+            rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
+        }
+
+        break;
+
+    default:
+        if (edrw_num[type][0] != -1) {
+            rw = edrw_num[type][0];
+
+            for (i = 0; i < edrw_num[type][1]; i++) {
+                rw_num += 1;
+                rwtbl_ptr = &edrw_data_tbl[rw + i][0];
+                rw_dat[i].bg_num = *rwtbl_ptr++;
+                rw_bg_flag[rw_dat[i].bg_num] = 1;
+                rw_dat[i].rwgbix = *rwtbl_ptr++;
+                rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
+                rw_dat[i].rw_cnt = *rw_dat[i].rwd_ptr++;
+                rw_dat[i].gbix = *rw_dat[i].rwd_ptr++;
+            }
+        }
+
+        break;
+    }
+}
+
+void Bg_Close() {
+    u32 i;
+
+    tokusyu_stage = 0;
+    rw_num = 0;
+
+    for (i = 0; i < 3; i++) {
+        ppgReleaseTextureHandle(&ppgBgTex[i], -1);
+    }
+
+    ppgReleaseTextureHandle(&ppgRwBgTex, -1);
+    ppgReleaseTextureHandle(&ppgAkeTex, -1);
+    ppgReleasePaletteHandle(&ppgAkePal, -1);
+    ppgReleaseTextureHandle(&ppgAkaneTex, -1);
+    ppgReleasePaletteHandle(&ppgAkanePal, -1);
+    Screen_Switch = 0;
+    Screen_Switch_Buffer = 0;
+    bg_disp_off = 0;
+}
+
+#if defined(TARGET_PS2)
+INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Texture_Load_EX);
+#else
+void Bg_Texture_Load_EX() {
     not_implemented(__func__);
 }
 #endif
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Kakikae_Set);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Ed_Kakikae_Set);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Close);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Texture_Load_EX);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Texture_Load2);
 
@@ -61,17 +242,145 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", literal_502
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", scr_trans);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", bgRWWorkUpdate);
+void bgRWWorkUpdate() {
+    s32 i;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", bgDrawOneScreen);
+    for (i = 0; i < rw_num; i++) {
+        rw_dat[i].rw_cnt--;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", bgDrawOneChip);
+        if (rw_dat[i].rw_cnt == 0) {
+            if (*rw_dat[i].rwd_ptr == -1) {
+                rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr;
+                rw_dat[i].rw_cnt = *rw_dat[i].rwd_ptr++;
+                rw_dat[i].gbix = *rw_dat[i].rwd_ptr++;
+            } else {
+                rw_dat[i].rw_cnt = *rw_dat[i].rwd_ptr++;
+                rw_dat[i].gbix = *rw_dat[i].rwd_ptr++;
+            }
+        }
+    }
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", bgAkebonoDraw);
+void bgDrawOneScreen(s32 bgnum, s32 gixbase, s32 *xx, s32 *yy, s32 /* unused */, s32 ofsPal, PPGDataList *curDataList) {
+    s32 i, x, y, gbix;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", ppgCalScrPosition);
+    for (y = yy[0]; y < yy[1]; y += 128) {
+        for (x = xx[0]; x < xx[1]; x += 128) {
+            gbix = ((y >> 7) << 3) + (x >> 7) + gixbase;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", scr_trans_sub2);
+            if (rw_bg_flag[bgnum] && rw_num) {
+                for (i = 0; i < rw_num; i++) {
+                    if (bgnum == rw_dat[i].bg_num && gbix == rw_dat[i].rwgbix) {
+                        gbix = rw_dat[i].gbix;
+                        if (!(ppgCheckTextureNumber(0, gbix))) {
+                            ppgSetupCurrentDataList(&ppgRwBgList);
+                        }
+                        break;
+                    }
+                }
+            }
+
+            bgDrawOneChip(x, y, 128, 128, gbix, -1, ofsPal);
+            ppgSetupCurrentDataList(curDataList);
+        }
+    }
+}
+
+void bgDrawOneChip(s32 x, s32 y, s32 xs, s32 ys, s32 gbix, u32 vtxCol, s32 ofsPal) {
+    s32 i;
+
+    if (No_Trans == 0 && ppgCheckTextureNumber(0, gbix)) {
+        ppgCalScrPosition(x, y, xs, ys);
+        if (!(scrDrawPos->x < 384.0f && !(scrDrawPos[3].x < 0.0f) && (scrDrawPos->y < 224.0f) &&
+              !(scrDrawPos[3].y < 0.0f))) {
+            return;
+        } else {
+            ppgWriteQuadUseTrans(scrDrawPos, vtxCol, 0, gbix, 0, 0, ofsPal);
+        }
+    }
+}
+
+void bgAkebonoDraw() {
+    s32 i;
+
+    scrDrawPos->x = 0.0f;
+    scrDrawPos->y = 0.0f;
+    scrDrawPos[3].x = 128.0f;
+    scrDrawPos[3].y = 224.0f;
+    scrDrawPos->z = scrDrawPos[3].z = PrioBase[bg_priority[3]];
+    scrDrawPos->s = scrDrawPos->t = 0.0f;
+    scrDrawPos[3].s = 1.0f;
+    scrDrawPos[3].t = 0.875f;
+
+    for (i = 0; i < 3; i++) {
+        ppgWriteQuadUseTrans(scrDrawPos, 0xFFFFFFFF, NULL, i, i, 0, 0);
+        scrDrawPos->x += 128.0f;
+        scrDrawPos[3].x += 128.0f;
+    }
+}
+
+void ppgCalScrPosition(s32 x, s32 y, s32 xs, s32 ys) {
+    Vec3 point[2];
+
+    point[0].x = (f32)x;
+    point[0].y = (f32)y;
+    point[1].x = (f32)(x + xs);
+    point[1].y = (f32)(y + ys);
+    point[0].z = point[1].z = 0;
+    njCalcPoints(0, point, point, 2);
+    scrDrawPos[0].x = scrDrawPos[2].x = point[0].x;
+    scrDrawPos[0].y = scrDrawPos[1].y = point[0].y;
+    scrDrawPos[1].x = scrDrawPos[3].x = point[1].x;
+    scrDrawPos[2].y = scrDrawPos[3].y = point[1].y;
+    scrDrawPos[0].z = scrDrawPos[1].z = scrDrawPos[2].z = scrDrawPos[3].z = point[0].z;
+    scrDrawPos[0].s = (0.5f + (f32)(x & 0x7F)) / 128.0f;
+    scrDrawPos[0].t = (0.5f + (f32)(y & 0x7F)) / 128.0f;
+    scrDrawPos[3].s = (0.5f + (f32)((x & 0x7F) + xs)) / 128.0f;
+    scrDrawPos[3].t = (0.5f + (f32)((y & 0x7F) + ys)) / 128.0f;
+    scrDrawPos[1].s = scrDrawPos[3].s;
+    scrDrawPos[2].s = scrDrawPos[0].s;
+    scrDrawPos[1].t = scrDrawPos[0].t;
+    scrDrawPos[2].t = scrDrawPos[3].t;
+}
+
+void scr_trans_sub2(s32 x, s32 y, s32 suzi) {
+    Vec3 point[2];
+    Vec3 spoint[2];
+
+    point[0].x = (f32)x;
+    spoint[0].x = (f32)(x + suzi);
+    point[0].y = spoint[0].y = (f32)(y + 0x200);
+    point[1].x = (f32)(x + 0x100);
+    spoint[1].x = (f32)(x + suzi + 0x100);
+    point[1].y = spoint[1].y = (f32)(y + 0x300);
+    point[0].z = point[1].z = spoint[0].z = spoint[1].z = 0;
+    njCalcPoints(NULL, &point[0], &point[0], 2);
+    njCalcPoints(NULL, &spoint[0], &spoint[0], 2);
+    bgpoly[0].x = spoint[0].x;
+    bgpoly[0].y = point[0].y;
+    bgpoly[0].z = point[0].z;
+    bgpoly[0].u = 0.0f;
+    bgpoly[0].v = 0.0f;
+    bgpoly[0].col = 0xFFFFFFFF;
+    bgpoly[1].x = spoint[1].x;
+    bgpoly[1].y = point[0].y;
+    bgpoly[1].z = point[0].z;
+    bgpoly[1].u = 1.0f;
+    bgpoly[1].v = 0.0f;
+    bgpoly[1].col = 0xFFFFFFFF;
+    bgpoly[2].x = point[0].x;
+    bgpoly[2].y = point[1].y;
+    bgpoly[2].z = point[1].z;
+    bgpoly[2].u = 0.0f;
+    bgpoly[2].v = 1.0f;
+    bgpoly[2].col = 0xFFFFFFFF;
+    bgpoly[3].x = point[1].x;
+    bgpoly[3].y = point[1].y;
+    bgpoly[3].z = point[1].z;
+    bgpoly[3].u = 1.0f;
+    bgpoly[3].v = 1.0f;
+    bgpoly[3].col = 0xFFFFFFFF;
+}
 
 void scr_calc(u8 bgnm) {
     njUnitMatrix(NULL);
@@ -83,15 +392,23 @@ void scr_calc(u8 bgnm) {
     njGetMatrix(&BgMATRIX[bgnm + 1]);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", scr_calc2);
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Pause_Family_On);
-#else
-void Pause_Family_On() {
-    not_implemented(__func__);
+void scr_calc2(u8 bgnm) {
+    njUnitMatrix(NULL);
+    njScale(NULL, Frame_Zoom_X, Frame_Zoom_Y, 1.0f);
+    njScale(NULL, scr_sc, scr_sc, 1.0f);
+    njTranslate(NULL, 0.0f, 224.0f, 0.0f);
+    njScale(NULL, 1.0f, -1.0f, 1.0f);
+    njTranslate(NULL, (s16)-end_prm[bgnm + 1].bg_h_shift, (s16)-end_prm[bgnm + 1].bg_v_shift, 0.0f);
+    njGetMatrix(&BgMATRIX[bgnm + 1]);
 }
-#endif
+
+void Pause_Family_On() {
+    njUnitMatrix(0);
+    njScale(0, Frame_Zoom_X, Frame_Zoom_Y, 1);
+    njTranslate(0, 0, 224, 0);
+    njScale(0, 1, -1, 1);
+    njGetMatrix(&BgMATRIX[8]);
+}
 
 void Zoomf_Init() {
     zoom_add = 64;
@@ -228,7 +545,12 @@ void Family_Init() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Family_Set_R);
+void Family_Set_R(s8 fmnm, s16 x, s16 y) {
+    fm_pos[fmnm].scr_x.word_pos.h = x;
+    fm_pos[fmnm].scr_y.word_pos.h = y;
+    fm_pos[fmnm].scr_x_buff.word_pos.h = x;
+    fm_pos[fmnm].scr_y_buff.word_pos.h = y;
+}
 
 void Family_Set_W(s8 fmnm, s16 x, s16 y) {
     fm_pos[fmnm].scr_x.word_pos.h = x;
@@ -293,4 +615,6 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Family_Move);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Ending_Family_Move);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Disp_Switch);
+void Bg_Disp_Switch(u8 on_off) {
+    bg_disp_off = on_off;
+}
