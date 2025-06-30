@@ -5,6 +5,7 @@
 #include "sf33rd/Source/Game/EFF09.h"
 #include "sf33rd/Source/Game/EFF15.h"
 #include "sf33rd/Source/Game/EFF46.h"
+#include "sf33rd/Source/Game/EFF86.h"
 #include "sf33rd/Source/Game/EFFC5.h"
 #include "sf33rd/Source/Game/EFFC8.h"
 #include "sf33rd/Source/Game/EFFM1.h"
@@ -1309,7 +1310,7 @@ void Appear_25000(PLW *wk) {
 const s16 smoke_check[] = { 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0 };
 
 void Appear_26000(PLW *wk) {
-    s32 effect_86_init(s16 type86);
+    // s32 effect_86_init(s16 type86);
 
     switch (wk->wu.routine_no[3]) {
     case 0:
