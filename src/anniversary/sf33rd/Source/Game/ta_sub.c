@@ -1,5 +1,6 @@
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "common.h"
+#include "sf33rd/Source/Game/HITCHECK.h"
 #include "sf33rd/Source/Game/LOSE_PL.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/aboutspr.h"
