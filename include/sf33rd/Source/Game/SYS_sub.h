@@ -25,6 +25,7 @@ void Setup_IO_ConvDataDefault(s32 id);             // Range: 0x3A3810 -> 0x3A388
 void Save_Game_Data();                             // Range: 0x3A3890 -> 0x3A3B80
 void Copy_Save_w();                                // Range: 0x3A3B80 -> 0x3A3E3C
 void Copy_Check_w();                               // Range: 0x3A3E40 -> 0x3A3FA8
+void Setup_Default_Game_Option();                  // Range: 0x3A3FB0 -> 0x3A407F
 s32 Check_Change_Contents();                       // Range: 0x3A4080 -> 0x3A4410
 s32 Check_Menu_Task();                             // Range: 0x3A4490 -> 0x3A4550
 void Setup_Limit_Time();                           // Range: 0x3A4550 -> 0x3A4618

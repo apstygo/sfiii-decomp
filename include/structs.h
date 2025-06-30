@@ -2436,11 +2436,6 @@ typedef struct {
 } TrainingData;
 
 typedef struct {
-    // total size: 0x20
-    char contents[4][8]; // offset 0x0, size 0x20
-} CK_EX_OPTION;
-
-typedef struct {
     // total size: 0x10
     f32 r; // offset 0x0, size 0x4
     f32 g; // offset 0x4, size 0x4

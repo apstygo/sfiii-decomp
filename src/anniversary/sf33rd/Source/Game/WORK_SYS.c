@@ -7,7 +7,7 @@ u32 current_task_num;
 struct _SYSTEM_W sys_w;
 struct _VM_W vm_w;
 TrainingData Training[3];
-CK_EX_OPTION ck_ex_option;
+_EXTRA_OPTION ck_ex_option;
 u16 p1sw_0;
 u16 p1sw_1;
 u16 p2sw_0;
