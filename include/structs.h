@@ -2741,6 +2741,19 @@ typedef struct {
 } Kanji_W;
 
 typedef struct {
+    // total size: 0x8
+    union {
+        signed short full; // offset 0x0, size 0x2
+        struct {
+            // total size: 0x2
+            signed char l; // offset 0x0, size 0x1
+            signed char h; // offset 0x1, size 0x1
+        } half;            // offset 0x0, size 0x2
+    } size;                // offset 0x0, size 0x2
+    signed int step;       // offset 0x4, size 0x4
+} Round_Timer;
+
+typedef struct {
     // total size: 0x1C
     s16 x_pos_num;   // offset 0x0, size 0x2
     s8 routine_num;  // offset 0x2, size 0x1
