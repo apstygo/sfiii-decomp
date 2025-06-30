@@ -1,5 +1,18 @@
 #include "sf33rd/Source/Game/CMD_MAIN.h"
 #include "common.h"
+#include "sf33rd/Source/Game/HITCHECK.h"
+#include "sf33rd/Source/Game/PLCNT.h"
+#include "sf33rd/Source/Game/cmd_data.h"
+
+// omop_b_block_ix
+// blok_b_omake
+
+// check_rl_on_car - PLS01
+
+void (*chk_move_jp[28])() = { check_init, check_0,  check_1,  check_2,  check_3,  check_4,  check_5,
+                              check_6,    check_7,  check_7,  check_9,  check_10, check_11, check_12,
+                              check_13,   check_14, check_15, check_16, check_16, check_18, check_19,
+                              check_20,   check_21, check_22, check_23, check_24, check_25, check_26 };
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CMD_MAIN", waza_check);
 
