@@ -9,67 +9,235 @@ void (*eff09_tbl[28])(WORK_Other *ewk) = { eff09_0000,  eff09_1000,  eff09_2000,
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", effect_09_move);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_0000);
+#else
+void eff09_0000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_1000);
+#else
+void eff09_1000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_2000);
+#else
+void eff09_2000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", sean_ball_move);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", ball_bound_set);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_3000);
+#else
+void eff09_3000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_4000);
+#else
+void eff09_4000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_5000);
+#else
+void eff09_5000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_6000);
+#else
+void eff09_6000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_7000);
+#else
+void eff09_7000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_8000);
+#else
+void eff09_8000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_9000);
+#else
+void eff09_9000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_10000);
+#else
+void eff09_10000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_11000);
+#else
+void eff09_11000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_12000);
+#else
+void eff09_12000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_13000);
+#else
+void eff09_13000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_14000);
+#else
+void eff09_14000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_15000);
+#else
+void eff09_15000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_16000);
+#else
+void eff09_16000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_17000);
+#else
+void eff09_17000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_18000);
+#else
+void eff09_18000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_19000);
+#else
+void eff09_19000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_20000);
+#else
+void eff09_20000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_21000);
+#else
+void eff09_21000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_22000);
+#else
+void eff09_22000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_23000);
+#else
+void eff09_23000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_24000);
+#else
+void eff09_24000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_25000);
+#else
+void eff09_25000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_26000);
+#else
+void eff09_26000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", jijii_win_tama_sub);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", eff09_27000);
+#else
+void eff09_27000(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF09", effect_09_init);
 
