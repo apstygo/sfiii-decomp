@@ -131,9 +131,8 @@ void disp_texcash_free_area() {
 void search_texcash_free_area(s16 ix) {
     PatternState *mc;
     s16 i;
-    s16 num;
+    s16 num = 0;
 
-    num = 0;
     for (mc = mts[ix].mltcsh16, i = 0; i < mts[ix].mltnum16; i++) {
         if (mc[i].cs.code == -1) {
             num++;
@@ -273,7 +272,6 @@ void texture_cash_update() {
         }
     }
     disp_texcash_free_area();
-    return;
 }
 
 void update_with_tpu_free(PatternState *mc16, PatternState *mc32) {
