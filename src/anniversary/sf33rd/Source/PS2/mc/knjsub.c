@@ -7,6 +7,7 @@
 #include <libgraph.h>
 
 #include <stdio.h>
+#include <string.h>
 
 typedef struct _kanji_w {
     // total size: 0x9C
@@ -454,12 +455,18 @@ void KnjPuts(const s8 *str) {
     pp = kw->pack_cur;
 
     while (1) {
+#if defined(TARGET_PS2)
         code = *((u8 *)str)++;
+#else
+        code = *(u8 *)str;
+        str++;
+#endif
 
         if (code == 0) {
             break;
         }
 
+        // Handle \n
         if (code == 0xA) {
             kw->x = x;
             kw->y += kw->disph;
@@ -467,7 +474,12 @@ void KnjPuts(const s8 *str) {
         }
 
         if (((code >= 0x80) && (code <= 0x9F)) || ((code >= 0xE0) && (code < 0x100))) {
+#if defined(TARGET_PS2)
             c = *((u8 *)str)++;
+#else
+            c = *(u8 *)str;
+            str++;
+#endif
 
             if (c == 0) {
                 break;
@@ -608,6 +620,7 @@ static u32 sjis2jis_nec(u32 code) {
 
     hib = (code >> 8) & 0xFF;
     lob = code & 0xFF;
+
     if (hib < 0xA0) {
         var_s2 = 0x71;
     } else {
@@ -1003,6 +1016,7 @@ s32 KnjCheckCode(const s8 *str) {
 }
 
 static u32 *make_env_pkt(u32 *p, u32 /* unused */, u32 /* unused */) {
+#if defined(TARGET_PS2)
     u32 qwc = 3;
 
     *p++ = qwc | 0x10000000;
@@ -1016,11 +1030,13 @@ static u32 *make_env_pkt(u32 *p, u32 /* unused */, u32 /* unused */) {
     *((u64 *)p)++ = SCE_GS_ALPHA_1;
     *((u64 *)p)++ = SCE_GS_SET_TEST_1(0, 0, 0, 0, 0, 0, 1, 1);
     *((u64 *)p)++ = SCE_GS_TEST_1;
+#endif
 
     return p;
 }
 
 static u32 *make_img_pkt(u32 *p, u32 *img, u32 dbp, u32 dbw, u32 dbsm, u32 dsax, u32 dsay, u32 rrw, u32 rrh) {
+#if defined(TARGET_PS2)
     s32 nw;
     s32 pw;
     s32 md;
@@ -1078,6 +1094,7 @@ static u32 *make_img_pkt(u32 *p, u32 *img, u32 dbp, u32 dbw, u32 dbsm, u32 dsax,
     *p++ = (u32)img;
     *p++ = 0;
     *p++ = nw | 0x51000000;
+#endif
 
     return p;
 }
@@ -1095,6 +1112,7 @@ static u32 *make_pal_pkt(_kanji_w *kw, u32 *p) {
 }
 
 static u32 *make_fnt_pkt(_kanji_w *kw, u32 *p, u32 *img, u32 han_f) {
+#if defined(TARGET_PS2)
     s32 x;
     s32 y;
     s32 x0;
@@ -1152,11 +1170,13 @@ static u32 *make_fnt_pkt(_kanji_w *kw, u32 *p, u32 *img, u32 han_f) {
     *((u64 *)p)++ = SCE_GS_SET_XYZ2(x0, y0, kw->z);
     *((u64 *)p)++ = SCE_GS_SET_UV(u1, v1);
     *((u64 *)p)++ = SCE_GS_SET_XYZ2(x1, y1, kw->z);
+#endif
 
     return p;
 }
 
 static u32 *make_fbg_pkt(_kanji_w *kw, u32 *p, u32 * /* unused */, u32 han_f) {
+#if defined(TARGET_PS2)
     s32 x;
     s32 y;
     s32 x0;
@@ -1216,6 +1236,7 @@ static u32 *make_fbg_pkt(_kanji_w *kw, u32 *p, u32 * /* unused */, u32 han_f) {
     *((u64 *)p)++ = SCE_GS_SET_XYZ(x0, y0, kw->z - 1);
     *((u64 *)p)++ = SCE_GS_SET_UV(u1 + 8, v1 + 8);
     *((u64 *)p)++ = SCE_GS_SET_XYZ(x1, y1, kw->z - 1);
+#endif
 
     return p;
 }
