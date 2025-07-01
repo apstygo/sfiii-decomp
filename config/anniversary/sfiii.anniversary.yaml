@@ -858,8 +858,8 @@ segments:
       - [0x3D47F0, .data, sf33rd/Source/PS2/cseDataFiles/TSB_PL19]
       - [0x3D5010, .data, sf33rd/Source/PS2/cseDataFiles/TSB_SE]
       - [0x3D6A10, .data, sf33rd/Source/Common/FileSizeAFS]
-      - [0x3D8210, data, sf33rd/Source/PS2/mc/msgtblj]
-      - [0x3D82A0, data, sf33rd/Source/PS2/mc/msgtble]
+      - [0x3D8210, .data, sf33rd/Source/PS2/mc/msgtblj]
+      - [0x3D82A0, .data, sf33rd/Source/PS2/mc/msgtble]
       - [0x3D8330, data, sf33rd/Source/Game/Message3rd/C_USA/msgSysDir_usa]
       - [0x3D8510, data, sf33rd/Source/Game/Message3rd/C_USA/msgExtra_usa]
 
@@ -1317,8 +1317,8 @@ segments:
       - [0x460728, .rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue]
       - [0x460768, .rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv]
       - [0x4607A0, .rodata, sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB]
-      - [0x4607D8, rodata, sf33rd/Source/PS2/mc/msgtblj]
-      - [0x461008, rodata, sf33rd/Source/PS2/mc/msgtble]
+      - [0x4607D8, .rodata, sf33rd/Source/PS2/mc/msgtblj]
+      - [0x461008, .rodata, sf33rd/Source/PS2/mc/msgtble]
       - [0x4619C0, .rodata, sf33rd/Source/Common/PPGWork]
       - [0x4619D8, .rodata, sf33rd/Source/PS2/reboot]
       - [0x4619F0, rodata, rodata_4619F0]
@@ -1453,8 +1453,8 @@ segments:
       - [0x474F60, sdata, sf33rd/Source/PS2/mc/msgsub]
       - [0x474F90, .sdata, sf33rd/Source/Game/vm]
       - [0x474F94, .sdata, sf33rd/Source/PS2/cseDataFiles/SpuMap]
-      - [0x474FF0, sdata, sf33rd/Source/PS2/mc/msgtblj]
-      - [0x4752F0, sdata, sf33rd/Source/PS2/mc/msgtble]
+      - [0x474FF0, .sdata, sf33rd/Source/PS2/mc/msgtblj]
+      - [0x4752F0, .sdata, sf33rd/Source/PS2/mc/msgtble]
       - [0x4755A0, sdata, sf33rd/Source/PS2/reboot]
       - [0x4755B0, sdata, sf33rd/Source/Game/Message3rd/C_USA/msgTable_usa] # Includes segment below ⬇️
       # - [0x4756B0, sdata, sf33rd/Source/Game/Message3rd/C_USA/msgMenu_usa]
@@ -1623,8 +1623,8 @@ segments:
       - { type: .sbss, vram: 0x57B260, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse }
       - { type: .sbss, vram: 0x57B2A8, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue }
       - { type: .sbss, vram: 0x57B2C0, name: sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB }
-      - { type: sbss, vram: 0x57B300, name: sf33rd/Source/PS2/mc/msgtblj }
-      - { type: sbss, vram: 0x57B304, name: sf33rd/Source/PS2/mc/msgtble }
+      - { type: .sbss, vram: 0x57B300, name: sf33rd/Source/PS2/mc/msgtblj }
+      - { type: .sbss, vram: 0x57B304, name: sf33rd/Source/PS2/mc/msgtble }
       - { type: .sbss, vram: 0x57B308, name: sf33rd/Source/Common/PPGWork }
 
       # .bss
