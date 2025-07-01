@@ -1095,11 +1095,11 @@ static u32 *make_img_pkt(u32 *p, u32 *img, u32 dbp, u32 dbw, u32 dbsm, u32 dsax,
     *((u64 *)p)++ = SCE_GS_TRXREG;
     *((u64 *)p)++ = 0;
     *((u64 *)p)++ = SCE_GS_TRXDIR;
-    *((u64 *)p)++ = ((s64)nw | 0x8000 | 0x800000000000000);
+    *((u64 *)p)++ = SCE_GIF_SET_TAG(nw, SCE_GS_TRUE, SCE_GS_FALSE, 0, SCE_GIF_IMAGE, 0);
     *((u64 *)p)++ = 0;
 
-    *p++ = nw | 0x30000000;
-    *p++ = (u32)img;
+    *p++ = DMAref | nw; // transfer size
+    *p++ = (u32)img;    // transfer addr
     *p++ = 0;
     *p++ = nw | 0x51000000;
 #endif
