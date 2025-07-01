@@ -1450,7 +1450,7 @@ segments:
       - [0x474B40, .sdata, sf33rd/Source/PS2/mc/mcsub]
       - [0x474D20, .sdata, sf33rd/Source/PS2/mc/knjsub]
       - [0x474DE8, .sdata, sf33rd/Source/PS2/mc/savesub]
-      - [0x474F60, sdata, sf33rd/Source/PS2/mc/msgsub]
+      - [0x474F60, .sdata, sf33rd/Source/PS2/mc/msgsub]
       - [0x474F90, .sdata, sf33rd/Source/Game/vm]
       - [0x474F94, .sdata, sf33rd/Source/PS2/cseDataFiles/SpuMap]
       - [0x474FF0, .sdata, sf33rd/Source/PS2/mc/msgtblj]
