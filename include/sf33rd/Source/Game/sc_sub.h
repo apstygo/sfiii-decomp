@@ -5,6 +5,7 @@
 
 void Scrscreen_Init();
 void Sa_frame_Write();
+void Sa_frame_Clear();
 void SSPutStr(u16 x, u16 y, u8 atr, s8 *str);
 void SSPutStr2(u16 x, u16 y, u8 atr, s8 *str);
 void SSPutStr_Bigger(u16 x, u16 y, u8 atr, s8 *str, f32 sc, u8 gr, u16 priority);
