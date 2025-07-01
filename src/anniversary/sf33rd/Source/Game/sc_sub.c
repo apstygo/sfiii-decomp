@@ -66,7 +66,9 @@ void Scrscreen_Init() {
     if (loadSize == 0) {
         // Could not load texture for score screen.\n
         flLogOut("スコアスクリーン用のテクスチャが読み込めませんでした。\n");
-        do { } while (1); }
+        while (1) {
+            // Do nothing
+        }
 
     ppgSetupPalChunk(&ppgScrPalOpt, (u8 *)loadAdrs, loadSize, 0, 3, 1);
     ppgSetupPalChunk(&ppgScrPalShot, (u8 *)loadAdrs, loadSize, 0, 2, 1);

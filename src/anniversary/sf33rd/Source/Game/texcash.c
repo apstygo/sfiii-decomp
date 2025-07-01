@@ -440,9 +440,9 @@ void clear_texcash_work(s16 ix) {
         }
 
         if (mts[ix].ext) {
-            work_init_zero((s32 *)mts[ix].cpat, 0x3804);
-            work_init_zero(&mts[ix].tpf->x16, 0xD08);
-            work_init_zero(&mts[ix].tpu->x16, 0xD08);
+            work_init_zero((s32 *)mts[ix].cpat, sizeof(PatternCollection));
+            work_init_zero((s32 *)mts[ix].tpf, sizeof(TexturePoolFree));
+            work_init_zero((s32 *)mts[ix].tpu, sizeof(TexturePoolUsed));
             init_texcash_2nd(ix);
         }
 
