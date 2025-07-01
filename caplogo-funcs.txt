@@ -903,7 +903,7 @@ checkAdxFileLoaded
 ppgSetupCmpChunk
 checkSelObjFileLoaded
 Clear_texcash_work
-_clear_texcash_work
+clear_texcash_work
 Debug_1st
 Standby_BGM
 remake_sound_code_for_DC
