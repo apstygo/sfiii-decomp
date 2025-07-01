@@ -252,7 +252,7 @@ void texture_cash_update() {
 
                         if ((tpu_free->x16 != mts[num].cpat->adr[i]->x16) ||
                             (tpu_free->x32 != mts[num].cpat->adr[i]->x32)) {
-                            Debug_w[0xB] = 1;
+                            Debug_w[11] = 1;
                             do {
                                 disp_texcash_free_area();
                                 flPrintL(2, 3, "MAPPING MISS : %2d : &2d", num, i);
