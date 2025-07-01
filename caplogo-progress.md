@@ -8,7 +8,7 @@ Notes:
 
 | Module   | Progress   |
 |----------|------------|
-| sf33rd   | 92.35%     |
+| sf33rd   | 96.37%     |
 | cri      | 77.86%     |
 
 | Function                         | File                                                 | Module   | Is decompiled   |
@@ -832,10 +832,10 @@ Notes:
 | Reset_Init                       | sf33rd/Source/Game/Reset.c                           | sf33rd   | ✅               |
 | Reset_Move                       | sf33rd/Source/Game/Reset.c                           | sf33rd   | ✅               |
 | Check_Reset                      | sf33rd/Source/Game/Reset.c                           | sf33rd   | ✅               |
-| KnjInit                          | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| make_env_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
+| KnjInit                          | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| make_env_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | make_pal_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
-| make_img_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
+| make_img_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | McActAvailSet                    | sf33rd/Source/PS2/mc/mcsub.c                         | sf33rd   | ✅               |
 | save_move_aload                  | sf33rd/Source/PS2/mc/savesub.c                       | sf33rd   | ✅               |
 | auto_load_init                   | sf33rd/Source/PS2/mc/savesub.c                       | sf33rd   | ✅               |
@@ -856,15 +856,15 @@ Notes:
 | KnjLocate                        | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | str_tag_get                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
 | str_str_get                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
-| KnjCheckCode                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| utf82unicode                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| unicode2index                    | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
+| KnjCheckCode                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| utf82unicode                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| unicode2index                    | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | is_unicode_han                   | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
-| KnjPuts                          | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| unicode_puts                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| get_uni_adrs                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| make_fnt_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| make_fbg_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
+| KnjPuts                          | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| unicode_puts                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| get_uni_adrs                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| make_fnt_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| make_fbg_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | str_tag_check                    | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
 | KnjSetRgb                        | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | mceGetInfoApdx                   | sdk/libmc/libmc.c                                    | sdk      | –               |

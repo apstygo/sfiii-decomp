@@ -413,7 +413,7 @@ void mlt_obj_trans_ext(MultiTexture *mt, WORK *wk, s32 base_y) {
             cp->cg.code = cc.code;
             cp->x16 = 0;
             cp->x32 = 0;
-            work_init_zero((s32 *)&cp->map, 0xD0);
+            work_init_zero((s32 *)&cp->map, sizeof(PatternMap));
             cc.parts.group = i;
 
             while (count--) {
@@ -790,7 +790,7 @@ void mlt_obj_trans_cp3_ext(MultiTexture *mt, WORK *wk, s32 base_y) {
             cp->cg.code = cc.code;
             cp->x16 = 0;
             cp->x32 = 0;
-            work_init_zero((s32 *)&cp->map, 0xD0);
+            work_init_zero((s32 *)&cp->map, sizeof(PatternMap));
             cc.parts.group = i;
 
             while (count--) {

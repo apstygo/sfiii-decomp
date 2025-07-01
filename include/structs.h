@@ -2679,73 +2679,25 @@ typedef struct {
 } END_W;
 
 typedef union {
-    signed int psi; // offset 0x0, size 0x4
-    struct /* @anon6 */ {
+    s32 psi; // offset 0x0, size 0x4
+    struct {
         // total size: 0x4
-        signed short l; // offset 0x0, size 0x2
-        signed short h; // offset 0x2, size 0x2
-    } pss;              // offset 0x0, size 0x4
+        s16 l; // offset 0x0, size 0x2
+        s16 h; // offset 0x2, size 0x2
+    } pss;     // offset 0x0, size 0x4
 } MS;
-
-typedef struct {
-    // total size: 0x4
-    u8 r; // offset 0x0, size 0x1
-    u8 g; // offset 0x1, size 0x1
-    u8 b; // offset 0x2, size 0x1
-    u8 a; // offset 0x3, size 0x1
-} RGBA;
-
-typedef struct {
-    // total size: 0x9C
-    u32 type;              // offset 0x0, size 0x4
-    u32 sort;              // offset 0x4, size 0x4
-    u32 fontw;             // offset 0x8, size 0x4
-    u32 fonth;             // offset 0xC, size 0x4
-    u32 grada;             // offset 0x10, size 0x4
-    u32 bound;             // offset 0x14, size 0x4
-    u32 bsize;             // offset 0x18, size 0x4
-    u32 fmax;              // offset 0x1C, size 0x4
-    u32 fone;              // offset 0x20, size 0x4
-    u32 pmax;              // offset 0x24, size 0x4
-    uintptr_t font_adrs;   // offset 0x28, size 0x4
-    uintptr_t img_adrs[2]; // offset 0x2C, size 0x8
-    RGBA *rgba_adrs;       // offset 0x34, size 0x4
-    u32 *pack_top[2];      // offset 0x38, size 0x8
-    u32 *pack_fnt[2];      // offset 0x40, size 0x8
-    u32 pack_idx;          // offset 0x48, size 0x4
-    u32 *pack_cur;         // offset 0x4C, size 0x4
-    u32 pack_size;         // offset 0x50, size 0x4
-    u32 fdbp;              // offset 0x54, size 0x4
-    u32 pdbp;              // offset 0x58, size 0x4
-    u32 mem_size;          // offset 0x5C, size 0x4
-    u32 dmax;              // offset 0x60, size 0x4
-    u32 dcur;              // offset 0x64, size 0x4
-    u32 dlast;             // offset 0x68, size 0x4
-    u32 dispw;             // offset 0x6C, size 0x4
-    u32 disph;             // offset 0x70, size 0x4
-    s32 x;                 // offset 0x74, size 0x4
-    s32 y;                 // offset 0x78, size 0x4
-    u32 z;                 // offset 0x7C, size 0x4
-    u32 palet;             // offset 0x80, size 0x4
-    u32 color;             // offset 0x84, size 0x4
-    u32 bg_mode;           // offset 0x88, size 0x4
-    u32 bg_color;          // offset 0x8C, size 0x4
-    u32 uni_half;          // offset 0x90, size 0x4
-    u32 uni_table;         // offset 0x94, size 0x4
-    u32 uni_ascii;         // offset 0x98, size 0x4
-} Kanji_W;
 
 typedef struct {
     // total size: 0x8
     union {
-        signed short full; // offset 0x0, size 0x2
+        s16 full; // offset 0x0, size 0x2
         struct {
             // total size: 0x2
-            signed char l; // offset 0x0, size 0x1
-            signed char h; // offset 0x1, size 0x1
-        } half;            // offset 0x0, size 0x2
-    } size;                // offset 0x0, size 0x2
-    signed int step;       // offset 0x4, size 0x4
+            s8 l; // offset 0x0, size 0x1
+            s8 h; // offset 0x1, size 0x1
+        } half;   // offset 0x0, size 0x2
+    } size;       // offset 0x0, size 0x2
+    s32 step;     // offset 0x4, size 0x4
 } Round_Timer;
 
 typedef struct {

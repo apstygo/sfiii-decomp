@@ -814,7 +814,7 @@ segments:
       - [0x3C4310, data, sdk/libdbc/libdbc]
       - [0x3C4328, data, sdk/libpad2/libpad2]
 
-      - [0x3C4360, data, sf33rd/Source/PS2/mc/knjsub]
+      - [0x3C4360, .data, sf33rd/Source/PS2/mc/knjsub]
       - [0x3C4670, .data, sf33rd/Source/PS2/cseDataFiles/PHD_PL03]
       - [0x3C4A00, .data, sf33rd/Source/PS2/cseDataFiles/PHD_PL01]
       - [0x3C4DB0, .data, sf33rd/Source/PS2/cseDataFiles/PHD_PL02]
@@ -1448,7 +1448,7 @@ segments:
       - [0x4749F0, .sdata, sf33rd/AcrSDK/ps2/foundaps2]
       - [0x4749F4, .sdata, sf33rd/AcrSDK/ps2/ps2PAD]
       - [0x474B40, .sdata, sf33rd/Source/PS2/mc/mcsub]
-      - [0x474D20, sdata, sf33rd/Source/PS2/mc/knjsub]
+      - [0x474D20, .sdata, sf33rd/Source/PS2/mc/knjsub]
       - [0x474DE8, .sdata, sf33rd/Source/PS2/mc/savesub]
       - [0x474F60, sdata, sf33rd/Source/PS2/mc/msgsub]
       - [0x474F90, .sdata, sf33rd/Source/Game/vm]
