@@ -2679,33 +2679,25 @@ typedef struct {
 } END_W;
 
 typedef union {
-    signed int psi; // offset 0x0, size 0x4
-    struct /* @anon6 */ {
+    s32 psi; // offset 0x0, size 0x4
+    struct {
         // total size: 0x4
-        signed short l; // offset 0x0, size 0x2
-        signed short h; // offset 0x2, size 0x2
-    } pss;              // offset 0x0, size 0x4
+        s16 l; // offset 0x0, size 0x2
+        s16 h; // offset 0x2, size 0x2
+    } pss;     // offset 0x0, size 0x4
 } MS;
-
-typedef struct {
-    // total size: 0x4
-    u8 r; // offset 0x0, size 0x1
-    u8 g; // offset 0x1, size 0x1
-    u8 b; // offset 0x2, size 0x1
-    u8 a; // offset 0x3, size 0x1
-} RGBA;
 
 typedef struct {
     // total size: 0x8
     union {
-        signed short full; // offset 0x0, size 0x2
+        s16 full; // offset 0x0, size 0x2
         struct {
             // total size: 0x2
-            signed char l; // offset 0x0, size 0x1
-            signed char h; // offset 0x1, size 0x1
-        } half;            // offset 0x0, size 0x2
-    } size;                // offset 0x0, size 0x2
-    signed int step;       // offset 0x4, size 0x4
+            s8 l; // offset 0x0, size 0x1
+            s8 h; // offset 0x1, size 0x1
+        } half;   // offset 0x0, size 0x2
+    } size;       // offset 0x0, size 0x2
+    s32 step;     // offset 0x4, size 0x4
 } Round_Timer;
 
 typedef struct {

@@ -9,6 +9,14 @@
 #include <stdio.h>
 #include <string.h>
 
+typedef struct _rgba {
+    // total size: 0x4
+    u8 r; // offset 0x0, size 0x1
+    u8 g; // offset 0x1, size 0x1
+    u8 b; // offset 0x2, size 0x1
+    u8 a; // offset 0x3, size 0x1
+} _rgba;
+
 typedef struct _kanji_w {
     // total size: 0x9C
     u32 type;              // offset 0x0, size 0x4
@@ -23,7 +31,7 @@ typedef struct _kanji_w {
     u32 pmax;              // offset 0x24, size 0x4
     uintptr_t font_adrs;   // offset 0x28, size 0x4
     uintptr_t img_adrs[2]; // offset 0x2C, size 0x8
-    RGBA *rgba_adrs;       // offset 0x34, size 0x4
+    _rgba *rgba_adrs;      // offset 0x34, size 0x4
     u32 *pack_top[2];      // offset 0x38, size 0x8
     u32 *pack_fnt[2];      // offset 0x40, size 0x8
     u32 pack_idx;          // offset 0x48, size 0x4
@@ -310,14 +318,14 @@ _kanji_w kanji_w;
 void KnjInit(u32 type, uintptr_t adrs, u32 disp_max, u32 top_dbp) {
     s32 i;
     s32 j;
-    RGBA *rp;
+    _rgba *rp;
     u8 *pt;
     _kanji_tbl *tbl;
     u32 psize;
     u32 *pp;
     _kanji_w *kw = &kanji_w;
 
-    RGBA *unused_s8;
+    _rgba *unused_s8;
 
     memset(kw, 0, sizeof(_kanji_w));
     kw->type = type;
@@ -343,7 +351,7 @@ void KnjInit(u32 type, uintptr_t adrs, u32 disp_max, u32 top_dbp) {
         adrs = (adrs + (kw->bsize * kw->dmax) + 0x3F) / 64 * 64;
     }
 
-    kw->rgba_adrs = (RGBA *)adrs;
+    kw->rgba_adrs = (_rgba *)adrs;
     rp = kw->rgba_adrs;
     pt = tbl->pal_tbl;
 
