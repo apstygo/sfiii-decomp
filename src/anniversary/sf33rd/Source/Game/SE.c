@@ -1,7 +1,13 @@
 #include "sf33rd/Source/Game/SE.h"
 #include "common.h"
 #include "sf33rd/AcrSDK/ps2/flps2debug.h"
+#include "sf33rd/Source/Game/Se_Data.h"
+#include "sf33rd/Source/Game/Sound3rd.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/appear.h"
+#include "sf33rd/Source/Game/bg_sub.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
+#include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
 
 #define SDEB_SIZE 8
@@ -17,55 +23,59 @@ const u16 BGM_Stage_Data[22] = { 46, 1, 13, 34, 31, 4, 7, 16, 25, 28, 34, 1, 28,
 const s16 SE_Shock_Data[7] = { 285, 286, 287, 288, 289, 305, 306 };
 const s16 Finish_SE_Data[2][7] = { { 305, 306, 285, 286, 287, 288, 272 }, { 292, 293, 290, 291, 287, 288, 272 } };
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Stage_BGM);
+void Stage_BGM(u16 Stage_Number, u16 Round_Number) {
+    u16 code;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Sound_SE);
-#else
+    if (Mode_Type == 0 && Play_Type == 0 && My_char[COM_id] == 17 && Bonus_Game_Flag == 0) {
+        code = BGM_Stage_Data[17] + bgm_selector[sys_w.bgm_type][Round_Number & 7];
+    } else {
+        code = BGM_Stage_Data[Stage_Number] + bgm_selector[sys_w.bgm_type][Round_Number & 7];
+    }
+
+    *gSeqStatus = 0;
+
+    if (code == 0x2E && gill_appear_check() == 0) {
+        Go_BGM();
+        return;
+    }
+
+    SsRequest(code);
+}
+
 void Sound_SE(s16 Code) {
-    not_implemented(__func__);
+    SsRequest(Code);
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", BGM_Request);
-#else
 void BGM_Request(s16 Code) {
-    not_implemented(__func__);
+    SsRequest(Code);
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", BGM_Request_Code_Check);
-#else
 void BGM_Request_Code_Check(u16 Code) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void SsRequest_CC(u32 num);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", BGM_Stop);
-#else
+    SsRequest_CC(Code);
+}
+
 void BGM_Stop() {
-    not_implemented(__func__);
+    SsBgmOff();
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", SE_All_Off);
-#else
 void SE_All_Off() {
-    not_implemented(__func__);
+    spu_all_off();
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Se_Dummy);
-#else
 void Se_Dummy(WORK_Other *ewk, u16 Code) {
-    not_implemented(__func__);
+    SoundPatchConfig rmc;
+
+    rmc.ptix = 0;
+    rmc.bank = 0;
+    rmc.port = 0;
+    rmc.code = 0;
+
+    Store_Sound_Code(Code, &rmc);
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Se_Shock);
@@ -75,61 +85,136 @@ void Se_Shock(WORK_Other *ewk, u16 Code) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Se_Myself);
-#else
 void Se_Myself(WORK_Other *ewk, u16 Code) {
-    not_implemented(__func__);
-}
-#endif
+    s16 xx;
+    s16 uid;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Se_Myself_Die);
-#else
+    uid = ewk->wu.id;
+    if ((ewk->wu.work_id == 1) || (uid = (ewk->master_id), uid < 2)) {
+        if (Code) {
+            Code += (((uid)) * 0x300);
+        }
+
+        xx = Get_Position((PLW *)ewk);
+        SsRequestPan(Code, xx, xx, 0, 2);
+    }
+}
+
 void Se_Myself_Die(WORK_Other *ewk, u16 Code) {
-    not_implemented(__func__);
-}
-#endif
+    s16 xx;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Se_Let);
-#else
+    if ((ewk->wu.work_id == 1) && (ewk->wu.vital_new >= 0)) {
+        if (Code) {
+            Code += ewk->wu.id * 0x300;
+        }
+        xx = Get_Position((PLW *)ewk);
+        SsRequestPan(Code, xx, xx, 0, 2);
+    }
+}
+
 void Se_Let(WORK_Other *ewk, u16 Code) {
-    not_implemented(__func__);
-}
-#endif
+    s16 xx;
+    s16 uid;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Se_Let_SP);
-#else
+    Code = Check_Bonus_SE(Code);
+
+    if (ewk->wu.work_id == 1) {
+        uid = ewk->wu.id;
+    } else {
+        uid = ewk->master_id;
+    }
+
+    if (Code) {
+        Code += uid * 0x300;
+    }
+
+    xx = Get_Position((PLW *)ewk);
+    SsRequestPan(Code, xx, xx, 0, 2);
+}
+
 void Se_Let_SP(WORK_Other *ewk, u16 Code) {
-    not_implemented(__func__);
-}
-#endif
+    PLW *em;
+    s16 xx;
+    s16 uid;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Call_Se);
-#else
+    if (ewk->wu.work_id == 1) {
+        uid = ewk->wu.id;
+    } else {
+        uid = ewk->master_id;
+    }
+
+    em = (PLW *)ewk->wu.target_adrs;
+
+    if ((em->wu.work_id == 1) && (em->wu.vital_new < 0)) {
+        if (Code == 0x14B) {
+            Code = 0x158;
+        }
+        if (Code == 0x13A) {
+            Code = 0x15A;
+        }
+    }
+
+    if (Code) {
+        Code += uid * 0x300;
+    }
+
+    xx = Get_Position((PLW *)ewk);
+    SsRequestPan(Code, xx, xx, 0, 2);
+}
+
 void Call_Se(WORK_Other *ewk, u16 Code) {
-    not_implemented(__func__);
-}
-#endif
+    s16 xx;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Se_Term);
-#else
-void Se_Term(WORK_Other *ewk, u16 Code) {
-    not_implemented(__func__);
+    xx = Get_Position((PLW *)ewk);
+    SsRequestPan(Code, xx, xx, 0, 2);
 }
-#endif
+
+void Se_Term(WORK_Other *ewk, u16 Code) {
+    s16 xx;
+
+    if (ewk->wu.work_id == 1) {
+        if ((ewk->wu.mvxy.a[1].sp >= 0) || (ewk->wu.xyz[1].disp.pos > 64)) {
+            if (Code) {
+                Code += ewk->wu.id * 0x300;
+            }
+
+            xx = Get_Position((PLW *)ewk);
+            SsRequestPan(Code, xx, xx, 0, 2);
+        }
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Finish_SE);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Check_Finish_SE);
+s32 Check_Finish_SE() {
+    s16 xx;
+
+    for (xx = 0; xx < 7; xx++) {
+        if (Last_Called_SE == Finish_SE_Data[0][xx]) {
+            return Finish_SE_Data[1][xx];
+        }
+    }
+
+    return -1;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Get_Position);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Check_Bonus_SE);
+u16 Check_Bonus_SE(u16 Code) {
+    if ((Bonus_Game_Flag == 0) || (Bonus_Type != 20)) {
+        return Code;
+    }
+
+    if (Code < 0x100) {
+        return Code;
+    }
+
+    if (Code >= 0x760) {
+        return Code;
+    }
+
+    return Bonus_Voice_Data[Code - 0x100];
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Store_Sound_Code);

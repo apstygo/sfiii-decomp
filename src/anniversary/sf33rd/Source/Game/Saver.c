@@ -1,18 +1,19 @@
 #include "sf33rd/Source/Game/Saver.h"
+#include "common.h"
+#include "sf33rd/Source/Game/Reset.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/sc_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
-#include "sf33rd/Source/Game/WORK_SYS.h"
-#include "common.h"
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Saver", Saver_Task);
-#else
 void Saver_Task(struct _TASK *task_ptr) {
-    not_implemented(__func__);
-}
-#endif
+    void (*const Main_Jmp_Tbl[4])(struct _TASK *) = { Saver_Init, Saver_Check, Saver_Move, Saver_Exit };
 
-void Saver_Init(struct _TASK* task_ptr) {
+    if (!nowSoftReset()) {
+        Main_Jmp_Tbl[task_ptr->r_no[0]](task_ptr);
+    }
+}
+
+void Saver_Init(struct _TASK *task_ptr) {
     task_ptr->r_no[0] = 1;
     task_ptr->r_no[1] = 0;
     task_ptr->r_no[2] = 0;
@@ -36,7 +37,7 @@ void Saver_Check(struct _TASK *task_ptr) {
     }
 }
 
-void Saver_Move(struct _TASK* task_ptr) {
+void Saver_Move(struct _TASK *task_ptr) {
     if ((PLsw[0][0] != 0) || PLsw[1][0] != 0) {
         Saver_Init(task_ptr);
 
@@ -63,7 +64,7 @@ void Saver_Move(struct _TASK* task_ptr) {
     }
 }
 
-void Saver_Exit(struct _TASK* task_ptr) {
+void Saver_Exit(struct _TASK *task_ptr) {
     switch (task_ptr->r_no[1]) {
     case 0:
         task_ptr->r_no[1] += 1;
