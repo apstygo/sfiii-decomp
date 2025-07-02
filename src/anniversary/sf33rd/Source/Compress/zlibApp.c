@@ -53,7 +53,7 @@ ssize_t zlib_Decompress(void *srcBuff, s32 srcSize, void *dstBuff, s32 dstSize) 
     zlib.info.avail_out = dstSize;
     zlib.state = 0;
 
-    if (inflateInit_(&zlib.info, ZLIB_VERSION, 0x48) != 0) {
+    if (inflateInit_(&zlib.info, ZLIB_VERSION, sizeof(z_stream)) != 0) {
         return 0;
     }
 
