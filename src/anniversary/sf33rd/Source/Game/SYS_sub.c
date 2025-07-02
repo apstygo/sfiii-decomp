@@ -155,6 +155,7 @@ void Game_Data_Init() {
 
     Setup_Default_Game_Option();
     mpp_w.cutAnalogStickData = 0;
+
     if ((flpad_adr[0][0].sw & 0x330) == 0x330) {
         mpp_w.cutAnalogStickData = 1;
     } else if ((flpad_adr[0][1].sw & 0x330) == 0x330) {

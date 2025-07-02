@@ -6,11 +6,7 @@ struct internal_state {
     s32 dummy;
 };
 
-#if defined(TARGET_PS2)
 #include "zlib.h"
-#else
-#include <zlib.h>
-#endif
 
 typedef struct {
     // total size: 0x78
