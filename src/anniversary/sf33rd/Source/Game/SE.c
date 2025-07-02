@@ -198,7 +198,13 @@ s32 Check_Finish_SE() {
     return -1;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Get_Position);
+#else
+u16 Get_Position(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 u16 Check_Bonus_SE(u16 Code) {
     if ((Bonus_Game_Flag == 0) || (Bonus_Type != 20)) {
