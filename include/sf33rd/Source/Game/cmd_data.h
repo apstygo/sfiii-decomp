@@ -23,8 +23,8 @@ extern const s16 pl_cmd_num[20][7];
 extern const s16 lever_gacha_tbl[16];
 extern const u16 chk22_tbl[8];
 
-extern void *pl_cmd[20];
-extern void *pl_CMD[20];
+extern void *pl_cmd[];
+extern void *pl_CMD[];
 extern const_s16_arr *player_CMD[];
 extern const_s16_arr *player_cmd[];
 extern s16 lvr_chk_tbl[2][4];

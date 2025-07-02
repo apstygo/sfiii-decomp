@@ -6,7 +6,7 @@
 
 void waza_check(PLW *pl);
 void key_thru(PLW *pl);
-void cmd_data_set(s32 /* unused */, s16 i);
+void cmd_data_set(PLW * /* unused */, s16 i);
 void cmd_init(PLW *pl);
 void cmd_move();
 void check_init();
