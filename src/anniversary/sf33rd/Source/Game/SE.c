@@ -131,13 +131,16 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Get_Position);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Check_Bonus_SE);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Store_Sound_Code);
-#else
 void Store_Sound_Code(u16 code, SoundPatchConfig *rmc) {
-    not_implemented(__func__);
+    s16 i;
+
+    for (i = 7; i > 0; i--) {
+        sdeb[i] = sdeb[i - 1];
+    }
+
+    sdeb->cp3code = code;
+    sdeb->rmc = *rmc;
 }
-#endif
 
 void Disp_Sound_Code() {
     s16 i;
