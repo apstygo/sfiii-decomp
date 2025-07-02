@@ -21,6 +21,7 @@ extern PLW *cmd_pl;
 extern const s16 ukemi_time_tbl[17];
 extern const s16 pl_cmd_num[20][7];
 extern const s16 lever_gacha_tbl[16];
+extern const u16 chk22_tbl[8];
 
 extern void *pl_cmd[20];
 extern void *pl_CMD[20];
