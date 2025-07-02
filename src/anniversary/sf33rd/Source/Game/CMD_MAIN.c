@@ -92,7 +92,13 @@ void cmd_init(PLW *pl) {
     waza_compel_all_init(pl);
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CMD_MAIN", cmd_move);
+#else
+void cmd_move() {
+    not_implemented(__func__);
+}
+#endif
 
 void check_init() {
     cmd_tbl_ptr += 12;
@@ -1519,7 +1525,13 @@ s32 dead_lvr_check() {
     return 1;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CMD_MAIN", pl_lvr_set);
+#else
+void pl_lvr_set() {
+    not_implemented(__func__);
+}
+#endif
 
 void sw_pick_up() {
     s16 i;
@@ -1625,7 +1637,13 @@ void waza_compel_init(s16 pl_id, s16 num, s32 *adrs) {
     wcp[pl_id].waza_flag[num] = 0;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CMD_MAIN", waza_compel_all_init);
+#else
+void waza_compel_all_init(PLW *pl) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CMD_MAIN", waza_compel_all_init2);
 
