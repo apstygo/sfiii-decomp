@@ -1,6 +1,7 @@
 #include "sf33rd/Source/Game/SE.h"
 #include "common.h"
 #include "sf33rd/AcrSDK/ps2/flps2debug.h"
+#include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/Se_Data.h"
 #include "sf33rd/Source/Game/Sound3rd.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
@@ -77,13 +78,41 @@ void Se_Dummy(WORK_Other *ewk, u16 Code) {
     Store_Sound_Code(Code, &rmc);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Se_Shock);
-#else
 void Se_Shock(WORK_Other *ewk, u16 Code) {
-    not_implemented(__func__);
+    PLW *em;
+    s16 xx;
+    s16 zz;
+    s16 uid;
+
+    s16 assign1;
+
+    Code = Check_Bonus_SE(Code);
+
+    if (ewk->wu.work_id == 1) {
+        em = (PLW *)ewk->wu.target_adrs;
+        uid = ewk->wu.id;
+    } else {
+        em = (PLW *)((PLW *)ewk->my_master)->wu.target_adrs;
+        uid = ewk->master_id;
+    }
+
+    if (em->wu.work_id == 1 && em->wu.vital_new < 0) {
+        for (xx = 0, assign1 = zz = 0x27; xx < 7; xx++) {
+            if (Code == SE_Shock_Data[xx]) {
+                zz = 0;
+                break;
+            }
+        }
+        Code += zz;
+    }
+
+    if (Code) {
+        Code += uid * 0x300;
+    }
+
+    xx = Get_Position((PLW *)ewk);
+    SsRequestPan(Code, xx, xx, 0, 2);
 }
-#endif
 
 void Se_Myself(WORK_Other *ewk, u16 Code) {
     s16 xx;
@@ -184,7 +213,26 @@ void Se_Term(WORK_Other *ewk, u16 Code) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Finish_SE);
+void Finish_SE() {
+    PLW *wk;
+    s16 xx;
+    s16 Code;
+
+    Code = Check_Finish_SE();
+
+    if (Code == -1) {
+        return;
+    }
+
+    wk = &plw[Winner_id];
+
+    if (Code) {
+        Code += (wk->wu.id * 0x300);
+    }
+
+    xx = Get_Position(wk);
+    SsRequestPan(Code, xx, xx, 0, 2);
+}
 
 s32 Check_Finish_SE() {
     s16 xx;
@@ -198,13 +246,28 @@ s32 Check_Finish_SE() {
     return -1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Get_Position);
-#else
 u16 Get_Position(PLW *wk) {
-    not_implemented(__func__);
+    u16 xx;
+    u16 yy;
+
+    xx = get_center_position();
+    xx -= 0xC0;
+    xx = wk->wu.position_x - xx;
+    xx /= 4;
+    xx += 16;
+
+    if (xx < 0x70) {
+        return xx;
+    }
+
+    yy = get_center_position();
+
+    if (yy > wk->wu.position_x) {
+        return 0x10;
+    }
+
+    return 0x70;
 }
-#endif
 
 u16 Check_Bonus_SE(u16 Code) {
     if ((Bonus_Game_Flag == 0) || (Bonus_Type != 20)) {
@@ -222,13 +285,16 @@ u16 Check_Bonus_SE(u16 Code) {
     return Bonus_Voice_Data[Code - 0x100];
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Store_Sound_Code);
-#else
 void Store_Sound_Code(u16 code, SoundPatchConfig *rmc) {
-    not_implemented(__func__);
+    s16 i;
+
+    for (i = 7; i > 0; i--) {
+        sdeb[i] = sdeb[i - 1];
+    }
+
+    sdeb->cp3code = code;
+    sdeb->rmc = *rmc;
 }
-#endif
 
 void Disp_Sound_Code() {
     s16 i;
