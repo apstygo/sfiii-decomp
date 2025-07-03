@@ -2716,4 +2716,23 @@ typedef struct {
     s16 timer[2];    // offset 0x16, size 0x4
 } CMST_BUFF;
 
+typedef struct {
+    // total size: 0xA
+    signed short offence_total;  // offset 0x0, size 0x2
+    signed short defence_total;  // offset 0x2, size 0x2
+    signed short tech_pts_total; // offset 0x4, size 0x2
+    signed short ex_point_total; // offset 0x6, size 0x2
+    signed short grade;          // offset 0x8, size 0x2
+} JudgeGals;
+
+typedef struct {
+    // total size: 0xC
+    signed short offence_total;  // offset 0x0, size 0x2
+    signed short defence_total;  // offset 0x2, size 0x2
+    signed short tech_pts_total; // offset 0x4, size 0x2
+    signed short ex_point_total; // offset 0x6, size 0x2
+    signed short round;          // offset 0x8, size 0x2
+    signed short grade;          // offset 0xA, size 0x2
+} JudgeCom;
+
 #endif

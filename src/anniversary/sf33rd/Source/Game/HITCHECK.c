@@ -52,7 +52,13 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", sel_h
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", set_paring_status);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", check_normal_attack);
+#else
+s32 check_normal_attack(u8 waza) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", hit_pattern_extdat_check);
 
