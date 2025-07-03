@@ -1,7 +1,7 @@
 #ifndef ADX_ERRS_H
 #define ADX_ERRS_H
 
-#include "types.h"
+#include <cri/ee/cri_xpt.h>
 
 void ADXERR_Init();
 void ADXERR_Finish();
