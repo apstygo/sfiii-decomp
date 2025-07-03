@@ -424,13 +424,16 @@ void KnjSetColor(u32 color) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/knjsub", KnjSetAlpha);
-#else
 void KnjSetAlpha(u32 alpha) {
-    not_implemented(__func__);
+    _kanji_w *kw = &kanji_w;
+
+    if (KnjUseCheck() == 0) {
+        return;
+    }
+
+    kw->color = (kw->color & 0xFFFFFF) | (alpha << 0x18);
+    kw->bg_color = (kw->bg_color & 0xFFFFFF) | (alpha << 0x18);
 }
-#endif
 
 void KnjSetRgb(u32 color) {
     _kanji_w *kw = &kanji_w;
@@ -729,7 +732,7 @@ static u32 ascii2sjis_nec(u8 data) {
     return data + 0x7FFF + 0x4FF;
 }
 
-static s32 utf82unicode(u8 **str) {
+static s32 utf82unicode(const u8 **str) {
     s32 code;
     s32 tmpa;
     s32 tmpb;
@@ -961,13 +964,43 @@ static void unicode_puts(_kanji_w *kw, const s8 *str) {
     kw->pack_cur = pp;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/knjsub", KnjStrLen);
-#else
 s32 KnjStrLen(const s8 *str) {
-    not_implemented(__func__);
+    u32 index;
+    s32 ret;
+    s32 code;
+    const u8 *str_buf;
+    _kanji_w *kw = &kanji_w;
+
+    if (kw->sort != 2) {
+        return strlen(str);
+    }
+
+    ret = 0;
+    str_buf = (const u8 *)str;
+
+    while (1) {
+        code = utf82unicode(&str_buf);
+
+        if (code == 0) {
+            break;
+        }
+
+        if (kw->uni_ascii == 0) {
+            if (code < 0x10) {
+                ret += 2;
+                continue;
+            } else if (code < 0x80) {
+                ret += 1;
+                continue;
+            }
+        }
+
+        index = unicode2index(kw, code);
+        ret += (is_unicode_han(kw, index) == 0) ? 2 : 1;
+    }
+
+    return ret;
 }
-#endif
 
 s32 KnjCheckCode(const s8 *str) {
     s32 ret;
