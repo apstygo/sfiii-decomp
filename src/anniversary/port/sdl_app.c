@@ -1,5 +1,6 @@
 #include "port/sdl_app.h"
 #include "port/sdk_threads.h"
+#include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "sf33rd/Source/Game/main.h"
 
 #include <SDL3/SDL.h>
@@ -55,12 +56,18 @@ int SDLApp_PollEvents() {
 }
 
 void SDLApp_BeginFrame() {
-    const double now = ((double)SDL_GetTicks()) / 1000.0; /* convert from milliseconds to seconds. */
-    /* choose the color for the frame we will draw. The sine wave trick makes it fade between colors smoothly. */
-    const float red = (float)(0.5 + 0.5 * SDL_sin(now));
-    const float green = (float)(0.5 + 0.5 * SDL_sin(now + SDL_PI_D * 2 / 3));
-    const float blue = (float)(0.5 + 0.5 * SDL_sin(now + SDL_PI_D * 4 / 3));
-    SDL_SetRenderDrawColorFloat(renderer, red, green, blue, SDL_ALPHA_OPAQUE_FLOAT); /* new color, full alpha. */
+    // const double now = ((double)SDL_GetTicks()) / 1000.0; /* convert from milliseconds to seconds. */
+    // /* choose the color for the frame we will draw. The sine wave trick makes it fade between colors smoothly. */
+    // const float red = (float)(0.5 + 0.5 * SDL_sin(now));
+    // const float green = (float)(0.5 + 0.5 * SDL_sin(now + SDL_PI_D * 2 / 3));
+    // const float blue = (float)(0.5 + 0.5 * SDL_sin(now + SDL_PI_D * 4 / 3));
+    // SDL_SetRenderDrawColorFloat(renderer, red, green, blue, SDL_ALPHA_OPAQUE_FLOAT); /* new color, full alpha. */
+
+    const Uint8 a = flPs2State.FrameClearColor >> 24;
+    const Uint8 r = (flPs2State.FrameClearColor >> 16) & 0xFF;
+    const Uint8 g = (flPs2State.FrameClearColor >> 8) & 0xFF;
+    const Uint8 b = flPs2State.FrameClearColor & 0xFF;
+    SDL_SetRenderDrawColor(renderer, r, g, b, a);
 
     /* clear the window to the draw color. */
     SDL_RenderClear(renderer);
