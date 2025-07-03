@@ -245,7 +245,13 @@ void renew_judge_final_work(s16 ix, s16 pt) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", makeup_final_grade);
+#else
+void makeup_final_grade(s16 ix, s16 pt) {
+    not_implemented(__func__);
+}
+#endif
 
 void grade_final_grade_bonus() {
     u32 bonus_point = grade_t_table[judge_final[WGJ_Target][Final_Play_Type[WGJ_Target]].grade][1];
@@ -253,7 +259,13 @@ void grade_final_grade_bonus() {
     Score[WGJ_Target][Final_Play_Type[WGJ_Target]] += bonus_point;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", makeup_spp_frdat);
+#else
+void makeup_spp_frdat(s16 ix, s16 pt) {
+    not_implemented(__func__);
+}
+#endif
 
 void grade_makeup_round_parameter(s16 ix) {
 #if defined(TARGET_PS2)
@@ -328,7 +340,13 @@ void grade_makeup_judgement_gals() {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", grade_makeup_stage_parameter);
+#else
+void grade_makeup_stage_parameter(s16 ix) {
+    not_implemented(__func__);
+}
+#endif
 
 s32 rannyuu_Q_check(s16 ix) {
     if ((Round_Operator[ix] == 0) && (My_char[ix] == 17)) {
@@ -371,9 +389,21 @@ void grade_makeup_bonus_parameter(s16 ix) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", get_offence_total);
+#else
+s16 get_offence_total(s16 ix) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", get_defence_total);
+#else
+s16 get_defence_total(s16 ix, s16 wf) {
+    not_implemented(__func__);
+}
+#endif
 
 s16 get_tech_pts_total(s16 ix) {
     s16 i;
