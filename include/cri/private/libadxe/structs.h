@@ -415,6 +415,11 @@ typedef struct {
     /* 0x64 */ void (*unk64)();
 } CVFSDevice;
 
+typedef struct {
+    CVFSDevice *device;
+    void *fd;
+} CVFSHandle;
+
 // DVG_CI
 
 #define DVG_CI_MAX_OBJ 40

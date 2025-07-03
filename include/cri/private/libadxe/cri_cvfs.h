@@ -5,11 +5,6 @@
 
 #include <cri/cri_xpts.h>
 
-typedef struct {
-    CVFSDevice *device;
-    void *fd;
-} CVFSHandle;
-
 void *cvFsOpen(const Char8 *fname, void *arg1, Sint32 arg2);
 void cvFsClose(CVFSHandle *);
 void cvFsSeek(CVFSHandle *, Sint32, Sint32);
