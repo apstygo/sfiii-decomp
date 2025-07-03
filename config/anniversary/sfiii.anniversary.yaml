@@ -1563,7 +1563,7 @@ segments:
       - { type: .sbss, vram: 0x57903C, name: sf33rd/Source/Game/Entry }
       - { type: .sbss, vram: 0x579078, name: sf33rd/Source/Game/GameOver }
       - { type: .sbss, vram: 0x57907C, name: sf33rd/Source/Game/GD3rd }
-      - { type: sbss, vram: 0x5790A0, name: sf33rd/Source/Game/Grade }
+      - { type: .sbss, vram: 0x5790A0, name: sf33rd/Source/Game/Grade }
       - { type: .sbss, vram: 0x5790F4, name: sf33rd/Source/Game/HITCHECK }
       - { type: .sbss, vram: 0x579220, name: sf33rd/Source/Game/init3rd }
       - { type: .sbss, vram: 0x579230, name: sf33rd/Source/Game/IOConv }
