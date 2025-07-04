@@ -12,6 +12,8 @@
 #include "sf33rd/Source/Game/sc_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 
+u8 Candidate_Buff[16];
+
 // forward decls
 void Get_Replay(s16 PL_id);
 void Replay(s16 PL_id);
