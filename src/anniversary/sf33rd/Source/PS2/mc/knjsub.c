@@ -9,6 +9,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#if !defined(TARGET_PS2)
+#include "port/sdl_app.h"
+#endif
+
 typedef struct _rgba {
     // total size: 0x4
     u8 r; // offset 0x0, size 0x1
@@ -1077,7 +1081,6 @@ static u32 *make_env_pkt(u32 *p, u32 /* unused */, u32 /* unused */) {
 }
 
 static u32 *make_img_pkt(u32 *p, u32 *img, u32 dbp, u32 dbw, u32 dbsm, u32 dsax, u32 dsay, u32 rrw, u32 rrh) {
-#if defined(TARGET_PS2)
     s32 nw;
     s32 pw;
     s32 md;
@@ -1105,6 +1108,9 @@ static u32 *make_img_pkt(u32 *p, u32 *img, u32 dbp, u32 dbw, u32 dbsm, u32 dsax,
         pw = 1;
     }
 
+#if !defined(TARGET_PS2)
+    SDLApp_CreateKnjsubTexture(rrw, rrh, img, dbsm);
+#else
     nw = rrw * rrh * pw / 32;
 
     if ((rrw * rrh * pw) % 32) {
@@ -1122,9 +1128,9 @@ static u32 *make_img_pkt(u32 *p, u32 *img, u32 dbp, u32 dbw, u32 dbsm, u32 dsax,
     *((u64 *)p)++ = SCE_GS_TEXFLUSH;
     *((u64 *)p)++ = SCE_GS_SET_BITBLTBUF(0, 0, 0, dbp, dbw, dbsm);
     *((u64 *)p)++ = SCE_GS_BITBLTBUF;
-    *((u64 *)p)++ = SCE_GS_SET_SCISSOR(0, 0, dsax, dsay);
+    *((u64 *)p)++ = SCE_GS_SET_TRXPOS(0, 0, dsax, dsay, 0);
     *((u64 *)p)++ = SCE_GS_TRXPOS;
-    *((u64 *)p)++ = SCE_GS_SET_ST(rrw, rrh);
+    *((u64 *)p)++ = SCE_GS_SET_TRXREG(rrw, rrh);
     *((u64 *)p)++ = SCE_GS_TRXREG;
     *((u64 *)p)++ = 0;
     *((u64 *)p)++ = SCE_GS_TRXDIR;
@@ -1146,14 +1152,13 @@ static u32 *make_pal_pkt(_kanji_w *kw, u32 *p) {
 
     for (i = 0; i < kw->pmax; i++) {
         img = (u32 *)(kw->rgba_adrs + (i * 16));
-        p = make_img_pkt(p, img, kw->pdbp + i, 1, 0, 0, 0, 8, 2);
+        p = make_img_pkt(p, img, kw->pdbp + i, 1, SCE_GS_PSMCT32, 0, 0, 8, 2);
     }
 
     return p;
 }
 
 static u32 *make_fnt_pkt(_kanji_w *kw, u32 *p, u32 *img, u32 han_f) {
-#if defined(TARGET_PS2)
     s32 x;
     s32 y;
     s32 x0;
@@ -1168,7 +1173,7 @@ static u32 *make_fnt_pkt(_kanji_w *kw, u32 *p, u32 *img, u32 han_f) {
     u32 ys;
     u32 m;
 
-    p = make_img_pkt(p, img, kw->fdbp, 1, 20, 0, 0, kw->fontw, kw->fonth);
+    p = make_img_pkt(p, img, kw->fdbp, 1, SCE_GS_PSMT4, 0, 0, kw->fontw, kw->fonth);
     p = make_fbg_pkt(kw, p, img, han_f);
     x = kw->x * 16;
     y = kw->y * 16;
@@ -1189,6 +1194,9 @@ static u32 *make_fnt_pkt(_kanji_w *kw, u32 *p, u32 *img, u32 han_f) {
     v1 = kw->fonth * 16;
     m = ((kw->dispw == kw->fontw) && (kw->disph == kw->fonth)) ? 0 : 1;
 
+#if !defined(TARGET_PS2)
+    SDLApp_DrawKnjsubTexture(x0, y0, x1, y1, 0, 0, u1, v1, kw->color);
+#else
     *p++ = 0x10000008;
     *p++ = 0;
     *p++ = 0;
@@ -1198,7 +1206,8 @@ static u32 *make_fnt_pkt(_kanji_w *kw, u32 *p, u32 *img, u32 han_f) {
     *((u64 *)p)++ = SCE_GIF_PACKED_AD;
     *((u64 *)p)++ = 0;
     *((u64 *)p)++ = SCE_GS_TEXFLUSH;
-    *((u64 *)p)++ = SCE_GS_SET_TEX0_1(kw->fdbp, 1, 20, 5, 5, 1, 0, (kw->pdbp + kw->palet), SCE_GS_PSMCT32, 0, 0, 1);
+    *((u64 *)p)++ =
+        SCE_GS_SET_TEX0_1(kw->fdbp, 1, SCE_GS_PSMT4, 5, 5, 1, 0, (kw->pdbp + kw->palet), SCE_GS_PSMCT32, 0, 0, 1);
     *((u64 *)p)++ = SCE_GS_TEX0_1;
     *((u64 *)p)++ = SCE_GS_SET_TEX1_1(0, 0, m, m, 0, 0, 0);
     *((u64 *)p)++ = SCE_GS_TEX1_1;
