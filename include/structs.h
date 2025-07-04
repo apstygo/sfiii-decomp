@@ -2716,4 +2716,22 @@ typedef struct {
     s16 timer[2];    // offset 0x16, size 0x4
 } CMST_BUFF;
 
+typedef struct {
+    // total size: 0x10
+    union /* @anon32 */ {
+        unsigned short results; // offset 0x0, size 0x2
+        struct /* @anon33 */ {
+            // total size: 0x2
+            char att_result; // offset 0x0, size 0x1
+            char cat_result; // offset 0x1, size 0x1
+        } ca;                // offset 0x0, size 0x2
+    } flag;                  // offset 0x0, size 0x2
+    unsigned char my_att;    // offset 0x2, size 0x1
+    unsigned char dm_body;   // offset 0x3, size 0x1
+    unsigned short my_hit;   // offset 0x4, size 0x2
+    unsigned short dm_me;    // offset 0x6, size 0x2
+    signed short *ah;        // offset 0x8, size 0x4
+    signed short *dh;        // offset 0xC, size 0x4
+} HS;
+
 #endif

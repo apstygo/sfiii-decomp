@@ -11,11 +11,13 @@ s32 random_16_com();
 s32 random_16_ex_com();
 s32 random_32_com();
 s32 random_32_ex_com();
+s8 get_guard_direction(WORK *as, WORK *ds);
 s16 cal_attdir(WORK *wk);
 void add_sp_arts_gauge_init(PLW *wk);
 void add_super_arts_gauge(SA_WORK *wk, s16 ix, s16 asag, u8 mf);
 void setup_mvxy_data(WORK *wk, u16 ix);
 void cal_mvxy_speed(WORK *wk);
 void add_mvxy_speed(WORK *wk);
+void setup_saishin_lvdir(PLW *ds, s8 gddir);
 
 #endif

@@ -1,5 +1,23 @@
 #include "sf33rd/Source/Game/HITCHECK.h"
 #include "common.h"
+#include "sf33rd/Source/Game/CHARSET.h"
+#include "sf33rd/Source/Game/EFF02.h"
+#include "sf33rd/Source/Game/EFFECT.h"
+#include "sf33rd/Source/Game/Grade.h"
+#include "sf33rd/Source/Game/HITEFPL.h"
+#include "sf33rd/Source/Game/HITPLPL.h"
+#include "sf33rd/Source/Game/PLCNT.h"
+#include "sf33rd/Source/Game/PLS01.h"
+#include "sf33rd/Source/Game/PLS03.h"
+#include "sf33rd/Source/Game/PulPul.h"
+#include "sf33rd/Source/Game/SysDir.h"
+#include "sf33rd/Source/Game/cmb_win.h"
+#include "sf33rd/Source/Game/workuser.h"
+
+// _exchange_pow_pl03_sa3
+
+// bss
+HS hs[32];
 
 // sbss
 s16 grdb[2][2][2];
@@ -38,7 +56,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", set_stru
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", cal_hit_mark_pos);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", Dsas_dir_table);
+const s16 Dsas_dir_table[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0 };
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", plef_at_vs_player_damage_union);
 
@@ -46,9 +64,9 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", dm_react
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", set_guard_status);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", sel_sp_ch_tbl);
+const s8 sel_sp_ch_tbl[12] = { 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", sel_hs_add_tbl);
+const s16 sel_hs_add_tbl[6] = { 4, 3, 2, 1, 0, 0 };
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", set_paring_status);
 
@@ -142,28 +160,70 @@ const u16 chain_normal_air_table[8] = { 0x660, 0x660, 0x440, 0x440, 0x0, 0x0, 0x
 const u16 chain_hidou_nm_air_table[8] = { 0x320, 0x220, 0x640, 0x440, 0x510, 0x110, 0x0, 0x0 };
 const u8 plpat_rno_filter[16] = { 1, 9, 1, 2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", rsix_r_table);
+const s16 rsix_r_table[17][2] = { { 61, 1 },   { 121, 2 },  { 181, 3 },  { 241, 4 },  { 301, 5 },  { 361, 6 },
+                                  { 421, 7 },  { 481, 8 },  { 541, 9 },  { 601, 10 }, { 661, 11 }, { 721, 12 },
+                                  { 781, 13 }, { 841, 14 }, { 901, 15 }, { 961, 16 }, { 999, 17 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", attr_flame_tbl);
+const s16 attr_flame_tbl[83] = { 42,  42,  42,  42,  42,  42,  42,  42,  42,  42,  42,  42,  42,  0,   0,   0,   0,
+                                 0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   67,  67,
+                                 67,  67,  67,  67,  67,  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+                                 0,   0,   0,   0,   0,   103, 103, 103, 103, 103, 103, 103, 103, 103, 103, 103, 103,
+                                 103, 103, 103, 103, 103, 103, 103, 103, 103, 103, 103, 103, 103, 103, 103 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", attr_thunder_tbl);
+const s16 attr_thunder_tbl[83] = { 43,  43,  43,  43,  43,  43,  43,  43,  43,  43,  43,  43,  43,  0,   0,   0,   0,
+                                   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   68,  68,
+                                   68,  68,  68,  68,  68,  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+                                   0,   0,   0,   0,   0,   104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104,
+                                   104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", attr_freeze_tbl);
+const s16 attr_freeze_tbl[83] = { 44,  44,  44,  44,  44,  44,  44,  44,  44,  44,  44,  44,  44,  0,   0,   0,   0,
+                                  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   69,  69,
+                                  69,  69,  69,  69,  69,  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+                                  0,   0,   0,   0,   0,   105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105,
+                                  105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105, 105 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", sky_nm_damage_tbl);
+const s16 sky_nm_damage_tbl[83] = { 88,  88,  88,  88,  88,  88,  88,  97,  98, 88,  103, 104, 105, 0,   0,  0,  0,
+                                    0,   0,   0,   0,   0,   0,   0,   0,   0,  0,   0,   0,   0,   0,   0,  88, 97,
+                                    98,  103, 104, 105, 98,  0,   0,   0,   0,  0,   0,   0,   0,   0,   0,  0,  0,
+                                    0,   0,   0,   0,   0,   88,  89,  90,  91, 92,  93,  94,  95,  96,  97, 98, 99,
+                                    100, 101, 102, 103, 104, 105, 106, 107, 91, 109, 110, 111, 112, 113, 114 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", sky_sp_damage_tbl);
+const s16 sky_sp_damage_tbl[83] = { 91,  91,  91,  95,  91,  91,  96,  97,  98, 91,  103, 104, 105, 0,   0,  0,  0,
+                                    0,   0,   0,   0,   0,   0,   0,   0,   0,  0,   0,   0,   0,   0,   0,  91, 97,
+                                    98,  103, 104, 105, 98,  0,   0,   0,   0,  0,   0,   0,   0,   0,   0,  0,  0,
+                                    0,   0,   0,   0,   0,   88,  89,  90,  91, 92,  93,  94,  95,  96,  97, 98, 90,
+                                    100, 101, 102, 103, 104, 105, 106, 107, 91, 109, 110, 111, 97,  113, 114 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", kagami_damage_tbl);
+const s16 kagami_damage_tbl[83] = { 64,  64,  64,  64,  64,  64,  64,  65,  66, 64,  67,  68,  69,  0,   0,  0,  0,
+                                    0,   0,   0,   0,   0,   0,   0,   0,   0,  0,   0,   0,   0,   0,   0,  64, 65,
+                                    66,  67,  68,  69,  70,  0,   0,   0,   0,  0,   0,   0,   0,   0,   0,  0,  0,
+                                    0,   0,   0,   0,   0,   88,  89,  90,  91, 92,  93,  94,  95,  96,  65, 66, 90,
+                                    100, 101, 102, 103, 104, 105, 106, 107, 65, 109, 110, 111, 112, 113, 114 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", grd_hand_damage_tbl);
+const s16 grd_hand_damage_tbl[83] = { 41,  41,  41,  41,  41,  41,  41,  41, 41,  41, 42, 43,  44,  0,   0,  0,  0,
+                                      0,   0,   0,   0,   0,   0,   0,   0,  0,   0,  0,  0,   0,   0,   0,  41, 41,
+                                      41,  42,  43,  44,  41,  0,   0,   0,  0,   0,  0,  0,   0,   0,   0,  0,  0,
+                                      0,   0,   0,   0,   0,   88,  89,  90, 91,  91, 93, 94,  100, 91,  39, 40, 99,
+                                      100, 101, 102, 103, 104, 105, 106, 96, 108, 91, 91, 111, 112, 113, 114 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", hddm_damage_tbl);
+const u8 hddm_damage_tbl[83] = { 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", trdm_damage_tbl);
+const u8 trdm_damage_tbl[83] = { 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", ttk_damage_req_tbl);
+const u8 ttk_damage_req_tbl[83] = { 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                    0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                    0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", parisucc_pts);
+const u8 parisucc_pts[2][40] = {
+    { 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 28, 30,  32,  34,  36,  38,
+      40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 88, 92, 96, 100, 100, 100, 100, 100 },
+    { 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+      20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20 }
+};
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", dm_oiuchi_catch);
+const u8 dm_oiuchi_catch[32] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                 1, 0, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 1, 1 };

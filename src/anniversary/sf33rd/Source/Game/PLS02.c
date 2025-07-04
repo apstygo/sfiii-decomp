@@ -471,7 +471,13 @@ s32 random_16_ex_com() {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_16_bg);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", get_guard_direction);
+#else
+s8 get_guard_direction(WORK *as, WORK *ds) {
+    not_implemented(__func__);
+}
+#endif
 
 s16 cal_attdir(WORK *wk) {
     s16 resdir = wk->att.dir;
@@ -581,7 +587,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_butto
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_buttobi_type2);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", setup_saishin_lvdir);
+#else
+void setup_saishin_lvdir(PLW *ds, s8 gddir) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", setup_lvdir_after_autodir);
 
@@ -589,18 +601,30 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dead_voice_
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dead_voice_request2);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dir16_hddm);
+const s16 dir16_hddm[16] = { 35, 35, 35, 32, 32, 32, 36, 36, 36, 36, 36, 32, 32, 32, 35, 35 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dir16_trdm);
+const s16 dir16_trdm[16] = { 38, 38, 38, 37, 37, 37, 36, 36, 36, 36, 36, 37, 37, 37, 38, 38 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", konjyou_tbl);
+const s16 konjyou_tbl[20][6] = { { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", apagt_table);
+const s16 apagt_table[20] = { 5, 4, 4, 4, 4, 4, 5, 4, 5, 3, 4, 4, 4, 4, 4, 4, 5, 3, 2, 4 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dir32_skydm);
+const s16 dir32_skydm[32] = { 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 97, 97, 97, 97, 98,
+                              98, 98, 97, 97, 97, 97, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dir32_grddm);
+const s16 dir32_grddm[32] = { 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 39, 39, 39, 39, 40,
+                              40, 40, 39, 39, 39, 39, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", convert_saishin_lvdir);
+const u8 convert_saishin_lvdir[2][16] = { { 0, 0, 0, 0, 1, 1, 1, 0, 2, 2, 2, 0, 0, 0, 0, 0 },
+                                          { 0, 0, 0, 0, 2, 2, 2, 0, 1, 1, 1, 0, 0, 0, 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dead_voice_table);
+const s16 dead_voice_table[20][2] = { { 864, 865 }, { 928, 929 }, { 512, 513 }, { 608, 609 }, { 896, 897 },
+                                      { 800, 801 }, { 832, 833 }, { 352, 353 }, { 672, 673 }, { 576, 577 },
+                                      { 640, 641 }, { 384, 385 }, { 480, 481 }, { 736, 737 }, { 704, 705 },
+                                      { 416, 417 }, { 448, 449 }, { 768, 769 }, { 960, 961 }, { 544, 545 } };

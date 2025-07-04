@@ -6,6 +6,7 @@
 void setupCharTableData(WORK *wk, s32 clr, s32 info);
 void char_move(WORK *wk);
 void check_cm_extended_code(WORK *wk);
+void setup_comm_abbak(WORK *wk);
 void check_cgd_patdat(WORK *wk);
 void set_jugde_area(WORK *wk);
 void set_new_attnum(WORK *wk);
