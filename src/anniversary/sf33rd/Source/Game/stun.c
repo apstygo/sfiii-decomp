@@ -9,13 +9,25 @@
 
 SDAT sdat[2];
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/stun", stngauge_cont_init);
-#else
 void stngauge_cont_init() {
-    not_implemented(__func__);
+    u8 i;
+
+    for (i = 0; i < 2; i++) {
+        sdat[i].cstn = 0;
+        sdat[i].sflag = 0;
+        sdat[i].osflag = 0;
+        sdat[i].g_or_s = 0;
+        sdat[i].stimer = 2;
+        sdat[i].slen = (piyori_type[i].genkai / 8);
+        sdat[i].proccess_dead = 0;
+
+        if (omop_st_bar_disp[i]) {
+            stun_base_put(i, sdat[i].slen);
+        }
+    }
+
+    stun_gauge_waku_write(sdat->slen, sdat[1].slen);
 }
-#endif
 
 void stngauge_cont_main() {
     u8 i;
