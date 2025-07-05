@@ -388,7 +388,7 @@ Sint32 cvFsSeek(CVFSHandle *fs_handle, Sint32 offset, Sint32 whence) {
     return ret;
 }
 
-Sint32 cvFsReqRd(CVFSHandle *fs_handle) {
+Sint32 cvFsReqRd(CVFSHandle *fs_handle, Sint32 len, void *buf) {
     Sint32 ret;
 
     if (fs_handle == NULL) {
@@ -397,7 +397,7 @@ Sint32 cvFsReqRd(CVFSHandle *fs_handle) {
     }
 
     if (fs_handle->device->ReqRd != NULL) {
-        ret = fs_handle->device->ReqRd(fs_handle->fd);
+        ret = fs_handle->device->ReqRd(fs_handle->fd, len, buf);
     } else {
         ret = 0;
         cvFsError("cvFsReqRd #2:vtbl error");
