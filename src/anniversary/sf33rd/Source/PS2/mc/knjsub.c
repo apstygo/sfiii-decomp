@@ -1226,7 +1226,6 @@ static u32 *make_fnt_pkt(_kanji_w *kw, u32 *p, u32 *img, u32 han_f) {
 }
 
 static u32 *make_fbg_pkt(_kanji_w *kw, u32 *p, u32 * /* unused */, u32 han_f) {
-#if defined(TARGET_PS2)
     s32 x;
     s32 y;
     s32 x0;
@@ -1264,6 +1263,9 @@ static u32 *make_fbg_pkt(_kanji_w *kw, u32 *p, u32 * /* unused */, u32 han_f) {
     v1 = kw->fonth * 16;
     m = ((kw->dispw == kw->fontw) && (kw->disph == kw->fonth)) ? 0 : 1;
 
+#if !defined(TARGET_PS2)
+    SDLApp_DrawKnjsubTexture(x0, y0, x1, y1, 8, 8, u1 + 8, v1 + 8, kw->bg_color);
+#else
     *p++ = 0x10000008;
     *p++ = 0;
     *p++ = 0;
@@ -1273,7 +1275,8 @@ static u32 *make_fbg_pkt(_kanji_w *kw, u32 *p, u32 * /* unused */, u32 han_f) {
     *((u64 *)p)++ = SCE_GIF_PACKED_AD;
     *((u64 *)p)++ = 0;
     *((u64 *)p)++ = SCE_GS_TEXFLUSH;
-    *((u64 *)p)++ = SCE_GS_SET_TEX0(kw->fdbp, 1, 20, 5, 5, 1, 0, (kw->pdbp + kw->palet), SCE_GS_PSMCT32, 0, 0, 1);
+    *((u64 *)p)++ =
+        SCE_GS_SET_TEX0(kw->fdbp, 1, SCE_GS_PSMT4, 5, 5, 1, 0, (kw->pdbp + kw->palet), SCE_GS_PSMCT32, 0, 0, 1);
     *((u64 *)p)++ = SCE_GS_TEX0_1;
     *((u64 *)p)++ = SCE_GS_SET_TEX1(0, 0, m, m, 0, 0, 0);
     *((u64 *)p)++ = SCE_GS_TEX1_1;

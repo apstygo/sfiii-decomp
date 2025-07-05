@@ -54,7 +54,8 @@ int SDLApp_Init() {
         return 1;
     }
 
-    if (!SDL_CreateWindowAndRenderer(app_name, window_default_width, window_default_height, 0, &window, &renderer)) {
+    if (!SDL_CreateWindowAndRenderer(
+            app_name, window_default_width, window_default_height, SDL_WINDOW_RESIZABLE, &window, &renderer)) {
         SDL_Log("Couldn't create window/renderer: %s", SDL_GetError());
         return 1;
     }
@@ -63,8 +64,6 @@ int SDLApp_Init() {
         SDL_Log("Couldn't enable VSync: %s", SDL_GetError());
         return 1;
     }
-
-    SDL_SetWindowResizable(window, true);
 
     // Initialize canvas
     canvas =
