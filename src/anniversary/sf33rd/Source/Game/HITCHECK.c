@@ -10,7 +10,13 @@ s16 mkm_wk[32];
 s16 hpq_in;
 s8 ca_check_flag;
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", make_red_blocking_time);
+#else
+void make_red_blocking_time(s16 id, s16 ix, s16 num) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", hit_check_main_process);
