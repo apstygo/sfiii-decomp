@@ -27,11 +27,13 @@ static SDL_Window *window = NULL;
 static SDL_Renderer *renderer = NULL;
 static SDL_Texture *canvas = NULL;
 
-static Uint64 frame_start_ticks = 0;
+static Uint64 frame_start = 0;
 static Uint64 frame_times[FRAME_TIMES_MAX];
 static int frame_times_index = 0;
+static Uint64 frame_time_remainder = 0;
 static double fps = 0;
 static Uint64 frame_counter = 0;
+static Uint64 display_refresh_period = 0;
 
 static const SDL_Color knjsub_palette_colors[4] = {
     { .r = 255, .g = 255, .b = 255, .a = 0 },
@@ -73,6 +75,17 @@ int SDLApp_Init() {
     knjsub_palette = SDL_CreatePalette(4);
     SDL_SetPaletteColors(knjsub_palette, knjsub_palette_colors, 0, 4);
 
+    // // Query display
+    const SDL_DisplayID display_id = SDL_GetDisplayForWindow(window);
+    const SDL_DisplayMode *display_mode = SDL_GetCurrentDisplayMode(display_id);
+
+    if ((display_mode->refresh_rate == 0)) {
+        SDL_Log("Displays with unspecified refresh rate are not supported yet");
+        return 1;
+    }
+
+    display_refresh_period = 1000000000.0 / display_mode->refresh_rate;
+
     return 0;
 }
 
@@ -98,7 +111,7 @@ int SDLApp_PollEvents() {
 }
 
 void SDLApp_BeginFrame() {
-    frame_start_ticks = SDL_GetTicksNS();
+    frame_start = SDL_GetTicksNS();
 
     SDL_SetRenderTarget(renderer, canvas);
 
@@ -218,24 +231,34 @@ static void update_fps() {
 void SDLApp_EndFrame() {
     SDL_SetRenderTarget(renderer, NULL);
 
-    int win_w, win_h;
-    SDL_GetWindowSize(window, &win_w, &win_h);
-
-    SDL_FRect dst_rect = get_letterbox_rect(win_w, win_h);
-
+    // Render window background
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // black bars
     SDL_RenderClear(renderer);
+
+    // Render game
+    int win_w, win_h;
+    SDL_GetWindowSize(window, &win_w, &win_h);
+    const SDL_FRect dst_rect = get_letterbox_rect(win_w, win_h);
     SDL_RenderTexture(renderer, canvas, NULL, &dst_rect);
 
-    // Render previous frame's FPS
+    // Render FPS
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderDebugTextFormat(renderer, 8, 8, "FPS: %f", fps);
+
+    const Uint64 frame_time_budget = target_frame_time_ns + frame_time_remainder;
+    Uint64 frame_time = SDL_GetTicksNS() - frame_start;
+
+    if (frame_time < frame_time_budget) {
+        Uint64 sleep_time = (frame_time_budget - frame_time) / display_refresh_period * display_refresh_period;
+        SDL_DelayNS(sleep_time);
+    }
 
     SDL_RenderPresent(renderer);
 
     // Measure
     frame_counter += 1;
-    const Uint64 frame_time = SDL_GetTicksNS() - frame_start_ticks;
+    frame_time = SDL_GetTicksNS() - frame_start;
+    frame_time_remainder = target_frame_time_ns - frame_time;
     add_frame_time(frame_time);
     update_fps();
 
