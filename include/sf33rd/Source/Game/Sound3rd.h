@@ -35,6 +35,8 @@ void SE_selected();
 void SE_dir_cursor_move();
 void SE_dir_selected();
 void SsBgmControl(s8 /* unused */, s8 VOLUME);
-void SsRequestPan(u16 reqNum, s16 start, s32 /* unused */, s32 /* unused */, s32 /* unused */);
+void SsRequestPan(u16 reqNum, s16 start, s16 /* unused */, s32 /* unused */, s32 /* unused */);
+void SsBgmOff();
+void spu_all_off();
 
 #endif
