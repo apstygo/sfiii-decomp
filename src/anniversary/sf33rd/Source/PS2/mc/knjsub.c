@@ -912,14 +912,14 @@ static s32 is_unicode_han(_kanji_w *kw, u32 index) {
 
 static void unicode_puts(_kanji_w *kw, const s8 *str) {
     s32 x;
-    u8 *str_buf;
+    const u8 *str_buf;
     u32 code;
     u32 index;
     u32 *img;
     u32 *pp;
     u32 han_f;
 
-    str_buf = (u8 *)str;
+    str_buf = (const u8 *)str;
     x = kw->x;
     pp = kw->pack_cur;
 
@@ -1010,10 +1010,10 @@ s32 KnjCheckCode(const s8 *str) {
     s32 ret;
     u32 code;
     u32 index;
-    u8 *str_buf;
+    const u8 *str_buf;
     _kanji_w *kw = &kanji_w;
 
-    str_buf = (u8 *)str;
+    str_buf = (const u8 *)str;
     code = *str_buf;
 
     if (code == 0) {
