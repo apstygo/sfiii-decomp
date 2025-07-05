@@ -856,6 +856,7 @@ void SsRequest(u16 ReqNumber) {
     u16 remake_sound_code_for_DC(s32 code, SoundPatchConfig * rmcode);
 #endif
 
+#if !defined(SOUND_DISABLED)
     SoundPatchConfig rmcode;
 
     if (remake_sound_code_for_DC(ReqNumber, &rmcode)) {
@@ -864,6 +865,7 @@ void SsRequest(u16 ReqNumber) {
 
     Store_Sound_Code(ReqNumber, &rmcode);
     sound_request_for_dc(&rmcode, 0);
+#endif
 }
 
 void SsRequest_CC(u16 num) {

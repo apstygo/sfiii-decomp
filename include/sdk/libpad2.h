@@ -61,52 +61,70 @@
 #define SCE_PAD2_ANALOG_R2 (31)
 
 typedef struct {
-    u32 option;
-    s32 port;
-    s32 slot;
-    s32 number;
-    u8 name[SCE_PAD2_MAX_DEVICE_NAME];
+    unsigned int option;
+    int port;
+    int slot;
+    int number;
+    unsigned char name[SCE_PAD2_MAX_DEVICE_NAME];
 } scePad2SocketParam;
 
 typedef struct {
-    u8 unk0;
-    u8 unk1;
+    union {
+        unsigned char byte;
+        struct {
+            unsigned char select : 1;
+            unsigned char l3 : 1;
+            unsigned char r3 : 1;
+            unsigned char start : 1;
+            unsigned char up : 1;
+            unsigned char right : 1;
+            unsigned char down : 1;
+            unsigned char left : 1;
+        } bits;
+    } sw0;
+    
+    union {
+        unsigned char byte;
+        struct {
+            unsigned char l2 : 1;
+            unsigned char r2 : 1;
+            unsigned char l1 : 1;
+            unsigned char r1 : 1;
+            unsigned char triangle : 1;
+            unsigned char circle : 1;
+            unsigned char cross : 1;
+            unsigned char square : 1;
+        } bits;
+    } sw1;
 
-    u8 rJoyH;
-    u8 rJoyV;
-    u8 lJoyH;
-    u8 lJoyV;
+    unsigned char rJoyH;
+    unsigned char rJoyV;
+    unsigned char lJoyH;
+    unsigned char lJoyV;
 
-    u8 rightP;
-    u8 leftP;
-    u8 upP;
-    u8 downP;
-    u8 triangleP;
-    u8 circleP;
-    u8 crossP;
-    u8 squareP;
-    u8 l1P;
-    u8 r1P;
-    u8 l2P;
-    u8 r2P;
+    unsigned char rightP;
+    unsigned char leftP;
+    unsigned char upP;
+    unsigned char downP;
+    unsigned char triangleP;
+    unsigned char circleP;
+    unsigned char crossP;
+    unsigned char squareP;
+    unsigned char l1P;
+    unsigned char r1P;
+    unsigned char l2P;
+    unsigned char r2P;
 } scePad2ButtonState;
 
-typedef struct {
-    u8 unk0;
-    u8 unk1;
-    u8 unk2;
-    u8 unk3;
-} scePad2ButtonProfile;
-
-s32 scePad2Init(s32);
-s32 scePad2End(void);
-s32 scePad2CreateSocket(scePad2SocketParam *, void *);
-s32 scePad2DeleteSocket(s32);
-s32 scePad2Read(s32, scePad2ButtonState *);
-s32 scePad2GetButtonProfile(s32, scePad2ButtonProfile *);
-s32 scePad2GetState(s32);
-s32 scePad2GetButtonInfo(s32, u8 *, s32);
-void scePad2StateIntToStr(s32, u8 *);
+int scePad2Init(int);
+int scePad2End(void);
+int scePad2CreateSocket(scePad2SocketParam *, void *);
+int scePad2DeleteSocket(int);
+int scePad2Read(int, scePad2ButtonState *);
+int scePad2GetButtonProfile(int, unsigned char *);
+int scePad2GetState(int);
+int scePad2GetButtonInfo(int, unsigned char *, int);
+void scePad2StateIntToStr(int, unsigned char *);
 void *scePad2GetErxEntries(void);
 
 #endif /* _LIBPAD2_H_ */

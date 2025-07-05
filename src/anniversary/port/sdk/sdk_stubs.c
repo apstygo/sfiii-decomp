@@ -291,36 +291,6 @@ int *sceGsSyncVCallback(int (*func)(int)) {
     return NULL;
 }
 
-// libpad2
-
-s32 scePad2Init(s32) {
-    not_implemented(__func__);
-}
-
-s32 scePad2End(void) {
-    not_implemented(__func__);
-}
-
-s32 scePad2GetButtonProfile(s32, scePad2ButtonProfile *) {
-    not_implemented(__func__);
-}
-
-s32 scePad2GetState(s32) {
-    not_implemented(__func__);
-}
-
-s32 scePad2Read(s32, scePad2ButtonState *) {
-    not_implemented(__func__);
-}
-
-s32 scePad2CreateSocket(scePad2SocketParam *, void *) {
-    not_implemented(__func__);
-}
-
-s32 scePad2DeleteSocket(s32) {
-    not_implemented(__func__);
-}
-
 // eekernel
 
 void scePrintf(const char *fmt, ...) {
@@ -330,16 +300,6 @@ void scePrintf(const char *fmt, ...) {
     vprintf(fmt, args);
 
     va_end(args);
-}
-
-// libvib
-
-int sceVibGetProfile(int, unsigned char *) {
-    not_implemented(__func__);
-}
-
-int sceVibSetActParam(int, int, unsigned char *, int, unsigned char *) {
-    not_implemented(__func__);
 }
 
 // libvu0
@@ -359,7 +319,8 @@ void sceVu0UnitMatrix(sceVu0FMATRIX m) {
 // libdbc
 
 int sceDbcInit() {
-    not_implemented(__func__);
+    // Do nothing
+    return 1;
 }
 
 void sceDbcEnd() {

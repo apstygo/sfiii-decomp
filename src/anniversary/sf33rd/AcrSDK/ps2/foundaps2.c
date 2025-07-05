@@ -154,12 +154,7 @@ s32 flInitialize(s32 /* unused */, s32 /* unused */) {
     flPS2VramFullClear();
     flPS2InitRenderBuff(4, 2, 1, 0, 1);
     flPS2SwapDBuff(0, 1);
-
-    // For now we'll just omit pads entirely in ports
-#if !defined(PAD_DISABLED)
     flPADInitialize();
-#endif
-
     flPS2DebugInit();
 
 #if defined(TARGET_PS2)

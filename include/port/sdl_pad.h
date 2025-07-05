@@ -1,0 +1,33 @@
+#ifndef SDL_PAD_H
+#define SDL_PAD_H
+
+#include <SDL3/SDL.h>
+
+#include <stdbool.h>
+
+typedef struct SDLPad_ButtonState {
+    bool south;
+    bool east;
+    bool west;
+    bool north;
+    bool back;
+    bool start;
+    bool left_stick;
+    bool right_stick;
+    bool left_shoulder;
+    bool right_shoulder;
+    Sint16 left_trigger;
+    Sint16 right_trigger;
+    bool dpad_up;
+    bool dpad_down;
+    bool dpad_left;
+    bool dpad_right;
+} SDLPad_ButtonState;
+
+void SDLPad_HandleGamepadDeviceEvent(SDL_GamepadDeviceEvent *event);
+void SDLPad_HandleGamepadButtonEvent(SDL_GamepadButtonEvent *event);
+void SDLPad_HandleGamepadAxisMotionEvent(SDL_GamepadAxisEvent *event);
+bool SDLPad_IsGamepadConnected(int id);
+void SDLPad_GetButtonState(int id, SDLPad_ButtonState *state);
+
+#endif

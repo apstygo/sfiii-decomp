@@ -1,6 +1,7 @@
 #include "port/sdl_app.h"
 #include "common.h"
 #include "port/sdk_threads.h"
+#include "port/sdl_pad.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "sf33rd/Source/Game/main.h"
 
@@ -49,7 +50,7 @@ static int knjsub_palette_count = 0;
 int SDLApp_Init() {
     SDL_SetAppMetadata(app_name, "0.1", NULL);
 
-    if (!SDL_Init(SDL_INIT_VIDEO)) {
+    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
         SDL_Log("Couldn't initialize SDL: %s", SDL_GetError());
         return 1;
     }
@@ -100,6 +101,20 @@ int SDLApp_PollEvents() {
 
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
+        case SDL_EVENT_GAMEPAD_ADDED:
+        case SDL_EVENT_GAMEPAD_REMOVED:
+            SDLPad_HandleGamepadDeviceEvent(&event.gdevice);
+            break;
+
+        case SDL_EVENT_GAMEPAD_BUTTON_DOWN:
+        case SDL_EVENT_GAMEPAD_BUTTON_UP:
+            SDLPad_HandleGamepadButtonEvent(&event.gbutton);
+            break;
+
+        case SDL_EVENT_GAMEPAD_AXIS_MOTION:
+            SDLPad_HandleGamepadAxisMotionEvent(&event.gaxis);
+            break;
+
         case SDL_EVENT_QUIT:
             continue_running = 0;
             break;

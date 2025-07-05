@@ -108,10 +108,8 @@ void AcrMain() {
 
         appSetupTempPriority();
 
-#if !defined(PAD_DISABLED)
         flPADGetALL();
         keyConvert();
-#endif
 
         if (((Usage == 7) || (Usage == 2)) && !test_flag) {
             if (mpp_w.sysStop) {
