@@ -1,11 +1,13 @@
 #include "sf33rd/Source/Game/Manage.h"
 #include "common.h"
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Comp_Bonus_Data);
+const u32 Comp_Bonus_Data[11] = { 30000,  40000,  50000,  60000,  70000, 80000,
+                                  90000, 100000, 110000, 120000, 130000 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", BIC_SA_Data);
+const u8 BIC_SA_Data[2][4] = { { 3, 5, 7, 9 }, { 1, 1, 1, 1 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Ball_Perfect_PTS);
+const u32 Ball_Perfect_PTS[2][5] = { { 20000, 30000, 50000, 80000, 120000 },
+                                     { 10000, 20000, 40000, 80000, 160000 } };
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Game_Management);
