@@ -395,7 +395,7 @@ typedef struct {
     /* 0x14 */ void (*Close)(void *fd);
     /* 0x18 */ Sint32 (*Seek)(void *fd, Sint32 offset, Sint32 whence);
     /* 0x1C */ Sint32 (*Tell)(void *fd);
-    /* 0x20 */ Sint32 (*ReqRd)(void *fd);
+    /* 0x20 */ Sint32 (*ReqRd)(void *fd, Sint32 len, void *buf);
     /* 0x24 */ void (*unk24)();
     /* 0x28 */ void (*StopTr)();
     /* 0x2C */ Sint32 (*GetStat)(void *fd);

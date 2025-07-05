@@ -48,6 +48,7 @@ static int knjsub_palette_count = 0;
 
 int SDLApp_Init() {
     SDL_SetAppMetadata(app_name, "0.1", NULL);
+    SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, "1");
 
     if (!SDL_Init(SDL_INIT_VIDEO)) {
         SDL_Log("Couldn't initialize SDL: %s", SDL_GetError());

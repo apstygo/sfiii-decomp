@@ -42,7 +42,7 @@ u16 DskDrvErrRetry;
 PS2CDReadMode ps2CdReadMode;
 s16 plt_req[2]; // size: 0x4, address: 0x579084
 u8 ldreq_break;
-struct _adx_fs *adxf;
+struct _adx_fs *adxf = NULL;
 
 u8 sf3ptinfo[3352];
 REQ q_ldreq[16];      // size: 0x280, address: 0x5E1DD0
