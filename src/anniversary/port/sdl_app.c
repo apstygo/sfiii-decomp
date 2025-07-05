@@ -8,6 +8,8 @@
 
 #include <SDL3/SDL.h>
 
+#define FRAME_TIMES_MAX 120
+
 // We can't include cri_mw.h because it leads to conflicts
 // with SDL types
 int ADXPS2_ExecVint(int mode);
@@ -18,10 +20,18 @@ static const int canvas_height = 448;
 static const float display_target_ratio = 4.0 / 3.0;
 static const int window_default_width = 640;
 static const int window_default_height = (int)(window_default_width / display_target_ratio);
+static const int target_fps = 60;
+static const float target_frame_time_ns = 1000000000.0 / target_fps;
 
 static SDL_Window *window = NULL;
 static SDL_Renderer *renderer = NULL;
 static SDL_Texture *canvas = NULL;
+
+static Uint64 frame_start_ticks = 0;
+static Uint64 frame_times[FRAME_TIMES_MAX];
+static int frame_times_index = 0;
+static double fps = 0;
+static Uint64 frame_counter = 0;
 
 static const SDL_Color knjsub_palette_colors[4] = {
     { .r = 255, .g = 255, .b = 255, .a = 0 },
@@ -88,6 +98,8 @@ int SDLApp_PollEvents() {
 }
 
 void SDLApp_BeginFrame() {
+    frame_start_ticks = SDL_GetTicksNS();
+
     SDL_SetRenderTarget(renderer, canvas);
 
     const Uint8 a = flPs2State.FrameClearColor >> 24;
@@ -168,7 +180,7 @@ void SDLApp_DrawKnjsubTexture(int x0, int y0, int x1, int y1, int u0, int v0, in
     SDL_RenderTexture(renderer, knjsub_texture, &src_rect, &dst_rect);
 }
 
-SDL_FRect get_letterbox_rect(int win_w, int win_h) {
+static SDL_FRect get_letterbox_rect(int win_w, int win_h) {
     float out_w = win_w;
     float out_h = win_w / display_target_ratio;
 
@@ -186,6 +198,23 @@ SDL_FRect get_letterbox_rect(int win_w, int win_h) {
     return rect;
 }
 
+static void add_frame_time(Uint64 frame_time) {
+    frame_times[frame_times_index] = frame_time;
+    frame_times_index += 1;
+    frame_times_index %= FRAME_TIMES_MAX;
+}
+
+static void update_fps() {
+    Uint64 total_frame_time = 0;
+
+    for (int i = 0; i < FRAME_TIMES_MAX; i++) {
+        total_frame_time += frame_times[i];
+    }
+
+    double average_frame_time = (double)total_frame_time / FRAME_TIMES_MAX;
+    fps = 1000000000.0 / average_frame_time;
+}
+
 void SDLApp_EndFrame() {
     SDL_SetRenderTarget(renderer, NULL);
 
@@ -197,7 +226,18 @@ void SDLApp_EndFrame() {
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // black bars
     SDL_RenderClear(renderer);
     SDL_RenderTexture(renderer, canvas, NULL, &dst_rect);
+
+    // Render previous frame's FPS
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_RenderDebugTextFormat(renderer, 8, 8, "FPS: %f", fps);
+
     SDL_RenderPresent(renderer);
+
+    // Measure
+    frame_counter += 1;
+    const Uint64 frame_time = SDL_GetTicksNS() - frame_start_ticks;
+    add_frame_time(frame_time);
+    update_fps();
 
     begin_interrupt();
     ADXPS2_ExecVint(0);
