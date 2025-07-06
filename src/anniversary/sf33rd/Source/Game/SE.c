@@ -116,12 +116,11 @@ void Se_Shock(WORK_Other *ewk, u16 Code) {
 
 void Se_Myself(WORK_Other *ewk, u16 Code) {
     s16 xx;
-    s16 uid;
+    s16 uid = ewk->wu.id;
 
-    uid = ewk->wu.id;
     if ((ewk->wu.work_id == 1) || (uid = (ewk->master_id), uid < 2)) {
         if (Code) {
-            Code += (((uid)) * 0x300);
+            Code += uid * 0x300;
         }
 
         xx = Get_Position((PLW *)ewk);
@@ -201,16 +200,20 @@ void Call_Se(WORK_Other *ewk, u16 Code) {
 void Se_Term(WORK_Other *ewk, u16 Code) {
     s16 xx;
 
-    if (ewk->wu.work_id == 1) {
-        if ((ewk->wu.mvxy.a[1].sp >= 0) || (ewk->wu.xyz[1].disp.pos > 64)) {
-            if (Code) {
-                Code += ewk->wu.id * 0x300;
-            }
-
-            xx = Get_Position((PLW *)ewk);
-            SsRequestPan(Code, xx, xx, 0, 2);
-        }
+    if (ewk->wu.work_id != 1) {
+        return;
     }
+
+    if ((ewk->wu.mvxy.a[1].sp < 0) && (ewk->wu.xyz[1].disp.pos <= 64)) {
+        return;
+    }
+
+    if (Code) {
+        Code += ewk->wu.id * 0x300;
+    }
+
+    xx = Get_Position((PLW *)ewk);
+    SsRequestPan(Code, xx, xx, 0, 2);
 }
 
 void Finish_SE() {
