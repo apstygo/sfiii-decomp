@@ -245,13 +245,96 @@ void renew_judge_final_work(s16 ix, s16 pt) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", makeup_final_grade);
-#else
 void makeup_final_grade(s16 ix, s16 pt) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 get_grade_ix(s32 pts);
 #endif
+    s16 i;
+    s16 tt = 0;
+    s16 dt;
+
+    if ((dt = judge_final[ix][pt].vcr_ix) == 0) {
+        dt = 1;
+    }
+
+    for (i = 0; i < judge_final[ix][pt].vcr_ix; i++) {
+        tt += judge_final[ix][pt].vs_cpu_result[i];
+    }
+
+    if (judge_final[ix][pt].vs_cpu_result[15] != -1) {
+        tt += judge_final[ix][pt].vs_cpu_result[15];
+        dt += 1;
+    }
+
+    if (dt) {
+        judge_final[ix][pt].vs_cpu_result[11] = tt / dt;
+    } else {
+        judge_final[ix][pt].vs_cpu_result[11] = 0;
+    }
+
+    judge_final[ix][pt].vs_cpu_grade[11] = get_grade_ix(judge_final[ix][pt].vs_cpu_result[11]);
+
+    if (judge_final[ix][pt].vs_cpu_result[15] != -1) {
+        tt /= 11;
+    } else {
+        tt /= 10;
+    }
+
+    for (i = 0; i < 3; i++) {
+        if (judge_final[ix][pt].vcr_ix < grade_t_f_stage[i + 1][0]) {
+            break;
+        }
+    }
+
+    tt += grade_t_f_stage[i][1];
+
+    if (judge_final[ix][pt].all_clear) {
+        tt += grade_t_f_all[judge_final[ix][pt].all_clear];
+
+        for (i = 0; i < 10; i++) {
+            if (judge_final[ix][pt].keizoku < grade_t_f_continue[i + 1][0]) {
+                break;
+            }
+        }
+
+        tt += grade_t_f_continue[i][1];
+
+        for (i = 0; i < 10; i++) {
+            if (judge_final[ix][pt].sp_point < grade_t_f_gradeup[i + 1][0]) {
+                break;
+            }
+        }
+
+        tt += grade_t_f_gradeup[i][1];
+
+        if (judge_final[ix][pt].vs_cpu_grade[13] != -1) {
+            for (i = 0; i < 3; i++) {
+                if (judge_final[ix][pt].vs_cpu_grade[13] < grade_t_f_bss_ball[i + 1][0]) {
+                    break;
+                }
+            }
+
+            tt += grade_t_f_bss_ball[i][1];
+        }
+
+        if (judge_final[ix][pt].vs_cpu_grade[14] != -1) {
+            for (i = 0; i < 3; i++) {
+                if (judge_final[ix][pt].vs_cpu_grade[14] < grade_t_f_bss_car[i + 1][0]) {
+                    break;
+                }
+            }
+
+            tt += grade_t_f_bss_car[i][1];
+        }
+    }
+
+    if (tt < 0) {
+        tt = 0;
+    }
+
+    judge_final[ix][pt].vs_cpu_result[12] = tt;
+    judge_final[ix][pt].vs_cpu_grade[12] = judge_final[ix][pt].grade = get_grade_ix(tt);
+}
 
 void grade_final_grade_bonus() {
     u32 bonus_point = grade_t_table[judge_final[WGJ_Target][Final_Play_Type[WGJ_Target]].grade][1];
@@ -259,13 +342,41 @@ void grade_final_grade_bonus() {
     Score[WGJ_Target][Final_Play_Type[WGJ_Target]] += bonus_point;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", makeup_spp_frdat);
-#else
 void makeup_spp_frdat(s16 ix, s16 pt) {
-    not_implemented(__func__);
+    s16 i;
+    s16 j;
+    s16 k;
+    u8 *dmw;
+
+    dmw = *judge_final[ix][pt].fr_sort_data;
+
+    for (j = 0, i = 0; i < judge_final[ix][pt].vcr_ix; j++, i++) {
+        if (i == judge_final[ix][pt].vs_cpu_player[0xF]) {
+            *(dmw + (j * 4)) = 9;
+            *(dmw + ((((j)) * 4) + 1)) = judge_final[ix][pt].vs_cpu_grade[0xF];
+            *(dmw + ((((j)) * 4) + 2)) = 0x12;
+            j++;
+        }
+        *(dmw + (((j)) * 4)) = i;
+        *(dmw + ((((j)) * 4) + 1)) = judge_final[ix][pt].vs_cpu_grade[(i)];
+        *(dmw + ((((j)) * 4) + 2)) = judge_final[ix][pt].vs_cpu_player[(i)];
+    }
+
+    judge_final[ix][pt].fr_ix = j;
+
+    for (k = i; k < 0xA; j++, k++) {
+        *(dmw + (((j)) * 4)) = k;
+    }
+
+    judge_final[ix][pt].sp_point = 0;
+
+    for (i = 1; i < judge_final[ix][pt].fr_ix; i++) {
+        if ((*(dmw + (((((i))) * 4) + 1))) > (*(dmw + ((((i)-1) * 4) + 1)))) {
+            judge_final[ix][pt].sp_point += 1;
+            *(dmw + ((((i)) * 4) + 3)) = 1;
+        }
+    }
 }
-#endif
 
 void grade_makeup_round_parameter(s16 ix) {
 #if defined(TARGET_PS2)
