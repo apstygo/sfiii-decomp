@@ -257,9 +257,21 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", vital_base
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", spgauge_base_put);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", stun_put);
+#else
+void stun_put(u8 Pl_Num, u8 stun) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", stun_base_put);
+#else
+void stun_base_put(u8 Pl_Num, s16 len) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", WipeInit);
 
@@ -395,7 +407,13 @@ void player_name() {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", stun_mark_write);
+#else
+void stun_mark_write(u8 Pl_Num, s16 len) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", max_mark_write);
 
@@ -439,23 +457,23 @@ void combo_message_set(u8 pl, u8 kind, u8 x, u8 num, u8 hi, u8 low) {
     u8 xw;
     u8 xw2;
 
-    if (No_Trans) { 
+    if (No_Trans) {
         return;
     }
-    
+
     ppgSetupCurrentDataList(&ppgScrList);
     if (num > combo_mtbl[kind][2]) {
         xw = combo_mtbl[kind][2];
     } else {
         xw = num;
     }
-        
+
     if (num > combo_mtbl[kind][2]) {
         xw2 = (num - (combo_mtbl[kind][2]));
     } else {
         xw2 = 0;
     }
-        
+
     switch (kind) {
     case 2:
     case 1:
@@ -464,28 +482,28 @@ void combo_message_set(u8 pl, u8 kind, u8 x, u8 num, u8 hi, u8 low) {
             if (hi != 0) {
                 scfont_sqput(x, 7, 8, 0, hi, 6, 1, 2, 2);
             }
-                
+
             if (num > 1) {
                 scfont_sqput(x + 1, 7, 8, 0, low, 6, 1, 2, 2);
             }
-                
+
             if (num > 3) {
                 scfont_sqput(x + 3, 7, 8, 2, combo_mtbl[kind][0], combo_mtbl[kind][1], xw, 2, 2);
                 return;
             }
         } else {
             scfont_sqput(xw2, 7, 8, 2, (combo_mtbl[kind][0] + combo_mtbl[kind][2]) - xw, combo_mtbl[kind][1], xw, 2, 2);
-            if (xw2 > 1) {   
+            if (xw2 > 1) {
                 scfont_sqput(xw2 - 2, 7, 8, 0, low, 6, 1, 2, 2);
             }
-                
+
             if ((xw2 > 2) && (hi != 0)) {
                 scfont_sqput(xw2 - 3, 7, 8, 0, hi, 6, 1, 2, 2);
                 return;
             }
         }
         break;
-        
+
     case 3:
     case 4:
     case 5:
@@ -508,7 +526,13 @@ void combo_pts_set(u8 pl, u8 x, u8 num, s8 *pts, s8 digit) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", naming_set);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", stun_gauge_waku_write);
+#else
+void stun_gauge_waku_write(s16 p1len, s16 p2len) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", silver_stun_put);
 
