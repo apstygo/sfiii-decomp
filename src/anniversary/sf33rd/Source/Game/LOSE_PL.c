@@ -115,6 +115,7 @@ void Lose_20000(PLW *wk) {
 
     default:
         Normal_normal_Loser(wk);
+        break;
     }
 
     if (set_field_hosei_flag(&plw[wk->wu.id], scrr, 1) != 0) {
@@ -181,25 +182,25 @@ void Normal_normal_Loser(PLW *wk) {
 
     if ((pcon_rno[1] == 0) || (pcon_rno[1] == 4)) {
         return;
-    } else {
-        switch (wk->wu.routine_no[3]) {
-        case 0:
-            wk->wu.routine_no[3]++;
-            lose_rno[0] = lose_rno[1] = lose_rno[2] = 0;
-            work = random_16();
-            work &= 7;
-            set_char_move_init(&wk->wu, 9, work + 0x18);
-            break;
+    }
 
-        case 1:
-        case 9:
-            char_move(&wk->wu);
-            break;
-        }
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        lose_rno[0] = lose_rno[1] = lose_rno[2] = 0;
+        work = random_16();
+        work &= 7;
+        set_char_move_init(&wk->wu, 9, work + 0x18);
+        break;
 
-        if (set_field_hosei_flag(&plw[wk->wu.id], scrr, 1) != 0) {
-            set_field_hosei_flag(&plw[wk->wu.id], scrl, 0);
-        }
+    case 1:
+    case 9:
+        char_move(&wk->wu);
+        break;
+    }
+
+    if (set_field_hosei_flag(&plw[wk->wu.id], scrr, 1) != 0) {
+        set_field_hosei_flag(&plw[wk->wu.id], scrl, 0);
     }
 }
 
