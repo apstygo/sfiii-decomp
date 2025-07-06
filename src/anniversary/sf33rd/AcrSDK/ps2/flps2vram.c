@@ -7,6 +7,9 @@
 #include "sf33rd/AcrSDK/ps2/flps2dma.h"
 #include "sf33rd/AcrSDK/ps2/flps2etc.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
+
+#include <libgraph.h>
+
 #include <memory.h>
 
 #if defined(TARGET_PS2)
@@ -155,38 +158,38 @@ s32 flPS2GetTextureInfoFromContext(plContext *bits, s32 bnum, u32 th, u32 flag) 
         return 0;
 
     case 0:
-        lpflTexture->format = 0x14;
+        lpflTexture->format = SCE_GS_PSMT4;
         lpflTexture->bitdepth = 0;
         break;
 
     case 1:
-        lpflTexture->format = 0x13;
+        lpflTexture->format = SCE_GS_PSMT8;
         lpflTexture->bitdepth = 1;
         break;
 
     case 2:
-        lpflTexture->format = 2;
+        lpflTexture->format = SCE_GS_PSMCT16;
         lpflTexture->bitdepth = 2;
         break;
 
     case 3:
-        lpflTexture->format = 1;
+        lpflTexture->format = SCE_GS_PSMCT24;
         lpflTexture->bitdepth = 3;
         break;
 
     case 4:
-        lpflTexture->format = 0;
+        lpflTexture->format = SCE_GS_PSMCT32;
         lpflTexture->bitdepth = 4;
         break;
     }
 
     switch (bits->width) {
-    case 0x400:
-    case 0x200:
-    case 0x100:
-    case 0x80:
-    case 0x40:
-    case 0x20:
+    case 1024:
+    case 512:
+    case 256:
+    case 128:
+    case 64:
+    case 32:
         break;
 
     default:
@@ -197,12 +200,12 @@ s32 flPS2GetTextureInfoFromContext(plContext *bits, s32 bnum, u32 th, u32 flag) 
     lpflTexture->tw = flPS2GetTextureBuffWidth(lpflTexture->width);
 
     switch (bits->height) {
-    case 0x400:
-    case 0x200:
-    case 0x100:
-    case 0x80:
-    case 0x40:
-    case 0x20:
+    case 1024:
+    case 512:
+    case 256:
+    case 128:
+    case 64:
+    case 32:
         break;
 
     default:
@@ -271,23 +274,23 @@ void flPS2VramTrans(FLTexture *lpflTexture) {
 
     for (lp0 = 0; lp0 < lpflTexture->tex_num; lp0++) {
         switch (lpflTexture->format) {
-        case 20:
+        case SCE_GS_PSMT4:
             tex_size = (dw * dh) >> 1;
             break;
 
-        case 19:
+        case SCE_GS_PSMT8:
             tex_size = dw * dh;
             break;
 
-        case 2:
+        case SCE_GS_PSMCT16:
             tex_size = dw * dh * 2;
             break;
 
-        case 1:
+        case SCE_GS_PSMCT24:
             tex_size = dw * dh * 4;
             break;
 
-        case 0:
+        case SCE_GS_PSMCT32:
             tex_size = dw * dh * 4;
             break;
         }

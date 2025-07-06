@@ -2724,4 +2724,15 @@ typedef struct {
     s8 colnum; // offset 0x6, size 0x1
 } VIT;
 
+typedef struct {
+    // total size: 0xA
+    s16 cstn;         // offset 0x0, size 0x2
+    s8 sflag;         // offset 0x2, size 0x1
+    s8 osflag;        // offset 0x3, size 0x1
+    s8 g_or_s;        // offset 0x4, size 0x1
+    s8 stimer;        // offset 0x5, size 0x1
+    s16 slen;         // offset 0x6, size 0x2
+    s8 proccess_dead; // offset 0x8, size 0x1
+} SDAT;
+
 #endif
