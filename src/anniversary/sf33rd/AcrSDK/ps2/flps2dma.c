@@ -7,6 +7,7 @@
 #include <eekernel.h>
 #include <eeregs.h>
 #include <libdma.h>
+#include <libgraph.h>
 
 // sbss
 u64 flPs2StoreImageOldIMR;
@@ -135,21 +136,21 @@ uintptr_t flPS2VIF1MakeLoadImage(uintptr_t buff_ptr, u32 irq, uintptr_t data_ptr
         wk_h = h;
     } else {
         switch (dpsm) {
-        case 0:
-        case 1:
+        case SCE_GS_PSMCT32:
+        case SCE_GS_PSMCT24:
             wk_h = 0x70000 / (w * 4);
             break;
 
-        case 2:
-        case 10:
+        case SCE_GS_PSMCT16:
+        case SCE_GS_PSMCT16S:
             wk_h = 0x70000 / (w * 2);
             break;
 
-        case 19:
+        case SCE_GS_PSMT8:
             wk_h = 0x70000 / w;
             break;
 
-        case 20:
+        case SCE_GS_PSMT4:
             wk_h = 0x70000 / (w >> 1);
             break;
         }
@@ -163,21 +164,21 @@ uintptr_t flPS2VIF1MakeLoadImage(uintptr_t buff_ptr, u32 irq, uintptr_t data_ptr
 
     for (lp0 = 0; lp0 < count; lp0++) {
         switch (dpsm) {
-        case 0:
-        case 1:
+        case SCE_GS_PSMCT32:
+        case SCE_GS_PSMCT24:
             trans_size = w * wk_h * 4;
             break;
 
-        case 2:
-        case 10:
+        case SCE_GS_PSMCT16:
+        case SCE_GS_PSMCT16S:
             trans_size = w * wk_h * 2;
             break;
 
-        case 19:
+        case SCE_GS_PSMT8:
             trans_size = w * wk_h;
             break;
 
-        case 20:
+        case SCE_GS_PSMT4:
             trans_size = (w * wk_h) / 2;
             break;
         }

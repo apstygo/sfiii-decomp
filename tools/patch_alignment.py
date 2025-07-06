@@ -56,6 +56,8 @@ special_cases = {
     ("msgtblj", ".sdata", 0): 16,
     ("knjsub", ".sdata", 0): 16,
     ("msgsub", ".sdata", 0): 16,
+    ("msgtble", ".sdata", 0): 16,
+    ("reboot", ".sdata", 0): 16,
 
     ("sbss_579878", ".sbss", 0): 8,
     ("EFF45", ".sbss", 0): 16,

@@ -70,7 +70,7 @@ int sceCdRead(u_int lsn, u_int sectors, void *buf, sceCdRMode *mode) {
 }
 
 int sceCdSync(int mode) {
-    printf("[SDK] sceCdSync(mode: %d)\n", mode);
+    // printf("[SDK] sceCdSync(mode: %d)\n", mode);
     return 0;
 }
 
@@ -253,11 +253,11 @@ int sceDmaReset(int mode) {
 }
 
 void sceDmaSend(sceDmaChan *d, void *tag) {
-    printf("[SDK] sceDmaSend(d: %X, tag: %X)\n", d, tag);
+    // printf("[SDK] sceDmaSend(d: %X, tag: %X)\n", d, tag);
 }
 
 int sceDmaSync(sceDmaChan *d, int mode, int timeout) {
-    printf("[SDK] sceDmaSync(d: %X, mode: %d, timeout: %d)\n", d, mode, timeout);
+    // printf("[SDK] sceDmaSync(d: %X, mode: %d, timeout: %d)\n", d, mode, timeout);
     return 0;
 }
 
@@ -268,7 +268,7 @@ int sceGsExecLoadImage(sceGsLoadImage *lp, unsigned int *srcaddr) {
 }
 
 void sceGsResetGraph(short mode, short inter, short omode, short ffmode) {
-    printf("[SDK] sceGsResetGraph(mode: %d, inter: %d, omode: %d, ffmode: %d)\n", mode, inter, omode, ffmode);
+    // printf("[SDK] sceGsResetGraph(mode: %d, inter: %d, omode: %d, ffmode: %d)\n", mode, inter, omode, ffmode);
 }
 
 void sceGsResetPath() {
@@ -349,7 +349,11 @@ void sceVpu0Reset() {
 }
 
 void sceVu0UnitMatrix(sceVu0FMATRIX m) {
-    not_implemented(__func__);
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            m[i][j] = (i == j);
+        }
+    }
 }
 
 // libdbc
@@ -362,68 +366,18 @@ void sceDbcEnd() {
     not_implemented(__func__);
 }
 
-// libmc
-
-int sceMcInit(void) {
-    return sceMcIniSucceed;
-}
-
-int sceMcOpen(int, int, const char *, int) {
-    not_implemented(__func__);
-}
-
-int sceMcClose(int) {
-    not_implemented(__func__);
-}
-
-int sceMcRead(int, void *, int) {
-    not_implemented(__func__);
-}
-
-int sceMcWrite(int, const void *, int) {
-    not_implemented(__func__);
-}
-
-int sceMcMkdir(int, int, const char *) {
-    not_implemented(__func__);
-}
-
-int sceMcDelete(int, int, const char *) {
-    not_implemented(__func__);
-}
-
-int sceMcFormat(int, int) {
-    not_implemented(__func__);
-}
-
-int sceMcUnformat(int, int) {
-    not_implemented(__func__);
-}
-
-int sceMcGetDir(int, int, const char *, unsigned int, int, sceMcTblGetDir *) {
-    not_implemented(__func__);
-}
-
-int sceMcGetInfo(int, int, int *, int *, int *) {
-    not_implemented(__func__);
-}
-
-int sceMcSync(int, int *, int *) {
-    not_implemented(__func__);
-}
-
 // eekernel
 
 void FlushCache(int operation) {
-    printf("[SDK] FlushCache called (operation: %d)\n", operation);
+    // printf("[SDK] FlushCache called (operation: %d)\n", operation);
 }
 
 void iFlushCache(int operation) {
-    printf("[SDK] iFlushCache called (operation: %d)\n", operation);
+    // printf("[SDK] iFlushCache called (operation: %d)\n", operation);
 }
 
 void InvalidDCache(void *begin, void *end) {
-    printf("[SDK] InvalidDCache called (begin: %0X, end: %0X)\n", begin, end);
+    // printf("[SDK] InvalidDCache called (begin: %0X, end: %0X)\n", begin, end);
 }
 
 void SyncDCache(void *, void *) {
@@ -455,12 +409,6 @@ int AddDmacHandler(int, int (*)(int), int) {
 }
 
 void ExitHandler() {
-    not_implemented(__func__);
-}
-
-// vu0
-
-float cosf(float) {
     not_implemented(__func__);
 }
 

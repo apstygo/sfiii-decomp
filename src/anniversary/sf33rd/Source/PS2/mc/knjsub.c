@@ -9,6 +9,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#if !defined(TARGET_PS2)
+#include "port/sdl_app.h"
+#endif
+
 typedef struct _rgba {
     // total size: 0x4
     u8 r; // offset 0x0, size 0x1
@@ -424,13 +428,16 @@ void KnjSetColor(u32 color) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/knjsub", KnjSetAlpha);
-#else
 void KnjSetAlpha(u32 alpha) {
-    not_implemented(__func__);
+    _kanji_w *kw = &kanji_w;
+
+    if (KnjUseCheck() == 0) {
+        return;
+    }
+
+    kw->color = (kw->color & 0xFFFFFF) | (alpha << 0x18);
+    kw->bg_color = (kw->bg_color & 0xFFFFFF) | (alpha << 0x18);
 }
-#endif
 
 void KnjSetRgb(u32 color) {
     _kanji_w *kw = &kanji_w;
@@ -729,7 +736,7 @@ static u32 ascii2sjis_nec(u8 data) {
     return data + 0x7FFF + 0x4FF;
 }
 
-static s32 utf82unicode(u8 **str) {
+static s32 utf82unicode(const u8 **str) {
     s32 code;
     s32 tmpa;
     s32 tmpb;
@@ -905,14 +912,14 @@ static s32 is_unicode_han(_kanji_w *kw, u32 index) {
 
 static void unicode_puts(_kanji_w *kw, const s8 *str) {
     s32 x;
-    u8 *str_buf;
+    const u8 *str_buf;
     u32 code;
     u32 index;
     u32 *img;
     u32 *pp;
     u32 han_f;
 
-    str_buf = (u8 *)str;
+    str_buf = (const u8 *)str;
     x = kw->x;
     pp = kw->pack_cur;
 
@@ -961,22 +968,52 @@ static void unicode_puts(_kanji_w *kw, const s8 *str) {
     kw->pack_cur = pp;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/knjsub", KnjStrLen);
-#else
 s32 KnjStrLen(const s8 *str) {
-    not_implemented(__func__);
+    u32 index;
+    s32 ret;
+    s32 code;
+    const u8 *str_buf;
+    _kanji_w *kw = &kanji_w;
+
+    if (kw->sort != 2) {
+        return strlen(str);
+    }
+
+    ret = 0;
+    str_buf = (const u8 *)str;
+
+    while (1) {
+        code = utf82unicode(&str_buf);
+
+        if (code == 0) {
+            break;
+        }
+
+        if (kw->uni_ascii == 0) {
+            if (code < 0x10) {
+                ret += 2;
+                continue;
+            } else if (code < 0x80) {
+                ret += 1;
+                continue;
+            }
+        }
+
+        index = unicode2index(kw, code);
+        ret += (is_unicode_han(kw, index) == 0) ? 2 : 1;
+    }
+
+    return ret;
 }
-#endif
 
 s32 KnjCheckCode(const s8 *str) {
     s32 ret;
     u32 code;
     u32 index;
-    u8 *str_buf;
+    const u8 *str_buf;
     _kanji_w *kw = &kanji_w;
 
-    str_buf = (u8 *)str;
+    str_buf = (const u8 *)str;
     code = *str_buf;
 
     if (code == 0) {
@@ -1044,7 +1081,6 @@ static u32 *make_env_pkt(u32 *p, u32 /* unused */, u32 /* unused */) {
 }
 
 static u32 *make_img_pkt(u32 *p, u32 *img, u32 dbp, u32 dbw, u32 dbsm, u32 dsax, u32 dsay, u32 rrw, u32 rrh) {
-#if defined(TARGET_PS2)
     s32 nw;
     s32 pw;
     s32 md;
@@ -1072,6 +1108,9 @@ static u32 *make_img_pkt(u32 *p, u32 *img, u32 dbp, u32 dbw, u32 dbsm, u32 dsax,
         pw = 1;
     }
 
+#if !defined(TARGET_PS2)
+    SDLApp_CreateKnjsubTexture(rrw, rrh, img, dbsm);
+#else
     nw = rrw * rrh * pw / 32;
 
     if ((rrw * rrh * pw) % 32) {
@@ -1089,9 +1128,9 @@ static u32 *make_img_pkt(u32 *p, u32 *img, u32 dbp, u32 dbw, u32 dbsm, u32 dsax,
     *((u64 *)p)++ = SCE_GS_TEXFLUSH;
     *((u64 *)p)++ = SCE_GS_SET_BITBLTBUF(0, 0, 0, dbp, dbw, dbsm);
     *((u64 *)p)++ = SCE_GS_BITBLTBUF;
-    *((u64 *)p)++ = SCE_GS_SET_SCISSOR(0, 0, dsax, dsay);
+    *((u64 *)p)++ = SCE_GS_SET_TRXPOS(0, 0, dsax, dsay, 0);
     *((u64 *)p)++ = SCE_GS_TRXPOS;
-    *((u64 *)p)++ = SCE_GS_SET_ST(rrw, rrh);
+    *((u64 *)p)++ = SCE_GS_SET_TRXREG(rrw, rrh);
     *((u64 *)p)++ = SCE_GS_TRXREG;
     *((u64 *)p)++ = 0;
     *((u64 *)p)++ = SCE_GS_TRXDIR;
@@ -1113,14 +1152,13 @@ static u32 *make_pal_pkt(_kanji_w *kw, u32 *p) {
 
     for (i = 0; i < kw->pmax; i++) {
         img = (u32 *)(kw->rgba_adrs + (i * 16));
-        p = make_img_pkt(p, img, kw->pdbp + i, 1, 0, 0, 0, 8, 2);
+        p = make_img_pkt(p, img, kw->pdbp + i, 1, SCE_GS_PSMCT32, 0, 0, 8, 2);
     }
 
     return p;
 }
 
 static u32 *make_fnt_pkt(_kanji_w *kw, u32 *p, u32 *img, u32 han_f) {
-#if defined(TARGET_PS2)
     s32 x;
     s32 y;
     s32 x0;
@@ -1135,7 +1173,7 @@ static u32 *make_fnt_pkt(_kanji_w *kw, u32 *p, u32 *img, u32 han_f) {
     u32 ys;
     u32 m;
 
-    p = make_img_pkt(p, img, kw->fdbp, 1, 20, 0, 0, kw->fontw, kw->fonth);
+    p = make_img_pkt(p, img, kw->fdbp, 1, SCE_GS_PSMT4, 0, 0, kw->fontw, kw->fonth);
     p = make_fbg_pkt(kw, p, img, han_f);
     x = kw->x * 16;
     y = kw->y * 16;
@@ -1156,6 +1194,9 @@ static u32 *make_fnt_pkt(_kanji_w *kw, u32 *p, u32 *img, u32 han_f) {
     v1 = kw->fonth * 16;
     m = ((kw->dispw == kw->fontw) && (kw->disph == kw->fonth)) ? 0 : 1;
 
+#if !defined(TARGET_PS2)
+    SDLApp_DrawKnjsubTexture(x0, y0, x1, y1, 0, 0, u1, v1, kw->color);
+#else
     *p++ = 0x10000008;
     *p++ = 0;
     *p++ = 0;
@@ -1165,7 +1206,8 @@ static u32 *make_fnt_pkt(_kanji_w *kw, u32 *p, u32 *img, u32 han_f) {
     *((u64 *)p)++ = SCE_GIF_PACKED_AD;
     *((u64 *)p)++ = 0;
     *((u64 *)p)++ = SCE_GS_TEXFLUSH;
-    *((u64 *)p)++ = SCE_GS_SET_TEX0_1(kw->fdbp, 1, 20, 5, 5, 1, 0, (kw->pdbp + kw->palet), SCE_GS_PSMCT32, 0, 0, 1);
+    *((u64 *)p)++ =
+        SCE_GS_SET_TEX0_1(kw->fdbp, 1, SCE_GS_PSMT4, 5, 5, 1, 0, (kw->pdbp + kw->palet), SCE_GS_PSMCT32, 0, 0, 1);
     *((u64 *)p)++ = SCE_GS_TEX0_1;
     *((u64 *)p)++ = SCE_GS_SET_TEX1_1(0, 0, m, m, 0, 0, 0);
     *((u64 *)p)++ = SCE_GS_TEX1_1;
@@ -1184,7 +1226,6 @@ static u32 *make_fnt_pkt(_kanji_w *kw, u32 *p, u32 *img, u32 han_f) {
 }
 
 static u32 *make_fbg_pkt(_kanji_w *kw, u32 *p, u32 * /* unused */, u32 han_f) {
-#if defined(TARGET_PS2)
     s32 x;
     s32 y;
     s32 x0;
@@ -1222,6 +1263,9 @@ static u32 *make_fbg_pkt(_kanji_w *kw, u32 *p, u32 * /* unused */, u32 han_f) {
     v1 = kw->fonth * 16;
     m = ((kw->dispw == kw->fontw) && (kw->disph == kw->fonth)) ? 0 : 1;
 
+#if !defined(TARGET_PS2)
+    SDLApp_DrawKnjsubTexture(x0, y0, x1, y1, 8, 8, u1 + 8, v1 + 8, kw->bg_color);
+#else
     *p++ = 0x10000008;
     *p++ = 0;
     *p++ = 0;
@@ -1231,7 +1275,8 @@ static u32 *make_fbg_pkt(_kanji_w *kw, u32 *p, u32 * /* unused */, u32 han_f) {
     *((u64 *)p)++ = SCE_GIF_PACKED_AD;
     *((u64 *)p)++ = 0;
     *((u64 *)p)++ = SCE_GS_TEXFLUSH;
-    *((u64 *)p)++ = SCE_GS_SET_TEX0(kw->fdbp, 1, 20, 5, 5, 1, 0, (kw->pdbp + kw->palet), SCE_GS_PSMCT32, 0, 0, 1);
+    *((u64 *)p)++ =
+        SCE_GS_SET_TEX0(kw->fdbp, 1, SCE_GS_PSMT4, 5, 5, 1, 0, (kw->pdbp + kw->palet), SCE_GS_PSMCT32, 0, 0, 1);
     *((u64 *)p)++ = SCE_GS_TEX0_1;
     *((u64 *)p)++ = SCE_GS_SET_TEX1(0, 0, m, m, 0, 0, 0);
     *((u64 *)p)++ = SCE_GS_TEX1_1;
