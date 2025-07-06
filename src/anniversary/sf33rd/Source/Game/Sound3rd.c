@@ -224,8 +224,8 @@ void Exit_sound_system() {
 }
 
 void Init_bgm_work() {
-    work_init_zero((s32 *)&bgm_exe, 22);
-    work_init_zero((s32 *)&bgm_req, 8);
+    work_init_zero((s32 *)&bgm_exe, sizeof(BGMExecution));
+    work_init_zero((s32 *)&bgm_req, sizeof(BGMRequest));
 }
 
 void sound_all_off() {

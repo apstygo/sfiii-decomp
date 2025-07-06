@@ -15,5 +15,6 @@ void KnjPuts(const s8 *str);
 void KnjPrintf(const s8 *fmt, ...);
 void KnjFlush();
 s32 KnjStrLen(const s8 *str);
+s32 KnjCheckCode(const s8 *str);
 
 #endif
