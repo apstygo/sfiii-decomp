@@ -62,14 +62,102 @@ s16 mts_ob_curr_stage;
 // forward decls
 extern const s16 mts_OB_page[22][2];
 extern const MTSBase mts_base[24];
+void clear_texcash_work(s16 ix);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", literal_250_00554C48);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", literal_251_00554C50);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", literal_252_00554C58);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", literal_253_00554C60);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", disp_texcash_free_area);
+void disp_texcash_free_area() {
+    s16 i;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", search_texcash_free_area);
+    if (Debug_w[11]) {
+        flPrintColor(0xFF8F8F8F);
+
+        for (i = 0; i < 24; i++) {
+            flPrintL(13, i + 8, texcash_name[i]);
+            if (i) {
+                flPrintL(16, i + 8, texcash_name[24]);
+            }
+        }
+
+        flPrintColor(0xFFCFCFCF);
+        for (i = 1; i < 24; i++) {
+            if (mts_ok[i].be) {
+                if (mts[i].mltnum16 != 0) {
+                    flPrintL(16, i + 8, "%3X", mts_ok[i].min16);
+                    flPrintL(20, i + 8, "%3X", mts[i].mltnum16);
+
+                    if (mts[i].mltcshtime16 != 0) {
+                        flPrintL(24, i + 8, "%2d", mts[i].mltcshtime16);
+                    } else {
+                        flPrintL(24, i + 8, texcash_name[27]);
+                    }
+                } else {
+                    flPrintL(16, i + 8, texcash_name[26]);
+                }
+
+                if (mts[i].mltnum32 != 0) {
+                    flPrintL(28, i + 8, "%3X", mts_ok[i].min32);
+                    flPrintL(32, i + 8, "%3X", mts[i].mltnum32);
+
+                    if (mts[i].mltcshtime32 != 0) {
+                        flPrintL(36, i + 8, "%2d", mts[i].mltcshtime32);
+                    } else {
+                        flPrintL(36, i + 8, texcash_name[27]);
+                    }
+                } else {
+                    flPrintL(28, i + 8, texcash_name[26]);
+                }
+
+                flPrintL(40, i + 8, "%3X", mts[i].mltgidx16);
+                flPrintL(46, i + 8, "%2X", mts[i].mltnum);
+
+                if ((i == 7) && (mts_ob_curr_stage != bg_w.stage)) {
+                    flPrintColor(0xFFFF8F8F);
+                    flPrintL(11, i + 8, "!?");
+                    flPrintColor(0xFFCFCFCF);
+                }
+
+                if (mts[i].ext) {
+                    flPrintL(50, i + 8, "%2d", 64 - mts_ok[i].mincg);
+                    flPrintL(53, i + 8, "%2d", 64 - mts[i].cpat->kazu);
+                } else {
+                    flPrintL(50, i + 8, texcash_name[28]);
+                }
+            } else {
+                flPrintL(16, i + 8, texcash_name[25]);
+            }
+        }
+    }
+}
+
+void search_texcash_free_area(s16 ix) {
+    PatternState *mc;
+    s16 i;
+    s16 num = 0;
+
+    for (mc = mts[ix].mltcsh16, i = 0; i < mts[ix].mltnum16; i++) {
+        if (mc[i].cs.code == -1) {
+            num++;
+        }
+    }
+
+    if (num < mts_ok[ix].min16) {
+        mts_ok[ix].min16 = num;
+    }
+
+    num = 0;
+    for (mc = mts[ix].mltcsh32, i = 0; i < mts[ix].mltnum32; i++) {
+        if (mc[i].cs.code == -1) {
+            num++;
+        }
+    }
+
+    if (num < mts_ok[ix].min32) {
+        mts_ok[ix].min32 = num;
+    }
+
+    if ((mts[ix].ext) && (mts[ix].cpat->kazu > mts_ok[ix].mincg)) {
+        mts_ok[ix].mincg = mts[ix].cpat->kazu;
+    }
+}
 
 void init_texcash_1st() {
     s16 i;
@@ -85,13 +173,18 @@ void init_texcash_1st() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", init_texcash_before_process);
-#else
 void init_texcash_before_process() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void init_texcash_2nd(s32 ix);
 #endif
+    s16 i;
+
+    for (i = 1; i < 24; i++) {
+        if ((mts_ok[i].be) && (mts[i].ext)) {
+            init_texcash_2nd(i);
+        }
+    }
+}
 
 void init_texcash_2nd(s16 ix) {
     PatternState *mc;
@@ -141,18 +234,81 @@ void init_texcash_2nd(s16 ix) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", literal_379_00554C70);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", texture_cash_update);
-#else
 void texture_cash_update() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void search_texcash_free_area(s32 ix);
 #endif
+    PatternState *mc;
+    s16 i;
+    s16 num;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", literal_413_00554C90);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", literal_414_00554CB0);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", update_with_tpu_free);
+    for (num = 0; num < 24; num++) {
+        if (mts_ok[num].be != 0) {
+            if (mts[num].ext) {
+                for (i = 0; i < mts[num].cpat->kazu; i++) {
+                    if ((--mts[num].cpat->adr[i]->time) == 0) {
+                        makeup_tpu_free(mts[num].mltnum16 / 256, mts[num].mltnum32 / 64, &mts[num].cpat->adr[i]->map);
+
+                        if ((tpu_free->x16 != mts[num].cpat->adr[i]->x16) ||
+                            (tpu_free->x32 != mts[num].cpat->adr[i]->x32)) {
+                            Debug_w[11] = 1;
+                            do {
+                                disp_texcash_free_area();
+                                flPrintL(2, 3, "MAPPING MISS : %2d : &2d", num, i);
+                                njWaitVSync_with_N();
+                            } while (1);
+                        }
+
+                        update_with_tpu_free(mts[num].mltcsh16, mts[num].mltcsh32);
+                    }
+                }
+            } else {
+                if ((mts[num].mltcshtime16 + mts[num].mltcshtime32) != 0) {
+                    mlt_obj_trans_update(&mts[num]);
+                }
+            }
+
+            search_texcash_free_area(num);
+        }
+    }
+    disp_texcash_free_area();
+}
+
+void update_with_tpu_free(PatternState *mc16, PatternState *mc32) {
+    s16 i;
+
+    for (i = 0; i < tpu_free->x16; i++) {
+        mc16[tpu_free->x16_used[i]].time -= 1;
+        if (mc16[tpu_free->x16_used[i]].time < 0) {
+            Debug_w[11] = 1;
+            do {
+                disp_texcash_free_area();
+                flPrintL(2, 3, "CACHE MISS x16 : %3d", tpu_free->x16_used[i]);
+                njWaitVSync_with_N();
+            } while (1);
+        }
+
+        if (mc16[tpu_free->x16_used[i]].time <= 0) {
+            mc16[tpu_free->x16_used[i]].cs.code = -1;
+        }
+    }
+
+    for (i = 0; i < tpu_free->x32; i++) {
+        mc32[tpu_free->x32_used[i]].time -= 1;
+        if (mc32[tpu_free->x32_used[i]].time < 0) {
+            Debug_w[11] = 1;
+            do {
+                disp_texcash_free_area();
+                flPrintL(2, 3, "CACHE MISS x32 : %3d", tpu_free->x32_used[i]);
+                njWaitVSync_with_N();
+            } while (1);
+        }
+
+        if (mc32[tpu_free->x32_used[i]].time <= 0) {
+            mc32[tpu_free->x32_used[i]].cs.code = -1;
+        }
+    }
+}
 
 s16 get_my_trans_mode(s16 curr) {
     if (mts_ok[curr].be == 0) {
@@ -220,8 +376,8 @@ void make_texcash_work(s16 ix) {
             adrs += sizeof(TexturePoolFree);
             mts[ix].tpu = (TexturePoolUsed *)adrs;
             work_init_zero((s32 *)mts[ix].cpat, sizeof(PatternCollection));
-            work_init_zero(&mts[ix].tpf->x16, sizeof(TexturePoolFree));
-            work_init_zero(&mts[ix].tpu->x16, sizeof(TexturePoolUsed));
+            work_init_zero((s32 *)mts[ix].tpf, sizeof(TexturePoolFree));
+            work_init_zero((s32 *)mts[ix].tpu, sizeof(TexturePoolUsed));
             init_texcash_2nd(ix);
         } else {
             memreq = mts[ix].mltnum16 * 8 + mts[ix].mltnum32 * 8;
@@ -253,16 +409,46 @@ void make_texcash_work(s16 ix) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", Clear_texcash_work);
-#else
 void Clear_texcash_work() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void clear_texcash_work(s32 ix);
 #endif
+    s16 i;
 
-// Should be called clear_texcash_work
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/texcash", _clear_texcash_work);
+    for (i = 1; i < 24; i++) {
+        clear_texcash_work(i);
+    }
+}
+
+void clear_texcash_work(s16 ix) {
+#if defined(TARGET_PS2)
+    void init_texcash_2nd(s32 ix);
+#endif
+    s16 i;
+
+    if (((mts_ok[ix].be) != 0) && ((mts_base[ix].mode & 0x20) == 0)) {
+        for (i = 0; i < mts[ix].mltnum16; i++) {
+            mts[ix].mltcsh16[i].time = 0;
+            mts[ix].mltcsh16[i].cs.code = -1;
+        }
+
+        for (i = 0; i < mts[ix].mltnum32; i++) {
+            mts[ix].mltcsh32[i].time = 0;
+            mts[ix].mltcsh32[i].cs.code = -1;
+        }
+
+        if (mts[ix].ext) {
+            work_init_zero((s32 *)mts[ix].cpat, sizeof(PatternCollection));
+            work_init_zero((s32 *)mts[ix].tpf, sizeof(TexturePoolFree));
+            work_init_zero((s32 *)mts[ix].tpu, sizeof(TexturePoolUsed));
+            init_texcash_2nd(ix);
+        }
+
+        mts_ok[ix].mincg = 0;
+        mts_ok[ix].min16 = 0x7FFF;
+        mts_ok[ix].min32 = 0x7FFF;
+    }
+}
 
 void purge_texcash_work(s16 ix) {
     if (mts_ok[ix].be == 0) {

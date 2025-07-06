@@ -12,11 +12,6 @@
 
 typedef struct {
     CVFSDevice *device;
-    void *fd;
-} CVFSHandle;
-
-typedef struct {
-    CVFSDevice *device;
     Char8 name[12];
 } CVFSNamedDevice;
 

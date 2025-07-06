@@ -8,8 +8,8 @@ Notes:
 
 | Module   | Progress   |
 |----------|------------|
-| sf33rd   | 91.36%     |
-| cri      | 77.86%     |
+| sf33rd   | 99.94%     |
+| cri      | 79.24%     |
 
 | Function                         | File                                                 | Module   | Is decompiled   |
 |----------------------------------|------------------------------------------------------|----------|-----------------|
@@ -365,7 +365,7 @@ Notes:
 | ADXSTM_Init                      | cri/libadxe/adx_stmc.c                               | cri      | ✅               |
 | ADXSJD_Init                      | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
 | ADXB_Init                        | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
-| ADXPD_Init                       | cri/libadxe/adx_xpnd.c                               | cri      |                 |
+| ADXPD_Init                       | cri/libadxe/adx_xpnd.c                               | cri      | ✅               |
 | SKG_Init                         | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXF_Init                        | cri/libadxe/adx_fini.c                               | cri      | ✅               |
 | ADXRNA_Init                      | cri/libadxe/adx_rnap.c                               | cri      | ✅               |
@@ -415,7 +415,7 @@ Notes:
 | SJRBF_GetBufSize                 | cri/libadxe/sj_rbf.c                                 | cri      | ✅               |
 | SJRBF_GetXtrSize                 | cri/libadxe/sj_rbf.c                                 | cri      | ✅               |
 | ADXB_Create                      | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
-| ADXPD_Create                     | cri/libadxe/adx_xpnd.c                               | cri      |                 |
+| ADXPD_Create                     | cri/libadxe/adx_xpnd.c                               | cri      | ✅               |
 | ADX_GetCoefficient               | cri/libadxe/adx_dcd.c                                | cri      |                 |
 | ADXB_EntryGetWrFunc              | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | adxsjd_clear                     | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
@@ -756,7 +756,7 @@ Notes:
 | njGetMatrix                      | sf33rd/Source/Game/DC_Ghost.c                        | sf33rd   | ✅               |
 | Bg_TexInit                       | sf33rd/Source/Game/bg.c                              | sf33rd   | ✅               |
 | palGetChunkGhostCP3              | sf33rd/Source/Game/color3rd.c                        | sf33rd   | ✅               |
-| Scrscreen_Init                   | sf33rd/Source/Game/sc_sub.c                          | sf33rd   |                 |
+| Scrscreen_Init                   | sf33rd/Source/Game/sc_sub.c                          | sf33rd   | ✅               |
 | ppgSetupCurrentDataList          | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
 | ppgSetupPalChunk                 | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
 | ppgPullDecBuff                   | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
@@ -796,19 +796,19 @@ Notes:
 | ppgCheckTextureDataBe            | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
 | ppgPalSrcDataReleased            | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
 | ppgCheckPaletteDataBe            | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
-| Sa_frame_Clear                   | sf33rd/Source/Game/sc_sub.c                          | sf33rd   |                 |
+| Sa_frame_Clear                   | sf33rd/Source/Game/sc_sub.c                          | sf33rd   | ✅               |
 | effect_work_init                 | sf33rd/Source/Game/EFFECT.c                          | sf33rd   | ✅               |
 | init_pulpul_work                 | sf33rd/Source/Game/PulPul.c                          | sf33rd   | ✅               |
 | init_pulpul_work2                | sf33rd/Source/Game/PulPul.c                          | sf33rd   | ✅               |
 | init_pulpul_round2               | sf33rd/Source/Game/PulPul.c                          | sf33rd   | ✅               |
 | Init_Load_Request_Queue_1st      | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
-| Game_Data_Init                   | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   |                 |
-| Setup_Default_Game_Option        | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   |                 |
+| Game_Data_Init                   | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   | ✅               |
+| Setup_Default_Game_Option        | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   | ✅               |
 | Ranking_Init                     | sf33rd/Source/Game/RANKING.c                         | sf33rd   | ✅               |
-| Copy_Save_w                      | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   |                 |
-| Copy_Check_w                     | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   |                 |
+| Copy_Save_w                      | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   | ✅               |
+| Copy_Check_w                     | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   | ✅               |
 | Setup_Difficult_V                | sf33rd/Source/Game/init3rd.c                         | sf33rd   | ✅               |
-| Setup_Limit_Time                 | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   |                 |
+| Setup_Limit_Time                 | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   | ✅               |
 | pulpul_stop                      | sf33rd/Source/Game/PulPul.c                          | sf33rd   | ✅               |
 | pulpul_stop2                     | sf33rd/Source/Game/PulPul.c                          | sf33rd   | ✅               |
 | Warning_Init                     | sf33rd/Source/Game/DEMO00.c                          | sf33rd   | ✅               |
@@ -832,10 +832,10 @@ Notes:
 | Reset_Init                       | sf33rd/Source/Game/Reset.c                           | sf33rd   | ✅               |
 | Reset_Move                       | sf33rd/Source/Game/Reset.c                           | sf33rd   | ✅               |
 | Check_Reset                      | sf33rd/Source/Game/Reset.c                           | sf33rd   | ✅               |
-| KnjInit                          | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| make_env_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
+| KnjInit                          | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| make_env_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | make_pal_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
-| make_img_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
+| make_img_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | McActAvailSet                    | sf33rd/Source/PS2/mc/mcsub.c                         | sf33rd   | ✅               |
 | save_move_aload                  | sf33rd/Source/PS2/mc/savesub.c                       | sf33rd   | ✅               |
 | auto_load_init                   | sf33rd/Source/PS2/mc/savesub.c                       | sf33rd   | ✅               |
@@ -849,23 +849,23 @@ Notes:
 | mc_sync                          | sf33rd/Source/PS2/mc/mcsub.c                         | sf33rd   | ✅               |
 | sceMcGetInfo                     | sdk/libmc/libmc.c                                    | sdk      | –               |
 | mc_act_return                    | sf33rd/Source/PS2/mc/mcsub.c                         | sf33rd   | ✅               |
-| GetMemCardMsg                    | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
+| GetMemCardMsg                    | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   | ✅               |
 | KnjSetSize                       | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | KnjSetColor                      | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
-| FormStrDisp                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
+| FormStrDisp                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   | ✅               |
 | KnjLocate                        | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
-| str_tag_get                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
-| str_str_get                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
-| KnjCheckCode                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| utf82unicode                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| unicode2index                    | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
+| str_tag_get                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   | ✅               |
+| str_str_get                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   | ✅               |
+| KnjCheckCode                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| utf82unicode                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| unicode2index                    | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | is_unicode_han                   | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
-| KnjPuts                          | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| unicode_puts                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| get_uni_adrs                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| make_fnt_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| make_fbg_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   |                 |
-| str_tag_check                    | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
+| KnjPuts                          | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| unicode_puts                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| get_uni_adrs                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| make_fnt_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| make_fbg_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
+| str_tag_check                    | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   | ✅               |
 | KnjSetRgb                        | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | mceGetInfoApdx                   | sdk/libmc/libmc.c                                    | sdk      | –               |
 | McActStopSet                     | sf33rd/Source/PS2/mc/mcsub.c                         | sf33rd   | ✅               |
@@ -893,15 +893,15 @@ Notes:
 | Entry_00                         | sf33rd/Source/Game/Entry.c                           | sf33rd   | ✅               |
 | Game_Task                        | sf33rd/Source/Game/Game.c                            | sf33rd   | ✅               |
 | init_color_trans_req             | sf33rd/Source/Game/color3rd.c                        | sf33rd   | ✅               |
-| init_texcash_before_process      | sf33rd/Source/Game/texcash.c                         | sf33rd   |                 |
+| init_texcash_before_process      | sf33rd/Source/Game/texcash.c                         | sf33rd   | ✅               |
 | Loop_Demo                        | sf33rd/Source/Game/Game.c                            | sf33rd   | ✅               |
 | Ck_Coin                          | sf33rd/Source/Game/Game.c                            | sf33rd   | ✅               |
-| texture_cash_update              | sf33rd/Source/Game/texcash.c                         | sf33rd   |                 |
-| disp_texcash_free_area           | sf33rd/Source/Game/texcash.c                         | sf33rd   |                 |
+| texture_cash_update              | sf33rd/Source/Game/texcash.c                         | sf33rd   | ✅               |
+| disp_texcash_free_area           | sf33rd/Source/Game/texcash.c                         | sf33rd   | ✅               |
 | move_pulpul_work                 | sf33rd/Source/Game/PulPul.c                          | sf33rd   | ✅               |
 | move_pulpul                      | sf33rd/Source/Game/PulPul.c                          | sf33rd   | ✅               |
 | chkVibUnit                       | sf33rd/Source/Game/PulPul.c                          | sf33rd   | ✅               |
-| Check_Off_Vib                    | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   |                 |
+| Check_Off_Vib                    | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   | ✅               |
 | Check_LDREQ_Queue                | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
 | disp_ldreq_status                | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
 | Check_Check_Screen               | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   | ✅               |
@@ -911,18 +911,18 @@ Notes:
 | Debug_Init                       | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   | ✅               |
 | Disp_Free_work                   | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   | ✅               |
 | Disp_Random                      | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   | ✅               |
-| Basic_Sub                        | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   |                 |
+| Basic_Sub                        | sf33rd/Source/Game/SYS_sub.c                         | sf33rd   | ✅               |
 | move_effect_work                 | sf33rd/Source/Game/EFFECT.c                          | sf33rd   | ✅               |
 | CAPCOM_Logo                      | sf33rd/Source/Game/DEMO00.c                          | sf33rd   | ✅               |
 | checkAdxFileLoaded               | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
 | ppgSetupCmpChunk                 | sf33rd/Source/Common/PPGFile.c                       | sf33rd   | ✅               |
 | checkSelObjFileLoaded            | sf33rd/Source/Game/texgroup.c                        | sf33rd   | ✅               |
-| Clear_texcash_work               | sf33rd/Source/Game/texcash.c                         | sf33rd   |                 |
-| _clear_texcash_work              | sf33rd/Source/Game/texcash.c                         | sf33rd   |                 |
+| Clear_texcash_work               | sf33rd/Source/Game/texcash.c                         | sf33rd   | ✅               |
+| clear_texcash_work               | sf33rd/Source/Game/texcash.c                         | sf33rd   | ✅               |
 | Debug_1st                        | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   | ✅               |
 | Standby_BGM                      | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
 | remake_sound_code_for_DC         | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
-| Store_Sound_Code                 | sf33rd/Source/Game/SE.c                              | sf33rd   |                 |
+| Store_Sound_Code                 | sf33rd/Source/Game/SE.c                              | sf33rd   | ✅               |
 | sound_request_for_dc             | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   |                 |
 | CAPLOGO_Init                     | sf33rd/Source/Game/DEMO00.c                          | sf33rd   | ✅               |
 | Push_LDREQ_Queue_Direct          | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
@@ -939,7 +939,7 @@ Notes:
 | PS2RNA_SetDiscardSw              | cri/libadxe/ps2_rna.c                                | cri      | ✅               |
 | ADXSJD_Stop                      | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
 | ADXB_Stop                        | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
-| ADXPD_Stop                       | cri/libadxe/adx_xpnd.c                               | cri      |                 |
+| ADXPD_Stop                       | cri/libadxe/adx_xpnd.c                               | cri      | ✅               |
 | bgm_seamless_clear               | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
 | bgm_volume_setup                 | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
 | ADXT_SetOutVol                   | cri/libadxe/adx_tlk.c                                | cri      | ✅               |
@@ -968,11 +968,11 @@ Notes:
 | ADX_DecodeInfo                   | cri/libadxe/adx_dcd.c                                | cri      | ✅               |
 | ADX_DecodeInfoExVer              | cri/libadxe/adx_dcd.c                                | cri      |                 |
 | adxb_get_key                     | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
-| ADXPD_SetExtPrm                  | cri/libadxe/adx_xpnd.c                               | cri      |                 |
+| ADXPD_SetExtPrm                  | cri/libadxe/adx_xpnd.c                               | cri      | ✅               |
 | ADX_DecodeInfoExADPCM2           | cri/libadxe/adx_dcd.c                                | cri      |                 |
 | ADX_DecodeInfoExIdly             | cri/libadxe/adx_dcd.c                                | cri      |                 |
-| ADXPD_SetCoef                    | cri/libadxe/adx_xpnd.c                               | cri      |                 |
-| ADXPD_SetDly                     | cri/libadxe/adx_xpnd.c                               | cri      |                 |
+| ADXPD_SetCoef                    | cri/libadxe/adx_xpnd.c                               | cri      | ✅               |
+| ADXPD_SetDly                     | cri/libadxe/adx_xpnd.c                               | cri      | ✅               |
 | ADX_DecodeInfoExLoop             | cri/libadxe/adx_dcd.c                                | cri      |                 |
 | ADX_DecodeInfoAinf               | cri/libadxe/adx_dcd.c                                | cri      |                 |
 | ADXB_GetFormat                   | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
@@ -1019,19 +1019,19 @@ Notes:
 | ADXB_Start                       | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXB_ExecHndl                    | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXB_ExecOneAdx                  | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
-| ADXPD_GetStat                    | cri/libadxe/adx_xpnd.c                               | cri      |                 |
+| ADXPD_GetStat                    | cri/libadxe/adx_xpnd.c                               | cri      | ✅               |
 | adxsjd_get_wr                    | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
 | ADXB_GetPcmBuf                   | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXB_EvokeDecode                 | cri/libadxe/adx_bsc.c                                | cri      |                 |
 | ADXB_EvokeExpandSte              | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
-| ADXPD_EntrySte                   | cri/libadxe/adx_xpnd.c                               | cri      |                 |
-| ADXPD_Start                      | cri/libadxe/adx_xpnd.c                               | cri      |                 |
-| ADXPD_ExecHndl                   | cri/libadxe/adx_xpnd.c                               | cri      |                 |
+| ADXPD_EntrySte                   | cri/libadxe/adx_xpnd.c                               | cri      | ✅               |
+| ADXPD_Start                      | cri/libadxe/adx_xpnd.c                               | cri      | ✅               |
+| ADXPD_ExecHndl                   | cri/libadxe/adx_xpnd.c                               | cri      | ✅               |
 | ADX_DecodeSte4                   | cri/libadxe/adx_dcd5.c                               | cri      |                 |
 | ADX_DecodeSte4AsSte              | cri/libadxe/adx_dcd5.c                               | cri      |                 |
 | ADXB_EndDecode                   | cri/libadxe/adx_bsc.c                                | cri      |                 |
-| ADXPD_GetNumBlk                  | cri/libadxe/adx_xpnd.c                               | cri      |                 |
-| ADXPD_Reset                      | cri/libadxe/adx_xpnd.c                               | cri      |                 |
+| ADXPD_GetNumBlk                  | cri/libadxe/adx_xpnd.c                               | cri      | ✅               |
+| ADXPD_Reset                      | cri/libadxe/adx_xpnd.c                               | cri      | ✅               |
 | adxb_DefAddWr                    | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | adxsjd_decexec_end               | cri/libadxe/adx_sjd.c                                | cri      |                 |
 | ADXB_GetDecDtLen                 | cri/libadxe/adx_bsc.c                                | cri      | ✅               |

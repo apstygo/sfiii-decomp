@@ -84,7 +84,11 @@ void njScale(MTX *mtx, f32 x, f32 y, f32 z) {
                          : "r"(v0), "r"(mtx)
                          : "memory");
 #else
-    not_implemented(__func__);
+    for (int i = 0; i < 4; i++) {
+        mtx->a[0][i] *= v0[0];
+        mtx->a[1][i] *= v0[1];
+        mtx->a[2][i] *= v0[2];
+    }
 #endif
 }
 
@@ -117,7 +121,15 @@ void njTranslate(MTX *mtx, f32 x, f32 y, f32 z) {
                          : "r"(mtx), "f"(x), "f"(y), "f"(z)
                          : "t0", "t1", "memory");
 #else
-    not_implemented(__func__);
+    f32 result[4] = { 0.0f };
+
+    for (int i = 0; i < 4; i++) {
+        result[i] = mtx->a[i][0] * x + mtx->a[i][1] * y + mtx->a[i][2] * z + mtx->a[i][3] * 1;
+    }
+
+    for (int i = 0; i < 4; i++) {
+        mtx->a[3][i] = result[i];
+    }
 #endif
 }
 
@@ -187,9 +199,6 @@ void njRotateZ(s32 /* unused */, s32 /* unused */) {
 void njDrawTexture(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */) {
     Vertex vtx[4];
     s32 i;
-
-    Polygon *temp_v1;
-    void *temp_v0;
 
     for (i = 0; i < 4; i++) {
         vtx[i] = ((_Polygon *)polygon)[i].v;

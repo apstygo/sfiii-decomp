@@ -105,7 +105,6 @@ static s32 get_mltbuf16_ext_2(MultiTexture *mt, u32 code, u32 palt, s32 *ret, Pa
 static s32 get_mltbuf32(MultiTexture *mt, u32 code, u32 palt, s32 *ret);
 static s32 get_mltbuf32_ext(MultiTexture *mt, u32 code, u32 palt);
 static s32 get_mltbuf32_ext_2(MultiTexture *mt, u32 code, u32 palt, s32 *ret, PatternInstance *cp);
-void makeup_tpu_free(s32 x16, s32 x32, PatternMap *map);
 static void lz_ext_p6_fx(u8 *srcptr, u8 *dstptr, u32 len);
 static void lz_ext_p6_cx(u8 *srcptr, u16 *dstptr, u32 len, u16 *palptr);
 static u16 x16_mapping_set(PatternMap *map, s32 code);
@@ -414,7 +413,7 @@ void mlt_obj_trans_ext(MultiTexture *mt, WORK *wk, s32 base_y) {
             cp->cg.code = cc.code;
             cp->x16 = 0;
             cp->x32 = 0;
-            work_init_zero((s32 *)&cp->map, 0xD0);
+            work_init_zero((s32 *)&cp->map, sizeof(PatternMap));
             cc.parts.group = i;
 
             while (count--) {
@@ -791,7 +790,7 @@ void mlt_obj_trans_cp3_ext(MultiTexture *mt, WORK *wk, s32 base_y) {
             cp->cg.code = cc.code;
             cp->x16 = 0;
             cp->x32 = 0;
-            work_init_zero((s32 *)&cp->map, 0xD0);
+            work_init_zero((s32 *)&cp->map, sizeof(PatternMap));
             cc.parts.group = i;
 
             while (count--) {
@@ -2080,7 +2079,29 @@ void mlt_obj_trans_init(MultiTexture *mt, s32 mode, u8 *adrs) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", mlt_obj_trans_update);
+void mlt_obj_trans_update(MultiTexture *mt) {
+    s32 i;
+    PatternState *mc;
+
+    PatternState *assign1;
+    PatternState *assign2;
+
+    for (mc = mt->mltcsh16, i = 0; i < mt->mltnum16; i++, mc += 1, assign1 = mc) {
+        if (mc->time) {
+            if (--mc->time == 0) {
+                mc->cs.code = -1;
+            }
+        }
+    }
+
+    for (mc = mt->mltcsh32, i = 0; i < mt->mltnum32; i++, mc += 1, assign2 = mc) {
+        if (mc->time) {
+            if (--mc->time == 0) {
+                mc->cs.code = -1U;
+            }
+        }
+    }
+}
 
 void draw_box(f64 arg0, f64 arg1, f64 arg2, f64 arg3, u32 col, u32 attr, s16 prio) {
     f32 px;

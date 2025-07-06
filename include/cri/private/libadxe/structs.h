@@ -12,12 +12,30 @@
 // ADXPD
 
 typedef struct {
-    /* 0x00 */ char pad0[0x10];
-    /* 0x10 */ Sint32 unk10;
-    /* 0x14 */ char pad14[0xC];
+    /* 0x00 */ Sint16 unk0;
+    /* 0x02 */ Sint16 unk2;
+    /* 0x04 */ Sint16 unk4;
+    /* 0x06 */ Sint16 unk6;
+} ADXPD_OBJ_SUB;
+
+typedef struct {
+    /* 0x00 */ Sint32 used;
+    /* 0x04 */ Sint32 unk4;
+    /* 0x08 */ Sint32 mode;
+    /* 0x0C */ Sint32 stat;
+    /* 0x10 */ Sint32 num_blk;
+    /* 0x14 */ Sint32 unk14;
+    /* 0x18 */ Sint32 unk18;
+    /* 0x1C */ Sint32 unk1C;
     /* 0x20 */ Sint32 unk20;
     /* 0x24 */ Sint32 unk24;
-    /* 0x28 */ char pad28[0x14];
+    /* 0x28 */ ADXPD_OBJ_SUB unk28;
+    /* 0x30 */ Sint16 unk30;
+    /* 0x32 */ Sint16 unk32;
+    /* 0x34 */ Sint16 unk34;
+    /* 0x36 */ Sint16 unk36;
+    /* 0x38 */ Sint16 unk38;
+    /* 0x3A */ Sint16 unk3A;
 } ADXPD_OBJ;
 
 typedef ADXPD_OBJ *ADXPD;
@@ -396,6 +414,11 @@ typedef struct {
     /* 0x60 */ Sint32 (*OptFn1)();
     /* 0x64 */ void (*unk64)();
 } CVFSDevice;
+
+typedef struct {
+    CVFSDevice *device;
+    void *fd;
+} CVFSHandle;
 
 // DVG_CI
 

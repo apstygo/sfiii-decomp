@@ -60,7 +60,7 @@ GENERATE_LCF := $(PYTHON) -m tools.lcf.generate_lcf
 
 # Flags
 
-COMMON_INCLUDES := -I$(INCLUDE_DIR) -I$(INCLUDE_DIR)/sdk -I$(INCLUDE_DIR)/cri -I$(INCLUDE_DIR)/cri/ee
+COMMON_INCLUDES := -I$(INCLUDE_DIR) -I$(INCLUDE_DIR)/sdk -I$(INCLUDE_DIR)/cri -I$(INCLUDE_DIR)/cri/ee -Izlib
 PS2_INCLUDES := $(COMMON_INCLUDES) -I$(INCLUDE_DIR)/gcc
 PS2_DEFINES := -DTARGET_PS2
 MWCCPS2_FLAGS := -gccinc $(PS2_INCLUDES) -O0,p -c -lang c -str readonly -fl divbyzerocheck -sdatathreshold 128 $(PS2_DEFINES)
@@ -85,11 +85,11 @@ CLANG_WARNINGS += -Wno-incompatible-function-pointer-types
 CLANG_WARNINGS += -Wno-pointer-sign
 CLANG_WARNINGS += -Wno-shift-count-overflow
 
-CLANG_DEFINES := -DTARGET_SDL3 -DPAD_DISABLED -DSOUND_DISABLED -DXPT_TGT_EE -D_POSIX_C_SOURCE -DDEBUG
+CLANG_DEFINES := -DTARGET_SDL3 -DSOUND_DISABLED -DXPT_TGT_EE -D_POSIX_C_SOURCE -DDEBUG
 CLANG_INCLUDES := $(COMMON_INCLUDES) -Ilibco
 CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) -std=c99 -O0
 
-CLANG_LINKER_FLAGS := -lz -lm -g -Llibco/build -llibco
+CLANG_LINKER_FLAGS := -lm -g -Llibco/build -llibco
 
 ifneq ($(PLATFORM),ps2)
 	CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
@@ -105,6 +105,7 @@ GAME_C_FILES := $(shell find $(SRC_DIR)/sf33rd -name '*.c' 2>/dev/null)
 CRI_C_FILES := $(shell find $(SRC_DIR)/cri -name '*.c' 2>/dev/null)
 BIN2OBJ_C_FILES := $(shell find $(SRC_DIR)/bin2obj -name '*.c' 2>/dev/null)
 PORT_C_FILES := $(shell find $(SRC_DIR)/port -name '*.c' 2>/dev/null)
+ZLIB_C_FILES := $(shell find zlib -name '*.c' 2>/dev/null)
 
 ASM_O_FILES := $(patsubst %.s,%.s.o,$(S_FILES))
 ASM_O_FILES := $(addprefix $(BUILD_DIR)/,$(ASM_O_FILES))
@@ -116,12 +117,14 @@ BIN2OBJ_O_FILES := $(patsubst %.c,%.c.o,$(BIN2OBJ_C_FILES))
 BIN2OBJ_O_FILES := $(addprefix $(BUILD_DIR)/,$(BIN2OBJ_O_FILES))
 PORT_O_FILES := $(patsubst %.c,%.c.o,$(PORT_C_FILES))
 PORT_O_FILES := $(addprefix $(BUILD_DIR)/,$(PORT_O_FILES))
+ZLIB_O_FILES := $(patsubst %.c,%.c.o,$(ZLIB_C_FILES))
+ZLIB_O_FILES := $(addprefix $(BUILD_DIR)/,$(ZLIB_O_FILES))
 
 ifeq ($(PLATFORM),ps2)
 	ALL_O_FILES := $(GAME_O_FILES) $(CRI_O_FILES) $(BIN2OBJ_O_FILES) $(ASM_O_FILES)
 	EEGCC_O_FILES := $(CRI_O_FILES) $(BIN2OBJ_O_FILES)
 else
-	ALL_O_FILES := $(GAME_O_FILES) $(CRI_O_FILES) $(BIN2OBJ_O_FILES) $(PORT_O_FILES)
+	ALL_O_FILES := $(GAME_O_FILES) $(CRI_O_FILES) $(BIN2OBJ_O_FILES) $(PORT_O_FILES) $(ZLIB_O_FILES)
 endif
 
 LINKER_SCRIPT := $(BUILD_DIR)/$(MAIN).lcf

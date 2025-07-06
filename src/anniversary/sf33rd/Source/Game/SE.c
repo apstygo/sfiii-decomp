@@ -13,9 +13,9 @@ s16 bgm_selectorDC[8] = { 0, 1, 2, 1, 2, 1, 2, 1 };
 s16 bgm_selectorAC[8] = { 0, 1, 0, 1, 0, 1, 0, 1 };
 s16 *bgm_selector[2] = { bgm_selectorDC, bgm_selectorAC };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", BGM_Stage_Data);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", SE_Shock_Data);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Finish_SE_Data);
+const u16 BGM_Stage_Data[22] = { 46, 1, 13, 34, 31, 4, 7, 16, 25, 28, 34, 1, 28, 43, 22, 10, 19, 40, 4, 37, 61, 62 };
+const s16 SE_Shock_Data[7] = { 285, 286, 287, 288, 289, 305, 306 };
+const s16 Finish_SE_Data[2][7] = { { 305, 306, 285, 286, 287, 288, 272 }, { 292, 293, 290, 291, 287, 288, 272 } };
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Stage_BGM);
 
@@ -131,13 +131,16 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Get_Position);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Check_Bonus_SE);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SE", Store_Sound_Code);
-#else
 void Store_Sound_Code(u16 code, SoundPatchConfig *rmc) {
-    not_implemented(__func__);
+    s16 i;
+
+    for (i = 7; i > 0; i--) {
+        sdeb[i] = sdeb[i - 1];
+    }
+
+    sdeb->cp3code = code;
+    sdeb->rmc = *rmc;
 }
-#endif
 
 void Disp_Sound_Code() {
     s16 i;
