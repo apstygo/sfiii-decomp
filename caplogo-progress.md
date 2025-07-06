@@ -8,7 +8,7 @@ Notes:
 
 | Module   | Progress   |
 |----------|------------|
-| sf33rd   | 99.16%     |
+| sf33rd   | 99.94%     |
 | cri      | 79.24%     |
 
 | Function                         | File                                                 | Module   | Is decompiled   |
@@ -849,13 +849,13 @@ Notes:
 | mc_sync                          | sf33rd/Source/PS2/mc/mcsub.c                         | sf33rd   | ✅               |
 | sceMcGetInfo                     | sdk/libmc/libmc.c                                    | sdk      | –               |
 | mc_act_return                    | sf33rd/Source/PS2/mc/mcsub.c                         | sf33rd   | ✅               |
-| GetMemCardMsg                    | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
+| GetMemCardMsg                    | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   | ✅               |
 | KnjSetSize                       | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | KnjSetColor                      | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
-| FormStrDisp                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
+| FormStrDisp                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   | ✅               |
 | KnjLocate                        | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
-| str_tag_get                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
-| str_str_get                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
+| str_tag_get                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   | ✅               |
+| str_str_get                      | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   | ✅               |
 | KnjCheckCode                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | utf82unicode                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | unicode2index                    | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
@@ -865,7 +865,7 @@ Notes:
 | get_uni_adrs                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | make_fnt_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | make_fbg_pkt                     | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
-| str_tag_check                    | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   |                 |
+| str_tag_check                    | sf33rd/Source/PS2/mc/msgsub.c                        | sf33rd   | ✅               |
 | KnjSetRgb                        | sf33rd/Source/PS2/mc/knjsub.c                        | sf33rd   | ✅               |
 | mceGetInfoApdx                   | sdk/libmc/libmc.c                                    | sdk      | –               |
 | McActStopSet                     | sf33rd/Source/PS2/mc/mcsub.c                         | sf33rd   | ✅               |
@@ -922,7 +922,7 @@ Notes:
 | Debug_1st                        | sf33rd/Source/Game/debug/Debug.c                     | sf33rd   | ✅               |
 | Standby_BGM                      | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
 | remake_sound_code_for_DC         | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
-| Store_Sound_Code                 | sf33rd/Source/Game/SE.c                              | sf33rd   |                 |
+| Store_Sound_Code                 | sf33rd/Source/Game/SE.c                              | sf33rd   | ✅               |
 | sound_request_for_dc             | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   |                 |
 | CAPLOGO_Init                     | sf33rd/Source/Game/DEMO00.c                          | sf33rd   | ✅               |
 | Push_LDREQ_Queue_Direct          | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |

@@ -255,7 +255,14 @@ s32 fsFileReadSync(REQ *req, u32 sec, void *buff) {
 void waitVsyncDummy() {
     ADXM_ExecMain();
     cseExecServer();
+
+#if defined(TARGET_PS2)
     sceGsSyncV(0);
+#else
+    begin_interrupt();
+    ADXPS2_ExecVint(0);
+    end_interrupt();
+#endif
 }
 
 s32 load_it_use_any_key2(u16 fnum, void **adrs, s16 *key, u8 kokey, u8 group) {

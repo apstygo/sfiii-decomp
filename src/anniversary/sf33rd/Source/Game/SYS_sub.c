@@ -12,6 +12,8 @@
 #include "sf33rd/Source/Game/sc_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 
+u8 Candidate_Buff[16];
+
 // forward decls
 void Get_Replay(s16 PL_id);
 void Replay(s16 PL_id);
@@ -155,11 +157,14 @@ void Game_Data_Init() {
 
     Setup_Default_Game_Option();
     mpp_w.cutAnalogStickData = 0;
+
+#if !defined(PAD_DISABLED)
     if ((flpad_adr[0][0].sw & 0x330) == 0x330) {
         mpp_w.cutAnalogStickData = 1;
     } else if ((flpad_adr[0][1].sw & 0x330) == 0x330) {
         mpp_w.cutAnalogStickData = 1;
     }
+#endif
 
     if (mpp_w.cutAnalogStickData) {
         for (ix = 0; ix < 6; ix++) {
