@@ -75,16 +75,19 @@ int SDLApp_Init() {
     knjsub_palette = SDL_CreatePalette(4);
     SDL_SetPaletteColors(knjsub_palette, knjsub_palette_colors, 0, 4);
 
-    // // Query display
+    // Query display
     const SDL_DisplayID display_id = SDL_GetDisplayForWindow(window);
     const SDL_DisplayMode *display_mode = SDL_GetCurrentDisplayMode(display_id);
 
-    if ((display_mode->refresh_rate == 0)) {
+    if (display_mode->refresh_rate == 0) {
         SDL_Log("Displays with unspecified refresh rate are not supported yet");
         return 1;
     }
 
     display_refresh_period = 1000000000.0 / display_mode->refresh_rate;
+
+    // Initialize pads
+    SDLPad_Init();
 
     return 0;
 }
@@ -113,6 +116,11 @@ int SDLApp_PollEvents() {
 
         case SDL_EVENT_GAMEPAD_AXIS_MOTION:
             SDLPad_HandleGamepadAxisMotionEvent(&event.gaxis);
+            break;
+
+        case SDL_EVENT_KEY_DOWN:
+        case SDL_EVENT_KEY_UP:
+            SDLPad_HandleKeyboardEvent(&event.key);
             break;
 
         case SDL_EVENT_QUIT:

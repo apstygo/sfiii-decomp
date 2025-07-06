@@ -200,9 +200,6 @@ void njDrawTexture(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */
     Vertex vtx[4];
     s32 i;
 
-    Polygon *temp_v1;
-    void *temp_v0;
-
     for (i = 0; i < 4; i++) {
         vtx[i] = ((_Polygon *)polygon)[i].v;
     }
