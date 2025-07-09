@@ -1,13 +1,16 @@
-#include "port/sdl_app.h"
+#include "port/sdl/sdl_app.h"
 #include "common.h"
 #include "port/sdk_threads.h"
-#include "port/sdl_pad.h"
+#include "port/sdl/sdl_game_renderer.h"
+#include "port/sdl/sdl_pad.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "sf33rd/Source/Game/main.h"
 
 #include <libgraph.h>
 
 #include <SDL3/SDL.h>
+
+#include <stdlib.h>
 
 #define FRAME_TIMES_MAX 120
 
@@ -76,6 +79,9 @@ int SDLApp_Init() {
     knjsub_palette = SDL_CreatePalette(4);
     SDL_SetPaletteColors(knjsub_palette, knjsub_palette_colors, 0, 4);
 
+    // Initialize game canvas
+    SDLGameRenderer_Init(renderer);
+
     // Query display
     const SDL_DisplayID display_id = SDL_GetDisplayForWindow(window);
     const SDL_DisplayMode *display_mode = SDL_GetCurrentDisplayMode(display_id);
@@ -136,15 +142,17 @@ int SDLApp_PollEvents() {
 void SDLApp_BeginFrame() {
     frame_start = SDL_GetTicksNS();
 
-    SDL_SetRenderTarget(renderer, canvas);
-
-    const Uint8 a = flPs2State.FrameClearColor >> 24;
-    const Uint8 r = (flPs2State.FrameClearColor >> 16) & 0xFF;
-    const Uint8 g = (flPs2State.FrameClearColor >> 8) & 0xFF;
-    const Uint8 b = flPs2State.FrameClearColor & 0xFF;
-    SDL_SetRenderDrawColor(renderer, r, g, b, a);
-
+    // Clear window
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderClear(renderer);
+
+    // Clear message canvas
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_TRANSPARENT);
+    SDL_SetRenderTarget(renderer, canvas);
+    SDL_RenderClear(renderer);
+
+    SDLGameRenderer_BeginFrame();
 }
 
 void SDLApp_CreateKnjsubTexture(int width, int height, void *pixels, int format) {
@@ -213,6 +221,8 @@ void SDLApp_DrawKnjsubTexture(int x0, int y0, int x1, int y1, int u0, int v0, in
 
     SDL_SetTextureColorMod(knjsub_texture, r, g, b);
     SDL_SetTextureAlphaMod(knjsub_texture, a);
+
+    SDL_SetRenderTarget(renderer, canvas);
     SDL_RenderTexture(renderer, knjsub_texture, &src_rect, &dst_rect);
 }
 
@@ -252,16 +262,22 @@ static void update_fps() {
 }
 
 void SDLApp_EndFrame() {
+    SDLGameRenderer_RenderFrame();
+
     SDL_SetRenderTarget(renderer, NULL);
 
     // Render window background
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // black bars
     SDL_RenderClear(renderer);
 
-    // Render game
     int win_w, win_h;
     SDL_GetWindowSize(window, &win_w, &win_h);
     const SDL_FRect dst_rect = get_letterbox_rect(win_w, win_h);
+
+    // Render CPS3 canvas itself
+    SDL_RenderTexture(renderer, cps3_canvas, NULL, &dst_rect);
+
+    // Render messages
     SDL_RenderTexture(renderer, canvas, NULL, &dst_rect);
 
     // Render FPS
@@ -284,6 +300,9 @@ void SDLApp_EndFrame() {
     frame_time_remainder = target_frame_time_ns - frame_time;
     add_frame_time(frame_time);
     update_fps();
+
+    // Cleanup
+    SDLGameRenderer_EndFrame();
 
     begin_interrupt();
     ADXPS2_ExecVint(0);

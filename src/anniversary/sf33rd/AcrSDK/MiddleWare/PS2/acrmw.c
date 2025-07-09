@@ -4,7 +4,7 @@
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 
-#include "port/sdl_app.h"
+#include "port/sdl/sdl_app.h"
 
 #include <cri_mw.h>
 #include <eeregs.h>

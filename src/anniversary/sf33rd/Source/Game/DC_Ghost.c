@@ -259,7 +259,7 @@ void njdp2d_sort(f32 *pos, f32 pri, u32 col, s32 flag) {
     s32 ix = njdp2d_w.total;
     s32 prev;
 
-    if (ix >= 0x64) {
+    if (ix >= 100) {
         // Have to write the string as raw bytes here.
         // Otherwise MWCC removes a single byte for some reason
         //
@@ -330,7 +330,7 @@ void njdp2d_sort(f32 *pos, f32 pri, u32 col, s32 flag) {
 
 void njDrawPolygon2D(PAL_CURSOR *p, s32 /* unused */, f32 pri, u32 attr) {
     if (attr & 0x20) {
-        njdp2d_sort(&p->p->x, pri, p->col->color, 0);
+        njdp2d_sort((f32 *)p->p, pri, p->col->color, 0);
     }
 }
 

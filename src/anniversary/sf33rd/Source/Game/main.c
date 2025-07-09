@@ -33,7 +33,7 @@
 #include "structs.h"
 
 #if !defined(TARGET_PS2)
-#include "port/sdl_app.h"
+#include "port/sdl/sdl_app.h"
 #endif
 
 #include <memory.h>

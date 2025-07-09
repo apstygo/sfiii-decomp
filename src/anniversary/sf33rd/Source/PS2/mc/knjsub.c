@@ -10,7 +10,7 @@
 #include <string.h>
 
 #if !defined(TARGET_PS2)
-#include "port/sdl_app.h"
+#include "port/sdl/sdl_app.h"
 #endif
 
 typedef struct _rgba {
