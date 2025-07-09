@@ -26,6 +26,60 @@ static int texture_count = 0;
 static RenderTask render_tasks[RENDER_TASK_MAX] = { 0 };
 static int render_task_count = 0;
 
+// Debugging
+
+static int texture_index = 0;
+
+static void save_texture(const SDL_Surface *surface, const SDL_Palette *palette) {
+    if (palette->ncolors != 16) {
+        return;
+    }
+
+    char filename[128];
+    sprintf(filename, "textures/%d.tga", texture_index);
+
+    const Uint8 *pixels = surface->pixels;
+    const int width = surface->w;
+    const int height = surface->h;
+
+    FILE *f = fopen(filename, "wb");
+
+    if (!f) {
+        return;
+    }
+
+    uint8_t header[18] = { 0 };
+    header[2] = 2; // uncompressed RGB
+    header[12] = width & 0xFF;
+    header[13] = (width >> 8) & 0xFF;
+    header[14] = height & 0xFF;
+    header[15] = (height >> 8) & 0xFF;
+    header[16] = 32;   // bits per pixel
+    header[17] = 0x20; // top-left origin
+
+    fwrite(header, 1, 18, f);
+
+    // Write pixels in BGRA format
+    for (int i = 0; i < width * height; ++i) {
+        Uint8 index = pixels[i];
+
+        if (i & 1) {
+            index >>= 4;
+        } else {
+            index &= 0xF;
+        }
+
+        const SDL_Color *color = &palette->colors[index];
+        const Uint8 bgr[] = { color->b, color->g, color->r, color->a };
+        fwrite(bgr, 1, 4, f);
+    }
+
+    fclose(f);
+    texture_index += 1;
+}
+
+// Textures
+
 static void push_texture(SDL_Texture *texture) {
     textures[texture_count] = texture;
     texture_count += 1;
@@ -67,6 +121,50 @@ static int compare_render_tasks(const RenderTask *a, const RenderTask *b) {
         return 0;
     }
 }
+
+// Colors
+
+#define clut_shuf(x) (((x) & ~0x18) | ((((x) & 0x08) << 1) | (((x) & 0x10) >> 1)))
+
+static void read_rgba32_color(Uint32 pixel, SDL_Color *color) {
+    color->r = pixel & 0xFF;
+    color->g = (pixel >> 8) & 0xFF;
+    color->b = (pixel >> 16) & 0xFF;
+    color->a = (pixel >> 24) & 0xFF;
+}
+
+static void read_rgba32_fcolor(Uint32 pixel, SDL_FColor *fcolor) {
+    SDL_Color color;
+
+    read_rgba32_color(pixel, &color);
+    fcolor->r = (float)color.r / 255;
+    fcolor->g = (float)color.g / 255;
+    fcolor->b = (float)color.b / 255;
+    fcolor->a = (float)color.a / 255;
+}
+
+static void read_rgba16_color(Uint16 pixel, SDL_Color *color) {
+    color->r = (pixel & 0x1F) * 255 / 31;
+    color->g = ((pixel >> 5) & 0x1F) * 255 / 31;
+    color->b = ((pixel >> 10) & 0x1F) * 255 / 31;
+    color->a = (pixel & 0x8000) ? 255 : 0;
+}
+
+static void read_color(void *pixels, int index, size_t color_size, SDL_Color *color) {
+    switch (color_size) {
+    case 2:
+        const Uint16 *rgba16_colors = (Uint16 *)pixels;
+        read_rgba16_color(rgba16_colors[index], color);
+        break;
+
+    case 4:
+        const Uint32 *rgba32_colors = (Uint32 *)pixels;
+        read_rgba32_color(rgba32_colors[index], color);
+        break;
+    }
+}
+
+// Lifecycle
 
 void SDLGameRenderer_Init(SDL_Renderer *renderer) {
     _renderer = renderer;
@@ -141,46 +239,6 @@ void SDLGameRenderer_DestroyTexture(unsigned int texture_handle) {
     surfaces[texture_index] = NULL;
 }
 
-#define clut_shuf(x) (((x) & ~0x18) | ((((x) & 0x08) << 1) | (((x) & 0x10) >> 1)))
-
-static void read_rgba32_color(Uint32 pixel, SDL_Color *color) {
-    color->r = pixel & 0xFF;
-    color->g = (pixel >> 8) & 0xFF;
-    color->b = (pixel >> 16) & 0xFF;
-    color->a = (pixel >> 24) & 0xFF;
-}
-
-static void read_rgba32_fcolor(Uint32 pixel, SDL_FColor *fcolor) {
-    SDL_Color color;
-
-    read_rgba32_color(pixel, &color);
-    fcolor->r = (float)color.r / 255;
-    fcolor->g = (float)color.g / 255;
-    fcolor->b = (float)color.b / 255;
-    fcolor->a = (float)color.a / 255;
-}
-
-static void read_rgba16_color(Uint16 pixel, SDL_Color *color) {
-    color->r = (pixel & 0x1F) * 255 / 31;
-    color->g = ((pixel >> 5) & 0x1F) * 255 / 31;
-    color->b = ((pixel >> 10) & 0x1F) * 255 / 31;
-    color->a = (pixel & 0x8000) ? 255 : 0;
-}
-
-static void read_color(void *pixels, int index, size_t color_size, SDL_Color *color) {
-    switch (color_size) {
-    case 2:
-        const Uint16 *rgba16_colors = (Uint16 *)pixels;
-        read_rgba16_color(rgba16_colors[index], color);
-        break;
-
-    case 4:
-        const Uint32 *rgba32_colors = (Uint32 *)pixels;
-        read_rgba32_color(rgba32_colors[index], color);
-        break;
-    }
-}
-
 void SDLGameRenderer_CreatePalette(unsigned int ph) {
     const int palette_index = HI_16_BITS(ph) - 1;
     const FLTexture *fl_palette = &flPalette[palette_index];
@@ -240,61 +298,12 @@ void SDLGameRenderer_DestroyPalette(unsigned int palette_handle) {
     palettes[palette_index] = NULL;
 }
 
-static int texture_index = 0;
-
-static void save_texture(const SDL_Surface *surface, const SDL_Palette *palette) {
-    if (palette->ncolors != 16) {
-        return;
-    }
-
-    char filename[128];
-    sprintf(filename, "textures/%d.tga", texture_index);
-
-    const Uint8 *pixels = surface->pixels;
-    const int width = surface->w;
-    const int height = surface->h;
-
-    FILE *f = fopen(filename, "wb");
-
-    if (!f) {
-        return;
-    }
-
-    uint8_t header[18] = { 0 };
-    header[2] = 2; // uncompressed RGB
-    header[12] = width & 0xFF;
-    header[13] = (width >> 8) & 0xFF;
-    header[14] = height & 0xFF;
-    header[15] = (height >> 8) & 0xFF;
-    header[16] = 32;   // bits per pixel
-    header[17] = 0x20; // top-left origin
-
-    fwrite(header, 1, 18, f);
-
-    // Write pixels in BGRA format
-    for (int i = 0; i < width * height; ++i) {
-        Uint8 index = pixels[i];
-
-        if (i & 1) {
-            index >>= 4;
-        } else {
-            index &= 0xF;
-        }
-
-        const SDL_Color *color = &palette->colors[index];
-        const Uint8 bgr[] = { color->b, color->g, color->r, color->a };
-        fwrite(bgr, 1, 4, f);
-    }
-
-    fclose(f);
-    texture_index += 1;
-}
-
 void SDLGameRenderer_SetTexture(unsigned int th) {
     const SDL_Surface *surface = surfaces[LO_16_BITS(th) - 1];
     const SDL_Palette *palette = palettes[HI_16_BITS(th) - 1];
 
-    save_texture(surface, palette);
+    // Uncomment this to save textures into textures folder
+    // save_texture(surface, palette);
 
     SDL_SetSurfacePalette(surface, palette);
     const SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface);

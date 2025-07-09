@@ -2,6 +2,7 @@
 #include "common.h"
 #include "port/sdk_threads.h"
 #include "port/sdl/sdl_game_renderer.h"
+#include "port/sdl/sdl_message_renderer.h"
 #include "port/sdl/sdl_pad.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "sf33rd/Source/Game/main.h"
@@ -19,8 +20,6 @@
 int ADXPS2_ExecVint(int mode);
 
 static const char *app_name = "Street Fighter III: 3rd Strike";
-static const int canvas_width = 512;
-static const int canvas_height = 448;
 static const float display_target_ratio = 4.0 / 3.0;
 static const int window_default_width = 640;
 static const int window_default_height = (int)(window_default_width / display_target_ratio);
@@ -29,7 +28,6 @@ static const float target_frame_time_ns = 1000000000.0 / target_fps;
 
 static SDL_Window *window = NULL;
 static SDL_Renderer *renderer = NULL;
-static SDL_Texture *canvas = NULL;
 
 static Uint64 frame_start = 0;
 static Uint64 frame_times[FRAME_TIMES_MAX];
@@ -38,17 +36,6 @@ static Uint64 frame_time_remainder = 0;
 static double fps = 0;
 static Uint64 frame_counter = 0;
 static Uint64 display_refresh_period = 0;
-
-static const SDL_Color knjsub_palette_colors[4] = {
-    { .r = 255, .g = 255, .b = 255, .a = 0 },
-    { .r = 255, .g = 255, .b = 255, .a = 0 },
-    { .r = 255, .g = 255, .b = 255, .a = 0 },
-    { .r = 255, .g = 255, .b = 255, .a = 255 },
-};
-
-static SDL_Texture *knjsub_texture = NULL;
-static SDL_Palette *knjsub_palette = NULL;
-static int knjsub_palette_count = 0;
 
 int SDLApp_Init() {
     SDL_SetAppMetadata(app_name, "0.1", NULL);
@@ -70,16 +57,10 @@ int SDLApp_Init() {
         return 1;
     }
 
-    // Initialize canvas
-    canvas =
-        SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, canvas_width, canvas_height);
-    SDL_SetTextureScaleMode(canvas, SDL_SCALEMODE_NEAREST);
+    // Initialize message renderer
+    SDLMessageRenderer_Initialize(renderer);
 
-    // Initialize knjsub palette
-    knjsub_palette = SDL_CreatePalette(4);
-    SDL_SetPaletteColors(knjsub_palette, knjsub_palette_colors, 0, 4);
-
-    // Initialize game canvas
+    // Initialize game renderer
     SDLGameRenderer_Init(renderer);
 
     // Query display
@@ -147,83 +128,8 @@ void SDLApp_BeginFrame() {
     SDL_SetRenderTarget(renderer, NULL);
     SDL_RenderClear(renderer);
 
-    // Clear message canvas
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_TRANSPARENT);
-    SDL_SetRenderTarget(renderer, canvas);
-    SDL_RenderClear(renderer);
-
+    SDLMessageRenderer_BeginFrame();
     SDLGameRenderer_BeginFrame();
-}
-
-void SDLApp_CreateKnjsubTexture(int width, int height, void *pixels, int format) {
-    if (knjsub_texture != NULL) {
-        SDL_DestroyTexture(knjsub_texture);
-    }
-
-    SDL_Surface *surface = SDL_CreateSurfaceFrom(width, height, SDL_PIXELFORMAT_INDEX4LSB, pixels, width / 2);
-    SDL_SetSurfacePalette(surface, knjsub_palette);
-    knjsub_texture = SDL_CreateTextureFromSurface(renderer, surface);
-    SDL_DestroySurface(surface);
-
-    SDL_SetTextureScaleMode(knjsub_texture, SDL_SCALEMODE_NEAREST);
-    SDL_SetTextureBlendMode(knjsub_texture, SDL_BLENDMODE_BLEND);
-}
-
-static int adjust_coordinate(int coordinate, bool is_x, bool is_uv) {
-    coordinate >>= 4;
-
-    if (!is_uv) {
-        const int display_size = is_x ? canvas_width : canvas_height;
-        coordinate -= (4096 - display_size) / 2;
-    }
-
-    return coordinate;
-}
-
-static Uint8 scale_color_value(Uint8 value) {
-    int temp = value;
-    temp *= 2;
-
-    if (temp > 0xFF) {
-        temp = 0xFF;
-    }
-
-    return (Uint8)temp;
-}
-
-void SDLApp_DrawKnjsubTexture(int x0, int y0, int x1, int y1, int u0, int v0, int u1, int v1, unsigned int color) {
-    x0 = adjust_coordinate(x0, true, false);
-    y0 = adjust_coordinate(y0, false, false);
-    x1 = adjust_coordinate(x1, true, false);
-    y1 = adjust_coordinate(y1, false, false);
-
-    u0 = adjust_coordinate(u0, true, true);
-    v0 = adjust_coordinate(v0, false, true);
-    u1 = adjust_coordinate(u1, true, true);
-    v1 = adjust_coordinate(v1, false, true);
-
-    SDL_FRect src_rect;
-    src_rect.x = u0;
-    src_rect.y = v0;
-    src_rect.w = u1 - u0;
-    src_rect.h = v1 - v0;
-
-    SDL_FRect dst_rect;
-    dst_rect.x = x0;
-    dst_rect.y = y0;
-    dst_rect.w = x1 - x0;
-    dst_rect.h = y1 - y0;
-
-    const Uint8 r = scale_color_value(color & 0xFF);
-    const Uint8 g = scale_color_value((color >> 8) & 0xFF);
-    const Uint8 b = scale_color_value((color >> 16) & 0xFF);
-    const Uint8 a = scale_color_value(color >> 24);
-
-    SDL_SetTextureColorMod(knjsub_texture, r, g, b);
-    SDL_SetTextureAlphaMod(knjsub_texture, a);
-
-    SDL_SetRenderTarget(renderer, canvas);
-    SDL_RenderTexture(renderer, knjsub_texture, &src_rect, &dst_rect);
 }
 
 static SDL_FRect get_letterbox_rect(int win_w, int win_h) {
@@ -274,11 +180,11 @@ void SDLApp_EndFrame() {
     SDL_GetWindowSize(window, &win_w, &win_h);
     const SDL_FRect dst_rect = get_letterbox_rect(win_w, win_h);
 
-    // Render CPS3 canvas itself
+    // Render game canvas
     SDL_RenderTexture(renderer, cps3_canvas, NULL, &dst_rect);
 
-    // Render messages
-    SDL_RenderTexture(renderer, canvas, NULL, &dst_rect);
+    // Render message canvas
+    SDL_RenderTexture(renderer, message_canvas, NULL, &dst_rect);
 
     // Render FPS
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
