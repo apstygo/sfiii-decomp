@@ -7,11 +7,7 @@
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "sf33rd/Source/Game/main.h"
 
-#include <libgraph.h>
-
 #include <SDL3/SDL.h>
-
-#include <stdlib.h>
 
 #define FRAME_TIMES_MAX 120
 

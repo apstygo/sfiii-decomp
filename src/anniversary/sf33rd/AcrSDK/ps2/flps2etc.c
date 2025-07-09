@@ -575,7 +575,7 @@ u32 flCreateTextureFromTim2_mem(void *mem, u32 flag) {
 
         dw >>= 1;
         dh >>= 1;
-        dst = &dst[tex_size];
+        dst += tex_size;
     }
 
     flPS2CreateTextureHandle(th, flag);

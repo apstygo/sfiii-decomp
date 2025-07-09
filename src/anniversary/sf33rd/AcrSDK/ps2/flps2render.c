@@ -1427,7 +1427,7 @@ s32 flPS2SetTextureRegister(u32 th, u64 *texA, u64 *tex1, u64 *tex0, u64 *clamp,
                 mip_dbw[lp0] = 1;
             }
 
-            dw = dw >> 1;
+            dw >>= 1;
         }
 
         miptbp1[0] = SCE_GS_SET_MIPTBP1(mip_tbp[0], mip_dbw[0], mip_tbp[1], mip_dbw[1], mip_tbp[2], mip_dbw[2]);

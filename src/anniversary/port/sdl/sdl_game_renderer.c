@@ -3,7 +3,12 @@
 #include "sf33rd/AcrSDK/ps2/flps2etc.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 
+#include <libgraph.h>
+
 #include <SDL3/SDL.h>
+
+#include <stdio.h>
+#include <stdlib.h>
 
 #define RENDER_TASK_MAX 1024
 
@@ -152,15 +157,17 @@ static void read_rgba16_color(Uint16 pixel, SDL_Color *color) {
 
 static void read_color(void *pixels, int index, size_t color_size, SDL_Color *color) {
     switch (color_size) {
-    case 2:
+    case 2: {
         const Uint16 *rgba16_colors = (Uint16 *)pixels;
         read_rgba16_color(rgba16_colors[index], color);
         break;
+    }
 
-    case 4:
+    case 4: {
         const Uint32 *rgba32_colors = (Uint32 *)pixels;
         read_rgba32_color(rgba32_colors[index], color);
         break;
+    }
     }
 }
 
