@@ -2773,13 +2773,14 @@ typedef struct {
     u8 kz_blocking;  // offset 0x1A, size 0x1
     u8 free;         // offset 0x1B, size 0x1
 } TAMA;
-// total size: 0x8
-s16 cyerw; // offset 0x0, size 0x2
-s16 cred;  // offset 0x2, size 0x2
-s16 ored;  // offset 0x4, size 0x2
-s8 colnum; // offset 0x6, size 0x1
-}
-VIT;
+
+typedef struct {
+    // total size: 0x8
+    s16 cyerw; // offset 0x0, size 0x2
+    s16 cred;  // offset 0x2, size 0x2
+    s16 ored;  // offset 0x4, size 0x2
+    s8 colnum; // offset 0x6, size 0x1
+} VIT;
 
 typedef struct {
     // total size: 0xA

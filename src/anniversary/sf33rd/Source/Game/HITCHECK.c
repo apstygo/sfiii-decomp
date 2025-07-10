@@ -154,7 +154,13 @@ void check_result_extra() {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", set_caught_status);
+#else
+void set_caught_status(s16 ix) {
+    not_implemented(__func__);
+}
+#endif
 
 s32 check_pat_status(WORK *wk) {
     if ((wk->pat_status >= 14) && (wk->pat_status < 31)) {
@@ -274,7 +280,7 @@ void dm_reaction_init_set(PLW *as, PLW *ds) {
 
     if ((ds->wu.routine_no[2] == 89) || (ds->wu.routine_no[2] == 90)) {
         if (ds->running_f == 1 && (Dsas_dir_table[as->wu.att.dir])) {
-            if (check_work_position(as, ds) != 0) {
+            if (check_work_position(&as->wu, &ds->wu)) {
                 if (ds->move_distance > 0) {
                     ds->wu.routine_no[2] = 99;
                 }
@@ -523,7 +529,13 @@ s16 check_dm_att_blocking(WORK *as, WORK *ds, s16 dnum) {
     return rnum;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", set_damage_and_piyo);
+#else
+void set_damage_and_piyo(PLW *as, PLW *ds) {
+    not_implemented(__func__);
+}
+#endif
 
 s16 remake_score_index(s16 dmv) {
     s16 i;
@@ -790,7 +802,13 @@ void catch_hit_check() {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", attack_hit_check);
+#else
+void attack_hit_check() {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", hit_check_subroutine);

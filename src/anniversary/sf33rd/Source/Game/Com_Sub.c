@@ -5217,7 +5217,7 @@ s32 Compute_Hit_Time(PLW *wk, WORK_Other *tmw) {
     s32 divsp;
     s16 x2;
 
-    lx1 = get_att_head_position(tmw);
+    lx1 = get_att_head_position(&tmw->wu);
     lx1 <<= 16;
 
     lx1 -= wk->wu.xyz[0].cal;
