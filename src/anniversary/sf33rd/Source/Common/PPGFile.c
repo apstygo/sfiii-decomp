@@ -528,7 +528,7 @@ s32 ppgSetupPalChunk(Palette *pch, u8 *adrs, s32 size, s32 ixNum1st, s32 num, s3
         break;
     }
 
-    cmpSize = REVERT_U32(ppl->fileSize) - 0x10;
+    cmpSize = REVERT_U32(ppl->fileSize) - 16;
     cmpAdrs = ppl + 1;
     pch->c_mode = ppl->c_mode & 3;
     pch->total = REVERT_U16(ppl->palettes);

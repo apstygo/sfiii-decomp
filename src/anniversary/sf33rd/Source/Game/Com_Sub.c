@@ -3859,7 +3859,7 @@ void Jump_Init(PLW *wk, s16 Jump_Dir) {
 s32 Command_Type_00(PLW *wk, s16 Power_Level, u16 Tech_Number, s16 Ex_Shot) {
 #if defined(TARGET_PS2)
     s16 datacmd_conpanecmd(s32 dat);
-    s16 renbanshot_conpaneshot(const s16 * dadr, s32 pow);
+    s16 renbanshot_conpaneshot(const s16 *dadr, s32 pow);
 #endif
 
     if (Tech_Address[wk->wu.id][Tech_Index[wk->wu.id] + 4] != 0x1C) {
@@ -3926,7 +3926,7 @@ const u16 Rolling_Lv_Data[2][9] = {
 
 s32 Command_Type_06(PLW *wk, s16 Power_Level, u16 Tech_Number, s16 Ex_Shot) {
 #if defined(TARGET_PS2)
-    s16 renbanshot_conpaneshot(const s16 * dadr, s32 pow);
+    s16 renbanshot_conpaneshot(const s16 *dadr, s32 pow);
 #endif
 
     s16 xx;

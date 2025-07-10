@@ -101,7 +101,7 @@ s32 Warning() {
 
     default:
         D_No[1] = 0;
-        TexRelease(0x24E);
+        TexRelease(590);
         Next_Demo = 1;
         break;
     }
@@ -188,7 +188,7 @@ s32 CAPCOM_Logo() {
         break;
 
     default:
-        TexRelease(0x258);
+        TexRelease(600);
         Next_Demo = 1;
         break;
     }
@@ -205,17 +205,17 @@ void CAPLOGO_Init() {
     ppgCapLogoList.tex = &ppgCapLogoTex;
     ppgCapLogoList.pal = &ppgCapLogoPal;
     ppgSetupCurrentDataList(&ppgCapLogoList);
-    loadSize = load_it_use_any_key2(0x4B, &loadAdrs, &key, 2, 1);
+    loadSize = load_it_use_any_key2(75, &loadAdrs, &key, 2, 1); // CapLogo.ppg
 
     if (loadSize == 0) {
         flLogOut("カプロゴのテクスチャが読み込めませんでした。\n");
         while (1) {}
     }
 
-    ppgSetupPalChunk(0, loadAdrs, loadSize, 0, 0, 1);
-    ppgSetupTexChunk_1st(0, loadAdrs, loadSize, 0x258, 1, 0, 0);
-    ppgSetupTexChunk_2nd(0, 0x258);
-    ppgSetupTexChunk_3rd(0, 0x258, 1);
+    ppgSetupPalChunk(NULL, loadAdrs, loadSize, 0, 0, 1);
+    ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, 600, 1, 0, 0);
+    ppgSetupTexChunk_2nd(NULL, 600);
+    ppgSetupTexChunk_3rd(NULL, 600, 1);
     Push_ramcnt_key(key);
     ppgSourceDataReleased(0);
 }
@@ -226,17 +226,17 @@ s16 CAPLOGO_Move(u16 type) {
     switch (type) {
     case 0:
         if (!Game_pause && (op_timer0 != 61)) {
-            njSetPaletteBankNumG(0x258, op_timer0 / 2);
+            njSetPaletteBankNumG(600, op_timer0 / 2);
             op_timer0 += 1;
             rnum = 1;
         }
 
-        Put_char(caplogo[type], 0x258, 9, -0x10, 0x50, 1.0f, 1.0f);
+        Put_char(caplogo[type], 600, 9, -16, 80, 1.0f, 1.0f);
         break;
 
     default:
-        njSetPaletteBankNumG(0x258, 0x1F);
-        Put_char(caplogo[type], 0x258, 9, 0x30, 0x58, 1.0f, 1.0f);
+        njSetPaletteBankNumG(600, 0x1F);
+        Put_char(caplogo[type], 600, 9, 48, 88, 1.0f, 1.0f);
         break;
     }
 
@@ -282,7 +282,7 @@ void Warning_Init() {
     ppgAdxList.tex = &ppgWarTex;
     ppgAdxList.pal = &ppgAdxPal;
     ppgSetupCurrentDataList(&ppgWarList);
-    loadSize = load_it_use_any_key2(0xC, &loadAdrs, &key, 2, 1);
+    loadSize = load_it_use_any_key2(12, &loadAdrs, &key, 2, 1);
 
     if (loadSize == 0) {
         flLogOut("警告文のテクスチャが読み込めませんでした。\n");
@@ -291,11 +291,11 @@ void Warning_Init() {
 
     ppgSetupPalChunk(&ppgWarPal, loadAdrs, loadSize, 0, 0, 1);
     ppgSetupPalChunk(&ppgAdxPal, loadAdrs, loadSize, 0, 1, 1);
-    ppgSetupTexChunk_1st(0, loadAdrs, loadSize, 0x24E, 4, 0, 0);
+    ppgSetupTexChunk_1st(0, loadAdrs, loadSize, 590, 4, 0, 0);
 
     for (i = 0; i < ppgWarTex.textures; i++) {
-        ppgSetupTexChunk_2nd(0, i + 0x24E);
-        ppgSetupTexChunk_3rd(0, i + 0x24E, 1);
+        ppgSetupTexChunk_2nd(0, i + 590);
+        ppgSetupTexChunk_3rd(0, i + 590, 1);
     }
 
     Push_ramcnt_key(key);
@@ -353,11 +353,11 @@ void Put_Warning(s16 type) {
     }
 
     if (type == 2) {
-        njDrawTexture(tex, 4, type + 0x24E, 1);
+        njDrawTexture(tex, 4, type + 590, 1);
         return;
     }
 
-    njDrawTexture(tex, 4, type + 0x24E, 0);
+    njDrawTexture(tex, 4, type + 590, 0);
 }
 
 void Pal_Cursor_Put(s16 type) {

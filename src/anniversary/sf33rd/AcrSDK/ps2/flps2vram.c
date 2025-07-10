@@ -8,6 +8,10 @@
 #include "sf33rd/AcrSDK/ps2/flps2etc.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 
+#if !defined(TARGET_PS2)
+#include "port/sdl/sdl_game_renderer.h"
+#endif
+
 #include <libgraph.h>
 
 #include <memory.h>
@@ -226,6 +230,7 @@ s32 flPS2CreateTextureHandle(u32 th, u32 flag) {
     u32 dma_size;
     uintptr_t dma_ptr;
 
+#if defined(TARGET_PS2)
     while (1) {
         switch (flag) {
         case 1:
@@ -252,6 +257,9 @@ s32 flPS2CreateTextureHandle(u32 th, u32 flag) {
 
         break;
     }
+#else
+    SDLGameRenderer_CreateTexture(th);
+#endif
 
     flCTNum += 1;
     return 1;
@@ -480,6 +488,7 @@ s32 flPS2CreatePaletteHandle(u32 ph, u32 flag) {
     u32 dma_size;
     uintptr_t dma_ptr;
 
+#if defined(TARGET_PS2)
     while (1) {
         switch (flag) {
         case 1:
@@ -506,6 +515,9 @@ s32 flPS2CreatePaletteHandle(u32 ph, u32 flag) {
 
         break;
     }
+#else
+    SDLGameRenderer_CreatePalette(ph);
+#endif
 
     flPTNum += 1;
     return 1;
@@ -534,6 +546,10 @@ s32 flReleaseTextureHandle(u32 texture_handle) {
         flPS2SystemError(0, "ERROR flReleaseTextureHandle flps2vram.c");
     }
 
+#if !defined(TARGET_PS2)
+    SDLGameRenderer_DestroyTexture(texture_handle);
+#endif
+
     flPS2DmaTerminate();
     flPS2DeleteVramList(lpflTexture);
 
@@ -552,6 +568,10 @@ s32 flReleasePaletteHandle(u32 palette_handle) {
     if ((palette_handle == 0) || (palette_handle > FL_PALETTE_MAX) || (lpflPalette->be_flag == 0)) {
         flPS2SystemError(0, "ERROR flReleasePaletteHandle flps2vram.c");
     }
+
+#if !defined(TARGET_PS2)
+    SDLGameRenderer_DestroyPalette(palette_handle);
+#endif
 
     flPS2DmaTerminate();
     flPS2DeleteVramList(lpflPalette);

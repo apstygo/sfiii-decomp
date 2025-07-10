@@ -161,10 +161,6 @@ s32 plTIM2SetPaletteContextFromImage(plContext *dst, void *lpbas) {
     u8 *lpTim2FileHead;
     u8 *lpTim2PictureHead;
 
-    s32 temp_v1;
-    s32 temp_v1_2;
-    u8 *temp_v0;
-
     lpTim2FileHead = (u8 *)lpbas;
 
     if (CheckTIM2FileHeader(lpTim2FileHead) == 0) {
@@ -411,13 +407,6 @@ u8 *GetTim2ClutData(u8 *lpFile, s32 /* unused */) {
     u8 *lpTim2PictureHead;
     u8 *lpTim2MipmapHead;
     u8 *lpTim2MipmapSubHead[7];
-
-    u8 *spB0;
-    s32 var_s2;
-    s32 var_s4;
-    u32 var_s3;
-    u8 *temp_s0;
-    u8 *temp_v0;
 
     lpTim2FileHead = lpFile;
     lpData = GetTim2PictureHead(lpFile, 0);
