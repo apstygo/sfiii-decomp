@@ -116,17 +116,48 @@ void Sa_frame_Write() {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", SSPutStrTexInput);
+void SSPutStrTexInput(u16 x, u16 y, const s8 *str) {
+    s32 u = ((*str & 0xF) * 8) + 0x80;
+    s32 v = ((*str & 0xF0) >> 4) * 8;
+
+    scrscrntex[0].u = (u + 0.5f) / 256.0f;
+    scrscrntex[3].u = ((u + 8) + 0.5f) / 256.0f;
+    scrscrntex[0].v = (v + 0.5f) / 256.0f;
+    scrscrntex[3].v = ((v + 8) + 0.5f) / 256.0f;
+    scrscrntex[0].x = x * Frame_Zoom_X;
+    scrscrntex[3].x = (x + 8) * Frame_Zoom_X;
+    scrscrntex[0].y = y * Frame_Zoom_Y;
+    scrscrntex[3].y = (y + 8) * Frame_Zoom_Y;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", SSPutStrTexInput2);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", SSPutStr);
-#else
-void SSPutStr(u16 x, u16 y, u8 atr, s8 *str) {
-    not_implemented(__func__);
+void SSPutStr(u16 x, u16 y, u8 atr, const s8 *str) {
+    if (No_Trans) {
+        return;
+    }
+
+    ppgSetupCurrentDataList(&ppgScrList);
+    setFilterMode(0);
+    njColorBlendingMode(0, 1);
+    scrscrntex[0].col = scrscrntex[3].col = 0xFFFFFFFF;
+    scrscrntex[0].z = scrscrntex[3].z = PrioBase[2];
+    njSetPaletteBankNumG(1, atr & 0x3F);
+    x = x * 8;
+    y = y * 8;
+
+    while (*str != '\0') {
+        if (*str != ',') {
+            SSPutStrTexInput(x, y, str);
+        } else {
+            SSPutStrTexInput(x, y + 2, str);
+        }
+
+        njDrawSprite(scrscrntex, 4, 1, 1);
+        x += 8;
+        str++;
+    }
 }
-#endif
 
 s32 SSPutStrPro(u16 flag, u16 x, u16 y, u8 atr, u32 vtxcol, s8 *str) {
     s32 usex;
