@@ -68,11 +68,11 @@ s32 tarPADInit() {
     if (PADDeviceInit() == 0) {
         return 0;
     }
-    
+
     ps2PADWorkClear();
     ps2pad_clear.pad_buffer[0] = 0xFF;
     ps2pad_clear.ix.sw = 0xFFFF;
-    
+
     for (i = 0; i < 2; i++) {
         ps2pad_backup[i] = ps2pad_clear;
         ps2slot[i].state = 0;
@@ -82,7 +82,7 @@ s32 tarPADInit() {
         ps2slot[i].vib = 0;
         ps2slot[i].buff = pad_dma_buf[i];
     }
-    
+
     if (MtapPort == -1) {
         PADPortOpen(0, 0, &ps2slot[0]);
         PADPortOpen(1, 0, &ps2slot[1]);
@@ -310,11 +310,11 @@ s32 PADDeviceInit() {
     if (sceDbcInit() != 1) {
         return 0;
     }
-    
+
     if (scePad2Init(0) != 1) {
         return 0;
     }
-    
+
     return 1;
 }
 
@@ -359,11 +359,11 @@ void PADReadSub(s32 i) {
     pstate = scePad2GetState(ps2slot[i].socket_id);
 
     switch (pstate) {
-    case 1:
+    case scePad2StateStable:
         ps2slot[i].state = 2;
         break;
 
-    case 0:
+    case scePad2StateNoLink:
         ps2slot[i].state = 1;
         ps2slot[i].phase = 0;
         ps2slot[i].kind = 0;
@@ -376,8 +376,8 @@ void PADReadSub(s32 i) {
         tarpad_root[i].state = ps2slot[i].state;
         return;
 
-    case 2:
-    case 3:
+    case scePad2StateExecCmd:
+    case scePad2StateError:
     default:
         ps2slot[i].state = 2;
         ps2slot[i].phase = 0;
@@ -393,7 +393,7 @@ void PADReadSub(s32 i) {
     }
 
     if (ps2slot[i].phase == 0) {
-        len = scePad2GetButtonProfile(ps2slot[i].socket_id, (scePad2ButtonProfile *)bprofile);
+        len = scePad2GetButtonProfile(ps2slot[i].socket_id, bprofile);
 
         if (len < 0) {
             return;
@@ -472,29 +472,29 @@ void PADReadSub(s32 i) {
             break;
 
         case 1:
-            ps2pad_state[i].pad_buffer[4] = ((scePad2ButtonState *)rdata)->rJoyH;
-            ps2pad_state[i].pad_buffer[5] = ((scePad2ButtonState *)rdata)->rJoyV;
-            ps2pad_state[i].pad_buffer[6] = ((scePad2ButtonState *)rdata)->lJoyH;
-            ps2pad_state[i].pad_buffer[7] = ((scePad2ButtonState *)rdata)->lJoyV;
+            ps2pad_state[i].ix.pos.stick.r_ax = ((scePad2ButtonState *)rdata)->rJoyH;
+            ps2pad_state[i].ix.pos.stick.r_ay = ((scePad2ButtonState *)rdata)->rJoyV;
+            ps2pad_state[i].ix.pos.stick.l_ax = ((scePad2ButtonState *)rdata)->lJoyH;
+            ps2pad_state[i].ix.pos.stick.l_ay = ((scePad2ButtonState *)rdata)->lJoyV;
             break;
 
         case 2:
-            ps2pad_state[i].pad_buffer[4] = ((scePad2ButtonState *)rdata)->rJoyH;
-            ps2pad_state[i].pad_buffer[5] = ((scePad2ButtonState *)rdata)->rJoyV;
-            ps2pad_state[i].pad_buffer[6] = ((scePad2ButtonState *)rdata)->lJoyH;
-            ps2pad_state[i].pad_buffer[7] = ((scePad2ButtonState *)rdata)->lJoyV;
-            ps2pad_state[i].pad_buffer[8] = ((scePad2ButtonState *)rdata)->rightP;
-            ps2pad_state[i].pad_buffer[9] = ((scePad2ButtonState *)rdata)->leftP;
-            ps2pad_state[i].pad_buffer[10] = ((scePad2ButtonState *)rdata)->upP;
-            ps2pad_state[i].pad_buffer[11] = ((scePad2ButtonState *)rdata)->downP;
-            ps2pad_state[i].pad_buffer[12] = ((scePad2ButtonState *)rdata)->triangleP;
-            ps2pad_state[i].pad_buffer[13] = ((scePad2ButtonState *)rdata)->circleP;
-            ps2pad_state[i].pad_buffer[14] = ((scePad2ButtonState *)rdata)->crossP;
-            ps2pad_state[i].pad_buffer[15] = ((scePad2ButtonState *)rdata)->squareP;
-            ps2pad_state[i].pad_buffer[16] = ((scePad2ButtonState *)rdata)->l1P;
-            ps2pad_state[i].pad_buffer[17] = ((scePad2ButtonState *)rdata)->r1P;
-            ps2pad_state[i].pad_buffer[18] = ((scePad2ButtonState *)rdata)->l2P;
-            ps2pad_state[i].pad_buffer[19] = ((scePad2ButtonState *)rdata)->r2P;
+            ps2pad_state[i].ix.pos.stick.r_ax = ((scePad2ButtonState *)rdata)->rJoyH;
+            ps2pad_state[i].ix.pos.stick.r_ay = ((scePad2ButtonState *)rdata)->rJoyV;
+            ps2pad_state[i].ix.pos.stick.l_ax = ((scePad2ButtonState *)rdata)->lJoyH;
+            ps2pad_state[i].ix.pos.stick.l_ay = ((scePad2ButtonState *)rdata)->lJoyV;
+            ps2pad_state[i].ix.depth[0] = ((scePad2ButtonState *)rdata)->rightP;
+            ps2pad_state[i].ix.depth[1] = ((scePad2ButtonState *)rdata)->leftP;
+            ps2pad_state[i].ix.depth[2] = ((scePad2ButtonState *)rdata)->upP;
+            ps2pad_state[i].ix.depth[3] = ((scePad2ButtonState *)rdata)->downP;
+            ps2pad_state[i].ix.depth[4] = ((scePad2ButtonState *)rdata)->triangleP;
+            ps2pad_state[i].ix.depth[5] = ((scePad2ButtonState *)rdata)->circleP;
+            ps2pad_state[i].ix.depth[6] = ((scePad2ButtonState *)rdata)->crossP;
+            ps2pad_state[i].ix.depth[7] = ((scePad2ButtonState *)rdata)->squareP;
+            ps2pad_state[i].ix.depth[8] = ((scePad2ButtonState *)rdata)->l1P;
+            ps2pad_state[i].ix.depth[9] = ((scePad2ButtonState *)rdata)->r1P;
+            ps2pad_state[i].ix.depth[10] = ((scePad2ButtonState *)rdata)->l2P;
+            ps2pad_state[i].ix.depth[11] = ((scePad2ButtonState *)rdata)->r2P;
             break;
 
         default:

@@ -311,7 +311,7 @@ segments:
       - [0x105280, c, sf33rd/Source/Game/EFFB8]
       - [0x105A30, asm, sf33rd/Source/Game/effb9]
       - [0x105E00, asm, sf33rd/Source/Game/EFFC0]
-      - [0x1062F0, asm, sf33rd/Source/Game/EFFC1]
+      - [0x1062F0, c, sf33rd/Source/Game/EFFC1]
       - [0x1068E0, asm, sf33rd/Source/Game/EFFC2]
       - [0x109330, asm, sf33rd/Source/Game/EFFC3]
       - [0x109CF0, c, sf33rd/Source/Game/EFFC4]
@@ -1349,7 +1349,7 @@ segments:
       - [0x472778, .sdata, sf33rd/Source/Game/bns_bg2]
       - [0x472790, .sdata, sf33rd/Source/Game/bonus_bg]
       - [0x4727B0, .sdata, sf33rd/Source/Game/cmd_data]
-      - [0x472900, sdata, sf33rd/Source/Game/CMD_MAIN]
+      - [0x472900, .sdata, sf33rd/Source/Game/CMD_MAIN]
       - [0x472970, .sdata, sf33rd/Source/Game/color3rd]
       - [0x472990, sdata, sf33rd/Source/Game/Com_Pl]
       - [0x472B70, .sdata, sf33rd/Source/Game/Com_Sub]
@@ -1408,7 +1408,7 @@ segments:
       - [0x473B20, .sdata, sf33rd/Source/Game/GameOver]
       - [0x473B30, .sdata, sf33rd/Source/Game/GD3rd]
       - [0x473B50, .sdata, sf33rd/Source/Game/init3rd]
-      - [0x473B70, sdata, sf33rd/Source/Game/LOSE_PL]
+      - [0x473B70, .sdata, sf33rd/Source/Game/LOSE_PL]
       - [0x473B80, sdata, sf33rd/Source/Game/Manage]
       - [0x473C80, .sdata, sf33rd/Source/Game/menu]
       - [0x473D50, sdata, sdata_473D50] # This belongs to menu too
@@ -1421,7 +1421,7 @@ segments:
       - [0x474070, .sdata, sf33rd/Source/Game/PulPul]
       - [0x474080, .sdata, sf33rd/Source/Game/RANKING]
       - [0x4740D0, .sdata, sf33rd/Source/Game/Reset]
-      - [0x4740E0, sdata, sf33rd/Source/Game/Saver]
+      - [0x4740E0, .sdata, sf33rd/Source/Game/Saver]
       - [0x4740F0, .sdata, sf33rd/Source/Game/sc_sub]
       - [0x474170, .sdata, sf33rd/Source/Game/SE]
       - [0x4741A0, sdata, sf33rd/Source/Game/sel_pl]
@@ -1594,7 +1594,7 @@ segments:
       - { type: .sbss, vram: 0x5799D0, name: sf33rd/Source/Game/SysDir }
       - { type: .sbss, vram: 0x579A70, name: sf33rd/Source/Game/ta_sub }
       - { type: .sbss, vram: 0x579A88, name: sf33rd/Source/Game/texcash }
-      - { type: sbss, vram: 0x579AA0, name: sf33rd/Source/Game/VITAL }
+      - { type: .sbss, vram: 0x579AA0, name: sf33rd/Source/Game/VITAL }
       - { type: .sbss, vram: 0x579AB0, name: sf33rd/Source/Game/Win }
       - { type: .sbss, vram: 0x579AB4, name: sf33rd/Source/Game/win_pl }
       - { type: .sbss, vram: 0x579AC4, name: sf33rd/Source/Game/WORK_SYS }

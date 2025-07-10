@@ -98,8 +98,8 @@ void flPADGetALL() {
         flpad_adr[0][i].stick[1] = tarpad_root[i].stick[1];
         flpad_adr[0][i].anshot = tarpad_root[i].anshot;
 
-        flupdate_pad_button_data(&(*flpad_adr)[i], tarpad_root[i].sw);
-        flupdate_pad_on_cnt(&(*flpad_adr)[i]);
+        flupdate_pad_button_data(&flpad_adr[0][i], tarpad_root[i].sw);
+        flupdate_pad_on_cnt(&flpad_adr[0][i]);
         flpad_adr[0][i].sw_repeat = flpad_adr[0][i].sw_new;
     }
 

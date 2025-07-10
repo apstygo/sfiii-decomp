@@ -1223,6 +1223,20 @@ typedef union {
     } ix;                // offset 0x0, size 0x20
 } PS2PAD_STATE;
 
+// depth contains button depths in the following order:
+// - Right
+// - Left
+// - Up
+// - Down
+// - Triangle
+// - Circle
+// - Cross
+// - Square
+// - L1
+// - R1
+// - L2
+// - R2
+
 typedef struct {
     // total size: 0xC
     u8 order;    // offset 0x0, size 0x1
@@ -2715,6 +2729,14 @@ typedef struct {
     u8 x_posnum[2];  // offset 0x14, size 0x2
     s16 timer[2];    // offset 0x16, size 0x4
 } CMST_BUFF;
+
+typedef struct {
+    // total size: 0x8
+    s16 cyerw; // offset 0x0, size 0x2
+    s16 cred;  // offset 0x2, size 0x2
+    s16 ored;  // offset 0x4, size 0x2
+    s8 colnum; // offset 0x6, size 0x1
+} VIT;
 
 typedef struct {
     // total size: 0xA
