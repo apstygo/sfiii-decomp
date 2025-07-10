@@ -76,5 +76,7 @@ s16 get_grd_hand_damage(u16 ix);
 u8 check_head_damage(s16 ix);
 u8 check_trunk_damage(s16 ix);
 u8 check_ttk_damage_request(s16 ix);
+s32 check_normal_attack(u8 waza);
+void make_red_blocking_time(s16 id, s16 ix, s16 num);
 
 #endif

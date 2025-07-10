@@ -33,7 +33,7 @@
 #include "structs.h"
 
 #if !defined(TARGET_PS2)
-#include "port/sdl_app.h"
+#include "port/sdl/sdl_app.h"
 #endif
 
 #include <memory.h>
@@ -108,10 +108,8 @@ void AcrMain() {
 
         appSetupTempPriority();
 
-#if !defined(PAD_DISABLED)
         flPADGetALL();
         keyConvert();
-#endif
 
         if (((Usage == 7) || (Usage == 2)) && !test_flag) {
             if (mpp_w.sysStop) {

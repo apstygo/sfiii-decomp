@@ -249,11 +249,29 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", scfont_sqp
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sc_clear);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", vital_put);
+#else
+void vital_put(u8 Pl_Num, s8 atr, s16 vital, u8 kind, u16 priority) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", silver_vital_put);
+#else
+void silver_vital_put(u8 Pl_Num) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", vital_base_put);
+#else
+void vital_base_put(u8 Pl_Num) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", spgauge_base_put);
 

@@ -1,3 +1,4 @@
+cmake_minimum_required(VERSION 3.9)
 add_library(libco STATIC libco.c)
 
 string(TOLOWER ${CMAKE_SYSTEM_PROCESSOR} LOWERCASE_CMAKE_SYSTEM_PROCESSOR)

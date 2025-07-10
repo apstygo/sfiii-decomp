@@ -21,5 +21,6 @@ void add_mvxy_speed(WORK *wk);
 void setup_saishin_lvdir(PLW *ds, s8 gddir);
 void add_sp_arts_gauge_guard(PLW *wk);
 s16 check_work_position(WORK *p1, WORK *p2);
+s32 set_field_hosei_flag(PLW *pl, s16 pos, s16 ix);
 
 #endif
