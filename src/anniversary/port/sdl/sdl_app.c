@@ -53,6 +53,8 @@ int SDLApp_Init() {
         return 1;
     }
 
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+
     // Initialize message renderer
     SDLMessageRenderer_Initialize(renderer);
 

@@ -61,7 +61,7 @@ void Scrscreen_Init() {
     ppgScrListShot.pal = &ppgScrPalShot;
     ppgScrListOpt.pal = &ppgScrPalOpt;
     ppgSetupCurrentDataList(&ppgScrList);
-    loadSize = load_it_use_any_key2(10, &loadAdrs, &key, 2, 0);
+    loadSize = load_it_use_any_key2(10, &loadAdrs, &key, 2, 0); // scrscrn.ppg
 
     if (loadSize == 0) {
         // Could not load texture for score screen.\n

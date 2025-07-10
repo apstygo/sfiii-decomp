@@ -184,6 +184,7 @@ void load_any_color(u16 ix, u8 kokey) {
 
     cfn = (col_file_data *)&color_file[ix];
     key = load_it_use_any_key(cfn->apfn, kokey, 0);
+
     if (key) {
         init_trans_color_ram(0, key, cfn->type, cfn->data);
     }

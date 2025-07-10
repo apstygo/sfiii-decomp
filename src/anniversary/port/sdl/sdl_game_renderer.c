@@ -1,6 +1,7 @@
 #include "port/sdl/sdl_game_renderer.h"
 #include "common.h"
 #include "sf33rd/AcrSDK/ps2/flps2etc.h"
+#include "sf33rd/AcrSDK/ps2/flps2render.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 
 #include <libgraph.h>
@@ -32,6 +33,9 @@ static RenderTask render_tasks[RENDER_TASK_MAX] = { 0 };
 static int render_task_count = 0;
 
 // Debugging
+
+static bool draw_rect_borders = false;
+static bool dump_textures = false;
 
 static int texture_index = 0;
 
@@ -171,6 +175,15 @@ static void read_color(void *pixels, int index, size_t color_size, SDL_Color *co
     }
 }
 
+#define LERP_FLOAT(a, b, x) ((a) * (1 - (x)) + (b) * (x))
+
+static void lerp_fcolors(SDL_FColor *dest, const SDL_FColor *a, const SDL_FColor *b, float x) {
+    dest->r = LERP_FLOAT(a->r, b->r, x);
+    dest->g = LERP_FLOAT(a->g, b->g, x);
+    dest->b = LERP_FLOAT(a->b, b->b, x);
+    dest->a = LERP_FLOAT(a->a, b->a, x);
+}
+
 // Lifecycle
 
 void SDLGameRenderer_Init(SDL_Renderer *renderer) {
@@ -186,7 +199,13 @@ void SDLGameRenderer_BeginFrame() {
     const Uint8 g = (flPs2State.FrameClearColor >> 8) & 0xFF;
     const Uint8 b = flPs2State.FrameClearColor & 0xFF;
     const Uint8 a = flPs2State.FrameClearColor >> 24;
-    SDL_SetRenderDrawColor(_renderer, r, g, b, a);
+
+    if (a != SDL_ALPHA_TRANSPARENT) {
+        SDL_SetRenderDrawColor(_renderer, r, g, b, a);
+    } else {
+        SDL_SetRenderDrawColor(_renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+    }
+
     SDL_SetRenderTarget(_renderer, cps3_canvas);
     SDL_RenderClear(_renderer);
 }
@@ -199,6 +218,27 @@ void SDLGameRenderer_RenderFrame() {
         const RenderTask *task = &render_tasks[i];
         const int indices[] = { 0, 1, 2, 1, 2, 3 };
         SDL_RenderGeometry(_renderer, task->texture, task->vertices, 4, indices, 6);
+    }
+
+    if (draw_rect_borders) {
+        const SDL_FColor red = { .r = 1, .g = 0, .b = 0, .a = SDL_ALPHA_OPAQUE_FLOAT };
+        const SDL_FColor green = { .r = 0, .g = 1, .b = 0, .a = SDL_ALPHA_OPAQUE_FLOAT };
+        SDL_FColor border_color;
+
+        for (int i = 0; i < render_task_count; i++) {
+            const RenderTask *task = &render_tasks[i];
+            const float x0 = task->vertices[0].position.x;
+            const float y0 = task->vertices[0].position.y;
+            const float x1 = task->vertices[3].position.x;
+            const float y1 = task->vertices[3].position.y;
+            const SDL_FRect border_rect = { .x = x0, .y = y0, .w = (x1 - x0), .h = (y1 - y0) };
+
+            const float lerp_factor = (float)i / (float)(render_task_count - 1);
+            lerp_fcolors(&border_color, &red, &green, lerp_factor);
+
+            SDL_SetRenderDrawColorFloat(_renderer, border_color.r, border_color.g, border_color.b, border_color.a);
+            SDL_RenderRect(_renderer, &border_rect);
+        }
     }
 }
 
@@ -227,6 +267,11 @@ void SDLGameRenderer_CreateTexture(unsigned int th) {
     case SCE_GS_PSMT4:
         pixel_format = SDL_PIXELFORMAT_INDEX4LSB;
         pitch = fl_texture->width / 2;
+        break;
+
+    case SCE_GS_PSMCT16:
+        pixel_format = SDL_PIXELFORMAT_ABGR1555;
+        pitch = fl_texture->width * 2;
         break;
 
     default:
@@ -307,21 +352,26 @@ void SDLGameRenderer_DestroyPalette(unsigned int palette_handle) {
 
 void SDLGameRenderer_SetTexture(unsigned int th) {
     const SDL_Surface *surface = surfaces[LO_16_BITS(th) - 1];
-    const SDL_Palette *palette = palettes[HI_16_BITS(th) - 1];
+    const int palette_handle = HI_16_BITS(th);
+    const SDL_Palette *palette = palette_handle != 0 ? palettes[palette_handle - 1] : NULL;
 
-    // Uncomment this to save textures into textures folder
-    // save_texture(surface, palette);
+    if (dump_textures) {
+        save_texture(surface, palette);
+    }
 
-    SDL_SetSurfacePalette(surface, palette);
+    if (palette != NULL) {
+        SDL_SetSurfacePalette(surface, palette);
+    }
+
     const SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface);
     SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
     push_texture(texture);
 }
 
-static void draw_quad(SDLGameRenderer_Vertex *vertices, bool textured) {
+static void draw_quad(const SDLGameRenderer_Vertex *vertices, bool textured) {
     RenderTask task;
     task.texture = textured ? get_texture() : NULL;
-    task.z = vertices[0].coord.z;
+    task.z = flPS2ConvScreenFZ(vertices[0].coord.z);
 
     SDL_zeroa(task.vertices);
 
@@ -340,10 +390,63 @@ static void draw_quad(SDLGameRenderer_Vertex *vertices, bool textured) {
     push_render_task(&task);
 }
 
-void SDLGameRenderer_DrawTexturedQuad(SDLGameRenderer_Vertex *vertices) {
+void SDLGameRenderer_DrawTexturedQuad(const SDLGameRenderer_Vertex *vertices) {
     draw_quad(vertices, true);
 }
 
-void SDLGameRenderer_DrawSolidQuad(SDLGameRenderer_Vertex *vertices) {
+void SDLGameRenderer_DrawSolidQuad(const SDLGameRenderer_Vertex *vertices) {
     draw_quad(vertices, false);
+}
+
+void SDLGameRenderer_DrawSprite(const SDLGameRenderer_Sprite *sprite, unsigned int color) {
+    SDLGameRenderer_Vertex vertices[4];
+    SDL_zeroa(vertices);
+
+    for (int i = 0; i < 4; i++) {
+        vertices[i].coord.z = sprite->v[0].z;
+        vertices[i].color = color;
+    }
+
+    vertices[0].coord.x = sprite->v[0].x + 0.5;
+    vertices[0].coord.y = sprite->v[0].y + 0.5;
+    vertices[3].coord.x = sprite->v[3].x + 0.5;
+    vertices[3].coord.y = sprite->v[3].y + 0.5;
+    vertices[1].coord.x = vertices[3].coord.x;
+    vertices[1].coord.y = vertices[0].coord.y;
+    vertices[2].coord.x = vertices[0].coord.x;
+    vertices[2].coord.y = vertices[3].coord.y;
+
+    vertices[0].tex_coord = sprite->t[0];
+    vertices[3].tex_coord = sprite->t[3];
+    vertices[1].tex_coord.s = vertices[3].tex_coord.s;
+    vertices[1].tex_coord.t = vertices[0].tex_coord.t;
+    vertices[2].tex_coord.s = vertices[0].tex_coord.s;
+    vertices[2].tex_coord.t = vertices[3].tex_coord.t;
+
+    draw_quad(vertices, true);
+}
+
+void SDLGameRenderer_DrawSprite2(const SDLGameRenderer_Sprite2 *sprite2) {
+    SDLGameRenderer_Sprite sprite;
+    SDL_zero(sprite);
+
+    sprite.v[0] = sprite2->v[0];
+    sprite.v[1].x = sprite2->v[1].x;
+    sprite.v[1].y = sprite2->v[0].y;
+    sprite.v[2].x = sprite2->v[0].x;
+    sprite.v[2].y = sprite2->v[1].y;
+    sprite.v[3] = sprite2->v[1];
+
+    sprite.t[0] = sprite2->t[0];
+    sprite.t[1].s = sprite2->t[1].s;
+    sprite.t[1].t = sprite2->t[0].t;
+    sprite.t[2].s = sprite2->t[0].s;
+    sprite.t[2].t = sprite2->t[1].t;
+    sprite.t[3] = sprite2->t[1];
+
+    for (int i = 0; i < 4; i++) {
+        sprite.v[i].z = sprite2->v[0].z;
+    }
+
+    SDLGameRenderer_DrawSprite(&sprite, sprite2->vertex_color);
 }

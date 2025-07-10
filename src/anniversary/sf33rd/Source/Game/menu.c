@@ -2162,8 +2162,8 @@ void Screen_Exit_Check(struct _TASK *task_ptr, s16 PL_id) {
         SE_selected();
         X_Adjust_Buff[2] = 0;
         Y_Adjust_Buff[2] = 0;
-        Disp_Size_H = 0x64;
-        Disp_Size_V = 0x64;
+        Disp_Size_H = 100;
+        Disp_Size_V = 100;
         Setup_Disp_Size(0);
         sys_w.screen_mode = 1;
     }
