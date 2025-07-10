@@ -16,7 +16,6 @@ special_cases = {
     ("Eff95", ".rodata", 0): 16,
     ("EFFF2", ".rodata", 0): 16,
     ("EFFF8", ".rodata", 0): 16,
-    ("pass00", ".rodata", 0): 16,
     ("aboutspr", ".rodata", 0): 16,
     ("flps2vram", ".rodata", 10): 16,
     ("flps2debug", ".rodata", 22): 16,
