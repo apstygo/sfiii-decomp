@@ -8,6 +8,7 @@
 #include "sf33rd/Source/Game/main.h"
 
 #include <SDL3/SDL.h>
+#include <math.h>
 
 #define FRAME_TIMES_MAX 120
 
@@ -186,7 +187,7 @@ void SDLApp_EndFrame() {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderDebugTextFormat(renderer, 8, 8, "FPS: %f", fps);
 
-    const Uint64 frame_time_budget = target_frame_time_ns + frame_time_remainder;
+    const Uint64 frame_time_budget = (Uint64)fmaxf(0.0f, target_frame_time_ns + (float)frame_time_remainder);
     Uint64 frame_time = SDL_GetTicksNS() - frame_start;
 
     if (frame_time < frame_time_budget) {
@@ -199,7 +200,7 @@ void SDLApp_EndFrame() {
     // Measure
     frame_counter += 1;
     frame_time = SDL_GetTicksNS() - frame_start;
-    frame_time_remainder = target_frame_time_ns - frame_time;
+    frame_time_remainder = (Uint64)fmaxf(0.0f, target_frame_time_ns - (float)frame_time);
     add_frame_time(frame_time);
     update_fps();
 

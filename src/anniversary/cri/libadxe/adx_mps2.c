@@ -139,7 +139,7 @@ Sint32 adxm_IsSetupThrdEx();
 void adxm_SleepThread();
 void adxm_WakeupThread(Sint32 tid);
 
-void _adxm_lock() {
+void _adxm_lock(void *unused) {
     if (adxm_lock_level == 0) {
         Sint32 tid = GetThreadId();
         adxm_cur_prio = ChangeThreadPriority(tid, adxm_save_tprm[0]);
@@ -155,7 +155,7 @@ void _adxm_lock() {
     adxm_lock_level += 1;
 }
 
-void _adxm_unlock() {
+void _adxm_unlock(void *unused) {
     if (--adxm_lock_level == 0) {
         adxm_SuspendThread(adxm_id_safe);
         adxm_id_safe;
