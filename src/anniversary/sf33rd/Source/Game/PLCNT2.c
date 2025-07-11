@@ -1,9 +1,14 @@
 #include "sf33rd/Source/Game/PLCNT2.h"
 #include "common.h"
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT2", bsmr_range_table);
+const s16 bsmr_range_table[3][2][2] = { { { 0x00c0, 0x00c0 }, { 0x00c0, 0x00c0 } },
+                                        { { 0x0040, 0x00c0 }, { 0x00e0, 0xff78 } },
+                                        { { 0xff90, 0x00e0 }, { 0x00d8, 0x0028 } } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT2", player_bonus_process);
+void plcnt_b_move();
+void plcnt_b_die();
+
+void (*const player_bonus_process[3])() = { plcnt_b_init, plcnt_b_move, plcnt_b_die };
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT2", Player_control_bonus);
