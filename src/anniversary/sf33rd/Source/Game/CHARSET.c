@@ -132,7 +132,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_cmms3);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_cmhs);
+#else
+void char_move_cmhs(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 void char_move(WORK *wk) {
     wk->K5_exec_ok = 1;

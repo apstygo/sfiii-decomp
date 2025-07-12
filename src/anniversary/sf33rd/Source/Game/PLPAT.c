@@ -369,7 +369,70 @@ void Attack_07000(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPAT", Attack_08000);
+void Attack_08000(PLW *wk) {
+#if defined(TARGET_PS2)
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
+    void setup_mvxy_data(WORK * wk, u32 ix);
+    void add_to_mvxy_data(WORK * wk, u32 ix);
+#endif
+
+    s16 ixx;
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+
+        if (wk->wu.xyz[1].disp.pos <= 0) {
+            wk->wu.rl_flag = wk->wu.rl_waza;
+            wk->wu.xyz[1].disp.pos = 0;
+
+            ixx = ((wk->wu.pat_status - 20) / 2 & 3) + 9;
+
+            if (ixx > 11) {
+                ixx = 10;
+            }
+
+            setup_mvxy_data(&wk->wu, ixx);
+        }
+
+        get_cancel_timer(wk);
+        set_char_move_init(&wk->wu, 4, (s16)((wk->as->char_ix)));
+        wk->wu.mvxy.index = wk->as->data_ix;
+        break;
+
+    case 1:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 1) {
+            wk->wu.routine_no[3]++;
+        }
+
+        if (wk->wu.cg_type == 20) {
+            setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
+            wk->wu.cg_type = 0;
+            wk->wu.mvxy.index++;
+            break;
+        }
+
+        break;
+
+    case 2:
+        jumping_union_process(&wk->wu, 3);
+
+        if ((wk->wu.routine_no[3] != 3) && (wk->wu.cg_type == 20)) {
+            add_to_mvxy_data(&wk->wu, wk->wu.mvxy.index);
+            wk->wu.cg_type = 0;
+            wk->wu.mvxy.index++;
+            break;
+        }
+
+        break;
+
+    case 3:
+        char_move(&wk->wu);
+        break;
+    }
+}
 
 void Attack_09000(PLW *wk) {
 #if defined(TARGET_PS2)
@@ -419,8 +482,6 @@ void Attack_09000(PLW *wk) {
         break;
     }
 }
-
-// INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPAT", Attack_10000);
 
 void Attack_10000(PLW *wk) {
 #if defined(TARGET_PS2)

@@ -4,6 +4,7 @@
 #include "structs.h"
 
 void setupCharTableData(WORK *wk, s32 clr, s32 info);
+void char_move_cmhs(PLW *wk);
 void char_move(WORK *wk);
 void check_cm_extended_code(WORK *wk);
 void check_cgd_patdat(WORK *wk);

@@ -106,9 +106,12 @@ extern PLW plw[2]; // size: 0x8D8, address: 0x5E4D20
 void Player_control();
 void reqPlayerDraw();
 void erase_extra_plef_work();
+void set_player_shadow(PLW *wk);
 void clear_chainex_check(s16 ix);
 void set_kizetsu_status(s16 ix);
+void clear_kizetsu_point(PLW *wk);
 void set_super_arts_status(s16 ix);
+void clear_super_arts_point(PLW *wk);
 s16 check_combo_end(s16 ix);
 
 #endif
