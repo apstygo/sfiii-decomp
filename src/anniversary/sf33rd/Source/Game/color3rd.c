@@ -505,6 +505,7 @@ void palCreateGhost() {
     ppl.compress = 0;
     ppl.c_mode = 2;
     ppl.formARGB = 0x5515;
+
     ppl.palettes = 0x1000;
     size = 0x2000;
     key = Pull_ramcnt_key(size, 2, 0, 1);
@@ -516,6 +517,7 @@ void palCreateGhost() {
 
     ppgSetupPalChunkDir(&col3rd_w.palDC, &ppl, adrs, 0, 1);
     Push_ramcnt_key(key);
+
     ppl.palettes = 2;
     size = 0x2000;
     key = Pull_ramcnt_key(size, 2, 0, 1);

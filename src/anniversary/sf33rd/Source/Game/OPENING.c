@@ -212,11 +212,11 @@ void OPBG_Init() {
 
     loadSize = Get_size_data_ramcnt_key(key);
     loadAdrs = (void *)Get_ramcnt_address(key);
-    ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, 0x25A, 0x5B, 0, 0);
+    ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, 602, 91, 0, 0);
 
     for (i = 0; i < ppgOpnBgTex.textures; i++) {
-        ppgSetupTexChunk_2nd(NULL, i + 0x25A);
-        ppgSetupTexChunk_3rd(NULL, i + 0x25A, 1);
+        ppgSetupTexChunk_2nd(NULL, i + 602);
+        ppgSetupTexChunk_3rd(NULL, i + 602, 1);
     }
 
     Opening_Now = 1;

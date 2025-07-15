@@ -51,6 +51,7 @@ void SDLGameRenderer_DestroyTexture(unsigned int texture_handle);
 void SDLGameRenderer_CreatePalette(unsigned int ph);
 void SDLGameRenderer_DestroyPalette(unsigned int palette_handle);
 void SDLGameRenderer_SetTexture(unsigned int th);
+void SDLGameRenderer_ReloadTexture(unsigned int th);
 void SDLGameRenderer_DrawTexturedQuad(const SDLGameRenderer_Vertex *vertices);
 void SDLGameRenderer_DrawSolidQuad(const SDLGameRenderer_Vertex *vertices);
 void SDLGameRenderer_DrawSprite(const SDLGameRenderer_Sprite *sprite, unsigned int color);

@@ -351,7 +351,8 @@ void SDLGameRenderer_DestroyPalette(unsigned int palette_handle) {
 }
 
 void SDLGameRenderer_SetTexture(unsigned int th) {
-    const SDL_Surface *surface = surfaces[LO_16_BITS(th) - 1];
+    const int texture_handle = LO_16_BITS(th);
+    const SDL_Surface *surface = surfaces[texture_handle - 1];
     const int palette_handle = HI_16_BITS(th);
     const SDL_Palette *palette = palette_handle != 0 ? palettes[palette_handle - 1] : NULL;
 
@@ -366,6 +367,29 @@ void SDLGameRenderer_SetTexture(unsigned int th) {
     const SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface);
     SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
     push_texture(texture);
+}
+
+void SDLGameRenderer_ReloadTexture(unsigned int th) {
+    const int texture_handle = LO_16_BITS(th);
+    const int palette_handle = HI_16_BITS(th);
+
+    if ((texture_handle > 0) && (texture_handle < FL_TEXTURE_MAX)) {
+        const FLTexture *fl_texture = &flTexture[texture_handle - 1];
+
+        if (!fl_texture->vram_on_flag) {
+            SDLGameRenderer_DestroyTexture(texture_handle);
+            SDLGameRenderer_CreateTexture(th);
+        }
+    }
+
+    if ((palette_handle > 0) && (palette_handle < FL_PALETTE_MAX)) {
+        const FLTexture *fl_palette = &flPalette[palette_handle - 1];
+
+        if (!fl_palette->vram_on_flag) {
+            SDLGameRenderer_DestroyPalette(palette_handle);
+            SDLGameRenderer_CreatePalette(th);
+        }
+    }
 }
 
 static void draw_quad(const SDLGameRenderer_Vertex *vertices, bool textured) {
