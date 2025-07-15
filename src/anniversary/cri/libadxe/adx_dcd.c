@@ -3,6 +3,9 @@
 
 #include <cri/ee/cri_xpt.h>
 
+#include <math.h>
+#include <string.h>
+
 #define BSWAP_U16(_val) ((Uint16)((((_val & 0xFF00) >> 8)) | ((_val << 8) & 0xFF00)))
 #define BSWAP_S16(_val) ((Sint16)((((_val & 0xFF00) >> 8)) | ((_val << 8) & 0xFF00)))
 #define BSWAP_U32(_val)                                                                                                \
