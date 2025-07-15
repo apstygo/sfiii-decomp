@@ -425,7 +425,6 @@ void adxt_time_adjust_trap() {
 void ADXT_GetTime(ADX_TALK *adxt, Sint32 *ncount, Sint32 *tscale) {
     Sint32 sp0;
     Sint32 sp4;
-    Sint32 var_v0;
     Sint32 temp_s1;
     Uint8 stat;
     Sint32 temp;
@@ -445,12 +444,11 @@ void ADXT_GetTime(ADX_TALK *adxt, Sint32 *ncount, Sint32 *tscale) {
 
     if ((Uint32)(stat - 3) < 2) {
         if (adxt->pause_flag == 0) {
-            var_v0 = ((adxt_vsync_cnt - adxt->svcnt) * 0x64) + adxt->tvofst;
+            *ncount = ((adxt_vsync_cnt - adxt->svcnt) * 0x64) + adxt->tvofst;
         } else {
-            var_v0 = adxt->tvofst;
+            *ncount = adxt->tvofst;
         }
 
-        *ncount = var_v0;
         ADXT_GetTimeSfreq2(adxt, &sp0, &sp4);
         adxt_diff_av = (((Float32)sp0 / sp4) - ((Float32)*ncount / adxt_time_unit)) * 1000.0f;
 

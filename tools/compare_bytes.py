@@ -92,13 +92,6 @@ EXPECTED_ERRORS = {
     0xDD0B8: 0x3E020286,
     0xDD0BC: 0x21104300,
 
-    # adx_tlk::ADXT_GetTime: instruction order
-    0x2D44B0: 0x0045D426,
-    0x2D44B4: 0x0000A58F,
-    0x2D44B8: 0x0400A68F,
-    0x2D44BC: 0x000061C6,
-    0x2D44C0: 0x60088046,
-
     # adx_sjd::adxsjd_get_wr: (a1, a2, a3) regswap
     0x2D1740: 0x2DA8A000,
     0x2D1748: 0x2DB0C000,
