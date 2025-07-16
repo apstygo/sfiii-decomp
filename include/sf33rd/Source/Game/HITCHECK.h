@@ -16,5 +16,7 @@ void clear_hit_queue();
 void hit_check_main_process();
 s16 hit_check_subroutine(WORK *wk1, WORK *wk2, const s16 *hd1, s16 *hd2);
 s16 get_att_head_position(WORK_Other *wk);
+s32 check_normal_attack(u8 waza);
+void make_red_blocking_time(s16 id, s16 ix, s16 num);
 
 #endif

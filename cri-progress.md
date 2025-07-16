@@ -59,15 +59,15 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ADXCRS_Lock
 - [x] ADXCRS_Unlock
 
-### adx_dcd
+### adx_dcd ✅
 
-- [ ] ADX_GetCoefficient
+- [x] ADX_GetCoefficient
 - [x] ADX_DecodeInfo
-- [ ] ADX_DecodeInfoExADPCM2
-- [ ] ADX_DecodeInfoExVer
-- [ ] ADX_DecodeInfoExIdly
-- [ ] ADX_DecodeInfoExLoop
-- [ ] ADX_DecodeInfoAinf
+- [x] ADX_DecodeInfoExADPCM2
+- [x] ADX_DecodeInfoExVer
+- [x] ADX_DecodeInfoExIdly
+- [x] ADX_DecodeInfoExLoop
+- [x] ADX_DecodeInfoAinf
 
 ### adx_dcd3 ✅
 

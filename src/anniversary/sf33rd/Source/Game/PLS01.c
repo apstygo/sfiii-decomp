@@ -1,3 +1,4 @@
+#include "sf33rd/Source/Game/PLS01.h"
 #include "common.h"
 
 #if defined(TARGET_PS2)
@@ -18,7 +19,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", check_rl_fl
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", set_rl_waza);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", check_rl_on_car);
+#else
+s16 check_rl_on_car(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", saishin_bs2_area_car);
 

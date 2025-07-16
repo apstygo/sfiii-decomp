@@ -2731,7 +2731,33 @@ typedef struct {
 } CMST_BUFF;
 
 typedef struct {
+    // total size: 0x8
+    s16 cyerw; // offset 0x0, size 0x2
+    s16 cred;  // offset 0x2, size 0x2
+    s16 ored;  // offset 0x4, size 0x2
+    s8 colnum; // offset 0x6, size 0x1
+} VIT;
+
+typedef struct {
     // total size: 0xA
+    signed short offence_total;  // offset 0x0, size 0x2
+    signed short defence_total;  // offset 0x2, size 0x2
+    signed short tech_pts_total; // offset 0x4, size 0x2
+    signed short ex_point_total; // offset 0x6, size 0x2
+    signed short grade;          // offset 0x8, size 0x2
+} JudgeGals;
+
+typedef struct {
+    // total size: 0xC
+    signed short offence_total;  // offset 0x0, size 0x2
+    signed short defence_total;  // offset 0x2, size 0x2
+    signed short tech_pts_total; // offset 0x4, size 0x2
+    signed short ex_point_total; // offset 0x6, size 0x2
+    signed short round;          // offset 0x8, size 0x2
+    signed short grade;          // offset 0xA, size 0x2
+} JudgeCom;
+
+typedef struct {
     s16 cstn;         // offset 0x0, size 0x2
     s8 sflag;         // offset 0x2, size 0x1
     s8 osflag;        // offset 0x3, size 0x1
@@ -2740,5 +2766,6 @@ typedef struct {
     s16 slen;         // offset 0x6, size 0x2
     s8 proccess_dead; // offset 0x8, size 0x1
 } SDAT;
+
 
 #endif
