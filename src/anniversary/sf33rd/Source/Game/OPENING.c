@@ -92,7 +92,7 @@ s16 opening_demo() {
     case 3:
         if (!Game_pause) {
             if (--op_timer0 == 0) {
-                D_No[3] = 0x63;
+                D_No[3] = 99;
             }
         }
 
@@ -119,7 +119,7 @@ void TITLE_Init() {
     ppgTitleList.tex = &ppgTitleTex;
     ppgTitleList.pal = NULL;
     ppgSetupCurrentDataList(&ppgTitleList);
-    loadSize = load_it_use_any_key2(0x4E, &loadAdrs, &key, 2, 1);
+    loadSize = load_it_use_any_key2(78, &loadAdrs, &key, 2, 1); // TitleTM.ppg
 
     if (loadSize == 0) {
         // Main title texture could not be loaded.
@@ -127,9 +127,9 @@ void TITLE_Init() {
         while (1) {}
     }
 
-    ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, 0x259, 1, 0, 0);
-    ppgSetupTexChunk_2nd(NULL, 0x259);
-    ppgSetupTexChunk_3rd(NULL, 0x259, 1);
+    ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, 601, 1, 0, 0);
+    ppgSetupTexChunk_2nd(NULL, 601);
+    ppgSetupTexChunk_3rd(NULL, 601, 1);
     Push_ramcnt_key(key);
     ppgSourceDataReleased(NULL);
     title_tex_flag = 1;
@@ -151,7 +151,7 @@ s16 TITLE_Move(u16 type) {
         case 0:
             op_w.r_no_0 += 1;
             Zoom_Value_Set(0x40);
-            Frame_Up(0xC0, 0x70, 0x13);
+            Frame_Up(192, 112, 0x13);
             op_timer0 = 10;
             break;
 
@@ -181,11 +181,11 @@ s16 TITLE_Move(u16 type) {
             break;
         }
 
-        Put_char(title[type], 0x259, 9, 0xC0, 0x60, scr_sc, scr_sc);
+        Put_char(title[type], 601, 9, 192, 96, scr_sc, scr_sc);
         return 0;
 
     case 1:
-        Put_char(title[type], 0x259, 9, 0xC0, 0x60, 1.0f, 1.0f);
+        Put_char(title[type], 601, 9, 192, 96, 1.0f, 1.0f);
         return 0;
 
     default:
@@ -212,11 +212,11 @@ void OPBG_Init() {
 
     loadSize = Get_size_data_ramcnt_key(key);
     loadAdrs = (void *)Get_ramcnt_address(key);
-    ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, 0x25A, 0x5B, 0, 0);
+    ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, 602, 91, 0, 0);
 
     for (i = 0; i < ppgOpnBgTex.textures; i++) {
-        ppgSetupTexChunk_2nd(NULL, i + 0x25A);
-        ppgSetupTexChunk_3rd(NULL, i + 0x25A, 1);
+        ppgSetupTexChunk_2nd(NULL, i + 602);
+        ppgSetupTexChunk_3rd(NULL, i + 602, 1);
     }
 
     Opening_Now = 1;

@@ -184,6 +184,7 @@ void load_any_color(u16 ix, u8 kokey) {
 
     cfn = (col_file_data *)&color_file[ix];
     key = load_it_use_any_key(cfn->apfn, kokey, 0);
+
     if (key) {
         init_trans_color_ram(0, key, cfn->type, cfn->data);
     }
@@ -504,6 +505,7 @@ void palCreateGhost() {
     ppl.compress = 0;
     ppl.c_mode = 2;
     ppl.formARGB = 0x5515;
+
     ppl.palettes = 0x1000;
     size = 0x2000;
     key = Pull_ramcnt_key(size, 2, 0, 1);
@@ -515,6 +517,7 @@ void palCreateGhost() {
 
     ppgSetupPalChunkDir(&col3rd_w.palDC, &ppl, adrs, 0, 1);
     Push_ramcnt_key(key);
+
     ppl.palettes = 2;
     size = 0x2000;
     key = Pull_ramcnt_key(size, 2, 0, 1);

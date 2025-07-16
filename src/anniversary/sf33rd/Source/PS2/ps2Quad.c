@@ -71,7 +71,7 @@ void ps2SeqsRenderQuadInit_B() {
 
 void ps2SeqsRenderQuad_Ax(Sprite2 *spr) {
 #if !defined(TARGET_PS2)
-    not_implemented(__func__);
+    SDLGameRenderer_DrawSprite2(spr);
 #else
     u32 data_ptr;
     u32 col;
@@ -132,7 +132,7 @@ void ps2SeqsRenderQuad_Ax(Sprite2 *spr) {
 
 void ps2SeqsRenderQuad_A2(Sprite *spr, u32 col) {
 #if !defined(TARGET_PS2)
-    not_implemented(__func__);
+    SDLGameRenderer_DrawSprite(spr, col);
 #else
     u32 data_ptr;
     u64 rgbaq;

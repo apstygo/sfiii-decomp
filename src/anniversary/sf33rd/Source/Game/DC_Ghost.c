@@ -151,12 +151,12 @@ void njCalcPoint(MTX *mtx, Vec3 *ps, Vec3 *pd) {
         mtx = &cmtx;
     }
 
+#if defined(TARGET_PS2)
     v0[0] = ps->x;
     v0[1] = ps->y;
     v0[2] = ps->z;
     v0[3] = 1.0f;
 
-#if defined(TARGET_PS2)
     __asm__ __volatile__("lqc2    $vf8, 0(%1) \n"
                          "lqc2    $vf4, 0(%0) \n"
                          "lqc2    $vf5, 0x10(%0) \n"
@@ -171,13 +171,19 @@ void njCalcPoint(MTX *mtx, Vec3 *ps, Vec3 *pd) {
                          : "r"(mtx), "r"(v0), "f"(pd)
                          : "memory");
 
-#else
-    not_implemented(__func__);
-#endif
-
     pd->x = v0[0];
     pd->y = v0[1];
     pd->z = v0[2];
+#else
+    f32 x = ps->x;
+    f32 y = ps->y;
+    f32 z = ps->z;
+    f32 w = 1.0f;
+
+    pd->x = x * mtx->a[0][0] + y * mtx->a[1][0] + z * mtx->a[2][0] + w * mtx->a[3][0];
+    pd->y = x * mtx->a[0][1] + y * mtx->a[1][1] + z * mtx->a[2][1] + w * mtx->a[3][1];
+    pd->z = x * mtx->a[0][2] + y * mtx->a[1][2] + z * mtx->a[2][2] + w * mtx->a[3][2];
+#endif
 }
 
 void njCalcPoints(MTX *mtx, Vec3 *ps, Vec3 *pd, s32 num) {

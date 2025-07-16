@@ -347,7 +347,6 @@ const s16 eff36_data_tbl[29][9] = { { 0, 1, 512, 128, 73, 5, 1, 41, 42 },   { 0,
                                     { 0, 5, 544, 136, 70, 6, 1, 79, 80 },   { 0, 5, 464, 136, 70, 6, 1, 81, 82 },
                                     { 0, 6, 488, 120, 66, 11, 1, 91, 92 } };
 
-#if defined(TARGET_PS2)
 s32 effect_36_init(u8 typenum) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
@@ -390,8 +389,3 @@ s32 effect_36_init(u8 typenum) {
     effect_36_move(ewk);
     return 0;
 }
-#else
-s32 effect_36_init(u8 typenum) {
-    not_implemented(__func__);
-}
-#endif
