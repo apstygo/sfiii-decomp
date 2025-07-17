@@ -14,5 +14,7 @@ void set_char_move_init(WORK *wk, s16 koc, s16 index);
 void set_char_move_init2(WORK *wk, s16 koc, s16 index, s16 ip, s16 scf);
 void char_move_z(WORK *wk);
 void char_move_wca(WORK *wk);
+void char_move_wca_init(WORK *wk);
+void exset_char_move_init(WORK *wk, s16 koc, s16 index);
 
 #endif

@@ -410,23 +410,59 @@ void reset_mvxy_data(WORK *wk) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", remake_mvxy_PoSB);
+#else
+void remake_mvxy_PoSB(WORK *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", remake_mvxy_PoGR);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_body_touch);
+#else
+void check_body_touch() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", meri_case_switch);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_body_touch2);
+#else
+void check_body_touch2() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_be_car_object);
+#else
+s32 check_be_car_object() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", hoseishitemo_eenka);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", get_sel_hosei_tbl_ix);
+#else
+s16 get_sel_hosei_tbl_ix(s16 plnum) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_work_position_bonus);
+#else
+s16 check_work_position_bonus(WORK *hm, s16 tx) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", set_field_hosei_flag);
@@ -436,7 +472,13 @@ s32 set_field_hosei_flag(PLW *pl, s16 pos, s16 ix) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_work_position);
+#else
+s16 check_work_position(WORK *p1, WORK *p2) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_32);
 
@@ -517,7 +559,13 @@ void setup_vitality(WORK *wk, s16 pno) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", cal_dm_vital_gauge_hosei);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", set_hit_stop_hit_quake);
+#else
+void set_hit_stop_hit_quake(WORK *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 void add_sp_arts_gauge_init(PLW *wk) {
 #if defined(TARGET_PS2)
@@ -546,13 +594,25 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", cal_sa_gauge_waribiki);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts_gauge_paring);
+#else
+void add_sp_arts_gauge_paring(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts_gauge_tokushu);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts_gauge_ukemi);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts_gauge_nagenuke);
+#else
+void add_sp_arts_gauge_nagenuke(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts_gauge_maxbit);

@@ -9,7 +9,13 @@ s32 sa_stop_check() {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", check_my_tk_power_off);
+#else
+void check_my_tk_power_off(PLW *wk, PLW * /* unused */) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", check_em_tk_power_off);
@@ -29,7 +35,13 @@ s16 check_ukemi_flag(PLW *wk) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", check_rl_flag);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", set_rl_waza);
+#else
+void set_rl_waza(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", check_rl_on_car);
@@ -55,7 +67,13 @@ void check_extra_jump_timer(PLW *wk) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", remake_sankaku_tobi_mvxy);
+#else
+void remake_sankaku_tobi_mvxy(WORK *wk, u8 kabe) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", check_F_R_dash);
 

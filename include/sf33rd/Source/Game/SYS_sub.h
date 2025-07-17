@@ -6,9 +6,10 @@
 
 extern const struct _SAVE_W Game_Default_Data; // size: 0x208, address: 0x5544C0
 
-void Switch_Screen_Init(s32 /* unused */);         // Range: 0x3A1C50 -> 0x3A1C98
-s32 Switch_Screen(u8 Wipe_Type);                   // Range: 0x3A1CA0 -> 0x3A1D08
-s32 Switch_Screen_Revival(u8 Wipe_Type);           // Range: 0x3A1D10 -> 0x3A1D78
+void Switch_Screen_Init(s32 /* unused */); // Range: 0x3A1C50 -> 0x3A1C98
+s32 Switch_Screen(u8 Wipe_Type);           // Range: 0x3A1CA0 -> 0x3A1D08
+s32 Switch_Screen_Revival(u8 Wipe_Type);   // Range: 0x3A1D10 -> 0x3A1D78
+u16 Convert_User_Setting(s16 PL_id);
 void Clear_Personal_Data(s16 PL_id);               // Range: 0x3A21C0 -> 0x3A2744
 s16 Check_Count_Cut(s16 PL_id, s16 Limit);         // Range: 0x3A2750 -> 0x3A2850
 void Disp_Personal_Count(s16 PL_id, s8 counter);   // Range: 0x3A2850 -> 0x3A28B8

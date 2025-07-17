@@ -21,7 +21,17 @@ void setup_mvxy_data(WORK *wk, u16 ix);
 void cal_mvxy_speed(WORK *wk);
 void add_mvxy_speed(WORK *wk);
 s32 set_field_hosei_flag(PLW *pl, s16 pos, s16 ix);
+s16 check_work_position(WORK *p1, WORK *p2);
 void setup_lvdir_after_autodir(PLW *wk);
 void reset_mvxy_data(WORK *wk);
+void remake_mvxy_PoSB(WORK *wk);
+void check_body_touch();
+void check_body_touch2();
+s32 check_be_car_object();
+s16 get_sel_hosei_tbl_ix(s16 plnum);
+s16 check_work_position_bonus(WORK *hm, s16 tx);
+void set_hit_stop_hit_quake(WORK *wk);
+void add_sp_arts_gauge_paring(PLW *wk);
+void add_sp_arts_gauge_nagenuke(PLW *wk);
 
 #endif

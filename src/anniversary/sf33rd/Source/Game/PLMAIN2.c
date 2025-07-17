@@ -1,3 +1,4 @@
+#include "sf33rd/Source/Game/PLMAIN2.h"
 #include "common.h"
 #include "sf33rd/Source/Game/BBBSCOM.h"
 #include "sf33rd/Source/Game/BBBSCOM2.h"
@@ -14,7 +15,6 @@
 #include "sf33rd/Source/Game/meta_col.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void Player_move_bonus(PLW *wk, u16 lv_data);
 void player_mvbs_0000(PLW *wk);
 void player_mvbs_1000(PLW *wk);
 void plmv_b_1010(PLW *wk);

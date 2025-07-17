@@ -113,5 +113,10 @@ void clear_kizetsu_point(PLW *wk);
 void set_super_arts_status(s16 ix);
 void clear_super_arts_point(PLW *wk);
 s16 check_combo_end(s16 ix);
+void set_quake(PLW *wk);
+void add_next_position(PLW *wk);
+void store_player_after_image_data();
+void setup_base_and_other_data();
+s32 check_sa_type_rebirth(PLW *wk);
 
 #endif

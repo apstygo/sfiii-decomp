@@ -1,5 +1,68 @@
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "common.h"
+#include "sf33rd/Source/Game/CHARID.h"
+#include "sf33rd/Source/Game/CHARSET.h"
+#include "sf33rd/Source/Game/CMD_MAIN.h"
+#include "sf33rd/Source/Game/EFFECT.h"
+#include "sf33rd/Source/Game/Grade.h"
+#include "sf33rd/Source/Game/HITCHECK.h"
+#include "sf33rd/Source/Game/Manage.h"
+#include "sf33rd/Source/Game/PLMAIN.h"
+#include "sf33rd/Source/Game/PLPDM.h"
+#include "sf33rd/Source/Game/PLS01.h"
+#include "sf33rd/Source/Game/PLS02.h"
+#include "sf33rd/Source/Game/PulPul.h"
+#include "sf33rd/Source/Game/SLOWF.h"
+#include "sf33rd/Source/Game/SYS_sub.h"
+#include "sf33rd/Source/Game/SysDir.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/aboutspr.h"
+#include "sf33rd/Source/Game/bg_data.h"
+#include "sf33rd/Source/Game/bg_sub.h"
+#include "sf33rd/Source/Game/count.h"
+#include "sf33rd/Source/Game/debug/Debug.h"
+#include "sf33rd/Source/Game/main.h"
+#include "sf33rd/Source/Game/texcash.h"
+#include "sf33rd/Source/Game/texgroup.h"
+#include "sf33rd/Source/Game/win_pl.h"
+#include "sf33rd/Source/Game/workuser.h"
+
+// effect_33_init
+// effect_C9_init
+// effect_D3_init
+// effect_E3_init
+// effect_E4_init
+// effect_E5_init
+// effect_J7_init
+// K7_muriyari_metamor_rebirth
+
+void pli_0000();
+void pli_1000();
+void pli_0002();
+void move_player_work();
+void move_P1_move_P2();
+void move_P2_move_P1();
+void check_damage_hosei();
+void check_damage_hosei_nage(PLW *as, PLW *ds);
+void check_damage_hosei_dageki(PLW *w1, PLW *w2);
+s32 time_over_check();
+s32 will_die();
+void setup_settle_rno(s16 kos);
+void settle_check();
+s32 check_sa_resurrection(PLW *wk);
+s16 nekorobi_check(s8 ix);
+s16 footwork_check(s8 ix);
+void setup_gouki_wins();
+void setup_any_data();
+void set_base_data(PLW *wk, s16 ix);
+void set_base_data_metamorphose(PLW *wk, s16 dmid);
+void set_base_data_tiny(PLW *wk);
+void setup_other_data(PLW *wk);
+s16 remake_sa_store_max(s16 ix, s16 store_max);
+s16 remake_sa_gauge_len(s16 ix, s16 gauge_len);
+void set_super_arts_status_dc(s16 ix);
+void clear_super_arts_point(PLW *wk);
+void set_scrrrl();
 
 // bss
 PLW plw[2];
@@ -64,7 +127,11 @@ const s16 kage_base[20][2] = { { 0, 21 },  { 0, 30 },  { 0, 21 },  { -4, 16 }, {
 // TODO: rename to super_arts_data
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", _super_arts_data);
 
+// _super_arts_data
+
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", super_arts_DATA);
+
+// super_arts_DATA
 
 const s16 pl_piyo_tbl[20] = { 72, 72, 64, 64, 72, 64, 72, 64, 64, 72, 64, 64, 64, 64, 56, 64, 64, 72, 64, 56 };
 
@@ -126,85 +193,616 @@ void Player_control() {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", reqPlayerDraw);
-#else
 void reqPlayerDraw() {
-    not_implemented(__func__);
+    if (Debug_w[15] == 0) {
+        move_effect_work(6);
+        sort_push_request(&plw[0].wu);
+        sort_push_request(&plw[1].wu);
+    }
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", plcnt_init);
+void plcnt_init() {
+    plw[0].reserv_add_y = plw[1].reserv_add_y = 0;
+    appear_initalize[appear_type]();
+    move_player_work();
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", init_app_10000);
+void init_app_10000() {
+    switch (pcon_rno[1]) {
+    case 0:
+        pli_0000();
+        pcon_rno[1] = 2;
+        pcon_dp_flag = 0;
+        round_slow_flag = 0;
+        dead_voice_flag = 0;
+        another_bg[0] = another_bg[1] = 0;
+        plw[0].scr_pos_set_flag = plw[1].scr_pos_set_flag = 1;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", init_app_20000);
+        if (Play_Type == 0) {
+            if (plw[0].wu.operator) {
+                mpp_w.useChar[My_char[0]] += 1;
+            }
+
+            if (plw[1].wu.operator) {
+                mpp_w.useChar[My_char[1]] += 1;
+                return;
+            }
+        }
+
+        break;
+
+    case 1:
+        pli_1000();
+        break;
+
+    case 2:
+        pcon_rno[1] = 3;
+
+        if (plw[0].wu.operator) {
+            paring_ctr_vs[0][0] = paring_ctr_ori[0];
+        } else {
+            paring_ctr_vs[0][0] = 0;
+        }
+
+        if (plw[1].wu.operator) {
+            paring_ctr_vs[0][1] = paring_ctr_ori[1];
+            return;
+        }
+
+        paring_ctr_vs[0][1] = 0;
+        break;
+
+    case 3:
+        pcon_rno[1] = 1;
+        pli_0002();
+        break;
+    }
+}
+
+void init_app_20000() {
+    s16 i;
+
+    switch (pcon_rno[1]) {
+    case 0:
+        pcon_rno[1] += 1;
+        round_slow_flag = 0;
+        dead_voice_flag = 0;
+        pcon_dp_flag = 0;
+        another_bg[0] = another_bg[1] = 0;
+
+        for (i = 0; i < 8; i++) {
+            plw[0].wu.routine_no[i] = plw[1].wu.routine_no[i] = 0;
+        }
+
+        setup_any_data();
+        plw[0].do_not_move = plw[1].do_not_move = 0;
+        plw[0].scr_pos_set_flag = plw[1].scr_pos_set_flag = 1;
+        break;
+
+    case 1:
+        pli_1000();
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", init_app_30000);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", pli_0000);
+void pli_0000() {
+    pcon_rno[1]++;
+    round_slow_flag = 0;
+    work_init_zero((s32 *)&plw[0], sizeof(PLW));
+    work_init_zero((s32 *)&plw[1], sizeof(PLW));
+    setup_base_and_other_data();
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", pli_1000);
+void pli_1000() {
+    if ((plw->wu.routine_no[0] == 3) && (plw[1].wu.routine_no[0] == 3) && Allow_a_battle_f) {
+        pcon_rno[0] = 1;
+        pcon_rno[1] = 0;
+        plw[0].wu.routine_no[0] = 4;
+        plw[1].wu.routine_no[0] = 4;
+        ca_check_flag = 1;
+    }
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", pli_0002);
+void pli_0002() {}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", plcnt_move);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", plcnt_die);
+void plcnt_die() {
+    plw[0].wu.dm_vital = plw[1].wu.dm_vital = 0;
+    settle_process[pcon_rno[1]]();
+    move_player_work();
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", settle_type_00000);
+    if (pcon_rno[1] == 3) {
+        plw[0].scr_pos_set_flag = plw[1].scr_pos_set_flag = 0;
+    }
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", settle_type_10000);
+void settle_type_00000() {
+#if defined(TARGET_PS2)
+    s16 nekorobi_check(s32 ix);
+    s16 footwork_check(s32 ix);
+#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", settle_type_20000);
+    switch (pcon_rno[2]) {
+    case 0:
+        plw[Winner_id].wu.dir_timer = 0x3C;
+        pcon_rno[2]++;
+        /* fallthrough */
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", settle_type_30000);
+    case 1:
+        if (nekorobi_check(Loser_id)) {
+            pcon_rno[2]++;
+            plw[Winner_id].wkey_flag = 1;
+        }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", settle_type_40000);
+        if ((plw[Winner_id].wu.dir_timer -= 1) == 0) {
+            plw[Winner_id].wkey_flag = 1;
+        }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", move_player_work);
+        break;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", move_P1_move_P2);
+    case 2:
+        if (footwork_check(Winner_id)) {
+            grade_set_round_result(Winner_id + 0);
+            pcon_rno[2]++;
+            plw[Winner_id].wu.routine_no[2] = 0x28;
+            plw[Winner_id].wu.routine_no[3] = 0;
+            plw[Loser_id].wu.routine_no[1] = 0;
+            plw[Loser_id].wu.routine_no[2] = 0x29;
+            plw[Loser_id].wu.routine_no[3] = 0;
+            plw[0].wu.cg_type = plw[1].wu.cg_type = 0;
+            plw[0].image_setup_flag = plw[1].image_setup_flag = 0;
+            complete_victory_pause();
+        }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", move_P2_move_P1);
+        break;
+
+    case 3:
+        if (plw[Winner_id].wu.routine_no[3] == 9) {
+            pcon_rno[2]++;
+        }
+
+        break;
+    }
+}
+
+void settle_type_10000() {
+    switch (pcon_rno[2]) {
+    case 0:
+        if (nekorobi_check(0) && nekorobi_check(1)) {
+            pcon_rno[2]++;
+        }
+
+        break;
+
+    case 1:
+        complete_victory_pause();
+        pcon_rno[2]++;
+        plw[0].image_setup_flag = plw[1].image_setup_flag = 0;
+        break;
+    }
+}
+
+void settle_type_20000() {
+    switch (pcon_rno[2]) {
+    case 0:
+        plw[0].wkey_flag = plw[1].wkey_flag = 1;
+        plw[0].image_setup_flag = plw[1].image_setup_flag = 0;
+        pcon_rno[2]++;
+        /* fallthrough */
+
+    case 1:
+        if (footwork_check(0) && footwork_check(1)) {
+            pcon_rno[2]++;
+        }
+
+        break;
+
+    case 2:
+        complete_victory_pause();
+
+        if (plw[0].wu.vital_new == plw[1].wu.vital_new) {
+            pcon_rno[2] = 4;
+            return;
+        }
+
+        grade_set_round_result(Winner_id + 0);
+        plw[Winner_id].wu.routine_no[2] = 0x28;
+        plw[Loser_id].wu.routine_no[2] = 0x29;
+        plw[0].wu.routine_no[1] = plw[1].wu.routine_no[1] = 0;
+        plw[0].wu.routine_no[3] = plw[1].wu.routine_no[3] = 0;
+        plw[0].wu.cg_type = plw[1].wu.cg_type = 0;
+        pcon_rno[2]++;
+        break;
+
+    case 3:
+        if ((plw[0].wu.routine_no[3] == 9) && (plw[1].wu.routine_no[3] == 9)) {
+            pcon_rno[2]++;
+        }
+
+        break;
+    }
+}
+
+void settle_type_30000() {
+    switch (pcon_rno[2]) {
+    case 0:
+        break;
+
+    case 1:
+        if ((Event_Judge_Gals == -1) && Complete_Judgement) {
+            plw[Winner_id].wu.routine_no[2] = 0x28;
+            plw[Loser_id].wu.routine_no[2] = 0x29;
+            plw[0].wu.routine_no[3] = plw[1].wu.routine_no[3] = 0;
+            plw[0].wu.cg_type = plw[1].wu.cg_type = 0;
+            grade_set_round_result(Winner_id + 0);
+            complete_victory_pause();
+            pcon_rno[2]++;
+        }
+
+        break;
+
+    case 2:
+        if ((plw[0].wu.routine_no[3] == 9) && (plw[1].wu.routine_no[3] == 9)) {
+            pcon_rno[2]++;
+        }
+
+        break;
+    }
+}
+
+void settle_type_40000() {
+#if defined(TARGET_PS2)
+    s16 nekorobi_check(s32 ix);
+    s16 footwork_check(s32 ix);
+#endif
+
+    switch (pcon_rno[2]) {
+    case 0:
+        plw[Winner_id].wkey_flag = 1;
+        pcon_rno[2]++;
+        /* fallthrough */
+
+    case 1:
+        if (nekorobi_check(Loser_id) != 0) {
+            pcon_rno[2]++;
+        case 2:
+            if (footwork_check(Winner_id)) {
+                pcon_rno[2]++;
+                plw[Winner_id].wu.routine_no[2] = 0x28;
+                plw[Winner_id].wu.routine_no[3] = 0;
+                plw[Loser_id].wu.routine_no[1] = 0;
+                plw[Loser_id].wu.routine_no[2] = 0x29;
+                plw[Loser_id].wu.routine_no[3] = 0;
+                plw[Winner_id].wu.cg_type = 0;
+                grade_set_round_result(Winner_id + 0);
+                plw->image_setup_flag = plw[1].image_setup_flag = 0;
+                plw[Winner_id].wu.dir_timer = 0x3C;
+                set_conclusion_slow();
+                return;
+            }
+        }
+
+        break;
+
+    case 3:
+        if ((plw[Winner_id].wu.dir_timer -= 1) <= 0) {
+            complete_victory_pause();
+            pcon_rno[2]++;
+        }
+
+        break;
+
+    case 4:
+        if (plw[Winner_id].wu.routine_no[3] == 9) {
+            pcon_rno[2]++;
+        }
+
+        break;
+    }
+}
+
+void move_player_work() {
+    if (plw[0].reserv_add_y) {
+        plw[0].wu.xyz[1].disp.pos += plw[0].reserv_add_y;
+        plw[0].reserv_add_y = 0;
+    }
+
+    if (plw[1].reserv_add_y) {
+        plw[1].wu.xyz[1].disp.pos += plw[1].reserv_add_y;
+        plw[1].reserv_add_y = 0;
+    }
+
+    ichikannkei = check_work_position(&plw[0].wu, &plw[1].wu);
+    set_rl_waza(&plw[0]);
+    set_rl_waza(&plw[1]);
+    Timer_Freeze = 0;
+
+    switch (plw[0].tsukami_f + (plw[1].tsukami_f * 2)) {
+    case 1:
+        move_P1_move_P2();
+        break;
+
+    case 2:
+        move_P2_move_P1();
+        break;
+
+    default:
+        switch (plw[0].wu.operator + (plw[1].wu.operator * 2)) {
+        case 1:
+            move_P1_move_P2();
+            break;
+
+        case 2:
+            move_P2_move_P1();
+            break;
+
+        default:
+            switch ((plw[0].wu.routine_no[1] == 4) + ((plw[1].wu.routine_no[1] == 4) * 2)) {
+            case 1:
+                move_P1_move_P2();
+                break;
+
+            case 2:
+                move_P2_move_P1();
+                break;
+
+            default:
+                if (Game_timer & 1) {
+                    move_P1_move_P2();
+                    break;
+                }
+
+                move_P2_move_P1();
+                break;
+            }
+
+            break;
+        }
+
+        break;
+    }
+}
+
+void move_P1_move_P2() {
+#if defined(TARGET_PS2)
+    void Player_move(PLW * wk, u32 lv_data);
+    s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
+#endif
+
+    if (plw[0].do_not_move == 0) {
+        Player_move(&plw[0], processed_lvbt(Convert_User_Setting(0)));
+    }
+
+    if (bg_app_stop == 0 && bg_app == 0 && set_field_hosei_flag(&plw[0], scrr, 1) != 0) {
+        set_field_hosei_flag(&plw[0], scrl, 0);
+    }
+
+    if (plw[1].do_not_move == 0) {
+        Player_move(&plw[1], processed_lvbt(Convert_User_Setting(1)));
+    }
+
+    if (bg_app_stop == 0 && bg_app == 0 && set_field_hosei_flag(&plw[1], scrr, 1) != 0) {
+        set_field_hosei_flag(&plw[1], scrl, 0);
+    }
+}
+
+void move_P2_move_P1() {
+#if defined(TARGET_PS2)
+    void Player_move(PLW * wk, u32 lv_data);
+    s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
+#endif
+
+    if (plw[1].do_not_move == 0) {
+        Player_move(&plw[1], processed_lvbt(Convert_User_Setting(1)));
+    }
+
+    if (bg_app_stop == 0 && bg_app == 0 && set_field_hosei_flag(&plw[1], scrr, 1) != 0) {
+        set_field_hosei_flag(&plw[1], scrl, 0);
+    }
+
+    if (plw[0].do_not_move == 0) {
+        Player_move(&plw[0], processed_lvbt(Convert_User_Setting(0)));
+    }
+
+    if (bg_app_stop == 0 && bg_app == 0 && set_field_hosei_flag(&plw[0], scrr, 1) != 0) {
+        set_field_hosei_flag(&plw[0], scrl, 0);
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", store_player_after_image_data);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", check_damage_hosei);
+void check_damage_hosei() {
+    plw[0].muriyari_ugoku = plw[0].hosei_amari;
+    plw[1].muriyari_ugoku = plw[1].hosei_amari;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", check_damage_hosei_nage);
+    if (plw[0].tsukami_f && plw[1].tsukamare_f) {
+        check_damage_hosei_nage(&plw[0], &plw[1]);
+    } else if (plw[1].tsukami_f && plw[0].tsukamare_f) {
+        check_damage_hosei_nage(&plw[1], &plw[0]);
+    } else {
+        switch ((plw[0].hosei_amari != 0) + ((plw[1].hosei_amari != 0) * 2)) {
+        case 1:
+            check_damage_hosei_dageki(plw, &plw[1]);
+            break;
+        case 2:
+            check_damage_hosei_dageki(&plw[1], plw);
+            break;
+        }
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", check_damage_hosei_dageki);
+    plw[0].hosei_amari = plw[1].hosei_amari = 0;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", time_over_check);
+void check_damage_hosei_nage(PLW *as, PLW *ds) {
+#if defined(TARGET_PS2)
+    s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
+#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", will_die);
+    if (as->kind_of_catch) {
+        if (ds->hosei_amari != 0) {
+            as->wu.xyz[0].disp.pos += ds->hosei_amari;
+            as->muriyari_ugoku += ds->hosei_amari;
+            return;
+        }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", setup_settle_rno);
+        if (bg_app_stop == 0 && bg_app == 0 && set_field_hosei_flag(as, scrr, 1) != 0) {
+            set_field_hosei_flag(as, scrl, 0);
+        }
+
+        if (as->hosei_amari != 0) {
+            ds->wu.xyz[0].disp.pos += as->hosei_amari;
+            ds->muriyari_ugoku += as->hosei_amari;
+        }
+    } else if (ds->hosei_amari != 0) {
+        as->wu.xyz[0].disp.pos += ds->hosei_amari;
+        as->muriyari_ugoku += ds->hosei_amari;
+    }
+}
+
+void check_damage_hosei_dageki(PLW *w1, PLW *w2) {
+    if ((w1->dm_hos_flag != 0) && (w2->wu.hit_stop == 0)) {
+        w2->wu.xyz[0].disp.pos += w1->hosei_amari;
+        w2->muriyari_ugoku += w1->hosei_amari;
+    }
+}
+
+s32 time_over_check() {
+    if ((will_die() != 0) && (round_timer.size.full == 0)) {
+        Winner_id = 0;
+        Loser_id = 1;
+
+        if (plw[0].wu.vital_new < plw[1].wu.vital_new) {
+            Winner_id = 1;
+            Loser_id = 0;
+        }
+
+        Conclusion_Flag = 1;
+        Conclusion_Type = 2;
+        setup_settle_rno(2);
+
+        if (Demo_Flag) {
+            request_center_message(2);
+        }
+
+        plw[0].wu.dm_vital = plw[1].wu.dm_vital = 0;
+        Round_Result |= 1;
+        return 1;
+    }
+
+    return 0;
+}
+
+s32 will_die() {
+    if (plw[0].wu.dm_vital > plw[0].wu.vital_new) {
+        return 0;
+    }
+
+    if (plw[1].wu.dm_vital > plw[1].wu.vital_new) {
+        return 0;
+    }
+
+    return 1;
+}
+
+void setup_settle_rno(s16 kos) {
+    pcon_rno[0] = 2;
+    pcon_rno[1] = kos;
+    pcon_rno[2] = 0;
+    ca_check_flag = 0;
+    pcon_dp_flag = 1;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", settle_check);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", check_sa_resurrection);
+s32 check_sa_resurrection(PLW *wk) {
+    if (check_sa_type_rebirth(wk) == 0) {
+        return 0;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", check_sa_type_rebirth);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", nekorobi_check);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", footwork_check);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", set_quake);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", add_next_position);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", setup_gouki_wins);
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", erase_extra_plef_work);
-#else
-void erase_extra_plef_work() {
-    not_implemented(__func__);
+    wk->kezurijini_flag = 0;
+    wk->dead_flag = 0;
+    wk->resurrection_resv = 1;
+    return 1;
 }
-#endif
+
+s32 check_sa_type_rebirth(PLW *wk) {
+    if ((wk->spmv_ng_flag & 0x40000000) || (wk->spmv_ng_flag & 0x80000000)) {
+        return 0;
+    }
+
+    if (wk->sa->gauge_type != 3) {
+        return 0;
+    }
+
+    if (wk->sa->ok != 1) {
+        return 0;
+    }
+
+    return 1;
+}
+
+s16 nekorobi_check(s8 ix) {
+    s16 rnum = 0;
+
+    if ((plw[ix].wu.routine_no[1] == 1) && (plw[ix].wu.routine_no[2] == 0) && (plw[ix].wu.routine_no[3] > 2)) {
+        rnum = 1;
+    }
+
+    return rnum;
+}
+
+s16 footwork_check(s8 ix) {
+    s16 rnum = 0;
+
+    if (plw[ix].wu.routine_no[1] == 0 && plw[ix].wu.routine_no[2] == 1) {
+        rnum = 1;
+    }
+
+    return rnum;
+}
+
+void set_quake(PLW *wk) {
+    if (wk->wu.hit_quake) {
+        wk->wu.hit_quake--;
+        wk->wu.next_x = quake_table[wk->wu.hit_quake];
+
+        if (wk->wu.rl_flag) {
+            wk->wu.next_x = -wk->wu.next_x;
+        }
+    } else {
+        wk->wu.next_x = 0;
+    }
+}
+
+void add_next_position(PLW *wk) {
+    wk->wu.position_x = wk->wu.xyz[0].disp.pos + wk->wu.next_x;
+    wk->wu.position_y = wk->wu.xyz[1].disp.pos + wk->wu.next_y;
+    wk->wu.position_z = wk->wu.next_z;
+    wk->wu.next_y = 0;
+}
+
+void setup_gouki_wins() {
+    gouki_wins = 0;
+
+    if (plw[Winner_id].player_number == 0xE) {
+        gouki_wins = 1;
+    }
+}
+
+void erase_extra_plef_work() {
+    effect_work_list_init(0, 0);
+    effect_work_list_init(1, 1);
+    effect_work_list_init(3, 0x91);
+    effect_work_list_init(3, 0x93);
+    effect_work_list_init(3, 0x94);
+    effect_work_list_init(4, 0x81);
+    effect_work_list_init(4, 0x25);
+    effect_work_list_init(4, 0xAC);
+    effect_work_list_init(6, -1);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", setup_base_and_other_data);
 
@@ -212,43 +810,81 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", setup_any_d
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", set_base_data);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", set_base_data_metamorphose);
+void set_base_data_metamorphose(PLW *wk, s16 dmid) {
+    set_char_base_data(&wk->wu);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", set_base_data_tiny);
+    if (wk->wu.id) {
+        wk->wu.my_col_code |= 0x10;
+    }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", set_player_shadow);
-#else
-void set_player_shadow(PLW *wk) {
-    not_implemented(__func__);
+    cmd_init(wk);
+    wk->spmv_ng_flag = omop_spmv_ng_table[dmid];
+    wk->spmv_ng_flag2 = omop_spmv_ng_table2[dmid];
+    set_player_shadow(wk);
 }
-#endif
+
+void set_base_data_tiny(PLW *wk) {
+    wk->wu.charset_id = plid_data[My_char[wk->wu.id]];
+    wk->player_number = My_char[wk->wu.id];
+    set_char_base_data(&wk->wu);
+
+    if (wk->wu.id) {
+        wk->wu.my_col_code |= 0x10;
+    }
+
+    wk->wu.be_flag = 1;
+    wk->wu.disp_flag = 0;
+    wk->wkey_flag = wk->dead_flag = 0;
+    cmd_init(wk);
+    wk->spmv_ng_flag = omop_spmv_ng_table[wk->wu.id];
+    wk->spmv_ng_flag2 = omop_spmv_ng_table2[wk->wu.id];
+    wk->wu.weight_level = weight_lv_table[wk->player_number];
+    set_player_shadow(wk);
+}
+
+void set_player_shadow(PLW *wk) {
+    wk->wu.kage_flag = 1;
+    wk->wu.kage_prio = 68;
+    wk->wu.kage_hx = kage_base[wk->player_number][0];
+    wk->wu.kage_char = kage_base[wk->player_number][1];
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", setup_other_data);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", clear_chainex_check);
-#else
 void clear_chainex_check(s16 ix) {
-    not_implemented(__func__);
-}
-#endif
+    s16 i;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", set_kizetsu_status);
-#else
+    for (i = 0; i < 36; i++) {
+        chainex_check[ix][i] = 0;
+    }
+}
+
 void set_kizetsu_status(s16 ix) {
-    not_implemented(__func__);
-}
-#endif
+    s16 plnum = My_char[ix];
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", clear_kizetsu_point);
-#else
-void clear_kizetsu_point(PLW *wk) {
-    not_implemented(__func__);
+    piyori_type[ix].flag = 0;
+    piyori_type[ix].time = 0;
+    piyori_type[ix].now.timer = 0;
+    piyori_type[ix].store = 0;
+    piyori_type[ix].recover = pl_nr_piyo_tbl[plnum];
+    piyori_type[ix].genkai = pl_piyo_tbl[plnum] + stun_gauge_len_omake[omop_stun_gauge_len[ix]];
+
+    if (piyori_type[ix].genkai < 56) {
+        piyori_type[ix].genkai = 56;
+    }
+
+    if (piyori_type[ix].genkai > 72) {
+        piyori_type[ix].genkai = 72;
+    }
 }
-#endif
+
+void clear_kizetsu_point(PLW *wk) {
+    wk->py->flag = 0;
+    wk->py->time = 0;
+    wk->py->now.timer = 0;
+    wk->py->store = 0;
+    wk->py->recover = pl_nr_piyo_tbl[wk->player_number];
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", set_super_arts_status);
@@ -258,26 +894,96 @@ void set_super_arts_status(s16 ix) {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", remake_sa_store_max);
+s16 remake_sa_store_max(s16 ix, s16 store_max) {
+    s16 num = store_max + sag_stock_omake[omop_sag_max_ix[ix]];
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", remake_sa_gauge_len);
+    if (num <= 0) {
+        num = 1;
+    }
+
+    if (num > 9) {
+        num = 9;
+    }
+
+    return num;
+}
+
+s16 remake_sa_gauge_len(s16 ix, s16 gauge_len) {
+    s16 num = gauge_len + sag_length_omake[omop_sag_len_ix[ix]] * 8;
+
+    if (num < 0x40) {
+        num = 0x40;
+    }
+
+    if (num > 0x80) {
+        num = 0x80;
+    }
+
+    return num;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", set_super_arts_status_dc);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", clear_super_arts_point);
-#else
 void clear_super_arts_point(PLW *wk) {
-    not_implemented(__func__);
+    wk->sa->store = 0;
+    wk->sa->gauge.s.h = 0;
+    wk->sa->gauge.s.l = -1;
+    wk->sa->mp_rno = 0;
+    wk->sa->mp_rno2 = 0;
+    wk->sa->sa_rno = 0;
+    wk->sa->sa_rno2 = 0;
+    wk->sa->ex_rno = 0;
+    wk->sa->mp = 0;
+    wk->sa->ok = 0;
+    wk->sa->ex = 0;
+    wk->sa->bacckup_g_h = 0;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", check_combo_end);
-#else
 s16 check_combo_end(s16 ix) {
-    not_implemented(__func__);
-}
-#endif
+    s16 rnum;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", set_scrrrl);
+    if (plw[ix].py->flag) {
+        return 1;
+    }
+
+    if (plw[ix].tsukamare_f) {
+        return 1;
+    }
+
+    if (pcon_rno[0] == 2 && pcon_rno[1] == 0 && pcon_rno[2] == 2) {
+        return 0;
+    }
+
+    if (plw[ix].wu.cg_ja.boix == 0 && plw[ix].wu.cg_ja.cuix == 0 && plw[ix].wu.pat_status == 0x26) {
+        return 0;
+    }
+
+    if (plw[ix].zuru_flag) {
+        return 0;
+    }
+
+    if (plw[ix].wu.routine_no[1] != 1 && plw[ix].wu.routine_no[1] != 3) {
+        return 0;
+    }
+
+    if (plw[ix].old_gdflag != plw[ix].guard_flag) {
+        if (plw[ix].guard_flag == 0) {
+            rnum = 0;
+        } else {
+            rnum = 1;
+        }
+    } else if (plw[ix].guard_flag == 0) {
+        rnum = 0;
+    } else {
+        rnum = 1;
+    }
+
+    return rnum;
+}
+
+void set_scrrrl() {
+    s16 scrc = get_center_position();
+
+    scrr = scrc + 192;
+    scrl = scrc - 192;
+}

@@ -122,7 +122,13 @@ s16 get_att_head_position(WORK_Other *wk) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", hit_push_request);
+#else
+void hit_push_request(WORK *hpr_wk) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", clear_hit_queue);
