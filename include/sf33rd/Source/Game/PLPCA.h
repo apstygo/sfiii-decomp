@@ -5,5 +5,6 @@
 #include "types.h"
 
 void Player_catch(PLW *wk);
+void subtract_cu_vital(PLW *wk);
 
 #endif

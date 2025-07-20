@@ -30,6 +30,7 @@ void eag_union(PLW *wk);
 void sag_union(PLW *wk);
 void addSAAttribute(u8 *kow, u16 *koa);
 void check_omop_vital(PLW *wk);
+s16 select_hit_stop(s16 ms, s16 sb);
 
 void Player_move(PLW *wk, u16 lv_data) {
 #if defined(TARGET_PS2)

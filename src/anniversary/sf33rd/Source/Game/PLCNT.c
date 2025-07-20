@@ -38,7 +38,6 @@
 
 void pli_0000();
 void pli_1000();
-void pli_0002();
 void move_player_work();
 void move_P1_move_P2();
 void move_P2_move_P1();
@@ -60,7 +59,6 @@ void set_base_data_tiny(PLW *wk);
 void setup_other_data(PLW *wk);
 s16 remake_sa_store_max(s16 ix, s16 store_max);
 s16 remake_sa_gauge_len(s16 ix, s16 gauge_len);
-void set_super_arts_status_dc(s16 ix);
 void clear_super_arts_point(PLW *wk);
 void set_scrrrl();
 
@@ -285,7 +283,13 @@ void init_app_20000() {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", init_app_30000);
+#else
+void init_app_30000() {
+    not_implemented(__func__);
+}
+#endif
 
 void pli_0000() {
     pcon_rno[1]++;
@@ -307,7 +311,13 @@ void pli_1000() {
 
 void pli_0002() {}
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", plcnt_move);
+#else
+void plcnt_move() {
+    not_implemented(__func__);
+}
+#endif
 
 void plcnt_die() {
     plw[0].wu.dm_vital = plw[1].wu.dm_vital = 0;
@@ -804,9 +814,21 @@ void erase_extra_plef_work() {
     effect_work_list_init(6, -1);
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", setup_base_and_other_data);
+#else
+void setup_base_and_other_data() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", setup_any_data);
+#else
+void setup_any_data() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", set_base_data);
 
@@ -922,7 +944,13 @@ s16 remake_sa_gauge_len(s16 ix, s16 gauge_len) {
     return num;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", set_super_arts_status_dc);
+#else
+void set_super_arts_status_dc(s16 ix) {
+    not_implemented(__func__);
+}
+#endif
 
 void clear_super_arts_point(PLW *wk) {
     wk->sa->store = 0;

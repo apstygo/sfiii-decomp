@@ -103,6 +103,8 @@ extern ComboType remake_power[2];
 
 extern PLW plw[2]; // size: 0x8D8, address: 0x5E4D20
 
+extern const s16 **kizetsu_timer_table[];
+
 void Player_control();
 void reqPlayerDraw();
 void erase_extra_plef_work();
@@ -118,5 +120,7 @@ void add_next_position(PLW *wk);
 void store_player_after_image_data();
 void setup_base_and_other_data();
 s32 check_sa_type_rebirth(PLW *wk);
+void pli_0002();
+void set_super_arts_status_dc(s16 ix);
 
 #endif

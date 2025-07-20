@@ -5,19 +5,25 @@
 #include "sf33rd/Source/Game/Grade.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/PLPNM.h"
+#include "sf33rd/Source/Game/PLS00.h"
 #include "sf33rd/Source/Game/PLS01.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/PulPul.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-// void jumping_guard_type_check(PLW* wk);                   /* extern */
-
 s16 ja_nmj_rno_change(WORK *wk);
 void Attack_07000(PLW *wk);
 void get_cancel_timer(PLW *wk);
 void hoken_muriyari_chakuchi(PLW *wk);
+void check_ja_nmj_dummy_RTNM(PLW *wk);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPAT", Player_attack);
+#else
+void Player_attack(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 void Attack_00000(PLW *wk) {
 #if defined(TARGET_PS2)
@@ -241,7 +247,13 @@ s16 ja_nmj_rno_change(WORK *wk) {
     return rnum;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPAT", check_ja_nmj_dummy_RTNM);
+#else
+void check_ja_nmj_dummy_RTNM(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPAT", get_cjdR);
 

@@ -33,5 +33,12 @@ s16 check_work_position_bonus(WORK *hm, s16 tx);
 void set_hit_stop_hit_quake(WORK *wk);
 void add_sp_arts_gauge_paring(PLW *wk);
 void add_sp_arts_gauge_nagenuke(PLW *wk);
+void add_sp_arts_gauge_ukemi(PLW *wk);
+s8 get_weight_point(WORK *wk);
+void setup_butt_own_data(WORK *wk);
+void add_mvxy_speed_direct(WORK *wk, s16 sx, s16 sy);
+s16 check_buttobi_type(PLW *wk);
+s16 check_buttobi_type2(PLW *wk);
+void add_sp_arts_gauge_hit_dm(PLW *wk);
 
 #endif

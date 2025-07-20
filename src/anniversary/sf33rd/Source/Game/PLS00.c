@@ -13,6 +13,7 @@ void nm_18000(PLW *wk);
 
 void jumping_cg_type_check(PLW *wk);
 void nm_27_cg_type_check(PLW *wk);
+s32 check_cg_cancel_data(PLW *wk);
 
 const s8 lvdir_conv[4];
 

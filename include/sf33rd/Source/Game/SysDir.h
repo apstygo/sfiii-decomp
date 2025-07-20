@@ -5,6 +5,7 @@
 #include "types.h"
 
 extern const s16 use_ex_gauge[4];
+extern const s16 guard_distance[4];
 extern const s16 sa_gauge_omake[4]; // size: 0x8, address: 0x5549A0
 extern const s16 stun_gauge_r_omake[4];
 extern const s16 stun_gauge_len_omake[5];

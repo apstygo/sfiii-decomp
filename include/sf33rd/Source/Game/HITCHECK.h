@@ -14,10 +14,16 @@ extern s8 ca_check_flag; // size: 0x1, address: 0x5790F4
 
 void clear_hit_queue();
 void hit_check_main_process();
+void setup_catch_atthit(WORK *as, WORK *ds);
+void set_catch_hit_mark_pos(WORK *as, WORK *ds);
+void add_combo_work(PLW *as, PLW *ds);
+void nise_combo_work(PLW *as, PLW *ds, s16 num);
 s16 hit_check_subroutine(WORK *wk1, WORK *wk2, const s16 *hd1, s16 *hd2);
 s16 get_att_head_position(WORK_Other *wk);
 void hit_push_request(WORK *hpr_wk);
 s32 check_normal_attack(u8 waza);
 void make_red_blocking_time(s16 id, s16 ix, s16 num);
+s32 hit_check_x_only(WORK *wk1, WORK *wk2, s16 *hd1, s16 *hd2);
+void get_target_att_position(WORK *wk, s16 tx, s16 ty);
 
 #endif

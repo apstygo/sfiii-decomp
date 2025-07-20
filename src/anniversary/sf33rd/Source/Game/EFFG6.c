@@ -1,3 +1,4 @@
+#include "sf33rd/Source/Game/EFFG6.h"
 #include "common.h"
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFG6", effect_G6_move);

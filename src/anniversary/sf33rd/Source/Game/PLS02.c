@@ -1,11 +1,48 @@
 #include "sf33rd/Source/Game/PLS02.h"
 #include "common.h"
+#include "sf33rd/Source/Game/CALDIR.h"
+#include "sf33rd/Source/Game/CHARID.h"
+#include "sf33rd/Source/Game/Com_Data.h"
+#include "sf33rd/Source/Game/HITCHECK.h"
 #include "sf33rd/Source/Game/PLCNT.h"
+#include "sf33rd/Source/Game/PLPDM.h"
+#include "sf33rd/Source/Game/PLS01.h"
+#include "sf33rd/Source/Game/Se_Data.h"
 #include "sf33rd/Source/Game/SysDir.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
+
+void setup_move_data_easy(WORK *wk, s16 *adrs, s16 prx, s16 pry);
+void read_adrs_store_mvxy(WORK *wk, s16 *adrs);
+void add_mvxy_speed_exp(WORK *wk, s16 dvp);
+void add_mvxy_speed_no_use_rl(WORK *wk);
+void remake_mvxy_PoGR(WORK *wk);
+s16 meri_case_switch(s16 meri);
+s16 hoseishitemo_eenka(WORK *wk, s16 tx);
+s32 random_32();
+s32 random_32_ex();
+s32 random_16_ex();
+s32 random_16_bg();
+s8 get_guard_direction(WORK *as, WORK *ds);
+s16 cal_attdir_flip(s16 dir);
+s16 get_kind_of_head_dm(s16 dir, s8 drl);
+s16 get_kind_of_trunk_dm(s16 dir, s8 drl);
+void cal_dm_vital_gauge_hosei(PLW *wk);
+void add_sp_arts_gauge_guard(PLW *wk);
+s16 cal_sa_gauge_waribiki(PLW *wk, s16 asag);
+void add_sp_arts_gauge_tokushu(PLW *wk);
+void setup_saishin_lvdir(PLW *ds, s8 gddir);
+void dead_voice_request();
+void dead_voice_request2(PLW *wk);
+
+const s16 dir16_hddm[16];
+const s16 dir16_trdm[16];
+const s16 konjyou_tbl[20][6];
+const s16 apagt_table[20];
+const s16 dir32_skydm[32];
+const s16 dir32_grddm[32];
 
 u8 _add_arts_gauge[20][16][4] = { { { 0, 0, 0, 3 },
                                     { 0, 1, 2, 3 },
@@ -328,31 +365,48 @@ u8 _add_arts_gauge[20][16][4] = { { { 0, 0, 0, 3 },
                                     { 2, 2, 13, 4 },
                                     { 0, 1, 2, 4 } } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", asagh_zuru);
+const s16 asagh_zuru[8] = { -2, -1, 0, 0, 1, 2, 3, 4 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", sel_hosei_tbl_ix);
+const s16 sel_hosei_tbl_ix[20] = { 29, 45, 1, 5, 49, 13, 9, 21, 17, 25, 5, 1, 1, 29, 1, 33, 37, 41, 57, 53 };
 
 const s16 satse[20] = { 32, 32, 28, 24, 32, 36, 40, 24, 28, 28, 24, 28, 28, 32, 30, 28, 28, 24, 36, 24 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_32);
+const s16 random_tbl_32[128] = { 27, 4,  17, 6,  31, 10, 29, 2,  25, 19, 11, 22, 5,  15, 6,  20, 24, 18, 4,  26, 19, 11,
+                                 30, 0,  21, 7,  10, 27, 1,  24, 16, 6,  15, 5,  29, 17, 1,  23, 18, 2,  13, 22, 31, 16,
+                                 13, 3,  21, 30, 17, 22, 0,  26, 3,  19, 10, 23, 14, 30, 19, 29, 13, 8,  2,  9,  9,  25,
+                                 4,  12, 28, 20, 2,  14, 27, 9,  7,  18, 27, 1,  31, 14, 4,  8,  29, 8,  24, 28, 7,  16,
+                                 3,  11, 15, 6,  20, 28, 25, 12, 13, 23, 25, 10, 22, 8,  18, 21, 12, 1,  24, 31, 0,  3,
+                                 26, 7,  20, 5,  5,  15, 14, 0,  11, 28, 16, 26, 9,  17, 21, 30, 12, 23 };
 
 const s16 random_tbl_16[64] = { 3,  8, 6,  9, 14, 13, 9,  5, 10, 14, 1,  7, 4,  15, 2,  0, 12, 15, 5, 13, 6,  3,
                                 11, 8, 0,  3, 11, 10, 1,  7, 11, 4,  5,  4, 13, 2,  11, 9, 7,  10, 1, 6,  12, 9,
                                 14, 0, 15, 2, 13, 1,  15, 8, 0,  6,  14, 3, 12, 8,  4,  5, 10, 2,  7, 12 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_32_ex);
+const s16 random_tbl_32_ex[32] = { 16, 24, 5,  22, 10, 27, 14, 1,  20, 8,  29, 3,  26, 11, 18, 0,
+                                   31, 15, 28, 7,  12, 23, 4,  30, 9,  19, 2,  25, 13, 17, 21, 6 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_16_ex);
+const s16 random_tbl_16_ex[16] = { 9, 0, 5, 12, 3, 14, 7, 10, 1, 15, 6, 11, 2, 8, 13, 4 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_32_com);
+const s16 random_tbl_32_com[128] = { 20, 5,  5,  15, 14, 0,  11, 28, 16, 26, 9,  17, 21, 30, 12, 23, 13, 23, 25,
+                                     10, 22, 8,  18, 21, 12, 1,  24, 31, 0,  3,  26, 7,  4,  8,  29, 8,  24, 28,
+                                     7,  16, 3,  11, 15, 6,  20, 28, 25, 12, 9,  25, 4,  12, 28, 20, 2,  14, 27,
+                                     9,  7,  18, 27, 1,  31, 14, 17, 22, 0,  26, 3,  19, 10, 23, 14, 30, 19, 29,
+                                     13, 8,  2,  9,  15, 5,  29, 17, 1,  23, 18, 2,  13, 22, 31, 16, 13, 3,  21,
+                                     30, 24, 18, 4,  26, 19, 11, 30, 0,  21, 7,  10, 27, 1,  24, 16, 6,  27, 4,
+                                     17, 6,  31, 10, 29, 2,  25, 19, 11, 22, 5,  15, 6,  20 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_16_com);
+const s16 random_tbl_16_com[64] = { 13, 1,  15, 8, 0,  6, 14, 3, 12, 8,  4,  5,  10, 2,  7, 12, 5,  4,  13, 2, 11, 9,
+                                    7,  10, 1,  6, 12, 9, 14, 0, 15, 2,  12, 15, 5,  13, 6, 3,  11, 8,  0,  3, 11, 10,
+                                    1,  7,  11, 4, 3,  8, 6,  9, 14, 13, 9,  5,  10, 14, 1, 7,  4,  15, 2,  0 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_32_ex_com);
+const s16 random_tbl_32_ex_com[32] = { 31, 15, 28, 7,  12, 23, 4,  30, 9,  19, 2,  25, 13, 17, 21, 6,
+                                       16, 24, 5,  22, 10, 27, 14, 1,  20, 8,  29, 3,  26, 11, 18, 0 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_16_ex_com);
+const s16 random_tbl_16_ex_com[16] = { 9, 0, 5, 12, 3, 14, 7, 10, 1, 15, 6, 11, 2, 8, 13, 4 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_tbl_16_bg);
+const s16 random_tbl_16_bg[64] = { 13, 1,  15, 8, 0,  6, 14, 3, 12, 8,  4,  5,  10, 2,  7, 12, 5,  4,  13, 2, 11, 9,
+                                   7,  10, 1,  6, 12, 9, 14, 0, 15, 2,  12, 15, 5,  13, 6, 3,  11, 8,  0,  3, 11, 10,
+                                   1,  7,  11, 4, 3,  8, 6,  9, 14, 13, 9,  5,  10, 14, 1, 7,  4,  15, 2,  0 };
 
 const s16 dir16_rl_conv[16] = { 0, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
 
@@ -364,61 +418,162 @@ void add_to_mvxy_data(WORK *wk, u16 ix) {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", setup_move_data_easy);
+void setup_move_data_easy(WORK *wk, s16 *adrs, s16 prx, s16 pry) {
+    wk->mvxy.a[0].sp = adrs[0];
+    wk->mvxy.a[0].sp <<= 8;
+    wk->mvxy.d[0].sp = adrs[1];
+    wk->mvxy.d[0].sp <<= 8;
+    wk->mvxy.kop[0] = prx;
+    wk->mvxy.a[1].sp = adrs[2];
+    wk->mvxy.a[1].sp <<= 8;
+    wk->mvxy.d[1].sp = adrs[3];
+    wk->mvxy.d[1].sp <<= 8;
+    wk->mvxy.kop[1] = pry;
+}
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", setup_mvxy_data);
-#else
 void setup_mvxy_data(WORK *wk, u16 ix) {
-    not_implemented(__func__);
+    wk->mvxy.index = ix;
+    read_adrs_store_mvxy(wk, &wk->move_xy_table[ix * 6]);
 }
-#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", setup_butt_own_data);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", read_adrs_store_mvxy);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", get_weight_point);
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", cal_mvxy_speed);
 #else
+void setup_butt_own_data(WORK *wk) {
+    not_implemented(__func__);
+}
+#endif
+
+void read_adrs_store_mvxy(WORK *wk, s16 *adrs) {
+    wk->mvxy.a[0].sp = adrs[0];
+    wk->mvxy.a[0].sp <<= 8;
+    wk->mvxy.d[0].sp = adrs[1];
+    wk->mvxy.d[0].sp <<= 8;
+    wk->mvxy.kop[0] = adrs[2];
+    wk->mvxy.a[1].sp = adrs[3];
+    wk->mvxy.a[1].sp <<= 8;
+    wk->mvxy.d[1].sp = adrs[4];
+    wk->mvxy.d[1].sp <<= 8;
+    wk->mvxy.kop[1] = adrs[5];
+}
+
+s8 get_weight_point(WORK *wk) {
+    return wk->dm_weight - wk->weight_level + 3;
+}
+
 void cal_mvxy_speed(WORK *wk) {
-    not_implemented(__func__);
-}
-#endif
+    s16 i;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_mvxy_speed);
-#else
+    for (i = 0; i < 2; i++) {
+        switch (wk->mvxy.kop[i]) {
+        case 0:
+            wk->mvxy.a[i].sp += wk->mvxy.d[i].sp;
+            break;
+
+        case 1:
+            if (wk->mvxy.a[i].sp >= 0) {
+                wk->mvxy.a[i].sp += wk->mvxy.d[i].sp;
+
+                if (wk->mvxy.a[i].sp < 0) {
+                    wk->mvxy.d[i].sp = 0;
+                    wk->mvxy.a[i].sp = 0;
+                }
+            } else {
+                wk->mvxy.a[i].sp += wk->mvxy.d[i].sp;
+
+                if (wk->mvxy.a[i].sp >= 0) {
+                    wk->mvxy.d[i].sp = 0;
+                    wk->mvxy.a[i].sp = 0;
+                }
+            }
+            break;
+        }
+    }
+}
+
 void add_mvxy_speed(WORK *wk) {
-    not_implemented(__func__);
+    if (wk->rl_flag) {
+        wk->xyz[0].cal += wk->mvxy.a[0].sp;
+    } else {
+        wk->xyz[0].cal -= wk->mvxy.a[0].sp;
+    }
+
+    wk->xyz[1].cal += wk->mvxy.a[1].sp;
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_mvxy_speed_exp);
+void add_mvxy_speed_exp(WORK *wk, s16 dvp) {
+    if (wk->rl_flag) {
+        wk->xyz[0].cal += wk->mvxy.a[0].sp / dvp;
+    } else {
+        wk->xyz[0].cal -= wk->mvxy.a[0].sp / dvp;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_mvxy_speed_no_use_rl);
+    wk->xyz[1].cal += wk->mvxy.a[1].sp;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_mvxy_speed_direct);
+void add_mvxy_speed_no_use_rl(WORK *wk) {
+    wk->xyz[0].cal += wk->mvxy.a[0].sp;
+    wk->xyz[1].cal += wk->mvxy.a[1].sp;
+}
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", reset_mvxy_data);
-#else
+void add_mvxy_speed_direct(WORK *wk, s16 sx, s16 sy) {
+    s32 ax;
+    s32 ay;
+
+    ax = sx;
+    ay = sy;
+    ax <<= 8;
+
+    if (wk->rl_flag) {
+        wk->xyz[0].cal += ax;
+    } else {
+        wk->xyz[0].cal -= ax;
+    }
+
+    wk->xyz[1].cal += ay << 8;
+}
+
 void reset_mvxy_data(WORK *wk) {
-    not_implemented(__func__);
+    wk->mvxy.a[0].sp = wk->mvxy.d[0].sp = wk->mvxy.kop[0] = 0;
+    wk->mvxy.a[1].sp = wk->mvxy.d[1].sp = wk->mvxy.kop[1] = 0;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", remake_mvxy_PoSB);
-#else
 void remake_mvxy_PoSB(WORK *wk) {
-    not_implemented(__func__);
+    if (wk->mvxy.a[1].sp < 0) {
+        wk->mvxy.a[1].sp = ((wk->mvxy.a[1].sp * 0x1E) / 100);
+        wk->mvxy.a[1].sp = -wk->mvxy.a[1].sp;
+    }
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", remake_mvxy_PoGR);
+void remake_mvxy_PoGR(WORK *wk) {
+    if (wk->mvxy.d[1].sp) {
+        switch ((wk->mvxy.a[1].sp > 0) + ((wk->mvxy.a[1].sp < 0) * 2)) {
+        case 1:
+            wk->mvxy.a[1].sp = (wk->mvxy.a[1].sp * 80) / 100;
+            break;
+
+        default:
+            wk->mvxy.a[1].sp = (wk->mvxy.a[1].sp * 10) / 100;
+            break;
+        }
+    }
+
+    switch ((wk->mvxy.a[0].sp > 0) + ((wk->mvxy.a[0].sp < 0) * 2)) {
+    case 2:
+        wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 0x1E) / 100;
+        break;
+
+    default:
+        wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 0x32) / 100;
+
+        if (wk->mvxy.a[0].real.h <= 0) {
+            wk->mvxy.a[0].real.h = 1;
+        }
+
+        wk->mvxy.d[0].sp = 0;
+        wk->mvxy.a[0].sp = -wk->mvxy.a[0].sp;
+    }
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_body_touch);
@@ -438,31 +593,72 @@ void check_body_touch2() {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_be_car_object);
-#else
 s32 check_be_car_object() {
-    not_implemented(__func__);
+    PLW *com;
+
+    if (pcon_rno[0] == 0) {
+        return 1;
+    }
+
+    if (plw[0].wu.operator) {
+        com = &plw[1];
+    } else {
+        com = &plw[0];
+    }
+
+    if (com->wu.routine_no[0] <= 0) {
+        return 1;
+    }
+
+    return ((PLW *)com->wu.my_effadrs)->wu.be_flag != 0;
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", hoseishitemo_eenka);
+s16 hoseishitemo_eenka(WORK *wk, s16 tx) {
+    s16 rnum = 0;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", get_sel_hosei_tbl_ix);
-#else
+    if (wk->cg_jphos + cal_top_of_position_y(wk) > bs2_floor[2] || wk->mvxy.a[1].real.h < 0) {
+        switch ((wk->xyz[0].disp.pos < tx) + (wk->rl_flag != 0) * 2) {
+        case 1:
+        case 2:
+            if (wk->mvxy.a[1].real.h > 0 && wk->mvxy.a[0].real.h < 0) {
+                rnum = 1;
+            }
+
+            if (wk->mvxy.a[1].real.h < 0 && wk->mvxy.a[0].real.h > 0) {
+                rnum = 1;
+            }
+
+            break;
+
+        default:
+            if (wk->mvxy.a[1].real.h > 0 && wk->mvxy.a[0].real.h > 0) {
+                rnum = 1;
+            }
+        }
+    }
+
+    return rnum;
+}
+
 s16 get_sel_hosei_tbl_ix(s16 plnum) {
-    not_implemented(__func__);
+    return sel_hosei_tbl_ix[plnum];
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_work_position_bonus);
-#else
 s16 check_work_position_bonus(WORK *hm, s16 tx) {
-    not_implemented(__func__);
+    s16 result = hm->xyz[0].disp.pos - tx;
+    s16 num;
+
+    if (result) {
+        if (result > 0) {
+            num = 1;
+        } else {
+            num = 0;
+        }
+    } else {
+        num = hm->rl_flag == 0;
+    }
+    return num;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", set_field_hosei_flag);
@@ -472,15 +668,59 @@ s32 set_field_hosei_flag(PLW *pl, s16 pos, s16 ix) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_work_position);
-#else
 s16 check_work_position(WORK *p1, WORK *p2) {
-    not_implemented(__func__);
-}
-#endif
+    s16 result = p1->xyz[0].disp.pos - p2->xyz[0].disp.pos;
+    s16 num;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_32);
+    if (result) {
+        if (result > 0) {
+            num = 1;
+        } else {
+            num = 0;
+        }
+    } else if (p1->rl_flag + p2->rl_flag & 1) {
+        if (p1->rl_flag) {
+            num = 0;
+        } else {
+            num = 1;
+        }
+    } else {
+        switch ((p1->xyz[1].disp.pos == 0) + (p2->xyz[1].disp.pos == 0) * 2) {
+        case 1:
+            if (p1->rl_flag) {
+                num = 0;
+            } else {
+                num = 1;
+            }
+            break;
+
+        case 2:
+            if (p2->rl_flag) {
+                num = 1;
+            } else {
+                num = 0;
+            }
+            break;
+
+        default:
+            num = 0;
+            break;
+        }
+    }
+
+    return num;
+}
+
+s32 random_32() {
+    Random_ix32++;
+
+    if (Debug_w[0x3B] == 0xE0) {
+        Random_ix32 = 0;
+    }
+
+    Random_ix32 &= 0x7F;
+    return random_tbl_32[Random_ix32];
+}
 
 s32 random_16() {
     Random_ix16 += 1;
@@ -493,45 +733,141 @@ s32 random_16() {
     return random_tbl_16[Random_ix16];
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_32_ex);
+s32 random_32_ex() {
+    Random_ix32_ex++;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_16_ex);
+    if (Debug_w[0x3B] == 0xE0) {
+        Random_ix32_ex = 0;
+    }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_32_com);
-#else
+    Random_ix32_ex &= 0x1F;
+    return random_tbl_32_ex[Random_ix32_ex];
+}
+
+s32 random_16_ex() {
+    Random_ix16_ex++;
+
+    if (Debug_w[0x3B] == 0xE0) {
+        Random_ix16_ex = 0;
+    }
+
+    Random_ix16_ex &= 0xF;
+    return random_tbl_16_ex[Random_ix16_ex];
+}
+
 s32 random_32_com() {
-    not_implemented(__func__);
-}
-#endif
+    if (Play_Mode == 0) {
+        return random_32();
+    }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_16_com);
-#else
+    Random_ix32_com++;
+
+    if (Debug_w[0x3B] == 0xE0) {
+        Random_ix32_com = 0;
+    }
+
+    Random_ix32_com &= 0x7F;
+    return random_tbl_32_com[Random_ix32_com];
+}
+
 s32 random_16_com() {
-    not_implemented(__func__);
-}
-#endif
+    if (Play_Mode == 0) {
+        return random_16();
+    }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_32_ex_com);
-#else
+    Random_ix16_com++;
+
+    if (Debug_w[0x3B] == 0xE0) {
+        Random_ix16_com = 0;
+    }
+
+    Random_ix16_com &= 0x3F;
+    return random_tbl_16_com[Random_ix16_com];
+}
+
 s32 random_32_ex_com() {
-    not_implemented(__func__);
-}
-#endif
+    if (Play_Mode == 0) {
+        return random_32_ex();
+    }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_16_ex_com);
-#else
+    Random_ix32_ex_com++;
+
+    if (Debug_w[0x3B] == 0xE0) {
+        Random_ix32_ex_com = 0;
+    }
+
+    Random_ix32_ex_com &= 0x1F;
+    return random_tbl_32_ex_com[Random_ix32_ex_com];
+}
+
 s32 random_16_ex_com() {
-    not_implemented(__func__);
+    if (Play_Mode == 0) {
+        return random_16_ex();
+    }
+
+    Random_ix16_ex_com++;
+
+    if (Debug_w[0x3B] == 0xE0) {
+        Random_ix16_ex_com = 0;
+    }
+
+    Random_ix16_ex_com &= 0xF;
+    return random_tbl_16_ex_com[Random_ix16_ex_com];
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_16_bg);
+s32 random_16_bg() {
+    Random_ix16_bg++;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", get_guard_direction);
+    if (Debug_w[0x3B] == 0xE0) {
+        Random_ix16_bg = 0;
+    }
+
+    Random_ix16_bg &= 0x3F;
+    return random_tbl_16_bg[Random_ix16_bg];
+}
+
+s8 get_guard_direction(WORK *as, WORK *ds) {
+    s16 result;
+    s8 num;
+
+    if (as->work_id == 1) {
+        result = as->xyz[0].disp.pos - ds->xyz[0].disp.pos;
+
+        if (result) {
+            if (result < 0) {
+                if (ds->rl_flag) {
+                    num = 1;
+                } else {
+                    num = 2;
+                }
+            } else if (ds->rl_flag) {
+                num = 2;
+            } else {
+                num = 1;
+            }
+        } else {
+            num = 3;
+        }
+    } else if (((PLW *)ds)->spmv_ng_flag & 0x04000000) {
+        if (as->rl_flag + ds->rl_flag & 1) {
+            if (ds->work_id != 1) {
+                num = 2;
+            } else if (ds->rl_flag == ds->rl_waza) {
+                num = 2;
+            } else {
+                num = 3;
+            }
+        } else {
+            num = 3;
+        }
+    } else if (as->rl_flag + ds->rl_flag & 1) {
+        num = 2;
+    } else {
+        num = 3;
+    }
+
+    return num;
+}
 
 s16 cal_attdir(WORK *wk) {
     s16 resdir = wk->att.dir;
@@ -543,11 +879,25 @@ s16 cal_attdir(WORK *wk) {
     return resdir;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", cal_attdir_flip);
+s16 cal_attdir_flip(s16 dir) {
+    return dir16_rl_conv[dir];
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", get_kind_of_head_dm);
+s16 get_kind_of_head_dm(s16 dir, s8 drl) {
+    if (drl == 0) {
+        dir = dir16_rl_conv[dir];
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", get_kind_of_trunk_dm);
+    return dir16_hddm[dir];
+}
+
+s16 get_kind_of_trunk_dm(s16 dir, s8 drl) {
+    if (drl == 0) {
+        dir = dir16_rl_conv[dir];
+    }
+
+    return dir16_trdm[dir];
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", setup_vitality);
@@ -557,15 +907,44 @@ void setup_vitality(WORK *wk, s16 pno) {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", cal_dm_vital_gauge_hosei);
+void cal_dm_vital_gauge_hosei(PLW *wk) {
+    s16 cnjix;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", set_hit_stop_hit_quake);
-#else
-void set_hit_stop_hit_quake(WORK *wk) {
-    not_implemented(__func__);
+    if (wk->wu.dm_vital != 0) {
+        if (wk->wu.vital_new < (Max_vitality * 6) / 10) {
+            if (Max_vitality == 192) {
+                cnjix = wk->wu.vital_new / 19;
+            } else {
+                cnjix = wk->wu.vital_new / 16;
+            }
+
+            if (cnjix > 5) {
+                cnjix = 5;
+            }
+
+            wk->wu.dm_vital = wk->wu.dm_vital * konjyou_tbl[wk->player_number][cnjix] / wk->wu.dmcal_m;
+        }
+
+        wk->wu.dm_vital = wk->wu.dm_vital * (32 - wk->tk_konjyou) / wk->wu.dmcal_m;
+        wk->wu.dm_vital = wk->wu.dm_vital * wk->wu.dmcal_m / wk->wu.dmcal_d;
+
+        if (wk->wu.dm_vital <= 0) {
+            wk->wu.dm_vital = 1;
+        }
+    }
 }
-#endif
+
+void set_hit_stop_hit_quake(WORK *wk) {
+    if (wk->dm_stop) {
+        wk->hit_stop = wk->dm_stop;
+        wk->dm_stop = 0;
+    }
+
+    if (wk->dm_quake) {
+        wk->hit_quake = wk->dm_quake;
+        wk->dm_quake = 0;
+    }
+}
 
 void add_sp_arts_gauge_init(PLW *wk) {
 #if defined(TARGET_PS2)
@@ -588,39 +967,216 @@ void add_sp_arts_gauge_init(PLW *wk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts_gauge_guard);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts_gauge_hit_dm);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", cal_sa_gauge_waribiki);
-
+void add_sp_arts_gauge_guard(PLW *wk) {
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts_gauge_paring);
-#else
+    void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u32 mf);
+#endif
+
+    PLW *mwk;
+    s16 asag;
+
+    if (wk->wu.work_id != 1) {
+        mwk = (PLW *)wk->cp;
+
+        if (mwk->wu.work_id == 1) {
+            asag = _add_arts_gauge[mwk->player_number][wk->wu.add_arts_point][1];
+            add_super_arts_gauge(mwk->sa, mwk->wu.id, asag, mwk->metamorphose);
+        }
+    } else {
+        asag = _add_arts_gauge[wk->player_number][wk->wu.add_arts_point][1];
+        add_super_arts_gauge(wk->sa, wk->wu.id, asag, wk->metamorphose);
+    }
+}
+
+void add_sp_arts_gauge_hit_dm(PLW *wk) {
+#if defined(TARGET_PS2)
+    void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u32 mf);
+    s16 cal_sa_gauge_waribiki(PLW * wk, s32 asag);
+#endif
+
+    PLW *emwk;
+    s16 asag;
+
+    if (wk->wu.work_id == 1) {
+        emwk = (PLW *)wk->wu.target_adrs;
+        asag = _add_arts_gauge[emwk->player_number][wk->wu.dm_arts_point][2];
+
+        if (asag != 0) {
+            add_super_arts_gauge(wk->sa, wk->wu.id, asag / 3, wk->metamorphose);
+
+            if (emwk->wu.operator == 0) {
+                asag += asagh_zuru[save_w[Present_Mode].Difficulty];
+            }
+
+            if (asag <= 0) {
+                asag = 1;
+            }
+
+            asag = cal_sa_gauge_waribiki(wk, asag);
+
+            if (emwk->wu.operator == 0 && Break_Into_CPU == 1) {
+                asag = (asag * 120) / 100;
+            }
+
+            add_super_arts_gauge(emwk->sa, emwk->wu.id, asag, emwk->metamorphose);
+        }
+        wk->wu.dm_arts_point = 0;
+    }
+}
+
+s16 cal_sa_gauge_waribiki(PLW *wk, s16 asag) {
+    s16 num;
+
+    if (wk->cb->total < 2) {
+        return asag;
+    }
+
+    num = 0x20 - (wk->cb->total - 1) * 2;
+
+    if (num <= 0) {
+        num = 1;
+    }
+
+    asag = (asag * num) / 32;
+
+    if (asag == 0) {
+        asag = 1;
+    }
+
+    return asag;
+}
+
 void add_sp_arts_gauge_paring(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u16 mf);
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts_gauge_tokushu);
+    PLW *emwk;
+    s16 asag;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts_gauge_ukemi);
+    if (sa_stop_check() == 0 && wk->wu.work_id == 1) {
+        emwk = (PLW *)wk->wu.target_adrs;
+        asag = _add_arts_gauge[emwk->player_number][wk->wu.dm_arts_point][3];
 
+        if (asag != 0) {
+            if (wk->wu.operator == 0) {
+                asag += asagh_zuru[save_w[Present_Mode].Difficulty];
+            }
+
+            if (asag <= 0) {
+                asag = 1;
+            }
+
+            add_super_arts_gauge(wk->sa, wk->wu.id, asag, wk->metamorphose);
+        }
+
+        wk->wu.dm_arts_point = 0;
+    }
+}
+
+void add_sp_arts_gauge_tokushu(PLW *wk) {
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts_gauge_nagenuke);
-#else
+    void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u16 mf);
+#endif
+
+    s16 asag;
+
+    if (wk->wu.work_id == 1) {
+        asag = (apagt_table[(wk->player_number)]);
+
+        if (asag != 0) {
+            if (wk->wu.operator == 0) {
+                asag += asagh_zuru[save_w[Present_Mode].Difficulty];
+            }
+
+            if (asag <= 0) {
+                asag = 1;
+            }
+
+            add_super_arts_gauge(wk->sa, wk->wu.id, asag, wk->metamorphose);
+        }
+    }
+}
+
+void add_sp_arts_gauge_ukemi(PLW *wk) {
+#if defined(TARGET_PS2)
+    void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u32 mf);
+#endif
+
+    s16 asag;
+
+    if (wk->wu.work_id == 1) {
+        asag = 3;
+
+        if (asag != 0) {
+            if (wk->wu.operator == 0) {
+                asag += asagh_zuru[save_w[Present_Mode].Difficulty];
+            }
+
+            if (asag <= 0) {
+                asag = (1);
+            }
+
+            add_super_arts_gauge(wk->sa, wk->wu.id, asag, wk->metamorphose);
+        }
+    }
+}
+
 void add_sp_arts_gauge_nagenuke(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u16 mf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_sp_arts_gauge_maxbit);
-#else
-void add_sp_arts_gauge_maxbit(PLW *wk) {
-    not_implemented(__func__);
+    s16 asag;
+
+    if (wk->wu.work_id == 1) {
+        asag = 6;
+
+        if (asag != 0) {
+            if (wk->wu.operator == 0) {
+                asag += asagh_zuru[save_w[Present_Mode].Difficulty];
+            }
+
+            if (asag <= 0) {
+                asag = 1;
+            }
+
+            add_super_arts_gauge(wk->sa, wk->wu.id, asag, wk->metamorphose);
+        }
+    }
 }
+
+void add_sp_arts_gauge_maxbit(PLW *wk) {
+#if defined(TARGET_PS2)
+    void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u16 mf);
 #endif
+
+    if (pcon_rno[0] == 1) {
+        if (wk->sa->mp == -1 || wk->sa->ok == -1 || wk->sa->ex == -1) {
+            return;
+        }
+
+        if (sag_inc_timer[wk->wu.id]) {
+            sag_inc_timer[wk->wu.id] -= 1;
+            return;
+        }
+
+        if (!(wk->spmv_ng_flag2 & 0x80000)) {
+            sag_inc_timer[wk->wu.id] = 2;
+            add_super_arts_gauge(wk->sa, wk->wu.id, wk->sa->gauge_len, wk->metamorphose);
+            return;
+        }
+
+        if (!(wk->spmv_ng_flag2 & 0x10000)) {
+            if (sag_inc_timer[wk->wu.id]) {
+                sag_inc_timer[wk->wu.id] -= 1;
+                return;
+            }
+
+            add_super_arts_gauge(wk->sa, wk->wu.id, 1, wk->metamorphose);
+        }
+    }
+}
 
 #if defined(TARGET_PS2)
 void add_super_arts_gauge(SA_WORK *wk, s16 ix, s16 asag, u8 mf) {
@@ -667,9 +1223,21 @@ void add_super_arts_gauge(SA_WORK *wk, s16 ix, s16 asag, u8 mf) {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_buttobi_type);
+s16 check_buttobi_type(PLW *wk) {
+    s16 rn;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_buttobi_type2);
+    setup_butt_own_data(&wk->wu);
+    rn = dir32_skydm[cal_move_dir_forecast(&wk->wu, 5)];
+    return rn;
+}
+
+s16 check_buttobi_type2(PLW *wk) {
+    s16 rn;
+
+    setup_butt_own_data(&wk->wu);
+    rn = dir32_grddm[cal_move_dir_forecast(&wk->wu, 5)];
+    return rn;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", setup_saishin_lvdir);
 
@@ -681,22 +1249,51 @@ void setup_lvdir_after_autodir(PLW *wk) {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dead_voice_request);
+void dead_voice_request() {
+    if (dead_voice_flag) {
+        if (plw[0].dead_flag) {
+            dead_voice_request2(&plw[0]);
+        }
 
+        if (plw[1].dead_flag) {
+            dead_voice_request2(&plw[1]);
+        }
+    }
+
+    dead_voice_flag = 0;
+}
+
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dead_voice_request2);
+#else
+void dead_voice_request2(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dir16_hddm);
+const s16 dir16_hddm[16] = { 35, 35, 35, 32, 32, 32, 36, 36, 36, 36, 36, 32, 32, 32, 35, 35 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dir16_trdm);
+const s16 dir16_trdm[16] = { 38, 38, 38, 37, 37, 37, 36, 36, 36, 36, 36, 37, 37, 37, 38, 38 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", konjyou_tbl);
+const s16 konjyou_tbl[20][6] = { { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", apagt_table);
+const s16 apagt_table[20] = { 5, 4, 4, 4, 4, 4, 5, 4, 5, 3, 4, 4, 4, 4, 4, 4, 5, 3, 2, 4 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dir32_skydm);
+const s16 dir32_skydm[32] = { 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 97, 97, 97, 97, 98,
+                              98, 98, 97, 97, 97, 97, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dir32_grddm);
+const s16 dir32_grddm[32] = { 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 39, 39, 39, 39, 40,
+                              40, 40, 39, 39, 39, 39, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", convert_saishin_lvdir);
+const u8 convert_saishin_lvdir[2][16] = { { 0, 0, 0, 0, 1, 1, 1, 0, 2, 2, 2, 0, 0, 0, 0, 0 },
+                                          { 0, 0, 0, 0, 2, 2, 2, 0, 1, 1, 1, 0, 0, 0, 0, 0 } };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dead_voice_table);
+const s16 dead_voice_table[20][2] = { 864, 865, 928, 929, 512, 513, 608, 609, 896, 897, 800, 801, 832, 833,
+                                      352, 353, 672, 673, 576, 577, 640, 641, 384, 385, 480, 481, 736, 737,
+                                      704, 705, 416, 417, 448, 449, 768, 769, 960, 961, 544, 545 };

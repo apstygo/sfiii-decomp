@@ -560,6 +560,13 @@ typedef struct {
 } WORK_CP;
 
 typedef struct {
+    // total size: 0x6
+    s16 r_no;    // offset 0x0, size 0x2
+    s16 char_ix; // offset 0x2, size 0x2
+    s16 data_ix; // offset 0x4, size 0x2
+} AS;
+
+typedef struct {
     // total size: 0x46C
     WORK wu;              // offset 0x0, size 0x388
     WORK_CP *cp;          // offset 0x388, size 0x4
@@ -595,14 +602,9 @@ typedef struct {
     s8 jpdir;             // offset 0x3BA, size 0x1
     s8 jptim;             // offset 0x3BB, size 0x1
     s16 current_attack;   // offset 0x3BC, size 0x2
-    struct /* @anon17 */ {
-        // total size: 0x6
-        s16 r_no;    // offset 0x0, size 0x2
-        s16 char_ix; // offset 0x2, size 0x2
-        s16 data_ix; // offset 0x4, size 0x2
-    } *as;           // offset 0x3C0, size 0x4
-    SA_WORK *sa;     // offset 0x3C4, size 0x4
-    ComboType *cb;   // offset 0x3C8, size 0x4
+    const AS *as;         // offset 0x3C0, size 0x4
+    SA_WORK *sa;          // offset 0x3C4, size 0x4
+    ComboType *cb;        // offset 0x3C8, size 0x4
     struct /* @anon28 */ {
         // total size: 0x14
         s8 flag;    // offset 0x0, size 0x1
@@ -2766,6 +2768,5 @@ typedef struct {
     s16 slen;         // offset 0x6, size 0x2
     s8 proccess_dead; // offset 0x8, size 0x1
 } SDAT;
-
 
 #endif

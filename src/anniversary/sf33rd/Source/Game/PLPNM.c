@@ -11,6 +11,7 @@
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/PulPul.h"
 #include "sf33rd/Source/Game/appear.h"
+#include "sf33rd/Source/Game/win_pl.h"
 #include "sf33rd/Source/Game/workuser.h"
 
 void Player_normal(PLW *wk);
@@ -69,7 +70,9 @@ void (*const normal_05[])(PLW *wk);
 void (*const normal_06[])(PLW *wk);
 
 void Player_normal(PLW *wk) {
+#if defined(TARGET_PS2)
     void clear_chainex_check(s32 ix);
+#endif
 
     setup_normal_process_flags(wk);
 
@@ -759,13 +762,37 @@ void Normal_41000(PLW *wk) {
     lose_player(wk);
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPNM", Normal_42000);
+#else
+void Normal_42000(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPNM", Normal_47000);
+#else
+void Normal_47000(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPNM", Normal_48000);
+#else
+void Normal_48000(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPNM", Normal_50000);
+#else
+void Normal_50000(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 void Normal_51000(PLW *wk) {
     if (wk->wu.routine_no[3] == 0) {
@@ -911,7 +938,13 @@ void Normal_55000(PLW *wk) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPNM", make_nm55_init_sp);
+#else
+void make_nm55_init_sp(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 void Normal_56000(PLW *wk) {
     if (wk->the_same_players) {
@@ -938,7 +971,13 @@ void Normal_56000(PLW *wk) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPNM", nm56_char_select);
+#else
+void nm56_char_select(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 void Normal_57000(PLW *wk) {
 #if defined(TARGET_PS2)
@@ -981,7 +1020,13 @@ void Normal_57000(PLW *wk) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPNM", nm57_dir_select);
+#else
+void nm57_dir_select(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 void Normal_58000(PLW *wk) {
     if (wk->the_same_players) {
