@@ -3,19 +3,37 @@
 
 #include <cri/ee/cri_xpt.h>
 
-#define READ16(_p, _off) (((Uint8 *)_p)[_off * 2 + 1] | ((((Uint16 *)_p)[_off] << 8) & ~0xFF))
-#define REORDER32(_val) ((Uint32)_val >> 24) | (_val << 24) | (((_val << 8) & 0xFF0000) | ((_val >> 8) & 0xFF00))
+#include <math.h>
+#include <string.h>
+
+#define BSWAP_U16(_val) ((Uint16)((((_val & 0xFF00) >> 8)) | ((_val << 8) & 0xFF00)))
+#define BSWAP_S16(_val) ((Sint16)((((_val & 0xFF00) >> 8)) | ((_val << 8) & 0xFF00)))
+#define BSWAP_U32(_val)                                                                                                \
+    ((Uint32)(((_val & 0xFF000000) >> 24) | ((_val << 24) & 0xFF000000) |                                              \
+              (((_val << 8) & 0xFF0000) | ((_val >> 8) & 0xFF00))))
+#define BSWAP_S32(_val)                                                                                                \
+    ((Sint32)(((_val & 0xFF000000) >> 24) | ((_val << 24) & 0xFF000000) |                                              \
+              (((_val << 8) & 0xFF0000) | ((_val >> 8) & 0xFF00))))
 
 // data
 Sint32 adx_decode_output_mono_flag = 0;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_dcd", ADX_GetCoefficient);
-#else
-void ADX_GetCoefficient(Sint16 *, Sint32, Sint16 *, Sint16 *) {
-    not_implemented(__func__);
+#define PI 3.14159265f
+#define PI_2 (PI * 2)
+
+void ADX_GetCoefficient(Sint32 highpass_frequency, Sint32 sample_rate, Sint16 *coef1_ptr, Sint16 *coef2_ptr) {
+    f32 f21;
+    f32 f20;
+    f32 r;
+
+    f21 = sqrtf(2) - cosf((PI_2 * highpass_frequency) / sample_rate);
+    f20 = sqrtf(2) - 1.0f;
+
+    r = (f21 - sqrtf((f21 + f20) * (f21 - f20))) / f20;
+
+    *coef1_ptr = 2 * r * 4096;  // Q12(2r)
+    *coef2_ptr = -r * r * 4096; // Q12(-r^2)
 }
-#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_dcd", ADX_ScanInfoCode);
 
@@ -52,9 +70,6 @@ Sint32 ADX_DecodeInfo(ADXHeader *hdr, Sint32 arg1, Sint16 *audio_offset, Sint8 *
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_dcd", ADX_DecodeInfoExADPCM2);
-#else
 Sint32 ADX_DecodeInfoExADPCM2(ADXHeader *hdr, Sint32 arg1, Sint16 *high_pass_frequency) {
     Uint32 magic;
 
@@ -62,39 +77,29 @@ Sint32 ADX_DecodeInfoExADPCM2(ADXHeader *hdr, Sint32 arg1, Sint16 *high_pass_fre
         return -1;
     }
 
-    magic = hdr->magic;
-
-    if ((Uint16)((magic >> 8) | (magic << 8)) != 0x8000) {
+    if (BSWAP_U16(hdr->magic) != 0x8000) {
         return -2;
     }
 
-    if ((Sint16)((hdr->copyright_offset << 8) | hdr->copyright_offset_1) < 0xE) {
+    if (BSWAP_S16(hdr->copyright_offset) < 0xE) {
         return -1;
     }
 
-    *high_pass_frequency = (hdr->high_pass_frequency << 8) | (hdr->high_pass_frequency >> 8);
+    *high_pass_frequency = BSWAP_S16(hdr->high_pass_frequency);
 
     return 0;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_dcd", ADX_DecodeInfoExVer);
-#else
 Sint32 ADX_DecodeInfoExVer(ADXHeader *hdr, Sint32 arg1, Sint8 *version, Sint8 *flags) {
-    Uint32 magic;
-
     if (arg1 < 0x14) {
         return -1;
     }
 
-    magic = hdr->magic;
-
-    if ((Uint16)((magic >> 8) | (magic << 8)) != 0x8000) {
+    if (BSWAP_U16(hdr->magic) != 0x8000) {
         return -2;
     }
 
-    if ((Sint16)((hdr->copyright_offset << 8) | hdr->copyright_offset_1) < 0x10) {
+    if (BSWAP_S16(hdr->copyright_offset) < 0x10) {
         return -1;
     }
 
@@ -103,11 +108,7 @@ Sint32 ADX_DecodeInfoExVer(ADXHeader *hdr, Sint32 arg1, Sint8 *version, Sint8 *f
 
     return 0;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_dcd", ADX_DecodeInfoExIdly);
-#else
 Sint32 ADX_DecodeInfoExIdly(ADXHeader *hdr, Sint32 arg1, Sint16 *arg2, Sint16 *arg3) {
     Uint8 version;
     Sint8 flags;
@@ -122,20 +123,18 @@ Sint32 ADX_DecodeInfoExIdly(ADXHeader *hdr, Sint32 arg1, Sint16 *arg2, Sint16 *a
             return -1;
         }
 
-        magic = hdr->magic;
-
-        if ((Uint16)((magic >> 8) | (magic << 8)) != 0x8000) {
+        if (BSWAP_U16(hdr->magic) != 0x8000) {
             return -2;
         }
 
-        if ((Sint16)(((hdr->copyright_offset << 8) & ~0xFF) | hdr->copyright_offset_1) < 0x1C) {
+        if (BSWAP_S16(hdr->copyright_offset) < 0x1C) {
             return -1;
         }
 
-        arg2[0] = ((hdr->unk18 >> 8) | ((hdr->unk18 << 8) & ~0xFF));
-        arg3[0] = ((hdr->unk1A >> 8) | ((hdr->unk1A << 8) & ~0xFF));
-        arg2[1] = ((hdr->unk1C >> 8) | ((hdr->unk1C << 8) & ~0xFF));
-        arg3[1] = ((hdr->unk1E >> 8) | ((hdr->unk1E << 8) & ~0xFF));
+        arg2[0] = BSWAP_S16(hdr->unk18);
+        arg3[0] = BSWAP_S16(hdr->unk1A);
+        arg2[1] = BSWAP_S16(hdr->unk1C);
+        arg3[1] = BSWAP_S16(hdr->unk1E);
     } else {
         arg3[1] = 0;
         arg2[1] = 0;
@@ -145,24 +144,14 @@ Sint32 ADX_DecodeInfoExIdly(ADXHeader *hdr, Sint32 arg1, Sint16 *arg2, Sint16 *a
 
     return 0;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_dcd", ADX_DecodeInfoExLoop);
-#else
-// TODO: This function needs thorough testing
 Sint32 ADX_DecodeInfoExLoop(Uint8 *hdr, Sint32 arg1, Sint32 *arg2, Sint16 *arg3, Sint16 *arg4, Sint32 *arg5,
                             Sint32 *arg6, Sint32 *arg7, Sint32 *arg8) {
     Uint8 version;
     Sint8 flags;
     Sint32 err;
     Uint32 magic;
-    Uint8 *p;
-
-    Sint32 raw_arg5;
-    Sint32 raw_arg6;
-    Sint32 raw_arg7;
-    Sint32 raw_arg8;
+    Uint16 *p;
 
     Sint32 temp_t5;
     Sint32 temp_a2;
@@ -184,72 +173,51 @@ Sint32 ADX_DecodeInfoExLoop(Uint8 *hdr, Sint32 arg1, Sint32 *arg2, Sint16 *arg3,
         return -1;
     }
 
-    magic = ((Uint16 *)hdr)[0];
-
-    if ((Uint16)((magic >> 8) | (magic << 8)) != 0x8000) {
+    if (BSWAP_U16(((Uint16 *)hdr)[0]) != 0x8000) {
         return -2;
     }
 
-    if ((Sint16)READ16(hdr, 1) < (temp_a2 - 4)) {
+    if (BSWAP_S16(((Sint16 *)hdr)[1]) < (temp_a2 - 4)) {
         return -1;
     }
 
-    temp_t5 = 0x14;
+    temp_t5 = (version != 4) ? 0x14 : 0x20;
 
-    if (version == 4) {
-        temp_t5 = 0x20;
-    }
-
-    p = (Uint8 *)(hdr + temp_t5);
-
-    *arg2 = READ16(p, 0);
-    p += 2;
-
-    *arg3 = READ16(p, 0);
-    p += 2;
+    *arg2 = BSWAP_S16(((Sint16 *)(hdr + temp_t5))[0]);
+    temp_t5 += 2;
+    *arg3 = BSWAP_S16(((Sint16 *)(hdr + temp_t5))[0]);
+    temp_t5 += 2;
 
     if (*arg3 != 1) {
         return -2;
     }
 
-    p += 2;
+    temp_t5 += 2;
 
-    *arg4 = READ16(p, 0);
-    p += 2;
+    *arg4 = BSWAP_S16(((Sint16 *)(hdr + temp_t5))[0]);
+    temp_t5 += 2;
 
-    raw_arg5 = *(Uint32 *)p;
-    *arg5 = REORDER32(raw_arg5);
-    p += 4;
+    *arg5 = BSWAP_S32(((Sint32 *)(hdr + temp_t5))[0]);
+    temp_t5 += 4;
 
-    raw_arg6 = *(Uint32 *)p;
-    *arg6 = REORDER32(raw_arg6);
-    p += 4;
+    *arg6 = BSWAP_S32(((Sint32 *)(hdr + temp_t5))[0]);
+    temp_t5 += 4;
 
-    raw_arg7 = *(Uint32 *)p;
-    *arg7 = REORDER32(raw_arg7);
-    p += 4;
+    *arg7 = BSWAP_S32(((Sint32 *)(hdr + temp_t5))[0]);
+    temp_t5 += 4;
 
-    raw_arg8 = *(Uint32 *)p;
-    *arg8 = REORDER32(raw_arg8);
+    *arg8 = BSWAP_S32(((Sint32 *)(hdr + temp_t5))[0]);
 
     return 0;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_dcd", ADX_DecodeInfoAinf);
-#else
-// TODO: This function needs thorough testing
 Sint32 ADX_DecodeInfoAinf(Uint8 *hdr, Sint32 arg1, Sint32 *arg2, ADX_UNK *arg3, Sint16 *arg4, Sint16 *arg5) {
     Uint8 version;
     Sint8 flags;
-    Sint32 raw_arg2;
     Sint32 temp_a2;
     Sint32 temp_t1;
     Sint32 err;
     Uint32 magic;
-
-    Uint8 *p;
 
     *arg2 = 0;
     err = ADX_DecodeInfoExVer(hdr, arg1, &version, &flags);
@@ -268,48 +236,42 @@ Sint32 ADX_DecodeInfoAinf(Uint8 *hdr, Sint32 arg1, Sint32 *arg2, ADX_UNK *arg3, 
         return -1;
     }
 
-    magic = ((Uint16 *)hdr)[0];
-
-    if ((Uint16)((magic >> 8) | (magic << 8)) != 0x8000) {
+    if (BSWAP_U16(((Uint16 *)hdr)[0]) != 0x8000) {
         return -2;
     }
 
-    if ((Sint16)READ16(hdr, 1) < (temp_a2 - 4)) {
+    if (BSWAP_S16(((Sint16 *)hdr)[1]) < (temp_a2 - 4)) {
         return -1;
     }
 
-    temp_t1 = 0x14;
-
-    if (version == 4) {
-        temp_t1 = 0x20;
-    }
-
+    temp_t1 = (version != 4) ? 0x14 : 0x20;
     temp_t1 += 4;
-    p = hdr + temp_t1;
+
+    magic = hdr[temp_t1 + 0] << 24 | hdr[temp_t1 + 1] << 16 | hdr[temp_t1 + 2] << 8 | hdr[temp_t1 + 3];
+    temp_t1 += 4;
 
     // 'AINF' magic
-    if (((p[0] << 0x18) | p[3] | ((p[2] << 8) | (p[1] << 0x10))) != 0x41494E46) {
+    if (magic != 0x41494E46) {
         return -2;
     }
 
-    p += 4;
+    *arg2 = BSWAP_S32(((Sint32 *)(hdr + temp_t1))[0]);
+    temp_t1 += 4;
 
-    raw_arg2 = *(Uint32 *)p;
-    *arg2 = REORDER32(raw_arg2);
-    p += 4;
+    memcpy(arg3, hdr + temp_t1, sizeof(ADX_UNK));
+    temp_t1 += sizeof(ADX_UNK);
 
-    *arg3 = *(ADX_UNK *)p;
-    p += 0x10;
+    *arg4 = BSWAP_S16(((Sint16 *)(hdr + temp_t1))[0]);
+    temp_t1 += 4;
 
-    *arg4 = READ16(p, 0);
-    p += 4;
+    arg5[0] = BSWAP_S16(((Sint16 *)(hdr + temp_t1))[0]);
+    temp_t1 += 2;
 
-    arg5[0] = READ16(p, 0);
-    arg5[1] = READ16(p, 1);
+    arg5[1] = BSWAP_S16(((Sint16 *)(hdr + temp_t1))[0]);
+    temp_t1 += 2;
 
     return 0;
 }
-#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_dcd", ADX_DecodeFooter);
 

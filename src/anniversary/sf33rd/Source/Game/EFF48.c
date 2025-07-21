@@ -117,7 +117,6 @@ void eff48_1000(WORK_Other *ewk) {
     }
 }
 
-#if defined(TARGET_PS2)
 s32 effect_48_init(s16 type) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
@@ -176,11 +175,6 @@ s32 effect_48_init(s16 type) {
 
     return 0;
 }
-#else
-s32 effect_48_init(s16 type) {
-    not_implemented(__func__);
-}
-#endif
 
 const s16 eff48_num_tbl[22] = { 21, 13, 4, 7, 9, 4, 7, 10, 6, 4, 6, 5, 19, 4, 5, 14, 11, 10, 3, 4, 10, 13 };
 

@@ -140,6 +140,9 @@ void adxsjd_decode_prep(ADXSJD sjd) {
     SJ_OBJ *sji = sjd->sji;
     ADXB_OBJ *adxb = sjd->adxb;
 
+    sjd++;
+    sjd--;
+
     SJ_GetChunk(sji, 1, 0x1000, &ck_0);
 
     for (nbyte = 0; nbyte < ck_0.len; nbyte++) {

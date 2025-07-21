@@ -9,7 +9,7 @@ Notes:
 | Module   | Progress   |
 |----------|------------|
 | sf33rd   | 99.94%     |
-| cri      | 79.24%     |
+| cri      | 82.98%     |
 
 | Function                         | File                                                 | Module   | Is decompiled   |
 |----------------------------------|------------------------------------------------------|----------|-----------------|
@@ -416,7 +416,7 @@ Notes:
 | SJRBF_GetXtrSize                 | cri/libadxe/sj_rbf.c                                 | cri      | ✅               |
 | ADXB_Create                      | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXPD_Create                     | cri/libadxe/adx_xpnd.c                               | cri      | ✅               |
-| ADX_GetCoefficient               | cri/libadxe/adx_dcd.c                                | cri      |                 |
+| ADX_GetCoefficient               | cri/libadxe/adx_dcd.c                                | cri      | ✅               |
 | ADXB_EntryGetWrFunc              | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | adxsjd_clear                     | cri/libadxe/adx_sjd.c                                | cri      | ✅               |
 | ADXRNA_Create                    | cri/libadxe/adx_rnap.c                               | cri      | ✅               |
@@ -966,15 +966,15 @@ Notes:
 | ADXB_DecodeHeader                | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXB_DecodeHeaderAdx             | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADX_DecodeInfo                   | cri/libadxe/adx_dcd.c                                | cri      | ✅               |
-| ADX_DecodeInfoExVer              | cri/libadxe/adx_dcd.c                                | cri      |                 |
+| ADX_DecodeInfoExVer              | cri/libadxe/adx_dcd.c                                | cri      | ✅               |
 | adxb_get_key                     | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXPD_SetExtPrm                  | cri/libadxe/adx_xpnd.c                               | cri      | ✅               |
-| ADX_DecodeInfoExADPCM2           | cri/libadxe/adx_dcd.c                                | cri      |                 |
-| ADX_DecodeInfoExIdly             | cri/libadxe/adx_dcd.c                                | cri      |                 |
+| ADX_DecodeInfoExADPCM2           | cri/libadxe/adx_dcd.c                                | cri      | ✅               |
+| ADX_DecodeInfoExIdly             | cri/libadxe/adx_dcd.c                                | cri      | ✅               |
 | ADXPD_SetCoef                    | cri/libadxe/adx_xpnd.c                               | cri      | ✅               |
 | ADXPD_SetDly                     | cri/libadxe/adx_xpnd.c                               | cri      | ✅               |
-| ADX_DecodeInfoExLoop             | cri/libadxe/adx_dcd.c                                | cri      |                 |
-| ADX_DecodeInfoAinf               | cri/libadxe/adx_dcd.c                                | cri      |                 |
+| ADX_DecodeInfoExLoop             | cri/libadxe/adx_dcd.c                                | cri      | ✅               |
+| ADX_DecodeInfoAinf               | cri/libadxe/adx_dcd.c                                | cri      | ✅               |
 | ADXB_GetFormat                   | cri/libadxe/adx_bsc.c                                | cri      | ✅               |
 | ADXSJD_GetNumChan                | cri/libadxe/adx_sjd.c                                | cri      |                 |
 | ADXB_GetNumChan                  | cri/libadxe/adx_bsc.c                                | cri      | ✅               |

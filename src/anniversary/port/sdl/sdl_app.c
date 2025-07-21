@@ -54,6 +54,8 @@ int SDLApp_Init() {
         return 1;
     }
 
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+
     // Initialize message renderer
     SDLMessageRenderer_Initialize(renderer);
 
@@ -183,9 +185,10 @@ void SDLApp_EndFrame() {
     // Render message canvas
     SDL_RenderTexture(renderer, message_canvas, NULL, &dst_rect);
 
-    // Render FPS
+    // Render metrics
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_RenderDebugTextFormat(renderer, 8, 8, "FPS: %f", fps);
+    SDL_RenderDebugTextFormat(renderer, 8, 20, "Render tasks: %d", SDLGameRenderer_GetRenderTaskCount());
 
     const Uint64 frame_time_budget = (Uint64)fmaxf(0.0f, target_frame_time_ns + (float)frame_time_remainder);
     Uint64 frame_time = SDL_GetTicksNS() - frame_start;
