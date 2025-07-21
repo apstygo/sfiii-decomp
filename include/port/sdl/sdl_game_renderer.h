@@ -57,4 +57,6 @@ void SDLGameRenderer_DrawSolidQuad(const SDLGameRenderer_Vertex *vertices);
 void SDLGameRenderer_DrawSprite(const SDLGameRenderer_Sprite *sprite, unsigned int color);
 void SDLGameRenderer_DrawSprite2(const SDLGameRenderer_Sprite2 *sprite2);
 
+int SDLGameRenderer_GetRenderTaskCount();
+
 #endif
