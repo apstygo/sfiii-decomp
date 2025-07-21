@@ -252,7 +252,7 @@ s32 flPrintColor(u32 color) {
         a >>= 1;
     }
 
-    flDebugStrCol = (a << 24) | (r << 16) | (g << 8) | b;
+    flDebugStrCol = (((u32)a) << 24) | (((u32)r) << 16) | (((u32)g) << 8) | ((u32)b);
     return 1;
 }
 

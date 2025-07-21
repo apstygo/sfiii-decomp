@@ -399,7 +399,8 @@ void PADReadSub(s32 i) {
             return;
         }
 
-        ps2slot[i].bprofile = (bprofile[3] << 24) | (bprofile[2] << 16) | (bprofile[1] << 8) | bprofile[0];
+        ps2slot[i].bprofile =
+            (((u32)bprofile[3]) << 24) | (((u32)bprofile[2]) << 16) | (((u32)bprofile[1]) << 8) | ((u32)bprofile[0]);
 
         if (sceVibGetProfile(ps2slot[i].socket_id, vprofile) >= 0) {
             ps2slot[i].vprofile = vprofile[0];
