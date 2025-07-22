@@ -4,17 +4,36 @@
 #include "sf33rd/Source/Game/EFFG6.h"
 #include "sf33rd/Source/Game/Grade.h"
 #include "sf33rd/Source/Game/PLCNT.h"
+#include "sf33rd/Source/Game/PLPAT00.h"
+#include "sf33rd/Source/Game/PLPAT01.h"
+#include "sf33rd/Source/Game/PLPAT02.h"
+#include "sf33rd/Source/Game/PLPAT03.h"
+#include "sf33rd/Source/Game/PLPAT04.h"
+#include "sf33rd/Source/Game/PLPAT05.h"
+#include "sf33rd/Source/Game/PLPAT06.h"
+#include "sf33rd/Source/Game/PLPAT07.h"
+#include "sf33rd/Source/Game/PLPAT08.h"
+#include "sf33rd/Source/Game/PLPAT09.h"
+#include "sf33rd/Source/Game/PLPAT11.h"
+#include "sf33rd/Source/Game/PLPAT12.h"
+#include "sf33rd/Source/Game/PLPAT13.h"
 #include "sf33rd/Source/Game/PLPNM.h"
 #include "sf33rd/Source/Game/PLS00.h"
 #include "sf33rd/Source/Game/PLS01.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/PulPul.h"
+#include "sf33rd/Source/Game/plpat10.h"
+#include "sf33rd/Source/Game/plpat14.h"
+#include "sf33rd/Source/Game/plpat16.h"
+#include "sf33rd/Source/Game/plpat17.h"
+#include "sf33rd/Source/Game/plpat18.h"
+#include "sf33rd/Source/Game/plpat19.h"
+#include "sf33rd/Source/Game/plpat20.h"
 #include "sf33rd/Source/Game/workuser.h"
 
 s16 ja_nmj_rno_change(WORK *wk);
 void Attack_07000(PLW *wk);
 void get_cancel_timer(PLW *wk);
-void hoken_muriyari_chakuchi(PLW *wk);
 void check_ja_nmj_dummy_RTNM(PLW *wk);
 
 #if defined(TARGET_PS2)
@@ -667,14 +686,12 @@ void (*const plpat_lv_00[16])(PLW *wk) = { Attack_00000, Attack_01000, Attack_02
                                            Attack_08000, Attack_09000, Attack_10000, Attack_00000,
                                            Attack_00000, Attack_00000, Attack_14000, Attack_15000 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPAT", plxx_extra_attack_table);
-
-// void (*const plxx_extra_attack_table[])() = {
-//     pl00_extra_attack, pl01_extra_attack, pl02_extra_attack, pl03_extra_attack, pl04_extra_attack,
-//     pl05_extra_attack, pl06_extra_attack, pl07_extra_attack, pl08_extra_attack, pl09_extra_attack,
-//     pl10_extra_attack, pl11_extra_attack, pl12_extra_attack, pl13_extra_attack, pl14_extra_attack,
-//     pl16_extra_attack, pl17_extra_attack, pl18_extra_attack, pl19_extra_attack, pl20_extra_attack
-// }; // size: 0, address: 5554544
+void (*const plxx_extra_attack_table[])() = {
+    pl00_extra_attack, pl01_extra_attack, pl02_extra_attack, pl03_extra_attack, pl04_extra_attack,
+    pl05_extra_attack, pl06_extra_attack, pl07_extra_attack, pl08_extra_attack, pl09_extra_attack,
+    pl10_extra_attack, pl11_extra_attack, pl12_extra_attack, pl13_extra_attack, pl14_extra_attack,
+    pl16_extra_attack, pl17_extra_attack, pl18_extra_attack, pl19_extra_attack, pl20_extra_attack
+};
 
 const u8 cjdr_karaburi_type3[8] = { 255, 255, 255, 255, 255, 255, 255, 255 };
 

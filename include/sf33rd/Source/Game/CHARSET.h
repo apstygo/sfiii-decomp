@@ -20,5 +20,6 @@ void char_move_cmja(WORK *wk);
 void exset_char_move_init(WORK *wk, s16 koc, s16 index);
 void char_move_cmms(WORK *wk);
 void char_move_index(WORK *wk, s16 ix);
+void char_move_cmj4(WORK *wk);
 
 #endif

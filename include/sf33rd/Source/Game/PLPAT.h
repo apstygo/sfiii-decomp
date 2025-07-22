@@ -5,5 +5,6 @@
 #include "types.h"
 
 void Player_attack(PLW *wk);
+void hoken_muriyari_chakuchi(PLW *wk);
 
 #endif

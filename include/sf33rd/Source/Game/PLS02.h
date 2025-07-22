@@ -40,5 +40,6 @@ void add_mvxy_speed_direct(WORK *wk, s16 sx, s16 sy);
 s16 check_buttobi_type(PLW *wk);
 s16 check_buttobi_type2(PLW *wk);
 void add_sp_arts_gauge_hit_dm(PLW *wk);
+void add_sp_arts_gauge_tokushu(PLW *wk);
 
 #endif

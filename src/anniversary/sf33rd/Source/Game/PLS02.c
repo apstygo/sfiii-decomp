@@ -32,7 +32,6 @@ s16 get_kind_of_trunk_dm(s16 dir, s8 drl);
 void cal_dm_vital_gauge_hosei(PLW *wk);
 void add_sp_arts_gauge_guard(PLW *wk);
 s16 cal_sa_gauge_waribiki(PLW *wk, s16 asag);
-void add_sp_arts_gauge_tokushu(PLW *wk);
 void setup_saishin_lvdir(PLW *ds, s8 gddir);
 void dead_voice_request();
 void dead_voice_request2(PLW *wk);
