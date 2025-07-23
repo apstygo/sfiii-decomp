@@ -322,7 +322,7 @@ s16 get_em_body_range(WORK *wk) {
         res_hs = -res_hs;
     }
 
-    res_hs += em->hosei_adrs->hos_box[4];
+    res_hs += em->hosei_adrs[1].hos_box[0];
 
     return res_hs;
 }
