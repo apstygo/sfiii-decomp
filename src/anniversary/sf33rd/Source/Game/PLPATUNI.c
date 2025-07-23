@@ -47,7 +47,13 @@ void Att_METAMOR_WAIT(PLW *wk) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPATUNI", Att_METAMOR_REBIRTH);
+#else
+void Att_METAMOR_REBIRTH(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 void Att_HADOUKEN(PLW *wk) {
     wk->scr_pos_set_flag = 0;

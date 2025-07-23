@@ -28,7 +28,7 @@ void Att_PL01_DDT(PLW *wk) {
 
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         hoken_muriyari_chakuchi(wk);
         wk->wu.rl_flag = wk->wu.rl_waza;
         reset_mvxy_data(&wk->wu);
@@ -42,7 +42,7 @@ void Att_PL01_DDT(PLW *wk) {
         if (wk->wu.cg_type == 0x14) {
             wk->wu.cg_type = 0;
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
-            wk->wu.mvxy.index += 1;
+            wk->wu.mvxy.index++;
             wk->wu.routine_no[3] = 2;
             cal_initial_speed_y(&wk->wu, wk->as->r_no, pl01_ddt_dat[twk->player_number][0]);
         }

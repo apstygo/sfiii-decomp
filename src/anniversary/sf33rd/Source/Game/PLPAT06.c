@@ -7,7 +7,7 @@
 #include "sf33rd/Source/Game/PLS01.h"
 #include "sf33rd/Source/Game/PLS02.h"
 
-void (*const pl06_exatt_table[18])();
+void (*const pl06_exatt_table[18])(PLW *);
 
 void pl06_extra_attack(PLW *wk) {
     pl06_exatt_table[wk->wu.routine_no[2] - 16](wk);
