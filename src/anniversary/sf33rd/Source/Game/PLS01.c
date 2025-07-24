@@ -10,7 +10,21 @@
 #include "sf33rd/Source/Game/bg_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-const u8 about_rno[6];
+const u8 about_rno[6] = { 0, 1, 2, 1, 2, 0 };
+
+const s16 sel_hd_fg_hos[20][2] = { { 0, 92 }, { 24, 76 }, { 8, 76 },   { 20, 64 }, { 0, 84 }, { 4, 80 }, { 8, 88 },
+                                   { 4, 68 }, { 0, 72 },  { -16, 64 }, { 20, 64 }, { 8, 76 }, { 8, 76 }, { 0, 92 },
+                                   { 8, 76 }, { 0, 76 },  { 14, 58 },  { 0, 104 }, { 4, 80 }, { 4, 87 } };
+
+const s16 dir32_rl_conv[32] = { 0,  31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17,
+                                16, 15, 14, 13, 12, 11, 10, 9,  8,  7,  6,  5,  4,  3,  2,  1 };
+
+const s16 dir32_sel_tbl[2][32] = {
+    { 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 },
+    { 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0 }
+};
+
+const s16 chcgp_hos[20] = { 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1 };
 
 s32 sa_stop_check() {
     if (plw[0].sa_stop_flag != 0) {
@@ -245,13 +259,44 @@ void check_extra_jump_timer(PLW *wk) {
     wk->micchaku_wall_time = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", remake_sankaku_tobi_mvxy);
-#else
 void remake_sankaku_tobi_mvxy(WORK *wk, u8 kabe) {
-    not_implemented(__func__);
+    if (kabe == 1) {
+        wk->rl_flag = 0;
+    }
+
+    if (kabe == 2) {
+        wk->rl_flag = 1;
+    }
+
+    if (kabe == 0) {
+        if (wk->position_x > get_center_position()) {
+            wk->rl_flag = 0;
+        } else {
+            wk->rl_flag = 1;
+        }
+    }
+
+    if (wk->mvxy.a[0].sp < 0) {
+        wk->mvxy.a[0].sp = -wk->mvxy.a[0].sp;
+        wk->mvxy.d[0].sp = -wk->mvxy.d[0].sp;
+    }
+
+    if (wk->mvxy.a[1].real.h <= 0) {
+        wk->mvxy.a[1].real.h = 4;
+        wk->mvxy.a[0].real.h = (wk->mvxy.a[0].real.h * 5 / 4);
+
+    } else {
+        wk->mvxy.a[1].real.h = ((wk->mvxy.a[1].real.h << 2) / 3);
+        wk->mvxy.a[0].real.h = (wk->mvxy.a[0].real.h * 5 / 4);
+        wk->mvxy.a[1].real.h += 2;
+    }
+
+    if (wk->mvxy.a[1].real.h < 4) {
+        wk->mvxy.a[1].real.h = 4;
+    }
+
+    wk->mvxy.d[1].sp = -0x8800;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", check_F_R_dash);
@@ -489,13 +534,32 @@ s32 check_em_catt(PLW *wk) {
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", check_attbox_dir);
-#else
 s16 check_attbox_dir(PLW *wk) {
-    not_implemented(__func__);
+    s16 target_pos_x;
+    s16 target_pos_y;
+    s16 emdir;
+    s16 *dttbl;
+
+    get_target_att_position((WORK *)wk->wu.target_adrs, &target_pos_x, &target_pos_y);
+    dttbl = (s16 *)sel_hd_fg_hos[wk->player_number];
+
+    if (wk->wu.rl_flag) {
+        emdir = caldir_pos_032(
+            wk->wu.xyz[0].disp.pos - dttbl[0], wk->wu.xyz[1].disp.pos + dttbl[1], target_pos_x, target_pos_y);
+    } else {
+        emdir = caldir_pos_032(
+            wk->wu.xyz[0].disp.pos + dttbl[0], wk->wu.xyz[1].disp.pos + dttbl[1], target_pos_x, target_pos_y);
+        emdir = dir32_rl_conv[emdir];
+    }
+
+    if ((wk->wu.now_koc == 0) && ((wk->wu.char_index) == 0x1D)) {
+        emdir = dir32_sel_tbl[1][emdir];
+    } else {
+        emdir = dir32_sel_tbl[0][emdir];
+    }
+
+    return emdir;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", check_defense_kind);
@@ -585,19 +649,3 @@ s32 check_ashimoto_ex(PLW *wk) {
     wk->wu.routine_no[3] = 0;
     return 1;
 }
-
-const u8 about_rno[6] = { 0, 1, 2, 1, 2, 0 };
-
-const s16 sel_hd_fg_hos[20][2] = { { 0, 92 }, { 24, 76 }, { 8, 76 },   { 20, 64 }, { 0, 84 }, { 4, 80 }, { 8, 88 },
-                                   { 4, 68 }, { 0, 72 },  { -16, 64 }, { 20, 64 }, { 8, 76 }, { 8, 76 }, { 0, 92 },
-                                   { 8, 76 }, { 0, 76 },  { 14, 58 },  { 0, 104 }, { 4, 80 }, { 4, 87 } };
-
-const s16 dir32_rl_conv[32] = { 0,  31, 30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17,
-                                16, 15, 14, 13, 12, 11, 10, 9,  8,  7,  6,  5,  4,  3,  2,  1 };
-
-const s16 dir32_sel_tbl[2][32] = {
-    { 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0 },
-    { 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0 }
-};
-
-const s16 chcgp_hos[20] = { 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1 };

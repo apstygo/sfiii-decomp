@@ -24,6 +24,6 @@ void hit_push_request(WORK *hpr_wk);
 s32 check_normal_attack(u8 waza);
 void make_red_blocking_time(s16 id, s16 ix, s16 num);
 s32 hit_check_x_only(WORK *wk1, WORK *wk2, s16 *hd1, s16 *hd2);
-void get_target_att_position(WORK *wk, s16 tx, s16 ty);
+void get_target_att_position(WORK *wk, s16 *tx, s16 *ty);
 
 #endif
