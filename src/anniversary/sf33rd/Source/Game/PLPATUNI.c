@@ -47,13 +47,68 @@ void Att_METAMOR_WAIT(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPATUNI", Att_METAMOR_REBIRTH);
-#else
+const s16 metareb_pos[20][2] = { { 1, 9 },  { 14, 19 }, { 5, 31 }, { 8, 24 },  { 9, 28 },  { 4, 22 }, { 6, -10 },
+                                 { 6, 35 }, { 15, 24 }, { 6, 26 }, { 8, 24 },  { 5, 31 },  { 4, 32 }, { 1, 9 },
+                                 { 5, 30 }, { 1, 23 },  { 6, 22 }, { 13, 25 }, { -4, 22 }, { 0, 17 } };
+
 void Att_METAMOR_REBIRTH(PLW *wk) {
-    not_implemented(__func__);
+    wk->scr_pos_set_flag = 0;
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3] = 1;
+        wk->wu.rl_flag = wk->wu.rl_waza;
+        reset_mvxy_data(&wk->wu);
+
+        if (wk->wu.xyz[1].disp.pos < 3) {
+            wk->wu.xyz[1].disp.pos = -8;
+        } else {
+            wk->wu.xyz[1].disp.pos -= metareb_pos[wk->player_number][1];
+
+            if (wk->wu.rl_flag) {
+                wk->wu.xyz[0].disp.pos += metareb_pos[wk->player_number][0];
+            } else {
+                wk->wu.xyz[0].disp.pos -= metareb_pos[wk->player_number][0];
+            }
+        }
+
+        set_char_move_init(&wk->wu, 5, 1);
+        wk->metamor_over = 0;
+        break;
+
+    case 1:
+        char_move(&wk->wu);
+        if (wk->wu.cg_type == 0x1F) {
+            wk->wu.cg_type = 0;
+            wk->caution_flag = 0;
+            wk->wu.cg_ja = wk->wu.hit_ix_table[wk->wu.cg_hit_ix];
+            set_jugde_area(&wk->wu);
+            break;
+        }
+
+        if (wk->wu.cg_type == 0x28) {
+            wk->wu.routine_no[3] = 2;
+            wk->wu.mvxy.a[0].sp = 0;
+            wk->wu.mvxy.a[1].sp = 0;
+            wk->wu.mvxy.d[0].sp = 0;
+            wk->wu.mvxy.d[1].sp = -0x8000;
+            wk->wu.mvxy.kop[0] = wk->wu.mvxy.kop[1] = 0;
+            wk->scr_pos_set_flag = 1;
+        }
+
+        break;
+
+    case 2:
+        wk->scr_pos_set_flag = 1;
+        jumping_union_process(&wk->wu, 3);
+        break;
+
+    case 3:
+        wk->scr_pos_set_flag = 1;
+        char_move(&wk->wu);
+        break;
+    }
 }
-#endif
 
 void Att_HADOUKEN(PLW *wk) {
     wk->scr_pos_set_flag = 0;
@@ -779,10 +834,6 @@ void Att_HOMING_JUMP(PLW *wk) {
         break;
     }
 }
-
-const s16 metareb_pos[20][2] = { { 1, 9 },  { 14, 19 }, { 5, 31 }, { 8, 24 },  { 9, 28 },  { 4, 22 }, { 6, -10 },
-                                 { 6, 35 }, { 15, 24 }, { 6, 26 }, { 8, 24 },  { 5, 31 },  { 4, 32 }, { 1, 9 },
-                                 { 5, 30 }, { 1, 23 },  { 6, 22 }, { 13, 25 }, { -4, 22 }, { 0, 17 } };
 
 const s16 ahj_empos_hos[3][20][2] = {
     { { 48, 0 }, { 48, 0 }, { 48, 0 }, { 48, 0 }, { 48, 0 }, { 48, 0 }, { 48, 0 }, { 48, 0 }, { 48, 0 }, { 48, 0 },
