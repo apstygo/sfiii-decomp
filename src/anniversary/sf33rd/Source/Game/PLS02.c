@@ -36,13 +36,6 @@ void setup_saishin_lvdir(PLW *ds, s8 gddir);
 void dead_voice_request();
 void dead_voice_request2(PLW *wk);
 
-const s16 dir16_hddm[16];
-const s16 dir16_trdm[16];
-const s16 konjyou_tbl[20][6];
-const s16 apagt_table[20];
-const s16 dir32_skydm[32];
-const s16 dir32_grddm[32];
-
 u8 _add_arts_gauge[20][16][4] = { { { 0, 0, 0, 3 },
                                     { 0, 1, 2, 3 },
                                     { 0, 0, 0, 3 },
@@ -409,13 +402,55 @@ const s16 random_tbl_16_bg[64] = { 13, 1,  15, 8, 0,  6, 14, 3, 12, 8,  4,  5,  
 
 const s16 dir16_rl_conv[16] = { 0, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", add_to_mvxy_data);
-#else
+const s16 dir16_hddm[16] = { 35, 35, 35, 32, 32, 32, 36, 36, 36, 36, 36, 32, 32, 32, 35, 35 };
+
+const s16 dir16_trdm[16] = { 38, 38, 38, 37, 37, 37, 36, 36, 36, 36, 36, 37, 37, 37, 38, 38 };
+
+const s16 konjyou_tbl[20][6] = { { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
+                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 } };
+
+const s16 apagt_table[20] = { 5, 4, 4, 4, 4, 4, 5, 4, 5, 3, 4, 4, 4, 4, 4, 4, 5, 3, 2, 4 };
+
+const s16 dir32_skydm[32] = { 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 97, 97, 97, 97, 98,
+                              98, 98, 97, 97, 97, 97, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88 };
+
+const s16 dir32_grddm[32] = { 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 39, 39, 39, 39, 40,
+                              40, 40, 39, 39, 39, 39, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91 };
+
+const u8 convert_saishin_lvdir[2][16] = { { 0, 0, 0, 0, 1, 1, 1, 0, 2, 2, 2, 0, 0, 0, 0, 0 },
+                                          { 0, 0, 0, 0, 2, 2, 2, 0, 1, 1, 1, 0, 0, 0, 0, 0 } };
+
+const s16 dead_voice_table[20][2] = { 864, 865, 928, 929, 512, 513, 608, 609, 896, 897, 800, 801, 832, 833,
+                                      352, 353, 672, 673, 576, 577, 640, 641, 384, 385, 480, 481, 736, 737,
+                                      704, 705, 416, 417, 448, 449, 768, 769, 960, 961, 544, 545 };
+
 void add_to_mvxy_data(WORK *wk, u16 ix) {
-    not_implemented(__func__);
+    s16 *adrs;
+    s32 sp;
+
+    wk->mvxy.index = ix;
+
+    adrs = &wk->move_xy_table[ix * 6];
+    sp = adrs[0];
+    sp *= 256;
+    wk->mvxy.a[0].sp += sp;
+    sp = adrs[1];
+    sp *= 256;
+    wk->mvxy.d[0].sp += sp;
+    wk->mvxy.kop[0] = adrs[2];
+    sp = adrs[3];
+    sp *= 256;
+    wk->mvxy.a[1].sp += sp;
+    sp = adrs[4];
+    sp *= 256;
+    wk->mvxy.d[1].sp += sp;
+    wk->mvxy.kop[1] = adrs[5];
 }
-#endif
 
 void setup_move_data_easy(WORK *wk, s16 *adrs, s16 prx, s16 pry) {
     wk->mvxy.a[0].sp = adrs[0];
@@ -435,13 +470,11 @@ void setup_mvxy_data(WORK *wk, u16 ix) {
     read_adrs_store_mvxy(wk, &wk->move_xy_table[ix * 6]);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", setup_butt_own_data);
-#else
 void setup_butt_own_data(WORK *wk) {
-    not_implemented(__func__);
+    wk->mvxy.index = wk->dm_butt_type;
+    read_adrs_store_mvxy(
+        wk, (s16 *)((char *)parabora_own_table[wk->dm_plnum] + wk->dm_butt_type * 48 + wk->weight_level * 12));
 }
-#endif
 
 void read_adrs_store_mvxy(WORK *wk, s16 *adrs) {
     wk->mvxy.a[0].sp = adrs[0];
@@ -539,7 +572,7 @@ void reset_mvxy_data(WORK *wk) {
 
 void remake_mvxy_PoSB(WORK *wk) {
     if (wk->mvxy.a[1].sp < 0) {
-        wk->mvxy.a[1].sp = ((wk->mvxy.a[1].sp * 0x1E) / 100);
+        wk->mvxy.a[1].sp = (wk->mvxy.a[1].sp * 30) / 100;
         wk->mvxy.a[1].sp = -wk->mvxy.a[1].sp;
     }
 }
@@ -559,11 +592,11 @@ void remake_mvxy_PoGR(WORK *wk) {
 
     switch ((wk->mvxy.a[0].sp > 0) + ((wk->mvxy.a[0].sp < 0) * 2)) {
     case 2:
-        wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 0x1E) / 100;
+        wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 30) / 100;
         break;
 
     default:
-        wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 0x32) / 100;
+        wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 50) / 100;
 
         if (wk->mvxy.a[0].real.h <= 0) {
             wk->mvxy.a[0].real.h = 1;
@@ -582,7 +615,27 @@ void check_body_touch() {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", meri_case_switch);
+s16 meri_case_switch(s16 meri) {
+    switch (meri & 0xFFF8) {
+    case 0:
+        if (meri < 4) {
+            meri /= 2;
+        } else {
+            meri /= 4;
+        }
+        break;
+
+    case 8:
+        meri = (meri * 21) / 64;
+        break;
+
+    default:
+        meri = (meri * 13) / 32;
+        break;
+    }
+
+    return meri;
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_body_touch2);
@@ -1238,15 +1291,32 @@ s16 check_buttobi_type2(PLW *wk) {
     return rn;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", setup_saishin_lvdir);
+void setup_saishin_lvdir(PLW *ds, s8 gddir) {
+    if ((ds->sa_stop_flag) == 1) {
+        if (ds->wu.rl_flag) {
+            ds->saishin_lvdir = convert_saishin_lvdir[1][ds->sa_stop_lvdir & 0xC];
+        } else {
+            ds->saishin_lvdir = convert_saishin_lvdir[0][ds->sa_stop_lvdir & 0xC];
+        }
+    } else if (ds->wu.rl_flag) {
+        ds->saishin_lvdir = convert_saishin_lvdir[1][ds->cp->sw_lvbt & 0xC];
+    } else {
+        ds->saishin_lvdir = convert_saishin_lvdir[0][ds->cp->sw_lvbt & 0xC];
+    }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", setup_lvdir_after_autodir);
-#else
-void setup_lvdir_after_autodir(PLW *wk) {
-    not_implemented(__func__);
+    if (!(ds->spmv_ng_flag & 0x2000) && (ds->guard_chuu != 0) && ((ds->guard_chuu) < 5)) {
+        ds->saishin_lvdir = gddir;
+    }
 }
-#endif
+
+void setup_lvdir_after_autodir(PLW *wk) {
+    if (wk->wu.rl_flag) {
+        wk->cp->lever_dir = convert_saishin_lvdir[1][wk->cp->sw_lvbt & 0xC];
+        return;
+    }
+
+    wk->cp->lever_dir = convert_saishin_lvdir[0][wk->cp->sw_lvbt & 0xC];
+}
 
 void dead_voice_request() {
     if (dead_voice_flag) {
@@ -1269,30 +1339,3 @@ void dead_voice_request2(PLW *wk) {
     not_implemented(__func__);
 }
 #endif
-
-const s16 dir16_hddm[16] = { 35, 35, 35, 32, 32, 32, 36, 36, 36, 36, 36, 32, 32, 32, 35, 35 };
-
-const s16 dir16_trdm[16] = { 38, 38, 38, 37, 37, 37, 36, 36, 36, 36, 36, 37, 37, 37, 38, 38 };
-
-const s16 konjyou_tbl[20][6] = { { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
-                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
-                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
-                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
-                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
-                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 },
-                                 { 26, 28, 30, 32, 32, 32 }, { 26, 28, 30, 32, 32, 32 } };
-
-const s16 apagt_table[20] = { 5, 4, 4, 4, 4, 4, 5, 4, 5, 3, 4, 4, 4, 4, 4, 4, 5, 3, 2, 4 };
-
-const s16 dir32_skydm[32] = { 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88, 97, 97, 97, 97, 98,
-                              98, 98, 97, 97, 97, 97, 88, 88, 88, 88, 88, 88, 88, 88, 88, 88 };
-
-const s16 dir32_grddm[32] = { 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91, 39, 39, 39, 39, 40,
-                              40, 40, 39, 39, 39, 39, 91, 91, 91, 91, 91, 91, 91, 91, 91, 91 };
-
-const u8 convert_saishin_lvdir[2][16] = { { 0, 0, 0, 0, 1, 1, 1, 0, 2, 2, 2, 0, 0, 0, 0, 0 },
-                                          { 0, 0, 0, 0, 2, 2, 2, 0, 1, 1, 1, 0, 0, 0, 0, 0 } };
-
-const s16 dead_voice_table[20][2] = { 864, 865, 928, 929, 512, 513, 608, 609, 896, 897, 800, 801, 832, 833,
-                                      352, 353, 672, 673, 576, 577, 640, 641, 384, 385, 480, 481, 736, 737,
-                                      704, 705, 416, 417, 448, 449, 768, 769, 960, 961, 544, 545 };
