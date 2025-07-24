@@ -358,7 +358,7 @@ segments:
       - [0x121450, asm, sf33rd/Source/Game/EFFH0]
       - [0x121820, asm, sf33rd/Source/Game/EFFH1]
       - [0x121CB0, asm, sf33rd/Source/Game/EFFH2]
-      - [0x122080, asm, sf33rd/Source/Game/EFFH6]
+      - [0x122080, c, sf33rd/Source/Game/EFFH6]
       - [0x1237D0, asm, sf33rd/Source/Game/EFFH9]
       - [0x123CD0, asm, sf33rd/Source/Game/EFFI0]
       - [0x1243B0, asm, sf33rd/Source/Game/EFFI3]
@@ -524,7 +524,7 @@ segments:
       - [0x2962E0, c, sf33rd/Source/Game/SLOWF]
       - [0x296420, c, sf33rd/Source/Game/Sound3rd]
       - [0x298530, c, sf33rd/Source/Game/spgauge]
-      - [0x29FD20, asm, sf33rd/Source/Game/staff]
+      - [0x29FD20, c, sf33rd/Source/Game/staff]
       - [0x2A1260, c, sf33rd/Source/Game/stun]
       - [0x2A1CD0, c, sf33rd/Source/Game/SYS_sub]
       - [0x2A8790, c, sf33rd/Source/Game/aboutspr]
@@ -1059,7 +1059,7 @@ segments:
       - [0x417790, rodata, sf33rd/Source/Game/EFFH0]
       - [0x4177B0, rodata, sf33rd/Source/Game/EFFH1]
       - [0x417810, rodata, sf33rd/Source/Game/EFFH2]
-      - [0x417830, rodata, sf33rd/Source/Game/EFFH6]
+      - [0x417830, .rodata, sf33rd/Source/Game/EFFH6]
       - [0x417900, rodata, sf33rd/Source/Game/EFFH9]
       - [0x417960, rodata, sf33rd/Source/Game/EFFI0]
       - [0x417B30, rodata, sf33rd/Source/Game/EFFI3]
@@ -1215,7 +1215,7 @@ segments:
       - [0x452670, .rodata, sf33rd/Source/Game/SLOWF]
       - [0x452690, .rodata, sf33rd/Source/Game/Sound3rd]
       - [0x452810, .rodata, sf33rd/Source/Game/spgauge]
-      - [0x4528D0, rodata, sf33rd/Source/Game/staff]
+      - [0x4528D0, .rodata, sf33rd/Source/Game/staff]
       - [0x454500, .rodata, sf33rd/Source/Game/SYS_sub]
       - [0x454850, .rodata, sf33rd/Source/Game/aboutspr]
       - [0x4549B0, .rodata, sf33rd/Source/Game/SysDir]
@@ -1588,7 +1588,7 @@ segments:
       - { type: .sbss, vram: 0x579868, name: sf33rd/Source/Game/SLOWF }
       - { type: .sbss, vram: 0x579878, name: sf33rd/Source/Game/Sound3rd }
       - { type: sbss, vram: 0x5798E0, name: sf33rd/Source/Game/spgauge }
-      - { type: sbss, vram: 0x579980, name: sf33rd/Source/Game/staff }
+      - { type: .sbss, vram: 0x579980, name: sf33rd/Source/Game/staff }
       - { type: .sbss, vram: 0x5799A0, name: sf33rd/Source/Game/stun }
       - { type: .sbss, vram: 0x5799C0, name: sf33rd/Source/Game/SYS_sub }
       - { type: .sbss, vram: 0x5799D0, name: sf33rd/Source/Game/SysDir }

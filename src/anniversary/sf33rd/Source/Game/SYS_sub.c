@@ -18,7 +18,8 @@ u8 Candidate_Buff[16];
 void Get_Replay(s16 PL_id);
 void Replay(s16 PL_id);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Convert_Data);
+const u16 Convert_Data[12] = { 0x0010, 0x0020, 0x0040, 0x0100, 0x0200, 0x0400,
+                               0x0110, 0x0220, 0x0440, 0x0070, 0x0700, 0x0000 };
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Switch_Screen_Init);
