@@ -622,7 +622,26 @@ void move_P2_move_P1() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", store_player_after_image_data);
+void store_player_after_image_data() {
+    s16 i;
+
+    for (i = 0x2F; i > 0; i--) {
+        zanzou_table[0][i] = zanzou_table[0][i - 1];
+        zanzou_table[1][i] = zanzou_table[1][i - 1];
+    }
+
+    for (i = 0; i < 2; i++) {
+        zanzou_table[i]->pos_x = plw[i].wu.position_x;
+        zanzou_table[i]->pos_y = plw[i].wu.position_y;
+        zanzou_table[i]->pos_z = plw[i].wu.position_z;
+        zanzou_table[i]->cg_num = plw[i].wu.cg_number;
+        zanzou_table[i]->renew = plw[i].wu.renew_attack;
+        zanzou_table[i]->hit_ix = plw[i].wu.cg_hit_ix;
+        zanzou_table[i]->flip = plw[i].wu.rl_flag;
+        zanzou_table[i]->cg_flp = plw[i].wu.cg_flip;
+        zanzou_table[i]->kowaza = plw[i].wu.kind_of_waza;
+    }
+}
 
 void check_damage_hosei() {
     plw[0].muriyari_ugoku = plw[0].hosei_amari;
