@@ -142,7 +142,13 @@ s32 hit_check_x_only(WORK *wk1, WORK *wk2, s16 *hd1, s16 *hd2) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", cal_hit_mark_position);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", get_target_att_position);
+#else
+void get_target_att_position(WORK *wk, s16 *tx, s16 *ty) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", get_att_head_position);
