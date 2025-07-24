@@ -1,5 +1,6 @@
 #include "sf33rd/Source/Game/staff.h"
 #include "common.h"
+#include "gcc/string.h"
 #include "sf33rd/Source/Game/EFFH6.h"
 #include "sf33rd/Source/Game/SE.h"
 #include "sf33rd/Source/Game/Sound3rd.h"
