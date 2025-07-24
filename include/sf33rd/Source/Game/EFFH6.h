@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-s32 effect_H6_init(s16 timer, s8 *str, s16 X, s16 Y, s16 Original_Color);
+s32 effect_H6_init(s16 timer, s8 *str, s16 X, s16 Y, s16 Original_Color, s32 /* unused */);
 
 #endif

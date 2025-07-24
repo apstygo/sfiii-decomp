@@ -45,10 +45,6 @@ static s32 check_shortcut() {
 }
 
 void set_credit_string(s32 t, s32 x, s32 y, s32 a, s8 *s) {
-#if defined(TARGET_PS2)
-    s32 effect_H6_init(s16 timer, s8 * str, s16 X, s16 Y, s16 Original_Color, s16);
-#endif
-
     char *su;
     s16 xu;
     s16 yu;
