@@ -114,7 +114,6 @@ s32 staff_credits(u32) {
         if (end_w.timer >= 0) {
             end_w.timer = end_w.timer - roll_rate_t2;
         } else {
-
             if (sf3_staff[name_ptr].name == NULL) {
                 staff_r_no = 3;
                 end_w.timer = sf3_staff[name_ptr].next;
@@ -122,11 +121,11 @@ s32 staff_credits(u32) {
                 break;
             }
 
-            if (((*sf3_staff[name_ptr].name)) == 0x3F) {
+            if (*sf3_staff[name_ptr].name == 0x3F) {
                 SsBgmFadeOut(0x4E);
             }
 
-            if (((*sf3_staff[name_ptr].name)) == 0x60) {
+            if (*sf3_staff[name_ptr].name == 0x60) {
                 BGM_Request(0x40);
             }
 
