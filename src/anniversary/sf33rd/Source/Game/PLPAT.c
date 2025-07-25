@@ -36,13 +36,70 @@ void Attack_07000(PLW *wk);
 void get_cancel_timer(PLW *wk);
 void check_ja_nmj_dummy_RTNM(PLW *wk);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPAT", Player_attack);
-#else
+void (*const plpat_lv_00[16])(PLW *wk);
+void (*const plxx_extra_attack_table[])();
+
 void Player_attack(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void clear_chainex_check(s32 ix);
 #endif
+
+    wk->wu.next_z = wk->wu.my_priority;
+    wk->running_f = 0;
+    wk->py->flag = 0;
+    wk->guard_flag = 3;
+    wk->guard_chuu = 0;
+    wk->tsukami_f = 0;
+    wk->tsukamare_f = 0;
+    wk->scr_pos_set_flag = 1;
+    wk->dm_hos_flag = 0;
+    wk->ukemi_success = 0;
+    wk->zuru_timer = 0;
+    wk->zuru_ix_counter = 0;
+    wk->sa_stop_flag = 0;
+    wk->ukemi_success = 0;
+    wk->ukemi_ok_timer = 0;
+    wk->uot_cd_ok_flag = 0;
+    wk->hazusenai_flag = 0;
+    wk->cat_break_reserve = 0;
+    wk->wu.swallow_no_effect = 0;
+    check_em_tk_power_off(wk, (PLW *)wk->wu.target_adrs);
+
+    if (wk->wu.routine_no[3] == 0) {
+        wk->caution_flag = 1;
+        wk->dm_vital_backup = 0;
+        wk->dm_vital_use = 0;
+        wk->total_att_hit_ok = 0;
+        wk->hsjp_ok = 0;
+
+        if (wk->wu.routine_no[2] < 16) {
+            clear_chainex_check(wk->wu.id);
+        }
+    } else {
+        pp_pulpara_remake_at(wk);
+    }
+
+    jumping_guard_type_check(wk);
+
+    if (wk->wu.routine_no[2] > 15) {
+        plxx_extra_attack_table[wk->player_number](wk);
+    } else {
+        wk->sa->saeff_ok = 0;
+        wk->sa->saeff_mp = 0;
+        plpat_lv_00[wk->wu.routine_no[2]](wk);
+    }
+
+    wk->wu.next_z = ((PLW *)wk->wu.target_adrs)->wu.my_priority - 3;
+
+    if (wk->wu.cg_prio) {
+        if (wk->wu.cg_prio == 1) {
+            wk->wu.next_z += 4;
+            return;
+        }
+
+        wk->wu.next_z -= 4;
+    }
+}
 
 void Attack_00000(PLW *wk) {
 #if defined(TARGET_PS2)
