@@ -375,7 +375,13 @@ void check_ja_nmj_dummy_RTNM(PLW *wk) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPAT", get_cjdR);
+#else
+u8 get_cjdR(PLW *) {
+    not_implemented(__func__);
+}
+#endif
 
 void Attack_04000(PLW *wk) {
 #if defined(TARGET_PS2)
