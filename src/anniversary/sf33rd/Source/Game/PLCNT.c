@@ -1001,7 +1001,13 @@ void setup_any_data() {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", set_base_data);
+#else
+void set_base_data(PLW *wk, s16 ix) {
+    not_implemented(__func__);
+}
+#endif
 
 void set_base_data_metamorphose(PLW *wk, s16 dmid) {
     set_char_base_data(&wk->wu);
