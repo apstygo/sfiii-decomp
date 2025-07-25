@@ -244,6 +244,24 @@ typedef struct {
 } ComboType;
 
 typedef struct {
+    // total size: 0x14
+    char flag;  // offset 0x0, size 0x1
+    s16 genkai; // offset 0x2, size 0x2
+    s16 time;   // offset 0x4, size 0x2
+    union {
+        s32 timer; // offset 0x0, size 0x4
+        struct {
+            // total size: 0x4
+            s16 l;  // offset 0x0, size 0x2
+            s16 h;  // offset 0x2, size 0x2
+        } quantity; // offset 0x0, size 0x4
+    } now;          // offset 0x8, size 0x4
+    s32 recover;    // offset 0xC, size 0x4
+    s16 store;      // offset 0x10, size 0x2
+    s16 again;      // offset 0x12, size 0x2
+} PiyoriType;
+
+typedef struct {
     // total size: 0x388
     s8 be_flag;              // offset 0x0, size 0x1
     s8 disp_flag;            // offset 0x1, size 0x1
@@ -568,60 +586,44 @@ typedef struct {
 
 typedef struct {
     // total size: 0x46C
-    WORK wu;              // offset 0x0, size 0x388
-    WORK_CP *cp;          // offset 0x388, size 0x4
-    u32 spmv_ng_flag;     // offset 0x38C, size 0x4
-    u32 spmv_ng_flag2;    // offset 0x390, size 0x4
-    s16 player_number;    // offset 0x394, size 0x2
-    s16 zuru_timer;       // offset 0x396, size 0x2
-    u16 zuru_ix_counter;  // offset 0x398, size 0x2
-    u8 zuru_flag;         // offset 0x39A, size 0x1
-    s8 tsukamarenai_flag; // offset 0x39B, size 0x1
-    u8 kizetsu_kow;       // offset 0x39C, size 0x1
-    u8 micchaku_flag;     // offset 0x39D, size 0x1
-    u8 hos_fi_flag;       // offset 0x39E, size 0x1
-    u8 hos_em_flag;       // offset 0x39F, size 0x1
-    s16 tsukami_num;      // offset 0x3A0, size 0x2
-    s8 tsukami_f;         // offset 0x3A2, size 0x1
-    s8 tsukamare_f;       // offset 0x3A3, size 0x1
-    s8 kind_of_catch;     // offset 0x3A4, size 0x1
-    u8 old_gdflag;        // offset 0x3A5, size 0x1
-    u8 guard_flag;        // offset 0x3A6, size 0x1
-    u8 guard_chuu;        // offset 0x3A7, size 0x1
-    s16 dm_ix;            // offset 0x3A8, size 0x2
-    s16 hosei_amari;      // offset 0x3AA, size 0x2
-    s8 dm_hos_flag;       // offset 0x3AC, size 0x1
-    u8 dm_point;          // offset 0x3AD, size 0x1
-    s16 muriyari_ugoku;   // offset 0x3AE, size 0x2
-    s8 scr_pos_set_flag;  // offset 0x3B0, size 0x1
-    s8 hoshi_flag;        // offset 0x3B1, size 0x1
-    s8 the_same_players;  // offset 0x3B2, size 0x1
-    s8 *dm_step_tbl;      // offset 0x3B4, size 0x4
-    s8 running_f;         // offset 0x3B8, size 0x1
-    s8 cancel_timer;      // offset 0x3B9, size 0x1
-    s8 jpdir;             // offset 0x3BA, size 0x1
-    s8 jptim;             // offset 0x3BB, size 0x1
-    s16 current_attack;   // offset 0x3BC, size 0x2
-    const AS *as;         // offset 0x3C0, size 0x4
-    SA_WORK *sa;          // offset 0x3C4, size 0x4
-    ComboType *cb;        // offset 0x3C8, size 0x4
-    struct /* @anon28 */ {
-        // total size: 0x14
-        s8 flag;    // offset 0x0, size 0x1
-        s16 genkai; // offset 0x2, size 0x2
-        s16 time;   // offset 0x4, size 0x2
-        union /* @anon40 */ {
-            s32 timer; // offset 0x0, size 0x4
-            struct /* @anon41 */ {
-                // total size: 0x4
-                s16 l;      // offset 0x0, size 0x2
-                s16 h;      // offset 0x2, size 0x2
-            } quantity;     // offset 0x0, size 0x4
-        } now;              // offset 0x8, size 0x4
-        s32 recover;        // offset 0xC, size 0x4
-        s16 store;          // offset 0x10, size 0x2
-        s16 again;          // offset 0x12, size 0x2
-    } *py;                  // offset 0x3CC, size 0x4
+    WORK wu;                // offset 0x0, size 0x388
+    WORK_CP *cp;            // offset 0x388, size 0x4
+    u32 spmv_ng_flag;       // offset 0x38C, size 0x4
+    u32 spmv_ng_flag2;      // offset 0x390, size 0x4
+    s16 player_number;      // offset 0x394, size 0x2
+    s16 zuru_timer;         // offset 0x396, size 0x2
+    u16 zuru_ix_counter;    // offset 0x398, size 0x2
+    u8 zuru_flag;           // offset 0x39A, size 0x1
+    s8 tsukamarenai_flag;   // offset 0x39B, size 0x1
+    u8 kizetsu_kow;         // offset 0x39C, size 0x1
+    u8 micchaku_flag;       // offset 0x39D, size 0x1
+    u8 hos_fi_flag;         // offset 0x39E, size 0x1
+    u8 hos_em_flag;         // offset 0x39F, size 0x1
+    s16 tsukami_num;        // offset 0x3A0, size 0x2
+    s8 tsukami_f;           // offset 0x3A2, size 0x1
+    s8 tsukamare_f;         // offset 0x3A3, size 0x1
+    s8 kind_of_catch;       // offset 0x3A4, size 0x1
+    u8 old_gdflag;          // offset 0x3A5, size 0x1
+    u8 guard_flag;          // offset 0x3A6, size 0x1
+    u8 guard_chuu;          // offset 0x3A7, size 0x1
+    s16 dm_ix;              // offset 0x3A8, size 0x2
+    s16 hosei_amari;        // offset 0x3AA, size 0x2
+    s8 dm_hos_flag;         // offset 0x3AC, size 0x1
+    u8 dm_point;            // offset 0x3AD, size 0x1
+    s16 muriyari_ugoku;     // offset 0x3AE, size 0x2
+    s8 scr_pos_set_flag;    // offset 0x3B0, size 0x1
+    s8 hoshi_flag;          // offset 0x3B1, size 0x1
+    s8 the_same_players;    // offset 0x3B2, size 0x1
+    s8 *dm_step_tbl;        // offset 0x3B4, size 0x4
+    s8 running_f;           // offset 0x3B8, size 0x1
+    s8 cancel_timer;        // offset 0x3B9, size 0x1
+    s8 jpdir;               // offset 0x3BA, size 0x1
+    s8 jptim;               // offset 0x3BB, size 0x1
+    s16 current_attack;     // offset 0x3BC, size 0x2
+    const AS *as;           // offset 0x3C0, size 0x4
+    SA_WORK *sa;            // offset 0x3C4, size 0x4
+    ComboType *cb;          // offset 0x3C8, size 0x4
+    PiyoriType *py;         // offset 0x3CC, size 0x4
     s8 wkey_flag;           // offset 0x3D0, size 0x1
     s8 dead_flag;           // offset 0x3D1, size 0x1
     s16 ukemi_ok_timer;     // offset 0x3D2, size 0x2

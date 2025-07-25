@@ -3,9 +3,15 @@
 #include "sf33rd/Source/Game/CHARID.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/CMD_MAIN.h"
+#include "sf33rd/Source/Game/EFF00.h"
+#include "sf33rd/Source/Game/EFF01.h"
 #include "sf33rd/Source/Game/EFF33.h"
 #include "sf33rd/Source/Game/EFFC9.h"
+#include "sf33rd/Source/Game/EFFE4.h"
+#include "sf33rd/Source/Game/EFFE5.h"
 #include "sf33rd/Source/Game/EFFECT.h"
+#include "sf33rd/Source/Game/EFFJ7.h"
+#include "sf33rd/Source/Game/EFFK5.h"
 #include "sf33rd/Source/Game/EFFK7.h"
 #include "sf33rd/Source/Game/Grade.h"
 #include "sf33rd/Source/Game/HITCHECK.h"
@@ -26,16 +32,12 @@
 #include "sf33rd/Source/Game/count.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/effd3.h"
+#include "sf33rd/Source/Game/effe3.h"
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/texgroup.h"
 #include "sf33rd/Source/Game/win_pl.h"
 #include "sf33rd/Source/Game/workuser.h"
-
-// effect_E3_init
-// effect_E4_init
-// effect_E5_init
-// effect_J7_init
 
 void pli_0000();
 void pli_1000();
@@ -76,8 +78,8 @@ u8 round_slow_flag;
 u8 pcon_dp_flag;
 u8 win_sp_flag;
 char dead_voice_flag;
-PLCNT_SUPERART super_arts[2];
-PIYORI_TYPE piyori_type[2];
+SA_WORK super_arts[2];
+PiyoriType piyori_type[2];
 RAMBOD rambod[2];
 RAMHAN ramhan[2];
 u32 omop_spmv_ng_table[2];
@@ -219,11 +221,11 @@ void init_app_10000() {
 
         if (Play_Type == 0) {
             if (plw[0].wu.operator) {
-                mpp_w.useChar[My_char[0]] += 1;
+                mpp_w.useChar[My_char[0]]++;
             }
 
             if (plw[1].wu.operator) {
-                mpp_w.useChar[My_char[1]] += 1;
+                mpp_w.useChar[My_char[1]]++;
                 return;
             }
         }
@@ -263,7 +265,7 @@ void init_app_20000() {
 
     switch (pcon_rno[1]) {
     case 0:
-        pcon_rno[1] += 1;
+        pcon_rno[1]++;
         round_slow_flag = 0;
         dead_voice_flag = 0;
         pcon_dp_flag = 0;
@@ -341,7 +343,7 @@ void pli_0000() {
 }
 
 void pli_1000() {
-    if ((plw->wu.routine_no[0] == 3) && (plw[1].wu.routine_no[0] == 3) && Allow_a_battle_f) {
+    if ((plw[0].wu.routine_no[0] == 3) && (plw[1].wu.routine_no[0] == 3) && Allow_a_battle_f) {
         pcon_rno[0] = 1;
         pcon_rno[1] = 0;
         plw[0].wu.routine_no[0] = 4;
@@ -595,7 +597,7 @@ void settle_type_40000() {
                 plw[Loser_id].wu.routine_no[3] = 0;
                 plw[Winner_id].wu.cg_type = 0;
                 grade_set_round_result(Winner_id + 0);
-                plw->image_setup_flag = plw[1].image_setup_flag = 0;
+                plw[0].image_setup_flag = plw[1].image_setup_flag = 0;
                 plw[Winner_id].wu.dir_timer = 0x3C;
                 set_conclusion_slow();
                 return;
@@ -946,21 +948,58 @@ void erase_extra_plef_work() {
     effect_work_list_init(6, -1);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", setup_base_and_other_data);
-#else
 void setup_base_and_other_data() {
-    not_implemented(__func__);
-}
-#endif
+    make_texcash_work(3);
+    make_texcash_work(4);
+    make_texcash_work(6);
+    plw[0].wu.my_mts = 3;
+    plw[1].wu.my_mts = 4;
+    set_base_data(&plw[0], 0);
+    set_base_data(&plw[1], 1);
+    plw[0].sa = &super_arts[0];
+    plw[1].sa = &super_arts[1];
+    plw[0].py = &piyori_type[0];
+    plw[1].py = &piyori_type[1];
+    setup_other_data(&plw[0]);
+    setup_other_data(&plw[1]);
+    effect_work_list_init(6, 0xC5);
+    plw[0].gill_ccch_go = plw[1].gill_ccch_go = 0;
+    effect_J7_init(&plw[0]);
+    effect_J7_init(&plw[1]);
+    effect_E5_init(&plw[0]);
+    effect_E5_init(&plw[1]);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", setup_any_data);
-#else
-void setup_any_data() {
-    not_implemented(__func__);
+    if (plw[0].wu.my_priority == plw[1].wu.my_priority) {
+        plw[0].the_same_players = plw[1].the_same_players = 1;
+    }
+
+    poison_flag[0] = 0;
+    poison_flag[1] = 0;
+
+    if ((Mode_Type == 3) || (Mode_Type == 4)) {
+        effect_E3_init(&plw[0]);
+        effect_E3_init(&plw[1]);
+        effect_E4_init(&plw[0]);
+        effect_E4_init(&plw[1]);
+    }
 }
-#endif
+
+void setup_any_data() {
+    set_base_data_tiny(&plw[0]);
+    set_base_data_tiny(&plw[1]);
+    setup_other_data(&plw[0]);
+    setup_other_data(&plw[1]);
+    effect_work_list_init(6, 0xC5);
+    plw[0].gill_ccch_go = plw[1].gill_ccch_go = 0;
+    effect_J7_init(&plw[0]);
+    effect_J7_init(&plw[1]);
+    effect_E5_init(&plw[0]);
+    effect_E5_init(&plw[1]);
+
+    if (plw[0].wu.my_priority == plw[1].wu.my_priority) {
+        plw[0].the_same_players = plw[1].the_same_players = 1;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", set_base_data);
 
@@ -1003,7 +1042,25 @@ void set_player_shadow(PLW *wk) {
     wk->wu.kage_char = kage_base[wk->player_number][1];
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", setup_other_data);
+void setup_other_data(PLW *wk) {
+#if defined(TARGET_PS2)
+    s32 effect_01_init(WORK * wk, u32 koolc);
+#endif
+
+    s16 i;
+
+    if (wk->player_number == 0) {
+        (Introduce_Boss[wk->wu.id][1] & 0x80) == 0;
+        setup_GILL_exsa_obj();
+    }
+
+    for (i = 0; i < 4; i++) {
+        effect_01_init(&wk->wu, i);
+    }
+
+    effect_K5_init(wk);
+    effect_00_init(&wk->wu);
+}
 
 void clear_chainex_check(s16 ix) {
     s16 i;
