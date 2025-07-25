@@ -851,7 +851,13 @@ void setup_settle_rno(s16 kos) {
     pcon_dp_flag = 1;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", settle_check);
+#else
+void settle_check() {
+    not_implemented(__func__);
+}
+#endif
 
 s32 check_sa_resurrection(PLW *wk) {
     if (check_sa_type_rebirth(wk) == 0) {
