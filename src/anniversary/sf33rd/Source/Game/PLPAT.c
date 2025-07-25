@@ -342,7 +342,7 @@ void check_ja_nmj_dummy_RTNM(PLW *wk) {
         break;
 
     case 1:
-        if ((wk->wu.cg_ja.atix == 0) && (wk->wu.cg_ja.caix == 0) || !wk->wu.att_hit_ok) {
+        if (((wk->wu.cg_ja.atix == 0) && (wk->wu.cg_ja.caix == 0)) || !wk->wu.att_hit_ok) {
             wk->ja_nmj_cnt = get_cjdR(wk);
             wk->ja_nmj_rno = 2;
         }
