@@ -74,5 +74,7 @@ s32 Select_Passive(PLW *wk);
 void Check_BOSS(PLW *wk, u32 Next_Action, u16 Next_Menu);
 void Check_BOSS_EX(PLW *wk, u32 Next_Action, u16 Next_Menu);
 void ETC_Term(PLW *wk, s16 Exit_No, u32 Next_Action, u16 Next_Menu);
+void SHELL_Term(PLW *wk, s16 Next_Command, s16 Exit_Number, s16 Next_Action, s16 Next_Menu, s16 unused); // unused arg
+void Next_Be_Flip(PLW *wk, s16 xx);
 
 #endif
