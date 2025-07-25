@@ -1332,10 +1332,30 @@ void dead_voice_request() {
     dead_voice_flag = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dead_voice_request2);
-#else
+// #if defined(TARGET_PS2)
+// INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dead_voice_request2);
+// #else
+// void dead_voice_request2(PLW *wk) {
+//     not_implemented(__func__);
+// }
+// #endif
+
 void dead_voice_request2(PLW *wk) {
-    not_implemented(__func__);
+    s16 secd1;
+    s16 secd2;
+    s16 ks = 0;
+
+    if (wk->metamorphose != 0 && Country != 8) {
+        ks = 0x600;
+    }
+
+    secd1 = dead_voice_table[wk->player_number][0];
+    secd2 = dead_voice_table[wk->player_number][1];
+
+    if ((wk->wu.routine_no[1] == 1) && atsagct[wk->wu.routine_no[2]] & 0x10) {
+        sound_effect_request[secd2](wk, secd2 + ks);
+        return;
+    }
+
+    sound_effect_request[secd1](wk, secd1 + ks);
 }
-#endif
