@@ -25,13 +25,13 @@
 #include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/Game/count.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
+#include "sf33rd/Source/Game/effd3.h"
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/texgroup.h"
 #include "sf33rd/Source/Game/win_pl.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-// effect_D3_init
 // effect_E3_init
 // effect_E4_init
 // effect_E5_init
@@ -352,13 +352,79 @@ void pli_1000() {
 
 void pli_0002() {}
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", plcnt_move);
-#else
 void plcnt_move() {
-    not_implemented(__func__);
+    if (time_over_check() == 0) {
+        if (Debug_w[0x1B]) {
+            plw[0].wu.dm_vital = 0;
+        }
+
+        if (Debug_w[0x1C]) {
+            plw[1].wu.dm_vital = 0;
+        }
+
+        if (Debug_w[0x19]) {
+            plw[0].wu.vital_new = 0;
+        }
+
+        if (Debug_w[0x1A]) {
+            plw[1].wu.vital_new = 0;
+        }
+
+        if (No_Death) {
+            plw[0].wu.dm_vital = plw[1].wu.dm_vital = 0;
+        }
+
+        if (Break_Into) {
+            plw[0].wu.dm_vital = plw[1].wu.dm_vital = 0;
+        }
+
+        if (Mode_Type == 3 && Training->contents[0][1][3] == 0) {
+            plw[0].wu.dm_nodeathattack = 1;
+            plw[1].wu.dm_nodeathattack = 1;
+        }
+
+        move_player_work();
+
+        if (aiuchi_flag) {
+            subtract_dm_vital_aiuchi(&plw[0]);
+            subtract_dm_vital_aiuchi(&plw[1]);
+
+            if ((plw[0].dead_flag != 0) && (plw[1].dead_flag != 0)) {
+                plw[0].wu.hit_stop = plw[1].wu.hit_stop = 2;
+                plw[0].wu.dm_stop = plw[1].wu.dm_stop = 0;
+                plw[0].wu.hit_quake = plw[1].wu.hit_quake = 4;
+                plw[0].wu.dm_quake = plw[1].wu.dm_quake = 0;
+            } else if ((plw[0].dead_flag != 0) || (plw[1].dead_flag != 0)) {
+                plw[0].wu.hit_stop = plw[1].wu.hit_stop = 4;
+                plw[0].wu.dm_stop = plw[1].wu.dm_stop = 0;
+                plw[0].wu.hit_quake = plw[1].wu.hit_quake = 8;
+                plw[0].wu.dm_quake = plw[1].wu.dm_quake = 0;
+            }
+        }
+
+        settle_check();
+
+        if (*pcon_rno == 2) {
+            if (Round_Result & 0x980) {
+                if ((Round_Result & 0x800) && gouki_wins) {
+                    effect_D3_init(1);
+                } else {
+                    effect_D3_init(0);
+                }
+            }
+
+            if ((plw[0].kezurijini_flag == 1) || (plw[1].kezurijini_flag == 1)) {
+                Round_Result |= 0x200;
+            }
+
+            if (Winner_id != Loser_id) {
+                grade_store_vitality(Winner_id + 0);
+            }
+        }
+
+        grade_check_tairyokusa();
+    }
 }
-#endif
 
 void plcnt_die() {
     plw[0].wu.dm_vital = plw[1].wu.dm_vital = 0;
