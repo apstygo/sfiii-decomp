@@ -3,7 +3,10 @@
 #include "sf33rd/Source/Game/CHARID.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/CMD_MAIN.h"
+#include "sf33rd/Source/Game/EFF33.h"
+#include "sf33rd/Source/Game/EFFC9.h"
 #include "sf33rd/Source/Game/EFFECT.h"
+#include "sf33rd/Source/Game/EFFK7.h"
 #include "sf33rd/Source/Game/Grade.h"
 #include "sf33rd/Source/Game/HITCHECK.h"
 #include "sf33rd/Source/Game/Manage.h"
@@ -19,6 +22,7 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg_data.h"
 #include "sf33rd/Source/Game/bg_sub.h"
+#include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/Game/count.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/main.h"
@@ -27,14 +31,11 @@
 #include "sf33rd/Source/Game/win_pl.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-// effect_33_init
-// effect_C9_init
 // effect_D3_init
 // effect_E3_init
 // effect_E4_init
 // effect_E5_init
 // effect_J7_init
-// K7_muriyari_metamor_rebirth
 
 void pli_0000();
 void pli_1000();
@@ -283,13 +284,53 @@ void init_app_20000() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", init_app_30000);
-#else
 void init_app_30000() {
-    not_implemented(__func__);
+    s16 i;
+
+    switch (pcon_rno[1]) {
+    case 0:
+        pcon_rno[1]++;
+        round_slow_flag = 0;
+        dead_voice_flag = 0;
+
+        for (i = 1; i < 8; i++) {
+            plw[0].wu.routine_no[i] = plw[1].wu.routine_no[i] = 0;
+        }
+
+        plw[0].wu.routine_no[0] = plw[1].wu.routine_no[0] = 1;
+        another_bg[0] = another_bg[1] = 0;
+        plw[0].do_not_move = plw[1].do_not_move = 0;
+        K7_muriyari_metamor_rebirth(&plw[0]);
+        K7_muriyari_metamor_rebirth(&plw[1]);
+        break;
+
+    case 1:
+        if (plw[0].wu.routine_no[0] == 3) {
+            if (plw[1].wu.routine_no[0] == 3) {
+                pcon_rno[0] = 2;
+                pcon_rno[1] = 3;
+                pcon_rno[2] = 1;
+                setup_EJG_index();
+                effect_C9_init(plw, 0);
+                effect_C9_init(plw, 1);
+                effect_C9_init(plw, 2);
+                load_any_color(0x3F, 0);
+                load_any_texture_patnum(0x71E0, 0xE, 0);
+                effect_work_kill(4, 0xD9);
+
+                if (plw[0].player_number == 6) {
+                    effect_33_init(&plw[0].wu);
+                }
+
+                if (plw[1].player_number == 6) {
+                    effect_33_init(&plw[1].wu);
+                }
+            }
+        }
+
+        break;
+    }
 }
-#endif
 
 void pli_0000() {
     pcon_rno[1]++;

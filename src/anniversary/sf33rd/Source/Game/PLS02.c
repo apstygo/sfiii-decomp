@@ -1332,14 +1332,6 @@ void dead_voice_request() {
     dead_voice_flag = 0;
 }
 
-// #if defined(TARGET_PS2)
-// INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", dead_voice_request2);
-// #else
-// void dead_voice_request2(PLW *wk) {
-//     not_implemented(__func__);
-// }
-// #endif
-
 void dead_voice_request2(PLW *wk) {
     s16 secd1;
     s16 secd2;
