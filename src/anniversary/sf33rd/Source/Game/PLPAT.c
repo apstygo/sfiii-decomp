@@ -35,6 +35,7 @@ s16 ja_nmj_rno_change(WORK *wk);
 void Attack_07000(PLW *wk);
 void get_cancel_timer(PLW *wk);
 void check_ja_nmj_dummy_RTNM(PLW *wk);
+u8 get_cjdR(PLW *);
 
 void (*const plpat_lv_00[16])(PLW *wk);
 void (*const plxx_extra_attack_table[])();
@@ -323,13 +324,56 @@ s16 ja_nmj_rno_change(WORK *wk) {
     return rnum;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPAT", check_ja_nmj_dummy_RTNM);
-#else
 void check_ja_nmj_dummy_RTNM(PLW *wk) {
-    not_implemented(__func__);
+    s32 temp_a0;
+    u8 temp_v1;
+
+    if (wk->wu.xyz[1].disp.pos <= 0) {
+        wk->ja_nmj_rno = 0;
+        return;
+    }
+
+    switch (wk->ja_nmj_rno) {
+    case 0:
+        if ((wk->wu.cg_ja.atix != 0) || (wk->wu.cg_ja.caix != 0)) {
+            wk->ja_nmj_rno = 1;
+        }
+
+        break;
+
+    case 1:
+        if ((wk->wu.cg_ja.atix == 0) && (wk->wu.cg_ja.caix == 0) || !wk->wu.att_hit_ok) {
+            wk->ja_nmj_cnt = get_cjdR(wk);
+            wk->ja_nmj_rno = 2;
+        }
+
+        break;
+
+    case 2:
+        if (((wk->wu.cg_ja.atix != 0) || (wk->wu.cg_ja.caix != 0)) && wk->wu.att_hit_ok) {
+            wk->ja_nmj_rno = 1;
+            break;
+        }
+
+        if (!(wk->ja_nmj_cnt -= 1)) {
+            wk->ja_nmj_rno = 3;
+        }
+
+        break;
+
+    default:
+        if ((wk->wu.cg_ja.atix != 0) || (wk->wu.cg_ja.caix != 0)) {
+            if (wk->wu.att_hit_ok) {
+                wk->ja_nmj_rno = 1;
+                break;
+            }
+        } else if (wk->wu.cg_type == 0) {
+            wk->wu.cg_type = 0x40;
+        }
+
+        break;
+    }
 }
-#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPAT", get_cjdR);
 
