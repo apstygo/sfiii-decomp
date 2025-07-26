@@ -340,7 +340,13 @@ void mlt_obj_disp_rgb(MultiTexture *mt, WORK *wk, s32 base_y) {
     appRenewTempPriority(wk->position_z);
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", getObjectHeight);
+#else
+s16 getObjectHeight(u16 cgnum) {
+    not_implemented(__func__);
+}
+#endif
 
 void mlt_obj_trans_ext(MultiTexture *mt, WORK *wk, s32 base_y) {
     u32 *textbl;

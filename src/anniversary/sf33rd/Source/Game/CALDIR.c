@@ -758,7 +758,13 @@ s16 cal_move_quantity2(s16 x1, s16 x2, s16 y1, s16 y2) {
     return ms.pss.h;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", cal_move_quantity3);
+#else
+s16 cal_move_quantity3(WORK *wk, s16 tm) {
+    not_implemented(__func__);
+}
+#endif
 
 void cmsd_all_x_speed_data(MotionState *cc) {
     switch (cc->swx) {
@@ -880,7 +886,13 @@ void cal_initial_speed(WORK *wk, s16 tm, s16 x1, s16 y1) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", cal_initial_speed_y);
+#else
+void cal_initial_speed_y(WORK *wk, s16 tm, s16 y1) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", cal_delta_speed);
@@ -890,7 +902,13 @@ void cal_delta_speed(WORK *wk, s16 tm, s16 x1, s16 y1, s8 xsw, s8 ysw) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", cal_top_of_position_y);
+#else
+s16 cal_top_of_position_y(WORK *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 s16 cal_time_of_sign_change(WORK *wk) {
     if (wk->mvxy.a[1].real.h > 0 && wk->mvxy.d[1].real.h < 0) {
@@ -900,6 +918,12 @@ s16 cal_time_of_sign_change(WORK *wk) {
     return 0;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", cal_move_dir_forecast);
+#else
+s16 cal_move_dir_forecast(WORK *wk, s16 tm) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", remake_2_10);

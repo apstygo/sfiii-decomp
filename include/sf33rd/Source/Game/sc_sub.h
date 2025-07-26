@@ -32,5 +32,6 @@ void stun_gauge_waku_write(s16 p1len, s16 p2len);
 void stun_put(u8 Pl_Num, u8 stun);
 void stun_base_put(u8 Pl_Num, s16 len);
 void stun_mark_write(u8 Pl_Num, s16 Len);
+void Training_Damage_Set(s16 damage, s16 /* unused */, u8 kezuri);
 
 #endif

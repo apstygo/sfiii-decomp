@@ -44,7 +44,13 @@ s32 Switch_Screen_Revival(u8 Wipe_Type) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Convert_User_Setting);
+#else
+u16 Convert_User_Setting(s16 PL_id) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Clear_Personal_Data);

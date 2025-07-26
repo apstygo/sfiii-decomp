@@ -18,7 +18,13 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/win_pl", Win_300
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/win_pl", q_em_distance_tbl);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/win_pl", win_player);
+#else
+void win_player(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/win_pl", Win_00000);
 
