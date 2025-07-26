@@ -14,6 +14,21 @@ typedef struct /* @anon20 */ {
     s16 hand_dm[4][4]; // offset 0x0, size 0x20
 } RAMHAN;
 
+typedef struct {
+    // total size: 0x10
+    u8 nmsa_g_ix;  // offset 0x0, size 0x1
+    u8 exsa_g_ix;  // offset 0x1, size 0x1
+    u8 exs2_g_ix;  // offset 0x2, size 0x1
+    u8 nmsa_a_ix;  // offset 0x3, size 0x1
+    u8 exsa_a_ix;  // offset 0x4, size 0x1
+    u8 exs2_a_ix;  // offset 0x5, size 0x1
+    u8 ex4th_full; // offset 0x6, size 0x1
+    s8 gauge_type; // offset 0x7, size 0x1
+    s16 gauge_len; // offset 0x8, size 0x2
+    s16 store_max; // offset 0xA, size 0x2
+    s32 dtm;       // offset 0xC, size 0x4
+} SA_DATA;
+
 extern const s8 plid_data[20]; // size: 0x14, address: 0x54B230
 
 extern u8 pcon_dp_flag; // size: 0x1, address: 0x5795C0
