@@ -1,6 +1,7 @@
 #include "sf33rd/Source/Game/PLS03.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
+#include "sf33rd/Source/Game/Grade.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/PulPul.h"
@@ -18,15 +19,20 @@ void hissatsu_setup_union(PLW *wk, s16 rno) {
     wk->wu.paring_attack_flag = 0;
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", cmdixconv_table);
+const s16 cmdixconv_table[36] = { 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                  2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", cmdixconv);
-#else
+// #if defined(TARGET_PS2)
+// INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", cmdixconv);
+// #else
+// s16 cmdixconv(s16 ix) {
+//     not_implemented(__func__);
+// }
+// #endif
+
 s16 cmdixconv(s16 ix) {
-    not_implemented(__func__);
+    return cmdixconv_table[ix - 0x14];
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", check_full_gauge_attack);
@@ -166,7 +172,8 @@ s32 check_nagenuke_cmd(PLW *wk) {
     return 0;
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", nml_catch_h2_ok);
+const u8 nml_catch_h2_ok[2][20] = { { 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 },
+                                    { 0, 0, 0, 0, 0, 0, 0, 17, 0, 17, 0, 0, 0, 0, 0, 17, 0, 0, 0, 0 } };
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", check_catch_attack);
@@ -405,9 +412,22 @@ s32 check_renda_cancel(PLW *wk) {
 
 const s16 cnmc_conv_data[16] = { 5, 8, 2, 0, 4, 7, 1, 0, 6, 9, 3, 0, 0, 0, 0, 0 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", cnmc_Z_lever_data);
+const s16 cnmc_Z_lever_data[16][6] = { { 0, -1, -1, -1, -1, -1 }, { 1, -1, -1, -1, -1, -1 }, { 2, -1, -1, -1, -1, -1 },
+                                       { 3, -1, -1, -1, -1, -1 }, { 4, -1, -1, -1, -1, -1 }, { 5, -1, -1, -1, -1, -1 },
+                                       { 6, -1, -1, -1, -1, -1 }, { 7, -1, -1, -1, -1, -1 }, { 8, -1, -1, -1, -1, -1 },
+                                       { 9, -1, -1, -1, -1, -1 }, { 4, 5, 6, 7, 8, 9 },      { 1, 2, 3, 4, 5, 6 },
+                                       { 4, 5, -1, -1, -1, -1 },  { 5, 6, -1, -1, -1, -1 },  { 4, 6, -1, -1, -1, -1 },
+                                       { 4, 5, 6, -1, -1, -1 } };
+
 // TODO: rename to cnmc_z_lever_data
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", _cnmc_z_lever_data);
+const s16 _cnmc_z_lever_data[16][8] = { { -1, -1, -1, -1, -1, -1, -1, -1 }, { 4, 1, 2, -1, -1, -1, -1, -1 },
+                                        { 1, 2, 3, -1, -1, -1, -1, -1 },    { 2, 3, 6, -1, -1, -1, -1, -1 },
+                                        { 1, 4, 7, -1, -1, -1, -1, -1 },    { 1, 2, 3, 4, 6, 7, 8, 9 },
+                                        { 3, 6, 9, -1, -1, -1, -1, -1 },    { 4, 7, 8, -1, -1, -1, -1, -1 },
+                                        { 7, 8, 9, -1, -1, -1, -1, -1 },    { 8, 9, 6, -1, -1, -1, -1, -1 },
+                                        { 1, 3, 4, 5, 6, 7, 8, 9 },         { 1, 2, 3, 4, 5, 6, 7, 9 },
+                                        { 1, 4, 5, 7, -1, -1, -1, -1 },     { 3, 5, 6, 9, -1, -1, -1, -1 },
+                                        { 1, 4, 7, 3, 6, 9, -1, -1 },       { 1, 4, 7, 5, 3, 6, 9, -1 } };
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", check_meoshi_cancel);
