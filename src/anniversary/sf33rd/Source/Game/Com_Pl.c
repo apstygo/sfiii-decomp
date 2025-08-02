@@ -1,5 +1,23 @@
 #include "sf33rd/Source/Game/Com_Pl.h"
 #include "common.h"
+#include "sf33rd/AcrSDK/ps2/flps2debug.h"
+#include "sf33rd/Source/Game/CMD_MAIN.h"
+#include "sf33rd/Source/Game/Ck_Pass.h"
+#include "sf33rd/Source/Game/Com_Data.h"
+#include "sf33rd/Source/Game/Com_Sub.h"
+// #include "sf33rd/Source/Game/Getup.h"
+#include "sf33rd/Source/Game/PLCNT.h"
+// #include "sf33rd/Source/Game/PLMAIN.h"
+#include "sf33rd/Source/Game/PLS02.h"
+#include "sf33rd/Source/Game/SYS_sub.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/cmd_data.h"
+#include "sf33rd/Source/Game/debug/Debug.h"
+#include "sf33rd/Source/Game/workuser.h"
+
+const u16 Correct_Lv_Data[16] = { 0, 1, 2, 2, 4, 5, 6, 5, 8, 9, 10, 9, 8, 5, 10, 0 };
+
+INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", literal_204_00504830);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", cpu_algorithm);
 
@@ -155,10 +173,11 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", Setup_Bull
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", Pattern_Insurance);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", Correct_Lv_Data);
+const u8 Rapid_Lever_Data[2] = { 8, 4 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", literal_204_00504830);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", Rapid_Lever_Data);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", Pattern_Insurance_Data);
+const u8 Pattern_Insurance_Data[20][4] = {
+    { 67, 157, 10, 3 }, { 69, 175, 9, 3 },  { 74, 132, 10, 3 }, { 71, 135, 10, 3 },  { 67, 141, 11, 3 },
+    { 66, 101, 10, 3 }, { 63, 146, 10, 3 }, { 75, 213, 11, 3 }, { 70, 213, 10, 3 },  { 100, 131, 10, 3 },
+    { 69, 137, 10, 3 }, { 89, 254, 13, 3 }, { 85, 230, 10, 3 }, { 80, 167, 11, 3 },  { 150, 252, 12, 3 },
+    { 68, 163, 13, 3 }, { 69, 166, 13, 3 }, { 82, 181, 13, 3 }, { 108, 203, 13, 3 }, { 78, 175, 13, 3 }
+};

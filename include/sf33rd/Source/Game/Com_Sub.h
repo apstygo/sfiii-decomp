@@ -66,13 +66,30 @@ void Jump_Command_Attack_Term(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_
 void Hi_Jump_Command_Attack_Term(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RX, s16 RY,
                                  s16 Jump_Dir, s16 JRX, s16 JRY, u16 JLD);
 void Check_Store_Lever(PLW *wk, u16 Tech_Number, s16 Next_Action, s16 Next_Menu);
+s32 Setup_Lv04(s16 xx);
 s32 Setup_Lv08(s16 xx);
 s32 Setup_Lv10(s16 xx);
+s32 Setup_Lv18(s16 xx);
 s32 Setup_VS_Catch_Data(PLW *wk);
 void Next_Another_Menu(PLW *wk, s16 Next_Action, u16 Next_Menu);
 s32 Select_Passive(PLW *wk);
 void Check_BOSS(PLW *wk, u32 Next_Action, u16 Next_Menu);
 void Check_BOSS_EX(PLW *wk, u32 Next_Action, u16 Next_Menu);
 void ETC_Term(PLW *wk, s16 Exit_No, u32 Next_Action, u16 Next_Menu);
+s32 Check_Guard(PLW *wk);
+s32 Check_Passive(PLW *wk);
+void Check_Rapid(PLW *wk, u16 Tech_Number);
+s32 Check_Shell_Another_in_Flip(PLW *wk);
+s32 Ck_Area(PLW *wk);
+void Ck_Distance(PLW *wk);
+s32 Command_Type_00(PLW *wk, s16 Power_Level, u16 Tech_Number, s16 Ex_Shot);
+s32 Command_Type_01(PLW *wk, s16 Power_Level, s16 Ex_Shot); // unused args
+void Decide_Follow_Menu(PLW *wk);
+s32 Flip_Term_Correct(PLW *wk);
+void Rapid_Sub(PLW *wk);
+void Select_Active(PLW *wk);
+s32 Setup_EM_Rank_Index(PLW *wk);
+s32 emLevelRemake(s32 now, s32 max, s32 exd);
+s32 emGetMaxBlocking();
 
 #endif
