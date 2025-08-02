@@ -91,5 +91,6 @@ void Select_Active(PLW *wk);
 s32 Setup_EM_Rank_Index(PLW *wk);
 s32 emLevelRemake(s32 now, s32 max, s32 exd);
 s32 emGetMaxBlocking();
+void Next_Be_Guard(PLW *wk, WORK *em, s16 Type_Of_Guard);
 
 #endif
