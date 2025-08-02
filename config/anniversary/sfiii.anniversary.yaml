@@ -1351,7 +1351,7 @@ segments:
       - [0x4727B0, .sdata, sf33rd/Source/Game/cmd_data]
       - [0x472900, .sdata, sf33rd/Source/Game/CMD_MAIN]
       - [0x472970, .sdata, sf33rd/Source/Game/color3rd]
-      - [0x472990, sdata, sf33rd/Source/Game/Com_Pl]
+      - [0x472990, .sdata, sf33rd/Source/Game/Com_Pl]
       - [0x472B70, .sdata, sf33rd/Source/Game/Com_Sub]
       - [0x472C30, .sdata, sf33rd/Source/Game/Continue]
       - [0x472C50, sdata, sf33rd/Source/Game/Demo_Dat]
