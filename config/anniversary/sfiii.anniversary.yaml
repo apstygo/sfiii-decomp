@@ -1119,7 +1119,7 @@ segments:
       - [0x41FCD0, .rodata, sf33rd/Source/Game/Game]
       - [0x41FD50, .rodata, sf33rd/Source/Game/GameOver]
       - [0x41FD70, .rodata, sf33rd/Source/Game/GD3rd]
-      - [0x420450, rodata, sf33rd/Source/Game/Getup]
+      - [0x420450, .rodata, sf33rd/Source/Game/Getup]
       - [0x421710, .rodata, sf33rd/Source/Game/Grade]
       - [0x421DA0, .rodata, sf33rd/Source/Game/HITCHECK]
       - [0x422530, .rodata, sf33rd/Source/Game/init3rd]
