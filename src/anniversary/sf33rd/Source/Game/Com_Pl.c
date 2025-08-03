@@ -7,6 +7,7 @@
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/Getup.h"
 #include "sf33rd/Source/Game/PLCNT.h"
+/* uncomment below after "Pause through PLS03 #183" has been merged */
 // #include "sf33rd/Source/Game/PLMAIN.h"
 #include "sf33rd/Source/Game/ACTIVE00.h"
 #include "sf33rd/Source/Game/FOLLOW02.h"
@@ -65,6 +66,8 @@
 #include "sf33rd/Source/Game/pass18.h"
 #include "sf33rd/Source/Game/pass19.h"
 #include "sf33rd/Source/Game/workuser.h"
+
+void Main_Program(PLW *wk);
 
 static u16 CPU_Sub(PLW *wk);
 static s32 Check_Counter_Attack(PLW *wk);
@@ -159,13 +162,44 @@ u16 cpu_algorithm(PLW *wk) {
     return sw;
 }
 
+/* delete this line after "Pause through PLS03 #183" has been merged */
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", CPU_Sub);
+/* ----------------------------------------------------------------- */
+static u16 CPU_Sub(PLW *wk) {
+#if defined(TARGET_PS2)
+    u16 check_illegal_lever_data(u32 data);
+#endif
+
+    WORK *em = (WORK *)wk->wu.target_adrs;
+
+    if (Allow_a_battle_f == 0 || pcon_dp_flag == 1) {
+        return 0;
+    }
+
+    Lever_Buff[wk->wu.id] = 0;
+
+    if (em->pat_status == 0x26) {
+        Lie_Flag[wk->wu.id] = 1;
+    } else {
+        Lie_Flag[wk->wu.id] = 0;
+    }
+
+    Last_Pattern_Index[wk->wu.id] = Pattern_Index[wk->wu.id];
+    Main_Program(wk);
+    Lever_Buff[wk->wu.id] = check_illegal_lever_data(Lever_Buff[wk->wu.id]);
+    Check_Store_Lv(wk);
+    Shift_Resume_Lv(wk);
+    Disp_Lever(&Lever_Buff[wk->wu.id], wk->wu.id, 1);
+    Disp_Mode(wk);
+    return Lever_Buff[wk->wu.id];
+}
+/* delete these lines after "Pause through PLS03 #183" has been merged */
 #else
 static u16 CPU_Sub(PLW *wk) {
     not_implemented(__func__);
 }
 #endif
+/* ------------------------------------------------------------------- */
 
 void Main_Program(PLW *wk) {
     void (*Com_Jmp_Tbl[16])(PLW *) = { Com_Initialize, Com_Free,           Com_Active,   Com_Before_Follow,
@@ -1508,13 +1542,34 @@ void Com_Caught(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", Decide_Exit_Catch);
-#else
+// #if defined(TARGET_PS2)
+// INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", Decide_Exit_Catch);
+// #else
+// static s16 Decide_Exit_Catch(PLW *wk) {
+//     not_implemented(__func__);
+// }
+// #endif
+
 static s16 Decide_Exit_Catch(PLW *wk) {
-    not_implemented(__func__);
+    s16 Rnd;
+    s16 xx;
+    s16 Lv = Setup_Lv18(save_w[Present_Mode].Difficulty + 0);
+
+    Lv += CC_Value[0];
+
+    if (Break_Into_CPU == 2) {
+        Lv = 17;
+    }
+
+    Rnd = (u8)random_32_com();
+    xx = Setup_EM_Rank_Index(wk);
+
+    if (Rnd >= Exit_Throw_Data[xx][emLevelRemake(Lv, 18, 0)]) {
+        return 0;
+    }
+
+    return 1;
 }
-#endif
 
 const u8 Rapid_Lever_Data[2] = { 8, 4 };
 
