@@ -1542,14 +1542,6 @@ void Com_Caught(PLW *wk) {
     }
 }
 
-// #if defined(TARGET_PS2)
-// INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", Decide_Exit_Catch);
-// #else
-// static s16 Decide_Exit_Catch(PLW *wk) {
-//     not_implemented(__func__);
-// }
-// #endif
-
 static s16 Decide_Exit_Catch(PLW *wk) {
     s16 Rnd;
     s16 xx;
