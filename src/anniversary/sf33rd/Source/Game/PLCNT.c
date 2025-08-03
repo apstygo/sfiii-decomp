@@ -1154,13 +1154,38 @@ void setup_any_data() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", set_base_data);
-#else
 void set_base_data(PLW *wk, s16 ix) {
-    not_implemented(__func__);
+    wk->wu.be_flag = 1;
+    wk->wu.disp_flag = 0;
+    wk->wu.blink_timing = ix;
+    wk->wu.id = ix;
+    wk->wu.work_id = 1;
+    wk->wu.operator = Operator_Status[ix];
+    wk->wu.charset_id = plid_data[My_char[ix]];
+    wk->wkey_flag = wk->dead_flag = 0;
+    set_char_base_data(&wk->wu);
+    wk->wu.target_adrs = (u32 *)&plw[(ix + 1) & 1];
+    wk->player_number = My_char[ix];
+    wk->wu.hit_adrs = wk->wu.target_adrs;
+    wk->wu.dmg_adrs = wk->wu.target_adrs;
+    cmd_init(wk);
+    wk->cb = &combo_type[ix];
+    wk->rp = &remake_power[ix];
+
+    if (ix) {
+        wk->wu.my_col_code |= 0x10;
+    }
+
+    wk->spmv_ng_flag = omop_spmv_ng_table[wk->wu.id];
+    wk->spmv_ng_flag2 = omop_spmv_ng_table2[wk->wu.id];
+    wk->wu.weight_level = weight_lv_table[wk->player_number];
+    set_player_shadow(wk);
+    wk->wu.cg_olc_ix = wk->wu.cg_hit_ix = 0;
+    wk->wu.cg_olc = wk->wu.olc_ix_table[wk->wu.cg_olc_ix];
+    wk->wu.cg_ja = wk->wu.hit_ix_table[wk->wu.cg_hit_ix];
+
+    set_jugde_area(&wk->wu);
 }
-#endif
 
 void set_base_data_metamorphose(PLW *wk, s16 dmid) {
     set_char_base_data(&wk->wu);
