@@ -951,13 +951,27 @@ s16 get_kind_of_trunk_dm(s16 dir, s8 drl) {
     return dir16_trdm[dir];
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", setup_vitality);
-#else
 void setup_vitality(WORK *wk, s16 pno) {
-    not_implemented(__func__);
+    s16 ix;
+
+    if (wk->operator) {
+        ix = 2;
+    } else {
+        ix = CC_Value[1] + save_w[Present_Mode].Difficulty;
+    }
+
+    wk->original_vitality = Com_Vital_Unit_Data[pno][save_w[Present_Mode].Damage_Level][ix];
+    wk->original_vitality += (s16)base_vital_omake[omop_vital_init[wk->id]];
+    wk->dmcal_m = 0x20;
+    wk->dmcal_d = (wk->original_vitality << 5) / Max_vitality;
+    wk->vitality = wk->vital_new = wk->vital_old = Max_vitality;
+    wk->dm_vital = 0;
+
+    if (Mode_Type != 0) {
+        wk->vital_new = wk->vital_new * (Vital_Handicap[Present_Mode][wk->id] + 1) / 8;
+        wk->vital_old = wk->vital_new;
+    }
 }
-#endif
 
 void cal_dm_vital_gauge_hosei(PLW *wk) {
     s16 cnjix;
