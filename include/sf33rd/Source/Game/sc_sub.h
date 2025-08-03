@@ -32,5 +32,7 @@ void stun_gauge_waku_write(s16 p1len, s16 p2len);
 void stun_put(u8 Pl_Num, u8 stun);
 void stun_base_put(u8 Pl_Num, s16 len);
 void stun_mark_write(u8 Pl_Num, s16 Len);
+void SSPutDec(u16 x, u16 y, u8 atr, u8 dec, u8 size);
+void naming_set(u8 pl, s16 place, u16 atr, u16 chr);
 
 #endif

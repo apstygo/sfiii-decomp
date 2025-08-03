@@ -1412,7 +1412,7 @@ segments:
       - [0x473B80, sdata, sf33rd/Source/Game/Manage]
       - [0x473C80, .sdata, sf33rd/Source/Game/menu]
       - [0x473D50, sdata, sdata_473D50] # This belongs to menu too
-      - [0x473D50, sdata, sf33rd/Source/Game/n_input]
+      - [0x473D50, .sdata, sf33rd/Source/Game/n_input]
       - [0x473D70, sdata, sf33rd/Source/Game/Next_CPU]
       - [0x473DF8, .sdata, sf33rd/Source/Game/OPENING]
       - [0x473E70, sdata, sf33rd/Source/Game/Pause]
