@@ -998,13 +998,37 @@ void Normal_56000(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPNM", nm56_char_select);
-#else
 void nm56_char_select(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 get_sel_hosei_tbl_ix(s32 plnum);
+    s16 check_work_position_bonus(WORK * hm, s32 tx);
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
+
+    WORK *efw;
+    s16 *dad;
+    s16 ix;
+
+    efw = (WORK *)wk->wu.target_adrs[203];
+    ix = get_sel_hosei_tbl_ix(wk->player_number) + 1;
+    dad = efw->hosei_adrs[ix].hos_box;
+    setup_mvxy_data(&wk->wu, 0x11U);
+    ix = 16;
+
+    if (check_work_position_bonus(&wk->wu, dad[0] + (dad[1] / 2) + efw->xyz[0].disp.pos)) {
+        if (wk->wu.rl_flag) {
+            ix = 14;
+        }
+    } else if (wk->wu.rl_flag == 0) {
+        ix = 14;
+    }
+
+    if (ix == 14) {
+        wk->wu.mvxy.a[0].sp = -wk->wu.mvxy.a[0].sp;
+    }
+
+    set_char_move_init(&wk->wu, 0, ix);
+}
 
 void Normal_57000(PLW *wk) {
 #if defined(TARGET_PS2)
