@@ -9,13 +9,48 @@
 #include "sf33rd/Source/Game/bg_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT3", Player_control_bonus2);
-#else
+void plcnt_b2_move();
+void plcnt_b2_die();
+
+void (*const player_bonus2_process[3])() = { plcnt_b_init, plcnt_b2_move, plcnt_b2_die };
+
 s32 Player_control_bonus2() {
-    not_implemented(__func__);
+    if (((pcon_rno[0] + pcon_rno[1]) == 0) || (!Game_pause && !EXE_flag)) {
+        players_timer += 1;
+        players_timer &= 0x7FFF;
+        player_bonus2_process[pcon_rno[0]]();
+
+        if (check_be_car_object()) {
+            check_body_touch2();
+            check_damage_hosei_bonus();
+        }
+
+        set_quake(&plw[0]);
+        set_quake(&plw[1]);
+
+        if (plw[0].zuru_flag == 0 && plw[0].zettai_muteki_flag == 0) {
+            hit_push_request(&plw[0].wu);
+        }
+
+        if (plw[1].zuru_flag == 0 && plw[1].zettai_muteki_flag == 0) {
+            hit_push_request(&plw[1].wu);
+        }
+
+        add_next_position(plw);
+        add_next_position(&plw[1]);
+        check_cg_zoom();
+    }
+
+    if (Game_pause != 0x81) {
+        store_player_after_image_data();
+    }
+
+    if ((pcon_rno[0] == 2) && (pcon_rno[1] == 0) && (pcon_rno[2] == 2)) {
+        return 1;
+    }
+
+    return 0;
 }
-#endif
 
 void plcnt_b2_move() {
     if (No_Death) {
@@ -92,5 +127,3 @@ void plcnt_b2_die() {
 
     move_player_work_bonus();
 }
-
-void (*const player_bonus2_process[3])() = { plcnt_b_init, plcnt_b2_move, plcnt_b2_die };

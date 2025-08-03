@@ -305,4 +305,10 @@ void move_P2_move_P1_bonus(s16 *field_work) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT2", check_damage_hosei_bonus);
+#else
+void check_damage_hosei_bonus() {
+    not_implemented(__func__);
+}
+#endif
