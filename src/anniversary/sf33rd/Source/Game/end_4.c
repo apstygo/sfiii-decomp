@@ -270,7 +270,11 @@ void end_401_2000() {
                 break;
             }
 
+#if defined(TARGET_PS2)
             Frame_Down(bg_w.center_x, bg_w.center_y, 1, 1);
+#else
+            Frame_Down(bg_w.center_x, bg_w.center_y, 1);
+#endif
         }
 
         break;
@@ -315,8 +319,11 @@ void end_401_3000() {
                 end_w.timer = 0;
                 break;
             }
-
+#if defined(TARGET_PS2)
             Frame_Down(bg_w.center_x, bg_w.center_y, 1, 1);
+#else
+            Frame_Down(bg_w.center_x, bg_w.center_y, 1);
+#endif
         }
 
         break;
@@ -362,7 +369,12 @@ void end_401_4000() {
                 end_w.timer = 60;
                 break;
             }
+
+#if defined(TARGET_PS2)
             Frame_Down(bg_w.center_x, bg_w.center_y, 1, 1);
+#else
+            Frame_Down(bg_w.center_x, bg_w.center_y, 1);
+#endif
         }
 
         break;

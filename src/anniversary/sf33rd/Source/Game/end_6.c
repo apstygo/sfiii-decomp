@@ -149,6 +149,7 @@ void end_600_1000() {
     }
 }
 
+#if defined(TARGET_PS2)
 void end_600_2000() {
     switch (bgw_ptr->r_no_1) {
     case 0:
@@ -195,6 +196,11 @@ void end_600_2000() {
         break;
     }
 }
+#else
+void end_600_2000() {
+    not_implemented(__func__);
+}
+#endif
 
 void end_600_3000() {
     switch (bgw_ptr->r_no_1) {
@@ -341,6 +347,7 @@ void end_601_1000() {
     }
 }
 
+#if defined(TARGET_PS2)
 void end_601_2000() {
 #if defined(TARGET_PS2)
     void Bg_Off_W(u32 s_prm);
@@ -384,6 +391,11 @@ void end_601_2000() {
         break;
     }
 }
+#else
+void end_601_2000() {
+    not_implemented(__func__);
+}
+#endif
 
 void end_601_3000() {
 #if defined(TARGET_PS2)

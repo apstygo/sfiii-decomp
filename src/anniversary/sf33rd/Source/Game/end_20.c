@@ -318,6 +318,18 @@ void end_2001_0005() {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/end_20", sea_write);
+#else
+void sea_write() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/end_20", sea_trans);
+#else
+void sea_trans(u16 num) {
+    not_implemented(__func__);
+}
+#endif
