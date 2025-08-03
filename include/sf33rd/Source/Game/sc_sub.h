@@ -29,6 +29,7 @@ void vital_put(u8 Pl_Num, s8 atr, s16 vital, u8 kind, u16 priority);
 void silver_vital_put(u8 Pl_Num);
 void vital_base_put(u8 Pl_Num);
 void stun_gauge_waku_write(s16 p1len, s16 p2len);
+void overwrite_panel(u32 color, u8 priority);
 void stun_put(u8 Pl_Num, u8 stun);
 void stun_base_put(u8 Pl_Num, s16 len);
 void stun_mark_write(u8 Pl_Num, s16 Len);

@@ -3,4 +3,6 @@
 
 #include "types.h"
 
+s32 staff_credits(u32 /* unused */);
+
 #endif
