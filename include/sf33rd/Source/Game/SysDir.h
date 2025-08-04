@@ -12,6 +12,7 @@ extern s16 omop_round_timer;
 extern s16 omop_vt_bar_disp[2];
 extern s16 omop_st_bar_disp[2];
 extern s16 omop_b_block_ix[2];
+extern s16 omop_use_ex_gauge_ix[2];
 
 extern const s16 blok_b_omake[4];
 
