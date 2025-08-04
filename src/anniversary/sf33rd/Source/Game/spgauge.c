@@ -455,7 +455,13 @@ void samoji_control(s8 Stpl_Num) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/spgauge", sast_control);
+#else
+void sast_control(s8 Stpl_Num) {
+    not_implemented(__func__);
+}
+#endif
 
 void sast_color_chenge(s8 Stpl_Num) {
     if (plw[Stpl_Num].sa->gauge_type == 1 && plw[Stpl_Num].sa->ok == -1) {
