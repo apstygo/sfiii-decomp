@@ -1,6 +1,7 @@
 #ifndef EFF76_H
 #define EFF76_H
 
+#include "structs.h"
 #include "types.h"
 
 void effect_76_move(WORK_Other *ewk);
