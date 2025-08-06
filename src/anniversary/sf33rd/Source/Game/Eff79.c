@@ -1,3 +1,4 @@
+#include "sf33rd/Source/Game/Eff79.h"
 #include "common.h"
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff79", Pos_Z_Data_79);
