@@ -26,5 +26,6 @@ extern const u8 Shell_Change_Data_For_Reaction[];
 extern const u8 Standing_Time_Data[20][4][8];
 extern const s8 PL_Blow_Off_Data[27];
 extern const u8 Squat_Time_Data[8][8];
+extern const u8 Boss_Speech_Data[20][2];
 
 #endif
