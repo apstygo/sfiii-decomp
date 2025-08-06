@@ -16,6 +16,7 @@ extern const s16 Dash_Distance_Data[20][2];
 extern const s8 Combo_Speed_Unit_Data[20][20][32];
 extern const s8 Reflection_Speed_Unit_Data[20][20][32];
 extern const u8 VS_Catch_Data[8];
+extern const s16 Correct_Cont_Time_Data[2][16];
 extern const u8 LOOK_POSITION_Data[8][32];
 extern const u8 Wait_Time_Data[4][8];
 extern const u8 Flip_Data[20][8];

@@ -18,6 +18,7 @@ void ToneDown(u8 tone, u8 priority);
 void player_name();
 void player_face_init();
 void player_face();
+void Training_Disp_Work_Clear();
 void dispButtonImage2(s32 px, s32 py, s32 pz, s32 sx, s32 sy, s32 cl, s32 ix);
 void fade_cont_init();
 void fade_cont_main();

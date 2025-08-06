@@ -51,7 +51,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Next_CPU", After_Bo
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Next_CPU", After_Bonus_2nd);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Next_CPU", Select_CPU_First);
+#else
+s16 Select_CPU_First() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Next_CPU", Select_CPU_1st);
 
@@ -97,7 +103,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Next_CPU", Setup_Co
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Next_CPU", Setup_Com_Color);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Next_CPU", Setup_PL_Color);
+#else
+void Setup_PL_Color(s16 PL_id, u16 sw) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Next_CPU", Setup_Regular_OBJ);
 
