@@ -789,7 +789,13 @@ void Game_Manage_7_2() {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Check_Disp_Combo);
+#else
+s32 Check_Disp_Combo() {
+    not_implemented(__func__);
+}
+#endif
 
 void Game_Manage_7_3() {
     if (Play_Type == 0 && Perfect_Flag == 0) {
@@ -1389,7 +1395,13 @@ void Update_VS_Data() {
     Score[Loser_id][0] = Stock_Score[Loser_id];
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", BGM_Fade_Sub);
+#else
+void BGM_Fade_Sub() {
+    not_implemented(__func__);
+}
+#endif
 
 void BGM_Control() {
     switch (BGM_No[0]) {
