@@ -21,5 +21,6 @@ s32 range_x_check(WORK_Other *ewk);
 s16 eff_hit_check(WORK_Other *ewk, s16 type);
 s16 eff_hit_check2(WORK_Other *ewk, s16 type, s16 where_type);
 s32 range_x_check3(WORK_Other *ewk, s16 optional_range);
+void eff_hit_flag_clear();
 
 #endif

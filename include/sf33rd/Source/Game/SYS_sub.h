@@ -17,6 +17,7 @@ void Clear_Flash_No();                             // Range: 0x3A2910 -> 0x3A295
 s32 Cut_Cut_Cut();                                 // Range: 0x3A2960 -> 0x3A29F0
 void Score_Sub();                                  // Range: 0x3A29F0 -> 0x3A2D8C
 void Disp_Win_Record();                            // Range: 0x3A2D90 -> 0x3A2F68
+s32 Button_Cut_EX(s16 *Timer, s16 Limit_Time);     // Range: 0x3A31C0 -> 0x3A32B0
 void Setup_Final_Grade();                          // Range: 0x3A3320 -> 0x3A33D8
 void Clear_Win_Type();                             // Range: 0x3A33E0 -> 0x3A34A4
 void Clear_Disp_Ranking(s16 PL_id);                // Range: 0x3A34B0 -> 0x3A3554
@@ -39,6 +40,7 @@ void Basic_Sub_Ex();                               // Range: 0x3A4B90 -> 0x3A4BF
 s32 Check_PL_Load();                               // Range: 0x3A4BF0 -> 0x3A4C48
 void BG_Draw_System();                             // Range: 0x3A4C50 -> 0x3A4E00
 void System_all_clear_Level_B();                   // Range: 0x3A4F20 -> 0x3A4F48
+s16 Cut_Cut_C_Timer();                             // Range: 0x3A4F50 -> 0x3A4FA0
 s32 Cut_Cut_Loser();                               // Range: 0x3A5070 -> 0x3A50E0
 void Soft_Reset_Sub();                             // Range: 0x3A5100 -> 0x3A5258
 void Check_Replay();                               // Range: 0x3A52A0 -> 0x3A555C
@@ -47,6 +49,7 @@ s16 Check_SysDir_Page();                           // Range: 0x3A6060 -> 0x3A617
 void Clear_Flash_Init(s16 level);                  // Range: 0x3A6180 -> 0x3A61A4
 s16 Clear_Flash_Sub();                             // Range: 0x3A61B0 -> 0x3A625C
 void Copy_Key_Disp_Work();                         // Range: 0x3A6260 -> 0x3A631C
+s32 Check_Extra_Setting();                         // Range: 0x3A6320 -> 0x3A64EC
 void All_Clear_Random_ix();                        // Range: 0x3A64F0 -> 0x3A6508
 void All_Clear_Timer();                            // Range: 0x3A6510 -> 0x3A6524
 void All_Clear_ETC();                              // Range: 0x3A6530 -> 0x3A6548
