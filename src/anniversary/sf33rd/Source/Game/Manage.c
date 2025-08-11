@@ -269,7 +269,7 @@ void Game_Manage_2_0() {
         return;
     }
 
-    if ((Cover_Timer -= 1) > 0) {
+    if (--Cover_Timer > 0) {
         return;
     }
 
@@ -320,7 +320,7 @@ s32 Wait_Seek_Time() {
             }
         }
 
-        if ((Lag_Timer -= 1) == 0) {
+        if (--Lag_Timer == 0) {
             Lag_Timer = Lag_Ptr[0];
             Lag_Ptr++;
             return 1;
@@ -460,7 +460,7 @@ void Game_Manage_2_4() {
     case 1:
         FadeOut(0, 0xFF, 8);
 
-        if ((C_Timer -= 1) == 0) {
+        if (--C_Timer == 0) {
             C_No[2]++;
             Clear_Flash_No();
         }
@@ -652,7 +652,7 @@ void Game_Manage_5_4() {
 void Game_Manage_5_5() {
     Switch_Screen(0);
 
-    if ((Cover_Timer -= 1) == 0) {
+    if (--Cover_Timer == 0) {
         C_No[1]++;
         pcon_rno[1] = 3;
         pcon_rno[2] = 1;
@@ -672,7 +672,7 @@ void Game_Manage_5_6() {
 }
 
 void Game_Manage_5_7() {
-    if ((C_Timer -= 1) != 0) {
+    if (--C_Timer != 0) {
         return;
     }
 
@@ -718,7 +718,7 @@ void Game_Manage_6th() {
         break;
 
     case 1:
-        if ((C_Timer -= 1) != 0) {
+        if (--C_Timer != 0) {
             break;
         }
 
@@ -759,7 +759,7 @@ void Game_Manage_7_0() {
 }
 
 void Game_Manage_7_1() {
-    if ((C_Timer -= 1) == 0) {
+    if (--C_Timer == 0) {
         C_No[1]++;
         C_Timer = 10;
     }
@@ -799,11 +799,11 @@ s32 Check_Disp_Combo() {
 
 void Game_Manage_7_3() {
     if (Play_Type == 0 && Perfect_Flag == 0) {
-        if (C_Timer -= 1) {
+        if (--C_Timer) {
             return;
         }
     } else {
-        if (C_Timer -= 1) {
+        if (--C_Timer) {
             return;
         }
     }
@@ -828,7 +828,7 @@ void Game_Manage_7_3() {
 }
 
 void Game_Manage_7_4() {
-    if ((C_Timer -= 1) == 0) {
+    if (--C_Timer == 0) {
         C_No[1]++;
         request_center_message(4);
         effect_58_init(6, 1, 155);
@@ -849,14 +849,14 @@ void Game_Manage_7_6() {
         C_Timer = 1;
     }
 
-    if ((C_Timer -= 1) == 0) {
+    if (--C_Timer == 0) {
         C_No[0]++;
         C_No[1] = 0;
     }
 }
 
 void Game_Manage_7_7() {
-    if ((C_Timer -= 1) == 0) {
+    if (--C_Timer == 0) {
         C_No[1]++;
         Event_Judge_Gals = 3;
     }
@@ -864,14 +864,14 @@ void Game_Manage_7_7() {
 
 void Game_Manage_7_8() {
     if (Event_Judge_Gals == 0) {
-        C_No[1] += 1;
+        C_No[1]++;
         C_Timer = 30;
         Ck_Win_Record();
     }
 }
 
 void Game_Manage_7_9() {
-    if ((C_Timer -= 1) == 0) {
+    if (--C_Timer == 0) {
         C_No[1] = 0;
     }
 }
@@ -984,7 +984,7 @@ void Game_Manage_81_2() {
         C_Timer = 1;
     }
 
-    if ((C_Timer -= 1) != 0) {
+    if (--C_Timer != 0) {
         return;
     }
 
@@ -1015,7 +1015,7 @@ void Game_Manage_8_2() {
         C_Timer = 1;
     }
 
-    if ((C_Timer -= 1) != 0) {
+    if (--C_Timer != 0) {
         return;
     }
 
@@ -1037,7 +1037,7 @@ void Game_Manage_8_3() {
         C_Timer = 1;
     }
 
-    if ((C_Timer -= 1) == 0) {
+    if (--C_Timer == 0) {
         C_No[0]++;
         C_No[1] = 0;
     }
@@ -1070,7 +1070,7 @@ void Game_Manage_9th() {
             C_Timer = 1;
         }
 
-        if ((C_Timer -= 1) > 0) {
+        if (--C_Timer > 0) {
             break;
         }
 
@@ -1367,7 +1367,7 @@ void Update_VS_Data() {
             if (EM_id == 17) {
                 Break_Com[WINNER][EM_id] = (s8)(VS_Index[WINNER]);
             } else {
-                VS_Index[WINNER] += 1;
+                VS_Index[WINNER]++;
                 Break_Com[WINNER][EM_id] = 1;
             }
 
@@ -1376,7 +1376,7 @@ void Update_VS_Data() {
                 Straight_Flag[WINNER] = 1;
             }
 
-            if ((Round_Level += 1) <= 7) {
+            if (++Round_Level <= 7) {
                 return;
             }
 
@@ -1409,7 +1409,7 @@ void BGM_Control() {
         return;
 
     case 1:
-        if ((BGM_Timer[0] -= 1) == 0) {
+        if (--BGM_Timer[0] == 0) {
             BGM_No[0]++;
         }
 
@@ -1427,7 +1427,7 @@ void BGM_Control() {
         break;
 
     case 3:
-        if ((BGM_Timer[0] -= 1) == 0) {
+        if (--BGM_Timer[0] == 0) {
             BGM_No[0]++;
         }
 
@@ -1560,7 +1560,7 @@ void Ck_Win_Record() {
         if (Play_Type == 1) {
             Win_Record[Loser_id] = 0;
 
-            if ((Win_Record[Winner_id] += 1) > 999) {
+            if (++Win_Record[Winner_id] > 999) {
                 Win_Record[Winner_id] = 999;
             }
 
@@ -1570,7 +1570,7 @@ void Ck_Win_Record() {
         break;
 
     case 1:
-        if ((VS_Win_Record[Winner_id] += 1) > 999) {
+        if (++VS_Win_Record[Winner_id] > 999) {
             VS_Win_Record[Winner_id] = 999;
         }
 
@@ -1672,7 +1672,7 @@ void Loser_Sub() {
     Sel_Arts_Complete[LOSER] = 0;
 
     if (Play_Type == 0) {
-        if ((Round_Level -= 1) < 0) {
+        if (--Round_Level < 0) {
             Round_Level = 0;
         }
 
@@ -1857,7 +1857,7 @@ void Game_Manage_11th() {
         break;
 
     case 1:
-        if ((C_Timer -= 1) == 0) {
+        if (--C_Timer == 0) {
             C_No[1]++;
             C_Timer = 150;
             C_Timer = 60;
@@ -1866,7 +1866,7 @@ void Game_Manage_11th() {
         break;
 
     case 2:
-        if ((C_Timer -= 1) == 0) {
+        if (--C_Timer == 0) {
             C_No[1]++;
         }
 
@@ -2019,7 +2019,7 @@ void Game_Manage_12_3() {
         break;
 
     case 2:
-        if ((C_Timer -= 1) == 0) {
+        if (--C_Timer == 0) {
             C_No[2]++;
             C_Timer = 20;
         }
@@ -2041,7 +2041,7 @@ void Game_Manage_12_3() {
 void Game_Manage_12_4() {
     switch (C_No[2]) {
     case 0:
-        if (Bonus_Cut_Sub() == 0 && (C_Timer -= 1) == 0) {
+        if (Bonus_Cut_Sub() == 0 && --C_Timer == 0) {
             C_No[2]++;
             C_Timer = 20;
             effect_08_init(7, 0, 1, 15, 0);
@@ -2052,7 +2052,7 @@ void Game_Manage_12_4() {
         break;
 
     case 1:
-        if (Bonus_Cut_Sub() == 0 && (C_Timer -= 1) == 0) {
+        if (Bonus_Cut_Sub() == 0 && --C_Timer == 0) {
             C_No[2]++;
             C_Timer = 1;
             Bonus_Score = 0;
@@ -2061,7 +2061,7 @@ void Game_Manage_12_4() {
         break;
 
     case 2:
-        if (Bonus_Cut_Sub() == 0 && (C_Timer -= 1) == 0) {
+        if (Bonus_Cut_Sub() == 0 && --C_Timer == 0) {
             if (Bonus_Game_result == 0 && !(PB_Status & 2)) {
                 C_No[2] = 4;
                 C_Timer = 30;
@@ -2077,7 +2077,7 @@ void Game_Manage_12_4() {
                 Sound_SE(100);
             }
 
-            if ((Bonus_Game_result -= 1) == 0) {
+            if (--Bonus_Game_result == 0) {
                 C_No[2]++;
 
                 if (PB_Status) {
@@ -2099,7 +2099,7 @@ void Game_Manage_12_4() {
     case 3:
         switch (C_No[3]) {
         case 0:
-            if (Bonus_Cut_Sub() == 0 && (C_Timer -= 1) == 0) {
+            if (Bonus_Cut_Sub() == 0 && --C_Timer == 0) {
                 C_No[2]++;
                 C_Timer = 30;
                 Bonus_Game_result = Stock_Bonus_Game_Result;
@@ -2108,7 +2108,7 @@ void Game_Manage_12_4() {
             break;
 
         case 1:
-            if (Bonus_Cut_Sub() == 0 && (C_Timer -= 1) == 0) {
+            if (Bonus_Cut_Sub() == 0 && --C_Timer == 0) {
                 C_No[3]++;
                 C_Timer = 10;
                 Disp_Bonus_Perfect();
@@ -2117,7 +2117,7 @@ void Game_Manage_12_4() {
             break;
 
         case 2:
-            if (Bonus_Cut_Sub() == 0 && (C_Timer -= 1) == 0) {
+            if (Bonus_Cut_Sub() == 0 && --C_Timer == 0) {
                 C_No[3]++;
                 C_Timer = 40;
 
@@ -2140,7 +2140,7 @@ void Game_Manage_12_4() {
             break;
 
         default:
-            if ((C_Timer -= 1) == 0) {
+            if (--C_Timer == 0) {
                 C_No[2]++;
                 C_Timer = 30;
             }
@@ -2168,7 +2168,7 @@ void Game_Manage_12_4() {
 void Game_Manage_12_5() {
     switch (C_No[2]) {
     case 0:
-        if (Debug_w[70] != 2 && (C_Timer -= 1) == 0) {
+        if (Debug_w[70] != 2 && --C_Timer == 0) {
             C_No[2]++;
             C_Timer = 20;
         }
@@ -2180,7 +2180,7 @@ void Game_Manage_12_5() {
             C_Timer = 1;
         }
 
-        if ((C_Timer -= 1) == 0) {
+        if (--C_Timer == 0) {
             C_No[2]++;
         }
 
@@ -2241,7 +2241,7 @@ void Game_Manage_12_8() {
                 C_Timer = 1;
             }
 
-            if ((C_Timer -= 1) == 0) {
+            if (--C_Timer == 0) {
                 C_No[2]++;
                 C_No[3] = 0;
                 C_Timer = 30;
@@ -2253,7 +2253,7 @@ void Game_Manage_12_8() {
         break;
 
     case 1:
-        if (Bonus_Cut_Sub() == 0 && (C_Timer -= 1) == 0) {
+        if (Bonus_Cut_Sub() == 0 && --C_Timer == 0) {
             C_No[2]++;
             C_Timer = 20;
             Score[Player_id][0] += Bonus_Score;
@@ -2270,7 +2270,7 @@ void Game_Manage_12_8() {
         break;
 
     case 2:
-        if (Bonus_Cut_Sub() == 0 && (C_Timer -= 1) == 0) {
+        if (Bonus_Cut_Sub() == 0 && --C_Timer == 0) {
             C_No[2]++;
             C_Timer = 1;
         }
@@ -2278,7 +2278,7 @@ void Game_Manage_12_8() {
         break;
 
     case 3:
-        if (Bonus_Cut_Sub() == 0 && (C_Timer -= 1) == 0) {
+        if (Bonus_Cut_Sub() == 0 && --C_Timer == 0) {
             if (bcounter_down(0) == 0) {
                 C_No[2]++;
                 C_Timer = 30;
@@ -2300,7 +2300,7 @@ void Game_Manage_12_8() {
         break;
 
     case 4:
-        if ((C_Timer -= 1) == 0) {
+        if (--C_Timer == 0) {
             C_No[2]++;
             C_Timer = 30;
         }
@@ -2486,7 +2486,7 @@ s16 Check_Time_Over() {
         break;
 
     case 1:
-        if ((C_Timer -= 1) == 0) {
+        if (--C_Timer == 0) {
             C_No[2]++;
             Game_pause = 0;
             Suicide[5] = 1;
