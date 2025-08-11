@@ -1,20 +1,114 @@
 #include "sf33rd/Source/Game/EFF84.h"
 #include "common.h"
+#include "sf33rd/Source/Game/EFF56.h"
+#include "sf33rd/Source/Game/EFFECT.h"
+#include "sf33rd/Source/Game/PLS02.h"
+#include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/workuser.h"
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF84", effect_84_move);
-#else
+const u8 Time_Data[5] = { 80, 90, 50, 50, 50 };
+
 void effect_84_move(WORK_Other *ewk) {
-    not_implemented(__func__);
-}
-#endif
+    if (Suicide[0]) {
+        push_effect_work(&ewk->wu);
+        return;
+    }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF84", effect_84_init);
-#else
+    switch (ewk->wu.routine_no[0]) {
+    case 0:
+        if (request_message) {
+            ewk->wu.routine_no[0]++;
+            ewk->wu.dir_timer = Time_Data[request_message];
+        }
+
+        break;
+
+    case 1:
+        switch (ewk->wu.routine_no[1]) {
+        case 0:
+            switch (message_index) {
+            case 0:
+                Game_pause = 1;
+                ewk->wu.routine_no[1]++;
+                effect_56_init(0, 0);
+                break;
+
+            case 1:
+                Game_pause = 1;
+                ewk->wu.routine_no[1]++;
+                effect_56_init(1, 0);
+                break;
+
+            case 2:
+                Game_pause = 1;
+                ewk->wu.routine_no[1]++;
+
+                if (Bonus_Game_Flag == 20 && bg_w.stage == 20) {
+                    ewk->wu.dir_timer = 90;
+                }
+
+                effect_56_init(2, 0);
+                break;
+
+            case 3:
+                ewk->wu.routine_no[1]++;
+                effect_56_init(3, 3);
+                break;
+
+            case 4:
+            default:
+                ewk->wu.routine_no[1]++;
+                effect_56_init(4, 2);
+                break;
+            }
+
+            break;
+
+        case 1:
+            if ((ewk->wu.dir_timer -= 1) != 0) {
+                break;
+            }
+
+            switch (message_index) {
+            case 4:
+                Message_Suicide[2] = 1;
+                break;
+
+            case 3:
+                Message_Suicide[3] = 1;
+                break;
+
+            default:
+                Message_Suicide[0] = 1;
+                break;
+            }
+
+#if defined(TARGET_PS2) // remove this
+            dead_voice_request();
+#endif // remove this
+            request_message = 0;
+            Game_pause = 0;
+            ewk->wu.routine_no[0] = ewk->wu.routine_no[1] = 0;
+            break;
+        }
+
+        break;
+
+    case 2:
+        break;
+    }
+}
+
 s32 effect_84_init() {
-    not_implemented(__func__);
-}
-#endif
+    WORK_Other *ewk;
+    s16 ix;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF84", Time_Data);
+    if ((ix = pull_effect_work(4)) == -1) {
+        return -1;
+    }
+
+    ewk = (WORK_Other *)frw[ix];
+    ewk->wu.be_flag = 1;
+    ewk->wu.id = 84;
+    return 0;
+}
