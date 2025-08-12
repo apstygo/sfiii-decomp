@@ -1554,7 +1554,7 @@ segments:
       - { type: sbss, vram: 0x578F70, name: sf33rd/Source/Game/effb9 }
       - { type: .sbss, vram: 0x578F80, name: sf33rd/Source/Game/EFFECT }
       - { type: sbss, vram: 0x578FB8, name: sf33rd/Source/Game/EFFF9 }
-      - { type: sbss, vram: 0x578FD4, name: sf33rd/Source/Game/EFFH6 }
+      - { type: .sbss, vram: 0x578FD4, name: sf33rd/Source/Game/EFFH6 }
       - { type: sbss, vram: 0x578FE0, name: sf33rd/Source/Game/effl8 }
       - { type: .sbss, vram: 0x578FE8, name: sf33rd/Source/Game/end_0 }
       - { type: .sbss, vram: 0x578FF8, name: sf33rd/Source/Game/end_14 }

@@ -32,6 +32,7 @@ special_cases = {
     ("appear", ".rodata", 1): 16,
     ("PLS02", ".rodata", 3): 16,
     ("CHARSET", ".rodata", 0): 16,
+    ("EFFH9", ".rodata", 0): 16,
 
     ("bg_data", ".data", 0): 16,
     ("PulPul", ".data", 0): 16,
@@ -70,6 +71,7 @@ special_cases = {
     ("OBJTEST", ".sbss", 0): 16,
     ("CHARID", ".sbss", 0): 16,
     ("emlMemMap", ".sbss", 0): 16,
+    ("effl8", ".sbss", 0): 16,
 
     ("bss_6BDA68", ".bss", 0): 8,
     ("iopnotify", ".bss", 0): 8,
