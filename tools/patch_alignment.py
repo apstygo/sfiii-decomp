@@ -39,6 +39,7 @@ special_cases = {
     ("flps2vram", ".data", 0): 16,
     ("PulPul", ".data", 1): 16,
     ("Sound3rd", ".data", 0): 16,
+    ("end_data", ".data", 0): 16,
 
     ("bg_data", ".sdata", 0): 16,
     ("VM_DATA", ".sdata", 0): 16,
