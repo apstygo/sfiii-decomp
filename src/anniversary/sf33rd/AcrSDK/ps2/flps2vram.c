@@ -417,7 +417,7 @@ u32 flCreatePaletteHandle(plContext *lpcontext, u32 flag) {
         lpflPalette->mem_handle = flPS2GetSystemMemoryHandle(lpflPalette->size, 2);
         flPTNum += 1;
     } else {
-        if (lpcontext->width == 0x100) {
+        if (lpcontext->width == 256) {
             flPS2ConvertTextureFromContext(lpcontext, lpflPalette, 1);
         } else {
             flPS2ConvertTextureFromContext(lpcontext, lpflPalette, 0);
@@ -426,7 +426,7 @@ u32 flCreatePaletteHandle(plContext *lpcontext, u32 flag) {
         flPS2CreatePaletteHandle(ph, flag);
     }
 
-    return ph >> 0x10;
+    return ph >> 16;
 }
 
 s32 flPS2GetPaletteInfoFromContext(plContext *bits, u32 ph, u32 flag) {
@@ -1312,17 +1312,20 @@ s32 flPS2ReloadTexture(s32 count, u32 *texlist) {
     for (i = 0; i < count; i++) {
         th = texlist[i];
 
+#if defined(TARGET_PS2)
         for (j = 0; j < 2; j++) {
             if (j == 0) {
-                if (LO_16_BITS(th) && (LO_16_BITS(th) < 0x100)) {
+                if (LO_16_BITS(th) && (LO_16_BITS(th) < FL_TEXTURE_MAX)) {
                     lpflTexture = &flTexture[LO_16_BITS(th) - 1];
                 } else {
                     continue;
                 }
-            } else if ((HI_16_BITS(th) != 0) && (HI_16_BITS(th) < FL_PALETTE_MAX)) {
-                lpflTexture = &flPalette[HI_16_BITS(th) - 1];
             } else {
-                continue;
+                if ((HI_16_BITS(th) != 0) && (HI_16_BITS(th) < FL_PALETTE_MAX)) {
+                    lpflTexture = &flPalette[HI_16_BITS(th) - 1];
+                } else {
+                    continue;
+                }
             }
 
             if (lpflTexture->vram_on_flag == 0) {
@@ -1349,6 +1352,9 @@ s32 flPS2ReloadTexture(s32 count, u32 *texlist) {
                 flDebugRTNum += 1;
             }
         }
+#else
+        SDLGameRenderer_ReloadTexture(th);
+#endif
     }
 
     if (lpflKeep != NULL) {
@@ -1502,7 +1508,7 @@ s32 flPS2ConvertTextureFromContext(plContext *lpcontext, FLTexture *lpflTexture,
             flLogOut("Not supported texture bit depth @flPS2ConvertTextureFromContext");
             break;
 
-        case 20:
+        case SCE_GS_PSMT4:
             tex_size = (dw * dh) >> 1;
 
             if (lpflTexture->dma_type == 0) {
@@ -1515,7 +1521,7 @@ s32 flPS2ConvertTextureFromContext(plContext *lpcontext, FLTexture *lpflTexture,
 
             break;
 
-        case 19:
+        case SCE_GS_PSMT8:
             tex_size = dw * dh;
 
             if (lpflTexture->dma_type == 0) {
@@ -1528,7 +1534,7 @@ s32 flPS2ConvertTextureFromContext(plContext *lpcontext, FLTexture *lpflTexture,
 
             break;
 
-        case 2:
+        case SCE_GS_PSMCT16:
             tex_size = dw * dh * 2;
             tcon.ptr = dst_ptr;
             tcon.pixelformat.rl = 5;
@@ -1550,7 +1556,7 @@ s32 flPS2ConvertTextureFromContext(plContext *lpcontext, FLTexture *lpflTexture,
             flPS2ConvertContext(lpcontext, &tcon, 0, type);
             break;
 
-        case 1:
+        case SCE_GS_PSMCT24:
             tex_size = dw * dh * 4;
             tcon.ptr = dst_ptr;
             tcon.pixelformat.rl = 8;
@@ -1570,7 +1576,7 @@ s32 flPS2ConvertTextureFromContext(plContext *lpcontext, FLTexture *lpflTexture,
             flPS2ConvertContext(lpcontext, &tcon, 0, type);
             break;
 
-        case 0:
+        case SCE_GS_PSMCT32:
             tex_size = dw * dh * 4;
             tcon.ptr = dst_ptr;
             tcon.pixelformat.rl = 8;

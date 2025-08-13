@@ -6,7 +6,7 @@
 void Scrscreen_Init();
 void Sa_frame_Write();
 void Sa_frame_Clear();
-void SSPutStr(u16 x, u16 y, u8 atr, s8 *str);
+void SSPutStr(u16 x, u16 y, u8 atr, const s8 *str);
 void SSPutStr2(u16 x, u16 y, u8 atr, s8 *str);
 void SSPutStr_Bigger(u16 x, u16 y, u8 atr, s8 *str, f32 sc, u8 gr, u16 priority);
 s32 SSPutStrPro(u16 flag, u16 x, u16 y, u8 atr, u32 vtxcol, s8 *str);
@@ -18,6 +18,7 @@ void ToneDown(u8 tone, u8 priority);
 void player_name();
 void player_face_init();
 void player_face();
+void Training_Disp_Work_Clear();
 void dispButtonImage2(s32 px, s32 py, s32 pz, s32 sx, s32 sy, s32 cl, s32 ix);
 void fade_cont_init();
 void fade_cont_main();

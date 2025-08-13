@@ -230,7 +230,7 @@ s32 ppgWriteQuadWithST_B2(Vertex *pos, u32 col, PPGDataList *tb, s32 tix, s32 ci
         }
     }
 
-    ppgWriteQuadOnly2(pos, col, texhan | (palhan << 0x10));
+    ppgWriteQuadOnly2(pos, col, texhan | (palhan << 16));
     return 1;
 }
 
