@@ -426,7 +426,13 @@ s32 set_field_hosei_flag(PLW *pl, s16 pos, s16 ix) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_work_position);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", random_32);
+#else
+s32 random_32() {
+    not_implemented(__func__);
+}
+#endif
 
 s32 random_16() {
     Random_ix16 += 1;

@@ -13,5 +13,6 @@ s32 Load_Replay_MC_Sub(struct _TASK *task_ptr, s16 PL_id);
 void Setup_Replay_Sub(s16 type, s16 char_type, s16 master_player, s16 /* unused */);
 void Setup_Save_Replay_2nd(struct _TASK *task_ptr, s16 /* unused */);
 s32 Setup_Final_Cursor_Pos(s8 cursor_x, s16 dir);
+void Default_Training_Data(s32 flag);
 
 #endif
