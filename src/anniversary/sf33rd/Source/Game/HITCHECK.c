@@ -62,6 +62,7 @@ void hit_check_main_process() {
             check_result_extra();
         }
     }
+
     clear_hit_queue();
 }
 
@@ -77,6 +78,7 @@ s16 set_judge_result() {
     for (i = 0; i < hpq_in; i++) {
         if (hs[i].flag.results & 0x101) {
             rnum = 1;
+
             if (hs[i].flag.results & 0x100) {
                 set_caught_status(i);
             } else {
@@ -101,7 +103,7 @@ void check_result_extra() {
 
     assign1 = 0;
 
-    if ((plw[0].wu.routine_no[1] == 1) && (plw[0].wu.routine_no[3] == 0)) {
+    if (plw[0].wu.routine_no[1] == 1 && plw[0].wu.routine_no[3] == 0) {
         assign1 = 1;
     }
 
@@ -109,7 +111,7 @@ void check_result_extra() {
 
     assign2 = 0;
 
-    if ((plw[1].wu.routine_no[1] == 1) && (plw[1].wu.routine_no[3] == 0)) {
+    if (plw[1].wu.routine_no[1] == 1 && plw[1].wu.routine_no[3] == 0) {
         assign2 = 1;
     }
 
@@ -119,7 +121,7 @@ void check_result_extra() {
         dm1p = (WORK_Other *)plw[0].wu.dmg_adrs;
         dm2p = (WORK_Other *)plw[1].wu.dmg_adrs;
 
-        switch (((dm1p->wu.work_id == 1) + (((dm2p->wu.work_id) == 1) * 2))) {
+        switch ((dm1p->wu.work_id == 1) + ((dm2p->wu.work_id == 1) * 2)) {
         case 3:
             aiuchi_flag = 1;
 
@@ -163,7 +165,7 @@ void set_caught_status(s16 ix) {
 #endif
 
 s32 check_pat_status(WORK *wk) {
-    if ((wk->pat_status >= 14) && (wk->pat_status < 31)) {
+    if (wk->pat_status >= 14 && wk->pat_status < 31) {
         return 1;
     }
 
@@ -177,7 +179,7 @@ s16 check_blocking_flag(PLW *as, PLW *ds) {
     wp = ds->cp;
     num = (wp->waza_flag[3] + wp->waza_flag[4]) != 0;
     wp = as->cp;
-    num += ((wp->waza_flag[3] + wp->waza_flag[4]) != 0) << 1;
+    num += (wp->waza_flag[3] + wp->waza_flag[4] != 0) << 1;
     return num;
 }
 
@@ -218,7 +220,7 @@ void set_struck_status(s16 ix) {
 
     do {
 
-    } while (ix != (hs[ix2].my_hit));
+    } while (ix != hs[ix2].my_hit);
 
     as = q_hit_push[ix2];
     ds = q_hit_push[ix];
@@ -233,7 +235,7 @@ void set_struck_status(s16 ix) {
         break;
 
     case 2:
-        if ((hs[ix].flag.results & 0x10) && (ix2 == hs[ix].my_hit)) {
+        if (hs[ix].flag.results & 0x10 && ix2 == hs[ix].my_hit) {
             as->att_hit_ok = 1;
             break;
         }
@@ -278,8 +280,8 @@ void dm_reaction_init_set(PLW *as, PLW *ds) {
 
     ds->wu.routine_no[2] = as->wu.att.reaction;
 
-    if ((ds->wu.routine_no[2] == 89) || (ds->wu.routine_no[2] == 90)) {
-        if (ds->running_f == 1 && (Dsas_dir_table[as->wu.att.dir])) {
+    if (ds->wu.routine_no[2] == 89 || ds->wu.routine_no[2] == 90) {
+        if (ds->running_f == 1 && Dsas_dir_table[as->wu.att.dir]) {
             if (check_work_position(&as->wu, &ds->wu)) {
                 if (ds->move_distance > 0) {
                     ds->wu.routine_no[2] = 99;
@@ -299,7 +301,7 @@ void set_guard_status(PLW *as, PLW *ds) {
     void grade_add_guard_success(s32 ix);
 #endif
 
-    if ((as->wu.att.hs_you == 0) && (as->wu.att.hs_me == 0)) {
+    if (as->wu.att.hs_you == 0 && as->wu.att.hs_me == 0) {
         ds->wu.routine_no[2] = ds->wu.old_rno[2];
     } else {
         ds->wu.routine_no[1] = 1;
@@ -351,7 +353,7 @@ void hit_pattern_extdat_check(WORK *as) {
 
     case 0x81:
         setup_comm_abbak(as);
-        as->cg_ix = (((as->cg_extdat & 0x3F) - 1) * (as->cgd_type) - (as->cgd_type));
+        as->cg_ix = ((as->cg_extdat & 0x3F) - 1) * as->cgd_type - as->cgd_type;
         as->cg_next_ix = 0;
         char_move_z(as);
         break;
@@ -362,14 +364,14 @@ void hit_pattern_extdat_check(WORK *as) {
 
     case 0x1:
         setup_comm_abbak(as);
-        as->cg_ix = (((as->cg_extdat & 0x3F) - 1) * ((as->cgd_type)) - ((as->cgd_type)));
+        as->cg_ix = ((as->cg_extdat & 0x3F) - 1) * as->cgd_type - as->cgd_type;
         as->cg_next_ix = 0;
         as->cg_extdat = 0;
         break;
     }
 
     if (as->work_id == 1) {
-        if ((((PLW *)as)->spmv_ng_flag2 & 1) && (as->cg_cancel & 8) && !(as->kow & 0xF8)) {
+        if ((((PLW *)as)->spmv_ng_flag2 & 1) && as->cg_cancel & 8 && !(as->kow & 0xF8)) {
             if (as->kow & 6) {
                 as->cg_cancel &= 0xF7;
                 as->cg_meoshi = 0;
@@ -381,11 +383,11 @@ void hit_pattern_extdat_check(WORK *as) {
             }
         }
 
-        if (!(((PLW *)as)->spmv_ng_flag2 & 8) && (as->kow & 0x60)) {
+        if (!(((PLW *)as)->spmv_ng_flag2 & 8) && as->kow & 0x60) {
             as->cg_cancel |= 0x40;
         }
 
-        if (!(((PLW *)as)->spmv_ng_flag2 & 2) && !(as->kow & 0x60) && (as->kow & 0xF8)) {
+        if (!(((PLW *)as)->spmv_ng_flag2 & 2) && !(as->kow & 0x60) && as->kow & 0xF8) {
             as->cg_cancel |= 0x60;
         }
 
@@ -401,7 +403,7 @@ void hit_pattern_extdat_check(WORK *as) {
             }
         }
 
-        if (!(as->kow & 0xF8) && (as->routine_no[1] == 4) && (as->routine_no[2] < 0x10)) {
+        if (!(as->kow & 0xF8) && as->routine_no[1] == 4 && as->routine_no[2] < 0x10) {
             switch (plpat_rno_filter[as->routine_no[2]]) {
             case 9:
                 if (as->routine_no[3] == 1) {
@@ -499,7 +501,7 @@ s16 check_dm_att_blocking(WORK *as, WORK *ds, s16 dnum) {
 
     ds->kezurare_flag = 0;
 
-    if ((as->work_id == 4) && (as->id == 13) && (tama->kz_blocking != 0) && as->kezuri_pow) {
+    if (as->work_id == 4 && as->id == 13 && tama->kz_blocking != 0 && as->kezuri_pow) {
         if (ds->dm_vital != 0) {
             ds->kezurare_flag = 1;
 
@@ -550,8 +552,7 @@ s16 remake_score_index(s16 dmv) {
 }
 
 void same_dm_stop(WORK *as, WORK *ds) {
-    if ((as->work_id == 1) && (as->att.dipsw & 1) &&
-        ((ds->xyz[1].disp.pos > 0) || ((ds->vital_new - ds->dm_vital) < -2))) {
+    if (as->work_id == 1 && as->att.dipsw & 1 && (ds->xyz[1].disp.pos > 0 || (ds->vital_new - ds->dm_vital) < -2)) {
         switch ((ds->dm_stop < 0) + ((as->att.hs_me < 0) * 2)) {
         case 1:
             ds->dm_stop = -as->att.hs_me;
@@ -587,14 +588,14 @@ s32 defense_sky(PLW *as, PLW *ds, s8 gddir) {
 
     just_now = 0;
 
-    if ((ds->guard_chuu != 0) && (ds->guard_chuu < 5)) {
-        just_now = (1);
+    if (ds->guard_chuu != 0 && ds->guard_chuu < 5) {
+        just_now = 1;
         attr_att = check_normal_attack(as->wu.kind_of_waza);
     }
 
-    if ((ds->py->flag == 0) && !(ds->guard_flag & 2) && (as->wu.att.guard & 4)) {
+    if (ds->py->flag == 0 && !(ds->guard_flag & 2) && as->wu.att.guard & 4) {
         if (just_now) {
-            if (!(ds->spmv_ng_flag & 0x1000) && ((ds->cp->waza_flag[5] >= grdb2[ds->wu.id][attr_att]) || abs)) {
+            if (!(ds->spmv_ng_flag & 0x1000) && (ds->cp->waza_flag[5] >= grdb2[ds->wu.id][attr_att] || abs)) {
                 blocking_point_count_up(ds);
                 as->wu.hf.hit.player = 0x80;
                 ds->wu.routine_no[2] = 0x22;
@@ -632,7 +633,7 @@ s32 defense_sky(PLW *as, PLW *ds, s8 gddir) {
 
     if (!ds->auto_guard && !ags) {
         if ((ds->spmv_ng_flag & 0x2000) || !just_now) {
-            if (!(ds->saishin_lvdir & ((gddir)))) {
+            if (!(ds->saishin_lvdir & gddir)) {
                 return 2;
             }
             if (ds->cp->sw_lvbt & 3) {
@@ -654,11 +655,11 @@ s32 defense_sky(PLW *as, PLW *ds, s8 gddir) {
 void blocking_point_count_up(PLW *wk) {
     wk->kind_of_blocking = 0;
 
-    if ((wk->wu.routine_no[1] == 0) && (wk->wu.routine_no[2] > 30) && (wk->wu.routine_no[2] < 36)) {
+    if (wk->wu.routine_no[1] == 0 && wk->wu.routine_no[2] > 30 && wk->wu.routine_no[2] < 36) {
         wk->kind_of_blocking = 1;
     }
 
-    if ((wk->wu.routine_no[1] == 1) && (wk->wu.routine_no[2] > 3) && (wk->wu.routine_no[2] < 8)) {
+    if (wk->wu.routine_no[1] == 1 && wk->wu.routine_no[2] > 3 && wk->wu.routine_no[2] < 8) {
         wk->kind_of_blocking = 2;
     }
 
@@ -672,7 +673,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", defense_
 void setup_dm_rl(WORK *as, WORK *ds) {
     s16 pw;
 
-    if ((as->work_id != 1) || (check_ttk_damage_request(as->att.reaction))) {
+    if (as->work_id != 1 || check_ttk_damage_request(as->att.reaction)) {
         ds->dm_rl = as->rl_flag;
         return;
     }
@@ -686,6 +687,8 @@ void setup_dm_rl(WORK *as, WORK *ds) {
             ds->dm_rl = as->rl_flag;
             return;
         }
+
+        break;
     }
 
     if (pw) {
@@ -753,51 +756,79 @@ void catch_hit_check() {
     s16 si;
 
     for (mi = 0; mi < hpq_in; mi++) {
-        if (!(hs[mi].flag.results & 0x1000)) {
-            mad = q_hit_push[mi];
-            if ((mad->work_id == 1) && (mad->att_hit_ok != 0)) {
-                mh = &mad->h_cat->cat_box[0];
-                if (mh[1] != 0) {
-                    for (si = 0; si < hpq_in; si++) {
-                        if ((si != mi) && !(hs[si].flag.results & 0x100) &&
-                            (sad = q_hit_push[si], (sad->work_id == 1)) &&
-                            (sh = &sad->h_cau->cau_box[0], (sh[1] != 0))) {
-                            if (!(mad->att.guard & 0x18)) {
-                                if (!((PLW *)sad)->tsukamarenai_flag) {
-                                    if (!(mad->att.dipsw & 0x60)) {
-                                        if ((sad->routine_no[1] == 1) && (sad->routine_no[3] != 0)) {
-                                            if (sad->routine_no[2] != 0x19) {
-                                                continue;
-                                            }
-                                        }
-                                    } else if ((sad->routine_no[1] == 1) && (sad->routine_no[3] != 0) &&
-                                               (sad->cg_type != 0xA)) {
-                                        if (!dm_oiuchi_catch[sad->routine_no[2]]) {
-                                            continue;
-                                        }
-                                    }
+        if (hs[mi].flag.results & 0x1000) {
+            continue;
+        }
 
-                                } else {
-                                    continue;
-                                }
-                            }
-                            if (hit_check_subroutine(mad, sad, mh, sh)) {
-                                hs[mi].flag.results |= 0x1000;
-                                hs[mi].my_hit = (u16)si;
-                                hs[si].flag.results |= 0x100;
-                                hs[si].dm_me = (u16)mi;
-                                mad->att_hit_ok = 0;
-                                hs[mi].ah = mh;
-                                hs[si].dh = sh;
-                                mad->att_hit_ok = 0;
-                            } else {
+        mad = q_hit_push[mi];
+
+        if (mad->work_id != 1) {
+            continue;
+        }
+
+        if (mad->att_hit_ok == 0) {
+            continue;
+        }
+
+        mh = &mad->h_cat->cat_box[0];
+
+        if (mh[1] == 0) {
+            continue;
+        }
+
+        for (si = 0; si < hpq_in; si++) {
+            if (si == mi) {
+                continue;
+            }
+
+            if (hs[si].flag.results & 0x100) {
+                continue;
+            }
+
+            sad = q_hit_push[si];
+
+            if (sad->work_id != 1) {
+                continue;
+            }
+
+            sh = &sad->h_cau->cau_box[0];
+
+            if (sh[1] == 0) {
+                continue;
+            }
+
+            if (!(mad->att.guard & 0x18)) {
+                if (!((PLW *)sad)->tsukamarenai_flag) {
+                    if (!(mad->att.dipsw & 0x60)) {
+                        if ((sad->routine_no[1] == 1) && (sad->routine_no[3] != 0)) {
+                            if (sad->routine_no[2] != 0x19) {
                                 continue;
                             }
-                            break;
+                        }
+                    } else if ((sad->routine_no[1] == 1) && (sad->routine_no[3] != 0) && (sad->cg_type != 10)) {
+                        if (!dm_oiuchi_catch[sad->routine_no[2]]) {
+                            continue;
                         }
                     }
+                } else {
+                    continue;
                 }
             }
+
+            if (hit_check_subroutine(mad, sad, mh, sh)) {
+                hs[mi].flag.results |= 0x1000;
+                hs[mi].my_hit = (u16)si;
+                hs[si].flag.results |= 0x100;
+                hs[si].dm_me = (u16)mi;
+                mad->att_hit_ok = 0;
+                hs[mi].ah = mh;
+                hs[si].dh = sh;
+                mad->att_hit_ok = 0;
+            } else {
+                continue;
+            }
+
+            break;
         }
     }
 }
@@ -916,7 +947,7 @@ s16 get_att_head_position(WORK *wk) {
 }
 
 void hit_push_request(WORK *hpr_wk) {
-    if ((hpq_in < 31) && (hpr_wk->cg_hit_ix != 0)) {
+    if (hpq_in < 31 && hpr_wk->cg_hit_ix != 0) {
         q_hit_push[hpq_in++] = hpr_wk;
     }
 }
@@ -940,7 +971,7 @@ void clear_hit_queue() {
 s16 change_damage_attribute(PLW *as, u16 atr, u16 ix) {
     switch (atr) {
     case 1:
-        if ((as->wu.work_id == 1) && (as->player_number == 0) && as->wu.rl_flag) {
+        if (as->wu.work_id == 1 && as->player_number == 0 && as->wu.rl_flag) {
             ix = attr_freeze_tbl[ix - 32];
             as->wu.at_attribute = 3;
         } else {
@@ -953,7 +984,7 @@ s16 change_damage_attribute(PLW *as, u16 atr, u16 ix) {
         break;
 
     case 3:
-        if ((as->wu.work_id == 1) && (as->player_number == 0) && (as->wu.rl_flag)) {
+        if (as->wu.work_id == 1 && as->player_number == 0 && as->wu.rl_flag) {
             ix = attr_flame_tbl[ix - 32];
             as->wu.at_attribute = 1;
         } else {
