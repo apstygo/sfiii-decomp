@@ -3684,7 +3684,13 @@ void Character_Change(struct _TASK *task_ptr) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Default_Training_Data);
+#else
+void Default_Training_Data(s32 flag) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Default_Training_Option);
 

@@ -1,18 +1,74 @@
 #include "sf33rd/Source/Game/TATE00.h"
 #include "common.h"
+#include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/bg000.h"
+#include "sf33rd/Source/Game/bg010.h"
+#include "sf33rd/Source/Game/bg020.h"
+#include "sf33rd/Source/Game/bg030.h"
+#include "sf33rd/Source/Game/bg040.h"
+#include "sf33rd/Source/Game/bg050.h"
+#include "sf33rd/Source/Game/bg060.h"
+#include "sf33rd/Source/Game/bg070.h"
+#include "sf33rd/Source/Game/bg080.h"
+#include "sf33rd/Source/Game/bg090.h"
+#include "sf33rd/Source/Game/bg100.h"
+#include "sf33rd/Source/Game/bg120.h"
+#include "sf33rd/Source/Game/bg130.h"
+#include "sf33rd/Source/Game/bg140.h"
+#include "sf33rd/Source/Game/bg150.h"
+#include "sf33rd/Source/Game/bg160.h"
+#include "sf33rd/Source/Game/bg180.h"
+#include "sf33rd/Source/Game/bg190.h"
+#include "sf33rd/Source/Game/bg_sub.h"
+#include "sf33rd/Source/Game/bns_bg2.h"
+#include "sf33rd/Source/Game/bonus_bg.h"
+#include "sf33rd/Source/Game/workuser.h"
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/TATE00", TATE00);
-#else
+void (*ta_move_tbl[22])() = { BG000, BG010, BG020, BG030, BG040, BG050, BG060, BG070, BG080, BG090,    BG100,
+                              BG010, BG120, BG130, BG140, BG150, BG160, BG180, BG180, BG190, Bonus_bg, Bonus_bg2 };
+
+void ta0_init00();
+void ta0_init01();
+void ta0_init02();
+void ta0_move();
+
 void TATE00() {
-    not_implemented(__func__);
+    void (*jump_tbl[4])() = { ta0_init00, ta0_init01, ta0_init02, ta0_move };
+
+    if (Game_pause & 0x80) {
+        return;
+    }
+
+    jump_tbl[bg_w.bg_routine]();
+    Scrn_Renew();
+    Irl_Family();
+    Irl_Scrn();
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/TATE00", ta0_init00);
+void ta0_init00() {
+    bg_w.bg_routine++;
+    bg_initialize();
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/TATE00", ta0_init01);
+void ta0_init01() {
+    bg_w.bg_routine++;
+    akebono_initialize();
+    ta_move_tbl[bg_w.bg_index]();
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/TATE00", ta0_init02);
+void ta0_init02() {
+    bg_w.bg_routine++;
+    ta_move_tbl[bg_w.bg_index]();
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/TATE00", ta0_move);
+void ta0_move() {
+    ta_move_tbl[bg_w.bg_index]();
+
+    if (bg_w.quake_x_index > 0) {
+        bg_w.quake_x_index--;
+    }
+
+    if (bg_w.quake_y_index > 0) {
+        bg_w.quake_y_index--;
+    }
+}
