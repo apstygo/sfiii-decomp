@@ -2732,20 +2732,20 @@ typedef struct {
 
 typedef struct {
     // total size: 0x10
-    union /* @anon32 */ {
-        unsigned short results; // offset 0x0, size 0x2
-        struct /* @anon33 */ {
+    union {
+        u16 results; // offset 0x0, size 0x2
+        struct {
             // total size: 0x2
-            char att_result; // offset 0x0, size 0x1
-            char cat_result; // offset 0x1, size 0x1
-        } ca;                // offset 0x0, size 0x2
-    } flag;                  // offset 0x0, size 0x2
-    unsigned char my_att;    // offset 0x2, size 0x1
-    unsigned char dm_body;   // offset 0x3, size 0x1
-    unsigned short my_hit;   // offset 0x4, size 0x2
-    unsigned short dm_me;    // offset 0x6, size 0x2
-    signed short *ah;        // offset 0x8, size 0x4
-    signed short *dh;        // offset 0xC, size 0x4
+            s8 att_result; // offset 0x0, size 0x1
+            s8 cat_result; // offset 0x1, size 0x1
+        } ca;              // offset 0x0, size 0x2
+    } flag;                // offset 0x0, size 0x2
+    u8 my_att;             // offset 0x2, size 0x1
+    u8 dm_body;            // offset 0x3, size 0x1
+    u16 my_hit;            // offset 0x4, size 0x2
+    u16 dm_me;             // offset 0x6, size 0x2
+    s16 *ah;               // offset 0x8, size 0x4
+    s16 *dh;               // offset 0xC, size 0x4
 } HS;
 
 typedef struct {
@@ -2784,21 +2784,21 @@ typedef struct {
 
 typedef struct {
     // total size: 0xA
-    signed short offence_total;  // offset 0x0, size 0x2
-    signed short defence_total;  // offset 0x2, size 0x2
-    signed short tech_pts_total; // offset 0x4, size 0x2
-    signed short ex_point_total; // offset 0x6, size 0x2
-    signed short grade;          // offset 0x8, size 0x2
+    s16 offence_total;  // offset 0x0, size 0x2
+    s16 defence_total;  // offset 0x2, size 0x2
+    s16 tech_pts_total; // offset 0x4, size 0x2
+    s16 ex_point_total; // offset 0x6, size 0x2
+    s16 grade;          // offset 0x8, size 0x2
 } JudgeGals;
 
 typedef struct {
     // total size: 0xC
-    signed short offence_total;  // offset 0x0, size 0x2
-    signed short defence_total;  // offset 0x2, size 0x2
-    signed short tech_pts_total; // offset 0x4, size 0x2
-    signed short ex_point_total; // offset 0x6, size 0x2
-    signed short round;          // offset 0x8, size 0x2
-    signed short grade;          // offset 0xA, size 0x2
+    s16 offence_total;  // offset 0x0, size 0x2
+    s16 defence_total;  // offset 0x2, size 0x2
+    s16 tech_pts_total; // offset 0x4, size 0x2
+    s16 ex_point_total; // offset 0x6, size 0x2
+    s16 round;          // offset 0x8, size 0x2
+    s16 grade;          // offset 0xA, size 0x2
 } JudgeCom;
 
 typedef struct {
