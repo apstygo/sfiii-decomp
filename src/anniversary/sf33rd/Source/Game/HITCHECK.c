@@ -739,7 +739,24 @@ void dm_status_copy(WORK *as, WORK *ds) {
     as->meoshi_hit_flag = 1;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", add_combo_work);
+void add_combo_work(PLW *as, PLW *ds) {
+    s16 *kow;
+    s16 *cal;
+
+    if (ds->kezurijini_flag) {
+        return;
+    }
+
+    ds->kizetsu_kow = ds->cb->new_dm = as->wu.kind_of_waza;
+    kow = &ds->cb->kind_of[0][0][0];
+    cal = &calc_hit[ds->wu.id][0];
+    kow[as->wu.kind_of_waza]++;
+    cal[(as->wu.kind_of_waza & 120) / 8]++;
+    ds->cb->total++;
+    kow = &ds->rp->kind_of[0][0][0];
+    kow[as->wu.kind_of_waza]++;
+    ds->rp->total++;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", nise_combo_work);
 
