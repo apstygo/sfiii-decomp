@@ -2767,5 +2767,12 @@ typedef struct {
     s8 proccess_dead; // offset 0x8, size 0x1
 } SDAT;
 
+typedef struct {
+    // total size: 0x26
+    s16 timer;       // offset 0x0, size 0x2
+    s16 jmplv;       // offset 0x2, size 0x2
+    s16 kosuu;       // offset 0x4, size 0x2
+    s16 bbdat[4][4]; // offset 0x6, size 0x20
+} BBBSTable;
 
 #endif
