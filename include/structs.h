@@ -717,6 +717,14 @@ typedef struct {
 } WORK_Other;
 
 typedef struct {
+    // total size: 0x8
+    s16 nx;  // offset 0x0, size 0x2
+    s16 ny;  // offset 0x2, size 0x2
+    s16 col; // offset 0x4, size 0x2
+    u16 chr; // offset 0x6, size 0x2
+} CONN;
+
+typedef struct {
     // total size: 0x6F8
     WORK wu;             // offset 0x0, size 0x388
     u32 *my_master;      // offset 0x388, size 0x4
@@ -726,13 +734,7 @@ typedef struct {
     s16 master_priority; // offset 0x392, size 0x2
     s16 prio_reverse;    // offset 0x394, size 0x2
     s16 num_of_conn;     // offset 0x396, size 0x2
-    struct /* @anon50 */ {
-        // total size: 0x8
-        s16 nx;  // offset 0x0, size 0x2
-        s16 ny;  // offset 0x2, size 0x2
-        s16 col; // offset 0x4, size 0x2
-        u16 chr; // offset 0x6, size 0x2
-    } conn[108]; // offset 0x398, size 0x360
+    CONN conn[108];      // offset 0x398, size 0x360
 } WORK_Other_CONN;
 
 typedef struct {
