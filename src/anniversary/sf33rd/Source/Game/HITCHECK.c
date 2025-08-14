@@ -939,7 +939,23 @@ void add_combo_work(PLW *as, PLW *ds) {
     ds->rp->total++;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", nise_combo_work);
+void nise_combo_work(PLW *as, PLW *ds, s16 num) {
+    s16 *kow;
+    s16 *cal;
+    s16 i;
+
+    for (i = 0; i < num; i++) {
+        ds->kizetsu_kow = ds->cb->new_dm = as->wu.kind_of_waza;
+        kow = &ds->cb->kind_of[0][0][0];
+        cal = &calc_hit[ds->wu.id][0];
+        kow[as->wu.kind_of_waza]++;
+        cal[(as->wu.kind_of_waza & 120) / 8]++;
+        ds->cb->total++;
+        kow = &ds->rp->kind_of[0][0][0];
+        kow[as->wu.kind_of_waza]++;
+        ds->rp->total++;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", cal_combo_waribiki);
 
