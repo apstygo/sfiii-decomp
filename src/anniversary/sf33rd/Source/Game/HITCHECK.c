@@ -762,7 +762,33 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", nise_com
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", cal_combo_waribiki);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", cal_combo_waribiki2);
+void cal_combo_waribiki2(PLW *ds) {
+    s16 num;
+
+    if (ds->wu.dm_piyo == 0) {
+        return;
+    }
+
+    if (ds->cb->total == 0) {
+        return;
+    }
+
+    num = 32 - (ds->cb->total * 2);
+
+    if (num <= 0) {
+        num = 1;
+    }
+
+    if (num > 32) {
+        num = 32;
+    }
+
+    ds->wu.dm_piyo = (ds->wu.dm_piyo * num) / 32;
+
+    if (ds->wu.dm_piyo == 0) {
+        ds->wu.dm_piyo = 1;
+    }
+}
 
 void catch_hit_check() {
     WORK *mad;
