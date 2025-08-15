@@ -170,6 +170,7 @@ void effB1_mark_exchange(WORK_Other_CONN *ewk) {
         if (ewk->conn[i + 20].nx == 0) {
             continue;
         }
+
         if (ewk->conn[i + 20].nx == 1) {
             continue;
         }
