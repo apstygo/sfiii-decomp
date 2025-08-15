@@ -33,7 +33,8 @@ void bbbs_com_execute(PLW *wk) {
         effect_B1_init(wk, 1);
         effect_16_init(wk, 0);
         effect_16_init(wk, 1);
-        effect_H0_init(&wk->wu, effect_H9_init(wk));
+        effect_H9_init(wk);
+        effect_H0_init(&wk->wu);
         break;
 
     case 1:
