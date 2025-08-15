@@ -229,7 +229,13 @@ void effC2_main_process_first(WORK_Other *ewk, PLW *twk) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC2", effc2_parts_work_chain_check);
+#else
+void effc2_parts_work_chain_check(s16 flag) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC2", effC2_main_process_second);
 
@@ -297,7 +303,13 @@ void copy_rno(WORK *wk) {
     wk->old_rno[3] = wk->routine_no[3];
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC2", player_hosei_data);
+#else
+void player_hosei_data(WORK_Other *ewk, s16 flag, s16 f2) {
+    not_implemented(__func__);
+}
+#endif
 
 void set_c2_quake(WORK *wk) {
     if (!wk->hit_stop) {
@@ -459,7 +471,13 @@ void bs2_status_disp(s32 /* unused */) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC2", check_parts_break_level);
+#else
+s32 check_parts_break_level(WORK *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC2", bs2_score_add_next);
 
