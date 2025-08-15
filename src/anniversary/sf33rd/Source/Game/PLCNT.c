@@ -1052,15 +1052,17 @@ void settle_check() {
     while (1) {
         switch ((plw[0].dead_flag) + (plw[1].dead_flag * 2)) {
         case 1:
-            Winner_id = 1;
-            Loser_id = 0;
-            goto jump;
+            if (1) {
+                Winner_id = 1;
+                Loser_id = 0;
+            } else {
+                /* fallthrough */
 
-        case 2:
-            Winner_id = 0;
-            Loser_id = 1;
+            case 2:
+                Winner_id = 0;
+                Loser_id = 1;
+            }
 
-        jump:
             if (check_sa_resurrection(&plw[Loser_id]) == 0) {
                 setup_gouki_wins();
                 Round_Result |= plw[Loser_id].wu.dm_koa;
