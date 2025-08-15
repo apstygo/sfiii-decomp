@@ -40,6 +40,11 @@ u8 get_cjdR(PLW *);
 void (*const plpat_lv_00[16])(PLW *wk);
 void (*const plxx_extra_attack_table[])();
 
+const u8 *cjdr_karaburi_table[20];
+const u8 *cjdr_hits_table[20];
+const u8 *cjdr_blocking_table[20];
+const u8 *cjdr_defense_table[20];
+
 void Player_attack(PLW *wk) {
 #if defined(TARGET_PS2)
     void clear_chainex_check(s32 ix);
@@ -375,13 +380,38 @@ void check_ja_nmj_dummy_RTNM(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPAT", get_cjdR);
-#else
-u8 get_cjdR(PLW *) {
-    not_implemented(__func__);
+u8 get_cjdR(PLW *wk) {
+    s16 w_ix = (wk->wu.kind_of_waza & 6);
+    w_ix += ((wk->wu.hf.hit.player & 0xA2) != 0);
+
+    if (wk->wu.att_hit_ok || (wk->wu.hf.hit.player == 0)) {
+        goto case0;
+    }
+
+    if (wk->wu.hf.hit.player & 3) {
+        goto case1;
+    }
+
+    if (wk->wu.hf.hit.player & 0xC0) {
+        goto case2;
+    }
+
+    if (wk->wu.hf.hit.player & 0x30) {
+        goto case3;
+    }
+
+case0:
+    return cjdr_karaburi_table[wk->player_number][w_ix];
+
+case1:
+    return cjdr_hits_table[wk->player_number][w_ix];
+
+case2:
+    return cjdr_blocking_table[wk->player_number][w_ix];
+
+case3:
+    return cjdr_defense_table[wk->player_number][w_ix];
 }
-#endif
 
 void Attack_04000(PLW *wk) {
 #if defined(TARGET_PS2)
