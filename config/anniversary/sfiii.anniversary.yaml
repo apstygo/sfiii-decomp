@@ -195,7 +195,7 @@ segments:
       - [0x0C21C0, c, sf33rd/Source/Game/DEMO02]
       - [0x0C2AE0, asm, sf33rd/Source/Game/EFF00]
       - [0x0C3690, asm, sf33rd/Source/Game/EFF01]
-      - [0x0C4120, asm, sf33rd/Source/Game/EFF02]
+      - [0x0C4120, c, sf33rd/Source/Game/EFF02]
       - [0x0C4D00, asm, sf33rd/Source/Game/EFF03]
       - [0x0C5590, c, sf33rd/Source/Game/EFF04]
       - [0x0C58A0, c, sf33rd/Source/Game/eff05]
@@ -430,10 +430,10 @@ segments:
       - [0x1543B0, c, sf33rd/Source/Game/GD3rd]
       - [0x155C10, c, sf33rd/Source/Game/Grade]
       - [0x15E6F0, c, sf33rd/Source/Game/HITCHECK]
-      - [0x165100, asm, sf33rd/Source/Game/HITEFEF]
-      - [0x1653F0, asm, sf33rd/Source/Game/HITEFPL]
-      - [0x1659A0, asm, sf33rd/Source/Game/HITPLEF]
-      - [0x165CF0, asm, sf33rd/Source/Game/HITPLPL]
+      - [0x165100, c, sf33rd/Source/Game/HITEFEF]
+      - [0x1653F0, c, sf33rd/Source/Game/HITEFPL]
+      - [0x1659A0, c, sf33rd/Source/Game/HITPLEF]
+      - [0x165CF0, c, sf33rd/Source/Game/HITPLPL]
       - [0x166100, c, sf33rd/Source/Game/init3rd]
       - [0x166B10, c, sf33rd/Source/Game/IOConv]
       - [0x1671A0, c, sf33rd/Source/Game/LOSE_PL]
@@ -943,7 +943,7 @@ segments:
       - [0x405030, .rodata, sf33rd/Source/Game/DIR_DATA]
       - [0x405140, rodata, sf33rd/Source/Game/EFF00]
       - [0x405160, rodata, sf33rd/Source/Game/EFF01]
-      - [0x405190, rodata, sf33rd/Source/Game/EFF02]
+      - [0x405190, .rodata, sf33rd/Source/Game/EFF02]
       - [0x405BB0, rodata, sf33rd/Source/Game/EFF03]
       - [0x406600, .rodata, sf33rd/Source/Game/EFF04]
       - [0x4066D0, .rodata, sf33rd/Source/Game/eff05]
@@ -1412,7 +1412,7 @@ segments:
       - [0x473B80, sdata, sf33rd/Source/Game/Manage]
       - [0x473C80, .sdata, sf33rd/Source/Game/menu]
       - [0x473D50, sdata, sdata_473D50] # This belongs to menu too
-      - [0x473D50, sdata, sf33rd/Source/Game/n_input]
+      - [0x473D50, .sdata, sf33rd/Source/Game/n_input]
       - [0x473D70, .sdata, sf33rd/Source/Game/Next_CPU]
       - [0x473DF8, .sdata, sf33rd/Source/Game/OPENING]
       - [0x473E70, sdata, sf33rd/Source/Game/Pause]
@@ -1660,7 +1660,7 @@ segments:
       - { type: .bss, vram: 0x5A9BA0, name: sf33rd/Source/Game/EFFECT }
       - { type: .bss, vram: 0x5E1CA0, name: sf33rd/Source/Game/GD3rd }
       - { type: .bss, vram: 0x5E2D70, name: sf33rd/Source/Game/Grade }
-      - { type: bss, vram: 0x5E3450, name: sf33rd/Source/Game/HITCHECK }
+      - { type: .bss, vram: 0x5E3450, name: sf33rd/Source/Game/HITCHECK }
       - { type: .bss, vram: 0x5E3650, name: sf33rd/Source/Game/meta_col }
       - { type: .bss, vram: 0x5E3D50, name: sf33rd/Source/Game/MTRANS }
       - { type: .bss, vram: 0x5E4150, name: sf33rd/Source/Game/OPENING }

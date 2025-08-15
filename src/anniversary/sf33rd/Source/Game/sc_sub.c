@@ -252,7 +252,13 @@ void SSPutStr_Bigger(u16 x, u16 y, u8 atr, s8 *str, f32 sc, u8 gr, u16 priority)
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", SSPutDec);
+#else
+void SSPutDec(u16 x, u16 y, u8 atr, u8 dec, u8 size) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", SSPutDec3);
 
@@ -573,7 +579,13 @@ void combo_pts_set(u8 pl, u8 x, u8 num, s8 *pts, s8 digit) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", naming_set);
+#else
+void naming_set(u8 pl, s16 place, u16 atr, u16 chr) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", stun_gauge_waku_write);
