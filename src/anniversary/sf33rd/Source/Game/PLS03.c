@@ -421,13 +421,124 @@ const s16 _cnmc_z_lever_data[16][8] = { { -1, -1, -1, -1, -1, -1, -1, -1 }, { 4,
                                         { 1, 4, 5, 7, -1, -1, -1, -1 },     { 3, 5, 6, 9, -1, -1, -1, -1 },
                                         { 1, 4, 7, 3, 6, 9, -1, -1 },       { 1, 4, 7, 5, 3, 6, 9, -1 } };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", check_meoshi_cancel);
-#else
 s32 check_meoshi_cancel(PLW *wk) {
-    not_implemented(__func__);
+    s16 i;
+    s16 tdat;
+    s16 wdat;
+
+    wk->permited_koa |= 0x10;
+
+    if (wk->wu.meoshi_hit_flag == 0) {
+        return 0;
+    }
+
+    tdat = wk->wu.cg_meoshi & 0x8F;
+
+    switch (tdat) {
+    default:
+        wdat = cnmc_conv_data[wk->cp->sw_new & 0xF];
+        tdat &= 0xF;
+
+        while (1) {
+            if (wk->wu.cg_meoshi & 0x80) {
+                for (i = 0; i < 6; i++) {
+                    if (cnmc_Z_lever_data[tdat][i] == -1) {
+                        return 0;
+                    }
+
+                    if (wdat == cnmc_Z_lever_data[tdat][i]) {
+                        goto case_0;
+                    }
+                }
+            } else {
+                for (i = 0; i < 8; i++) {
+                    if (_cnmc_z_lever_data[tdat][i] == -1) {
+                        return 0;
+                    }
+
+                    if (wdat == _cnmc_z_lever_data[tdat][i]) {
+                        goto case_0;
+                    }
+                }
+            }
+            return 0;
+        }
+
+    case 0:
+    case_0:
+        if ((tdat = wk->wu.cg_meoshi & 0x770) == 0) {
+            if (!(wk->wu.cg_meoshi & 0x800)) {
+                return 0;
+            }
+
+            break;
+        }
+
+        wdat = wk->cp->sw_new & 0x770;
+
+        if (wdat & ~tdat) {
+            return 0;
+        }
+
+        if (shot_data_convert(wk->cp->sw_now) >= 0) {
+            if ((wk->wu.cg_meoshi & 0x800)) {
+                break;
+            }
+
+            goto end;
+        }
+
+        if (!(wk->wu.cg_cancel & 0x80)) {
+            return 0;
+        }
+
+        wdat = wk->cp->sw_off & 0x770;
+
+        if (wdat & ~tdat) {
+            return 0;
+        }
+
+        if (shot_data_convert(wk->cp->sw_off) < 0) {
+            return 0;
+        }
+
+        if (!(wk->wu.cg_meoshi & 0x800)) {
+            return 0;
+        }
+
+        break;
+    }
+
+    if (wk->wu.cg_meoshi & 0x1000) {
+        if (char_move_cmms3(wk) == 0) {
+            return 0;
+        }
+    } else {
+        char_move_cmms2(&wk->wu);
+    }
+
+    wk->wu.hf.hit_flag = 0;
+    wk->wu.att_hit_ok = 0;
+    wk->wu.meoshi_hit_flag = 0;
+    wk->wu.cg_cancel &= 0x60;
+
+    if ((wk->tc_1st_flag == 0) && (wk->wu.now_koc == 4)) {
+        grade_add_target_combo(wk->wu.id);
+    }
+
+    wk->tc_1st_flag = 1;
+    pp_pulpara_remake_at_init2(wk);
+    return 1;
+
+end:
+    if ((wk->tc_1st_flag == 0) && wk->wu.now_koc == 4) {
+        grade_add_target_combo(wk->wu.id);
+    }
+
+    check_nm_attack(wk);
+    wk->tc_1st_flag = 1;
+    return 1;
 }
-#endif
 
 const s16 gml_real_lever_data[16] = { 0, 6, 2, 10, 4, 0, 8, 5, 1, 9, 0, 0, 4, 8, 4, 8 };
 
