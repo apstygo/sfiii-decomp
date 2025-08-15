@@ -903,13 +903,53 @@ void Normal_47000(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPNM", Normal_48000);
-#else
 void Normal_48000(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s32 effect_G6_init(WORK * wk, u32 dat);
 #endif
+
+    wk->guard_flag = 3;
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        wk->wu.rl_flag = wk->wu.rl_waza;
+        wk->wu.xyz[1].disp.pos = 0;
+        set_char_move_init(&wk->wu, 0, 44);
+        setup_mvxy_data(&wk->wu, 27);
+        wk->wu.hit_stop = -17;
+        wk->wu.hit_quake = 8;
+        wk->wu.dm_stop = wk->wu.dm_quake = 0;
+        break;
+
+    case 1:
+        if (1) {
+            wk->wu.routine_no[3]++;
+            char_move_wca(&wk->wu);
+        } else {
+            /* fallthrough */
+
+        case 2:
+            char_move(&wk->wu);
+        }
+
+        if (wk->wu.cg_type == 1) {
+            wk->wu.cg_type = 0;
+            wk->wu.routine_no[3]++;
+            char_move_wca(&wk->wu);
+            add_mvxy_speed(&wk->wu);
+            effect_G6_init(&wk->wu, wk->wu.weight_level);
+        }
+
+        break;
+
+    case 3:
+        char_move(&wk->wu);
+        cal_mvxy_speed(&wk->wu);
+        add_mvxy_speed(&wk->wu);
+        break;
+    }
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPNM", Normal_50000);
