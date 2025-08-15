@@ -339,13 +339,55 @@ const s16 **kizetsu_timer_table[9] = { tsuujyou_dageki,   hissatsu_dageki,   tsu
                                        hissatsu_nage,     super_arts_dageki, super_arts_nage,
                                        super_arts_dageki, super_arts_nage,   super_arts_dageki };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", Player_control);
-#else
 void Player_control() {
-    not_implemented(__func__);
+    pulpul_scene = 1;
+
+    if (pcon_rno[0] + pcon_rno[1] != 0) {
+        if (Game_pause || EXE_flag) {
+            goto end;
+        } else {
+            if (pcon_dp_flag == 0) {
+                if ((vital_inc_timer -= 1) > 50) {
+                    vital_inc_timer = 50;
+                }
+
+                if ((vital_dec_timer -= 1) > 40) {
+                    vital_dec_timer = 40;
+                }
+            } else {
+                vital_inc_timer = 50;
+                vital_dec_timer = 40;
+                sag_inc_timer[0] = sag_inc_timer[1] = 20;
+            }
+        }
+    }
+
+    players_timer += 1;
+    players_timer &= 0x7FFF;
+    set_scrrrl();
+    player_main_process[pcon_rno[0]]();
+    check_body_touch();
+    check_damage_hosei();
+    set_quake(&plw[0]);
+    set_quake(&plw[1]);
+
+    if ((plw[0].zuru_flag == 0) && (plw[0].zettai_muteki_flag == 0)) {
+        hit_push_request(&plw[0].wu);
+    }
+
+    if ((plw[1].zuru_flag == 0) && (plw[1].zettai_muteki_flag == 0)) {
+        hit_push_request(&plw[1].wu);
+    }
+
+    add_next_position(&plw[0]);
+    add_next_position(&plw[1]);
+    check_cg_zoom();
+
+end:
+    if (Game_pause != 0x81) {
+        store_player_after_image_data();
+    }
 }
-#endif
 
 void reqPlayerDraw() {
     if (Debug_w[15] == 0) {
