@@ -298,13 +298,66 @@ void remake_sankaku_tobi_mvxy(WORK *wk, u8 kabe) {
     wk->mvxy.d[1].sp = -0x8800;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", check_F_R_dash);
-#else
 s16 check_F_R_dash(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void grade_add_command_waza(s32 ix);
 #endif
+
+    s16 num;
+    s16 rnum;
+
+    if (Bonus_Game_Flag != 20 || !wk->bs2_on_car) {
+        if (wk->wu.xyz[1].disp.pos > 0) {
+            return 0;
+        }
+    }
+
+    num = (wk->cp->waza_flag[0] != 0) + (wk->cp->waza_flag[1] != 0) * 2;
+    rnum = 0;
+
+    while (1) {
+        switch (num) {
+        case 1:
+            if (!(wk->spmv_ng_flag & 4)) {
+                wk->wu.routine_no[1] = 0;
+                wk->wu.routine_no[2] = 5;
+                wk->wu.routine_no[3] = 0;
+                rnum = 1;
+            }
+
+            break;
+
+        case 2:
+            if (!(wk->spmv_ng_flag & 8)) {
+                wk->wu.routine_no[1] = 0;
+                wk->wu.routine_no[2] = 6;
+                wk->wu.routine_no[3] = 0;
+                rnum = 1;
+            }
+
+            break;
+
+        case 3:
+            if (wk->cp->lever_dir < 2) {
+                num = 1;
+                continue;
+            } else {
+                num = 2;
+                continue;
+            }
+
+            break;
+        }
+
+        break;
+    }
+
+    if (rnum) {
+        grade_add_command_waza(wk->wu.id);
+    }
+
+    return rnum;
+}
 
 s32 check_jump_ready(PLW *wk) {
 #if defined(TARGET_PS2)
