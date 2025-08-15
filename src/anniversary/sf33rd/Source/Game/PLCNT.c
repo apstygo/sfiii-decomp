@@ -1048,13 +1048,64 @@ void setup_settle_rno(s16 kos) {
     pcon_dp_flag = 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT", settle_check);
-#else
 void settle_check() {
-    not_implemented(__func__);
+    while (1) {
+        switch ((plw[0].dead_flag) + (plw[1].dead_flag * 2)) {
+        case 1:
+            Winner_id = 1;
+            Loser_id = 0;
+            goto jump;
+
+        case 2:
+            Winner_id = 0;
+            Loser_id = 1;
+
+        jump:
+            if (check_sa_resurrection(&plw[Loser_id]) == 0) {
+                setup_gouki_wins();
+                Round_Result |= plw[Loser_id].wu.dm_koa;
+
+                if ((Round_Result & 0x800) && gouki_wins) {
+                    Forbid_Break = -1;
+                    Shin_Gouki_BGM = 1;
+                    Control_Music_Fade(0x96);
+                    setup_settle_rno(4);
+                    break;
+                }
+
+                setup_settle_rno(0);
+                Conclusion_Flag = 1;
+                Conclusion_Type = 0;
+
+                if (Demo_Flag) {
+                    request_center_message(0);
+                }
+            }
+
+            break;
+
+        case 3:
+            if ((check_sa_resurrection(&plw[0]) == 0) && (check_sa_resurrection(&plw[1]) == 0)) {
+                Conclusion_Flag = 1;
+                Conclusion_Type = 1;
+                setup_settle_rno(1);
+
+                if (Demo_Flag) {
+                    request_center_message(1);
+                }
+            } else {
+                continue;
+            }
+
+            break;
+
+        default:
+            break;
+        }
+
+        break;
+    }
 }
-#endif
 
 s32 check_sa_resurrection(PLW *wk) {
     if (check_sa_type_rebirth(wk) == 0) {
