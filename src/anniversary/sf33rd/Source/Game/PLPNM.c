@@ -833,13 +833,75 @@ void Normal_42000(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPNM", Normal_47000);
-#else
 void Normal_47000(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
+    void setup_mvxy_data(WORK * wk, u32 ix);
+    s32 effect_G6_init(WORK * wk, u32 dat);
+    void grade_add_grap_def(s32 ix);
 #endif
+
+    const s16 *datix = nmCE_data[wk->wu.routine_no[2] - 47];
+
+    if (((WORK *)wk->wu.target_adrs)->cg_prio != 2) {
+        wk->wu.next_z = 32;
+    }
+
+    if (wk->wu.dm_work_id & 11) {
+        wk->dm_hos_flag = 1;
+    }
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        wk->wu.rl_flag = wk->wu.rl_waza;
+
+        if (datix[2]) {
+            wk->wu.xyz[1].disp.pos = 0;
+        }
+
+        set_char_move_init(&wk->wu, 0, datix[0]);
+        setup_mvxy_data(&wk->wu, datix[1]);
+        wk->wu.hit_stop = -18;
+        wk->wu.hit_quake = 0;
+        wk->wu.dm_stop = wk->wu.dm_quake = 0;
+        add_sp_arts_gauge_nagenuke(wk);
+        grade_add_grap_def(wk->wu.id);
+        break;
+
+    case 1:
+        if (1) {
+            wk->wu.routine_no[3]++;
+            char_move_wca(&wk->wu);
+        } else {
+            /* fallthrough */
+
+        case 2:
+            char_move(&wk->wu);
+        }
+
+        if (wk->wu.cg_type == 1) {
+            wk->wu.cg_type = 0;
+            wk->wu.routine_no[3]++;
+            add_mvxy_speed(&wk->wu);
+
+            if (datix[2]) {
+                effect_G6_init(&wk->wu, wk->wu.weight_level);
+                break;
+            }
+        }
+
+        break;
+
+    case 3:
+        jumping_union_process(&wk->wu, 4);
+        break;
+
+    case 4:
+        char_move(&wk->wu);
+        break;
+    }
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPNM", Normal_48000);
