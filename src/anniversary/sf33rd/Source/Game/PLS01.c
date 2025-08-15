@@ -561,13 +561,59 @@ s16 check_attbox_dir(PLW *wk) {
     return emdir;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", check_defense_kind);
-#else
 u16 check_defense_kind(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
+
+    u16 rnum = 0;
+
+    switch (wk->wu.routine_no[2]) {
+    case 27:
+        if (wk->cp->sw_new & 2) {
+            rnum = 3;
+        } else if (chcgp_hos[wk->player_number] && check_attbox_dir(wk)) {
+            rnum = 2;
+        }
+
+        break;
+
+    case 28:
+        if (wk->cp->sw_new & 2) {
+            rnum = 3;
+        } else if (chcgp_hos[wk->player_number] && (check_attbox_dir(wk) == 0)) {
+            rnum = 1;
+        }
+
+        break;
+
+    case 29:
+        if (!(wk->cp->sw_new & 2)) {
+            if (check_attbox_dir(wk)) {
+                rnum = 2;
+            } else {
+                rnum = 1;
+            }
+        }
+
+        break;
+    }
+
+    if (rnum) {
+        wk->wu.routine_no[2] = rnum + 26;
+        set_char_move_init(&wk->wu, 0, rnum + 28);
+
+        while (1) {
+            if (wk->wu.cg_type == 1) {
+                break;
+            }
+
+            char_move_z(&wk->wu);
+        }
+    }
+
+    return rnum;
+}
 
 void jumping_union_process(WORK *wk, s16 num) {
     add_mvxy_speed(wk);
