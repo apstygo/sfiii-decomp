@@ -1277,7 +1277,13 @@ void setup_comm_back(WORK *wk) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", setup_comm_retmj);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", setup_comm_abbak);
+#else
+void setup_comm_abbak(WORK *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 void check_cgd_patdat(WORK *wk) {
     union {

@@ -8,6 +8,7 @@ void char_move_cmhs(PLW *wk);
 void char_move(WORK *wk);
 void check_cm_extended_code(WORK *wk);
 void setup_comm_back(WORK *wk);
+void setup_comm_abbak(WORK *wk);
 void check_cgd_patdat(WORK *wk);
 void set_jugde_area(WORK *wk);
 void set_new_attnum(WORK *wk);
