@@ -678,13 +678,86 @@ s16 meri_case_switch(s16 meri) {
     return meri;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_body_touch2);
-#else
 void check_body_touch2() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 hoseishitemo_eenka(WORK * wk, s32 tx);
+    s16 meri_case_switch(s32 meri);
+    s16 check_work_position_bonus(WORK * hm, s32 tx);
 #endif
+
+    PLW *hmw;
+    PLW *cmw;
+    WORK *efw;
+    s16 *dad0;
+    s16 *dad1;
+    s16 meri;
+    s16 ix;
+    s16 dad2[4];
+    s16 dad3[4];
+
+    if (plw->wu.operator) {
+        hmw = &plw[0];
+        cmw = &plw[1];
+    } else {
+        hmw = &plw[1];
+        cmw = &plw[0];
+    }
+
+    if (!saishin_bs2_on_car(hmw)) {
+        efw = (WORK *)cmw->wu.my_effadrs;
+        ix = (sel_hosei_tbl_ix[hmw->player_number]) + 1 + ((efw->dir_timer == 1) * 2);
+        dad0 = &hmw->wu.hosei_adrs[1].hos_box[0];
+        dad1 = &efw->hosei_adrs[ix].hos_box[0];
+
+        if (!hoseishitemo_eenka(&hmw->wu, efw->xyz[0].disp.pos + (dad1[0] + dad1[1] / 2))) {
+            dad2[0] = dad0[0];
+            dad2[1] = dad0[1];
+            dad2[2] = dad0[2];
+            dad2[3] = dad0[3];
+            dad3[0] = dad1[0];
+            dad3[1] = dad1[1];
+            dad3[2] = dad1[2];
+            dad3[3] = dad1[3];
+
+            if (hmw->wu.cg_jphos) {
+                dad2[2] += hmw->wu.cg_jphos;
+                dad2[3] -= hmw->wu.cg_jphos;
+            }
+
+            if (efw->xyz[1].disp.pos) {
+                dad3[2] -= efw->xyz[1].disp.pos;
+            }
+
+            meri = hit_check_subroutine(&hmw->wu, efw, &dad2[0], &dad3[0]);
+
+            if (meri != 0) {
+                meri = meri_case_switch(meri);
+
+                if (!check_work_position_bonus(&hmw->wu, efw->xyz[0].disp.pos + (dad1[0] + dad1[1] / 2))) {
+                    goto two;
+                } else {
+                    goto one;
+                }
+            }
+        }
+    }
+
+    hmw->hos_em_flag = 0;
+    cmw->hos_em_flag = 0;
+    return;
+
+one:
+    hmw->wu.xyz[0].disp.pos += (meri) * (hmw->micchaku_flag != 1);
+    hmw->hos_em_flag = 2;
+    cmw->hos_em_flag = 1;
+    return;
+
+two:
+    hmw->wu.xyz[0].disp.pos -= (meri) * (hmw->micchaku_flag != 2);
+    hmw->hos_em_flag = 1;
+    cmw->hos_em_flag = 2;
+    return;
+}
 
 s32 check_be_car_object() {
     PLW *com;

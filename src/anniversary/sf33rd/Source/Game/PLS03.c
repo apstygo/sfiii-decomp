@@ -22,14 +22,6 @@ void hissatsu_setup_union(PLW *wk, s16 rno) {
 const s16 cmdixconv_table[36] = { 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
                                   2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 };
 
-// #if defined(TARGET_PS2)
-// INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", cmdixconv);
-// #else
-// s16 cmdixconv(s16 ix) {
-//     not_implemented(__func__);
-// }
-// #endif
-
 s16 cmdixconv(s16 ix) {
     return cmdixconv_table[ix - 0x14];
 }
