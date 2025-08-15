@@ -951,13 +951,48 @@ void Normal_48000(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPNM", Normal_50000);
-#else
 void Normal_50000(PLW *wk) {
-    not_implemented(__func__);
+    wk->guard_flag = 3;
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        wk->wu.rl_flag = wk->wu.rl_waza;
+        set_char_move_init(&wk->wu, 0, 0x2E);
+        setup_mvxy_data(&wk->wu, 0x1D);
+        wk->wu.hit_stop = -0x11;
+        wk->wu.hit_quake = 8;
+        wk->wu.dm_stop = wk->wu.dm_quake = 0;
+        return;
+
+    case 1:
+        if (1) {
+            wk->wu.routine_no[3]++;
+            char_move_wca(&wk->wu);
+        } else {
+            /* fallthrough */
+
+        case 2:
+            char_move(&wk->wu);
+        }
+
+        if (wk->wu.cg_type == 1) {
+            wk->wu.cg_type = 0;
+            wk->wu.routine_no[3]++;
+            add_mvxy_speed(&wk->wu);
+        }
+
+        break;
+
+    case 3:
+        jumping_union_process(&wk->wu, 4);
+        break;
+
+    case 4:
+        char_move(&wk->wu);
+        break;
+    }
 }
-#endif
 
 void Normal_51000(PLW *wk) {
     if (wk->wu.routine_no[3] == 0) {
@@ -983,7 +1018,7 @@ void Normal_52000(PLW *wk) {
         wk->extra_jump = 1;
         remake_sankaku_tobi_mvxy(&wk->wu, wk->micchaku_flag);
         set_char_move_init(&wk->wu, 0, 0x30);
-        effect_I3_init(&wk->wu, 0U);
+        effect_I3_init(&wk->wu, 0);
         break;
 
     case 1:
