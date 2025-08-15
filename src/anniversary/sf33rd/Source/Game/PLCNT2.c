@@ -305,10 +305,44 @@ void move_P2_move_P1_bonus(s16 *field_work) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLCNT2", check_damage_hosei_bonus);
-#else
 void check_damage_hosei_bonus() {
-    not_implemented(__func__);
+    plw[0].muriyari_ugoku = plw[0].hosei_amari;
+    plw[1].muriyari_ugoku = plw[1].hosei_amari;
+
+    switch ((plw[0].hosei_amari != 0) + ((plw[1].hosei_amari != 0) * 2)) {
+    case 1:
+        if ((!plw[0].tsukami_f || plw[0].kind_of_catch != 1) && (plw[0].tsukamare_f | plw[0].dm_hos_flag) == 0) {
+            break;
+        }
+
+    one:
+        plw[1].wu.xyz[0].disp.pos += plw[0].hosei_amari;
+        plw[1].muriyari_ugoku += plw[0].hosei_amari;
+        break;
+
+    case 2:
+        if ((!plw[1].tsukami_f || plw[1].kind_of_catch != 1) && (plw[1].tsukamare_f | plw[1].dm_hos_flag) == 0) {
+            break;
+        }
+
+    two:
+        plw[0].wu.xyz[0].disp.pos += plw[1].hosei_amari;
+        plw[0].muriyari_ugoku += plw[1].hosei_amari;
+        break;
+
+    case 3:
+        if (plw[0].hos_fi_flag == plw[1].hos_fi_flag) {
+            if (plw[0].tsukamare_f) {
+                goto one;
+            }
+
+            if (plw[1].tsukamare_f) {
+                goto two;
+            }
+        }
+
+        break;
+    }
+
+    plw[0].hosei_amari = plw[1].hosei_amari = 0;
 }
-#endif
