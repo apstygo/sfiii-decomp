@@ -607,13 +607,54 @@ void remake_mvxy_PoGR(WORK *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS02", check_body_touch);
-#else
 void check_body_touch() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 meri_case_switch(s32 meri);
 #endif
+
+    PLW *p1w = &plw[0];
+    PLW *p2w = &plw[1];
+    s16 meri;
+
+    if (p1w->wu.h_hos->hos_box[0] != 0 && p2w->wu.h_hos->hos_box[0] != 0) {
+        meri = hit_check_subroutine(&p1w->wu, &p2w->wu, &p1w->wu.h_hos->hos_box[0], &p2w->wu.h_hos->hos_box[0]);
+
+        if (meri != 0) {
+            meri = meri_case_switch(meri);
+
+            if (p1w->wu.old_pos[1] < 1 && p2w->wu.old_pos[1] < 1) {
+                if (ichikannkei) {
+                    goto one;
+                }
+
+                goto two;
+            }
+
+            if (check_work_position(&p1w->wu, &p2w->wu)) {
+                goto one;
+            }
+
+            goto two;
+        }
+    }
+
+    p1w->hos_em_flag = 0;
+    p2w->hos_em_flag = 0;
+    return;
+
+one:
+    p1w->wu.xyz[0].disp.pos += meri * (p1w->micchaku_flag != 1);
+    p2w->wu.xyz[0].disp.pos -= meri * (p2w->micchaku_flag != 2);
+    p1w->hos_em_flag = 2;
+    p2w->hos_em_flag = 1;
+    return;
+
+two:
+    p1w->wu.xyz[0].disp.pos -= meri * (p1w->micchaku_flag != 2);
+    p2w->wu.xyz[0].disp.pos += meri * (p2w->micchaku_flag != 1);
+    p1w->hos_em_flag = 1;
+    p2w->hos_em_flag = 2;
+}
 
 s16 meri_case_switch(s16 meri) {
     switch (meri & 0xFFF8) {
