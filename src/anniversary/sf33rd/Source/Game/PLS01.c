@@ -86,13 +86,45 @@ s32 check_rl_flag(WORK *wk) {
     return wk->rl_flag == wk->rl_waza;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS01", set_rl_waza);
-#else
 void set_rl_waza(PLW *wk) {
-    not_implemented(__func__);
+    WORK *em;
+    s16 result;
+
+    while (1) {
+        if (Bonus_Game_Flag == 20) {
+            if (wk->wu.operator != 0) {
+                if (wk->wu.xyz[0].disp.pos < bs2_hosei[0] || wk->wu.xyz[0].disp.pos > bs2_hosei[1]) {
+                    break;
+                }
+
+                if (((result = wk->cp->sw_lvbt & 0xF) != 0) && !(result & 3)) {
+                    wk->wu.rl_waza = (result & 8) != 0;
+                    return;
+                }
+            }
+
+            wk->wu.rl_waza = wk->wu.rl_flag;
+            return;
+        }
+
+        break;
+    }
+
+    em = (WORK *)wk->wu.target_adrs;
+    result = wk->wu.xyz[0].disp.pos - em->xyz[0].disp.pos;
+
+    if (result) {
+        if (result > 0) {
+            wk->wu.rl_waza = 0;
+            return;
+        }
+
+        wk->wu.rl_waza = 1;
+        return;
+    }
+
+    wk->wu.rl_waza = (em->rl_waza + 1) & 1;
 }
-#endif
 
 s16 check_rl_on_car(PLW *wk) {
     s16 rnum;
