@@ -258,7 +258,7 @@ void setup_demojump(PLW *twk, s16 ix) {
         break;
 
     case 2:
-        if (twk->wu.pat_status >= 14 && twk->wu.pat_status <= 30 || twk->bs2_on_car) {
+        if ((twk->wu.pat_status >= 14 && twk->wu.pat_status) <= 30 || twk->bs2_on_car) {
             twk->wu.routine_no[1] = 0;
             twk->wu.routine_no[2] = 56;
             twk->wu.routine_no[3] = 0;
