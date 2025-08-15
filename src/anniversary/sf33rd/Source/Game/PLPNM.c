@@ -762,13 +762,76 @@ void Normal_41000(PLW *wk) {
     lose_player(wk);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPNM", Normal_42000);
-#else
 void Normal_42000(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
+    void setup_mvxy_data(WORK * wk, u32 ix);
+    s32 effect_G6_init(WORK * wk, u32 dat);
 #endif
+
+    const s16 *dadr = nmPB_data[wk->wu.routine_no[2] - 42];
+
+    if (((WORK *)wk->wu.target_adrs)->cg_prio != 2) {
+        wk->wu.next_z = 32;
+    }
+
+    if (wk->wu.dm_work_id & 11) {
+        wk->dm_hos_flag = 1;
+    }
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        wk->wu.rl_flag = (wk->wu.dm_rl + 1) & 1;
+
+        if (dadr[2]) {
+            wk->wu.xyz[1].disp.pos = 0;
+        }
+
+        set_char_move_init(&wk->wu, 0, dadr[0]);
+        setup_mvxy_data(&wk->wu, dadr[1]);
+        Flash_MT[(wk->wu.id)] = 2;
+        add_sp_arts_gauge_paring(wk);
+        set_hit_stop_hit_quake(&wk->wu);
+
+        if (wk->wu.hit_stop > 0) {
+            wk->wu.hit_stop = -wk->wu.hit_stop;
+            break;
+        }
+
+        break;
+
+    case 1:
+        if (1) {
+            wk->wu.routine_no[3]++;
+            char_move_wca(&wk->wu);
+        } else {
+            /* fallthrough */
+
+        case 2:
+            char_move(&wk->wu);
+        }
+
+        if (wk->wu.cg_type == 1) {
+            wk->wu.routine_no[3]++;
+            add_mvxy_speed(&wk->wu);
+
+            if (dadr[2]) {
+                effect_G6_init(&wk->wu, wk->wu.weight_level);
+            }
+        }
+
+        break;
+
+    case 3:
+        jumping_union_process(&wk->wu, 4);
+        break;
+
+    case 4:
+        char_move(&wk->wu);
+        break;
+    }
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPNM", Normal_47000);
