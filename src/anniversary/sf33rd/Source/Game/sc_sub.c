@@ -660,7 +660,13 @@ void Training_Disp_Work_Clear() {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", Training_Damage_Set);
+#else
+void Training_Damage_Set(s16 damage, s16 /* unused */, u8 kezuri) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", Training_Data_Disp);
 

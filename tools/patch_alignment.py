@@ -31,6 +31,7 @@ special_cases = {
     ("Com_Pl", ".rodata", 0): 16,
     ("appear", ".rodata", 1): 16,
     ("PLS02", ".rodata", 3): 16,
+    ("PLS03", ".rodata", 2): 16,
     ("CHARSET", ".rodata", 0): 16,
 
     ("bg_data", ".data", 0): 16,

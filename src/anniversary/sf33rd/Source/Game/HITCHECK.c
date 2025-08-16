@@ -1089,16 +1089,19 @@ s16 hit_check_subroutine(WORK *wk1, WORK *wk2, const s16 *hd1, s16 *hd2) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", hit_check_x_only);
+#else
+s32 hit_check_x_only(WORK *wk1, WORK *wk2, s16 *hd1, s16 *hd2) {
+    not_implemented(__func__);
+}
+#endif
 
 void cal_hit_mark_position(WORK *wk1, WORK *wk2, s16 *hd1, s16 *hd2) {
-    s16 d0;
-    s16 d1;
+    s16 d0 = *hd1++;
+    s16 d1 = *hd1++;
     s16 d2;
     s16 d3;
-
-    d0 = *hd1++;
-    d1 = *hd1++;
 
     if (wk1->rl_flag) {
         d0 = -d0;
@@ -1144,7 +1147,13 @@ void cal_hit_mark_position(WORK *wk1, WORK *wk2, s16 *hd1, s16 *hd2) {
     wk2->hit_mark_y = (d0 + d1) >> 1;
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", get_target_att_position);
+#else
+void get_target_att_position(WORK *wk, s16 *tx, s16 *ty) {
+    not_implemented(__func__);
+}
+#endif
 
 s16 get_att_head_position(WORK *wk) {
     s16 *ta;

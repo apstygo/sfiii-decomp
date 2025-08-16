@@ -28,4 +28,6 @@ extern const s8 PL_Blow_Off_Data[27];
 extern const u8 Squat_Time_Data[8][8];
 extern const u8 Boss_Speech_Data[20][2];
 
+extern s16 Com_Vital_Unit_Data[20][4][12];
+
 #endif
