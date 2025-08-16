@@ -1,28 +1,6 @@
 #include "sf33rd/Source/Game/end_data.h"
 #include "common.h"
 
-const u16 *ending_map_tbl[21][3] = { { ending000_map, NULL, NULL },
-                                     { ending010_map, NULL, NULL },
-                                     { ending020_map, ending021_map, NULL },
-                                     { ending030_map, NULL, NULL },
-                                     { ending040_map, ending041_map, NULL },
-                                     { ending050_map, ending051_map, NULL },
-                                     { ending060_map, ending061_map, NULL },
-                                     { ending070_map, ending071_map, NULL },
-                                     { ending080_map, NULL, NULL },
-                                     { ending090_map, NULL, NULL },
-                                     { ending100_map, NULL, NULL },
-                                     { ending110_map, ending111_map, NULL },
-                                     { ending120_map, ending121_map, NULL },
-                                     { ending130_map, NULL, NULL },
-                                     { ending140_map, ending141_map, ending142_map },
-                                     { ending150_map, NULL, NULL },
-                                     { ending160_map, ending160_map, ending161_map },
-                                     { ending170_map, NULL, NULL },
-                                     { ending180_map, NULL, NULL },
-                                     { ending190_map, ending191_map, NULL },
-                                     { gouki_nosekae_map1, gouki_nosekae_map2, NULL } };
-
 // sbss
 
 END_W end_w;
@@ -700,3 +678,25 @@ const u16 gouki_nosekae_map2[128] = {
     0x5555, 0x5555, 0x5555, 0x5555, 0x5555, 0x5555, 0x5555, 0x5555, 0x0A80, 0xA9A0, 0x55A0, 0x5680, 0x5A00,
     0x5AA0, 0x5550, 0x5550, 0x000A, 0x000A, 0x02A9, 0x0A95, 0x0555, 0x0555, 0x0555, 0x0555
 };
+
+const u16 *ending_map_tbl[21][3] = { { ending000_map, NULL, NULL },
+                                     { ending010_map, NULL, NULL },
+                                     { ending020_map, ending021_map, NULL },
+                                     { ending030_map, NULL, NULL },
+                                     { ending040_map, ending041_map, NULL },
+                                     { ending050_map, ending051_map, NULL },
+                                     { ending060_map, ending061_map, NULL },
+                                     { ending070_map, ending071_map, NULL },
+                                     { ending080_map, NULL, NULL },
+                                     { ending090_map, NULL, NULL },
+                                     { ending100_map, NULL, NULL },
+                                     { ending110_map, ending111_map, NULL },
+                                     { ending120_map, ending121_map, NULL },
+                                     { ending130_map, NULL, NULL },
+                                     { ending140_map, ending141_map, ending142_map },
+                                     { ending150_map, NULL, NULL },
+                                     { ending160_map, ending160_map, ending161_map },
+                                     { ending170_map, NULL, NULL },
+                                     { ending180_map, NULL, NULL },
+                                     { ending190_map, ending191_map, NULL },
+                                     { gouki_nosekae_map1, gouki_nosekae_map2, NULL } };

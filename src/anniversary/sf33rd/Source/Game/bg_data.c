@@ -23,7 +23,7 @@ s16 ls_cnt1;
 u16 zoom_add;
 s16 scrn_adgjust_x;
 s16 scrn_adgjust_y;
-u16 *scr_bcm[4];
+const u16 *scr_bcm[4];
 u8 nosekae;
 u8 g_kakikae[2];
 u8 g_number[2];
