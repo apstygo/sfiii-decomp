@@ -789,6 +789,7 @@ void Game_Manage_7_2() {
     }
 }
 
+
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Check_Disp_Combo);
 #else

@@ -62,5 +62,6 @@ extern _REPLAY_W Replay_w;                        // size: 0x7448, address: 0x6B
 extern struct _REP_GAME_INFOR Rep_Game_Infor[11]; // size: 0x18C, address: 0x6BD140
 extern struct _TASK task[11];                     // size: 0xDC, address: 0x6BD2D0
 extern MTX BgMATRIX[9];                           // size: 0x240, address: 0x6BD3B0
+extern TrainingData Training[3];
 
 #endif

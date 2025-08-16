@@ -1,7 +1,13 @@
 #include "sf33rd/Source/Game/Com_Pl.h"
 #include "common.h"
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", cpu_algorithm);
+#else
+u16 cpu_algorithm(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", CPU_Sub);
 
@@ -155,7 +161,9 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", Setup_Bull
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", Pattern_Insurance);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", Correct_Lv_Data);
+// INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", Correct_Lv_Data);
+
+const u16 Correct_Lv_Data[16] = { 0, 1, 2, 2, 4, 5, 6, 5, 8, 9, 10, 9, 8, 5, 10, 0 };
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", literal_204_00504830);
 
