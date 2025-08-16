@@ -415,7 +415,7 @@ void Check_Check_Screen() {
     }
 }
 
-void Disp_Lever(u32 /* unused */, u32 /* unused */, u32 /* unused */) {
+void Disp_Lever(u16 * /* unused */, u32 /* unused */, u32 /* unused */) {
     // do nothing
 }
 

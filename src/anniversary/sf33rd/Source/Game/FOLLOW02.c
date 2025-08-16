@@ -1,9 +1,8 @@
+#include "sf33rd/Source/Game/FOLLOW02.h"
 #include "common.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
-#include "structs.h"
 
-void Follow02(PLW *wk);
 void Follow02_0000(PLW *wk);
 void Follow02_0001(PLW *wk);
 void Follow02_0002(PLW *wk);

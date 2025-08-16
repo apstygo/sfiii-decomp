@@ -26,6 +26,18 @@ extern const u8 Shell_Change_Data_For_Reaction[];
 extern const u8 Standing_Time_Data[20][4][8];
 extern const s8 PL_Blow_Off_Data[27];
 extern const u8 Squat_Time_Data[8][8];
+extern const s8 PL_Body_Width_Data[20];
+extern const s16 Area_Unit_Data[20][3];
+extern const s16 Shell_Area_Unit_Data[20][3];
+extern const s16 Arts_Super_Name_Data[20][3];
+extern const u8 Faint_Rapid_Data[8][8];
+extern const s8 PL_Damage_Data[];
+extern const u8 Shell_Renzoku_Flip_Data[20][8];
+extern const s8 Flip_Attack_Data[20][8];
+extern const u8 Rapid_Exit_Data[8][8];
+extern const u8 Exit_Throw_Data[20][18];
+extern const u8 Rapid_Hit_Data[4][8];
+extern const s8 Float_Attack_Data[4][16];
 extern const u8 Boss_Speech_Data[20][2];
 
 extern s16 Com_Vital_Unit_Data[20][4][12];

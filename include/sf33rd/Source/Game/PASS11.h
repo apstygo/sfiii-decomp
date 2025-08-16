@@ -4,7 +4,7 @@
 #include "structs.h"
 #include "types.h"
 
-void (*const Passive11_Tbl[255])();
+extern void (*const Passive11_Tbl[255])();
 
 void Passive11(PLW *wk);
 
