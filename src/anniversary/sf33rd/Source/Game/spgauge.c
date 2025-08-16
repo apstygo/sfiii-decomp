@@ -1,7 +1,7 @@
 #include "sf33rd/Source/Game/spgauge.h"
 #include "common.h"
 #include "sf33rd/Source/Game/PLCNT.h"
-// #include "sf33rd/Source/Game/PLMAIN.h"
+#include "sf33rd/Source/Game/PLMAIN.h"
 #include "sf33rd/Source/Game/SE.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/SysDir.h"
@@ -73,7 +73,6 @@ const u16 sagauge_colchg_tbl[4][2] = { { 17, 145 }, { 18, 146 }, { 19, 147 }, { 
 const u16 *spgauge_puttbl[2] = { spgauge_tbl, spgauge_tbl };
 const u16 *spgauge_postbl[2] = { spg1p_npos_tbl, spg2p_npos_tbl };
 
-void sag_bug_fix(s32 side);
 void spgauge_control(s8 Spg_Num);
 void wipe_check();
 void satime_ko_after_clear(s8 Stpl_Num);
@@ -81,7 +80,6 @@ void sa_time_moji_send();
 void samoji_control(s8 Stpl_Num);
 void sast_control(s8 Stpl_Num);
 void sast_color_chenge(s8 Stpl_Num);
-void sa_color_chenge(s8 Stpl_Num);
 void sagauge_color_chenge(s8 Stpl_Num);
 void sa_moji_trans(s8 Stpl_Num, s8 Kind, s8 OnOff);
 void sa_gauge_trans(s8 pl_kind);
@@ -89,8 +87,6 @@ void spgauge_sound_request(s8 Stpl_Num);
 void spgauge_work_clear(s8 Stpl_Num);
 void spgauge_wipe_write(s8 Stpl_Num);
 void sa_waku_trans(s8 Stpl_Num, s8 Spg_Col);
-void tr_spgauge_cont_init(s8 pl);
-void tr_spgauge_cont_init2(s8 pl);
 
 void spgauge_cont_init() {
     s8 lpy;
@@ -167,13 +163,83 @@ void spgauge_cont_init() {
     col = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/spgauge", spgauge_cont_demo_init);
-#else
 void spgauge_cont_demo_init() {
-    not_implemented(__func__);
+    s8 lpy;
+
+    Sa_frame_Clear();
+
+    for (lpy = 0; lpy < 2; lpy++) {
+        demo_set_sa_full(&super_arts[lpy]);
+        spg_dat[lpy].current_spg = super_arts[lpy].gauge_len;
+        spg_dat[lpy].old_spg = super_arts[lpy].gauge_len;
+        spg_dat[lpy].spgtbl_ptr = spgauge_puttbl[lpy];
+        spg_dat[lpy].spg_level = super_arts[lpy].store;
+        spg_dat[lpy].spg_maxlevel = super_arts[lpy].store_max;
+        spg_dat[lpy].spg_len = super_arts[lpy].gauge_len / 8;
+        spg_dat[lpy].spg_dotlen = super_arts[lpy].gauge_len;
+        spg_dat[lpy].flag = 1;
+        spg_dat[lpy].flag2 = 0;
+        spg_dat[lpy].level_flag = 0;
+        spg_dat[lpy].timer = 51;
+        spg_dat[lpy].timer2 = 2;
+        spg_dat[lpy].kind = 1;
+        spg_dat[lpy].max = 0;
+        spg_dat[lpy].max_old = 1;
+        spg_dat[lpy].max_rno = 2;
+        spg_dat[lpy].time_rno = 5;
+        spg_dat[lpy].gauge_flash_time = 2;
+        spg_dat[lpy].gauge_flash_col = 0;
+        spg_dat[lpy].sa_flag = 0;
+        spg_dat[lpy].ex_flag = 0;
+        spg_dat[lpy].no_chgcol = 0;
+        spg_dat[lpy].time_no_clear = 0;
+        spg_dat[lpy].sa_mukou = 0;
+        sa_gauge_flash[lpy] = 0;
+        spg_dat[lpy].spgptbl_ptr = spgauge_postbl[lpy];
+
+        if (super_arts[lpy].gauge_type == 1) {
+            spg_dat[lpy].time = 1;
+            time_flag[lpy] = 1;
+        } else {
+            spg_dat[lpy].time = 0;
+            time_flag[lpy] = 0;
+        }
+
+        spg_dat[lpy].mass_len = spg_dat[lpy].spg_len - 5;
+
+        if (spg_dat[lpy].spg_len & 1) {
+            spg_dat[lpy].mchar = 5;
+        } else {
+            spg_dat[lpy].mass_len = spg_dat[lpy].mass_len - 1;
+            spg_dat[lpy].mchar = 6;
+        }
+
+        spg_dat[lpy].mass_len /= 2;
+        time_operate[lpy] = 0;
+        sast_now[lpy] = 0;
+        max2[lpy] = 0;
+        max_rno2[lpy] = 0;
+    }
+
+    spg_dat[0].spgcol_number = 17;
+    spg_dat[1].spgcol_number = 145;
+    sa_stock_trans(spg_dat[0].spg_maxlevel, 1, 0);
+    sa_stock_trans(spg_dat[1].spg_maxlevel, 1, 1);
+    sa_waku_trans(0, 1);
+    sa_waku_trans(1, 1);
+    sa_gauge_trans(0);
+    sa_gauge_trans(1);
+    sa_moji_trans(0, 0, 1);
+    sa_moji_trans(1, 0, 1);
+    Old_Stop_SG = 0;
+    Exec_Wipe_F = 0;
+    time_clear[0] = 0;
+    time_clear[1] = 0;
+    spg_offset = 0;
+    time_num = 0;
+    time_timer = 3;
+    col = 1;
 }
-#endif
 
 void spgauge_cont_main() {
     u8 i;
@@ -455,13 +521,272 @@ void samoji_control(s8 Stpl_Num) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/spgauge", sast_control);
-#else
 void sast_control(s8 Stpl_Num) {
-    not_implemented(__func__);
+    sast_now[Stpl_Num] = 1;
+
+    if (spg_dat[Stpl_Num].time) {
+        switch (spg_dat[Stpl_Num].time_rno) {
+        case 0:
+            if (plw[Stpl_Num].sa->ok == -1) {
+                spg_dat[Stpl_Num].time_rno = 1;
+            } else {
+                if (plw[Stpl_Num].sa->store > spg_dat[Stpl_Num].spg_level) {
+                    spg_dat[Stpl_Num].current_spg = spg_dat[Stpl_Num].spg_dotlen;
+                    sa_gauge_trans(Stpl_Num);
+                    spg_dat[Stpl_Num].spg_level = plw[Stpl_Num].sa->store;
+                    sa_stock_trans(spg_dat[Stpl_Num].spg_level, col, Stpl_Num);
+                }
+
+                spg_dat[Stpl_Num].time_rno = 3;
+                goto case_3;
+            }
+
+            /* fallthrough */
+
+        case 1:
+            spg_dat[Stpl_Num].timer--;
+
+            if ((!spg_dat[Stpl_Num].sa_mukou || spg_dat[Stpl_Num].timer != 0) &&
+                (spg_dat[Stpl_Num].spg_level == plw[Stpl_Num].sa->store)) {
+                spg_dat[Stpl_Num].timer2--;
+
+                if (spg_dat[Stpl_Num].kind == 0) {
+                    if (spg_dat[Stpl_Num].timer2 == 0) {
+                        sa_stock_trans(spg_dat[Stpl_Num].spg_level, 0, Stpl_Num);
+                        sa_waku_trans(Stpl_Num, 0);
+                        spg_dat[Stpl_Num].kind = 1;
+                        spg_dat[Stpl_Num].timer2 = 2;
+                    }
+                } else if (spg_dat[Stpl_Num].timer2 == 0) {
+                    sa_stock_trans(spg_dat[Stpl_Num].spg_level, 1, Stpl_Num);
+                    sa_waku_trans(Stpl_Num, 1);
+                    spg_dat[Stpl_Num].kind = 0;
+                    spg_dat[Stpl_Num].timer2 = 2;
+                }
+
+                return;
+            }
+
+            if (spg_dat[Stpl_Num].sa_flag != 0 && spg_dat[Stpl_Num].sa_mukou == 0) {
+                sa_waku_trans(Stpl_Num, 1);
+                sa_moji_trans(Stpl_Num, 1, 1);
+                time_operate[Stpl_Num] = 1;
+                sast_color_chenge(Stpl_Num);
+                spg_dat[Stpl_Num].time_rno = 2;
+                spg_dat[Stpl_Num].no_chgcol = 1;
+
+                spg_dat[Stpl_Num].current_spg = spg_dat[Stpl_Num].spg_dotlen;
+                sa_gauge_trans(Stpl_Num);
+                return;
+            }
+
+            if (0) {
+                /* fallthrough */
+
+            case 2:
+                if (spg_dat[Stpl_Num].current_spg > 0 && plw[Stpl_Num].sa->ok == -1) {
+                    if (spg_dat[Stpl_Num].current_spg != spg_dat[Stpl_Num].old_spg) {
+                        sa_gauge_trans(Stpl_Num);
+                    }
+
+                    spg_dat[Stpl_Num].old_spg = spg_dat[Stpl_Num].current_spg;
+                } else {
+                    spg_dat[Stpl_Num].time_rno = 4;
+                }
+
+                return;
+
+            case 3:
+            case_3:
+                spg_dat[Stpl_Num].timer--;
+
+                if (spg_dat[Stpl_Num].timer) {
+                    spg_dat[Stpl_Num].timer2--;
+
+                    if (spg_dat[Stpl_Num].kind == 0) {
+                        if (spg_dat[Stpl_Num].timer2 == 0) {
+                            sa_stock_trans(spg_dat[Stpl_Num].spg_level, 0, Stpl_Num);
+                            sa_waku_trans(Stpl_Num, 0);
+                            spg_dat[Stpl_Num].kind = 1;
+                            spg_dat[Stpl_Num].timer2 = 2;
+                        }
+                    } else {
+                        if (spg_dat[Stpl_Num].timer2 == 0) {
+                            sa_stock_trans(spg_dat[Stpl_Num].spg_level, 1, Stpl_Num);
+                            sa_waku_trans(Stpl_Num, 1);
+                            spg_dat[Stpl_Num].kind = 0;
+                            spg_dat[Stpl_Num].timer2 = 2;
+                        }
+                    }
+
+                    return;
+                }
+
+                if ((spg_dat[Stpl_Num].ex_flag == 1 && omop_use_ex_gauge_ix[Stpl_Num] == 0) &&
+                    (spg_dat[Stpl_Num].max_old == 1 || max_rno2[Stpl_Num] == 1)) {
+                    break;
+                }
+
+                if (plw[Stpl_Num].sa->store == plw[Stpl_Num].sa->store_max) {
+                    max2[Stpl_Num] = 1;
+                }
+
+                if (spg_dat[Stpl_Num].sa_mukou == 1) {
+                    max2[Stpl_Num] = 0;
+                }
+
+                spg_dat[Stpl_Num].time_rno = 4;
+                /* fallthrough */
+
+            case 4:
+                if (spg_dat[Stpl_Num].sa_mukou == 0) {
+                    sa_moji_trans(Stpl_Num, 1, 0);
+                    spg_dat[Stpl_Num].max_old = 0;
+                }
+            }
+
+            time_operate[Stpl_Num] = 0;
+            sast_color_chenge(Stpl_Num);
+            spg_dat[Stpl_Num].spg_level = plw[Stpl_Num].sa->store;
+            sa_stock_trans(spg_dat[Stpl_Num].spg_level, col, Stpl_Num);
+            sa_waku_trans(Stpl_Num, col);
+
+            if (max2[Stpl_Num] == 0 && spg_dat[Stpl_Num].sa_mukou == 0) {
+                sa_gauge_trans(Stpl_Num);
+            }
+
+            spg_dat[Stpl_Num].flag = 0;
+            spg_dat[Stpl_Num].time_rno = 5;
+            spg_dat[Stpl_Num].max_rno = 0;
+            spg_dat[Stpl_Num].sa_flag = 0;
+            spg_dat[Stpl_Num].ex_flag = 0;
+            spg_dat[Stpl_Num].no_chgcol = 0;
+            spg_dat[Stpl_Num].sa_mukou = 0;
+
+            spg_dat[Stpl_Num].flag2 = 0;
+            sast_now[Stpl_Num] = 0;
+            return;
+
+        default:
+        case 5:
+            sast_now[Stpl_Num] = 0;
+            return;
+        }
+
+        sast_color_chenge(Stpl_Num);
+        sa_stock_trans(spg_dat[Stpl_Num].spg_level, col, Stpl_Num);
+        sa_waku_trans(Stpl_Num, col);
+
+        spg_dat[Stpl_Num].flag = 1;
+        spg_dat[Stpl_Num].time_rno = 5;
+        spg_dat[Stpl_Num].max_old = 1;
+        spg_dat[Stpl_Num].max_rno = 2;
+        spg_dat[Stpl_Num].sa_flag = 0;
+        spg_dat[Stpl_Num].ex_flag = 0;
+        spg_dat[Stpl_Num].no_chgcol = 0;
+        spg_dat[Stpl_Num].sa_mukou = 0;
+        spg_dat[Stpl_Num].flag2 = 0;
+        max2[Stpl_Num] = 0;
+        max_rno2[Stpl_Num] = 0;
+        sast_now[Stpl_Num] = 0;
+        return;
+    }
+
+    switch (spg_dat[Stpl_Num].max_rno) {
+    case 0:
+        if (plw[Stpl_Num].sa->store > spg_dat[Stpl_Num].spg_level) {
+            spg_dat[Stpl_Num].current_spg = spg_dat[Stpl_Num].spg_dotlen;
+            sa_gauge_trans(Stpl_Num);
+            spg_dat[Stpl_Num].spg_level = plw[Stpl_Num].sa->store;
+            sa_stock_trans(spg_dat[Stpl_Num].spg_level, col, Stpl_Num);
+        }
+
+        spg_dat[Stpl_Num].max_rno = 1;
+        /* fallthrough */
+
+    case 1:
+        spg_dat[Stpl_Num].timer--;
+
+        if (spg_dat[Stpl_Num].timer) {
+            spg_dat[Stpl_Num].timer2--;
+
+            if (spg_dat[Stpl_Num].kind == 0) {
+                if (spg_dat[Stpl_Num].timer2 == 0) {
+                    sa_stock_trans(spg_dat[Stpl_Num].spg_level, 0, Stpl_Num);
+                    sa_waku_trans(Stpl_Num, 0);
+                    spg_dat[Stpl_Num].kind = 1;
+                    spg_dat[Stpl_Num].timer2 = 2;
+                }
+            } else if (spg_dat[Stpl_Num].timer2 == 0) {
+                sa_stock_trans(spg_dat[Stpl_Num].spg_level, 1, Stpl_Num);
+                sa_waku_trans(Stpl_Num, 1);
+                spg_dat[Stpl_Num].kind = 0;
+                spg_dat[Stpl_Num].timer2 = 2;
+            }
+
+            return;
+        }
+
+        if (plw[Stpl_Num].sa->store == plw[Stpl_Num].sa->store_max) {
+            max2[Stpl_Num] = 1;
+        }
+
+        if (spg_dat[Stpl_Num].sa_mukou == 1) {
+            max2[Stpl_Num] = 0;
+        }
+
+        if ((spg_dat[Stpl_Num].ex_flag == 1 && omop_use_ex_gauge_ix[Stpl_Num] == 0) &&
+            (spg_dat[Stpl_Num].max_old == 1 || max_rno2[Stpl_Num] == 1)) {
+            break;
+        }
+
+        if (spg_dat[Stpl_Num].max_old != 0 && spg_dat[Stpl_Num].sa_mukou == 0) {
+            sa_moji_trans(Stpl_Num, 0, 0);
+            spg_dat[Stpl_Num].max_old = 0;
+        }
+
+        sast_color_chenge(Stpl_Num);
+        spg_dat[Stpl_Num].spg_level = plw[Stpl_Num].sa->store;
+        sa_stock_trans(spg_dat[Stpl_Num].spg_level, col, Stpl_Num);
+        sa_waku_trans(Stpl_Num, col);
+
+        if (max2[Stpl_Num] == 0 && spg_dat[Stpl_Num].max_old == 0 && spg_dat[Stpl_Num].sa_mukou == 0) {
+            sa_gauge_trans(Stpl_Num);
+        }
+
+        spg_dat[Stpl_Num].flag = 0;
+        spg_dat[Stpl_Num].max_rno = 2;
+        spg_dat[Stpl_Num].sa_flag = 0;
+        spg_dat[Stpl_Num].ex_flag = 0;
+        spg_dat[Stpl_Num].sa_mukou = 0;
+
+        spg_dat[Stpl_Num].flag2 = 0;
+        sast_now[Stpl_Num] = 0;
+        /* fallthrough */
+
+    default:
+    case 2:
+        sast_now[Stpl_Num] = 0;
+        return;
+    }
+
+    sast_color_chenge(Stpl_Num);
+    sa_stock_trans(spg_dat[Stpl_Num].spg_level, col, Stpl_Num);
+    sa_waku_trans(Stpl_Num, col);
+
+    spg_dat[Stpl_Num].flag = 1;
+    spg_dat[Stpl_Num].max_old = 1;
+    spg_dat[Stpl_Num].max_rno = 2;
+    spg_dat[Stpl_Num].sa_flag = 0;
+    spg_dat[Stpl_Num].ex_flag = 0;
+    spg_dat[Stpl_Num].sa_mukou = 0;
+    spg_dat[Stpl_Num].flag2 = 0;
+
+    max2[Stpl_Num] = 0;
+    max_rno2[Stpl_Num] = 0;
+    sast_now[Stpl_Num] = 0;
+    return;
 }
-#endif
 
 void sast_color_chenge(s8 Stpl_Num) {
     if (plw[Stpl_Num].sa->gauge_type == 1 && plw[Stpl_Num].sa->ok == -1) {
@@ -523,37 +848,39 @@ void sagauge_color_chenge(s8 Stpl_Num) {
 
     spg_dat[Stpl_Num].gauge_flash_time--;
 
-    if (spg_dat[Stpl_Num].gauge_flash_time == 0) {
-        spg_dat[Stpl_Num].gauge_flash_time = 2;
-
-        if (Stpl_Num == 0) {
-            sq_paint_chenge(6, 26, spg_dat[0].spg_len, 1, sagauge_colchg_tbl[spg_dat[0].gauge_flash_col][0]);
-        } else if (spg_dat[1].max == 1 || spg_dat[1].max_old == 1 || spg_dat[1].spg_level == spg_dat[1].spg_maxlevel) {
-            sq_paint_chenge(
-                42 - spg_dat[1].spg_len, 26, spg_dat[1].mass_len, 1, sagauge_colchg_tbl[spg_dat[1].gauge_flash_col][1]);
-            sq_paint_chenge(42 - spg_dat[1].spg_len + spg_dat[1].mass_len,
-                            26,
-                            spg_dat[1].mchar,
-                            1,
-                            sagauge_colchg_tbl[spg_dat[1].gauge_flash_col][0]);
-            sq_paint_chenge(42 - spg_dat[1].spg_len + spg_dat[1].mass_len + spg_dat[1].mchar,
-                            26,
-                            spg_dat[1].mass_len,
-                            1,
-                            sagauge_colchg_tbl[spg_dat[1].gauge_flash_col][1]);
-        } else {
-            sq_paint_chenge(
-                42 - spg_dat[1].spg_len, 26, spg_dat[1].spg_len, 1, sagauge_colchg_tbl[spg_dat[1].gauge_flash_col][1]);
-        }
-
-        if (spg_dat[Stpl_Num].gauge_flash_col == 3) {
-            spg_dat[Stpl_Num].gauge_flash_col = 0;
-        } else {
-            spg_dat[Stpl_Num].gauge_flash_col++;
-        }
-
-        spg_dat[Stpl_Num].spgcol_number = sagauge_colchg_tbl[spg_dat[Stpl_Num].gauge_flash_col][Stpl_Num];
+    if (spg_dat[Stpl_Num].gauge_flash_time != 0) {
+        return;
     }
+
+    spg_dat[Stpl_Num].gauge_flash_time = 2;
+
+    if (Stpl_Num == 0) {
+        sq_paint_chenge(6, 26, spg_dat[0].spg_len, 1, sagauge_colchg_tbl[spg_dat[0].gauge_flash_col][0]);
+    } else if (spg_dat[1].max == 1 || spg_dat[1].max_old == 1 || spg_dat[1].spg_level == spg_dat[1].spg_maxlevel) {
+        sq_paint_chenge(
+            42 - spg_dat[1].spg_len, 26, spg_dat[1].mass_len, 1, sagauge_colchg_tbl[spg_dat[1].gauge_flash_col][1]);
+        sq_paint_chenge(42 - spg_dat[1].spg_len + spg_dat[1].mass_len,
+                        26,
+                        spg_dat[1].mchar,
+                        1,
+                        sagauge_colchg_tbl[spg_dat[1].gauge_flash_col][0]);
+        sq_paint_chenge(42 - spg_dat[1].spg_len + spg_dat[1].mass_len + spg_dat[1].mchar,
+                        26,
+                        spg_dat[1].mass_len,
+                        1,
+                        sagauge_colchg_tbl[spg_dat[1].gauge_flash_col][1]);
+    } else {
+        sq_paint_chenge(
+            42 - spg_dat[1].spg_len, 26, spg_dat[1].spg_len, 1, sagauge_colchg_tbl[spg_dat[1].gauge_flash_col][1]);
+    }
+
+    if (spg_dat[Stpl_Num].gauge_flash_col == 3) {
+        spg_dat[Stpl_Num].gauge_flash_col = 0;
+    } else {
+        spg_dat[Stpl_Num].gauge_flash_col++;
+    }
+
+    spg_dat[Stpl_Num].spgcol_number = sagauge_colchg_tbl[spg_dat[Stpl_Num].gauge_flash_col][Stpl_Num];
 }
 
 void sa_moji_trans(s8 Stpl_Num, s8 Kind, s8 OnOff) {
@@ -580,6 +907,7 @@ void sa_moji_trans(s8 Stpl_Num, s8 Kind, s8 OnOff) {
                 scfont_sqput2(1, 27, 11, 0, 0, 13, 12, 2, 1);
                 break;
             }
+
             sc_clear(1, 25, 4, 26);
             sc_clear(1, 27, 2, 27);
             break;
@@ -596,8 +924,6 @@ void sa_moji_trans(s8 Stpl_Num, s8 Kind, s8 OnOff) {
         break;
     }
 }
-
-// INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/spgauge", sa_gauge_trans);
 
 void sa_gauge_trans(s8 pl_kind) {
     s8 i;
@@ -640,7 +966,7 @@ void sa_gauge_trans(s8 pl_kind) {
 
 void spgauge_sound_request(s8 Stpl_Num) {
     if (plw[Stpl_Num].sa->store > spg_dat[Stpl_Num].spg_level) {
-        Sound_SE(Stpl_Num + 0x6B);
+        Sound_SE(Stpl_Num + 107);
     }
 }
 
@@ -788,4 +1114,74 @@ void tr_spgauge_cont_init(s8 pl) {
     col = 0;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/spgauge", tr_spgauge_cont_init2);
+void tr_spgauge_cont_init2(s8 pl) {
+    Sa_frame_Clear2(pl);
+    demo_set_sa_full(&super_arts[pl]);
+    spg_dat[pl].current_spg = super_arts[pl].gauge_len;
+    spg_dat[pl].old_spg = super_arts[pl].gauge_len;
+    spg_dat[pl].spgtbl_ptr = spgauge_puttbl[pl];
+    spg_dat[pl].spg_level = super_arts[pl].store;
+    spg_dat[pl].spg_maxlevel = super_arts[pl].store_max;
+    spg_dat[pl].spg_len = super_arts[pl].gauge_len / 8;
+    spg_dat[pl].spg_dotlen = super_arts[pl].gauge_len;
+    spg_dat[pl].flag = 1;
+    spg_dat[pl].flag2 = 0;
+    spg_dat[pl].level_flag = 0;
+    spg_dat[pl].timer = 51;
+    spg_dat[pl].timer2 = 2;
+    spg_dat[pl].kind = 1;
+    spg_dat[pl].max = 0;
+    spg_dat[pl].max_old = 1;
+    spg_dat[pl].max_rno = 2;
+    spg_dat[pl].time_rno = 5;
+    spg_dat[pl].gauge_flash_time = 2;
+    spg_dat[pl].gauge_flash_col = 0;
+    spg_dat[pl].sa_flag = 0;
+    spg_dat[pl].ex_flag = 0;
+    spg_dat[pl].no_chgcol = 0;
+    spg_dat[pl].time_no_clear = 0;
+    spg_dat[pl].sa_mukou = 0;
+    sa_gauge_flash[pl] = 0;
+    spg_dat[pl].spgptbl_ptr = spgauge_postbl[pl];
+
+    if (super_arts[pl].gauge_type == 1) {
+        spg_dat[pl].time = 1;
+        time_flag[pl] = 1;
+    } else {
+        spg_dat[pl].time = 0;
+        time_flag[pl] = 0;
+    }
+
+    spg_dat[pl].mass_len = spg_dat[pl].spg_len - 5;
+
+    if (spg_dat[pl].spg_len & 1) {
+        spg_dat[pl].mchar = 5;
+    } else {
+        spg_dat[pl].mass_len = spg_dat[pl].mass_len - 1;
+        spg_dat[pl].mchar = 6;
+    }
+
+    spg_dat[pl].mass_len /= 2;
+    time_operate[pl] = 0;
+    sast_now[pl] = 0;
+    max2[pl] = 0;
+    max_rno2[pl] = 0;
+
+    if (pl == 0) {
+        spg_dat[0].spgcol_number = 17;
+    } else {
+        spg_dat[1].spgcol_number = 145;
+    }
+
+    sa_stock_trans(spg_dat[pl].spg_maxlevel, 1, pl);
+    sa_waku_trans(pl, 1);
+    sa_gauge_trans(pl);
+    sa_moji_trans(pl, 0, 1);
+    Old_Stop_SG = 0;
+    Exec_Wipe_F = 0;
+    time_clear[pl] = 0;
+    spg_offset = 0;
+    time_num = 0;
+    time_timer = 3;
+    col = 1;
+}
