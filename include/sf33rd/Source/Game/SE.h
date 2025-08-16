@@ -6,7 +6,7 @@
 
 extern u8 gSeqStatus[1]; // size: 0x1, address: 0x579850
 
-void Check_Stage_BGM();
+void Stage_BGM(u16 Stage_Number, u16 Round_Number);
 void Sound_SE(s16 Code);
 void BGM_Request(s16 Code);
 void BGM_Request_Code_Check(u16 Code);
