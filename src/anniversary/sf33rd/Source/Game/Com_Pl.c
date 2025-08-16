@@ -1,15 +1,13 @@
 #include "sf33rd/Source/Game/Com_Pl.h"
 #include "common.h"
 #include "sf33rd/AcrSDK/ps2/flps2debug.h"
+#include "sf33rd/Source/Game/ACTIVE00.h"
 #include "sf33rd/Source/Game/CMD_MAIN.h"
 #include "sf33rd/Source/Game/Ck_Pass.h"
 #include "sf33rd/Source/Game/Com_Data.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
-#include "sf33rd/Source/Game/Getup.h"
-#include "sf33rd/Source/Game/PLCNT.h"
-#include "sf33rd/Source/Game/PLMAIN.h"
-#include "sf33rd/Source/Game/ACTIVE00.h"
 #include "sf33rd/Source/Game/FOLLOW02.h"
+#include "sf33rd/Source/Game/Getup.h"
 #include "sf33rd/Source/Game/PASS01.h"
 #include "sf33rd/Source/Game/PASS02.h"
 #include "sf33rd/Source/Game/PASS03.h"
@@ -21,6 +19,8 @@
 #include "sf33rd/Source/Game/PASS09.h"
 #include "sf33rd/Source/Game/PASS11.h"
 #include "sf33rd/Source/Game/PASS12.h"
+#include "sf33rd/Source/Game/PLCNT.h"
+#include "sf33rd/Source/Game/PLMAIN.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/SHELL00.h"
 #include "sf33rd/Source/Game/SHELL01.h"
@@ -164,6 +164,7 @@ u16 cpu_algorithm(PLW *wk) {
 static u16 CPU_Sub(PLW *wk) {
 #if defined(TARGET_PS2)
     u16 check_illegal_lever_data(u32 data);
+#endif
 
     WORK *em = (WORK *)wk->wu.target_adrs;
 
