@@ -37,7 +37,13 @@ void spgauge_cont_main() {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/spgauge", sag_bug_fix);
+#else
+void sag_bug_fix(s32 side) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/spgauge", spgauge_control);
 

@@ -7,8 +7,7 @@
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/Getup.h"
 #include "sf33rd/Source/Game/PLCNT.h"
-/* uncomment below after "Pause through PLS03 #183" has been merged */
-// #include "sf33rd/Source/Game/PLMAIN.h"
+#include "sf33rd/Source/Game/PLMAIN.h"
 #include "sf33rd/Source/Game/ACTIVE00.h"
 #include "sf33rd/Source/Game/FOLLOW02.h"
 #include "sf33rd/Source/Game/PASS01.h"
@@ -162,13 +161,9 @@ u16 cpu_algorithm(PLW *wk) {
     return sw;
 }
 
-/* delete this line after "Pause through PLS03 #183" has been merged */
-#if defined(TARGET_PS2)
-/* ----------------------------------------------------------------- */
 static u16 CPU_Sub(PLW *wk) {
 #if defined(TARGET_PS2)
     u16 check_illegal_lever_data(u32 data);
-#endif
 
     WORK *em = (WORK *)wk->wu.target_adrs;
 
@@ -193,13 +188,6 @@ static u16 CPU_Sub(PLW *wk) {
     Disp_Mode(wk);
     return Lever_Buff[wk->wu.id];
 }
-/* delete these lines after "Pause through PLS03 #183" has been merged */
-#else
-static u16 CPU_Sub(PLW *wk) {
-    not_implemented(__func__);
-}
-#endif
-/* ------------------------------------------------------------------- */
 
 void Main_Program(PLW *wk) {
     void (*Com_Jmp_Tbl[16])(PLW *) = { Com_Initialize, Com_Free,           Com_Active,   Com_Before_Follow,

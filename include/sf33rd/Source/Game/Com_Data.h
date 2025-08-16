@@ -40,4 +40,6 @@ extern const u8 Rapid_Hit_Data[4][8];
 extern const s8 Float_Attack_Data[4][16];
 extern const u8 Boss_Speech_Data[20][2];
 
+extern s16 Com_Vital_Unit_Data[20][4][12];
+
 #endif
