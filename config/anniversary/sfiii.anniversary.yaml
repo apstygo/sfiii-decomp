@@ -1192,7 +1192,7 @@ segments:
       - [0x44DD30, .rodata, sf33rd/Source/Game/PLS01]
       - [0x44DE80, .rodata, sf33rd/Source/Game/PLS02]
       - [0x44E5A0, .rodata, sf33rd/Source/Game/PLS03]
-      - [0x44E8F0, rodata, sf33rd/Source/Game/POW_DATA]
+      - [0x44E8F0, .rodata, sf33rd/Source/Game/POW_DATA]
       - [0x44EB60, .rodata, sf33rd/Source/Game/PulPul]
       - [0x44EE10, .rodata, sf33rd/Source/Game/RAMCNT]
       - [0x44EFB0, .rodata, sf33rd/Source/Game/RANKING]
