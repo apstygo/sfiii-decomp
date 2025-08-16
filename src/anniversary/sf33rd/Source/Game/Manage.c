@@ -228,9 +228,7 @@ void Game_Manage_1st() {
     }
 
     if (Mode_Type != 2) {
-#if defined(TARGET_PS2) // remove this
         cpReadyTask(4, Pause_Task);
-#endif // remove this
         setup_pos_remake_key(3);
     }
 }
@@ -789,14 +787,17 @@ void Game_Manage_7_2() {
     }
 }
 
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Check_Disp_Combo);
-#else
 s32 Check_Disp_Combo() {
-    not_implemented(__func__);
+    if (cmb_all_stock[0] != 0 || cmb_calc_now[0] != 0 || cmb_calc_now[1] != 0) {
+        return 1;
+    }
+
+    if (PL_Wins[Winner_id] < save_w[Present_Mode].Battle_Number[Play_Type] + 1) {
+        return 0;
+    }
+
+    return 0;
 }
-#endif
 
 void Game_Manage_7_3() {
     if (Play_Type == 0 && Perfect_Flag == 0) {
