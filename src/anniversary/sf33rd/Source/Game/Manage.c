@@ -1,13 +1,11 @@
 #include "sf33rd/Source/Game/Manage.h"
 #include "common.h"
 
-const u32 Comp_Bonus_Data[11] = { 30000,  40000,  50000,  60000,  70000, 80000,
-                                  90000, 100000, 110000, 120000, 130000 };
+const u32 Comp_Bonus_Data[11] = { 30000, 40000, 50000, 60000, 70000, 80000, 90000, 100000, 110000, 120000, 130000 };
 
 const u8 BIC_SA_Data[2][4] = { { 3, 5, 7, 9 }, { 1, 1, 1, 1 } };
 
-const u32 Ball_Perfect_PTS[2][5] = { { 20000, 30000, 50000, 80000, 120000 },
-                                     { 10000, 20000, 40000, 80000, 160000 } };
+const u32 Ball_Perfect_PTS[2][5] = { { 20000, 30000, 50000, 80000, 120000 }, { 10000, 20000, 40000, 80000, 160000 } };
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Game_Management);
@@ -123,7 +121,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Additional
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Setup_Comp_Bonus);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", request_center_message);
+#else
+void request_center_message(s16 Kind_of_Message) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Setup_Win_Mark);
 
@@ -139,7 +143,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Setup_BGM_
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Check_Stage_BGM);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Control_Music_Fade);
+#else
+void Control_Music_Fade(s16 Time) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Check_Conclusion_Type);
 
@@ -207,6 +217,12 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Bonus_Cut_
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Check_Time_Over);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", complete_victory_pause);
+#else
+void complete_victory_pause() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", Game_Manage_13th);

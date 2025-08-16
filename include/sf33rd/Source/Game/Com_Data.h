@@ -16,6 +16,7 @@ extern const s16 Dash_Distance_Data[20][2];
 extern const s8 Combo_Speed_Unit_Data[20][20][32];
 extern const s8 Reflection_Speed_Unit_Data[20][20][32];
 extern const u8 VS_Catch_Data[8];
+extern const s16 Correct_Cont_Time_Data[2][16];
 extern const u8 LOOK_POSITION_Data[8][32];
 extern const u8 Wait_Time_Data[4][8];
 extern const u8 Flip_Data[20][8];
@@ -25,5 +26,8 @@ extern const u8 Shell_Change_Data_For_Reaction[];
 extern const u8 Standing_Time_Data[20][4][8];
 extern const s8 PL_Blow_Off_Data[27];
 extern const u8 Squat_Time_Data[8][8];
+extern const u8 Boss_Speech_Data[20][2];
+
+extern s16 Com_Vital_Unit_Data[20][4][12];
 
 #endif
