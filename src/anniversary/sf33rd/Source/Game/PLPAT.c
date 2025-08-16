@@ -127,7 +127,7 @@ void Attack_00000(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             wk->wu.routine_no[2] = 4;
             wk->wu.cg_type = 0;
             wk->scr_pos_set_flag = 1;
@@ -230,26 +230,26 @@ void Attack_03000(PLW *wk) {
 
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         get_cancel_timer(wk);
-        if ((Bonus_Game_Flag == 0x14 && wk->bs2_on_car) || (wk->wu.xyz[1].disp.pos <= 0)) {
+        if ((Bonus_Game_Flag == 20 && wk->bs2_on_car) || (wk->wu.xyz[1].disp.pos <= 0)) {
             hoken_muriyari_chakuchi(wk);
             wk->wu.rl_flag = wk->wu.rl_waza;
             setup_lvdir_after_autodir(wk);
             Normal_18000_init_unit(wk, wk->wu.pat_status);
         }
 
-        set_char_move_init(&wk->wu, 4, (s16)((wk->as->char_ix)));
+        set_char_move_init(&wk->wu, 4, wk->as->char_ix);
         break;
 
     case 1:
-        if ((wk->wu.mvxy.a[1].sp > 0) && (wk->wu.xyz[1].disp.pos < 0x10)) {
+        if ((wk->wu.mvxy.a[1].sp > 0) && (wk->wu.xyz[1].disp.pos < 16)) {
             add_mvxy_speed(&wk->wu);
             cal_mvxy_speed(&wk->wu);
             break;
         }
 
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
 
     case 2:
         jumping_union_process(&wk->wu, 3);
@@ -281,47 +281,47 @@ s16 ja_nmj_rno_change(WORK *wk) {
 
     switch (wk->pat_status) {
     case 20:
-        wk->routine_no[2] = 0x15;
+        wk->routine_no[2] = 21;
         rnum = 1;
         break;
 
     case 14:
-        wk->routine_no[2] = 0x12;
+        wk->routine_no[2] = 18;
         rnum = 1;
         break;
 
     case 26:
-        wk->routine_no[2] = 0x18;
+        wk->routine_no[2] = 24;
         rnum = 1;
         break;
 
     case 22:
-        wk->routine_no[2] = 0x16;
+        wk->routine_no[2] = 22;
         rnum = 1;
         break;
 
     case 16:
-        wk->routine_no[2] = 0x13;
+        wk->routine_no[2] = 19;
         rnum = 1;
         break;
 
     case 28:
-        wk->routine_no[2] = 0x19;
+        wk->routine_no[2] = 25;
         rnum = 1;
         break;
 
     case 24:
-        wk->routine_no[2] = 0x17;
+        wk->routine_no[2] = 23;
         rnum = 1;
         break;
 
     case 18:
-        wk->routine_no[2] = 0x14;
+        wk->routine_no[2] = 20;
         rnum = 1;
         break;
 
     case 30:
-        wk->routine_no[2] = 0x1A;
+        wk->routine_no[2] = 26;
         rnum = 1;
         break;
     }
@@ -360,7 +360,7 @@ void check_ja_nmj_dummy_RTNM(PLW *wk) {
             break;
         }
 
-        if (!(wk->ja_nmj_cnt -= 1)) {
+        if (!--wk->ja_nmj_cnt) {
             wk->ja_nmj_rno = 3;
         }
 
@@ -373,7 +373,7 @@ void check_ja_nmj_dummy_RTNM(PLW *wk) {
                 break;
             }
         } else if (wk->wu.cg_type == 0) {
-            wk->wu.cg_type = 0x40;
+            wk->wu.cg_type = 64;
         }
 
         break;
@@ -420,7 +420,7 @@ void Attack_04000(PLW *wk) {
 
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         hoken_muriyari_chakuchi(wk);
         wk->wu.rl_flag = wk->wu.rl_waza;
         setup_lvdir_after_autodir(wk);
@@ -431,7 +431,7 @@ void Attack_04000(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             wk->wu.routine_no[2] = 1;
             wk->wu.cg_type = 0;
             wk->scr_pos_set_flag = 0;
@@ -498,12 +498,12 @@ void Attack_07000(PLW *wk) {
 
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         hoken_muriyari_chakuchi(wk);
         get_cancel_timer(wk);
         set_char_move_init(&wk->wu, 5, wk->as->char_ix);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             wk->wu.cg_type = 0;
             wk->wu.rl_flag = wk->wu.rl_waza;
             break;
@@ -514,7 +514,7 @@ void Attack_07000(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             wk->wu.cg_type = 0;
             wk->wu.rl_flag = wk->wu.rl_waza;
         }
@@ -596,13 +596,13 @@ void Attack_09000(PLW *wk) {
 
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         hoken_muriyari_chakuchi(wk);
         get_cancel_timer(wk);
         set_char_move_init(&wk->wu, 5, wk->as->char_ix);
         setup_mvxy_data(&wk->wu, wk->as->data_ix);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             wk->wu.cg_type = 0;
             wk->wu.rl_flag = wk->wu.rl_waza;
             break;
@@ -613,7 +613,7 @@ void Attack_09000(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             wk->wu.cg_type = 0;
             wk->wu.rl_flag = wk->wu.rl_waza;
         }
@@ -646,7 +646,7 @@ void Attack_10000(PLW *wk) {
 
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         hoken_muriyari_chakuchi(wk);
         wk->wu.rl_flag = wk->wu.rl_waza;
         set_char_move_init(&wk->wu, 5, wk->as->char_ix);
@@ -663,11 +663,11 @@ void Attack_10000(PLW *wk) {
 
     case 1:
         char_move(&wk->wu);
-        if (wk->wu.cg_type != 0x14) {
+        if (wk->wu.cg_type != 20) {
             break;
         }
 
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
 
     case 2:
         jumping_union_process(&wk->wu, 4);
@@ -696,7 +696,7 @@ void Attack_10000(PLW *wk) {
         break;
 
     case 3:
-        if ((wk->wu.dir_timer -= 1) > 0) {
+        if (--wk->wu.dir_timer > 0) {
             break;
         }
 
@@ -721,7 +721,7 @@ void Attack_14000(PLW *wk) {
     wk->scr_pos_set_flag = 0;
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         hoken_muriyari_chakuchi(wk);
         wk->wu.rl_flag = wk->wu.rl_waza;
         wk->cat_break_ok_timer = 6;
@@ -747,7 +747,7 @@ void Attack_15000(PLW *wk) {
 
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
 
         if (wk->wu.xyz[1].disp.pos <= 0) {
             wk->wu.rl_flag = wk->wu.rl_waza;
@@ -777,7 +777,7 @@ void Attack_15000(PLW *wk) {
             break;
         }
 
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
 
     case 2:
         jumping_union_process(&wk->wu, 3);
@@ -810,7 +810,7 @@ void get_cancel_timer(PLW *wk) {
 }
 
 void hoken_muriyari_chakuchi(PLW *wk) {
-    if ((Bonus_Game_Flag == 0x14) && wk->bs2_on_car) {
+    if ((Bonus_Game_Flag == 20) && wk->bs2_on_car) {
         wk->wu.xyz[1].disp.pos = bs2_floor[2];
         return;
     }

@@ -347,11 +347,11 @@ void Player_control() {
             goto end;
         } else {
             if (pcon_dp_flag == 0) {
-                if ((vital_inc_timer -= 1) > 50) {
+                if (--vital_inc_timer > 50) {
                     vital_inc_timer = 50;
                 }
 
-                if ((vital_dec_timer -= 1) > 40) {
+                if (--vital_dec_timer > 40) {
                     vital_dec_timer = 40;
                 }
             } else {
@@ -362,7 +362,7 @@ void Player_control() {
         }
     }
 
-    players_timer += 1;
+    players_timer++;
     players_timer &= 0x7FFF;
     set_scrrrl();
     player_main_process[pcon_rno[0]]();
@@ -502,27 +502,27 @@ void init_app_30000() {
         break;
 
     case 1:
-        if (plw[0].wu.routine_no[0] == 3) {
-            if (plw[1].wu.routine_no[0] == 3) {
-                pcon_rno[0] = 2;
-                pcon_rno[1] = 3;
-                pcon_rno[2] = 1;
-                setup_EJG_index();
-                effect_C9_init(plw, 0);
-                effect_C9_init(plw, 1);
-                effect_C9_init(plw, 2);
-                load_any_color(0x3F, 0);
-                load_any_texture_patnum(0x71E0, 0xE, 0);
-                effect_work_kill(4, 0xD9);
+        if (plw[0].wu.routine_no[0] != 3 || plw[1].wu.routine_no[0] != 3) {
+            break;
+        }
 
-                if (plw[0].player_number == 6) {
-                    effect_33_init(&plw[0].wu);
-                }
+        pcon_rno[0] = 2;
+        pcon_rno[1] = 3;
+        pcon_rno[2] = 1;
+        setup_EJG_index();
+        effect_C9_init(plw, 0);
+        effect_C9_init(plw, 1);
+        effect_C9_init(plw, 2);
+        load_any_color(0x3F, 0);
+        load_any_texture_patnum(0x71E0, 0xE, 0);
+        effect_work_kill(4, 0xD9);
 
-                if (plw[1].player_number == 6) {
-                    effect_33_init(&plw[1].wu);
-                }
-            }
+        if (plw[0].player_number == 6) {
+            effect_33_init(&plw[0].wu);
+        }
+
+        if (plw[1].player_number == 6) {
+            effect_33_init(&plw[1].wu);
         }
 
         break;
@@ -538,89 +538,101 @@ void pli_0000() {
 }
 
 void pli_1000() {
-    if ((plw[0].wu.routine_no[0] == 3) && (plw[1].wu.routine_no[0] == 3) && Allow_a_battle_f) {
-        pcon_rno[0] = 1;
-        pcon_rno[1] = 0;
-        plw[0].wu.routine_no[0] = 4;
-        plw[1].wu.routine_no[0] = 4;
-        ca_check_flag = 1;
+    if (plw[0].wu.routine_no[0] != 3) {
+        return;
     }
+
+    if (plw[1].wu.routine_no[0] != 3) {
+        return;
+    }
+
+    if (!Allow_a_battle_f) {
+        return;
+    }
+
+    pcon_rno[0] = 1;
+    pcon_rno[1] = 0;
+    plw[0].wu.routine_no[0] = 4;
+    plw[1].wu.routine_no[0] = 4;
+    ca_check_flag = 1;
 }
 
 void pli_0002() {}
 
 void plcnt_move() {
-    if (time_over_check() == 0) {
-        if (Debug_w[0x1B]) {
-            plw[0].wu.dm_vital = 0;
-        }
-
-        if (Debug_w[0x1C]) {
-            plw[1].wu.dm_vital = 0;
-        }
-
-        if (Debug_w[0x19]) {
-            plw[0].wu.vital_new = 0;
-        }
-
-        if (Debug_w[0x1A]) {
-            plw[1].wu.vital_new = 0;
-        }
-
-        if (No_Death) {
-            plw[0].wu.dm_vital = plw[1].wu.dm_vital = 0;
-        }
-
-        if (Break_Into) {
-            plw[0].wu.dm_vital = plw[1].wu.dm_vital = 0;
-        }
-
-        if (Mode_Type == 3 && Training->contents[0][1][3] == 0) {
-            plw[0].wu.dm_nodeathattack = 1;
-            plw[1].wu.dm_nodeathattack = 1;
-        }
-
-        move_player_work();
-
-        if (aiuchi_flag) {
-            subtract_dm_vital_aiuchi(&plw[0]);
-            subtract_dm_vital_aiuchi(&plw[1]);
-
-            if ((plw[0].dead_flag != 0) && (plw[1].dead_flag != 0)) {
-                plw[0].wu.hit_stop = plw[1].wu.hit_stop = 2;
-                plw[0].wu.dm_stop = plw[1].wu.dm_stop = 0;
-                plw[0].wu.hit_quake = plw[1].wu.hit_quake = 4;
-                plw[0].wu.dm_quake = plw[1].wu.dm_quake = 0;
-            } else if ((plw[0].dead_flag != 0) || (plw[1].dead_flag != 0)) {
-                plw[0].wu.hit_stop = plw[1].wu.hit_stop = 4;
-                plw[0].wu.dm_stop = plw[1].wu.dm_stop = 0;
-                plw[0].wu.hit_quake = plw[1].wu.hit_quake = 8;
-                plw[0].wu.dm_quake = plw[1].wu.dm_quake = 0;
-            }
-        }
-
-        settle_check();
-
-        if (*pcon_rno == 2) {
-            if (Round_Result & 0x980) {
-                if ((Round_Result & 0x800) && gouki_wins) {
-                    effect_D3_init(1);
-                } else {
-                    effect_D3_init(0);
-                }
-            }
-
-            if ((plw[0].kezurijini_flag == 1) || (plw[1].kezurijini_flag == 1)) {
-                Round_Result |= 0x200;
-            }
-
-            if (Winner_id != Loser_id) {
-                grade_store_vitality(Winner_id + 0);
-            }
-        }
-
-        grade_check_tairyokusa();
+    if (time_over_check() != 0) {
+        return;
     }
+
+    if (Debug_w[0x1B]) {
+        plw[0].wu.dm_vital = 0;
+    }
+
+    if (Debug_w[0x1C]) {
+        plw[1].wu.dm_vital = 0;
+    }
+
+    if (Debug_w[0x19]) {
+        plw[0].wu.vital_new = 0;
+    }
+
+    if (Debug_w[0x1A]) {
+        plw[1].wu.vital_new = 0;
+    }
+
+    if (No_Death) {
+        plw[0].wu.dm_vital = plw[1].wu.dm_vital = 0;
+    }
+
+    if (Break_Into) {
+        plw[0].wu.dm_vital = plw[1].wu.dm_vital = 0;
+    }
+
+    if (Mode_Type == 3 && Training->contents[0][1][3] == 0) {
+        plw[0].wu.dm_nodeathattack = 1;
+        plw[1].wu.dm_nodeathattack = 1;
+    }
+
+    move_player_work();
+
+    if (aiuchi_flag) {
+        subtract_dm_vital_aiuchi(&plw[0]);
+        subtract_dm_vital_aiuchi(&plw[1]);
+
+        if ((plw[0].dead_flag != 0) && (plw[1].dead_flag != 0)) {
+            plw[0].wu.hit_stop = plw[1].wu.hit_stop = 2;
+            plw[0].wu.dm_stop = plw[1].wu.dm_stop = 0;
+            plw[0].wu.hit_quake = plw[1].wu.hit_quake = 4;
+            plw[0].wu.dm_quake = plw[1].wu.dm_quake = 0;
+        } else if ((plw[0].dead_flag != 0) || (plw[1].dead_flag != 0)) {
+            plw[0].wu.hit_stop = plw[1].wu.hit_stop = 4;
+            plw[0].wu.dm_stop = plw[1].wu.dm_stop = 0;
+            plw[0].wu.hit_quake = plw[1].wu.hit_quake = 8;
+            plw[0].wu.dm_quake = plw[1].wu.dm_quake = 0;
+        }
+    }
+
+    settle_check();
+
+    if (pcon_rno[0] == 2) {
+        if (Round_Result & 0x980) {
+            if ((Round_Result & 0x800) && gouki_wins) {
+                effect_D3_init(1);
+            } else {
+                effect_D3_init(0);
+            }
+        }
+
+        if ((plw[0].kezurijini_flag == 1) || (plw[1].kezurijini_flag == 1)) {
+            Round_Result |= 0x200;
+        }
+
+        if (Winner_id != Loser_id) {
+            grade_store_vitality(Winner_id + 0);
+        }
+    }
+
+    grade_check_tairyokusa();
 }
 
 void plcnt_die() {
@@ -641,7 +653,7 @@ void settle_type_00000() {
 
     switch (pcon_rno[2]) {
     case 0:
-        plw[Winner_id].wu.dir_timer = 0x3C;
+        plw[Winner_id].wu.dir_timer = 60;
         pcon_rno[2]++;
         /* fallthrough */
 
@@ -651,7 +663,7 @@ void settle_type_00000() {
             plw[Winner_id].wkey_flag = 1;
         }
 
-        if ((plw[Winner_id].wu.dir_timer -= 1) == 0) {
+        if (--plw[Winner_id].wu.dir_timer == 0) {
             plw[Winner_id].wkey_flag = 1;
         }
 
@@ -661,10 +673,10 @@ void settle_type_00000() {
         if (footwork_check(Winner_id)) {
             grade_set_round_result(Winner_id + 0);
             pcon_rno[2]++;
-            plw[Winner_id].wu.routine_no[2] = 0x28;
+            plw[Winner_id].wu.routine_no[2] = 40;
             plw[Winner_id].wu.routine_no[3] = 0;
             plw[Loser_id].wu.routine_no[1] = 0;
-            plw[Loser_id].wu.routine_no[2] = 0x29;
+            plw[Loser_id].wu.routine_no[2] = 41;
             plw[Loser_id].wu.routine_no[3] = 0;
             plw[0].wu.cg_type = plw[1].wu.cg_type = 0;
             plw[0].image_setup_flag = plw[1].image_setup_flag = 0;
@@ -723,8 +735,8 @@ void settle_type_20000() {
         }
 
         grade_set_round_result(Winner_id + 0);
-        plw[Winner_id].wu.routine_no[2] = 0x28;
-        plw[Loser_id].wu.routine_no[2] = 0x29;
+        plw[Winner_id].wu.routine_no[2] = 40;
+        plw[Loser_id].wu.routine_no[2] = 41;
         plw[0].wu.routine_no[1] = plw[1].wu.routine_no[1] = 0;
         plw[0].wu.routine_no[3] = plw[1].wu.routine_no[3] = 0;
         plw[0].wu.cg_type = plw[1].wu.cg_type = 0;
@@ -747,8 +759,8 @@ void settle_type_30000() {
 
     case 1:
         if ((Event_Judge_Gals == -1) && Complete_Judgement) {
-            plw[Winner_id].wu.routine_no[2] = 0x28;
-            plw[Loser_id].wu.routine_no[2] = 0x29;
+            plw[Winner_id].wu.routine_no[2] = 40;
+            plw[Loser_id].wu.routine_no[2] = 41;
             plw[0].wu.routine_no[3] = plw[1].wu.routine_no[3] = 0;
             plw[0].wu.cg_type = plw[1].wu.cg_type = 0;
             grade_set_round_result(Winner_id + 0);
@@ -785,15 +797,15 @@ void settle_type_40000() {
         case 2:
             if (footwork_check(Winner_id)) {
                 pcon_rno[2]++;
-                plw[Winner_id].wu.routine_no[2] = 0x28;
+                plw[Winner_id].wu.routine_no[2] = 40;
                 plw[Winner_id].wu.routine_no[3] = 0;
                 plw[Loser_id].wu.routine_no[1] = 0;
-                plw[Loser_id].wu.routine_no[2] = 0x29;
+                plw[Loser_id].wu.routine_no[2] = 41;
                 plw[Loser_id].wu.routine_no[3] = 0;
                 plw[Winner_id].wu.cg_type = 0;
                 grade_set_round_result(Winner_id + 0);
                 plw[0].image_setup_flag = plw[1].image_setup_flag = 0;
-                plw[Winner_id].wu.dir_timer = 0x3C;
+                plw[Winner_id].wu.dir_timer = 60;
                 set_conclusion_slow();
                 return;
             }
@@ -802,7 +814,7 @@ void settle_type_40000() {
         break;
 
     case 3:
-        if ((plw[Winner_id].wu.dir_timer -= 1) <= 0) {
+        if (--plw[Winner_id].wu.dir_timer <= 0) {
             complete_victory_pause();
             pcon_rno[2]++;
         }
@@ -929,7 +941,7 @@ void move_P2_move_P1() {
 void store_player_after_image_data() {
     s16 i;
 
-    for (i = 0x2F; i > 0; i--) {
+    for (i = 47; i > 0; i--) {
         zanzou_table[0][i] = zanzou_table[0][i - 1];
         zanzou_table[1][i] = zanzou_table[1][i - 1];
     }
@@ -958,10 +970,10 @@ void check_damage_hosei() {
     } else {
         switch ((plw[0].hosei_amari != 0) + ((plw[1].hosei_amari != 0) * 2)) {
         case 1:
-            check_damage_hosei_dageki(plw, &plw[1]);
+            check_damage_hosei_dageki(&plw[0], &plw[1]);
             break;
         case 2:
-            check_damage_hosei_dageki(&plw[1], plw);
+            check_damage_hosei_dageki(&plw[1], &plw[0]);
             break;
         }
     }
@@ -1179,7 +1191,7 @@ void add_next_position(PLW *wk) {
 void setup_gouki_wins() {
     gouki_wins = 0;
 
-    if (plw[Winner_id].player_number == 0xE) {
+    if (plw[Winner_id].player_number == 14) {
         gouki_wins = 1;
     }
 }
@@ -1224,7 +1236,7 @@ void setup_base_and_other_data() {
     poison_flag[0] = 0;
     poison_flag[1] = 0;
 
-    if ((Mode_Type == 3) || (Mode_Type == 4)) {
+    if (Mode_Type == 3 || Mode_Type == 4) {
         effect_E3_init(&plw[0]);
         effect_E3_init(&plw[1]);
         effect_E4_init(&plw[0]);
@@ -1498,7 +1510,7 @@ s16 check_combo_end(s16 ix) {
         return 0;
     }
 
-    if (plw[ix].wu.cg_ja.boix == 0 && plw[ix].wu.cg_ja.cuix == 0 && plw[ix].wu.pat_status == 0x26) {
+    if (plw[ix].wu.cg_ja.boix == 0 && plw[ix].wu.cg_ja.cuix == 0 && plw[ix].wu.pat_status == 38) {
         return 0;
     }
 

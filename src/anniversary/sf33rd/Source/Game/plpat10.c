@@ -32,18 +32,18 @@ void Att_PL10_TOKUSHUKOUDOU(PLW *wk) {
         char_move(&wk->wu);
 
         switch (wk->wu.cg_type) {
-        case 0x28:
+        case 40:
             wk->wu.cg_type = 0;
             add_sp_arts_gauge_tokushu(wk);
             break;
 
-        case 0x14:
+        case 20:
             wk->wu.cg_type = 0;
             wk->tk_dageki += 10;
             wk->tk_nage += 2;
             break;
 
-        case 0x40:
+        case 64:
             grade_add_personal_action(wk->wu.id);
             break;
         }
@@ -80,7 +80,7 @@ void Att_PL10_MACH_SLIDE2(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x1E) {
+        if (wk->wu.cg_type == 30) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.a[1].sp = wk->wu.mvxy.d[1].sp = wk->wu.mvxy.kop[1] = 0;
             wk->wu.mvxy.index++;
@@ -106,21 +106,23 @@ void Att_PL10_MACH_SLIDE2(PLW *wk) {
 
         wk->wu.xyz[1].cal += wk->wu.mvxy.a[1].sp;
 
-        if (wk->micchaku_flag) {
-            char_move_z(&wk->wu);
+        if (!wk->micchaku_flag) {
+            break;
+        }
 
-            if (wk->wu.cg_type == 0x15) {
-                reset_mvxy_data(&wk->wu);
-                wk->wu.cg_type = 0;
-                wk->wu.routine_no[3] = 1;
-            }
+        char_move_z(&wk->wu);
 
-            if (wk->wu.cg_type == 0x1E) {
-                setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
-                wk->wu.mvxy.a[1].sp = wk->wu.mvxy.d[1].sp = wk->wu.mvxy.kop[1] = 0;
-                wk->wu.mvxy.index++;
-                wk->wu.cg_type = 0;
-            }
+        if (wk->wu.cg_type == 21) {
+            reset_mvxy_data(&wk->wu);
+            wk->wu.cg_type = 0;
+            wk->wu.routine_no[3] = 1;
+        }
+
+        if (wk->wu.cg_type == 30) {
+            setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
+            wk->wu.mvxy.a[1].sp = wk->wu.mvxy.d[1].sp = wk->wu.mvxy.kop[1] = 0;
+            wk->wu.mvxy.index++;
+            wk->wu.cg_type = 0;
         }
 
         break;

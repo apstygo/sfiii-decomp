@@ -71,7 +71,7 @@ void Att_PL20_AT1(PLW *wk) {
     case 3:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
             wk->wu.routine_no[3] = 1;
@@ -101,7 +101,7 @@ void Att_PL20_AT2(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             wk->wu.routine_no[3]++;
             wk->wu.cg_type = 0;
             add_mvxy_speed(&wk->wu);
@@ -112,7 +112,7 @@ void Att_PL20_AT2(PLW *wk) {
     case 2:
         jumping_union_process(&wk->wu, 4);
 
-        if (wk->wu.cg_type == 0x1e) {
+        if (wk->wu.cg_type == 30) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.routine_no[3]++;
             wk->wu.cg_type = 0;
@@ -143,7 +143,7 @@ void Att_PL20_AT2(PLW *wk) {
         add_mvxy_speed(&wk->wu);
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             wk->wu.routine_no[3]++;
             reset_mvxy_data(&wk->wu);
         }
@@ -173,7 +173,7 @@ void Att_PL20_AT3(PLW *wk) {
         emwk = (PLW *)wk->wu.target_adrs;
 
         if (emwk->wu.hit_mark_y < 32) {
-            set_char_move_init(&wk->wu, 5, 0x37);
+            set_char_move_init(&wk->wu, 5, 55);
         }
 
         break;
@@ -219,7 +219,7 @@ void Att_PL20_AT3(PLW *wk) {
     case 3:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
             wk->wu.routine_no[3] = 1;
@@ -249,12 +249,12 @@ void Att_PL20_TOKUSHUKOUDOU(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x28) {
+        if (wk->wu.cg_type == 40) {
             wk->wu.cg_type = 0;
             add_sp_arts_gauge_tokushu(wk);
         }
 
-        if (wk->wu.cg_type == 0x40) {
+        if (wk->wu.cg_type == 64) {
             wk->wu.routine_no[3]++;
             wk->tk_kizetsu += 6;
 

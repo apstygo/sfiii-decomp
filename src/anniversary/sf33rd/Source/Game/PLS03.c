@@ -23,7 +23,7 @@ const s16 cmdixconv_table[36] = { 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1
                                   2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 };
 
 s16 cmdixconv(s16 ix) {
-    return cmdixconv_table[ix - 0x14];
+    return cmdixconv_table[ix - 20];
 }
 
 #if defined(TARGET_PS2)
@@ -125,7 +125,7 @@ s32 check_nm_attack(PLW *wk) {
 s16 hikusugi_check(WORK *wk) {
     s16 rnum = 0;
 
-    if ((wk->mvxy.a[1].real.h < 0) && (wk->xyz[1].disp.pos < 0x10)) {
+    if ((wk->mvxy.a[1].real.h < 0) && (wk->xyz[1].disp.pos < 16)) {
         rnum = 1;
     }
 
@@ -300,7 +300,7 @@ s16 get_em_body_range(WORK *wk) {
     s16 *dad;
     s16 res_hs;
 
-    if (Bonus_Game_Flag == 0x14 && wk->operator != 0) {
+    if (Bonus_Game_Flag == 20 && wk->operator != 0) {
         em = (WORK *)((WORK *)wk->target_adrs)->my_effadrs;
         dad = (s16 *)(em->hosei_adrs + (get_sel_hosei_tbl_ix(((WORK_Other *)em)->master_player) + 1));
         res_hs = wk->xyz[0].disp.pos - (em->xyz[0].disp.pos + dad[0] + (dad[1] / 2));

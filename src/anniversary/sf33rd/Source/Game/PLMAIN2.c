@@ -79,11 +79,11 @@ void Player_move_bonus(PLW *wk, u16 lv_data) {
         waza_check(wk);
     }
 
-    wk->wu.cmwk[0xA] = wk->cp->lgp;
-    wk->wu.cmwk[0xB] += wk->cp->lgp;
-    wk->wu.cmwk[0xB] &= 0x7FFF;
-    wk->wu.cmwk[0xC] = wk->cp->sw_new;
-    wk->wu.cmwk[0xD] = wk->cp->sw_now;
+    wk->wu.cmwk[10] = wk->cp->lgp;
+    wk->wu.cmwk[11] += wk->cp->lgp;
+    wk->wu.cmwk[11] &= 0x7FFF;
+    wk->wu.cmwk[12] = wk->cp->sw_new;
+    wk->wu.cmwk[13] = wk->cp->sw_now;
     plmain_b_lv_00[wk->wu.routine_no[0]](wk);
 }
 
@@ -149,20 +149,20 @@ void player_mvbs_1000(PLW *wk) {
     switch (appear_type) {
     case 0:
         plmv_b_1010(wk);
-        plmv_b_1020(wk, 0x60);
-        Appear_end += 1;
+        plmv_b_1020(wk, 96);
+        Appear_end++;
         break;
 
     case 3:
         plmv_b_1010(wk);
-        plmv_b_1020(wk, 0x80);
+        plmv_b_1020(wk, 128);
         break;
 
     case 1:
     case 2:
         wk->wu.routine_no[0] = 2;
 
-        if (Bonus_Game_Flag != 0x14 || wk->wu.operator) {
+        if (Bonus_Game_Flag != 20 || wk->wu.operator) {
             wk->wu.routine_no[1] = 0;
             wk->wu.routine_no[2] = 0;
             wk->wu.routine_no[3] = 0;
@@ -173,11 +173,11 @@ void player_mvbs_1000(PLW *wk) {
         break;
     }
 
-    if ((wk->wu.operator == 0) && (Bonus_Game_Flag == 0x14)) {
+    if ((wk->wu.operator == 0) && (Bonus_Game_Flag == 20)) {
         wk->wu.routine_no[1] = 0;
-        wk->wu.routine_no[2] = 0x33;
+        wk->wu.routine_no[2] = 51;
         wk->wu.routine_no[3] = 0;
-        wk->wu.xyz[0].disp.pos = 0x1D4;
+        wk->wu.xyz[0].disp.pos = 468;
         wk->wu.xyz[1].disp.pos = 0;
     }
 
@@ -187,7 +187,7 @@ void player_mvbs_1000(PLW *wk) {
 void plmv_b_1010(PLW *wk) {
     wk->wu.routine_no[0] = 3;
 
-    if (Bonus_Game_Flag != 0x14 || wk->wu.operator) {
+    if (Bonus_Game_Flag != 20 || wk->wu.operator) {
         wk->wu.routine_no[1] = 0;
         wk->wu.routine_no[2] = 1;
         wk->wu.routine_no[3] = 0;
@@ -209,7 +209,7 @@ void plmv_b_1020(PLW *wk, s16 step) {
 }
 
 void player_mvbs_2000(PLW *wk) {
-    if (Bonus_Game_Flag != 0x14 || wk->wu.operator) {
+    if (Bonus_Game_Flag != 20 || wk->wu.operator) {
         if (wk->wu.routine_no[2] == 1) {
             wk->wu.routine_no[0] = 3;
             wk->wu.disp_flag = 1;

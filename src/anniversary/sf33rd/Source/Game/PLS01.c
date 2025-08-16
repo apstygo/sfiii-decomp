@@ -50,31 +50,33 @@ void check_my_tk_power_off(PLW *wk, PLW * /* unused */) {
         return;
     }
 
-    if (wk->wu.old_rno[1] == 3 && wk->wu.routine_no[1] == 0 && wk->wu.routine_no[2] < 0x33) {
-        if (wk->wu.routine_no[2] > 0x2E) {
+    if (wk->wu.old_rno[1] == 3 && wk->wu.routine_no[1] == 0 && wk->wu.routine_no[2] < 51) {
+        if (wk->wu.routine_no[2] > 46) {
             // do nothing
         }
     }
 }
 
 void check_em_tk_power_off(PLW *wk, PLW *tk) {
-    if (about_rno[wk->wu.old_rno[1]] == 1) {
-        tk->tk_dageki -= wk->utk_dageki;
-        tk->tk_nage -= wk->utk_nage;
-        tk->tk_kizetsu -= wk->utk_kizetsu;
-        wk->utk_dageki = wk->utk_nage = wk->utk_kizetsu = 0;
+    if (about_rno[wk->wu.old_rno[1]] != 1) {
+        return;
+    }
 
-        if (tk->tk_dageki < 0) {
-            tk->tk_dageki = 0;
-        }
+    tk->tk_dageki -= wk->utk_dageki;
+    tk->tk_nage -= wk->utk_nage;
+    tk->tk_kizetsu -= wk->utk_kizetsu;
+    wk->utk_dageki = wk->utk_nage = wk->utk_kizetsu = 0;
 
-        if (tk->tk_nage < 0) {
-            tk->tk_nage = 0;
-        }
+    if (tk->tk_dageki < 0) {
+        tk->tk_dageki = 0;
+    }
 
-        if (tk->tk_kizetsu < 0) {
-            tk->tk_kizetsu = 0;
-        }
+    if (tk->tk_nage < 0) {
+        tk->tk_nage = 0;
+    }
+
+    if (tk->tk_kizetsu < 0) {
+        tk->tk_kizetsu = 0;
     }
 }
 
@@ -129,7 +131,7 @@ void set_rl_waza(PLW *wk) {
 s16 check_rl_on_car(PLW *wk) {
     s16 rnum;
 
-    if (Bonus_Game_Flag != 0x14) {
+    if (Bonus_Game_Flag != 20) {
         return 0;
     }
 
@@ -215,11 +217,11 @@ s32 check_air_jump(PLW *wk) {
         return 0;
     }
 
-    if (wk->wu.pat_status < 0x14 || wk->wu.pat_status > 0x1E) {
+    if (wk->wu.pat_status < 20 || wk->wu.pat_status > 30) {
         return 0;
     }
 
-    if (wk->wu.position_y < 0x30) {
+    if (wk->wu.position_y < 48) {
         return 0;
     }
 
@@ -228,7 +230,7 @@ s32 check_air_jump(PLW *wk) {
     }
 
     wk->wu.routine_no[1] = 0;
-    wk->wu.routine_no[2] = 0x35;
+    wk->wu.routine_no[2] = 53;
     wk->wu.routine_no[3] = 0;
     wk->jpdir = 0;
     grade_add_command_waza(wk->wu.id);
@@ -248,8 +250,8 @@ s32 check_sankaku_tobi(PLW *wk) {
         return 0;
     }
 
-    if ((wk->wu.pat_status != 0x14) && (wk->wu.pat_status != 0x18) && (wk->wu.pat_status != 0x1A) &&
-        (wk->wu.pat_status != 0x1E)) {
+    if ((wk->wu.pat_status != 20) && (wk->wu.pat_status != 24) && (wk->wu.pat_status != 26) &&
+        (wk->wu.pat_status != 30)) {
         return 0;
     }
 
@@ -262,7 +264,7 @@ s32 check_sankaku_tobi(PLW *wk) {
     }
 
     wk->wu.routine_no[1] = 0;
-    wk->wu.routine_no[2] = 0x34;
+    wk->wu.routine_no[2] = 52;
     wk->wu.routine_no[3] = 0;
     wk->jpdir = 0;
     grade_add_command_waza(wk->wu.id);
@@ -401,7 +403,7 @@ s32 check_jump_ready(PLW *wk) {
     }
 
     if (!(wk->spmv_ng_flag & 0x20000) && wk->cp->waza_flag[2] != 0) {
-        wk->wu.routine_no[2] = 0x11;
+        wk->wu.routine_no[2] = 17;
         grade_add_command_waza(wk->wu.id);
     } else {
         if (wk->spmv_ng_flag & 0x10000) {
@@ -439,7 +441,7 @@ s32 check_hijump_only(PLW *wk) {
     }
 
     wk->wu.routine_no[1] = 0;
-    wk->wu.routine_no[2] = 0x11;
+    wk->wu.routine_no[2] = 17;
     wk->wu.routine_no[3] = 0;
     wk->jpdir = 0;
     grade_add_command_waza(wk->wu.id);
@@ -484,7 +486,7 @@ s32 check_turn_to_back(PLW *wk) {
         return 0;
     }
 
-    if (Bonus_Game_Flag == 0x14) {
+    if (Bonus_Game_Flag == 20) {
         if (check_rl_flag(&wk->wu)) {
             return 0;
         }
@@ -577,11 +579,11 @@ s32 check_defense_lever(PLW *wk) {
     }
 
     if (wk->cp->sw_new & 2) {
-        wk->wu.routine_no[2] = 0x1D;
+        wk->wu.routine_no[2] = 29;
     } else if (check_attbox_dir(wk)) {
-        wk->wu.routine_no[2] = 0x1C;
+        wk->wu.routine_no[2] = 28;
     } else {
-        wk->wu.routine_no[2] = 0x1B;
+        wk->wu.routine_no[2] = 27;
     }
 
     wk->wu.routine_no[1] = 0;
@@ -637,7 +639,7 @@ s16 check_attbox_dir(PLW *wk) {
         emdir = dir32_rl_conv[emdir];
     }
 
-    if ((wk->wu.now_koc == 0) && ((wk->wu.char_index) == 0x1D)) {
+    if ((wk->wu.now_koc == 0) && ((wk->wu.char_index) == 29)) {
         emdir = dir32_sel_tbl[1][emdir];
     } else {
         emdir = dir32_sel_tbl[0][emdir];
@@ -705,7 +707,7 @@ void jumping_union_process(WORK *wk, s16 num) {
     cal_mvxy_speed(wk);
     char_move(wk);
 
-    if ((Bonus_Game_Flag == 0x14) && (wk->operator != 0) && (saishin_bs2_area_car((PLW *)wk) == 0)) {
+    if ((Bonus_Game_Flag == 20) && (wk->operator != 0) && (saishin_bs2_area_car((PLW *)wk) == 0)) {
         if (!(wk->xyz[1].disp.pos + wk->cg_jphos > bs2_floor[2])) {
             wk->position_y = wk->xyz[1].disp.pos = bs2_floor[2];
             wk->mvxy.a[1].sp = 0;
@@ -744,7 +746,7 @@ s32 check_ashimoto(PLW *wk) {
     }
 
     wk->wu.routine_no[1] = 0;
-    wk->wu.routine_no[2] = 0x36;
+    wk->wu.routine_no[2] = 54;
     wk->wu.routine_no[3] = 0;
     wk->jpdir = 0;
     return 1;
@@ -776,7 +778,7 @@ s32 check_ashimoto_ex(PLW *wk) {
     }
 
     wk->wu.routine_no[1] = 0;
-    wk->wu.routine_no[2] = 0x37;
+    wk->wu.routine_no[2] = 55;
     wk->wu.routine_no[3] = 0;
     return 1;
 }

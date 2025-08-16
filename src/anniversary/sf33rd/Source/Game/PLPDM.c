@@ -219,7 +219,7 @@ void Damage_00000(PLW *wk) {
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    wk->wu.next_z = 0x1E;
+    wk->wu.next_z = 30;
 
     switch (wk->wu.routine_no[3]) {
     case 0:
@@ -286,7 +286,7 @@ void Damage_01000(PLW *wk) {
         break;
     }
 
-    if (wk->wu.cg_type == 0xFF || wk->wu.cg_type == 0x40) {
+    if (wk->wu.cg_type == 0xFF || wk->wu.cg_type == 64) {
         wk->guard_flag = 0;
     }
 }
@@ -324,50 +324,50 @@ s32 remake_initial_speeds(WORK *wk) {
     if (wk->dm_attlv) {
         switch (ix) {
         case 0:
-            wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 0x50) / 100;
-            wk->mvxy.a[1].sp = (wk->mvxy.a[1].sp * 0x78) / 100;
+            wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 80) / 100;
+            wk->mvxy.a[1].sp = (wk->mvxy.a[1].sp * 120) / 100;
             cal_initial_speed_y(wk, ris_data_table[0][wk->dm_attlv], wk->xyz[1].disp.pos);
-            wk->mvxy.a[1].sp += (ay * 0x3C) / 100;
+            wk->mvxy.a[1].sp += (ay * 60) / 100;
             break;
 
         case 1:
-            wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 0x4B) / 100;
-            wk->mvxy.a[1].sp = (wk->mvxy.a[1].sp * 0x64) / 100;
+            wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 75) / 100;
+            wk->mvxy.a[1].sp = (wk->mvxy.a[1].sp * 100) / 100;
             cal_initial_speed_y(wk, ris_data_table[1][wk->dm_attlv], wk->xyz[1].disp.pos);
-            wk->mvxy.a[1].sp += (ay * 0x23) / 100;
+            wk->mvxy.a[1].sp += (ay * 35) / 100;
             break;
 
         case 2:
-            wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 0x46) / 100;
-            wk->mvxy.a[1].sp = (wk->mvxy.a[1].sp * 0x50) / 100;
+            wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 70) / 100;
+            wk->mvxy.a[1].sp = (wk->mvxy.a[1].sp * 80) / 100;
             cal_initial_speed_y(wk, ris_data_table[2][wk->dm_attlv], wk->xyz[1].disp.pos);
-            wk->mvxy.a[1].sp += (ay * 0x14) / 100;
+            wk->mvxy.a[1].sp += (ay * 20) / 100;
             break;
 
         case 3:
-            wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 0x50) / 100;
+            wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 80) / 100;
             wk->mvxy.a[1].sp = (wk->mvxy.a[1].sp - 0x8000) - 0x8000;
-            wk->mvxy.a[1].sp += (ay * 0xA) / 100;
+            wk->mvxy.a[1].sp += (ay * 10) / 100;
             break;
 
         default:
-            wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 0x5A) / 100;
+            wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 90) / 100;
             wk->mvxy.a[1].sp = wk->mvxy.a[1].sp + 0xFFFE0000;
             break;
         }
     } else {
-        wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 0x78) / 100;
+        wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * 120) / 100;
 
         if (ay >= 0) {
             wk->mvxy.a[1].sp = ay;
         } else {
-            wk->mvxy.a[1].sp = (ay * 0x3C) / 100;
+            wk->mvxy.a[1].sp = (ay * 60) / 100;
         }
 
         wk->mvxy.d[1].sp = dy;
     }
 
-    if ((wk->xyz[1].disp.pos < 0xC) && (cal_move_quantity3(wk, 3) <= 0)) {
+    if ((wk->xyz[1].disp.pos < 12) && (cal_move_quantity3(wk, 3) <= 0)) {
         return 1;
     }
 
@@ -584,8 +584,8 @@ void Damage_25000(PLW *wk) {
         break;
 
     case 1:
-        if ((pcon_dp_flag != 0) && (wk->py->time > 0x30)) {
-            wk->py->time = 0x30;
+        if ((pcon_dp_flag != 0) && (wk->py->time > 48)) {
+            wk->py->time = 48;
         }
 
         wk->py->time -= wk->cp->lgp / 2;
@@ -605,7 +605,7 @@ void Damage_25000(PLW *wk) {
     }
 
     if (wk->wu.cg_se) {
-        pulpul_request(wk->wu.id, 0x30);
+        pulpul_request(wk->wu.id, 48);
         wk->wu.cg_se = 0;
     }
 }
@@ -625,7 +625,7 @@ void Damage_27000(PLW *wk) {
 
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         wk->dm_ix = wk->as->char_ix + wk->wu.dm_attlv;
         set_char_move_init(&wk->wu, 1, wk->dm_ix);
         setup_butt_own_data(&wk->wu);
@@ -635,7 +635,7 @@ void Damage_27000(PLW *wk) {
         break;
 
     case 1:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         char_move_wca_init(&wk->wu);
         /* fallthrough */
 
@@ -685,24 +685,26 @@ void first_flight_union(PLW *wk, s16 num, s16 dv) {
 
     jumping_union_process(&wk->wu, num);
 
-    if (wk->wu.routine_no[3] == num) {
-        wk->wu.mvxy.a[0].sp /= dv;
-        wk->wu.mvxy.d[0].sp = wk->wu.mvxy.kop[0] = 0;
-        wk->wu.mvxy.a[1].sp = wk->wu.mvxy.d[1].sp = wk->wu.mvxy.kop[1] = 0;
+    if (wk->wu.routine_no[3] != num) {
+        return;
+    }
 
-        if (wk->ukemi_ok_timer) {
-            wk->uot_cd_ok_flag = 1;
-        } else {
-            wk->uot_cd_ok_flag = 0;
-        }
+    wk->wu.mvxy.a[0].sp /= dv;
+    wk->wu.mvxy.d[0].sp = wk->wu.mvxy.kop[0] = 0;
+    wk->wu.mvxy.a[1].sp = wk->wu.mvxy.d[1].sp = wk->wu.mvxy.kop[1] = 0;
 
-        subtract_cu_vital(wk);
-        effect_A7_init(wk);
-        buttobi_chakuchi_cg_type_check(wk);
+    if (wk->ukemi_ok_timer) {
+        wk->uot_cd_ok_flag = 1;
+    } else {
+        wk->uot_cd_ok_flag = 0;
+    }
 
-        if (wk->ukemi_ok_timer != 0 && wk->ukemi_success == 0) {
-            wk->uot_cd_ok_flag = 1;
-        }
+    subtract_cu_vital(wk);
+    effect_A7_init(wk);
+    buttobi_chakuchi_cg_type_check(wk);
+
+    if (wk->ukemi_ok_timer != 0 && wk->ukemi_success == 0) {
+        wk->uot_cd_ok_flag = 1;
     }
 }
 
@@ -748,12 +750,12 @@ void buttobi_chakuchi_cg_type_check(PLW *wk) {
 
     case 2:
         if (wk->wu.mvxy.a[0].sp > 0) {
-            add_mvxy_speed_direct(&wk->wu, 0x80, 0);
+            add_mvxy_speed_direct(&wk->wu, 128, 0);
             break;
         }
 
         if (wk->wu.mvxy.a[0].sp < 0) {
-            add_mvxy_speed_direct(&wk->wu, -0x80, 0);
+            add_mvxy_speed_direct(&wk->wu, -128, 0);
         }
 
         break;
@@ -768,12 +770,12 @@ void buttobi_chakuchi_cg_type_check(PLW *wk) {
         }
 
         if (wk->wu.mvxy.a[0].sp > 0) {
-            add_mvxy_speed_direct(&wk->wu, 0x40, 0);
+            add_mvxy_speed_direct(&wk->wu, 64, 0);
             break;
         }
 
         if (wk->wu.mvxy.a[0].sp < 0) {
-            add_mvxy_speed_direct(&wk->wu, -0x40, 0);
+            add_mvxy_speed_direct(&wk->wu, -64, 0);
         }
 
         break;
@@ -839,17 +841,14 @@ void add_dm_step_tbl(PLW *wk, s8 flag) {
         return;
     }
 
-    wk->dm_step_tbl += 1;
+    wk->dm_step_tbl++;
 }
 
 void check_dmpat_to_dmpat(PLW * /* unused */) {}
 
 void set_dm_hos_flag_sky(PLW *wk) {
-    s16 disx;
-    PLW *twk;
-
-    twk = (PLW *)wk->wu.target_adrs;
-    disx = wk->wu.xyz[0].disp.pos - twk->wu.xyz[0].disp.pos;
+    PLW *twk = (PLW *)wk->wu.target_adrs;
+    s16 disx = wk->wu.xyz[0].disp.pos - twk->wu.xyz[0].disp.pos;
 
     if (disx < 0) {
         disx = -disx;
@@ -857,48 +856,62 @@ void set_dm_hos_flag_sky(PLW *wk) {
 
     if (wk->wu.dm_work_id & 8) {
         if (wk->wu.mvxy.a[1].real.h <= 0) {
-            if (disx > 0x60) {
+            if (disx > 96) {
                 return;
             }
-        } else if (disx > 0xA0) {
+        } else if (disx > 160) {
             return;
         }
 
         wk->dm_hos_flag = 1;
-
-    } else if (wk->wu.dm_work_id & 1 &&
-               (twk->player_number != 0 || twk->wu.now_koc != 5 || twk->wu.char_index != 0x3B)) {
-        if (wk->wu.mvxy.a[1].real.h <= 0) {
-            if (disx > 0x50) {
-                return;
-            }
-        } else if (disx > 0x80) {
-            return;
-        }
-
-        wk->dm_hos_flag = 1;
+        return;
     }
+
+    if (!(wk->wu.dm_work_id & 1)) {
+        return;
+    }
+
+    if (twk->player_number == 0 && twk->wu.now_koc == 5 && twk->wu.char_index == 59) {
+        return;
+    }
+
+    if (wk->wu.mvxy.a[1].real.h <= 0) {
+        if (disx > 80) {
+            return;
+        }
+    } else if (disx > 128) {
+        return;
+    }
+
+    wk->dm_hos_flag = 1;
 }
 
 void set_dm_hos_flag_grd(PLW *wk) {
-    s16 disx;
-    PLW *twk;
-
-    twk = (PLW *)wk->wu.target_adrs;
-    disx = wk->wu.xyz[0].disp.pos - twk->wu.xyz[0].disp.pos;
+    PLW *twk = (PLW *)wk->wu.target_adrs;
+    s16 disx = wk->wu.xyz[0].disp.pos - twk->wu.xyz[0].disp.pos;
 
     if (disx < 0) {
         disx = -disx;
     }
 
     if (wk->wu.dm_work_id & 8) {
-        if (disx < 0x81) {
-            wk->dm_hos_flag = 1;
+        if (disx > 128) {
+            return;
         }
-    } else if (wk->wu.dm_work_id & 1 &&
-               (twk->player_number != 0 || twk->wu.now_koc != 5 || twk->wu.char_index != 0x3B)) {
+
         wk->dm_hos_flag = 1;
+        return;
     }
+
+    if (!(wk->wu.dm_work_id & 1)) {
+        return;
+    }
+
+    if (twk->player_number == 0 && twk->wu.now_koc == 5 && twk->wu.char_index == 59) {
+        return;
+    }
+
+    wk->dm_hos_flag = 1;
 }
 
 void get_sky_dm_timer(PLW *wk) {
@@ -973,10 +986,10 @@ void subtract_dm_vital(PLW *wk) {
         case 1:
         case 2:
         case 3:
-        case 0xC:
-        case 0xD:
-        case 0x13:
-        case 0x10:
+        case 12:
+        case 13:
+        case 19:
+        case 16:
             break;
 
         default:
@@ -1063,21 +1076,21 @@ void get_damage_reaction_data(PLW *wk) {
 
     subtract_dm_vital(wk);
 
-    if (wk->wu.routine_no[2] == 0x58) {
+    if (wk->wu.routine_no[2] == 88) {
         wk->wu.routine_no[2] = check_buttobi_type(wk);
     }
 
-    if (wk->py->flag && wk->wu.routine_no[2] == 0x58) {
-        wk->wu.routine_no[2] = 0x5B;
+    if (wk->py->flag && wk->wu.routine_no[2] == 88) {
+        wk->wu.routine_no[2] = 91;
     }
 
-    if (!(((PLW *)wk->wu.target_adrs)->spmv_ng_flag & 0x02000000) && wk->wu.routine_no[2] == 0x58) {
-        wk->wu.routine_no[2] = 0x5B;
+    if (!(((PLW *)wk->wu.target_adrs)->spmv_ng_flag & 0x2000000) && wk->wu.routine_no[2] == 88) {
+        wk->wu.routine_no[2] = 91;
     }
 
     if (wk->dead_flag) {
         wk->wu.routine_no[2] = dd_convert[wk->wu.routine_no[2]][wk->wu.dm_attlv];
-        if (wk->wu.routine_no[2] > 0x13 && wk->wu.routine_no[2] < 0x58 && wk->wu.routine_no[2] != 0x46) {
+        if (wk->wu.routine_no[2] > 19 && wk->wu.routine_no[2] < 88 && wk->wu.routine_no[2] != 70) {
             wk->wu.routine_no[2] = check_buttobi_type2(wk);
         }
     }
@@ -1133,7 +1146,7 @@ s32 setup_kuzureochi(PLW *wk) {
     wk->wu.routine_no[3] = 1;
     wk->zuru_timer = 0;
     wk->zuru_ix_counter = 0;
-    set_char_move_init(&wk->wu, 1, 0x49);
+    set_char_move_init(&wk->wu, 1, 73);
     wk->wu.dm_stop = wk->wu.hit_stop = 0;
     wk->wu.dm_quake = wk->wu.hit_quake = 0;
     return 1;
@@ -1148,8 +1161,8 @@ void get_catch_off_data(PLW *wk, s16 ix) {
 void check_bullet_damage(PLW *wk) {
     WORK *tk = (WORK *)wk->wu.dmg_adrs;
 
-    if (tk->work_id != 1 && tk->id == 0xD && tama_select[tk->type] != 0) {
+    if (tk->work_id != 1 && tk->id == 13 && tama_select[tk->type] != 0) {
         wk->bullet_hcnt += tama_select[tk->type];
-        wk->bhcnt_timer = 0x320;
+        wk->bhcnt_timer = 800;
     }
 }

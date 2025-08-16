@@ -32,7 +32,7 @@ void Att_PL16_TOKUSHUKOUDOU(PLW *wk) {
         char_move(&wk->wu);
 
         switch (wk->wu.cg_type) {
-        case 0x1E:
+        case 30:
             wk->wu.cg_type = 0;
 
             if (wk->tk_konjyou == 0) {
@@ -41,12 +41,12 @@ void Att_PL16_TOKUSHUKOUDOU(PLW *wk) {
 
             break;
 
-        case 0x28:
+        case 40:
             wk->wu.cg_type = 0;
             add_sp_arts_gauge_tokushu(wk);
             break;
 
-        case 0x32:
+        case 50:
             wk->wu.cg_type = 0;
 
             if (wk->tk_dageki < 10) {
@@ -55,7 +55,7 @@ void Att_PL16_TOKUSHUKOUDOU(PLW *wk) {
 
             break;
 
-        case 0x40:
+        case 64:
             grade_add_personal_action(wk->wu.id);
             wk->wu.routine_no[3]++;
 

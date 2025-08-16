@@ -30,7 +30,7 @@ void (*const player_bonus_process[3])() = { plcnt_b_init, plcnt_b_move, plcnt_b_
 
 s32 Player_control_bonus() {
     if (((pcon_rno[0] + pcon_rno[1]) == 0) || (!Game_pause && !EXE_flag)) {
-        players_timer += 1;
+        players_timer++;
         players_timer &= 0x7FFF;
         player_bonus_process[pcon_rno[0]]();
         check_body_touch();
@@ -55,7 +55,7 @@ s32 Player_control_bonus() {
         store_player_after_image_data();
     }
 
-    if ((pcon_rno[0] == 2) && (pcon_rno[1] == 0) && (pcon_rno[2] == 2)) {
+    if (pcon_rno[0] == 2 && pcon_rno[1] == 0 && pcon_rno[2] == 2) {
         return 1;
     }
 
@@ -84,13 +84,23 @@ void plcnt_b_init() {
         break;
 
     case 1:
-        if ((plw[0].wu.routine_no[0] == 3) && (plw[1].wu.routine_no[0] == 3) && Allow_a_battle_f) {
-            pcon_rno[0] = 1;
-            pcon_rno[1] = 0;
-            plw[0].wu.routine_no[0] = 4;
-            plw[1].wu.routine_no[0] = 4;
-            ca_check_flag = 1;
+        if (plw[0].wu.routine_no[0] != 3) {
+            break;
         }
+
+        if (plw[1].wu.routine_no[0] != 3) {
+            break;
+        }
+
+        if (!Allow_a_battle_f) {
+            break;
+        }
+
+        pcon_rno[0] = 1;
+        pcon_rno[1] = 0;
+        plw[0].wu.routine_no[0] = 4;
+        plw[1].wu.routine_no[0] = 4;
+        ca_check_flag = 1;
 
         break;
 
@@ -148,8 +158,8 @@ void plcnt_b_move() {
         }
     }
 
-    if (*Bonus_Stage_RNO == 2) {
-        *pcon_rno = 2;
+    if (Bonus_Stage_RNO[0] == 2) {
+        pcon_rno[0] = 2;
     }
 }
 
@@ -172,8 +182,8 @@ void plcnt_b_die() {
 
     case 2:
         complete_victory_pause();
-        plw[0].wu.routine_no[2] = 0x28;
-        plw[1].wu.routine_no[2] = 0x28;
+        plw[0].wu.routine_no[2] = 40;
+        plw[1].wu.routine_no[2] = 40;
         plw[0].wu.routine_no[1] = plw[1].wu.routine_no[1] = 0;
         plw[0].wu.routine_no[3] = plw[1].wu.routine_no[3] = 0;
         plw[0].wu.cg_type = plw[1].wu.cg_type = 0;

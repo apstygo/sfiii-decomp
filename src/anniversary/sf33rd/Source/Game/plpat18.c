@@ -31,14 +31,14 @@ void Att_PL18_NINGENBAKUDAN(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x32) {
+        if (wk->wu.cg_type == 50) {
             wk->wu.routine_no[1] = 1;
-            wk->wu.routine_no[2] = 0x5B;
+            wk->wu.routine_no[2] = 91;
             wk->wu.routine_no[3] = 0;
             wk->wu.dm_vital = 0;
             wk->sa->gauge.i = wk->sa->dtm * wk->sa->dtm_mul;
 
-            if (Bonus_Game_Flag == 0x14) {
+            if (Bonus_Game_Flag == 20) {
                 wk->wu.dm_rl = (wk->wu.rl_flag + 1) & 1;
             } else {
                 wk->wu.dm_rl = ((PLW *)wk->wu.target_adrs)->wu.rl_flag;
@@ -94,7 +94,7 @@ void Att_PL18_TOKUSHUKOUDOU(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x28) {
+        if (wk->wu.cg_type == 40) {
             wk->wu.cg_type = 0;
             add_sp_arts_gauge_tokushu(wk);
             wk->tk_konjyou += 4;
@@ -104,7 +104,7 @@ void Att_PL18_TOKUSHUKOUDOU(PLW *wk) {
             }
         }
 
-        if (wk->wu.cg_type == 0x40) {
+        if (wk->wu.cg_type == 64) {
             grade_add_personal_action(wk->wu.id);
             wk->wu.routine_no[3]++;
 

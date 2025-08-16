@@ -823,6 +823,7 @@ s16 check_work_position_bonus(WORK *hm, s16 tx) {
     } else {
         num = hm->rl_flag == 0;
     }
+
     return num;
 }
 
@@ -930,7 +931,7 @@ s32 random_32() {
 }
 
 s32 random_16() {
-    Random_ix16 += 1;
+    Random_ix16++;
 
     if (Debug_w[0x3B] == 0xE0) {
         Random_ix16 = 0;
@@ -1117,7 +1118,7 @@ void setup_vitality(WORK *wk, s16 pno) {
 
     wk->original_vitality = Com_Vital_Unit_Data[pno][save_w[Present_Mode].Damage_Level][ix];
     wk->original_vitality += (s16)base_vital_omake[omop_vital_init[wk->id]];
-    wk->dmcal_m = 0x20;
+    wk->dmcal_m = 32;
     wk->dmcal_d = (wk->original_vitality << 5) / Max_vitality;
     wk->vitality = wk->vital_new = wk->vital_old = Max_vitality;
     wk->dm_vital = 0;
@@ -1131,27 +1132,29 @@ void setup_vitality(WORK *wk, s16 pno) {
 void cal_dm_vital_gauge_hosei(PLW *wk) {
     s16 cnjix;
 
-    if (wk->wu.dm_vital != 0) {
-        if (wk->wu.vital_new < (Max_vitality * 6) / 10) {
-            if (Max_vitality == 192) {
-                cnjix = wk->wu.vital_new / 19;
-            } else {
-                cnjix = wk->wu.vital_new / 16;
-            }
+    if (wk->wu.dm_vital == 0) {
+        return;
+    }
 
-            if (cnjix > 5) {
-                cnjix = 5;
-            }
-
-            wk->wu.dm_vital = wk->wu.dm_vital * konjyou_tbl[wk->player_number][cnjix] / wk->wu.dmcal_m;
+    if (wk->wu.vital_new < (Max_vitality * 6) / 10) {
+        if (Max_vitality == 192) {
+            cnjix = wk->wu.vital_new / 19;
+        } else {
+            cnjix = wk->wu.vital_new / 16;
         }
 
-        wk->wu.dm_vital = wk->wu.dm_vital * (32 - wk->tk_konjyou) / wk->wu.dmcal_m;
-        wk->wu.dm_vital = wk->wu.dm_vital * wk->wu.dmcal_m / wk->wu.dmcal_d;
-
-        if (wk->wu.dm_vital <= 0) {
-            wk->wu.dm_vital = 1;
+        if (cnjix > 5) {
+            cnjix = 5;
         }
+
+        wk->wu.dm_vital = wk->wu.dm_vital * konjyou_tbl[wk->player_number][cnjix] / wk->wu.dmcal_m;
+    }
+
+    wk->wu.dm_vital = wk->wu.dm_vital * (32 - wk->tk_konjyou) / wk->wu.dmcal_m;
+    wk->wu.dm_vital = wk->wu.dm_vital * wk->wu.dmcal_m / wk->wu.dmcal_d;
+
+    if (wk->wu.dm_vital <= 0) {
+        wk->wu.dm_vital = 1;
     }
 }
 
@@ -1218,31 +1221,34 @@ void add_sp_arts_gauge_hit_dm(PLW *wk) {
     PLW *emwk;
     s16 asag;
 
-    if (wk->wu.work_id == 1) {
-        emwk = (PLW *)wk->wu.target_adrs;
-        asag = _add_arts_gauge[emwk->player_number][wk->wu.dm_arts_point][2];
-
-        if (asag != 0) {
-            add_super_arts_gauge(wk->sa, wk->wu.id, asag / 3, wk->metamorphose);
-
-            if (emwk->wu.operator == 0) {
-                asag += asagh_zuru[save_w[Present_Mode].Difficulty];
-            }
-
-            if (asag <= 0) {
-                asag = 1;
-            }
-
-            asag = cal_sa_gauge_waribiki(wk, asag);
-
-            if (emwk->wu.operator == 0 && Break_Into_CPU == 1) {
-                asag = (asag * 120) / 100;
-            }
-
-            add_super_arts_gauge(emwk->sa, emwk->wu.id, asag, emwk->metamorphose);
-        }
-        wk->wu.dm_arts_point = 0;
+    if (wk->wu.work_id != 1) {
+        return;
     }
+
+    emwk = (PLW *)wk->wu.target_adrs;
+    asag = _add_arts_gauge[emwk->player_number][wk->wu.dm_arts_point][2];
+
+    if (asag != 0) {
+        add_super_arts_gauge(wk->sa, wk->wu.id, asag / 3, wk->metamorphose);
+
+        if (emwk->wu.operator == 0) {
+            asag += asagh_zuru[save_w[Present_Mode].Difficulty];
+        }
+
+        if (asag <= 0) {
+            asag = 1;
+        }
+
+        asag = cal_sa_gauge_waribiki(wk, asag);
+
+        if (emwk->wu.operator == 0 && Break_Into_CPU == 1) {
+            asag = (asag * 120) / 100;
+        }
+
+        add_super_arts_gauge(emwk->sa, emwk->wu.id, asag, emwk->metamorphose);
+    }
+
+    wk->wu.dm_arts_point = 0;
 }
 
 s16 cal_sa_gauge_waribiki(PLW *wk, s16 asag) {
@@ -1252,7 +1258,7 @@ s16 cal_sa_gauge_waribiki(PLW *wk, s16 asag) {
         return asag;
     }
 
-    num = 0x20 - (wk->cb->total - 1) * 2;
+    num = 32 - (wk->cb->total - 1) * 2;
 
     if (num <= 0) {
         num = 1;
@@ -1275,24 +1281,30 @@ void add_sp_arts_gauge_paring(PLW *wk) {
     PLW *emwk;
     s16 asag;
 
-    if (sa_stop_check() == 0 && wk->wu.work_id == 1) {
-        emwk = (PLW *)wk->wu.target_adrs;
-        asag = _add_arts_gauge[emwk->player_number][wk->wu.dm_arts_point][3];
+    if (sa_stop_check() != 0) {
+        return;
+    }
 
-        if (asag != 0) {
-            if (wk->wu.operator == 0) {
-                asag += asagh_zuru[save_w[Present_Mode].Difficulty];
-            }
+    if (wk->wu.work_id != 1) {
+        return;
+    }
 
-            if (asag <= 0) {
-                asag = 1;
-            }
+    emwk = (PLW *)wk->wu.target_adrs;
+    asag = _add_arts_gauge[emwk->player_number][wk->wu.dm_arts_point][3];
 
-            add_super_arts_gauge(wk->sa, wk->wu.id, asag, wk->metamorphose);
+    if (asag != 0) {
+        if (wk->wu.operator == 0) {
+            asag += asagh_zuru[save_w[Present_Mode].Difficulty];
         }
 
-        wk->wu.dm_arts_point = 0;
+        if (asag <= 0) {
+            asag = 1;
+        }
+
+        add_super_arts_gauge(wk->sa, wk->wu.id, asag, wk->metamorphose);
     }
+
+    wk->wu.dm_arts_point = 0;
 }
 
 void add_sp_arts_gauge_tokushu(PLW *wk) {
@@ -1302,21 +1314,25 @@ void add_sp_arts_gauge_tokushu(PLW *wk) {
 
     s16 asag;
 
-    if (wk->wu.work_id == 1) {
-        asag = (apagt_table[(wk->player_number)]);
-
-        if (asag != 0) {
-            if (wk->wu.operator == 0) {
-                asag += asagh_zuru[save_w[Present_Mode].Difficulty];
-            }
-
-            if (asag <= 0) {
-                asag = 1;
-            }
-
-            add_super_arts_gauge(wk->sa, wk->wu.id, asag, wk->metamorphose);
-        }
+    if (wk->wu.work_id != 1) {
+        return;
     }
+
+    asag = (apagt_table[(wk->player_number)]);
+
+    if (asag == 0) {
+        return;
+    }
+
+    if (wk->wu.operator == 0) {
+        asag += asagh_zuru[save_w[Present_Mode].Difficulty];
+    }
+
+    if (asag <= 0) {
+        asag = 1;
+    }
+
+    add_super_arts_gauge(wk->sa, wk->wu.id, asag, wk->metamorphose);
 }
 
 void add_sp_arts_gauge_ukemi(PLW *wk) {
@@ -1326,21 +1342,25 @@ void add_sp_arts_gauge_ukemi(PLW *wk) {
 
     s16 asag;
 
-    if (wk->wu.work_id == 1) {
-        asag = 3;
-
-        if (asag != 0) {
-            if (wk->wu.operator == 0) {
-                asag += asagh_zuru[save_w[Present_Mode].Difficulty];
-            }
-
-            if (asag <= 0) {
-                asag = (1);
-            }
-
-            add_super_arts_gauge(wk->sa, wk->wu.id, asag, wk->metamorphose);
-        }
+    if (wk->wu.work_id != 1) {
+        return;
     }
+
+    asag = 3;
+
+    if (asag == 0) {
+        return;
+    }
+
+    if (wk->wu.operator == 0) {
+        asag += asagh_zuru[save_w[Present_Mode].Difficulty];
+    }
+
+    if (asag <= 0) {
+        asag = (1);
+    }
+
+    add_super_arts_gauge(wk->sa, wk->wu.id, asag, wk->metamorphose);
 }
 
 void add_sp_arts_gauge_nagenuke(PLW *wk) {
@@ -1350,21 +1370,25 @@ void add_sp_arts_gauge_nagenuke(PLW *wk) {
 
     s16 asag;
 
-    if (wk->wu.work_id == 1) {
-        asag = 6;
-
-        if (asag != 0) {
-            if (wk->wu.operator == 0) {
-                asag += asagh_zuru[save_w[Present_Mode].Difficulty];
-            }
-
-            if (asag <= 0) {
-                asag = 1;
-            }
-
-            add_super_arts_gauge(wk->sa, wk->wu.id, asag, wk->metamorphose);
-        }
+    if (wk->wu.work_id != 1) {
+        return;
     }
+
+    asag = 6;
+
+    if (asag == 0) {
+        return;
+    }
+
+    if (wk->wu.operator == 0) {
+        asag += asagh_zuru[save_w[Present_Mode].Difficulty];
+    }
+
+    if (asag <= 0) {
+        asag = 1;
+    }
+
+    add_super_arts_gauge(wk->sa, wk->wu.id, asag, wk->metamorphose);
 }
 
 void add_sp_arts_gauge_maxbit(PLW *wk) {
@@ -1372,30 +1396,32 @@ void add_sp_arts_gauge_maxbit(PLW *wk) {
     void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u16 mf);
 #endif
 
-    if (pcon_rno[0] == 1) {
-        if (wk->sa->mp == -1 || wk->sa->ok == -1 || wk->sa->ex == -1) {
-            return;
-        }
+    if (pcon_rno[0] != 1) {
+        return;
+    }
 
+    if (wk->sa->mp == -1 || wk->sa->ok == -1 || wk->sa->ex == -1) {
+        return;
+    }
+
+    if (sag_inc_timer[wk->wu.id]) {
+        sag_inc_timer[wk->wu.id]--;
+        return;
+    }
+
+    if (!(wk->spmv_ng_flag2 & 0x80000)) {
+        sag_inc_timer[wk->wu.id] = 2;
+        add_super_arts_gauge(wk->sa, wk->wu.id, wk->sa->gauge_len, wk->metamorphose);
+        return;
+    }
+
+    if (!(wk->spmv_ng_flag2 & 0x10000)) {
         if (sag_inc_timer[wk->wu.id]) {
-            sag_inc_timer[wk->wu.id] -= 1;
+            sag_inc_timer[wk->wu.id]--;
             return;
         }
 
-        if (!(wk->spmv_ng_flag2 & 0x80000)) {
-            sag_inc_timer[wk->wu.id] = 2;
-            add_super_arts_gauge(wk->sa, wk->wu.id, wk->sa->gauge_len, wk->metamorphose);
-            return;
-        }
-
-        if (!(wk->spmv_ng_flag2 & 0x10000)) {
-            if (sag_inc_timer[wk->wu.id]) {
-                sag_inc_timer[wk->wu.id] -= 1;
-                return;
-            }
-
-            add_super_arts_gauge(wk->sa, wk->wu.id, 1, wk->metamorphose);
-        }
+        add_super_arts_gauge(wk->sa, wk->wu.id, 1, wk->metamorphose);
     }
 }
 

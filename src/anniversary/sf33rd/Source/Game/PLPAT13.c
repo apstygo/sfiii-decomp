@@ -56,7 +56,7 @@ void Att_MOONSALT_KNEE_DROP2(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             wk->wu.routine_no[3]++;
             wk->wu.cg_type = 0;
             add_mvxy_speed(&wk->wu);
@@ -94,12 +94,12 @@ void Att_PL13_TOKUSHUKOUDOU(PLW *wk) {
         char_move(&wk->wu);
 
         switch (wk->wu.cg_type) {
-        case 0x28:
+        case 40:
             wk->wu.cg_type = 0;
             add_sp_arts_gauge_tokushu(wk);
             break;
 
-        case 0x14:
+        case 20:
             wk->wu.cg_type = 0;
             wk->tk_dageki += 10;
 
@@ -109,7 +109,7 @@ void Att_PL13_TOKUSHUKOUDOU(PLW *wk) {
 
             break;
 
-        case 0x40:
+        case 64:
             grade_add_personal_action(wk->wu.id);
             break;
         }

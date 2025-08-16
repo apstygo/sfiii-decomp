@@ -58,7 +58,7 @@ void Att_SP_YAGYOUDAMA(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.cg_type = 0;
             wk->wu.mvxy.index++;
@@ -68,7 +68,7 @@ void Att_SP_YAGYOUDAMA(PLW *wk) {
         break;
 
     case 2:
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.cg_type = 0;
             wk->wu.mvxy.index++;
@@ -86,7 +86,7 @@ void Att_SP_YAGYOUDAMA(PLW *wk) {
     case 3:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.cg_type = 0;
             wk->wu.mvxy.index++;
@@ -121,22 +121,24 @@ s32 set_tenguiwa(PLW *wk, u8 data) {
         }
 
         for (j = 0, i = 0; i < 8; i++) {
-            if (get_my_shell_ix(&wk->wu, i, &tmw)) {
-                num = tmw->type - 0x18;
+            if (!get_my_shell_ix(&wk->wu, i, &tmw)) {
+                continue;
+            }
 
-                if (num < 0x24) {
-                    tmw->old_pos[0] = tenguiwa_pos_hosei[j][0];
-                    tmw->old_pos[1] = tenguiwa_pos_hosei[j][1];
-                    tmw->old_pos[2] = tenguiwa_pos_hosei[j][2];
-                    tmw->scr_mv_x = tenguiwa_pos_hosei[j][3];
-                    tmw->scr_mv_y = tenguiwa_pos_hosei[j][4];
-                    tmw->direction = tenguiwa_pos_hosei[j][5];
+            num = tmw->type - 24;
 
-                    j++;
+            if (num < 36) {
+                tmw->old_pos[0] = tenguiwa_pos_hosei[j][0];
+                tmw->old_pos[1] = tenguiwa_pos_hosei[j][1];
+                tmw->old_pos[2] = tenguiwa_pos_hosei[j][2];
+                tmw->scr_mv_x = tenguiwa_pos_hosei[j][3];
+                tmw->scr_mv_y = tenguiwa_pos_hosei[j][4];
+                tmw->direction = tenguiwa_pos_hosei[j][5];
 
-                    if (j > 2) {
-                        break;
-                    }
+                j++;
+
+                if (j > 2) {
+                    break;
                 }
             }
         }
@@ -152,9 +154,9 @@ s32 set_tenguiwa(PLW *wk, u8 data) {
 
     for (j = 0, i = 0; i < 8; i++) {
         if (get_my_shell_ix(&wk->wu, i, &tmw)) {
-            num = tmw->type - 0x18;
+            num = tmw->type - 24;
 
-            if (num < 0x24) {
+            if (num < 36) {
                 tmw->old_pos[0] = tenguiwa_pos_hosei2[j][0];
                 tmw->old_pos[1] = tenguiwa_pos_hosei2[j][1];
                 tmw->old_pos[2] = tenguiwa_pos_hosei2[j][2];
@@ -194,20 +196,20 @@ void Att_PL09_TOKUSHUKOUDOU(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x28) {
+        if (wk->wu.cg_type == 40) {
             wk->wu.cg_type = 0;
             add_sp_arts_gauge_tokushu(wk);
         }
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             wk->wu.cg_type = 0;
 
-            if ((wk->tk_success += 1) > 13) {
+            if (++wk->tk_success > 13) {
                 wk->tk_success = 13;
             }
         }
 
-        if (wk->wu.cg_type == 0x1E) {
+        if (wk->wu.cg_type == 30) {
             wk->wu.routine_no[3]++;
             wk->wu.cg_type = 0;
             break;
@@ -224,7 +226,7 @@ void Att_PL09_TOKUSHUKOUDOU(PLW *wk) {
     default:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x40) {
+        if (wk->wu.cg_type == 64) {
             grade_add_personal_action(wk->wu.id);
         }
 
@@ -290,7 +292,7 @@ void mvxy_table_reader(PLW *wk) {
     s16 ex;
     s16 ey;
 
-    if (wk->wu.cg_type == 0x1E) {
+    if (wk->wu.cg_type == 30) {
         setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
         wk->wu.mvxy.index++;
 
@@ -342,7 +344,7 @@ void mvxy_table_reader(PLW *wk) {
         add_mvxy_speed(&wk->wu);
     }
 
-    if (wk->wu.cg_type == 0x14) {
+    if (wk->wu.cg_type == 20) {
         setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
         wk->wu.mvxy.index++;
         wk->wu.routine_no[3]++;
@@ -393,7 +395,7 @@ void Att_PL09_EX_KISHINRIKI(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
             wk->wu.routine_no[3]++;

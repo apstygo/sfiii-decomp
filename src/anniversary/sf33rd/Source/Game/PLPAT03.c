@@ -31,25 +31,25 @@ void Att_PL03_TOKUSHUKOUDOU(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x28) {
+        if (wk->wu.cg_type == 40) {
             wk->wu.cg_type = 0;
             add_sp_arts_gauge_tokushu(wk);
         }
 
         switch (wk->wu.cg_type) {
-        case 0x14:
+        case 20:
             wk->wu.cg_type = 0;
             wk->tk_dageki += 2;
             wk->tk_nage += 2;
             break;
 
-        case 0x1E:
+        case 30:
             wk->wu.cg_type = 0;
             wk->tk_dageki += 2;
-            wk->tk_nage += 1;
+            wk->tk_nage++;
             break;
 
-        case 0x40:
+        case 64:
             grade_add_personal_action(wk->wu.id);
             break;
         }

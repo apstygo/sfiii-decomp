@@ -66,7 +66,7 @@ void Att_MOONSALT_KNEE_DROP(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             wk->wu.routine_no[3]++;
             wk->wu.cg_type = 0;
             add_mvxy_speed(&wk->wu);
@@ -139,7 +139,7 @@ void Att_RESURRECTION(PLW *wk) {
 
 s16 get_life_add_point(u8 num, s16 ori_add) {
     s16 add_pts = ori_add;
-    u16 ix = num - 0x14;
+    u16 ix = num - 20;
 
     if (ix < 9) {
         add_pts = glap_table[ix / 2];
@@ -167,12 +167,12 @@ void Att_PL00_TOKUSHUKOUDOU(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x28) {
+        if (wk->wu.cg_type == 40) {
             wk->wu.cg_type = 0;
             add_sp_arts_gauge_tokushu(wk);
         }
 
-        if (wk->wu.cg_type == 0x40) {
+        if (wk->wu.cg_type == 64) {
             wk->wu.routine_no[3]++;
             wk->tk_dageki += 16;
             wk->tk_nage += 8;
@@ -214,13 +214,13 @@ void Att_JYOUKA(PLW *wk) {
 
     switch (wk->wu.routine_no[3]) {
     case 0:
-        if (Bonus_Game_Flag == 0x14) {
+        if (Bonus_Game_Flag == 20) {
             wk->wu.routine_no[3] = 10;
             wk->wu.rl_flag = wk->wu.rl_waza;
             set_char_move_init(&wk->wu, 5, wk->as->char_ix);
             x1 = bg_w.bgw[1].wxy[0].disp.pos;
             y1 = 80;
-            cal_all_speed_data(&wk->wu, 0x14, x1, y1, 1, 2);
+            cal_all_speed_data(&wk->wu, 20, x1, y1, 1, 2);
 
             if (wk->wu.rl_flag == 0) {
                 wk->wu.mvxy.a[0].sp = -wk->wu.mvxy.a[0].sp;
@@ -228,7 +228,7 @@ void Att_JYOUKA(PLW *wk) {
             }
 
             effect_I3_init(&wk->wu, 3);
-            wk->sfwing_pos = 0x58;
+            wk->sfwing_pos = 88;
             Bg_Y_Sitei(1, wk->sfwing_pos);
             break;
         }
@@ -238,7 +238,7 @@ void Att_JYOUKA(PLW *wk) {
         set_char_move_init(&wk->wu, 5, (wk->as->char_ix));
         x1 = bg_w.bgw[1].wxy[0].disp.pos;
         y1 = 40;
-        cal_all_speed_data(&wk->wu, 0x14, x1, y1, 1, 1);
+        cal_all_speed_data(&wk->wu, 20, x1, y1, 1, 1);
 
         if (wk->wu.rl_flag == 0) {
             wk->wu.mvxy.a[0].sp = -wk->wu.mvxy.a[0].sp;
@@ -251,7 +251,7 @@ void Att_JYOUKA(PLW *wk) {
 
     case 1:
     case 10:
-        if ((setup_kuzureochi(wk) == 0) && (char_move(&wk->wu), wk->wu.cg_type == 0x14)) {
+        if ((setup_kuzureochi(wk) == 0) && (char_move(&wk->wu), wk->wu.cg_type == 20)) {
             wk->wu.routine_no[3]++;
             wk->wu.cg_type = 0;
         }
@@ -260,7 +260,7 @@ void Att_JYOUKA(PLW *wk) {
 
     case 2:
         if (wk->resurrection_resv) {
-            set_char_move_init2(&wk->wu, 5, 0x3c, 8, 1);
+            set_char_move_init2(&wk->wu, 5, 60, 8, 1);
             reset_mvxy_data(&wk->wu);
             wk->wu.routine_no[3] = 3;
             break;
@@ -269,7 +269,7 @@ void Att_JYOUKA(PLW *wk) {
         add_mvxy_speed(&wk->wu);
         cal_mvxy_speed(&wk->wu);
 
-        if (wk->wu.cg_type == 0x1E) {
+        if (wk->wu.cg_type == 30) {
             wk->wu.routine_no[3]++;
             wk->wu.cg_type = 0;
             reset_mvxy_data(&wk->wu);
@@ -280,10 +280,10 @@ void Att_JYOUKA(PLW *wk) {
     case 3:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             wk->wu.routine_no[3]++;
             wk->wu.cg_type = 0;
-            wk->wu.mvxy.d[1].sp = 0xffffa000;
+            wk->wu.mvxy.d[1].sp = 0xFFFFA000;
             add_mvxy_speed(&wk->wu);
         }
 
@@ -303,7 +303,7 @@ void Att_JYOUKA(PLW *wk) {
         add_mvxy_speed(&wk->wu);
         cal_mvxy_speed(&wk->wu);
 
-        if (wk->wu.cg_type == 0x1E) {
+        if (wk->wu.cg_type == 30) {
             wk->wu.routine_no[3]++;
             wk->wu.cg_type = 0;
             reset_mvxy_data(&wk->wu);
@@ -315,10 +315,10 @@ void Att_JYOUKA(PLW *wk) {
     case 12:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             wk->wu.routine_no[3] = 4;
             wk->wu.cg_type = 0;
-            wk->wu.mvxy.d[1].sp = 0xffffa000;
+            wk->wu.mvxy.d[1].sp = 0xFFFFA000;
             add_mvxy_speed(&wk->wu);
         }
 

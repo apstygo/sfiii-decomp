@@ -86,11 +86,11 @@ void Player_move(PLW *wk, u16 lv_data) {
         key_thru(wk);
     }
 
-    wk->wu.cmwk[0xA] = wk->cp->lgp;
-    wk->wu.cmwk[0xB] += wk->cp->lgp;
-    wk->wu.cmwk[0xB] &= 0x7FFF;
-    wk->wu.cmwk[0xC] = wk->cp->sw_new;
-    wk->wu.cmwk[0xD] = wk->cp->sw_now;
+    wk->wu.cmwk[10] = wk->cp->lgp;
+    wk->wu.cmwk[11] += wk->cp->lgp;
+    wk->wu.cmwk[11] &= 0x7FFF;
+    wk->wu.cmwk[12] = wk->cp->sw_new;
+    wk->wu.cmwk[13] = wk->cp->sw_now;
     plmain_lv_00[wk->wu.routine_no[0]](wk);
 }
 
@@ -166,7 +166,7 @@ void player_mv_0000(PLW *wk) {
 
     case 0x20000:
         if (Round_num == 0) {
-        case 0x0:
+        case 0:
             demo_set_sa_full(wk->sa);
             spgauge_cont_demo_init();
         }
@@ -274,7 +274,7 @@ void player_mv_4000(PLW *wk) {
     wk->permited_koa = 0;
     check_extra_jump_timer(wk);
 
-    if ((wk->sa_stop_flag) != 1) {
+    if (wk->sa_stop_flag != 1) {
         check_lever_data(wk);
     }
 
@@ -285,7 +285,7 @@ void player_mv_4000(PLW *wk) {
     if (!check_hit_stop(wk)) {
         plmain_lv_02[wk->wu.routine_no[1]](wk);
 
-        if ((Timer_Freeze == 0) && (wk->wu.hit_stop == 0) && (wk->zuru_timer > 0)) {
+        if (Timer_Freeze == 0 && wk->wu.hit_stop == 0 && wk->zuru_timer > 0) {
             wk->zuru_timer -= 2;
         }
 
@@ -330,7 +330,7 @@ s16 check_hit_stop(PLW *wk) {
         num = 1;
 
         if (wk->wu.hit_stop > 0) {
-            wk->wu.hit_stop -= 1;
+            wk->wu.hit_stop--;
 
             if (wk->sa_stop_flag == 2) {
                 if (wk->just_sa_stop_timer == Game_timer) {
@@ -407,7 +407,7 @@ void look_after_timers(PLW *wk) {
     }
 
     if (wk->bullet_hcnt) {
-        if ((wk->bhcnt_timer -= 1) <= 0) {
+        if (--wk->bhcnt_timer <= 0) {
             wk->bullet_hcnt = 0;
         }
     }
@@ -490,7 +490,7 @@ void mpg_union(PLW *wk) {
             wk->sa->saeff_mp = 0;
             wk->sa->mp_rno = 0;
             wk->sa->mp = 0;
-            sag_inc_timer[(wk->wu.id)] = 0x14;
+            sag_inc_timer[(wk->wu.id)] = 20;
             break;
 
         case 1:
@@ -517,7 +517,7 @@ void mpg_union(PLW *wk) {
 void eag_union(PLW *wk) {
     switch (wk->sa->ex_rno) {
     case 0:
-        if ((wk->player_number == 0xE) || wk->player_number == 0) {
+        if (wk->player_number == 14 || wk->player_number == 0) {
             if (wk->sa->store != 0) {
                 wk->sa->ex_rno = 1;
                 wk->sa->ex = 1;
@@ -535,7 +535,7 @@ void eag_union(PLW *wk) {
         break;
 
     case 1:
-        if (wk->player_number == 0xE || wk->player_number == 0) {
+        if (wk->player_number == 14 || wk->player_number == 0) {
             if (wk->sa->store == 0) {
                 wk->sa->ex_rno = 0;
                 wk->sa->ex = 0;
@@ -556,14 +556,14 @@ void eag_union(PLW *wk) {
 
     case 2:
         if (pcon_dp_flag == 0) {
-            if ((wk->sa->gauge_type == 1) && (wk->sa->store == wk->sa->store_max)) {
+            if (wk->sa->gauge_type == 1 && wk->sa->store == wk->sa->store_max) {
                 wk->sa->gauge.i = 0;
             }
 
             if (wk->sa->gauge.s.h >= use_ex_gauge[omop_use_ex_gauge_ix[wk->wu.id]]) {
                 wk->sa->gauge.s.h -= use_ex_gauge[omop_use_ex_gauge_ix[wk->wu.id]];
             } else {
-                wk->sa->store -= 1;
+                wk->sa->store--;
                 wk->sa->gauge.s.h += wk->sa->gauge_len - use_ex_gauge[omop_use_ex_gauge_ix[wk->wu.id]];
             }
         }
@@ -571,7 +571,7 @@ void eag_union(PLW *wk) {
         sag_bug_fix(wk->wu.id);
         wk->sa->ex_rno = 0;
         wk->sa->ex = 0;
-        sag_inc_timer[wk->wu.id] = 0x14;
+        sag_inc_timer[wk->wu.id] = 20;
         break;
 
     default:
@@ -624,7 +624,7 @@ void sag_union(PLW *wk) {
                     if (wk->sa->ex4th_exec) {
                         wk->sa->store = 0;
                     } else {
-                        wk->sa->store -= 1;
+                        wk->sa->store--;
                     }
                 }
 
@@ -632,7 +632,7 @@ void sag_union(PLW *wk) {
                 wk->sa->saeff_ok = 0;
                 wk->sa->sa_rno = 0;
                 wk->sa->ok = 0;
-                sag_inc_timer[wk->wu.id] = 0x14;
+                sag_inc_timer[wk->wu.id] = 20;
                 break;
 
             case 1:
@@ -655,7 +655,7 @@ void sag_union(PLW *wk) {
                         if (wk->sa->ex4th_exec) {
                             wk->sa->store = 0;
                         } else {
-                            wk->sa->store -= 1;
+                            wk->sa->store--;
                         }
                     }
 
@@ -686,45 +686,54 @@ void sag_union(PLW *wk) {
                 break;
 
             case 1:
-                if (Timer_Freeze == 0) {
-                    wk->sa->sa_rno2 = 2;
-                case 2:
-                    if ((wk->sa_stop_flag != 1) && (((PLW *)wk->wu.target_adrs)->sa_stop_flag != 1)) {
-                        wk->sa->gauge.i -= wk->sa->dtm * wk->sa->dtm_mul;
-                    }
-
-                    if ((wk->sa->gauge.s.h <= 0) || (Suicide[6] != 0)) {
-                        wk->sa->gauge.i = 0;
-                        wk->sa->ok = 0;
-                        wk->sa->sa_rno = 0;
-                        wk->sa->dtm_mul = 1;
-                        wk->sa->gauge.s.h = wk->sa->bacckup_g_h;
-                        sag_inc_timer[wk->wu.id] = 0x14;
-                        break;
-                    }
-
-                    if (My_char[wk->wu.id] == 3) {
-                        addSAAttribute(&wk->wu.kind_of_waza, &wk->wu.at_koa);
-                    }
-                    if (My_char[wk->wu.id] == 0xA) {
-                        wk->wu.kind_of_waza |= 0x20;
-                        wk->wu.at_koa = 0x80;
-                    }
-                    if (My_char[wk->wu.id] == 0x10) {
-                        wk->wu.kind_of_waza |= 0x20;
-                        wk->wu.at_koa = 0x80;
-                    }
-                    if (My_char[wk->wu.id] == 0x12) {
-                        wk->wu.kind_of_waza |= 0x20;
-                        wk->wu.at_koa = 0x80;
-                    }
-                    if ((My_char[wk->wu.id] == 9) && (wk->sa->kind_of_arts == 2)) {
-                        wk->wu.att.dipsw |= 0x10;
-                        break;
-                    }
+                if (Timer_Freeze != 0) {
+                    break;
                 }
+
+                wk->sa->sa_rno2 = 2;
+                /* fallthrough */
+
+            case 2:
+                if ((wk->sa_stop_flag != 1) && (((PLW *)wk->wu.target_adrs)->sa_stop_flag != 1)) {
+                    wk->sa->gauge.i -= wk->sa->dtm * wk->sa->dtm_mul;
+                }
+
+                if (wk->sa->gauge.s.h <= 0 || Suicide[6] != 0) {
+                    wk->sa->gauge.i = 0;
+                    wk->sa->ok = 0;
+                    wk->sa->sa_rno = 0;
+                    wk->sa->dtm_mul = 1;
+                    wk->sa->gauge.s.h = wk->sa->bacckup_g_h;
+                    sag_inc_timer[wk->wu.id] = 20;
+                    break;
+                }
+
+                if (My_char[wk->wu.id] == 3) {
+                    addSAAttribute(&wk->wu.kind_of_waza, &wk->wu.at_koa);
+                }
+
+                if (My_char[wk->wu.id] == 10) {
+                    wk->wu.kind_of_waza |= 32;
+                    wk->wu.at_koa = 128;
+                }
+
+                if (My_char[wk->wu.id] == 16) {
+                    wk->wu.kind_of_waza |= 32;
+                    wk->wu.at_koa = 128;
+                }
+
+                if (My_char[wk->wu.id] == 18) {
+                    wk->wu.kind_of_waza |= 32;
+                    wk->wu.at_koa = 128;
+                }
+
+                if ((My_char[wk->wu.id] == 9) && (wk->sa->kind_of_arts == 2)) {
+                    wk->wu.att.dipsw |= 0x10;
+                }
+
                 break;
             }
+
             break;
 
         case 3:
@@ -733,10 +742,11 @@ void sag_union(PLW *wk) {
                 switch (wk->sa->saeff_ok) {
                 case -1:
                     sag_bug_fix(wk->wu.id);
-                    wk->sa->store -= 1;
+                    wk->sa->store--;
                     wk->sa->saeff_ok = 0;
                     wk->sa->sa_rno2 = 1;
                     break;
+
                 case 1:
                     break;
 
@@ -745,10 +755,13 @@ void sag_union(PLW *wk) {
                     wk->sa->sa_rno = 0;
                     wk->sa->ok = 0;
                 }
+
                 break;
+
             default:
                 break;
             }
+
             break;
 
         default:
@@ -758,6 +771,7 @@ void sag_union(PLW *wk) {
             wk->sa->saeff_ok = 0;
             break;
         }
+
         break;
     }
 }
@@ -782,7 +796,7 @@ void demo_set_sa_full(SA_WORK *sa) {
     sa->sa_rno = 1;
     sa->ok = 1;
     sa->store = sa->store_max;
-    sa->id_arts += 1;
+    sa->id_arts++;
     sa->gauge.s.h = 0;
     sa->gauge.s.l = 0;
     sa->dtm_mul = 1;
@@ -836,76 +850,113 @@ const u8 plpdm_mvkind[32] = { 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
 const u8 plpxx_kind[5] = { 0, 1, 0, 1, 0 };
 
 void check_omop_vital(PLW *wk) {
-    if (!pcon_dp_flag && !wk->dead_flag && !sa_stop_check()) {
-        if (wk->resurrection_resv) {
+    if (pcon_dp_flag) {
+        return;
+    }
+
+    if (wk->dead_flag) {
+        return;
+    }
+
+    if (sa_stop_check()) {
+        return;
+    }
+
+    if (wk->resurrection_resv) {
+        wk->wu.vital_new = -1;
+        return;
+    }
+
+    switch (omop_vital_ix[wk->wu.id]) {
+    case 0:
+        if (vital_dec_timer) {
+            break;
+        }
+
+        if ((wk->wu.routine_no[1] == 0) && !(plpnm_mvkind[wk->wu.routine_no[2]] & 1)) {
+            break;
+        }
+
+        if ((wk->wu.routine_no[1] == 1) && !(plpdm_mvkind[wk->wu.routine_no[2]] & 1)) {
+            break;
+        }
+
+        if (wk->wu.routine_no[1] == 3) {
+            break;
+        }
+
+        if (wk->player_number == 0) {
+            if ((wk->wu.routine_no[1] == 4) && (wk->wu.routine_no[2] == 21)) {
+                if (ca_check_flag == 0) {
+                    ca_check_flag = 1;
+                }
+
+                break;
+            }
+
+            if ((wk->wu.routine_no[1] == 4) && (wk->wu.routine_no[2] == 22) && (wk->wu.pat_status == 23)) {
+                break;
+            }
+        }
+
+        wk->wu.vital_new--;
+
+        if (wk->wu.vital_new < 0) {
             wk->wu.vital_new = -1;
-            return;
-        }
-
-        switch (omop_vital_ix[wk->wu.id]) {
-        case 0:
-            if (!vital_dec_timer) {
-                if ((wk->wu.routine_no[1] == 0) && !(plpnm_mvkind[wk->wu.routine_no[2]] & 1)) {
-                    break;
-                } else if ((wk->wu.routine_no[1] == 1) && !(plpdm_mvkind[wk->wu.routine_no[2]] & 1)) {
-                    break;
-                } else if (wk->wu.routine_no[1] != 3) {
-                    if (wk->player_number == 0) {
-                        if ((wk->wu.routine_no[1] == 4) && (wk->wu.routine_no[2] == 0x15)) {
-                            if (ca_check_flag == 0) {
-                                ca_check_flag = 1;
-                            }
-
-                            break;
-                        } else if ((wk->wu.routine_no[1] == 4) && (wk->wu.routine_no[2] == 0x16) &&
-                                   (wk->wu.pat_status == 0x17)) {
-                            break;
-                        }
-                    }
-                    wk->wu.vital_new--;
-                    if (wk->wu.vital_new < 0) {
-                        wk->wu.vital_new = -1;
-                        wk->wu.dm_koa = 4;
-                        wk->dead_flag = 1;
-                        wk->guard_flag = 3;
-                        ca_check_flag = 0;
-                        break;
-                    }
-                }
-            }
-
-            break;
-
-        case 2:
-            if (!vital_inc_timer && (wk->wu.routine_no[1] == 0) && (plpnm_mvkind[wk->wu.routine_no[2]] & 2)) {
-                wk->wu.vital_new++;
-                if (wk->wu.vital_new > 0xA0) {
-                    wk->wu.vital_new = 0xA0;
-                    break;
-                }
-            }
-            break;
-
-        case 3:
-            if (!plpxx_kind[wk->wu.routine_no[1]]) {
-                if (plpxx_kind[wk->wu.old_rno[1]]) {
-                    wk->omop_vital_timer = 0x28;
-                }
-
-                if (wk->omop_vital_timer) {
-                    wk->omop_vital_timer--;
-                    break;
-                }
-
-                /* fallthrough */
-
-            case 4:
-                wk->wu.vital_new++;
-                if (wk->wu.vital_new > 0xA0) {
-                    wk->wu.vital_new = 0xA0;
-                }
-            }
+            wk->wu.dm_koa = 4;
+            wk->dead_flag = 1;
+            wk->guard_flag = 3;
+            ca_check_flag = 0;
             break;
         }
+
+        break;
+
+    case 2:
+        if (vital_inc_timer) {
+            break;
+        }
+
+        if (wk->wu.routine_no[1] != 0) {
+            break;
+        }
+
+        if (!(plpnm_mvkind[wk->wu.routine_no[2]] & 2)) {
+            break;
+        }
+
+        wk->wu.vital_new++;
+
+        if (wk->wu.vital_new > 160) {
+            wk->wu.vital_new = 160;
+            break;
+        }
+
+        break;
+
+    case 3:
+        if (plpxx_kind[wk->wu.routine_no[1]]) {
+            break;
+        }
+
+        if (plpxx_kind[wk->wu.old_rno[1]]) {
+            wk->omop_vital_timer = 40;
+        }
+
+        if (wk->omop_vital_timer) {
+            wk->omop_vital_timer--;
+            break;
+        }
+
+        /* fallthrough */
+
+    case 4:
+        wk->wu.vital_new++;
+
+        if (wk->wu.vital_new > 160) {
+            wk->wu.vital_new = 160;
+        }
+
+        break;
     }
 }

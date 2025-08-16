@@ -84,36 +84,42 @@ void Caught_01000(PLW *wk, PLW *emwk) {
         wk->wu.routine_no[3]++;
         set_char_move_init(&wk->wu, 3, emwk->wu.cmyd.ix);
         emwk->kind_of_catch = 0;
-        wk->wu.cmwk[0xB] = 0;
+        wk->wu.cmwk[11] = 0;
         /* fallthrough */
 
     case 1:
-        if (check_tsukamare_keizoku_check(wk, emwk) == 0 && emwk->wu.curr_rca != NULL) {
-            if (emwk->wu.curr_rca->catch_nix == wk->wu.dir_old) {
-                char_move(&wk->wu);
-            } else {
-                char_move_index(&wk->wu, emwk->wu.curr_rca->catch_nix);
-                wk->wu.dir_old = emwk->wu.curr_rca->catch_nix;
-            }
-
-            wk->wu.rl_flag = emwk->wu.rl_flag ^ emwk->wu.curr_rca->catch_flip;
-
-            if (emwk->wu.rl_flag) {
-                wk->wu.xyz[0].disp.pos = emwk->wu.xyz[0].disp.pos - emwk->wu.curr_rca->catch_hos_x;
-            } else {
-                wk->wu.xyz[0].disp.pos = emwk->wu.xyz[0].disp.pos + emwk->wu.curr_rca->catch_hos_x;
-            }
-
-            wk->wu.xyz[1].disp.pos = emwk->wu.xyz[1].disp.pos + emwk->wu.curr_rca->catch_hos_y;
-
-            if (emwk->wu.curr_rca->catch_prio == 2) {
-                wk->wu.next_z = emwk->wu.next_z - 1;
-            } else {
-                wk->wu.next_z = emwk->wu.next_z + 1;
-            }
-
-            caught_cg_type_check(wk, emwk);
+        if (check_tsukamare_keizoku_check(wk, emwk) != 0) {
+            break;
         }
+
+        if (emwk->wu.curr_rca == NULL) {
+            break;
+        }
+
+        if (emwk->wu.curr_rca->catch_nix == wk->wu.dir_old) {
+            char_move(&wk->wu);
+        } else {
+            char_move_index(&wk->wu, emwk->wu.curr_rca->catch_nix);
+            wk->wu.dir_old = emwk->wu.curr_rca->catch_nix;
+        }
+
+        wk->wu.rl_flag = emwk->wu.rl_flag ^ emwk->wu.curr_rca->catch_flip;
+
+        if (emwk->wu.rl_flag) {
+            wk->wu.xyz[0].disp.pos = emwk->wu.xyz[0].disp.pos - emwk->wu.curr_rca->catch_hos_x;
+        } else {
+            wk->wu.xyz[0].disp.pos = emwk->wu.xyz[0].disp.pos + emwk->wu.curr_rca->catch_hos_x;
+        }
+
+        wk->wu.xyz[1].disp.pos = emwk->wu.xyz[1].disp.pos + emwk->wu.curr_rca->catch_hos_y;
+
+        if (emwk->wu.curr_rca->catch_prio == 2) {
+            wk->wu.next_z = emwk->wu.next_z - 1;
+        } else {
+            wk->wu.next_z = emwk->wu.next_z + 1;
+        }
+
+        caught_cg_type_check(wk, emwk);
     }
 }
 
@@ -128,36 +134,42 @@ void Caught_02000(PLW *wk, PLW *emwk) {
         wk->wu.routine_no[3]++;
         set_char_move_init(&wk->wu, 3, emwk->wu.cmyd.ix);
         emwk->kind_of_catch = 1;
-        wk->wu.cmwk[0xB] = 0;
+        wk->wu.cmwk[11] = 0;
         /* fallthrough */
 
     case 1:
-        if (check_tsukamare_keizoku_check(wk, emwk) == 0 && emwk->wu.curr_rca != NULL) {
-            if (emwk->wu.curr_rca->catch_nix == wk->wu.dir_old) {
-                char_move(&wk->wu);
-            } else {
-                char_move_index(&wk->wu, emwk->wu.curr_rca->catch_nix);
-                wk->wu.dir_old = emwk->wu.curr_rca->catch_nix;
-            }
-
-            wk->wu.rl_flag = emwk->wu.rl_flag ^ emwk->wu.curr_rca->catch_flip;
-
-            if (emwk->wu.rl_flag) {
-                emwk->wu.xyz[0].disp.pos = wk->wu.xyz[0].disp.pos + emwk->wu.curr_rca->catch_hos_x;
-            } else {
-                emwk->wu.xyz[0].disp.pos = wk->wu.xyz[0].disp.pos - emwk->wu.curr_rca->catch_hos_x;
-            }
-
-            emwk->wu.xyz[1].disp.pos = wk->wu.xyz[1].disp.pos - emwk->wu.curr_rca->catch_hos_y;
-
-            if (emwk->wu.curr_rca->catch_prio == 2) {
-                wk->wu.next_z = emwk->wu.next_z - 1;
-            } else {
-                wk->wu.next_z = emwk->wu.next_z + 1;
-            }
-
-            caught_cg_type_check(wk, emwk);
+        if (check_tsukamare_keizoku_check(wk, emwk) != 0) {
+            break;
         }
+
+        if (emwk->wu.curr_rca == NULL) {
+            break;
+        }
+
+        if (emwk->wu.curr_rca->catch_nix == wk->wu.dir_old) {
+            char_move(&wk->wu);
+        } else {
+            char_move_index(&wk->wu, emwk->wu.curr_rca->catch_nix);
+            wk->wu.dir_old = emwk->wu.curr_rca->catch_nix;
+        }
+
+        wk->wu.rl_flag = emwk->wu.rl_flag ^ emwk->wu.curr_rca->catch_flip;
+
+        if (emwk->wu.rl_flag) {
+            emwk->wu.xyz[0].disp.pos = wk->wu.xyz[0].disp.pos + emwk->wu.curr_rca->catch_hos_x;
+        } else {
+            emwk->wu.xyz[0].disp.pos = wk->wu.xyz[0].disp.pos - emwk->wu.curr_rca->catch_hos_x;
+        }
+
+        emwk->wu.xyz[1].disp.pos = wk->wu.xyz[1].disp.pos - emwk->wu.curr_rca->catch_hos_y;
+
+        if (emwk->wu.curr_rca->catch_prio == 2) {
+            wk->wu.next_z = emwk->wu.next_z - 1;
+        } else {
+            wk->wu.next_z = emwk->wu.next_z + 1;
+        }
+
+        caught_cg_type_check(wk, emwk);
     }
 }
 
@@ -217,7 +229,7 @@ void caught_cg_type_check(PLW *wk, PLW *emwk) {
 s32 check_tsukamare_keizoku_check(PLW *wk, PLW *emwk) {
     if (emwk->tsukami_f == 0) {
         wk->wu.routine_no[1] = 1;
-        wk->wu.routine_no[2] = 0x58;
+        wk->wu.routine_no[2] = 88;
         wk->wu.routine_no[3] = 0;
         wk->wu.dm_stop = wk->wu.hit_stop = 0;
 

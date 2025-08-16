@@ -33,13 +33,13 @@ void Att_PL06_HASHIRI_NAGE(PLW *wk) {
         char_move(&wk->wu);
 
         switch (wk->wu.cg_type) {
-        case 0x14:
+        case 20:
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
             wk->wu.cg_type = 0;
             break;
 
-        case 0x1E:
+        case 30:
             wk->wu.mvxy.index = wk->as->data_ix;
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
@@ -47,17 +47,17 @@ void Att_PL06_HASHIRI_NAGE(PLW *wk) {
             wk->wu.cg_type = 0;
             break;
 
-        case 0x28:
+        case 40:
             reset_mvxy_data(&wk->wu);
             wk->wu.cg_type = 0;
             break;
 
-        case 0x3C:
+        case 60:
             wk->wu.routine_no[3] = 4;
             wk->wu.cg_type = 0;
             break;
 
-        case 0x46:
+        case 70:
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
             wk->wu.routine_no[3] = 4;
@@ -72,7 +72,7 @@ void Att_PL06_HASHIRI_NAGE(PLW *wk) {
     case 2:
         jumping_union_process(&wk->wu, 3);
 
-        if (wk->wu.routine_no[3] != 3 && wk->wu.cg_type == 0x1E) {
+        if (wk->wu.routine_no[3] != 3 && wk->wu.cg_type == 30) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
             wk->wu.cg_type = 0;
@@ -89,13 +89,13 @@ void Att_PL06_HASHIRI_NAGE(PLW *wk) {
         char_move(&wk->wu);
 
         switch (wk->wu.cg_type) {
-        case 0x14:
+        case 20:
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
             wk->wu.cg_type = 0;
             break;
 
-        case 0x1E:
+        case 30:
             wk->wu.mvxy.index = wk->as->data_ix;
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
@@ -103,17 +103,17 @@ void Att_PL06_HASHIRI_NAGE(PLW *wk) {
             wk->wu.cg_type = 0;
             break;
 
-        case 0x28:
+        case 40:
             reset_mvxy_data(&wk->wu);
             wk->wu.cg_type = 0;
             break;
 
-        case 0x32:
+        case 50:
             wk->wu.routine_no[3] = 1;
             wk->wu.cg_type = 0;
             break;
 
-        case 0x47:
+        case 71:
             reset_mvxy_data(&wk->wu);
             wk->wu.cg_type = 0;
             wk->wu.routine_no[3] = 1;
@@ -151,13 +151,13 @@ void Att_PL06_TOKUSHUKOUDOU(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x28) {
+        if (wk->wu.cg_type == 40) {
             wk->wu.cg_type = 0;
             add_sp_arts_gauge_tokushu(wk);
         }
 
         switch (wk->wu.cg_type) {
-        case 0x14:
+        case 20:
             wk->wu.cg_type = 0;
             wk->tk_nage += 8;
 
@@ -167,7 +167,7 @@ void Att_PL06_TOKUSHUKOUDOU(PLW *wk) {
 
             break;
 
-        case 0x1E:
+        case 30:
             wk->wu.cg_type = 0;
             wk->tk_dageki += 6;
             wk->tk_konjyou += 2;
@@ -182,7 +182,7 @@ void Att_PL06_TOKUSHUKOUDOU(PLW *wk) {
 
             break;
 
-        case 0x40:
+        case 64:
             grade_add_personal_action(wk->wu.id);
             break;
         }

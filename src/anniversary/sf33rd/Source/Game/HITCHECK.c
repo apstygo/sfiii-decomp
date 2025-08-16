@@ -1098,12 +1098,10 @@ s32 hit_check_x_only(WORK *wk1, WORK *wk2, s16 *hd1, s16 *hd2) {
 #endif
 
 void cal_hit_mark_position(WORK *wk1, WORK *wk2, s16 *hd1, s16 *hd2) {
-    s16 d0;
-    s16 d1;
+    s16 d0 = *hd1++;
+    s16 d1 = *hd1++;
     s16 d2;
     s16 d3;
-    d0 = *hd1++;
-    d1 = *hd1++;
 
     if (wk1->rl_flag) {
         d0 = -d0;

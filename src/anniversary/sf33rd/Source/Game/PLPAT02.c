@@ -72,12 +72,12 @@ void Att_PL02_TOKUSHUKOUDOU(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x28) {
+        if (wk->wu.cg_type == 40) {
             wk->wu.cg_type = 0;
             add_sp_arts_gauge_tokushu(wk);
         }
 
-        if (wk->wu.cg_type == 0x40) {
+        if (wk->wu.cg_type == 64) {
             wk->wu.routine_no[3]++;
 
             if (wk->tk_success < 3) {

@@ -89,7 +89,7 @@ void Player_normal(PLW *wk) {
         wk->wu.next_z = ((WORK *)wk->wu.target_adrs)->my_priority;
 
         if (wk->wu.cg_prio == 1) {
-            wk->wu.next_z += 1;
+            wk->wu.next_z++;
             return;
         }
 
@@ -411,8 +411,8 @@ void Normal_07000(PLW *wk) {
 
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
-        set_char_move_init(&wk->wu, 0, 0xB);
+        wk->wu.routine_no[3]++;
+        set_char_move_init(&wk->wu, 0, 11);
         break;
 
     case 1:
@@ -484,7 +484,7 @@ void Normal_16000(PLW *wk) {
     case 0:
         wk->wu.routine_no[3]++;
         wk->extra_jump = 0;
-        set_char_move_init(&wk->wu, 0, 0xC);
+        set_char_move_init(&wk->wu, 0, 12);
         break;
 
     case 1:
@@ -504,7 +504,7 @@ void Normal_17000(PLW *wk) {
     case 0:
         wk->wu.routine_no[3]++;
         wk->extra_jump = 0;
-        set_char_move_init(&wk->wu, 0, 0xD);
+        set_char_move_init(&wk->wu, 0, 13);
         break;
 
     case 1:
@@ -525,7 +525,7 @@ void Normal_18000(PLW *wk) {
 
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
+        wk->wu.routine_no[3]++;
         set_char_move_init(&wk->wu, 0, jpdat_tbl[wk->wu.routine_no[2] - 18][0]);
         setup_mvxy_data(&wk->wu, jpdat_tbl[wk->wu.routine_no[2] - 18][1]);
         add_mvxy_speed(&wk->wu);
@@ -592,7 +592,7 @@ void Normal_31000(PLW *wk) {
         wk->wu.next_z = 32;
     }
 
-    wk->guard_chuu = guard_kind[wk->wu.routine_no[2] - 0x1B];
+    wk->guard_chuu = guard_kind[wk->wu.routine_no[2] - 27];
     wk->scr_pos_set_flag = 0;
 
     switch (wk->wu.routine_no[3]) {
@@ -627,7 +627,7 @@ void Normal_35000(PLW *wk) {
         wk->wu.next_z = wk->wu.my_priority - 1;
     }
 
-    wk->guard_chuu = guard_kind[(wk->wu.routine_no[2] - 0x1B)];
+    wk->guard_chuu = guard_kind[(wk->wu.routine_no[2] - 27)];
 
     switch (wk->wu.routine_no[3]) {
     case 0:
@@ -639,14 +639,14 @@ void Normal_35000(PLW *wk) {
 
         set_hit_stop_hit_quake(&wk->wu);
 
-        if (((wk->wu.rl_flag)) != ((((wk->wu.dm_rl)) + 1) & 1)) {
-            wk->wu.rl_flag = (s8)((((((wk->wu.dm_rl)) + 1) & 1)));
+        if (wk->wu.rl_flag != ((wk->wu.dm_rl + 1) & 1)) {
+            wk->wu.rl_flag = ((wk->wu.dm_rl + 1) & 1);
             wk->wu.mvxy.a[0].sp = -wk->wu.mvxy.a[0].sp;
             wk->wu.mvxy.d[0].sp = -wk->wu.mvxy.d[0].sp;
         }
 
         remake_mvxy_PoSB(&wk->wu);
-        set_char_move_init(&wk->wu, 0, 0x1B);
+        set_char_move_init(&wk->wu, 0, 27);
         add_sp_arts_gauge_paring(wk);
         subtract_dm_vital(wk);
         pp_pulpara_blocking(&wk->wu);
@@ -659,7 +659,7 @@ void Normal_35000(PLW *wk) {
 
     case 2:
         if (((WORK *)wk->wu.target_adrs)->cg_prio != 2) {
-            wk->wu.next_z = 0x20;
+            wk->wu.next_z = 32;
         }
 
         jumping_union_process(&wk->wu, 3);
@@ -717,11 +717,11 @@ void Normal_39000(PLW *wk) {
     }
 
     wk->wu.routine_no[3]++;
-    set_char_move_init(&wk->wu, 0, 0x17);
+    set_char_move_init(&wk->wu, 0, 23);
 }
 
 void Normal_40000(PLW *wk) {
-    wk->wu.next_z = 0x26;
+    wk->wu.next_z = 38;
 
     if ((Mode_Type == 3) || (Mode_Type == 4)) {
         switch (wk->wu.routine_no[3]) {
@@ -742,7 +742,7 @@ void Normal_40000(PLW *wk) {
 }
 
 void Normal_41000(PLW *wk) {
-    wk->wu.next_z = 0x22;
+    wk->wu.next_z = 34;
 
     if ((Mode_Type == 3) || (Mode_Type == 4)) {
         switch (wk->wu.routine_no[3]) {
@@ -958,9 +958,9 @@ void Normal_50000(PLW *wk) {
     case 0:
         wk->wu.routine_no[3]++;
         wk->wu.rl_flag = wk->wu.rl_waza;
-        set_char_move_init(&wk->wu, 0, 0x2E);
-        setup_mvxy_data(&wk->wu, 0x1D);
-        wk->wu.hit_stop = -0x11;
+        set_char_move_init(&wk->wu, 0, 46);
+        setup_mvxy_data(&wk->wu, 29);
+        wk->wu.hit_stop = -17;
         wk->wu.hit_quake = 8;
         wk->wu.dm_stop = wk->wu.dm_quake = 0;
         return;
@@ -997,7 +997,7 @@ void Normal_50000(PLW *wk) {
 void Normal_51000(PLW *wk) {
     if (wk->wu.routine_no[3] == 0) {
         wk->wu.routine_no[3]++;
-        set_char_move_init(&wk->wu, 0, 0xC);
+        set_char_move_init(&wk->wu, 0, 12);
     }
 }
 
@@ -1017,7 +1017,7 @@ void Normal_52000(PLW *wk) {
         wk->wu.routine_no[3]++;
         wk->extra_jump = 1;
         remake_sankaku_tobi_mvxy(&wk->wu, wk->micchaku_flag);
-        set_char_move_init(&wk->wu, 0, 0x30);
+        set_char_move_init(&wk->wu, 0, 48);
         effect_I3_init(&wk->wu, 0);
         break;
 
@@ -1025,9 +1025,9 @@ void Normal_52000(PLW *wk) {
         char_move(&wk->wu);
 
         if (wk->wu.cg_type == 0xFF) {
-            wk->wu.routine_no[2] = 0x15;
+            wk->wu.routine_no[2] = 21;
             wk->wu.routine_no[3] = 1;
-            set_char_move_init(&wk->wu, 0, 0xE);
+            set_char_move_init(&wk->wu, 0, 14);
             char_move_z(&wk->wu);
             add_mvxy_speed(&wk->wu);
         }
@@ -1050,7 +1050,7 @@ void Normal_53000(PLW *wk) {
     case 0:
         wk->wu.routine_no[3]++;
         wk->extra_jump = 1;
-        set_char_move_init(&wk->wu, 0, 0x31);
+        set_char_move_init(&wk->wu, 0, 49);
         break;
 
     case 1:
@@ -1061,20 +1061,20 @@ void Normal_53000(PLW *wk) {
 
             switch (wk->jpdir) {
             case 1:
-                wk->wu.routine_no[2] = 0x15;
+                wk->wu.routine_no[2] = 21;
                 break;
             case 2:
-                wk->wu.routine_no[2] = 0x17;
+                wk->wu.routine_no[2] = 23;
                 break;
             default:
-                wk->wu.routine_no[2] = 0x16;
+                wk->wu.routine_no[2] = 22;
                 break;
             }
 
             wk->wu.routine_no[3] = 1;
-            set_char_move_init(&wk->wu, 0, jpdat_tbl[((wk->wu.routine_no[2])) - 0x12][0]);
+            set_char_move_init(&wk->wu, 0, jpdat_tbl[wk->wu.routine_no[2] - 18][0]);
             char_move_z(&wk->wu);
-            setup_mvxy_data(&wk->wu, jpdat_tbl[((wk->wu.routine_no[2])) - 0x12][1]);
+            setup_mvxy_data(&wk->wu, jpdat_tbl[wk->wu.routine_no[2] - 18][1]);
             wk->wu.mvxy.a[0].real.h = ((wk->wu.mvxy.a[0].real.h * 3) << 1) / 10;
             wk->wu.mvxy.a[1].real.h = (wk->wu.mvxy.a[1].real.h << 3) / 10;
             add_mvxy_speed(&wk->wu);
@@ -1091,7 +1091,7 @@ void Normal_54000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
-        set_char_move_init(&wk->wu, 0, 0xC);
+        set_char_move_init(&wk->wu, 0, 12);
         break;
 
     case 1:
@@ -1122,7 +1122,7 @@ void Normal_55000(PLW *wk) {
     case 0:
         wk->wu.routine_no[3]++;
         wk->extra_jump = 1;
-        set_char_move_init(&wk->wu, 0, 0x12);
+        set_char_move_init(&wk->wu, 0, 18);
         setup_mvxy_data(&wk->wu, 7);
         make_nm55_init_sp(wk);
         add_mvxy_speed(&wk->wu);
@@ -1212,7 +1212,7 @@ void nm56_char_select(PLW *wk) {
     efw = (WORK *)wk->wu.target_adrs[203];
     ix = get_sel_hosei_tbl_ix(wk->player_number) + 1;
     dad = efw->hosei_adrs[ix].hos_box;
-    setup_mvxy_data(&wk->wu, 0x11U);
+    setup_mvxy_data(&wk->wu, 17);
     ix = 16;
 
     if (check_work_position_bonus(&wk->wu, dad[0] + (dad[1] / 2) + efw->xyz[0].disp.pos)) {
@@ -1244,8 +1244,8 @@ void Normal_57000(PLW *wk) {
         wk->wu.routine_no[3]++;
         nm57_dir_select(wk);
         wk->wu.xyz[1].disp.pos = 0;
-        set_char_move_init(&wk->wu, 0, 0x32);
-        setup_mvxy_data(&wk->wu, 0x12);
+        set_char_move_init(&wk->wu, 0, 50);
+        setup_mvxy_data(&wk->wu, 18);
         break;
 
     case 1:
@@ -1298,8 +1298,8 @@ void Normal_58000(PLW *wk) {
 
     switch (wk->wu.routine_no[3]) {
     case 0:
-        wk->wu.routine_no[3] += 1;
-        set_char_move_init(&wk->wu, 0, 0x12);
+        wk->wu.routine_no[3]++;
+        set_char_move_init(&wk->wu, 0, 18);
         setup_mvxy_data(&wk->wu, 7);
         break;
 

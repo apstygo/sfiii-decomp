@@ -141,7 +141,7 @@ void Att_PL14_AT2(PLW *wk) {
     case 2:
         jumping_union_process(&wk->wu, 3);
 
-        if (wk->wu.cg_type == 0x28) {
+        if (wk->wu.cg_type == 40) {
             wk->wu.routine_no[3] = 1;
             wk->wu.cg_type = 0;
         }
@@ -175,14 +175,14 @@ void Att_PL14_AT3(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
             wk->wu.routine_no[3] = 2;
             wk->wu.cg_type = 0;
         }
 
-        if (wk->wu.cg_type == 0x1E) {
+        if (wk->wu.cg_type == 30) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.a[1].sp = wk->wu.mvxy.d[1].sp = wk->wu.mvxy.kop[1] = 0;
             wk->wu.mvxy.index++;
@@ -204,7 +204,7 @@ void Att_PL14_AT3(PLW *wk) {
             wk->wu.routine_no[3] = 4;
         }
 
-        if ((wk->wu.routine_no[3] != 1) && (wk->wu.cg_type == 0x14)) {
+        if ((wk->wu.routine_no[3] != 1) && (wk->wu.cg_type == 20)) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
             wk->wu.cg_type = 0;
@@ -222,20 +222,20 @@ void Att_PL14_AT3(PLW *wk) {
         cal_mvxy_speed(&wk->wu);
         add_mvxy_speed(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
             wk->wu.routine_no[3] = 2;
             wk->wu.cg_type = 0;
         }
 
-        if (wk->wu.cg_type == 0x15) {
+        if (wk->wu.cg_type == 21) {
             reset_mvxy_data(&wk->wu);
             wk->wu.cg_type = 0;
             wk->wu.routine_no[3] = 1;
         }
 
-        if (wk->wu.cg_type == 0x1E) {
+        if (wk->wu.cg_type == 30) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.a[1].sp = wk->wu.mvxy.d[1].sp = wk->wu.mvxy.kop[1] = 0;
             wk->wu.mvxy.index++;
@@ -252,7 +252,7 @@ void Att_PL14_AT3(PLW *wk) {
             wk->wu.routine_no[3] = 2;
         }
 
-        if ((wk->wu.routine_no[3] != 2) && (wk->wu.cg_type == 0x14)) {
+        if ((wk->wu.routine_no[3] != 2) && (wk->wu.cg_type == 20)) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
             wk->wu.cg_type = 0;
@@ -286,12 +286,12 @@ void Att_PL14_TOKUSHUKOUDOU(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x28) {
+        if (wk->wu.cg_type == 40) {
             wk->wu.cg_type = 0;
             add_sp_arts_gauge_tokushu(wk);
         }
 
-        if (wk->wu.cg_type == 0x40) {
+        if (wk->wu.cg_type == 64) {
             wk->wu.cg_type = 0;
             wk->tk_dageki += 14;
             wk->tk_kizetsu += 9;

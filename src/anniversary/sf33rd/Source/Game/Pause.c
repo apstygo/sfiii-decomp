@@ -88,25 +88,25 @@ void Flash_Pause(struct _TASK *task_ptr) {
 void Flash_Pause_Sleep(struct _TASK * /* unused */) {}
 
 void Flash_Pause_1st(struct _TASK *task_ptr) {
-    if ((task_ptr->free[0] -= 1) == 0) {
+    if (--task_ptr->free[0] == 0) {
         task_ptr->r_no[2] = 2;
-        task_ptr->free[0] = 0x3C;
+        task_ptr->free[0] = 60;
     }
 }
 
 void Flash_Pause_2nd(struct _TASK *task_ptr) {
-    if (task_ptr->free[0] -= 1) {
+    if (--task_ptr->free[0]) {
         if (Pause_ID == 0) {
-            SSPutStr2(0x14, 9, 9, "1P PAUSE");
+            SSPutStr2(20, 9, 9, "1P PAUSE");
             return;
         }
 
-        SSPutStr2(0x14, 9, 9, "2P PAUSE");
+        SSPutStr2(20, 9, 9, "2P PAUSE");
         return;
     }
 
     task_ptr->r_no[2] = 1;
-    task_ptr->free[0] = 0x1E;
+    task_ptr->free[0] = 30;
 }
 
 void Flash_Pause_3rd(struct _TASK * /* unused */) {}

@@ -36,12 +36,12 @@ void Att_PL17_AT1(PLW *wk) {
         setup_mvxy_data(&wk->wu, wk->as->r_no);
         wk->wu.mvxy.index = wk->as->data_ix;
 
-        if (Bonus_Game_Flag != 0x14 || (Bonus_Game_Flag == 0x14 && wk->bs2_on_car == 0)) {
+        if (Bonus_Game_Flag != 20 || (Bonus_Game_Flag == 20 && wk->bs2_on_car == 0)) {
             wk->wu.xyz[1].disp.pos = 0;
         }
 
         set_char_move_init(&wk->wu, 5, wk->as->char_ix);
-        set_kabe_move_spd(&wk->wu, 0x1c);
+        set_kabe_move_spd(&wk->wu, 28);
         wk->rl_save = 0;
         break;
 
@@ -62,14 +62,14 @@ void Att_PL17_AT1(PLW *wk) {
     case 2:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
             wk->wu.routine_no[3] = 3;
             wk->wu.cg_type = 0;
         }
 
-        if (wk->wu.cg_type == 0x1e) {
+        if (wk->wu.cg_type == 30) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.a[1].sp = wk->wu.mvxy.d[1].sp = wk->wu.mvxy.kop[1] = 0;
             wk->wu.mvxy.index++;
@@ -87,19 +87,19 @@ void Att_PL17_AT1(PLW *wk) {
         jumping_union_process(&wk->wu, 2);
 
         if (wk->wu.routine_no[3] != 2) {
-            if (wk->wu.cg_type == 0x14) {
+            if (wk->wu.cg_type == 20) {
                 setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
                 wk->wu.mvxy.index++;
                 wk->wu.cg_type = 0;
             }
 
-            if (wk->wu.cg_type == 0x15) {
+            if (wk->wu.cg_type == 21) {
                 reset_mvxy_data(&wk->wu);
                 wk->wu.cg_type = 0;
                 wk->wu.routine_no[3] = 2;
             }
 
-            if (wk->wu.cg_type == 0x19) {
+            if (wk->wu.cg_type == 25) {
                 wk->wu.cg_type = 0;
                 wk->wu.routine_no[3] = 5;
             }
@@ -112,20 +112,20 @@ void Att_PL17_AT1(PLW *wk) {
         cal_mvxy_speed(&wk->wu);
         add_mvxy_speed(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
             wk->wu.routine_no[3] = 3;
             wk->wu.cg_type = 0;
         }
 
-        if (wk->wu.cg_type == 0x15) {
+        if (wk->wu.cg_type == 21) {
             reset_mvxy_data(&wk->wu);
             wk->wu.cg_type = 0;
             wk->wu.routine_no[3] = 2;
         }
 
-        if (wk->wu.cg_type == 0x1e) {
+        if (wk->wu.cg_type == 30) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.a[1].sp = wk->wu.mvxy.d[1].sp = wk->wu.mvxy.kop[1] = 0;
             wk->wu.mvxy.index++;
@@ -138,18 +138,18 @@ void Att_PL17_AT1(PLW *wk) {
         jumping_union_process(&wk->wu, 2);
 
         if (wk->wu.routine_no[3] != 2) {
-            if (wk->wu.cg_type == 0x15) {
+            if (wk->wu.cg_type == 21) {
                 reset_mvxy_data(&wk->wu);
                 wk->wu.cg_type = 0;
                 wk->wu.routine_no[3] = 2;
             }
 
-            if (wk->wu.cg_type == 0x1a) {
+            if (wk->wu.cg_type == 26) {
                 wk->wu.cg_type = 0;
                 wk->wu.routine_no[3] = 3;
             }
 
-            if (wk->wu.cg_type == 0x1e) {
+            if (wk->wu.cg_type == 30) {
                 wk->wu.cg_type = 0;
                 wk->wu.mvxy.d[0].sp = 0;
             }
@@ -244,7 +244,7 @@ void Att_PL17_AT2(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0xA) {
+        if (wk->wu.cg_type == 10) {
             wk->wu.cg_type = 0;
             effect_L8_init(wk);
         }

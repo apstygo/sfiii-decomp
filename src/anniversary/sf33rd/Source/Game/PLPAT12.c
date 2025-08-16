@@ -49,7 +49,7 @@ void Att_PL12_TOKUSHUKOUDOU(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
             wk->wu.routine_no[3]++;
@@ -68,12 +68,12 @@ void Att_PL12_TOKUSHUKOUDOU(PLW *wk) {
 
         jumping_union_process(&wk->wu, 3);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.cg_type = 0;
         }
 
-        if (wk->wu.cg_type == 0x1E) {
+        if (wk->wu.cg_type == 30) {
             wk->wu.cg_type = 0;
             wk->tk_kizetsu += 4;
 
@@ -87,7 +87,7 @@ void Att_PL12_TOKUSHUKOUDOU(PLW *wk) {
     case 3:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x40) {
+        if (wk->wu.cg_type == 64) {
             grade_add_personal_action(wk->wu.id);
         }
 
@@ -114,7 +114,7 @@ void Att_PL12_BONUS_STAGE(PLW *wk) {
     case 1:
         char_move(&wk->wu);
 
-        if (wk->wu.cg_type == 0x14) {
+        if (wk->wu.cg_type == 20) {
             wk->wu.routine_no[3]++;
         }
 
