@@ -33,6 +33,7 @@ special_cases = {
     ("PLS02", ".rodata", 3): 16,
     ("PLS03", ".rodata", 2): 16,
     ("CHARSET", ".rodata", 0): 16,
+    ("EFF33", ".rodata", 0): 16,
 
     ("bg_data", ".data", 0): 16,
     ("PulPul", ".data", 0): 16,
@@ -58,6 +59,7 @@ special_cases = {
     ("msgsub", ".sdata", 0): 16,
     ("msgtble", ".sdata", 0): 16,
     ("reboot", ".sdata", 0): 16,
+    ("end_0", ".sdata", 0): 16,
 
     ("sbss_579878", ".sbss", 0): 8,
     ("EFF45", ".sbss", 0): 16,
