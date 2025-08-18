@@ -221,7 +221,7 @@ segments:
       - [0x0D6040, c, sf33rd/Source/Game/EFF25]
       - [0x0D6C90, c, sf33rd/Source/Game/EFF26]
       - [0x0D7D60, c, sf33rd/Source/Game/EFF27]
-      - [0x0D8DC0, asm, sf33rd/Source/Game/EFF28]
+      - [0x0D8DC0, c, sf33rd/Source/Game/EFF28]
       - [0x0D8DD0, c, sf33rd/Source/Game/EFF29]
       - [0x0D90D0, asm, sf33rd/Source/Game/EFF30]
       - [0x0D96D0, asm, sf33rd/Source/Game/EFF31]
