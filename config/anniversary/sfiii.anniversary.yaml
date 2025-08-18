@@ -370,7 +370,7 @@ segments:
       - [0x126D70, asm, sf33rd/Source/Game/EFFJ0]
       - [0x127170, c, sf33rd/Source/Game/EFFJ2]
       - [0x127500, asm, sf33rd/Source/Game/EFFJ4]
-      - [0x1278C0, asm, sf33rd/Source/Game/effJ6]
+      - [0x1278C0, c, sf33rd/Source/Game/effJ6]
       - [0x127C60, c, sf33rd/Source/Game/EFFJ7]
       - [0x1283A0, c, sf33rd/Source/Game/EFFJ8]
       - [0x1299B0, asm, sf33rd/Source/Game/EFFJ9]
