@@ -3,6 +3,7 @@
 
 #include "types.h"
 
+void effect_55_move(WORK_Other *ewk);
 s32 effect_55_init();
 
 #endif
