@@ -1,6 +1,7 @@
 #ifndef EFF60_H
 #define EFF60_H
 
+#include "structs.h"
 #include "types.h"
 
 extern const s16 flash_0000[10];
