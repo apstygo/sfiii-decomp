@@ -22,7 +22,7 @@ extern const s16 stg1400_data_tbl[32];
 extern const s16 stg1500_data_tbl[8];
 extern const s16 stg1600_data_tbl[32];
 
-extern u32 *char_add[22];
+extern u32 *char_add[];
 extern const s16 *scr_obj_data[22];
 
 s32 effect_05_init();
