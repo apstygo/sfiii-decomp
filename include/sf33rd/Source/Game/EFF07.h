@@ -3,8 +3,7 @@
 
 #include "types.h"
 
-extern const s16 eff07_data_tbl[2][3];
-
+void effect_07_move(WORK_Other *ewk);
 s32 effect_07_init();
 
 #endif
