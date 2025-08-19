@@ -580,71 +580,70 @@ void sast_control(s8 Stpl_Num) {
                 return;
             }
 
-            if (0) {
-                /* fallthrough */
+            goto jump;
 
-            case 2:
-                if (spg_dat[Stpl_Num].current_spg > 0 && plw[Stpl_Num].sa->ok == -1) {
-                    if (spg_dat[Stpl_Num].current_spg != spg_dat[Stpl_Num].old_spg) {
-                        sa_gauge_trans(Stpl_Num);
+        case 2:
+            if (spg_dat[Stpl_Num].current_spg > 0 && plw[Stpl_Num].sa->ok == -1) {
+                if (spg_dat[Stpl_Num].current_spg != spg_dat[Stpl_Num].old_spg) {
+                    sa_gauge_trans(Stpl_Num);
+                }
+
+                spg_dat[Stpl_Num].old_spg = spg_dat[Stpl_Num].current_spg;
+            } else {
+                spg_dat[Stpl_Num].time_rno = 4;
+            }
+
+            return;
+
+        case 3:
+        case_3:
+            spg_dat[Stpl_Num].timer--;
+
+            if (spg_dat[Stpl_Num].timer) {
+                spg_dat[Stpl_Num].timer2--;
+
+                if (spg_dat[Stpl_Num].kind == 0) {
+                    if (spg_dat[Stpl_Num].timer2 == 0) {
+                        sa_stock_trans(spg_dat[Stpl_Num].spg_level, 0, Stpl_Num);
+                        sa_waku_trans(Stpl_Num, 0);
+                        spg_dat[Stpl_Num].kind = 1;
+                        spg_dat[Stpl_Num].timer2 = 2;
                     }
-
-                    spg_dat[Stpl_Num].old_spg = spg_dat[Stpl_Num].current_spg;
                 } else {
-                    spg_dat[Stpl_Num].time_rno = 4;
+                    if (spg_dat[Stpl_Num].timer2 == 0) {
+                        sa_stock_trans(spg_dat[Stpl_Num].spg_level, 1, Stpl_Num);
+                        sa_waku_trans(Stpl_Num, 1);
+                        spg_dat[Stpl_Num].kind = 0;
+                        spg_dat[Stpl_Num].timer2 = 2;
+                    }
                 }
 
                 return;
-
-            case 3:
-            case_3:
-                spg_dat[Stpl_Num].timer--;
-
-                if (spg_dat[Stpl_Num].timer) {
-                    spg_dat[Stpl_Num].timer2--;
-
-                    if (spg_dat[Stpl_Num].kind == 0) {
-                        if (spg_dat[Stpl_Num].timer2 == 0) {
-                            sa_stock_trans(spg_dat[Stpl_Num].spg_level, 0, Stpl_Num);
-                            sa_waku_trans(Stpl_Num, 0);
-                            spg_dat[Stpl_Num].kind = 1;
-                            spg_dat[Stpl_Num].timer2 = 2;
-                        }
-                    } else {
-                        if (spg_dat[Stpl_Num].timer2 == 0) {
-                            sa_stock_trans(spg_dat[Stpl_Num].spg_level, 1, Stpl_Num);
-                            sa_waku_trans(Stpl_Num, 1);
-                            spg_dat[Stpl_Num].kind = 0;
-                            spg_dat[Stpl_Num].timer2 = 2;
-                        }
-                    }
-
-                    return;
-                }
-
-                if ((spg_dat[Stpl_Num].ex_flag == 1 && omop_use_ex_gauge_ix[Stpl_Num] == 0) &&
-                    (spg_dat[Stpl_Num].max_old == 1 || max_rno2[Stpl_Num] == 1)) {
-                    break;
-                }
-
-                if (plw[Stpl_Num].sa->store == plw[Stpl_Num].sa->store_max) {
-                    max2[Stpl_Num] = 1;
-                }
-
-                if (spg_dat[Stpl_Num].sa_mukou == 1) {
-                    max2[Stpl_Num] = 0;
-                }
-
-                spg_dat[Stpl_Num].time_rno = 4;
-                /* fallthrough */
-
-            case 4:
-                if (spg_dat[Stpl_Num].sa_mukou == 0) {
-                    sa_moji_trans(Stpl_Num, 1, 0);
-                    spg_dat[Stpl_Num].max_old = 0;
-                }
             }
 
+            if ((spg_dat[Stpl_Num].ex_flag == 1 && omop_use_ex_gauge_ix[Stpl_Num] == 0) &&
+                (spg_dat[Stpl_Num].max_old == 1 || max_rno2[Stpl_Num] == 1)) {
+                break;
+            }
+
+            if (plw[Stpl_Num].sa->store == plw[Stpl_Num].sa->store_max) {
+                max2[Stpl_Num] = 1;
+            }
+
+            if (spg_dat[Stpl_Num].sa_mukou == 1) {
+                max2[Stpl_Num] = 0;
+            }
+
+            spg_dat[Stpl_Num].time_rno = 4;
+            /* fallthrough */
+
+        case 4:
+            if (spg_dat[Stpl_Num].sa_mukou == 0) {
+                sa_moji_trans(Stpl_Num, 1, 0);
+                spg_dat[Stpl_Num].max_old = 0;
+            }
+
+        jump:
             time_operate[Stpl_Num] = 0;
             sast_color_chenge(Stpl_Num);
             spg_dat[Stpl_Num].spg_level = plw[Stpl_Num].sa->store;
@@ -785,7 +784,6 @@ void sast_control(s8 Stpl_Num) {
     max2[Stpl_Num] = 0;
     max_rno2[Stpl_Num] = 0;
     sast_now[Stpl_Num] = 0;
-    return;
 }
 
 void sast_color_chenge(s8 Stpl_Num) {
@@ -797,48 +795,41 @@ void sast_color_chenge(s8 Stpl_Num) {
         } else {
             spg_dat[1].spgcol_number = 142;
         }
-        return;
-    }
 
-    if (plw[Stpl_Num].sa->store) {
+        return;
+    } else if (plw[Stpl_Num].sa->store) {
         col = 1;
 
         if (Stpl_Num == 0) {
             spg_dat[0].spgcol_number = 18;
-            return;
+        } else {
+            spg_dat[1].spgcol_number = 146;
         }
+    } else {
+        col = 0;
 
-        spg_dat[1].spgcol_number = 146;
-        return;
+        if (Stpl_Num == 0) {
+            spg_dat[0].spgcol_number = 17;
+        } else {
+            spg_dat[1].spgcol_number = 145;
+        }
     }
-
-    col = 0;
-
-    if (Stpl_Num == 0) {
-        spg_dat[0].spgcol_number = 17;
-        return;
-    }
-
-    spg_dat[1].spgcol_number = 145;
 }
 
 void sa_color_chenge(s8 Stpl_Num) {
     if (spg_dat[Stpl_Num].kind) {
         if (Stpl_Num == 0) {
             spg_dat[0].spgcol_number = 18;
-            return;
+        } else {
+            spg_dat[1].spgcol_number = 146;
         }
-
-        spg_dat[1].spgcol_number = 146;
-        return;
+    } else {
+        if (Stpl_Num == 0) {
+            spg_dat[0].spgcol_number = 17;
+        } else {
+            spg_dat[1].spgcol_number = 145;
+        }
     }
-
-    if (Stpl_Num == 0) {
-        spg_dat[0].spgcol_number = 17;
-        return;
-    }
-
-    spg_dat[1].spgcol_number = 145;
 }
 
 void sagauge_color_chenge(s8 Stpl_Num) {
