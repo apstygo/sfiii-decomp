@@ -781,13 +781,23 @@ void Bg_Family_Set_2() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", Bg_Family_Set_2_appoint);
-#else
 void Bg_Family_Set_2_appoint(s32 num_of_bg) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void Scrn_Move_Set(s32 bgnm, s32 x, s32 y);
+    void Family_Set_W(s32 fmnm, s32 x, s32 y);
 #endif
+
+    s16 x;
+    s16 y;
+
+    x = bg_w.bgw[num_of_bg].position_x;
+    y = bg_w.bgw[num_of_bg].position_y;
+    y += 8;
+    Scrn_Move_Set(num_of_bg, x, y);
+    x = -x & 0xFFFF;
+    y = (768 - (y & 0xFFFF)) & 0xFFFF;
+    Family_Set_W(num_of_bg + 1, x, y);
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", ake_Family_Set2);
 
