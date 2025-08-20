@@ -4,6 +4,7 @@
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_data.h"
+#include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
 
@@ -863,7 +864,22 @@ void Bg_Family_Set_2_appoint(s32 num_of_bg) {
     Family_Set_W(num_of_bg + 1, x, y);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", ake_Family_Set2);
+void ake_Family_Set2() {
+#if defined(TARGET_PS2)
+    void Scrn_Move_Set(s32 bgnm, s32 x, s32 y);
+    void Family_Set_W(s32 fmnm, s32 x, s32 y);
+#endif
+
+    s16 x = bg_w.bgw[3].position_x;
+    s16 y = bg_w.bgw[3].position_y;
+
+    Scrn_Move_Set(3, x, y);
+    x = 512 - bg_w.pos_offset;
+    y = 0;
+    x = -x & 0xFFFF;
+    y = (768 - (y & 0xFFFF)) & 0xFFFF;
+    Family_Set_W(4, x, y);
+}
 
 void bg_pos_hosei_sub2(s16 bg_no) {
     u16 pos;
