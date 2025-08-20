@@ -1084,4 +1084,20 @@ s16 cal_move_dir_forecast(WORK *wk, s16 tm) {
     return caldir_pos_032(wk->xyz[0].disp.pos, wk->xyz[1].disp.pos, ps[0].rp.h, ps[1].rp.h);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", remake_2_10);
+s16 remake_2_10(s16 num, s16 keta) {
+    switch (keta) {
+    case 2:
+        num = (num % 10) + ((num % 100 / 10) << 4);
+        break;
+
+    case 3:
+        num = ((num / 100) << 8) + ((num % 100 / 10) << 4) + (num % 10);
+        break;
+
+    default:
+        num = ((num / 1000) << 12) + ((num / 100) << 8) + ((num % 100 / 10) << 4) + (num % 10);
+        break;
+    }
+
+    return num;
+}
