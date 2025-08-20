@@ -732,13 +732,25 @@ void suzi_sync_pos_set(WORK_Other *ewk) {
     ewk->wu.position_y = ewk->wu.xyz[1].disp.pos & 0xFFFF;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", Bg_Family_Set);
-#else
 void Bg_Family_Set() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void Scrn_Move_Set(s32 bgnm, s32 x, s32 y);
+    void Family_Set_W(s32 fmnm, s32 x, s32 y);
 #endif
+
+    s8 i;
+    s16 x;
+    s16 y;
+
+    for (i = 0; i < bg_w.scno; i++) {
+        x = bg_w.bgw[i].position_x;
+        y = bg_w.bgw[i].position_y;
+        Scrn_Move_Set(i, x, y);
+        x = -x & 0xFFFF;
+        y = (768 - (y & 0xFFFF)) & 0xFFFF;
+        Family_Set_W(i + 1, x, y);
+    }
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", Bg_Family_Set_appoint);
