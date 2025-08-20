@@ -708,24 +708,6 @@ const u8
           31, 30, 30, 30, 30, 30, 29, 29, 29, 29, 29, 28, 28, 28, 28, 28, 28, 27, 27, 27, 27, 27, 27, 27 }
     };
 
-typedef union {
-    s32 dy; // offset 0x0, size 0x4
-    struct {
-        // total size: 0x4
-        s16 l; // offset 0x0, size 0x2
-        s16 h; // offset 0x2, size 0x2
-    } ry;      // offset 0x0, size 0x4
-} PS;
-
-typedef union {
-    s32 psy; // offset 0x0, size 0x4
-    struct {
-        // total size: 0x4
-        s16 l; // offset 0x0, size 0x2
-        s16 h; // offset 0x2, size 0x2
-    } psys;    // offset 0x0, size 0x4
-} PS_UNI;
-
 s16 caldir_pos_256(s16 x1, s16 x2, s16 y1, s16 y2) {
     s16 yhan;
     s16 tent = yhan = 0;
@@ -815,7 +797,14 @@ s16 cal_move_quantity2(s16 x1, s16 x2, s16 y1, s16 y2) {
 
 s16 cal_move_quantity3(WORK *wk, s16 tm) {
     s32 ltm;
-    PS ps;
+    union {
+        s32 dy; // offset 0x0, size 0x4
+        struct {
+            // total size: 0x4
+            s16 l; // offset 0x0, size 0x2
+            s16 h; // offset 0x2, size 0x2
+        } ry;      // offset 0x0, size 0x4
+    } ps;
 
     if (tm == 0) {
         return wk->xyz[1].disp.pos;
@@ -1048,7 +1037,14 @@ void cal_delta_speed(WORK *wk, s16 tm, s16 x1, s16 y1, s8 xsw, s8 ysw) {
 s16 cal_top_of_position_y(WORK *wk) {
     s32 num = cal_time_of_sign_change(wk);
     s32 num2;
-    PS_UNI ps_uni;
+    union {
+        s32 psy; // offset 0x0, size 0x4
+        struct {
+            // total size: 0x4
+            s16 l; // offset 0x0, size 0x2
+            s16 h; // offset 0x2, size 0x2
+        } psys;    // offset 0x0, size 0x4
+    } ps_uni;
 
     if (num == 0) {
         return wk->xyz[1].disp.pos;
@@ -1067,12 +1063,25 @@ s16 cal_time_of_sign_change(WORK *wk) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", cal_move_dir_forecast);
-#else
 s16 cal_move_dir_forecast(WORK *wk, s16 tm) {
-    not_implemented(__func__);
+    union {
+        s32 dp; // offset 0x0, size 0x4
+        struct {
+            // total size: 0x4
+            s16 l; // offset 0x0, size 0x2
+            s16 h; // offset 0x2, size 0x2
+        } rp;      // offset 0x0, size 0x4
+    } ps[2];
+
+    if (tm == 0) {
+        return 0;
+    }
+
+    ps[0].dp = (wk->mvxy.d[0].sp * (tm * tm)) / 2;
+    ps[0].dp = wk->xyz[0].cal + (ps[0].dp + (wk->mvxy.a[0].sp * tm));
+    ps[1].dp = (wk->mvxy.d[1].sp * (tm * tm)) / 2;
+    ps[1].dp = wk->xyz[1].cal + (ps[1].dp + (wk->mvxy.a[1].sp * tm));
+    return caldir_pos_032(wk->xyz[0].disp.pos, wk->xyz[1].disp.pos, ps[0].rp.h, ps[1].rp.h);
 }
-#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", remake_2_10);
