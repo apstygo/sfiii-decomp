@@ -710,12 +710,21 @@ const u8
 
 typedef union {
     s32 dy; // offset 0x0, size 0x4
-    struct /* @anon26 */ {
+    struct {
         // total size: 0x4
         s16 l; // offset 0x0, size 0x2
         s16 h; // offset 0x2, size 0x2
     } ry;      // offset 0x0, size 0x4
 } PS;
+
+typedef union {
+    s32 psy; // offset 0x0, size 0x4
+    struct {
+        // total size: 0x4
+        s16 l; // offset 0x0, size 0x2
+        s16 h; // offset 0x2, size 0x2
+    } psys;    // offset 0x0, size 0x4
+} PS_UNI;
 
 s16 caldir_pos_256(s16 x1, s16 x2, s16 y1, s16 y2) {
     s16 yhan;
@@ -1036,13 +1045,19 @@ void cal_delta_speed(WORK *wk, s16 tm, s16 x1, s16 y1, s8 xsw, s8 ysw) {
     wk->xyz[1].cal += bb.amy;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", cal_top_of_position_y);
-#else
 s16 cal_top_of_position_y(WORK *wk) {
-    not_implemented(__func__);
+    s32 num = cal_time_of_sign_change(wk);
+    s32 num2;
+    PS_UNI ps_uni;
+
+    if (num == 0) {
+        return wk->xyz[1].disp.pos;
+    }
+
+    num2 = num * (num - 1) / 2;
+    ps_uni.psy = (num * wk->mvxy.a[1].sp) + (num2 * wk->mvxy.d[1].sp) + wk->xyz[1].cal;
+    return ps_uni.psys.h;
 }
-#endif
 
 s16 cal_time_of_sign_change(WORK *wk) {
     if (wk->mvxy.a[1].real.h > 0 && wk->mvxy.d[1].real.h < 0) {
