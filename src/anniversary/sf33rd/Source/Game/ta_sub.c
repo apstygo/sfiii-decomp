@@ -207,13 +207,28 @@ s16 eff_hit_check(WORK_Other *ewk, s16 type) {
     return eff_hit_flag[ewk->wu.type];
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", eff_hit_check_sub);
-#else
+const s16 pl_hit_eff[25][4] = { { -11, 56, 33, 38 }, { -11, 56, 35, 53 }, { -13, 47, 50, 38 }, { -18, 42, 36, 32 },
+                                { -24, 48, 40, 48 }, { -21, 48, 37, 42 }, { -13, 47, 50, 38 }, { -22, 38, 36, 36 },
+                                { -13, 47, 50, 38 }, { -28, 50, 28, 34 }, { -18, 42, 36, 32 }, { -13, 47, 50, 38 },
+                                { -13, 47, 50, 38 }, { -11, 56, 33, 38 }, { -13, 47, 50, 38 }, { -13, 47, 50, 38 },
+                                { -13, 47, 50, 38 }, { -13, 47, 50, 38 }, { -21, 48, 37, 42 }, { -11, 56, 33, 38 },
+                                { -11, 56, 33, 38 }, { -11, 56, 33, 38 }, { -11, 56, 33, 38 }, { -11, 56, 33, 38 },
+                                { -11, 56, 33, 38 } };
+
 s32 eff_hit_check_sub(WORK_Other *ewk, PLW *pl) {
-    not_implemented(__func__);
+    if (pl->wu.routine_no[1] == 1) {
+        if (pl->wu.routine_no[2] < 14 || pl->wu.routine_no[2] >= 24) {
+            return 0;
+        }
+
+        if (hit_check_subroutine(
+                &pl->wu, &ewk->wu, &pl_hit_eff[pl->player_number][0], &eff_hit_data[ewk->wu.type][0])) {
+            return 1;
+        }
+    }
+
+    return 0;
 }
-#endif
 
 s16 eff_hit_check2(WORK_Other *ewk, s16 type, s16 where_type) {
     if (!EXE_obroll) {
@@ -332,11 +347,3 @@ void cal_bg_speed_data_y(s16 bg_num, s16 tm, s16 unk) {
     bg_w.bgw[bg_num].chase_xy[1].cal += ms.amy;
     bg_mvxy.kop[1] = 0;
 }
-
-const s16 pl_hit_eff[25][4] = { { -11, 56, 33, 38 }, { -11, 56, 35, 53 }, { -13, 47, 50, 38 }, { -18, 42, 36, 32 },
-                                { -24, 48, 40, 48 }, { -21, 48, 37, 42 }, { -13, 47, 50, 38 }, { -22, 38, 36, 36 },
-                                { -13, 47, 50, 38 }, { -28, 50, 28, 34 }, { -18, 42, 36, 32 }, { -13, 47, 50, 38 },
-                                { -13, 47, 50, 38 }, { -11, 56, 33, 38 }, { -13, 47, 50, 38 }, { -13, 47, 50, 38 },
-                                { -13, 47, 50, 38 }, { -13, 47, 50, 38 }, { -21, 48, 37, 42 }, { -11, 56, 33, 38 },
-                                { -11, 56, 33, 38 }, { -11, 56, 33, 38 }, { -11, 56, 33, 38 }, { -11, 56, 33, 38 },
-                                { -11, 56, 33, 38 } };
