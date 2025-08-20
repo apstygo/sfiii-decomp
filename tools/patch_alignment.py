@@ -35,12 +35,12 @@ special_cases = {
     ("CHARSET", ".rodata", 0): 16,
 
     ("bg_data", ".data", 0): 16,
+    ("bg_sub", ".data", 0): 16,
     ("PulPul", ".data", 0): 16,
     ("flps2vram", ".data", 0): 16,
     ("PulPul", ".data", 1): 16,
     ("Sound3rd", ".data", 0): 16,
 
-    ("bg_data", ".sdata", 0): 16,
     ("VM_DATA", ".sdata", 0): 16,
     ("Demo_Dat", ".sdata", 0): 16,
     ("BBBSCOM", ".sdata", 0): 16,

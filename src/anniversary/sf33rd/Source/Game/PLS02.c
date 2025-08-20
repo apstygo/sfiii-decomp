@@ -24,7 +24,6 @@ s16 hoseishitemo_eenka(WORK *wk, s16 tx);
 s32 random_32();
 s32 random_32_ex();
 s32 random_16_ex();
-s32 random_16_bg();
 s8 get_guard_direction(WORK *as, WORK *ds);
 s16 cal_attdir_flip(s16 dir);
 s16 get_kind_of_head_dm(s16 dir, s8 drl);

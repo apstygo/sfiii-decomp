@@ -9,6 +9,7 @@ extern const s16 satse[20];
 s32 random_16();
 s32 random_16_com();
 s32 random_16_ex_com();
+s32 random_16_bg();
 s32 random_32();
 s32 random_32_com();
 s32 random_32_ex_com();

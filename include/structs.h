@@ -2037,12 +2037,12 @@ typedef struct {
 
 typedef struct {
     // total size: 0x14
-    u8 bg_num;    // offset 0x0, size 0x1
-    s16 *rwd_ptr; // offset 0x4, size 0x4
-    s16 *brw_ptr; // offset 0x8, size 0x4
-    s16 rw_cnt;   // offset 0xC, size 0x2
-    s16 rwgbix;   // offset 0xE, size 0x2
-    s16 gbix;     // offset 0x10, size 0x2
+    u8 bg_num;          // offset 0x0, size 0x1
+    const s16 *rwd_ptr; // offset 0x4, size 0x4
+    const s16 *brw_ptr; // offset 0x8, size 0x4
+    s16 rw_cnt;         // offset 0xC, size 0x2
+    s16 rwgbix;         // offset 0xE, size 0x2
+    s16 gbix;           // offset 0x10, size 0x2
 } RW_DATA;
 
 typedef struct {
