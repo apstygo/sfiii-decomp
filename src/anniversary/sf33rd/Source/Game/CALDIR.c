@@ -708,13 +708,59 @@ const u8
           31, 30, 30, 30, 30, 30, 29, 29, 29, 29, 29, 28, 28, 28, 28, 28, 28, 27, 27, 27, 27, 27, 27, 27 }
     };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", caldir_pos_256);
-#else
+typedef union {
+    s32 dy; // offset 0x0, size 0x4
+    struct /* @anon26 */ {
+        // total size: 0x4
+        s16 l; // offset 0x0, size 0x2
+        s16 h; // offset 0x2, size 0x2
+    } ry;      // offset 0x0, size 0x4
+} PS;
+
 s16 caldir_pos_256(s16 x1, s16 x2, s16 y1, s16 y2) {
-    not_implemented(__func__);
+    s16 yhan;
+    s16 tent = yhan = 0;
+
+    switch (((y1 -= x1) < 0) + (((y2 -= x2) < 0) << 1)) {
+    case 1:
+        y1 = -y1;
+        yhan = 1;
+        break;
+
+    case 2:
+        y2 = -y2;
+        yhan = 1;
+        tent = 0x80;
+        break;
+
+    case 3:
+        y1 = -y1;
+        y2 = -y2;
+        tent = 0x80;
+        break;
+    }
+
+    if (y1 > y2) {
+        while (y1 >= 0x80) {
+            y1 >>= 1;
+            y2 >>= 1;
+        }
+    } else {
+        while (y2 >= 0x80) {
+            y1 >>= 1;
+            y2 >>= 1;
+        }
+    }
+
+    tent += dir_sel_table[y1][y2];
+
+    if (yhan) {
+        tent = -tent;
+        tent &= 0xFF;
+    }
+
+    return tent;
 }
-#endif
 
 s16 caldir_pos_032(s16 x1, s16 x2, s16 y1, s16 y2) {
     return (caldir_pos_256(x1, x2, y1, y2) + 4) >> 3 & 0x1F;
@@ -758,13 +804,19 @@ s16 cal_move_quantity2(s16 x1, s16 x2, s16 y1, s16 y2) {
     return ms.pss.h;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", cal_move_quantity3);
-#else
 s16 cal_move_quantity3(WORK *wk, s16 tm) {
-    not_implemented(__func__);
+    s32 ltm;
+    PS ps;
+
+    if (tm == 0) {
+        return wk->xyz[1].disp.pos;
+    }
+
+    ltm = tm;
+    ps.dy = ltm * ltm / 2 * wk->mvxy.d[1].sp;
+    ps.dy = (wk->mvxy.a[1].sp * ltm) + ps.dy + wk->xyz[1].cal;
+    return ps.ry.h;
 }
-#endif
 
 void cmsd_all_x_speed_data(MotionState *cc) {
     switch (cc->swx) {
