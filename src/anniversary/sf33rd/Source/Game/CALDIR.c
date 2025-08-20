@@ -983,21 +983,58 @@ void cal_initial_speed(WORK *wk, s16 tm, s16 x1, s16 y1) {
     wk->xyz[1].cal += bb.amy;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", cal_initial_speed_y);
-#else
 void cal_initial_speed_y(WORK *wk, s16 tm, s16 y1) {
-    not_implemented(__func__);
-}
-#endif
+    MotionState bb;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", cal_delta_speed);
-#else
-void cal_delta_speed(WORK *wk, s16 tm, s16 x1, s16 y1, s8 xsw, s8 ysw) {
-    not_implemented(__func__);
+    wk->xyz[1].disp.low = 0;
+    bb.timer = tm + 0;
+    bb.timer2 = bb.timer + bb.timer * (bb.timer - 1) / 2;
+    bb.y.ps.h = y1 - wk->xyz[1].disp.pos;
+    bb.y.ps.l = 0;
+    bb.dly = wk->mvxy.d[1].sp;
+
+    if (bb.timer == 0) {
+        bb.amy = 0;
+        bb.spy = 0;
+    } else {
+        cmsd_y_initial_speed(&bb);
+    }
+
+    wk->mvxy.a[1].sp = bb.spy;
+    wk->xyz[1].cal += bb.amy;
 }
-#endif
+
+void cal_delta_speed(WORK *wk, s16 tm, s16 x1, s16 y1, s8 xsw, s8 ysw) {
+    MotionState bb;
+
+    wk->xyz[0].disp.low = wk->xyz[1].disp.low = 0;
+    bb.timer = tm + 0;
+    bb.timer2 = bb.timer + bb.timer * (bb.timer - 1) / 2;
+    bb.x.ps.h = x1 - wk->xyz[0].disp.pos;
+    bb.y.ps.h = y1 - wk->xyz[1].disp.pos;
+    bb.x.ps.l = bb.y.ps.l = 0;
+    bb.swx = xsw;
+    bb.swy = ysw;
+    bb.spx = wk->mvxy.a[0].sp;
+    bb.spy = wk->mvxy.a[1].sp;
+
+    if (bb.timer == 0) {
+        bb.amy = 0;
+        bb.amx = 0;
+        bb.dly = 0;
+        bb.dlx = 0;
+    } else {
+        cmsd_x_delta_speed(&bb);
+        cmsd_y_delta_speed(&bb);
+    }
+
+    wk->mvxy.a[0].sp = bb.spx;
+    wk->mvxy.d[0].sp = bb.dlx;
+    wk->mvxy.a[1].sp = bb.spy;
+    wk->mvxy.d[1].sp = bb.dly;
+    wk->xyz[0].cal += bb.amx;
+    wk->xyz[1].cal += bb.amy;
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", cal_top_of_position_y);
