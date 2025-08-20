@@ -922,13 +922,38 @@ void cmsd_y_delta_speed(MotionState *cc) {
     cmsd_all_y_speed_data(cc);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", cal_all_speed_data);
-#else
 void cal_all_speed_data(WORK *wk, s16 tm, s16 x1, s16 y1, s8 xsw, s8 ysw) {
-    not_implemented(__func__);
+    MotionState bb;
+
+    wk->xyz[0].disp.low = wk->xyz[1].disp.low = -0x8000;
+    bb.timer = tm;
+    bb.timer2 = bb.timer + (bb.timer * (bb.timer - 1) / 2);
+    bb.x.ps.h = x1 - wk->xyz[0].disp.pos;
+    bb.y.ps.h = y1 - wk->xyz[1].disp.pos;
+    bb.x.ps.l = bb.y.ps.l = 0;
+    bb.swx = xsw;
+    bb.swy = ysw;
+
+    if (bb.timer == 0) {
+        bb.amy = 0;
+        bb.amx = 0;
+        bb.dly = 0;
+        bb.spy = 0;
+        bb.dlx = 0;
+        bb.spx = 0;
+    } else {
+        cmsd_all_x_speed_data(&bb);
+        cmsd_all_y_speed_data(&bb);
+    }
+
+    wk->mvxy.a[0].sp = bb.spx;
+    wk->mvxy.d[0].sp = bb.dlx;
+    wk->mvxy.a[1].sp = bb.spy;
+    wk->mvxy.d[1].sp = bb.dly;
+    wk->xyz[0].cal += bb.amx;
+    wk->xyz[1].cal += bb.amy;
+    wk->mvxy.kop[0] = wk->mvxy.kop[1] = 0;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CALDIR", cal_initial_speed);
