@@ -338,7 +338,7 @@ void scr_trans(u8 bgnm) {
         for (y = yy[0]; y < yy[1]; y += 128) {
             for (x = xx[0]; x < xx[1]; x += 128) {
                 global_index_real = global_index + (((y >> 7) << 3) + (x >> 7));
-                vtxColor = 0xffffffff;
+                vtxColor = 0xFFFFFFFF;
 
                 if (bgnm == 0) {
                     for (i = 0; i < 4; i++) {
@@ -449,7 +449,7 @@ void scr_trans(u8 bgnm) {
 
     case 2:
         if (judge_flag == 1 && bgnm == 1) {
-            vtxColor = 0xffa0a0a0;
+            vtxColor = 0xFFA0A0A0;
         } else {
             vtxColor = 0xFFFFFFFF;
         }
