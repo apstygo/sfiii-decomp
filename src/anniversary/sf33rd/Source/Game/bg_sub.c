@@ -264,13 +264,77 @@ void bg_chase_move() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", chase_start_check);
-#else
 void chase_start_check() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void cal_bg_speed_data_x(s32 /* unused */, s32 bg_num, s32 tm);
+    void cal_bg_speed_data_y(s32 /* unused */, s32 bg_num, s32 tm);
 #endif
+
+    s16 work;
+    s16 work2;
+
+    if (zoom_request_flag & 0xF00) {
+        if (chase_x != scr_req_x) {
+            chase_x = scr_req_x;
+
+            if (bgw_ptr->zuubun) {
+                bgw_ptr->chase_xy[0].disp.pos = bgw_ptr->abs_x + bg_w.pos_offset;
+            } else {
+                bgw_ptr->chase_xy[0].disp.pos = bgw_ptr->position_x + bg_w.pos_offset;
+            }
+
+            chase_time_x = 6;
+            cal_bg_speed_data_x(bgw_ptr->fam_no, chase_time_x, chase_x);
+            bg_w.chase_flag |= 1;
+            bg_w.chase_flag &= ~2;
+            bg_w.old_chase_flag = 1;
+        }
+    } else {
+        work = zoom_req_flag_old & 0xF00;
+        work2 = ~(zoom_request_flag & 0xF00);
+        work &= work2;
+
+        if (work) {
+            bg_w.chase_flag |= 2;
+            bg_w.chase_flag &= ~1;
+            chase_x = bgw_ptr->wxy[0].disp.pos;
+            chase_time_x = 6;
+            cal_bg_speed_data_x(bgw_ptr->fam_no, chase_time_x, chase_x);
+        }
+    }
+
+    if (zoom_request_flag & 0xF000) {
+        bg_w.chase_flag |= 0x10;
+        bg_w.chase_flag &= ~0x20;
+        bg_w.old_chase_flag |= 0x10;
+        bg_w.old_chase_flag &= ~0x20;
+
+        if (chase_y != scr_req_y) {
+            chase_y = scr_req_y;
+
+            if (bgw_ptr->abs_y < 0) {
+                bgw_ptr->chase_xy[1].disp.pos = 0;
+            } else {
+                bgw_ptr->chase_xy[1].disp.pos = bgw_ptr->abs_y;
+            }
+
+            chase_time_y = 6;
+            cal_bg_speed_data_y(bgw_ptr->fam_no, chase_time_y, chase_y);
+        }
+    } else {
+        work = zoom_req_flag_old & 0xF000;
+        work2 = ~(zoom_request_flag & 0xF000);
+        work &= work2;
+
+        if (work) {
+            bg_w.chase_flag |= 0x20;
+            bg_w.chase_flag &= ~0x10;
+            chase_y = bgw_ptr->xy[1].disp.pos;
+            chase_time_y = 6;
+            cal_bg_speed_data_y(bgw_ptr->fam_no, chase_time_y, chase_y);
+        }
+    }
+}
 
 void chase_xy_move() {
     if (bg_w.chase_flag & 0xF) {
