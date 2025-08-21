@@ -3211,7 +3211,20 @@ void Button_Exit_Check_in_Game(struct _TASK *task_ptr, s16 PL_id) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Return_Pause_Sub);
+void Return_Pause_Sub(struct _TASK *task_ptr) {
+    Menu_Suicide[0] = 0;
+    Menu_Suicide[1] = 0;
+    Menu_Suicide[2] = 0;
+    Menu_Suicide[3] = 1;
+    task[4].r_no[2] = 2;
+    task[4].free[0] = 1;
+    task_ptr->r_no[1] = 1;
+    task_ptr->r_no[2] = 1;
+    Cursor_Y_Pos[0][0] = 1;
+    Order[138] = 3;
+    Order_Timer[138] = 1;
+    effect_66_init(138, 9, 2, 7, -1, -1, -0x3FFC);
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Check_Pad_in_Pause);
@@ -3796,7 +3809,13 @@ void Dummy_Move_Sub(struct _TASK *task_ptr, s16 PL_id, s16 id, s16 type, s16 max
 const u8 Menu_Max_Data_Tr[2][2][6] = { { { 4, 6, 2, 1, 0, 0 }, { 3, 1, 3, 7, 0, 0 } },
                                        { { 2, 3, 1, 3, 0, 0 }, { 0, 0, 0, 0, 0, 0 } } };
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Dummy_Move_Sub_LR);
+#else
+void Dummy_Move_Sub_LR(u16 sw, s16 id, s16 type, s16 cursor_id) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Blocking_Training);
