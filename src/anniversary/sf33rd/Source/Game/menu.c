@@ -3570,14 +3570,29 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Control_Play
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Next_Be_Tr_Menu);
 
-#if defined(TARGET_PS2)
-s32 Check_Pause_Term_Tr(s16 PL_id);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Check_Pause_Term_Tr);
-#else
 s32 Check_Pause_Term_Tr(s16 PL_id) {
-    not_implemented(__func__);
+    if (Mode_Type == 4) {
+        if (PL_id == Champion) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    if (PL_id == Champion) {
+        return 1;
+    }
+
+    if (Training->contents[0][1][3] == 2) {
+        return 0;
+    }
+
+    if (Training->contents[0][0][0] == 4) {
+        return 1;
+    }
+
+    return 0;
 }
-#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Pause_Check_Tr);
 
