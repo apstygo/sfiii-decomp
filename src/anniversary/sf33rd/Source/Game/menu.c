@@ -3625,7 +3625,21 @@ void Control_Player_Tr() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Next_Be_Tr_Menu);
+void Next_Be_Tr_Menu(struct _TASK *task_ptr) {
+    s16 ix;
+
+    task_ptr->r_no[0] = 11;
+    task_ptr->r_no[1] = 0;
+    task_ptr->r_no[2] = 0;
+    task_ptr->r_no[3] = 0;
+    Allow_a_battle_f = 0;
+
+    for (ix = 0; ix < 4; ix++) {
+        Menu_Suicide[ix] = 1;
+    }
+
+    SsBgmHalfVolume(0);
+}
 
 s32 Check_Pause_Term_Tr(s16 PL_id) {
     if (Mode_Type == 4) {
