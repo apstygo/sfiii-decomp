@@ -99,7 +99,7 @@ void Direction_Menu(struct _TASK *task_ptr);
 void Save_Direction(struct _TASK *task_ptr);
 void Load_Direction(struct _TASK *task_ptr);
 void Setup_VS_Mode(struct _TASK *task_ptr);
-void Setup_Next_Page(struct _TASK *task_ptr, s32 /* unused */);
+void Setup_Next_Page(struct _TASK *task_ptr, u8 /* unused */);
 void Load_Replay_Sub(struct _TASK *task_ptr);
 void Button_Exit_Check(struct _TASK *task_ptr, s16 PL_id);
 
@@ -1219,7 +1219,7 @@ void Dir_Move_Sub_LR(u16 sw, s16 /* unused */) {
 }
 
 #if defined(TARGET_PS2)
-void Setup_Next_Page(struct _TASK *task_ptr, s32 /* unused */) {
+void Setup_Next_Page(struct _TASK *task_ptr, u8 /* unused */) {
     s16 ix;
     s16 disp_index;
     s16 mode_type;
@@ -4216,13 +4216,162 @@ void Back_to_Mode_Select(struct _TASK *task_ptr) {
     BGM_Request_Code_Check(0x41);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Extra_Option);
-#else
 void Extra_Option(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    Menu_Cursor_Y[1] = Menu_Cursor_Y[0];
+
+    switch (task_ptr->r_no[2]) {
+    case 0:
+        FadeOut(1, 0xFF, 8);
+        task_ptr->r_no[2]++;
+        task_ptr->r_no[3] = 0;
+        task_ptr->timer = 5;
+        Menu_Suicide[1] = 1;
+        Menu_Suicide[2] = 0;
+        Menu_Page = 0;
+        Page_Max = 3;
+        Menu_Page_Buff = Menu_Page;
+        Message_Data->kind_req = 4;
+        break;
+
+    case 1:
+        FadeOut(1, 0xFF, 8);
+        task_ptr->r_no[2]++;
+        Setup_Next_Page(task_ptr, task_ptr->r_no[3]);
+        /* fallthrough */
+
+    case 2:
+        FadeOut(1, 0xFF, 8);
+
+        if (--task_ptr->timer == 0) {
+            task_ptr->r_no[2]++;
+            task_ptr->r_no[3] = 1;
+            FadeInit();
+        }
+
+        break;
+
+    case 3:
+        if (FadeIn(1, 25, 8)) {
+            task_ptr->r_no[2]++;
+            break;
+        }
+
+        break;
+
+    case 4:
+        Pause_ID = 0;
+        Dir_Move_Sub(task_ptr, 0);
+
+        if (IO_Result == 0) {
+            Pause_ID = 1;
+            Dir_Move_Sub(task_ptr, 1);
+        }
+
+        if (Menu_Cursor_Y[1] != Menu_Cursor_Y[0]) {
+            SE_cursor_move();
+            save_w[Present_Mode].extra_option.contents[Menu_Page][Menu_Max] = 1;
+
+            if (Menu_Cursor_Y[0] < Menu_Max) {
+                Message_Data->order = 1;
+                Message_Data->request = Ex_Account_Data[Menu_Page] + Menu_Cursor_Y[0];
+                Message_Data->timer = 2;
+
+                if (msgExtraTbl[0]->msgNum[Menu_Cursor_Y[0] + (Menu_Page * 8)] == 1) {
+                    Message_Data->pos_y = 54;
+                } else {
+                    Message_Data->pos_y = 62;
+                }
+            } else {
+                Message_Data->order = 1;
+                Message_Data->request = save_w[Present_Mode].extra_option.contents[Menu_Page][Menu_Max] + 32;
+                Message_Data->timer = 2;
+                Message_Data->pos_y = 54;
+            }
+        }
+
+        switch (IO_Result) {
+        case 0x200:
+            Return_Option_Mode_Sub(task_ptr);
+            Order[115] = 4;
+            Order_Timer[115] = 4;
+            save_w[4].extra_option = save_w[1].extra_option;
+            save_w[5].extra_option = save_w[1].extra_option;
+            SE_dir_selected();
+            break;
+
+        case 0x80:
+        case 0x800:
+            task_ptr->r_no[2] = 1;
+            task_ptr->timer = 5;
+
+            if (--Menu_Page < 0) {
+                Menu_Page = Page_Max;
+            }
+
+            SE_dir_selected();
+            break;
+
+        case 0x40:
+        case 0x400:
+            task_ptr->r_no[2] = 1;
+            task_ptr->timer = 5;
+
+            if (++Menu_Page > Page_Max) {
+                Menu_Page = 0;
+            }
+
+            SE_dir_selected();
+            break;
+
+        case 0x100:
+            if (Menu_Page == 0 && Menu_Cursor_Y[0] == 6) {
+                save_w[Present_Mode].extra_option = save_w[0].extra_option;
+                SE_selected();
+                break;
+            }
+
+            if (Menu_Cursor_Y[0] != Menu_Max) {
+                break;
+            }
+
+            switch (save_w[Present_Mode].extra_option.contents[Menu_Page][Menu_Max]) {
+            case 0:
+                task_ptr->r_no[2] = 1;
+                task_ptr->timer = 5;
+
+                if (--Menu_Page < 0) {
+                    Menu_Page = Page_Max;
+                }
+
+                break;
+
+            case 2:
+                task_ptr->r_no[2] = 1;
+                task_ptr->timer = 5;
+
+                if (++Menu_Page > Page_Max) {
+                    Menu_Page = 0;
+                }
+
+                break;
+
+            default:
+                Return_Option_Mode_Sub(task_ptr);
+                save_w[4].extra_option = save_w[1].extra_option;
+                save_w[5].extra_option = save_w[1].extra_option;
+                Order[115] = 4;
+                Order_Timer[115] = 4;
+                break;
+            }
+
+            SE_selected();
+
+            break;
+        }
+
+        break;
+    }
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Ex_Move_Sub_LR);
