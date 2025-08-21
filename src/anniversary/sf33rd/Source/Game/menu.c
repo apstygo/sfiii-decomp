@@ -3566,7 +3566,36 @@ void Wait_Pause_in_Tr(struct _TASK *task_ptr) {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Control_Player_Tr);
+void Control_Player_Tr() {
+    switch (control_pl_rno) {
+    case 0:
+        if (control_player) {
+            p2sw_0 = 0;
+            break;
+        }
+
+        p1sw_0 = 0;
+        break;
+
+    case 1:
+        if (control_player) {
+            p2sw_0 = 2;
+            break;
+        }
+
+        p1sw_0 = 2;
+        break;
+
+    case 2:
+        if (control_player) {
+            p2sw_0 = 1;
+            break;
+        }
+
+        p1sw_0 = 1;
+        break;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Next_Be_Tr_Menu);
 
