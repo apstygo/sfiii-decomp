@@ -3548,7 +3548,22 @@ s32 Save_Replay_MC_Sub(struct _TASK *task_ptr, s16 unused) {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Exit_Replay_Save);
+void Exit_Replay_Save(struct _TASK *task_ptr) {
+    if (task_ptr->r_no[1] == 17) {
+        Return_VS_Result_Sub(task_ptr);
+        return;
+    }
+
+    Menu_Suicide[0] = 0;
+    Menu_Suicide[1] = 0;
+    Menu_Suicide[2] = 1;
+    task_ptr->r_no[1] = 5;
+    task_ptr->r_no[2] = 0;
+    task_ptr->r_no[3] = 0;
+    task_ptr->free[0] = 0;
+    Order[112] = 4;
+    Order_Timer[112] = 4;
+}
 
 void Decide_PL(s16 PL_id) {
     plw[PL_id].wu.operator = 1;
