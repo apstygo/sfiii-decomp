@@ -3740,7 +3740,16 @@ void Training_Option(struct _TASK *task_ptr) {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Training_Disp_Sub);
+void Training_Disp_Sub(struct _TASK *task_ptr) {
+    if (Mode_Type == 3) {
+        task_ptr->r_no[1] = 1;
+        Training_Index = 0;
+        return;
+    }
+
+    task_ptr->r_no[1] = 2;
+    Training_Index = 1;
+}
 
 void Dummy_Move_Sub(struct _TASK *task_ptr, s16 PL_id, s16 id, s16 type, s16 max) {
     u16 sw = ~(plsw_01[PL_id]) & plsw_00[PL_id];
