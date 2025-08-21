@@ -3550,13 +3550,17 @@ s32 Save_Replay_MC_Sub(struct _TASK *task_ptr, s16 unused) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Exit_Replay_Save);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Decide_PL);
-#else
 void Decide_PL(s16 PL_id) {
-    not_implemented(__func__);
+    plw[PL_id].wu.operator = 1;
+    Operator_Status[PL_id] = 1;
+    Champion = PL_id;
+    plw[PL_id ^ 1].wu.operator = 0;
+    Operator_Status[PL_id ^ 1] = 0;
+
+    if (Continue_Coin[PL_id] == 0) {
+        grade_check_work_1st_init(PL_id, 0);
+    }
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Wait_Pause_in_Tr);
