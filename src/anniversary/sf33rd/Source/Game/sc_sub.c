@@ -668,7 +668,13 @@ void Training_Damage_Set(s16 damage, s16 /* unused */, u8 kezuri) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", Training_Data_Disp);
+#else
+void Training_Data_Disp() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", dispButtonImage);
 

@@ -35,6 +35,7 @@ void fade_cont_main();
 void Akaobi();
 void Training_Disp_Work_Clear();
 void Training_Damage_Set(s16 damage, s16 /* unused */, u8 kezuri);
+void Training_Data_Disp();
 void dispButtonImage2(s32 px, s32 py, s32 pz, s32 sx, s32 sy, s32 cl, s32 ix);
 
 #endif

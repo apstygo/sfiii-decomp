@@ -3,6 +3,10 @@
 #include "sf33rd/Source/Game/DIR_DATA.h"
 #include "sf33rd/Source/Game/EFF10.h"
 #include "sf33rd/Source/Game/EFF45.h"
+#include "sf33rd/Source/Game/EFF57.h"
+#include "sf33rd/Source/Game/EFF61.h"
+#include "sf33rd/Source/Game/EFF66.h"
+#include "sf33rd/Source/Game/EFFA0.h"
 #include "sf33rd/Source/Game/EFFA3.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/EX_DATA.h"
@@ -13,6 +17,8 @@
 #include "sf33rd/Source/Game/MMTMCNT.h"
 #include "sf33rd/Source/Game/Message3rd/C_USA/msgTable_usa.h"
 #include "sf33rd/Source/Game/PLCNT.h"
+#include "sf33rd/Source/Game/PLS02.h"
+#include "sf33rd/Source/Game/Pause.h"
 #include "sf33rd/Source/Game/PulPul.h"
 #include "sf33rd/Source/Game/RAMCNT.h"
 #include "sf33rd/Source/Game/Reset.h"
@@ -24,10 +30,14 @@
 #include "sf33rd/Source/Game/SysDir.h"
 #include "sf33rd/Source/Game/VM_SUB.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/appear.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_data.h"
 #include "sf33rd/Source/Game/bg_sub.h"
 #include "sf33rd/Source/Game/color3rd.h"
+#include "sf33rd/Source/Game/count.h"
+#include "sf33rd/Source/Game/debug/Debug.h"
+#include "sf33rd/Source/Game/eff91.h"
 #include "sf33rd/Source/Game/effect_init.h"
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/sc_sub.h"
@@ -36,6 +46,25 @@
 #include "sf33rd/Source/PS2/mc/savesub.h"
 #include "sf33rd/Source/PS2/reboot.h"
 #include "structs.h"
+
+void Default_Training_Option();
+void Dummy_Move_Sub(struct _TASK *task_ptr, s16 PL_id, s16 id, s16 type, s16 max);
+void Return_Pause_Sub(struct _TASK *task_ptr);
+void Dummy_Move_Sub_LR(u16 sw, s16 id, s16 type, s16 cursor_id);
+void Return_VS_Result_Sub(struct _TASK *task_ptr);
+void Exit_Replay_Save(struct _TASK *task_ptr);
+void Setup_NTr_Data(s16 ix);
+s32 Check_Pad_in_Pause(struct _TASK *task_ptr);
+void Next_Be_Tr_Menu(struct _TASK *task_ptr);
+void Yes_No_Cursor_Exit_Training(struct _TASK *task_ptr, s16 cursor_id);
+void Check_Skip_Recording();
+void Check_Skip_Replay(s16 ix);
+void Setup_Tr_Pause(struct _TASK *task_ptr);
+void Control_Player_Tr();
+s32 Pause_Check_Tr(s16 PL_id);
+void Setup_Win_Lose_OBJ();
+s32 Pause_in_Normal_Tr(struct _TASK *task_ptr);
+void Training_Disp_Sub(struct _TASK *task_ptr);
 
 // forward decls
 void After_Title(struct _TASK *task_ptr);
@@ -3295,13 +3324,78 @@ s32 VS_Result_Select_Sub(struct _TASK *task_ptr, s16 PL_id) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", After_VS_Move_Sub);
-#else
 u16 After_VS_Move_Sub(u16 sw, s16 cursor_id, s16 menu_max) {
-    not_implemented(__func__);
+    s16 skip;
+
+    if (plw[0].wu.operator == 0 || plw[1].wu.operator == 0) {
+        skip = 1;
+    } else {
+        skip = 99;
+    }
+    if (Debug_w[49]) {
+        skip = 99;
+    }
+
+    switch (sw) {
+    case 1:
+        Menu_Cursor_Y[cursor_id]--;
+
+        if (Menu_Cursor_Y[cursor_id] < 0) {
+            Menu_Cursor_Y[cursor_id] = menu_max;
+        }
+
+        if (Menu_Cursor_Y[cursor_id] == skip) {
+            Menu_Cursor_Y[cursor_id] = 0;
+        }
+
+        SE_cursor_move();
+        return IO_Result = 1;
+
+    case 2:
+        Menu_Cursor_Y[cursor_id]++;
+
+        if (Menu_Cursor_Y[cursor_id] > menu_max) {
+            Menu_Cursor_Y[cursor_id] = 0;
+        }
+
+        if (Menu_Cursor_Y[cursor_id] == skip) {
+            Menu_Cursor_Y[cursor_id] = 2;
+        }
+
+        SE_cursor_move();
+        return IO_Result = 2;
+
+    case 0x10:
+        return IO_Result = 0x10;
+
+    case 0x100:
+        return IO_Result = 0x100;
+
+    case 0x200:
+        return IO_Result = 0x200;
+
+    case 0x400:
+        return IO_Result = 0x400;
+
+    case 0x4000:
+        return IO_Result = 0x4000;
+
+    default:
+        return IO_Result = 0;
+
+    case 0x20:
+        return IO_Result = 0x20;
+
+    case 0x40:
+        return IO_Result = 0x40;
+
+    case 0x80:
+        return IO_Result = 0x80;
+
+    case 0x800:
+        return IO_Result = 0x800;
+    }
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", VS_Result_Move_Sub);
