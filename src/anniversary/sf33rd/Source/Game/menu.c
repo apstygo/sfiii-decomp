@@ -4067,13 +4067,33 @@ void Character_Change(struct _TASK *task_ptr) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Default_Training_Data);
-#else
 void Default_Training_Data(s32 flag) {
-    not_implemented(__func__);
+    s16 ix;
+    s16 ix2;
+    s16 ix3;
+
+    if (flag == 0) {
+        if (mpp_w.initTrainingData == 0) {
+            return;
+        }
+        mpp_w.initTrainingData = 0;
+    }
+
+    for (ix = 0; ix < 2; ix++) {
+        for (ix2 = 0; ix2 < 2; ix2++) {
+            for (ix3 = 0; ix3 < 4; ix3++) {
+                Training[0].contents[ix][ix2][ix3] = 0;
+            }
+        }
+    }
+
+    Training[0].contents[0][1][2] = save_w->Damage_Level;
+    Training[0].contents[0][1][3] = save_w->Difficulty;
+    save_w[Present_Mode].Damage_Level = save_w->Damage_Level;
+    save_w[Present_Mode].Difficulty = save_w->Difficulty;
+    Training[2] = Training[0];
+    Disp_Attack_Data = 0;
 }
-#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Default_Training_Option);
 
