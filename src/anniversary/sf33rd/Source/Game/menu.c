@@ -3710,7 +3710,90 @@ void Flash_1P_or_2P(struct _TASK *task_ptr) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Pause_in_Normal_Tr);
+s32 Pause_in_Normal_Tr(struct _TASK *task_ptr) {
+    s16 ix;
+    u16 sw;
+
+    Control_Player_Tr();
+
+    switch (task_ptr->r_no[2]) {
+    case 0:
+        return Pause_1st_Sub(task_ptr);
+
+    case 1:
+        task_ptr->r_no[2]++;
+        Menu_Common_Init();
+        Menu_Cursor_Y[0] = Cursor_Y_Pos[0][0];
+
+        for (ix = 0; ix < 4; ix++) {
+            Menu_Suicide[ix] = 0;
+        }
+
+        effect_10_init(0, 6, 0, 0, 0, 20, 12);
+        effect_10_init(0, 6, 1, 1, 0, 18, 14);
+        effect_10_init(0, 6, 2, 2, 0, 22, 16);
+        break;
+
+    case 2:
+        if (Pause_Down) {
+            IO_Result = MC_Move_Sub(Check_Menu_Lever(Pause_ID, 0), 0, 2, 0xFF);
+        } else {
+            sw = ~(PLsw[Pause_ID][1]) & PLsw[Pause_ID][0];
+
+            if (sw & 0xFF0) {
+                IO_Result = 0x10;
+            } else {
+                return 3;
+            }
+        }
+
+        switch (IO_Result) {
+        case 0x200:
+            task_ptr->r_no[2] = 0;
+            Menu_Suicide[0] = 1;
+            SE_selected();
+            break;
+
+        case 0x100:
+            switch (Menu_Cursor_Y[0]) {
+            case 0:
+                task_ptr->r_no[2] = 0;
+                Menu_Suicide[0] = 1;
+                SE_selected();
+                break;
+
+            case 1:
+                Cursor_Y_Pos[0][0] = 0;
+                return 2;
+
+            case 2:
+                task_ptr->r_no[2]++;
+                SE_selected();
+                Menu_Suicide[0] = 1;
+                Menu_Cursor_Y[0] = 1;
+                effect_10_init(0, 0, 3, 6, 1, 17, 12);
+                effect_10_init(0, 1, 0, 0, 1, 20, 15);
+                effect_10_init(0, 1, 1, 1, 1, 26, 15);
+                break;
+            }
+
+            break;
+        }
+
+        break;
+
+    case 3:
+        sw = ~plsw_01[Pause_ID] & plsw_00[Pause_ID];
+
+        if (Pause_Down) {
+            Yes_No_Cursor_Move_Sub(task_ptr);
+        }
+
+        break;
+    }
+
+    return 0;
+}
 
 s32 Pause_1st_Sub(struct _TASK *task_ptr) {
     u16 sw = ~plsw_01[Pause_ID] & plsw_00[Pause_ID];
