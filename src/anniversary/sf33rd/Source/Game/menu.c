@@ -3722,7 +3722,23 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_NTr_Da
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Check_Skip_Replay);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Check_Skip_Recording);
+void Check_Skip_Recording() {
+    if (Menu_Cursor_Y[0] != 1) {
+        return;
+    }
+
+    if (Training->contents[0][0][0] != 3) {
+        return;
+    }
+
+    if (Menu_Cursor_Y[0] >= Menu_Cursor_Y[1]) {
+        Menu_Cursor_Y[0]++;
+        Check_Skip_Replay(2);
+        return;
+    }
+
+    Menu_Cursor_Y[0]--;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Yes_No_Cursor_Exit_Training);
 
