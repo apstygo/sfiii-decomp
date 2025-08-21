@@ -3720,7 +3720,23 @@ void Normal_Training(struct _TASK *task_ptr) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_NTr_Data);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Check_Skip_Replay);
+void Check_Skip_Replay(s16 ix) {
+    if (Menu_Cursor_Y[0] != ix) {
+        return;
+    }
+
+    if (Record_Data_Tr != 0) {
+        return;
+    }
+
+    if (Menu_Cursor_Y[0] >= Menu_Cursor_Y[1]) {
+        Menu_Cursor_Y[0]++;
+        return;
+    }
+
+    Menu_Cursor_Y[0]--;
+    Check_Skip_Recording();
+}
 
 void Check_Skip_Recording() {
     if (Menu_Cursor_Y[0] != 1) {
