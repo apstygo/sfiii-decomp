@@ -751,13 +751,98 @@ void bg_y_move_check() {
     bgw_ptr->wxy[1].cal = bgw_ptr->xy[1].cal;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", zoom_ud_check);
-#else
 void zoom_ud_check() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void Frame_Up(u32 x, u32 y, u16 add);
+    void Frame_Down(u32 x, u32 y, u16 add);
 #endif
+
+    s16 work;
+    s16 work2;
+    s16 pos_w;
+
+    if (bg_app) {
+        return;
+    }
+
+    if (Bonus_Game_Flag) {
+        return;
+    }
+
+    if (bg_app_stop && bg_w.bg_f_x == 64) {
+        return;
+    }
+
+    work2 = zoom_request_flag & 0xFF;
+    bg_w.frame_deff = 64 - zoom_request_level;
+    work = (~(zoom_req_flag_old) & (zoom_request_flag) & 0xFF);
+
+    if (work && !bg_w.frame_flag) {
+        bg_w.frame_flag = 1;
+        bg_w.old_frame_flag = 1;
+        bg_w.center_y = 224 - scr_req_y;
+
+        if (bg_w.center_y < 0) {
+            bg_w.center_y = 0;
+        }
+
+        if (scr_req_x < bg_w.bgw[1].l_limit2) {
+            if (bg_w.bgw[1].zuubun != 0) {
+                bg_w.center_x = scr_req_x + 512;
+                pos_w = bg_w.bgw[1].wxy[0].disp.pos + 512;
+            } else {
+                bg_w.center_x = scr_req_x;
+                pos_w = bg_w.bgw[1].wxy[0].disp.pos;
+            }
+
+            pos_w -= bg_w.pos_offset;
+            bg_w.center_x -= pos_w;
+        } else if (bg_w.bgw[1].r_limit2 < scr_req_x) {
+            if (bg_w.bgw[1].zuubun != 0) {
+                bg_w.center_x = scr_req_x + 512;
+                pos_w = bg_w.bgw[1].wxy[0].disp.pos + 512;
+            } else {
+                bg_w.center_x = scr_req_x;
+                pos_w = bg_w.bgw[1].wxy[0].disp.pos;
+            }
+
+            pos_w -= bg_w.pos_offset;
+            bg_w.center_x -= pos_w;
+        } else {
+            bg_w.center_x = 192;
+            bg_w.center_y = 224;
+        }
+    }
+
+    if (work2) {
+        if (bg_w.bg_f_x > bg_w.frame_deff) {
+            Frame_Up((u16)bg_w.center_x, (u16)bg_w.center_y, 1);
+            bg_w.bg_f_x--;
+            bg_w.bg_f_y--;
+            return;
+        }
+
+        if (bg_w.bg_f_x < bg_w.frame_deff) {
+            Frame_Down((u16)bg_w.center_x, (u16)bg_w.center_y, 1);
+            bg_w.bg_f_x++;
+            bg_w.bg_f_y++;
+
+            if (bg_w.bg_f_x == 64) {
+                bg_w.frame_flag = 0;
+                Zoomf_Init();
+            }
+        }
+    } else if (bg_w.bg_f_x < 64) {
+        Frame_Down((u16)bg_w.center_x, (u16)bg_w.center_y, 1);
+        bg_w.bg_f_x++;
+        bg_w.bg_f_y++;
+
+        if (bg_w.bg_f_x == 64) {
+            bg_w.frame_flag = 0;
+            Zoomf_Init();
+        }
+    }
+}
 
 void suzi_offset_set(WORK_Other *ewk) {
     if (ewk->wu.sync_suzi == 1) {
