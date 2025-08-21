@@ -3240,13 +3240,7 @@ s32 Check_Pad_in_Pause(struct _TASK *task_ptr) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Pad_Come_Out);
-#else
-void Pad_Come_Out(struct _TASK *task_ptr) {
-    not_implemented(__func__);
-}
-#endif
+void Pad_Come_Out(struct _TASK * /* unused */) {}
 
 void bg_etc_write_ex(s16 type) {
     u8 i;
@@ -3665,7 +3659,27 @@ s32 Check_Pause_Term_Tr(s16 PL_id) {
     return 0;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Pause_Check_Tr);
+s32 Pause_Check_Tr(s16 PL_id) {
+    u16 sw;
+
+    if (plw[PL_id].wu.operator == 0) {
+        return 0;
+    }
+
+    sw = ~(PLsw[PL_id][1]) & PLsw[PL_id][0];
+
+    if (sw & 0x4000) {
+        Pause_ID = PL_id;
+        return 1;
+    }
+
+    if (Interface_Type[PL_id] == 0) {
+        Pause_ID = PL_id;
+        return 2;
+    }
+
+    return 0;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Tr_Pause);
 
