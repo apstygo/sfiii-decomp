@@ -3834,13 +3834,58 @@ void Reset_Training(struct _TASK *task_ptr) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Reset_Replay);
-#else
 void Reset_Replay(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    switch (task_ptr->r_no[1]) {
+    case 0:
+        task_ptr->r_no[1]++;
+        task_ptr->timer = 10;
+        Game_pause = 0x81;
+        break;
+
+    case 1:
+        if (--task_ptr->timer != 0) {
+            break;
+        }
+
+        if (Check_LDREQ_Break() == 0) {
+            task_ptr->r_no[1]++;
+            Switch_Screen_Init(0);
+            break;
+        }
+
+        task_ptr->timer = 1;
+        break;
+
+    case 2:
+        if (!Switch_Screen(0)) {
+            break;
+        }
+
+        task_ptr->r_no[1]++;
+        task_ptr->timer = 2;
+        G_No[2] = 2;
+        G_No[3] = 0;
+        seraph_flag = 0;
+        G_Timer = 10;
+        Cover_Timer = 5;
+        effect_work_kill_mod_plcol();
+        move_effect_work(6);
+        Suicide[0] = 1;
+        Suicide[6] = 1;
+        judge_flag = 0;
+        cpExitTask(4);
+        break;
+
+    default:
+        Switch_Screen(0);
+
+        if (--task_ptr->timer == 0) {
+            cpExitTask(3);
+        }
+
+        break;
+    }
 }
-#endif
 
 void Training_Menu(struct _TASK *task_ptr) {
     void (*Training_Jmp_Tbl[8])() = { Training_Init,   Normal_Training,  Blocking_Training, Dummy_Setting,
