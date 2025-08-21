@@ -3716,13 +3716,38 @@ void Button_Config_Tr(struct _TASK *task_ptr) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Button_Exit_Check_in_Tr);
-#else
 void Button_Exit_Check_in_Tr(struct _TASK *task_ptr, s16 PL_id) {
-    not_implemented(__func__);
+    if (IO_Result & 0x200) {
+        goto ten;
+    }
+
+    if (!(IO_Result & 0x100)) {
+        return;
+    }
+
+    if (Menu_Cursor_Y[PL_id] == 10) {
+    ten:
+        SE_selected();
+        Menu_Suicide[0] = 0;
+        Menu_Suicide[1] = 1;
+        task_ptr->r_no[2] = 0;
+        task_ptr->r_no[3] = 0;
+
+        if (Mode_Type == 3) {
+            task_ptr->r_no[1] = 1;
+        } else {
+            task_ptr->r_no[1] = 2;
+        }
+
+        pp_operator_check_flag(1);
+        return;
+    }
+
+    if (Menu_Cursor_Y[PL_id] == 9) {
+        SE_selected();
+        Setup_IO_ConvDataDefault(PL_id);
+    }
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Dummy_Setting);
