@@ -21,13 +21,51 @@ s32 eff_hit_check_sub(WORK_Other *ewk, PLW *pl);
 s32 eff_hit_check_sub2(WORK_Other *ewk, PLW *pl, s16 where_type);
 static s16 hit_check_subroutine_yu(WORK *tpl, WORK *tef, s16 *hd1, s16 *hd2);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", sync_fam_set3);
-#else
 void sync_fam_set3(s16 my_fam) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void Scrn_Move_Set(s32 bgnm, s32 x, s32 y);
+    void Family_Set_W(s32 fmnm, s32 x, s32 y);
 #endif
+
+    s16 pos_work_x;
+    s16 pos_work_y;
+    s16 pos_x_w;
+    s16 pos_y_w;
+
+    if (bg_w.chase_flag & 0xF) {
+        pos_x_w = bg_w.bgw[my_fam].chase_xy[0].disp.pos;
+    } else {
+        pos_x_w = bg_w.bgw[my_fam].wxy[0].disp.pos;
+    }
+
+    if (bg_w.chase_flag & 0xF0) {
+        pos_y_w = bg_w.bgw[my_fam].chase_xy[1].disp.pos;
+    } else {
+        pos_y_w = bg_w.bgw[my_fam].xy[1].disp.pos;
+    }
+
+    pos_work_x = pos_x_w & 0xFFFF;
+    pos_work_x -= bg_w.pos_offset;
+    pos_x_w -= bg_w.pos_offset;
+
+    if ((bg_w.quake_x_index) > 0) {
+        pos_work_x += quake_x_tbl[bg_w.quake_x_index];
+        pos_x_w += quake_x_tbl[bg_w.quake_x_index];
+    }
+
+    bg_w.bgw[my_fam].position_x = pos_work_x & 0xFFFF;
+    bg_w.bgw[my_fam].abs_x = pos_x_w;
+    pos_work_y = pos_y_w & 0xFFFF;
+    pos_work_y += quake_y_tbl[bg_w.quake_y_index];
+    pos_y_w += quake_y_tbl[bg_w.quake_y_index];
+    bg_w.bgw[my_fam].position_y = pos_work_y & 0xFFFF;
+    bg_w.bgw[my_fam].abs_y = pos_y_w;
+    Scrn_Move_Set(my_fam, bg_w.bgw[my_fam].position_x, bg_w.bgw[my_fam].position_y);
+    pos_work_x = -pos_work_x & 0xFFFF;
+    pos_work_x &= 0xFFFF;
+    pos_work_y = (768 - (pos_work_y & 0xFFFF)) & 0xFFFF;
+    Family_Set_W(my_fam + 1, pos_work_x, pos_work_y);
+}
 
 s32 range_x_check(WORK_Other *ewk) {
     s16 pos_x_work;
