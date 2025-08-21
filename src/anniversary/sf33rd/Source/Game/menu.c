@@ -3848,13 +3848,58 @@ void Button_Exit_Check_in_Tr(struct _TASK *task_ptr, s16 PL_id) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Dummy_Setting);
-#else
 void Dummy_Setting(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    s16 ix;
+    s16 group;
+    s16 y;
+
+    s16 s6;
+    s16 s5;
+    s16 s4;
+    s16 s3;
+
+    switch (task_ptr->r_no[2]) {
+    case 0:
+        task_ptr->r_no[2]++;
+        Menu_Common_Init();
+        Menu_Cursor_Y[0] = 0;
+        Menu_Cursor_Y[1] = 0;
+        Menu_Suicide[0] = 1;
+        Training_Index = 2;
+
+        for (ix = 0, s6 = y = 80; ix < 6; ix++, s5 = y += 16) {
+            effect_A3_init(0, 1, ix, ix, 1, 48, y, 0);
+        }
+
+        for (ix = 0, y = 80, s4 = group = 2; ix < 4; ix++, group++, s3 = y += 16) {
+            effect_A3_init(0, group, ix, ix, 1, 0xE6, y, 0);
+        }
+
+        break;
+
+    case 1:
+        Dummy_Move_Sub(task_ptr, Champion, 0, 0, 5);
+
+        if (Menu_Cursor_Y[0] == 4 && IO_Result & 0x100) {
+            Training[2].contents[0][0][0] = 0;
+            Training[2].contents[0][0][1] = 0;
+            Training[2].contents[0][0][2] = 0;
+            Training[2].contents[0][0][3] = 0;
+            SE_selected();
+        }
+
+        break;
+
+    case 2:
+        SE_selected();
+        Menu_Suicide[0] = 0;
+        Menu_Suicide[1] = 1;
+        task_ptr->r_no[2] = 0;
+        task_ptr->r_no[3] = 0;
+        Training_Disp_Sub(task_ptr);
+        break;
+    }
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Training_Option);
