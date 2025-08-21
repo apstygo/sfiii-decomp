@@ -273,7 +273,13 @@ void cal_hit_mark_pos(WORK *as, WORK *ds, s16 ix2, s16 ix) {
 
 const s16 Dsas_dir_table[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0 };
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", plef_at_vs_player_damage_union);
+#else
+void plef_at_vs_player_damage_union(PLW *as, PLW *ds, s8 gddir) {
+    not_implemented(__func__);
+}
+#endif
 
 void dm_reaction_init_set(PLW *as, PLW *ds) {
 #if defined(TARGET_PS2)

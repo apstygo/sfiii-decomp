@@ -8,6 +8,7 @@
 #include "sf33rd/Source/Game/DC_Ghost.h"
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/MTRANS.h"
+#include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/RAMCNT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
@@ -236,7 +237,13 @@ void Bg_Texture_Load_EX() {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Texture_Load2);
+#else
+void Bg_Texture_Load2(u8 type) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Texture_Load_Ending);
 
