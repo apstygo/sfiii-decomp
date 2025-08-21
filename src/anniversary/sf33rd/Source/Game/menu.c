@@ -3742,7 +3742,22 @@ void Training_Option(struct _TASK *task_ptr) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Training_Disp_Sub);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Dummy_Move_Sub);
+void Dummy_Move_Sub(struct _TASK *task_ptr, s16 PL_id, s16 id, s16 type, s16 max) {
+    u16 sw = ~(plsw_01[PL_id]) & plsw_00[PL_id];
+
+    sw = Check_Menu_Lever(PL_id, 0);
+    MC_Move_Sub(sw, 0, max, 0xFF);
+    Dummy_Move_Sub_LR(sw, id, type, 0);
+
+    if (IO_Result & 0x200) {
+        task_ptr->r_no[2]++;
+        return;
+    }
+
+    if (IO_Result & 0x100 && Menu_Cursor_Y[0] == max) {
+        task_ptr->r_no[2]++;
+    }
+}
 
 const u8 Menu_Max_Data_Tr[2][2][6] = { { { 4, 6, 2, 1, 0, 0 }, { 3, 1, 3, 7, 0, 0 } },
                                        { { 2, 3, 1, 3, 0, 0 }, { 0, 0, 0, 0, 0, 0 } } };
