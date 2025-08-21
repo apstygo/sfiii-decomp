@@ -3826,13 +3826,74 @@ s32 Pause_1st_Sub(struct _TASK *task_ptr) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Reset_Training);
-#else
 void Reset_Training(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    s16 ix;
+
+    switch (task_ptr->r_no[1]) {
+    case 0:
+        task_ptr->r_no[1]++;
+        task_ptr->timer = 10;
+        Game_pause = 0x81;
+        break;
+
+    case 1:
+        if (--task_ptr->timer != 0) {
+            break;
+        }
+
+        if (Check_LDREQ_Break() == 0) {
+            task_ptr->r_no[1]++;
+            Switch_Screen_Init(0);
+            break;
+        }
+
+        task_ptr->timer = 1;
+        break;
+
+    case 2:
+        if (!Switch_Screen(0)) {
+            break;
+        }
+
+        task_ptr->r_no[1]++;
+        task_ptr->timer = 2;
+        effect_work_kill(6, -1);
+        move_effect_work(6);
+
+        for (ix = 0; ix < 4; ix++) {
+            C_No[ix] = 0;
+        }
+
+        C_No[0] = 1;
+        G_No[2] = 5;
+        G_No[3] = 0;
+        seraph_flag = 0;
+        BGM_No[0] = 1;
+        BGM_Timer[0] = 1;
+        G_Timer = 10;
+        Cover_Timer = 5;
+        Suicide[0] = 1;
+        Suicide[6] = 1;
+        judge_flag = 0;
+        Lever_LR[0] = 0;
+        Lever_LR[1] = 0;
+        break;
+
+    default:
+        Switch_Screen(0);
+
+        if (--task_ptr->timer != 0) {
+            break;
+        }
+
+        for (ix = 0; ix < 4; ix++) {
+            task_ptr->r_no[ix] = 0;
+        }
+
+        task_ptr->r_no[0] = 7;
+        break;
+    }
 }
-#endif
 
 void Reset_Replay(struct _TASK *task_ptr) {
     switch (task_ptr->r_no[1]) {
