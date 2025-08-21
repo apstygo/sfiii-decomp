@@ -3189,13 +3189,27 @@ void Setup_Button_Sub(s16 x, s16 y, s16 master_player) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Button_Exit_Check_in_Game);
-#else
 void Button_Exit_Check_in_Game(struct _TASK *task_ptr, s16 PL_id) {
-    not_implemented(__func__);
+    if (IO_Result & 0x200) {
+        goto ten;
+    }
+
+    if (!(IO_Result & 0x100)) {
+        return;
+    }
+
+    if (Menu_Cursor_Y[PL_id] == 10) {
+    ten:
+        SE_selected();
+        Return_Pause_Sub(task_ptr);
+        return;
+    }
+
+    if (Menu_Cursor_Y[PL_id] == 9) {
+        SE_selected();
+        Setup_IO_ConvDataDefault(PL_id);
+    }
 }
-#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Return_Pause_Sub);
 
