@@ -4095,7 +4095,16 @@ void Default_Training_Data(s32 flag) {
     Disp_Attack_Data = 0;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Default_Training_Option);
+void Default_Training_Option() {
+    Training->contents[0][1][0] = 0;
+    Training->contents[0][1][1] = 0;
+    Training->contents[0][1][2] = save_w->Damage_Level;
+    Training->contents[0][1][3] = save_w->Difficulty;
+    save_w[Present_Mode].Damage_Level = save_w->Damage_Level;
+    save_w[Present_Mode].Difficulty = save_w->Difficulty;
+    Training[2] = Training[0];
+    Disp_Attack_Data = 0;
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Wait_Replay_Load);
