@@ -3226,13 +3226,19 @@ void Return_Pause_Sub(struct _TASK *task_ptr) {
     effect_66_init(138, 9, 2, 7, -1, -1, -0x3FFC);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Check_Pad_in_Pause);
-#else
 s32 Check_Pad_in_Pause(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    if (Interface_Type[Pause_ID] == 0) {
+        task_ptr->r_no[1] = 4;
+        task[4].r_no[2] = 4;
+        Menu_Suicide[0] = 1;
+        Menu_Suicide[1] = 1;
+        Menu_Suicide[2] = 0;
+        Menu_Suicide[3] = 1;
+        return 1;
+    }
+
+    return 0;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Pad_Come_Out);
