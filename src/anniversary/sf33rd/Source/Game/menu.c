@@ -3395,7 +3395,30 @@ void VS_Result(struct _TASK *task_ptr) {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Win_Lose_OBJ);
+void Setup_Win_Lose_OBJ() {
+    s16 x[2];
+
+    if (WINNER == 0) {
+        x[0] = 26;
+        x[1] = 27;
+    } else {
+        x[0] = 27;
+        x[1] = 26;
+    }
+
+    effect_66_init(140, x[0], 0, 0, 71, 12, 0);
+    Order[140] = 3;
+    Order_Timer[140] = 1;
+    effect_66_init(141, x[1], 0, 0, 71, 13, 0);
+    Order[141] = 3;
+    Order_Timer[141] = 1;
+    effect_66_init(142, 26, 0, 0, 71, 14, 1);
+    Order[142] = 3;
+    Order_Timer[142] = 1;
+    effect_66_init(143, 27, 0, 0, 71, 14, 01);
+    Order[143] = 3;
+    Order_Timer[143] = 1;
+}
 
 s32 VS_Result_Select_Sub(struct _TASK *task_ptr, s16 PL_id) {
     u16 sw = Check_Menu_Lever(PL_id, 0);
