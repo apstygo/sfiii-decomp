@@ -3527,13 +3527,21 @@ void Save_Replay(struct _TASK *task_ptr) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Save_Replay_1st);
-#else
 void Setup_Save_Replay_1st(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    FadeOut(1, 0xFF, 8);
+    task_ptr->r_no[2]++;
+    task_ptr->timer = 5;
+    Menu_Common_Init();
+    Menu_Cursor_X[0] = 0;
+    Menu_Suicide[0] = 1;
+    Menu_Suicide[1] = 0;
+    Menu_Suicide[2] = 0;
+    Menu_Suicide[3] = 0;
+    Setup_BG(1, 512, 0);
+    Setup_Replay_Sub(1, 110, 9, 1);
+    Setup_File_Property(1, 0xFF);
+    Clear_Flash_Init(4);
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Save_Replay_2nd);
