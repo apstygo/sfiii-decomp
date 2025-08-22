@@ -3132,13 +3132,48 @@ void Menu_Select(struct _TASK *task_ptr) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Yes_No_Cursor_Move_Sub);
-#else
 s32 Yes_No_Cursor_Move_Sub(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    u16 sw = ~(plsw_01[Pause_ID]) & plsw_00[Pause_ID];
+
+    switch (sw) {
+    case 0x4:
+        Menu_Cursor_Y[0]--;
+
+        if (Menu_Cursor_Y[0] < 0) {
+            Menu_Cursor_Y[0] = 0;
+        } else {
+            SE_dir_cursor_move();
+        }
+
+        break;
+
+    case 0x8:
+        Menu_Cursor_Y[0]++;
+
+        if (Menu_Cursor_Y[0] > 1) {
+            Menu_Cursor_Y[0] = 1;
+        } else {
+            SE_dir_cursor_move();
+        }
+
+        break;
+
+    case 0x200:
+    case 0x100:
+        if (Menu_Cursor_Y[0] || sw == 0x200) {
+            task_ptr->r_no[2] = 1;
+            Menu_Suicide[0] = 0;
+            Menu_Suicide[1] = 1;
+            Cursor_Y_Pos[0][0] = 2;
+            return 1;
+        }
+
+        Soft_Reset_Sub();
+        return -1;
+    }
+
+    return 0;
 }
-#endif
 
 void Button_Config_in_Game(struct _TASK *task_ptr) {
     s16 ix;
