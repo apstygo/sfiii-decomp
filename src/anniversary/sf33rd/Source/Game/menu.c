@@ -3739,7 +3739,24 @@ s32 Pause_Check_Tr(s16 PL_id) {
     return 0;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Tr_Pause);
+void Setup_Tr_Pause(struct _TASK *task_ptr) {
+    task_ptr->r_no[1] = 2;
+    task_ptr->r_no[2] = 0;
+    task_ptr->r_no[3] = 0;
+    task_ptr->free[0] = 60;
+    Cursor_Y_Pos[0][0] = 0;
+    Disp_Attack_Data = 0;
+    Game_pause = 0x81;
+    Pause_Down = 1;
+    Menu_Suicide[0] = 1;
+    Menu_Suicide[1] = 1;
+    Menu_Suicide[2] = 0;
+    Order[138] = 3;
+    Order_Timer[138] = 1;
+    effect_66_init(138, 9, 2, 7, -1, -1, -0x3FFC);
+    SsBgmHalfVolume(1);
+    spu_all_off();
+}
 
 void Flash_1P_or_2P(struct _TASK *task_ptr) {
     switch (task_ptr->r_no[3]) {
