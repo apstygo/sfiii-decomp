@@ -797,14 +797,7 @@ s16 cal_move_quantity2(s16 x1, s16 x2, s16 y1, s16 y2) {
 
 s16 cal_move_quantity3(WORK *wk, s16 tm) {
     s32 ltm;
-    union {
-        s32 dy; // offset 0x0, size 0x4
-        struct {
-            // total size: 0x4
-            s16 l; // offset 0x0, size 0x2
-            s16 h; // offset 0x2, size 0x2
-        } ry;      // offset 0x0, size 0x4
-    } ps;
+    PS_DY ps;
 
     if (tm == 0) {
         return wk->xyz[1].disp.pos;
@@ -1037,14 +1030,7 @@ void cal_delta_speed(WORK *wk, s16 tm, s16 x1, s16 y1, s8 xsw, s8 ysw) {
 s16 cal_top_of_position_y(WORK *wk) {
     s32 num = cal_time_of_sign_change(wk);
     s32 num2;
-    union {
-        s32 psy; // offset 0x0, size 0x4
-        struct {
-            // total size: 0x4
-            s16 l; // offset 0x0, size 0x2
-            s16 h; // offset 0x2, size 0x2
-        } psys;    // offset 0x0, size 0x4
-    } ps_uni;
+    PS_UNI ps_uni;
 
     if (num == 0) {
         return wk->xyz[1].disp.pos;
@@ -1064,14 +1050,7 @@ s16 cal_time_of_sign_change(WORK *wk) {
 }
 
 s16 cal_move_dir_forecast(WORK *wk, s16 tm) {
-    union {
-        s32 dp; // offset 0x0, size 0x4
-        struct {
-            // total size: 0x4
-            s16 l; // offset 0x0, size 0x2
-            s16 h; // offset 0x2, size 0x2
-        } rp;      // offset 0x0, size 0x4
-    } ps[2];
+    PS_DP ps[2];
 
     if (tm == 0) {
         return 0;

@@ -29,12 +29,10 @@ void setup_dm_rl_pldm(WORK *as, WORK *ds) {
     if (pw) {
         if (pw > 0) {
             ds->dm_rl = 1;
-            return;
+        } else {
+            ds->dm_rl = 0;
         }
-
-        ds->dm_rl = 0;
-        return;
+    } else {
+        ds->dm_rl = as->rl_flag;
     }
-
-    ds->dm_rl = as->rl_flag;
 }
