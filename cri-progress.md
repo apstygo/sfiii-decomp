@@ -59,15 +59,15 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ADXCRS_Lock
 - [x] ADXCRS_Unlock
 
-### adx_dcd
+### adx_dcd ✅
 
-- [ ] ADX_GetCoefficient
+- [x] ADX_GetCoefficient
 - [x] ADX_DecodeInfo
-- [ ] ADX_DecodeInfoExADPCM2
-- [ ] ADX_DecodeInfoExVer
-- [ ] ADX_DecodeInfoExIdly
-- [ ] ADX_DecodeInfoExLoop
-- [ ] ADX_DecodeInfoAinf
+- [x] ADX_DecodeInfoExADPCM2
+- [x] ADX_DecodeInfoExVer
+- [x] ADX_DecodeInfoExIdly
+- [x] ADX_DecodeInfoExLoop
+- [x] ADX_DecodeInfoAinf
 
 ### adx_dcd3 ✅
 
@@ -326,21 +326,21 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [ ] ADXT_ExecRdCompChk
 - [ ] ADXT_ExecHndl
 
-### adx_xpnd
+### adx_xpnd ✅
 
-- [ ] ADXPD_Init
-- [ ] ADXPD_Create
-- [ ] ADXPD_SetCoef
-- [ ] ADXPD_SetDly
-- [ ] ADXPD_SetExtPrm
-- [ ] ADXPD_Destroy
-- [ ] ADXPD_GetStat
-- [ ] ADXPD_EntrySte
-- [ ] ADXPD_Start
-- [ ] ADXPD_Stop
-- [ ] ADXPD_Reset
-- [ ] ADXPD_GetNumBlk
-- [ ] ADXPD_ExecHndl
+- [x] ADXPD_Init
+- [x] ADXPD_Create
+- [x] ADXPD_SetCoef
+- [x] ADXPD_SetDly
+- [x] ADXPD_SetExtPrm
+- [x] ADXPD_Destroy
+- [x] ADXPD_GetStat
+- [x] ADXPD_EntrySte
+- [x] ADXPD_Start
+- [x] ADXPD_Stop
+- [x] ADXPD_Reset
+- [x] ADXPD_GetNumBlk
+- [x] ADXPD_ExecHndl
 
 ### cri_cvfs ✅
 

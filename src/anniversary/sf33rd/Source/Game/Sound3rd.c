@@ -143,7 +143,9 @@ void Init_sound_system() {
     sys_w.bgm_type = 0;
     flAdxInitialize(NULL, "\\THIRD\\");
     ADXT_Init();
+#if !defined(SOUND_DISABLED)
     adxt = ADXT_Create(2, adx_stm_work, ADX_STM_WORK_SIZE);
+#endif
     system_init_level |= 2;
     cseInitSndDrv();
     system_init_level |= 1;
@@ -222,8 +224,8 @@ void Exit_sound_system() {
 }
 
 void Init_bgm_work() {
-    work_init_zero((s32 *)&bgm_exe, 22);
-    work_init_zero((s32 *)&bgm_req, 8);
+    work_init_zero((s32 *)&bgm_exe, sizeof(BGMExecution));
+    work_init_zero((s32 *)&bgm_req, sizeof(BGMRequest));
 }
 
 void sound_all_off() {
@@ -724,7 +726,7 @@ void SsAllNoteOff() {
     sound_all_off();
 }
 
-void SsRequestPan(u16 reqNum, s16 start, s32 /* unused */, s32 /* unused */, s32 /* unused */) {
+void SsRequestPan(u16 reqNum, s16 start, s16 /* unused */, s32 /* unused */, s32 /* unused */) {
 #if defined(TARGET_PS2)
     u16 remake_sound_code_for_DC(s32 code, SoundPatchConfig * rmcode);
 #endif
@@ -854,6 +856,7 @@ void SsRequest(u16 ReqNumber) {
     u16 remake_sound_code_for_DC(s32 code, SoundPatchConfig * rmcode);
 #endif
 
+#if !defined(SOUND_DISABLED)
     SoundPatchConfig rmcode;
 
     if (remake_sound_code_for_DC(ReqNumber, &rmcode)) {
@@ -862,6 +865,7 @@ void SsRequest(u16 ReqNumber) {
 
     Store_Sound_Code(ReqNumber, &rmcode);
     sound_request_for_dc(&rmcode, 0);
+#endif
 }
 
 void SsRequest_CC(u16 num) {

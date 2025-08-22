@@ -161,10 +161,6 @@ s32 plTIM2SetPaletteContextFromImage(plContext *dst, void *lpbas) {
     u8 *lpTim2FileHead;
     u8 *lpTim2PictureHead;
 
-    s32 temp_v1;
-    s32 temp_v1_2;
-    u8 *temp_v0;
-
     lpTim2FileHead = (u8 *)lpbas;
 
     if (CheckTIM2FileHeader(lpTim2FileHead) == 0) {
@@ -280,10 +276,10 @@ s32 CheckTIM2FileHeader(u8 *lpTim2FileHead) {
     u8 FormatVersion;
     u8 FormatId;
 
-    if ((lpTim2FileHead[0] != 0x54) || (lpTim2FileHead[1] != 0x49) || (lpTim2FileHead[2] != 0x4D) ||
-        (lpTim2FileHead[3] != 0x32)) {
-        if ((lpTim2FileHead[0] == 0x43) && (lpTim2FileHead[1] == 0x4C) && (lpTim2FileHead[2] == 0x54) &&
-            (lpTim2FileHead[3] == 0x32)) {
+    if ((lpTim2FileHead[0] != 'T') || (lpTim2FileHead[1] != 'I') || (lpTim2FileHead[2] != 'M') ||
+        (lpTim2FileHead[3] != '2')) {
+        if ((lpTim2FileHead[0] == 'C') && (lpTim2FileHead[1] == 'L') && (lpTim2FileHead[2] == 'T') &&
+            (lpTim2FileHead[3] == '2')) {
             return 0;
         }
         return 0;
@@ -411,13 +407,6 @@ u8 *GetTim2ClutData(u8 *lpFile, s32 /* unused */) {
     u8 *lpTim2PictureHead;
     u8 *lpTim2MipmapHead;
     u8 *lpTim2MipmapSubHead[7];
-
-    u8 *spB0;
-    s32 var_s2;
-    s32 var_s4;
-    u32 var_s3;
-    u8 *temp_s0;
-    u8 *temp_v0;
 
     lpTim2FileHead = lpFile;
     lpData = GetTim2PictureHead(lpFile, 0);

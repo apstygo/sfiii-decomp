@@ -50,6 +50,7 @@ extern u16 p2sw_1;                     // size: 0x2, address: 0x579CB8
 extern u16 p2sw_0;                     // size: 0x2, address: 0x579CBC
 extern u16 p1sw_1;                     // size: 0x2, address: 0x579CC0
 extern u16 p1sw_0;                     // size: 0x2, address: 0x579CC4
+extern _EXTRA_OPTION ck_ex_option;     // size: 0x20, address: 0x579CD0
 extern struct _VM_W vm_w;              // size: 0x6C, address: 0x579D20
 extern struct _SYSTEM_W sys_w;         // size: 0x1C, address: 0x579D90
 extern u32 current_task_num;           // size: 0x4, address: 0x579DAC
@@ -61,5 +62,6 @@ extern _REPLAY_W Replay_w;                        // size: 0x7448, address: 0x6B
 extern struct _REP_GAME_INFOR Rep_Game_Infor[11]; // size: 0x18C, address: 0x6BD140
 extern struct _TASK task[11];                     // size: 0xDC, address: 0x6BD2D0
 extern MTX BgMATRIX[9];                           // size: 0x240, address: 0x6BD3B0
+extern TrainingData Training[3];
 
 #endif

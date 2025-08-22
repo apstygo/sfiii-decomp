@@ -9369,7 +9369,7 @@ update_with_tpu_free = 0x003AEDF0; // type:func
 get_my_trans_mode = 0x003AF100; // type:func
 make_texcash_work = 0x003AF190; // type:func
 Clear_texcash_work = 0x003AFEC0; // type:func
-_clear_texcash_work = 0x003AFF30; // type:func
+clear_texcash_work = 0x003AFF30; // type:func
 purge_texcash_work = 0x003B0320; // type:func
 q_ldreq_texture_group = 0x003B0540; // type:func
 Init_texgrplds_work = 0x003B0E70; // type:func
@@ -10106,7 +10106,6 @@ bgm_tableDC = 0x004705A0; // size:0x220 type:u16
 bgm_exdataDC = 0x004707C0; // size:0x180
 bgm_tableAC = 0x00470940; // size:0x220
 bgm_exdataAC = 0x00470B60; // size:0x100
-_ef13_hit_ix_table = 0x004A1F48;
 fixed_tl = 0x004A5460; // size:0x1000
 fixed_td = 0x004A6460; // size:0x100
 adxsmp_init_cnt = 0x004A6560; // size:0x4
@@ -19362,5 +19361,65 @@ flPS2_Clear_Mem16_16A = 0x402698; // type:func
 flPS2_Fill_Mem = 0x4026B0; // type:func
 flPS2_Fill_Mem16_16A = 0x4026C8; // type:func
 
+// bin2obj data
+
+_sel_pl_char_table = 0x476DB0; // size:0x3330
+_bns_char_table = 0x47A0E0; // size:0x660
+_brz_char_table = 0x47A740;
+_chn_char_table = 0x47AB58;
+_direct_03_char_table = 0x47C7C0;
+_eff09_char_table = 0x47C9E0;
+_end_char_table = 0x47CB38;
+_eng_char_table = 0x47E548;
+_etc2_char_table = 0x47EF70;
+_etc3_char_table = 0x480FD0;
 _etc_char_table = 0x481878; // size:0x3778
+_fnl_char_table = 0x484FF0;
+_frc_char_table = 0x485360;
+_grm_char_table = 0x486258;
+_hkg_char_table = 0x4865B0;
+_j11_char_table = 0x486AE8;
+_j10_char_table = 0x487060;
+_jp2_char_table = 0x487908;
+_jp3_char_table = 0x487B40;
 _op_char_table = 0x487DA8; // size:0x7A8
+_orm_char_table = 0x488550;
+_rca_char_table = 0x488570;
+_afc_char_table = 0x488850;
+_usa_char_table = 0x488AD8;
+_effD4_char_table = 0x489A58;
+
+_ag_00_char_table = 0x489AF0;
+_ag_01_char_table = 0x489B00;
+_ag_02_char_table = 0x489B10;
+_ag_03_char_table = 0x489B20;
+_ag_04_char_table = 0x489B30;
+_ag_05_char_table = 0x489B40;
+_ag_06_char_table = 0x489B50;
+_ag_07_char_table = 0x489B60;
+_ag_face_panel_table = 0x489B70;
+
+_ef01_char_table = 0x48A318;
+_plef_char_table = 0x48C0E0;
+_ef13_char_table = 0x491560;
+_ef13_catt_table = 0x49AF28;
+_ef13_stepxy_table = 0x49B5C8;
+_ef13_movexy_table = 0x49B5EC;
+_bonus_char_table = 0x49BD28;
+_ef13_hit_ix_table = 0x4A1F48;
+_ef13_body_box = 0x4A2CC8;
+_ef13_hand_box = 0x4A3A48;
+_ef13_hos_box = 0x4A3A68;
+_ef13_att_box = 0x4A3C50;
+_ef13_cat_box = 0x4A5450;
+_ef13_cau_box = 0x4A5458;
+
+// ignores
+
+D_00480000 = 0x480000; // ignore:true
+D_00480038 = 0x480038; // ignore:true
+D_00480040 = 0x480040; // ignore:true
+D_00490000 = 0x490000; // ignore:true
+D_00490100 = 0x490100; // ignore:true
+D_00490280 = 0x490280; // ignore:true
+D_004A0000 = 0x4A0000; // ignore:true

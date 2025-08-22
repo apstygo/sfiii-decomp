@@ -3,6 +3,9 @@
 
 #include "structs.h"
 
+extern const u16 Correct_Lv_Data[16];
+
+u16 cpu_algorithm(PLW *wk);
 void Next_Be_Free(PLW *wk);
 s32 Check_Passive(PLW *wk);
 void Check_Guard_Type(PLW *wk, WORK *em);

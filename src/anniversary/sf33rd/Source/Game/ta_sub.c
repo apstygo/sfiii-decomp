@@ -1,5 +1,6 @@
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "common.h"
+#include "sf33rd/Source/Game/HITCHECK.h"
 #include "sf33rd/Source/Game/LOSE_PL.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/aboutspr.h"
@@ -20,7 +21,13 @@ s32 eff_hit_check_sub(WORK_Other *ewk, PLW *pl);
 s32 eff_hit_check_sub2(WORK_Other *ewk, PLW *pl, s16 where_type);
 static s16 hit_check_subroutine_yu(WORK *tpl, WORK *tef, s16 *hd1, s16 *hd2);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", sync_fam_set3);
+#else
+void sync_fam_set3(s16 my_fam) {
+    not_implemented(__func__);
+}
+#endif
 
 s32 range_x_check(WORK_Other *ewk) {
     s16 pos_x_work;
@@ -326,4 +333,10 @@ void cal_bg_speed_data_y(s16 bg_num, s16 tm, s16 unk) {
     bg_mvxy.kop[1] = 0;
 }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", pl_hit_eff);
+const s16 pl_hit_eff[25][4] = { { -11, 56, 33, 38 }, { -11, 56, 35, 53 }, { -13, 47, 50, 38 }, { -18, 42, 36, 32 },
+                                { -24, 48, 40, 48 }, { -21, 48, 37, 42 }, { -13, 47, 50, 38 }, { -22, 38, 36, 36 },
+                                { -13, 47, 50, 38 }, { -28, 50, 28, 34 }, { -18, 42, 36, 32 }, { -13, 47, 50, 38 },
+                                { -13, 47, 50, 38 }, { -11, 56, 33, 38 }, { -13, 47, 50, 38 }, { -13, 47, 50, 38 },
+                                { -13, 47, 50, 38 }, { -13, 47, 50, 38 }, { -21, 48, 37, 42 }, { -11, 56, 33, 38 },
+                                { -11, 56, 33, 38 }, { -11, 56, 33, 38 }, { -11, 56, 33, 38 }, { -11, 56, 33, 38 },
+                                { -11, 56, 33, 38 } };

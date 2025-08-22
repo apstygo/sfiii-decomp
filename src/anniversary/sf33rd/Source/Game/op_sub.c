@@ -12,23 +12,23 @@
 #include "sf33rd/Source/Game/texcash.h"
 
 void TexRelease(u32 G_Num) {
-    if (G_Num == 0x259) {
+    if (G_Num == 601) {
         title_tex_flag = 0;
     }
 
     switch (G_Num) {
-    case 0x24E:
+    case 590:
         ppgReleaseTextureHandle(&ppgWarTex, -1);
         ppgReleasePaletteHandle(&ppgWarPal, -1);
         ppgReleasePaletteHandle(&ppgAdxPal, -1);
         break;
 
-    case 0x258:
+    case 600:
         ppgReleaseTextureHandle(&ppgCapLogoTex, -1);
         ppgReleasePaletteHandle(&ppgCapLogoPal, -1);
         break;
 
-    case 0x259:
+    case 601:
         ppgReleaseTextureHandle(&ppgTitleTex, -1);
         break;
     }
@@ -45,14 +45,16 @@ void TexRelease_OP() {
 void put_chr2(OPTW *optw) {
     Vertex tex[4];
 
-    if (!No_Trans) {
-        tex[0].x = Frame_Zoom_X * ((s32)optw->off_x * optw->zx);
-        tex[0].y = Frame_Zoom_Y * ((s32)optw->off_y * optw->zy);
-        tex[3].x = Frame_Zoom_X * ((optw->off_x + 0x100) * optw->zx);
-        tex[3].y = Frame_Zoom_Y * ((optw->off_y + 0x100) * optw->zy);
-        tex[0].z = tex[3].z = PrioBase[optw->prio];
-        ppgWriteQuadUseTrans(tex, optw->col.full, NULL, optw->g_no, -1, optw->hv, 0x12C);
+    if (No_Trans) {
+        return;
     }
+
+    tex[0].x = Frame_Zoom_X * ((s32)optw->off_x * optw->zx);
+    tex[0].y = Frame_Zoom_Y * ((s32)optw->off_y * optw->zy);
+    tex[3].x = Frame_Zoom_X * ((optw->off_x + 0x100) * optw->zx);
+    tex[3].y = Frame_Zoom_Y * ((optw->off_y + 0x100) * optw->zy);
+    tex[0].z = tex[3].z = PrioBase[optw->prio];
+    ppgWriteQuadUseTrans(tex, optw->col.full, NULL, optw->g_no, -1, optw->hv, 300);
 }
 
 void opbg_trans(OPBW *opbw, s16 x, s16 y) {
@@ -68,12 +70,12 @@ void opbg_trans(OPBW *opbw, s16 x, s16 y) {
 
     xx = (x < 0) ? 0 : x;
     yy = (y < 0) ? 0 : y;
-    xx = (x > 0x3FF) ? 0x3FF : xx;
-    yy = (y > 0x3FF) ? 0x3FF : yy;
+    xx = (x > 1023) ? 1023 : xx;
+    yy = (y > 1023) ? 1023 : yy;
 
     i0 = xx >> 8;
-    i1 = ((xx + 0x17F) >> 8) & 3;
-    j1 = ((yy + 0xDF) >> 8) & 3;
+    i1 = ((xx + 383) >> 8) & 3;
+    j1 = ((yy + 223) >> 8) & 3;
     j0 = yy >> 8;
 
     for (i = i0; i <= i1; i++) {
@@ -82,7 +84,7 @@ void opbg_trans(OPBW *opbw, s16 x, s16 y) {
                 optw.g_no = opbw->map[i][j].g_no;
                 optw.hv = opbw->map[i][j].hv;
                 optw.off_x = (i << 8) - x;
-                optw.off_y = (y + 0xE0) - ((j << 8) + 0x100);
+                optw.off_y = (y + 224) - ((j << 8) + 256);
                 optw.zx = optw.zy = scr_sc;
                 optw.prio = opbw->prio;
                 optw.trans = opbw->map[i][j].trans;

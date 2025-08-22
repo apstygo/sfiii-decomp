@@ -60,7 +60,7 @@ GENERATE_LCF := $(PYTHON) -m tools.lcf.generate_lcf
 
 # Flags
 
-COMMON_INCLUDES := -I$(INCLUDE_DIR) -I$(INCLUDE_DIR)/sdk -I$(INCLUDE_DIR)/cri -I$(INCLUDE_DIR)/cri/ee
+COMMON_INCLUDES := -I$(INCLUDE_DIR) -I$(INCLUDE_DIR)/sdk -I$(INCLUDE_DIR)/cri -I$(INCLUDE_DIR)/cri/ee -Izlib
 PS2_INCLUDES := $(COMMON_INCLUDES) -I$(INCLUDE_DIR)/gcc
 PS2_DEFINES := -DTARGET_PS2
 MWCCPS2_FLAGS := -gccinc $(PS2_INCLUDES) -O0,p -c -lang c -str readonly -fl divbyzerocheck -sdatathreshold 128 $(PS2_DEFINES)
@@ -85,10 +85,11 @@ CLANG_WARNINGS += -Wno-incompatible-function-pointer-types
 CLANG_WARNINGS += -Wno-pointer-sign
 CLANG_WARNINGS += -Wno-shift-count-overflow
 
-CLANG_INCLUDES := $(COMMON_INCLUDES)
-CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) -DTARGET_SDL3 -DXPT_TGT_EE -D_POSIX_C_SOURCE -std=c99
+CLANG_DEFINES := -DTARGET_SDL3 -DSOUND_DISABLED -DXPT_TGT_EE -D_POSIX_C_SOURCE -DDEBUG
+CLANG_INCLUDES := $(COMMON_INCLUDES) -Ilibco
+CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) -std=c99 -O0
 
-CLANG_LINKER_FLAGS := -lz -lm -g
+CLANG_LINKER_FLAGS := -lm -g -Llibco/build -llibco
 
 ifneq ($(PLATFORM),ps2)
 	CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
@@ -102,7 +103,9 @@ MAIN_TARGET := $(BUILD_DIR)/$(MAIN)
 S_FILES := $(shell find $(ASM_DIR) -name '*.s' -not -path *nonmatchings* 2>/dev/null)
 GAME_C_FILES := $(shell find $(SRC_DIR)/sf33rd -name '*.c' 2>/dev/null)
 CRI_C_FILES := $(shell find $(SRC_DIR)/cri -name '*.c' 2>/dev/null)
+BIN2OBJ_C_FILES := $(shell find $(SRC_DIR)/bin2obj -name '*.c' 2>/dev/null)
 PORT_C_FILES := $(shell find $(SRC_DIR)/port -name '*.c' 2>/dev/null)
+ZLIB_C_FILES := $(shell find zlib -name '*.c' 2>/dev/null)
 
 ASM_O_FILES := $(patsubst %.s,%.s.o,$(S_FILES))
 ASM_O_FILES := $(addprefix $(BUILD_DIR)/,$(ASM_O_FILES))
@@ -110,13 +113,18 @@ GAME_O_FILES := $(patsubst %.c,%.c.o,$(GAME_C_FILES))
 GAME_O_FILES := $(addprefix $(BUILD_DIR)/,$(GAME_O_FILES))
 CRI_O_FILES := $(patsubst %.c,%.c.o,$(CRI_C_FILES))
 CRI_O_FILES := $(addprefix $(BUILD_DIR)/,$(CRI_O_FILES))
+BIN2OBJ_O_FILES := $(patsubst %.c,%.c.o,$(BIN2OBJ_C_FILES))
+BIN2OBJ_O_FILES := $(addprefix $(BUILD_DIR)/,$(BIN2OBJ_O_FILES))
 PORT_O_FILES := $(patsubst %.c,%.c.o,$(PORT_C_FILES))
 PORT_O_FILES := $(addprefix $(BUILD_DIR)/,$(PORT_O_FILES))
+ZLIB_O_FILES := $(patsubst %.c,%.c.o,$(ZLIB_C_FILES))
+ZLIB_O_FILES := $(addprefix $(BUILD_DIR)/,$(ZLIB_O_FILES))
 
 ifeq ($(PLATFORM),ps2)
-	ALL_O_FILES := $(GAME_O_FILES) $(CRI_O_FILES) $(ASM_O_FILES)
+	ALL_O_FILES := $(GAME_O_FILES) $(CRI_O_FILES) $(BIN2OBJ_O_FILES) $(ASM_O_FILES)
+	EEGCC_O_FILES := $(CRI_O_FILES) $(BIN2OBJ_O_FILES)
 else
-	ALL_O_FILES := $(GAME_O_FILES) $(CRI_O_FILES) $(PORT_O_FILES)
+	ALL_O_FILES := $(GAME_O_FILES) $(CRI_O_FILES) $(BIN2OBJ_O_FILES) $(PORT_O_FILES) $(ZLIB_O_FILES)
 endif
 
 LINKER_SCRIPT := $(BUILD_DIR)/$(MAIN).lcf
@@ -165,12 +173,20 @@ $(CRI_O_FILES): $(BUILD_DIR)/%.c.o: %.c
 
 else
 
-$(MAIN_TARGET): $(ALL_O_FILES)
+$(MAIN_TARGET): $(ALL_O_FILES) libco/build/liblibco.o
 	clang $(ALL_O_FILES) $(CLANG_LINKER_FLAGS) -o $@
 
 $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)
 	clang -g -c $< -o $@ $(CLANG_FLAGS)
+
+libco/build/liblibco.o:
+	@mkdir -p $(dir $@)
+	cd libco && \
+		mkdir -p build && \
+		cd build && \
+		cmake .. && \
+		cmake --build .
 
 endif
 

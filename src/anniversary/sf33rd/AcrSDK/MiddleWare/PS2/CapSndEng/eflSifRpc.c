@@ -34,6 +34,11 @@ u8 ThMonSendBuf[THMONSENDBUF_MAX]; // size: 0x10, address: 0x6EA100
 u8 ThMonRecvBuf[THMONRECVBUF_MAX] __attribute__((aligned(256))); // size: 0x400, address: 0x6E9D00
 
 s32 flSifRpcInit() {
+#if !defined(TARGET_PS2)
+    // No need to init SIF RPC on non-PS2 systems
+    return 0;
+#endif
+
     sceSifInitRpc(0);
     scePrintf("[EE]");
     scePrintf("(SYS)");
@@ -87,6 +92,11 @@ s32 flSifRpcInit() {
 }
 
 void *flSifRpcSend(u32 CmdType, void *pData, u32 DataSize) {
+#if !defined(TARGET_PS2)
+    // No need to send data through RPC on non-PS2 systems
+    return NULL;
+#endif
+
     s32 result;
 
     switch (CmdType) {
@@ -132,11 +142,12 @@ void *flSifRpcSend(u32 CmdType, void *pData, u32 DataSize) {
     while (sceSifCheckStatRpc(&pScd->rpcd) == 1) {
         // Do nothing
     }
-    FlushCache(0);
-    
+
+    FlushCache(WRITEBACK_DCACHE);
+
     do {
         result = sceSifCallRpc(pScd, CmdType, 0, pSendBuf, SendBufSize, pRecvBuf, RecvBufSize, 0, 0);
-        
+
         if (result < 0) {
             scePrintf("[EE]");
             scePrintf("(ERR)");
@@ -144,5 +155,6 @@ void *flSifRpcSend(u32 CmdType, void *pData, u32 DataSize) {
         }
 
     } while (result != 0);
+
     return pRecvBuf;
 }

@@ -8,11 +8,15 @@
 #include "sf33rd/AcrSDK/ps2/flps2vram.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 
+#if !defined(TARGET_PS2)
+#include "port/sdl/sdl_game_renderer.h"
+#endif
+
 void flPS2SetClearColor(u32 col);
 s32 flPS2SendTextureRegister(u32 th);
 
 s32 flBeginRender() {
-    flDebugTrueTime[0] = *T0_COUNT;
+    flDebugTrueTime[0] = DGET_T0_COUNT();
     flLoadNow = flGetSystemTime();
 
     if (flLoadCount-- == 0) {
@@ -26,7 +30,7 @@ s32 flBeginRender() {
 }
 
 s32 flEndRender() {
-    flDebugTrueTime[1] = *T0_COUNT;
+    flDebugTrueTime[1] = DGET_T0_COUNT();
     flLoadNow = flGetSystemTime() - flLoadNow;
     flLoadAmount = flLoadAmount + flLoadNow;
     flPs2State.SystemStatus = 2;
@@ -1286,9 +1290,14 @@ s32 flPS2SetTextureRegister(u32 th, u64 *texA, u64 *tex1, u64 *tex0, u64 *clamp,
     s32 mip_tbp[MIP_TBP_SIZE];
     s32 mip_dbw[MIP_DBW_SIZE];
 
+#if !defined(TARGET_PS2)
+    SDLGameRenderer_SetTexture(th);
+    // return;
+#endif
+
     lpflTexture = &flTexture[LO_16_BITS(th) - 1];
 
-    if (!LO_16_BITS(th) || (LO_16_BITS(th) > 0x100)) {
+    if (!LO_16_BITS(th) || (LO_16_BITS(th) > FL_TEXTURE_MAX)) {
         flPS2SystemError(0, "ERROR flPS2SetTextureRegister flps2render.c 1");
     }
 
@@ -1307,7 +1316,7 @@ s32 flPS2SetTextureRegister(u32 th, u64 *texA, u64 *tex1, u64 *tex0, u64 *clamp,
     if (lpflTexture->desc & 0x4) {
         lpflPalette = &flPalette[HI_16_BITS(th) - 1];
 
-        if (!HI_16_BITS(th) || HI_16_BITS(th) > 0x440) {
+        if (!HI_16_BITS(th) || HI_16_BITS(th) > FL_PALETTE_MAX) {
             flPS2SystemError(0, "ERROR flPS2SetTextureRegister flps2render.c 2");
         }
 
@@ -1418,7 +1427,7 @@ s32 flPS2SetTextureRegister(u32 th, u64 *texA, u64 *tex1, u64 *tex0, u64 *clamp,
                 mip_dbw[lp0] = 1;
             }
 
-            dw = dw >> 1;
+            dw >>= 1;
         }
 
         miptbp1[0] = SCE_GS_SET_MIPTBP1(mip_tbp[0], mip_dbw[0], mip_tbp[1], mip_dbw[1], mip_tbp[2], mip_dbw[2]);

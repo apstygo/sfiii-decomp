@@ -33,7 +33,7 @@
 #include "structs.h"
 
 #if !defined(TARGET_PS2)
-#include "port/sdl_app.h"
+#include "port/sdl/sdl_app.h"
 #endif
 
 #include <memory.h>
@@ -82,7 +82,7 @@ void AcrMain() {
 #else
     while (is_running) {
         is_running = SDLApp_PollEvents();
-        SDLApp_Render();
+        SDLApp_BeginFrame();
 #endif
 
         initRenderState(0);
@@ -107,6 +107,7 @@ void AcrMain() {
         }
 
         appSetupTempPriority();
+
         flPADGetALL();
         keyConvert();
 
@@ -237,10 +238,22 @@ void AcrMain() {
 #endif
 }
 
+#if !defined(TARGET_PS2)
+u8 dctex_linear_mem[0x800];
+u8 texcash_melt_buffer_mem[0x1000];
+u8 tpu_free_mem[0x2000];
+#endif
+
 void distributeScratchPadAddress() {
+#if defined(TARGET_PS2)
     dctex_linear = (s16 *)(SPR + 0x800);
     texcash_melt_buffer = (u8 *)(SPR + 0x1000);
     tpu_free = (TexturePoolUsed *)(SPR + 0x2000);
+#else
+    dctex_linear = (s16 *)dctex_linear_mem;
+    texcash_melt_buffer = (u8 *)texcash_melt_buffer_mem;
+    tpu_free = (TexturePoolUsed *)tpu_free_mem;
+#endif
 }
 
 void MaskScreenEdge() {
@@ -364,7 +377,9 @@ void njUserInit() {
     Init_sound_system();
     Init_bgm_work();
     Setup_Directory_Record_Data();
+#if !defined(SOUND_DISABLED)
     sndInitialLoad();
+#endif
     cpInitTask();
     cpReadyTask(INIT_TASK_NUM, Init_Task);
 }

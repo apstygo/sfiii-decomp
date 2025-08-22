@@ -84,7 +84,11 @@ void njScale(MTX *mtx, f32 x, f32 y, f32 z) {
                          : "r"(v0), "r"(mtx)
                          : "memory");
 #else
-    not_implemented(__func__);
+    for (int i = 0; i < 4; i++) {
+        mtx->a[0][i] *= v0[0];
+        mtx->a[1][i] *= v0[1];
+        mtx->a[2][i] *= v0[2];
+    }
 #endif
 }
 
@@ -117,7 +121,15 @@ void njTranslate(MTX *mtx, f32 x, f32 y, f32 z) {
                          : "r"(mtx), "f"(x), "f"(y), "f"(z)
                          : "t0", "t1", "memory");
 #else
-    not_implemented(__func__);
+    f32 result[4] = { 0.0f };
+
+    for (int i = 0; i < 4; i++) {
+        result[i] = mtx->a[i][0] * x + mtx->a[i][1] * y + mtx->a[i][2] * z + mtx->a[i][3] * 1;
+    }
+
+    for (int i = 0; i < 4; i++) {
+        mtx->a[3][i] = result[i];
+    }
 #endif
 }
 
@@ -139,12 +151,12 @@ void njCalcPoint(MTX *mtx, Vec3 *ps, Vec3 *pd) {
         mtx = &cmtx;
     }
 
+#if defined(TARGET_PS2)
     v0[0] = ps->x;
     v0[1] = ps->y;
     v0[2] = ps->z;
     v0[3] = 1.0f;
 
-#if defined(TARGET_PS2)
     __asm__ __volatile__("lqc2    $vf8, 0(%1) \n"
                          "lqc2    $vf4, 0(%0) \n"
                          "lqc2    $vf5, 0x10(%0) \n"
@@ -159,13 +171,19 @@ void njCalcPoint(MTX *mtx, Vec3 *ps, Vec3 *pd) {
                          : "r"(mtx), "r"(v0), "f"(pd)
                          : "memory");
 
-#else
-    not_implemented(__func__);
-#endif
-
     pd->x = v0[0];
     pd->y = v0[1];
     pd->z = v0[2];
+#else
+    f32 x = ps->x;
+    f32 y = ps->y;
+    f32 z = ps->z;
+    f32 w = 1.0f;
+
+    pd->x = x * mtx->a[0][0] + y * mtx->a[1][0] + z * mtx->a[2][0] + w * mtx->a[3][0];
+    pd->y = x * mtx->a[0][1] + y * mtx->a[1][1] + z * mtx->a[2][1] + w * mtx->a[3][1];
+    pd->z = x * mtx->a[0][2] + y * mtx->a[1][2] + z * mtx->a[2][2] + w * mtx->a[3][2];
+#endif
 }
 
 void njCalcPoints(MTX *mtx, Vec3 *ps, Vec3 *pd, s32 num) {
@@ -187,9 +205,6 @@ void njRotateZ(s32 /* unused */, s32 /* unused */) {
 void njDrawTexture(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */) {
     Vertex vtx[4];
     s32 i;
-
-    Polygon *temp_v1;
-    void *temp_v0;
 
     for (i = 0; i < 4; i++) {
         vtx[i] = ((_Polygon *)polygon)[i].v;
@@ -250,7 +265,7 @@ void njdp2d_sort(f32 *pos, f32 pri, u32 col, s32 flag) {
     s32 ix = njdp2d_w.total;
     s32 prev;
 
-    if (ix >= 0x64) {
+    if (ix >= 100) {
         // Have to write the string as raw bytes here.
         // Otherwise MWCC removes a single byte for some reason
         //
@@ -321,7 +336,7 @@ void njdp2d_sort(f32 *pos, f32 pri, u32 col, s32 flag) {
 
 void njDrawPolygon2D(PAL_CURSOR *p, s32 /* unused */, f32 pri, u32 attr) {
     if (attr & 0x20) {
-        njdp2d_sort(&p->p->x, pri, p->col->color, 0);
+        njdp2d_sort((f32 *)p->p, pri, p->col->color, 0);
     }
 }
 

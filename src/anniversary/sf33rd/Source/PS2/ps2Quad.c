@@ -6,6 +6,11 @@
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "structs.h"
+
+#if !defined(TARGET_PS2)
+#include "port/sdl/sdl_game_renderer.h"
+#endif
+
 #include <eestruct.h>
 #include <libgraph.h>
 
@@ -65,9 +70,9 @@ void ps2SeqsRenderQuadInit_B() {
 }
 
 void ps2SeqsRenderQuad_Ax(Sprite2 *spr) {
-    #if !defined(TARGET_PS2)
-    not_implemented(__func__);
-    #else
+#if !defined(TARGET_PS2)
+    SDLGameRenderer_DrawSprite2(spr);
+#else
     u32 data_ptr;
     u32 col;
     u64 rgbaq;
@@ -122,13 +127,13 @@ void ps2SeqsRenderQuad_Ax(Sprite2 *spr) {
     *p++ = SCE_GS_SET_XYZ((flPs2State.D2dOffsetX + x) << 4, (flPs2State.D2dOffsetY + y) << 4, (u32)z);
 
     flPS2DmaAddQueue2(0, DMArefs | (data_ptr & 0xFFFFFFF), data_ptr, &flPs2VIF1Control);
-    #endif
+#endif
 }
 
 void ps2SeqsRenderQuad_A2(Sprite *spr, u32 col) {
-    #if !defined(TARGET_PS2)
-    not_implemented(__func__);
-    #else
+#if !defined(TARGET_PS2)
+    SDLGameRenderer_DrawSprite(spr, col);
+#else
     u32 data_ptr;
     u64 rgbaq;
     u64 *p;
@@ -183,7 +188,7 @@ void ps2SeqsRenderQuad_A2(Sprite *spr, u32 col) {
     *p++ = SCE_GS_SET_XYZ((flPs2State.D2dOffsetX + x) << 4, (flPs2State.D2dOffsetY + y) << 4, (u32)z);
 
     flPS2DmaAddQueue2(0, DMArefs | (data_ptr & 0xFFFFFFF), data_ptr, &flPs2VIF1Control);
-    #endif
+#endif
 }
 
 void ps2SeqsRenderQuad_A(Sprite *spr, u32 col) {
@@ -201,12 +206,14 @@ void ps2SeqsRenderQuad_A(Sprite *spr, u32 col) {
 }
 
 void ps2QuadTexture(VecUnk *ptr, u32 num) {
-    #if !defined(TARGET_PS2)
-    not_implemented(__func__);
-    #else
+#if !defined(TARGET_PS2)
+    SDLGameRenderer_DrawTexturedQuad(ptr);
+    return;
+#endif
+
     u32 qwc;
     u32 work;
-    u32 data_ptr;
+    uintptr_t data_ptr;
     QWORD *dma_data;
     u64 *vtx_data;
     s32 x;
@@ -270,7 +277,6 @@ void ps2QuadTexture(VecUnk *ptr, u32 num) {
     } while (--num);
 
     flPS2DmaAddQueue2(0, (data_ptr & 0xFFFFFFF) | 0x40000000, data_ptr, &flPs2VIF1Control);
-    #endif
 }
 
 void ps2SeqsRenderQuad_B(Quad *spr, u32 col) {
@@ -287,9 +293,9 @@ void ps2SeqsRenderQuad_B(Quad *spr, u32 col) {
 }
 
 void ps2QuadSolid(VecUnk *ptr, u32 num) {
-    #if !defined(TARGET_PS2)
-    not_implemented(__func__);
-    #else
+#if !defined(TARGET_PS2)
+    SDLGameRenderer_DrawSolidQuad(ptr);
+#else
     u32 qwc;
     u32 work;
     u32 data_ptr;
@@ -356,7 +362,7 @@ void ps2QuadSolid(VecUnk *ptr, u32 num) {
     } while (--num);
 
     flPS2DmaAddQueue2(0, (data_ptr & 0xFFFFFFF) | 0x40000000, data_ptr, &flPs2VIF1Control);
-    #endif
+#endif
 }
 
 void ps2SeqsRenderQuadEnd() {
@@ -376,9 +382,7 @@ void CP3toPS2DrawOff() {
 }
 
 void CP3toPS2Draw() {
-    #if !defined(TARGET_PS2)
-    not_implemented(__func__);
-    #else
+#if defined(TARGET_PS2)
     s32 ofx;
     s32 ofy;
     s32 m;
@@ -452,12 +456,12 @@ void CP3toPS2Draw() {
     *((u64 *)p)++ = SCE_GS_SET_TEST_1(1, 0, 0, 1, 0, 0, 1, 1);
     *((u64 *)p)++ = SCE_GS_TEST_1;
 
-    ofx = ((0x1000 - fw) / 2) << 4;
-    ofy = ((0x1000 - fh) / 2) << 4;
+    ofx = ((4096 - fw) / 2) << 4;
+    ofy = ((4096 - fh) / 2) << 4;
     x0 = ofx;
     y0 = ofy;
-    x1 = ofx + (fw * 16);
-    y1 = ofy + (fh * 16);
+    x1 = ofx + (fw << 4);
+    y1 = ofy + (fh << 4);
 
     *((u64 *)p)++ = SCE_GIF_SET_TAG(1, 0, 0, 0, SCE_GIF_REGLIST, 4);
     *((u64 *)p)++ = SCE_GS_PRIM | SCE_GS_RGBAQ << 4 | SCE_GS_XYZ2 << 8 | SCE_GS_XYZ2 << 12;
@@ -528,5 +532,5 @@ void CP3toPS2Draw() {
     *((u64 *)p)++ = SCE_GS_SET_XYZ2(x1, y1, 0);
 
     flPS2DmaAddQueue2(0, (top & 0xFFFFFFF) | 0x40000000, top, &flPs2VIF1Control);
-    #endif
+#endif
 }

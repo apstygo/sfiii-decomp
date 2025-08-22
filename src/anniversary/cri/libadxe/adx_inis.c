@@ -63,7 +63,9 @@ Sint32 adxt_exec_main_nothrd(void *object) {
 }
 
 Sint32 adxt_exec_tsvr(void *object) {
+#if !defined(SOUND_DISABLED)
     ADXT_ExecServer();
+#endif
     return 0;
 }
 
@@ -84,9 +86,13 @@ void ADXT_Init() {
         SJMEM_Init();
         ADXERR_Init();
         ADXSTM_Init();
+#if !defined(SOUND_DISABLED)
         ADXSJD_Init();
+#endif
         ADXF_Init();
+#if !defined(SOUND_DISABLED)
         ADXRNA_Init();
+#endif
         LSC_Init();
         SVM_Init();
         ADXRNA_EntryErrFunc(adxini_rnaerr_cbfn, NULL);
@@ -94,7 +100,7 @@ void ADXT_Init() {
         memset(adxt_obj, 0, sizeof(adxt_obj));
         is_thread_setup = ADXM_IsSetupThrd();
 
-        if ((is_thread_setup == 1) && (adxt_vsync_svr_flag == is_thread_setup)) {
+        if ((is_thread_setup == 1) && (adxt_vsync_svr_flag == 1)) {
             SVM_SetCbSvrId(2, 1, adxt_exec_tsvr, NULL);
             adxt_svr_fs_id = SVM_SetCbSvr(4, adxt_exec_fssvr, NULL);
             adxt_svr_main_id = SVM_SetCbSvr(5, adxt_exec_main_thrd, NULL);

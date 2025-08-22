@@ -11,6 +11,9 @@
 #include "sf33rd/Source/Game/texgroup.h"
 #include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
+
+#include "port/sdk_threads.h"
+
 #include <cri_mw.h>
 #include <libcdvd.h>
 #include <libgraph.h>
@@ -39,7 +42,7 @@ u16 DskDrvErrRetry;
 PS2CDReadMode ps2CdReadMode;
 s16 plt_req[2]; // size: 0x4, address: 0x579084
 u8 ldreq_break;
-struct _adx_fs *adxf;
+struct _adx_fs *adxf = NULL;
 
 u8 sf3ptinfo[3352];
 REQ q_ldreq[16];      // size: 0x280, address: 0x5E1DD0
@@ -70,11 +73,22 @@ s32 Setup_Directory_Record_Data() {
     ADXF_LoadPartitionNw(0, "SF33RD.AFS", NULL, sf3ptinfo);
 
     while (1) {
-        if (ADXF_GetPtStat(0) == 3) {
+        if (ADXF_GetPtStat(0) == ADXF_STAT_READEND) {
             break;
         }
 
+#if defined(TARGET_PS2)
         sceGsSyncV(0);
+#else
+        // CRI relies on VSync interrupts to execute its file system server.
+        // On modern platforms we don't call the VSync interrupt handler until
+        // we get to the main loop. That's why we have to emulate the interrupt
+        // manually like this.
+        begin_interrupt();
+        ADXPS2_ExecVint(0);
+        end_interrupt();
+#endif
+
         ADXM_ExecMain();
     }
 
@@ -241,7 +255,14 @@ s32 fsFileReadSync(REQ *req, u32 sec, void *buff) {
 void waitVsyncDummy() {
     ADXM_ExecMain();
     cseExecServer();
+
+#if defined(TARGET_PS2)
     sceGsSyncV(0);
+#else
+    begin_interrupt();
+    ADXPS2_ExecVint(0);
+    end_interrupt();
+#endif
 }
 
 s32 load_it_use_any_key2(u16 fnum, void **adrs, s16 *key, u8 kokey, u8 group) {

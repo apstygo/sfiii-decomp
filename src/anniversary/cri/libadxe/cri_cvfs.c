@@ -12,11 +12,6 @@
 
 typedef struct {
     CVFSDevice *device;
-    void *fd;
-} CVFSHandle;
-
-typedef struct {
-    CVFSDevice *device;
     Char8 name[12];
 } CVFSNamedDevice;
 
@@ -125,7 +120,7 @@ CVFSDevice *getDevice(const Char8 *name) {
         }
     }
 
-    return 0;
+    return NULL;
 }
 
 void toUpperStr(Char8 *str) {
@@ -186,10 +181,10 @@ Char8 *cvFsGetDefDev() {
 CVFSDevice *variousProc(Char8 *filename, Char8 *device_name, const Char8 *full_path) {
     CVFSDevice *device;
 
-    if (*filename == 0) {
+    if (filename[0] == '\0') {
         getDefDev(filename);
 
-        if (*filename == 0) {
+        if (filename[0] == '\0') {
             return NULL;
         }
     }
@@ -224,7 +219,7 @@ CVFSHandle *cvFsOpen(const Char8 *fname, void *arg1, Sint32 arg2) {
 
     getDevName(filename, device_name, fname);
 
-    if (*device_name == 0) {
+    if (device_name[0] == '\0') {
         // Looks like this one should be "cvFsOpen #2:illegal device name"
         cvFsError("cvFsOpen #1:illegal file name");
         return NULL;
@@ -240,7 +235,7 @@ CVFSHandle *cvFsOpen(const Char8 *fname, void *arg1, Sint32 arg2) {
     device = variousProc(filename, device_name, fname);
     fs_hn->device = device;
 
-    if (device == 0) {
+    if (device == NULL) {
         releaseCvFsHn(fs_hn);
         cvFsError("cvFsOpen #4:device not found");
         return NULL;
@@ -254,7 +249,7 @@ CVFSHandle *cvFsOpen(const Char8 *fname, void *arg1, Sint32 arg2) {
         return NULL;
     }
 
-    if (fs_hn->fd == 0) {
+    if (fs_hn->fd == NULL) {
         releaseCvFsHn(fs_hn);
         cvFsError("cvFsOpen #6:open failed");
         return NULL;
@@ -393,7 +388,7 @@ Sint32 cvFsSeek(CVFSHandle *fs_handle, Sint32 offset, Sint32 whence) {
     return ret;
 }
 
-Sint32 cvFsReqRd(CVFSHandle *fs_handle) {
+Sint32 cvFsReqRd(CVFSHandle *fs_handle, Sint32 len, void *buf) {
     Sint32 ret;
 
     if (fs_handle == NULL) {
@@ -402,7 +397,7 @@ Sint32 cvFsReqRd(CVFSHandle *fs_handle) {
     }
 
     if (fs_handle->device->ReqRd != NULL) {
-        ret = fs_handle->device->ReqRd(fs_handle->fd);
+        ret = fs_handle->device->ReqRd(fs_handle->fd, len, buf);
     } else {
         ret = 0;
         cvFsError("cvFsReqRd #2:vtbl error");

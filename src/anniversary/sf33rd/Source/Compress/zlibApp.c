@@ -6,11 +6,7 @@ struct internal_state {
     s32 dummy;
 };
 
-#if defined(TARGET_PS2)
 #include "zlib.h"
-#else
-#include <zlib.h>
-#endif
 
 typedef struct {
     // total size: 0x78
@@ -29,7 +25,7 @@ void zlib_Initialize(void *tempAdrs, s32 tempSize) {
         while (1) {}
     }
 
-    mmHeapInitialize(&zlib.mobj, tempAdrs, tempSize, 0x10, "- for zlib -");
+    mmHeapInitialize(&zlib.mobj, tempAdrs, tempSize, ALIGN_UP(sizeof(_MEMMAN_CELL), 16), "- for zlib -");
 
     zlib.info.zalloc = zlib_Malloc;
     zlib.info.zfree = zlib_Free;
@@ -53,7 +49,7 @@ ssize_t zlib_Decompress(void *srcBuff, s32 srcSize, void *dstBuff, s32 dstSize) 
     zlib.info.avail_out = dstSize;
     zlib.state = 0;
 
-    if (inflateInit_(&zlib.info, ZLIB_VERSION, 0x48) != 0) {
+    if (inflateInit_(&zlib.info, ZLIB_VERSION, sizeof(z_stream)) != 0) {
         return 0;
     }
 

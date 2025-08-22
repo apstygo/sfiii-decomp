@@ -13,8 +13,11 @@
 #include "sf33rd/AcrSDK/ps2/flps2vram.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "structs.h"
+
 #include <cri_mw.h>
+#include <libgraph.h>
 #include <sifdev.h>
+
 #include <stdio.h>
 #include <string.h>
 
@@ -155,7 +158,7 @@ s32 flFileLength(s8 *filename) {
         return 0;
     }
 
-    length = sceLseek(fd, 0, 2);
+    length = sceLseek(fd, 0, SCE_SEEK_END);
     sceClose(fd);
     ADXM_Unlock();
     return length;
@@ -572,12 +575,12 @@ u32 flCreateTextureFromTim2_mem(void *mem, u32 flag) {
 
         dw >>= 1;
         dh >>= 1;
-        dst = &dst[tex_size];
+        dst += tex_size;
     }
 
     flPS2CreateTextureHandle(th, flag);
 
-    if ((lpflTexture->format == 0x14) || (lpflTexture->format == 0x13)) {
+    if ((lpflTexture->format == SCE_GS_PSMT4) || (lpflTexture->format == SCE_GS_PSMT8)) {
         ph = flPS2GetPaletteHandle();
         lpflPalette = &flPalette[HI_16_BITS(ph) - 1];
         plTIM2SetPaletteContextFromImage(&pal_context, mem);
@@ -606,8 +609,7 @@ void flPS2ConvertAlpha(void *lpPtr, s32 width, s32 height) {
 
     for (y = 0; y < height; y++) {
         for (x = 0; x < width; x++) {
-            color = ((u32 *)ptr)[0] << 40;
-            color >>= 40;
+            color = ((u32 *)ptr)[0] & 0x00FFFFFF;
             alpha = ptr[3];
 
             if (alpha == 255) {

@@ -7,6 +7,7 @@
 #include <eekernel.h>
 #include <eeregs.h>
 #include <libdma.h>
+#include <libgraph.h>
 
 // sbss
 u64 flPs2StoreImageOldIMR;
@@ -135,21 +136,21 @@ uintptr_t flPS2VIF1MakeLoadImage(uintptr_t buff_ptr, u32 irq, uintptr_t data_ptr
         wk_h = h;
     } else {
         switch (dpsm) {
-        case 0:
-        case 1:
+        case SCE_GS_PSMCT32:
+        case SCE_GS_PSMCT24:
             wk_h = 0x70000 / (w * 4);
             break;
 
-        case 2:
-        case 10:
+        case SCE_GS_PSMCT16:
+        case SCE_GS_PSMCT16S:
             wk_h = 0x70000 / (w * 2);
             break;
 
-        case 19:
+        case SCE_GS_PSMT8:
             wk_h = 0x70000 / w;
             break;
 
-        case 20:
+        case SCE_GS_PSMT4:
             wk_h = 0x70000 / (w >> 1);
             break;
         }
@@ -163,21 +164,21 @@ uintptr_t flPS2VIF1MakeLoadImage(uintptr_t buff_ptr, u32 irq, uintptr_t data_ptr
 
     for (lp0 = 0; lp0 < count; lp0++) {
         switch (dpsm) {
-        case 0:
-        case 1:
+        case SCE_GS_PSMCT32:
+        case SCE_GS_PSMCT24:
             trans_size = w * wk_h * 4;
             break;
 
-        case 2:
-        case 10:
+        case SCE_GS_PSMCT16:
+        case SCE_GS_PSMCT16S:
             trans_size = w * wk_h * 2;
             break;
 
-        case 19:
+        case SCE_GS_PSMT8:
             trans_size = w * wk_h;
             break;
 
-        case 20:
+        case SCE_GS_PSMT4:
             trans_size = (w * wk_h) / 2;
             break;
         }
@@ -348,7 +349,7 @@ void flPS2StoreImageB(uintptr_t load_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, 
         EnableIntc(0);
         dma_channel->chcr.TTE = 0;
         dma_channel->chcr.TIE = 0;
-        FlushCache(0);
+        FlushCache(WRITEBACK_DCACHE);
         sceDmaSend(dma_channel, (u32 *)store_image);
         sceGsSyncPath(0, 0);
 
@@ -409,6 +410,11 @@ void flPS2DmaInitControl(FLPS2VIF1Control *dma_ptr, u32 queue_size, void *handle
 }
 
 s32 flPS2DmaAddQueue2(s32 type, uintptr_t data_adrs, uintptr_t endtag_adrs, FLPS2VIF1Control *dma_ptr) {
+#if !defined(TARGET_PS2)
+    // Return early because we don't need to handle DMA stuff on non-PS2 systems
+    return 0;
+#endif
+
     u32 dma_chcr;
     sceDmaChan *dma_channel;
     uintptr_t *dma_queue;
@@ -621,7 +627,7 @@ void flPS2DmaSend() {
         case 5:
             dma_channel->chcr.TTE = 1;
             dma_channel->chcr.TIE = 1;
-            FlushCache(0);
+            FlushCache(WRITEBACK_DCACHE);
             sceDmaSend(dma_channel, (u32 *)data_adrs);
             break;
 
@@ -636,7 +642,7 @@ void flPS2DmaSend() {
             dma_ptr->dma_normal_mode_status |= 1;
             dma_channel->chcr.TTE = 0;
             dma_channel->chcr.TIE = 0;
-            FlushCache(0);
+            FlushCache(WRITEBACK_DCACHE);
             sceDmaSend(dma_channel, (u32 *)data_adrs);
             break;
         }

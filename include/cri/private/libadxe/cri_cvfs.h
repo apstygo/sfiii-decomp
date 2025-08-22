@@ -6,11 +6,11 @@
 #include <cri/cri_xpts.h>
 
 void *cvFsOpen(const Char8 *fname, void *arg1, Sint32 arg2);
-void cvFsClose(Sint32);
-void cvFsSeek(Sint32, Sint32, Sint32);
-Sint32 cvFsTell(Sint32);
-Sint32 cvFsGetStat(Sint32);
-Sint32 cvFsReqRd(Sint32, Sint32, Sint32);
+void cvFsClose(CVFSHandle *);
+void cvFsSeek(CVFSHandle *, Sint32, Sint32);
+Sint32 cvFsTell(CVFSHandle *);
+Sint32 cvFsGetStat(CVFSHandle *);
+Sint32 cvFsReqRd(CVFSHandle *, Sint32, void *);
 void cvFsExecServer();
 void cvFsAddDev(const Char8 *device_name, CVFSDevice *(*device_provider)(), Sint32 arg2);
 void cvFsEntryErrFunc(void (*function)(void *, const Char8 *), void *object);

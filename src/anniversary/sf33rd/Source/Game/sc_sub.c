@@ -1,10 +1,13 @@
 #include "sf33rd/Source/Game/sc_sub.h"
 #include "common.h"
+#include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "sf33rd/Source/Common/PPGFile.h"
 #include "sf33rd/Source/Common/PPGWork.h"
 #include "sf33rd/Source/Game/AcrUtil.h"
 #include "sf33rd/Source/Game/DC_Ghost.h"
+#include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/MTRANS.h"
+#include "sf33rd/Source/Game/RAMCNT.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/sc_data.h"
 #include "sf33rd/Source/Game/workuser.h"
@@ -46,17 +49,70 @@ FadeData fd_dat;
 s32 SSGetDrawSizePro(const s8 *str);
 s16 SSPutStrTexInputPro(u16 x, u16 y, u16 ix);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", Scrscreen_Init);
-#else
 void Scrscreen_Init() {
+    void *loadAdrs;
+    u32 loadSize;
+    s16 i;
+    s16 key;
+
+    ppgScrList.tex = ppgScrListFace.tex = ppgScrListShot.tex = ppgScrListOpt.tex = &ppgScrTex;
+    ppgScrList.pal = &ppgScrPal;
+    ppgScrListFace.pal = &ppgScrPalFace;
+    ppgScrListShot.pal = &ppgScrPalShot;
+    ppgScrListOpt.pal = &ppgScrPalOpt;
+    ppgSetupCurrentDataList(&ppgScrList);
+    loadSize = load_it_use_any_key2(10, &loadAdrs, &key, 2, 0); // scrscrn.ppg
+
+    if (loadSize == 0) {
+        // Could not load texture for score screen.\n
+        flLogOut("スコアスクリーン用のテクスチャが読み込めませんでした。\n");
+        while (1) {
+            // Do nothing
+        }
+    }
+
+    ppgSetupPalChunk(&ppgScrPalOpt, (u8 *)loadAdrs, loadSize, 0, 3, 1);
+    ppgSetupPalChunk(&ppgScrPalShot, (u8 *)loadAdrs, loadSize, 0, 2, 1);
+    ppgSetupPalChunk(&ppgScrPalFace, (u8 *)loadAdrs, loadSize, 0, 1, 1);
+    ppgSetupPalChunk(NULL, (u8 *)loadAdrs, loadSize, 0, 0, 1);
+    ppgSetupTexChunk_1st(NULL, (u8 *)loadAdrs, loadSize, 0, 6, 0, 0);
+
+    for (i = 0; i < 3; i++) {
+        ppgSetupTexChunk_2nd(NULL, i);
+        ppgSetupTexChunk_3rd(NULL, i, 1);
+    }
+
+    for (i = 3; i < ppgScrTex.textures; i++) {
+        ppgSetupTexChunk_2nd(NULL, i);
+        ppgSetupTexChunk_3rd(NULL, i, 1);
+    }
+
+    Push_ramcnt_key(key);
+    ppgSourceDataReleased(NULL);
+    Sa_frame_Clear();
+}
+
+void Sa_frame_Clear() {
+    u8 i;
+    u8 j;
+
+    for (j = 0; j < 3; j++) {
+        for (i = 0; i < 48; i++) {
+            sa_frame[j][i].atr = 0;
+            sa_frame[j][i].page = 0;
+            sa_frame[j][i].cx = 0;
+            sa_frame[j][i].cy = 0;
+        }
+    }
+}
+
+#if defined(TARGET_PS2)
+INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", Sa_frame_Clear2);
+#else
+void Sa_frame_Clear2(u8 pl) {
     not_implemented(__func__);
 }
 #endif
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", Sa_frame_Clear);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", Sa_frame_Clear2);
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", Sa_frame_Write);
@@ -66,17 +122,48 @@ void Sa_frame_Write() {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", SSPutStrTexInput);
+void SSPutStrTexInput(u16 x, u16 y, const s8 *str) {
+    s32 u = ((*str & 0xF) * 8) + 0x80;
+    s32 v = ((*str & 0xF0) >> 4) * 8;
+
+    scrscrntex[0].u = (u + 0.5f) / 256.0f;
+    scrscrntex[3].u = ((u + 8) + 0.5f) / 256.0f;
+    scrscrntex[0].v = (v + 0.5f) / 256.0f;
+    scrscrntex[3].v = ((v + 8) + 0.5f) / 256.0f;
+    scrscrntex[0].x = x * Frame_Zoom_X;
+    scrscrntex[3].x = (x + 8) * Frame_Zoom_X;
+    scrscrntex[0].y = y * Frame_Zoom_Y;
+    scrscrntex[3].y = (y + 8) * Frame_Zoom_Y;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", SSPutStrTexInput2);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", SSPutStr);
-#else
-void SSPutStr(u16 x, u16 y, u8 atr, s8 *str) {
-    not_implemented(__func__);
+void SSPutStr(u16 x, u16 y, u8 atr, const s8 *str) {
+    if (No_Trans) {
+        return;
+    }
+
+    ppgSetupCurrentDataList(&ppgScrList);
+    setFilterMode(0);
+    njColorBlendingMode(0, 1);
+    scrscrntex[0].col = scrscrntex[3].col = 0xFFFFFFFF;
+    scrscrntex[0].z = scrscrntex[3].z = PrioBase[2];
+    njSetPaletteBankNumG(1, atr & 0x3F);
+    x = x * 8;
+    y = y * 8;
+
+    while (*str != '\0') {
+        if (*str != ',') {
+            SSPutStrTexInput(x, y, str);
+        } else {
+            SSPutStrTexInput(x, y + 2, str);
+        }
+
+        njDrawSprite(scrscrntex, 4, 1, 1);
+        x += 8;
+        str++;
+    }
 }
-#endif
 
 s32 SSPutStrPro(u16 flag, u16 x, u16 y, u8 atr, u32 vtxcol, s8 *str) {
     s32 usex;
@@ -171,13 +258,31 @@ void SSPutStr_Bigger(u16 x, u16 y, u8 atr, s8 *str, f32 sc, u8 gr, u16 priority)
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", SSPutDec);
+#else
+void SSPutDec(u16 x, u16 y, u8 atr, u8 dec, u8 size) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", SSPutDec3);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", scfont_put);
+#else
+void scfont_put(u16 x, u16 y, u8 atr, u8 page, u8 cx, u8 cy, u16 priority) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", scfont_put2);
+#else
+void scfont_put2(u16 x, u16 y, u8 atr, u8 page, u8 cx, u8 cy) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", scfont_sqput);
@@ -187,23 +292,71 @@ void scfont_sqput(u16 x, u16 y, u8 atr, u8 page, u8 cx1, u8 cy1, u8 cx2, u8 cy2,
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", scfont_sqput2);
+#else
+void scfont_sqput2(u16 x, u16 y, u8 atr, u8 inverse, u8 page, u8 cx1, u8 cy1, u8 cx2, u8 cy2) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", scfont_sqput3);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sc_clear);
+#else
+void sc_clear(u16 sposx, u16 sposy, u16 eposx, u16 eposy) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", vital_put);
+#else
+void vital_put(u8 Pl_Num, s8 atr, s16 vital, u8 kind, u16 priority) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", silver_vital_put);
+#else
+void silver_vital_put(u8 Pl_Num) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", vital_base_put);
+#else
+void vital_base_put(u8 Pl_Num) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", spgauge_base_put);
+#else
+void spgauge_base_put(u8 Pl_Num, s16 len) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", stun_put);
+#else
+void stun_put(u8 Pl_Num, u8 stun) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", stun_base_put);
+#else
+void stun_base_put(u8 Pl_Num, s16 len) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", WipeInit);
 
@@ -339,9 +492,21 @@ void player_name() {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", stun_mark_write);
+#else
+void stun_mark_write(u8 Pl_Num, s16 len) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", max_mark_write);
+#else
+void max_mark_write(s8 Pl_Num, u8 Gauge_Len, u8 Mchar, u8 Mass_Len) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", SF3_logo);
 
@@ -379,31 +544,138 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", score8x16_
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", score16x24_put);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", literal_212_0054F7C0);
+void combo_message_set(u8 pl, u8 kind, u8 x, u8 num, u8 hi, u8 low) {
+    u8 xw;
+    u8 xw2;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", combo_message_set);
+    if (No_Trans) {
+        return;
+    }
 
+    ppgSetupCurrentDataList(&ppgScrList);
+    if (num > combo_mtbl[kind][2]) {
+        xw = combo_mtbl[kind][2];
+    } else {
+        xw = num;
+    }
+
+    if (num > combo_mtbl[kind][2]) {
+        xw2 = (num - (combo_mtbl[kind][2]));
+    } else {
+        xw2 = 0;
+    }
+
+    switch (kind) {
+    case 2:
+    case 1:
+    case 0:
+        if (pl == 0) {
+            if (hi != 0) {
+                scfont_sqput(x, 7, 8, 0, hi, 6, 1, 2, 2);
+            }
+
+            if (num > 1) {
+                scfont_sqput(x + 1, 7, 8, 0, low, 6, 1, 2, 2);
+            }
+
+            if (num > 3) {
+                scfont_sqput(x + 3, 7, 8, 2, combo_mtbl[kind][0], combo_mtbl[kind][1], xw, 2, 2);
+                return;
+            }
+        } else {
+            scfont_sqput(xw2, 7, 8, 2, (combo_mtbl[kind][0] + combo_mtbl[kind][2]) - xw, combo_mtbl[kind][1], xw, 2, 2);
+            if (xw2 > 1) {
+                scfont_sqput(xw2 - 2, 7, 8, 0, low, 6, 1, 2, 2);
+            }
+
+            if ((xw2 > 2) && (hi != 0)) {
+                scfont_sqput(xw2 - 3, 7, 8, 0, hi, 6, 1, 2, 2);
+                return;
+            }
+        }
+        break;
+
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+        if (pl == 0) {
+            scfont_sqput(x, 7, 8, 2, combo_mtbl[kind][0], combo_mtbl[kind][1], xw, 2, 2);
+        } else {
+            scfont_sqput(xw2, 7, 8, 2, (combo_mtbl[kind][0] + combo_mtbl[kind][2]) - xw, combo_mtbl[kind][1], xw, 2, 2);
+        }
+    }
+}
+
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", combo_pts_set);
+#else
+void combo_pts_set(u8 pl, u8 x, u8 num, s8 *pts, s8 digit) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", naming_set);
+#else
+void naming_set(u8 pl, s16 place, u16 atr, u16 chr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", stun_gauge_waku_write);
+#else
+void stun_gauge_waku_write(s16 p1len, s16 p2len) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", silver_stun_put);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", overwrite_panel);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sa_stock_trans);
+#else
+void sa_stock_trans(s16 St_Num, s16 Spg_Col, s8 Stpl_Num) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sa_fullstock_trans);
+#else
+void sa_fullstock_trans(s16 St_Num, s16 Spg_Col, s8 Stpl_Num) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sa_number_write);
+#else
+void sa_number_write(s8 Stpl_Num, u16 x) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sc_ram_to_vram);
+#else
+void sc_ram_to_vram(s8 sc_num) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sc_ram_to_vram_opc);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sq_paint_chenge);
+#else
+void sq_paint_chenge(u16 x, u16 y, u16 sx, u16 sy, u16 atr) {
+    not_implemented(__func__);
+}
+#endif
 
 void fade_cont_init() {
     FadeInit();
@@ -446,9 +718,21 @@ void Akaobi() {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", Training_Disp_Work_Clear);
+#else
+void Training_Disp_Work_Clear() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", Training_Damage_Set);
+#else
+void Training_Damage_Set(s16 damage, s16 /* unused */, u8 kezuri) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", Training_Data_Disp);
 
@@ -464,4 +748,6 @@ void dispButtonImage2(s32 px, s32 py, s32 pz, s32 sx, s32 sy, s32 cl, s32 ix) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", dispSaveLoadTitle);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", scrnAddTex1UV);
+const s8 scrnAddTex1UV[9][4] = { { 96, 0, 32, 32 },  { 63, 0, 32, 32 },  { 0, 96, 32, 32 },
+                                 { 0, 64, 32, 32 },  { 0, 0, 32, 32 },   { 31, 0, 32, 32 },
+                                 { 32, 96, 32, 32 }, { 32, 64, 32, 32 }, { -128, 0, 96, -128 } };

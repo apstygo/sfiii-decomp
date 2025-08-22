@@ -150,7 +150,7 @@ void SaveInit(s32 file_type, s32 save_mode) {
     size = (save_mode & 1) ? 0x156100 : 0xE0000;
     save->ram_key = Pull_ramcnt_key(size, 2, 0, 0);
     adrs = Get_ramcnt_address(save->ram_key);
-    adrs = ((adrs + 0x40 - 1) / 0x40) * 0x40; // divide by 0x40 rounding up
+    adrs = ((adrs + 0x40 - 1) / 0x40) * 0x40;
 
     save->fnt_adrs = (u8 *)adrs;
     save->buf_adrs = save->fnt_adrs + 0xC0000;

@@ -38,7 +38,6 @@ const u8 pplColorModeWidth[4] = { 0xF, 0x3F, 0xFF, 0 };
 PPG_W ppg_w;
 s16 *dctex_linear;
 
-s32 ppgCheckTextureDataBe(Texture *tch);
 s32 ppgCheckPaletteDataBe(Palette *pch);
 void ppgWriteQuadOnly(Vertex *pos, u32 col, u32 texCode);
 void ppgWriteQuadOnly2(Vertex *pos, u32 col, u32 texCode);
@@ -51,7 +50,7 @@ void ppg_Initialize(void *lcmAdrs, s32 lcmSize) {
         while (1) {}
     }
 
-    mmHeapInitialize(&ppg_w.mm, lcmAdrs, lcmSize, 0x10, "- for PPG -");
+    mmHeapInitialize(&ppg_w.mm, lcmAdrs, lcmSize, ALIGN_UP(sizeof(_MEMMAN_CELL), 16), "- for PPG -");
 }
 
 void *ppgMallocF(s32 size) {
@@ -231,7 +230,7 @@ s32 ppgWriteQuadWithST_B2(Vertex *pos, u32 col, PPGDataList *tb, s32 tix, s32 ci
         }
     }
 
-    ppgWriteQuadOnly2(pos, col, texhan | (palhan << 0x10));
+    ppgWriteQuadOnly2(pos, col, texhan | (palhan << 16));
     return 1;
 }
 
@@ -529,7 +528,7 @@ s32 ppgSetupPalChunk(Palette *pch, u8 *adrs, s32 size, s32 ixNum1st, s32 num, s3
         break;
     }
 
-    cmpSize = REVERT_U32(ppl->fileSize) - 0x10;
+    cmpSize = REVERT_U32(ppl->fileSize) - 16;
     cmpAdrs = ppl + 1;
     pch->c_mode = ppl->c_mode & 3;
     pch->total = REVERT_U16(ppl->palettes);

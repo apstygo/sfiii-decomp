@@ -7,6 +7,13 @@
 #include "sf33rd/AcrSDK/ps2/flps2dma.h"
 #include "sf33rd/AcrSDK/ps2/flps2etc.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
+
+#if !defined(TARGET_PS2)
+#include "port/sdl/sdl_game_renderer.h"
+#endif
+
+#include <libgraph.h>
+
 #include <memory.h>
 
 #if defined(TARGET_PS2)
@@ -55,7 +62,7 @@ u16 flPS2GetStaticVramArea(u32 size) {
     }
 
     flPS2DeleteAllVramList();
-    block_size = (size + 0xFF) / 256;
+    block_size = (size + 256 - 1) / 256;
     block_size = (block_size + 0x1F) & ~0x1F;
     lpVramStatic = flVramStatic;
 
@@ -155,38 +162,38 @@ s32 flPS2GetTextureInfoFromContext(plContext *bits, s32 bnum, u32 th, u32 flag) 
         return 0;
 
     case 0:
-        lpflTexture->format = 0x14;
+        lpflTexture->format = SCE_GS_PSMT4;
         lpflTexture->bitdepth = 0;
         break;
 
     case 1:
-        lpflTexture->format = 0x13;
+        lpflTexture->format = SCE_GS_PSMT8;
         lpflTexture->bitdepth = 1;
         break;
 
     case 2:
-        lpflTexture->format = 2;
+        lpflTexture->format = SCE_GS_PSMCT16;
         lpflTexture->bitdepth = 2;
         break;
 
     case 3:
-        lpflTexture->format = 1;
+        lpflTexture->format = SCE_GS_PSMCT24;
         lpflTexture->bitdepth = 3;
         break;
 
     case 4:
-        lpflTexture->format = 0;
+        lpflTexture->format = SCE_GS_PSMCT32;
         lpflTexture->bitdepth = 4;
         break;
     }
 
     switch (bits->width) {
-    case 0x400:
-    case 0x200:
-    case 0x100:
-    case 0x80:
-    case 0x40:
-    case 0x20:
+    case 1024:
+    case 512:
+    case 256:
+    case 128:
+    case 64:
+    case 32:
         break;
 
     default:
@@ -197,12 +204,12 @@ s32 flPS2GetTextureInfoFromContext(plContext *bits, s32 bnum, u32 th, u32 flag) 
     lpflTexture->tw = flPS2GetTextureBuffWidth(lpflTexture->width);
 
     switch (bits->height) {
-    case 0x400:
-    case 0x200:
-    case 0x100:
-    case 0x80:
-    case 0x40:
-    case 0x20:
+    case 1024:
+    case 512:
+    case 256:
+    case 128:
+    case 64:
+    case 32:
         break;
 
     default:
@@ -223,6 +230,7 @@ s32 flPS2CreateTextureHandle(u32 th, u32 flag) {
     u32 dma_size;
     uintptr_t dma_ptr;
 
+#if defined(TARGET_PS2)
     while (1) {
         switch (flag) {
         case 1:
@@ -249,6 +257,9 @@ s32 flPS2CreateTextureHandle(u32 th, u32 flag) {
 
         break;
     }
+#else
+    SDLGameRenderer_CreateTexture(th);
+#endif
 
     flCTNum += 1;
     return 1;
@@ -271,23 +282,23 @@ void flPS2VramTrans(FLTexture *lpflTexture) {
 
     for (lp0 = 0; lp0 < lpflTexture->tex_num; lp0++) {
         switch (lpflTexture->format) {
-        case 20:
+        case SCE_GS_PSMT4:
             tex_size = (dw * dh) >> 1;
             break;
 
-        case 19:
+        case SCE_GS_PSMT8:
             tex_size = dw * dh;
             break;
 
-        case 2:
+        case SCE_GS_PSMCT16:
             tex_size = dw * dh * 2;
             break;
 
-        case 1:
+        case SCE_GS_PSMCT24:
             tex_size = dw * dh * 4;
             break;
 
-        case 0:
+        case SCE_GS_PSMCT32:
             tex_size = dw * dh * 4;
             break;
         }
@@ -406,7 +417,7 @@ u32 flCreatePaletteHandle(plContext *lpcontext, u32 flag) {
         lpflPalette->mem_handle = flPS2GetSystemMemoryHandle(lpflPalette->size, 2);
         flPTNum += 1;
     } else {
-        if (lpcontext->width == 0x100) {
+        if (lpcontext->width == 256) {
             flPS2ConvertTextureFromContext(lpcontext, lpflPalette, 1);
         } else {
             flPS2ConvertTextureFromContext(lpcontext, lpflPalette, 0);
@@ -415,7 +426,7 @@ u32 flCreatePaletteHandle(plContext *lpcontext, u32 flag) {
         flPS2CreatePaletteHandle(ph, flag);
     }
 
-    return ph >> 0x10;
+    return ph >> 16;
 }
 
 s32 flPS2GetPaletteInfoFromContext(plContext *bits, u32 ph, u32 flag) {
@@ -477,6 +488,7 @@ s32 flPS2CreatePaletteHandle(u32 ph, u32 flag) {
     u32 dma_size;
     uintptr_t dma_ptr;
 
+#if defined(TARGET_PS2)
     while (1) {
         switch (flag) {
         case 1:
@@ -503,6 +515,9 @@ s32 flPS2CreatePaletteHandle(u32 ph, u32 flag) {
 
         break;
     }
+#else
+    SDLGameRenderer_CreatePalette(ph);
+#endif
 
     flPTNum += 1;
     return 1;
@@ -531,6 +546,10 @@ s32 flReleaseTextureHandle(u32 texture_handle) {
         flPS2SystemError(0, "ERROR flReleaseTextureHandle flps2vram.c");
     }
 
+#if !defined(TARGET_PS2)
+    SDLGameRenderer_DestroyTexture(texture_handle);
+#endif
+
     flPS2DmaTerminate();
     flPS2DeleteVramList(lpflTexture);
 
@@ -549,6 +568,10 @@ s32 flReleasePaletteHandle(u32 palette_handle) {
     if ((palette_handle == 0) || (palette_handle > FL_PALETTE_MAX) || (lpflPalette->be_flag == 0)) {
         flPS2SystemError(0, "ERROR flReleasePaletteHandle flps2vram.c");
     }
+
+#if !defined(TARGET_PS2)
+    SDLGameRenderer_DestroyPalette(palette_handle);
+#endif
 
     flPS2DmaTerminate();
     flPS2DeleteVramList(lpflPalette);
@@ -1289,17 +1312,20 @@ s32 flPS2ReloadTexture(s32 count, u32 *texlist) {
     for (i = 0; i < count; i++) {
         th = texlist[i];
 
+#if defined(TARGET_PS2)
         for (j = 0; j < 2; j++) {
             if (j == 0) {
-                if (LO_16_BITS(th) && (LO_16_BITS(th) < 0x100)) {
+                if (LO_16_BITS(th) && (LO_16_BITS(th) < FL_TEXTURE_MAX)) {
                     lpflTexture = &flTexture[LO_16_BITS(th) - 1];
                 } else {
                     continue;
                 }
-            } else if ((HI_16_BITS(th) != 0) && (HI_16_BITS(th) < FL_PALETTE_MAX)) {
-                lpflTexture = &flPalette[HI_16_BITS(th) - 1];
             } else {
-                continue;
+                if ((HI_16_BITS(th) != 0) && (HI_16_BITS(th) < FL_PALETTE_MAX)) {
+                    lpflTexture = &flPalette[HI_16_BITS(th) - 1];
+                } else {
+                    continue;
+                }
             }
 
             if (lpflTexture->vram_on_flag == 0) {
@@ -1326,6 +1352,9 @@ s32 flPS2ReloadTexture(s32 count, u32 *texlist) {
                 flDebugRTNum += 1;
             }
         }
+#else
+        SDLGameRenderer_ReloadTexture(th);
+#endif
     }
 
     if (lpflKeep != NULL) {
@@ -1479,7 +1508,7 @@ s32 flPS2ConvertTextureFromContext(plContext *lpcontext, FLTexture *lpflTexture,
             flLogOut("Not supported texture bit depth @flPS2ConvertTextureFromContext");
             break;
 
-        case 20:
+        case SCE_GS_PSMT4:
             tex_size = (dw * dh) >> 1;
 
             if (lpflTexture->dma_type == 0) {
@@ -1492,7 +1521,7 @@ s32 flPS2ConvertTextureFromContext(plContext *lpcontext, FLTexture *lpflTexture,
 
             break;
 
-        case 19:
+        case SCE_GS_PSMT8:
             tex_size = dw * dh;
 
             if (lpflTexture->dma_type == 0) {
@@ -1505,7 +1534,7 @@ s32 flPS2ConvertTextureFromContext(plContext *lpcontext, FLTexture *lpflTexture,
 
             break;
 
-        case 2:
+        case SCE_GS_PSMCT16:
             tex_size = dw * dh * 2;
             tcon.ptr = dst_ptr;
             tcon.pixelformat.rl = 5;
@@ -1527,7 +1556,7 @@ s32 flPS2ConvertTextureFromContext(plContext *lpcontext, FLTexture *lpflTexture,
             flPS2ConvertContext(lpcontext, &tcon, 0, type);
             break;
 
-        case 1:
+        case SCE_GS_PSMCT24:
             tex_size = dw * dh * 4;
             tcon.ptr = dst_ptr;
             tcon.pixelformat.rl = 8;
@@ -1547,7 +1576,7 @@ s32 flPS2ConvertTextureFromContext(plContext *lpcontext, FLTexture *lpflTexture,
             flPS2ConvertContext(lpcontext, &tcon, 0, type);
             break;
 
-        case 0:
+        case SCE_GS_PSMCT32:
             tex_size = dw * dh * 4;
             tcon.ptr = dst_ptr;
             tcon.pixelformat.rl = 8;
