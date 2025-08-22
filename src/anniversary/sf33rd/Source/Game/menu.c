@@ -5403,13 +5403,90 @@ void Extra_Option(struct _TASK *task_ptr) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Ex_Move_Sub_LR);
-#else
 void Ex_Move_Sub_LR(u16 sw, s16 PL_id) {
-    not_implemented(__func__);
+    u8 last_pos = save_w[Present_Mode].extra_option.contents[Menu_Page][Menu_Cursor_Y[0]];
+
+    switch (sw) {
+    case 4:
+        if (Menu_Page_Buff != 0 || Menu_Cursor_Y[0] != 4) {
+            SE_dir_cursor_move();
+        }
+
+        save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]]--;
+
+        if (Menu_Cursor_Y[0] == Menu_Max) {
+            if (save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] < 0) {
+                save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] = 0;
+                IO_Result = 0x80;
+                break;
+            }
+
+            if (save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] != last_pos) {
+                Message_Data->order = 1;
+                Message_Data->request = save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Max] + 32;
+                Message_Data->timer = 2;
+            }
+        } else if (save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] < 0) {
+            save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] =
+                Ex_Menu_Max_Data[Menu_Page][Menu_Cursor_Y[0]];
+        }
+
+        return;
+
+    case 8:
+        if (Menu_Page_Buff != 0 || Menu_Cursor_Y[0] != 4) {
+            SE_dir_cursor_move();
+        }
+
+        save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]]++;
+
+        if (Menu_Cursor_Y[0] == Menu_Max) {
+            if (save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] > 2) {
+                save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] = 2;
+                IO_Result = 0x400;
+                return;
+            }
+
+            if (save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] > 2) {
+                save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] = 2;
+            }
+
+            if (save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] != last_pos) {
+                Message_Data->order = 1;
+                Message_Data->request = save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Max] + 32;
+                Message_Data->timer = 2;
+            }
+        } else if (save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] >
+                   Ex_Menu_Max_Data[Menu_Page][Menu_Cursor_Y[0]]) {
+            save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] = 0;
+        }
+
+        return;
+
+    case 0x400:
+        if (Interface_Type[PL_id] == 2) {
+            break;
+        }
+
+    case 0x100:
+        if (Menu_Page_Buff != 0 || Menu_Cursor_Y[0] != 4) {
+            SE_dir_cursor_move();
+        }
+
+        if (Menu_Cursor_Y[0] == Menu_Max) {
+            break;
+        }
+
+        save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]]++;
+
+        if (save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] >
+            Ex_Menu_Max_Data[Menu_Page][Menu_Cursor_Y[0]]) {
+            save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] = 0;
+        }
+
+        return;
+    }
 }
-#endif
 
 void End_Replay_Menu(struct _TASK *task_ptr) {
     s16 ix;
