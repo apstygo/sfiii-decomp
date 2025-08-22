@@ -163,6 +163,7 @@ void Button_Exit_Check_in_Game(struct _TASK *task_ptr, s16 PL_id);
 void Setup_Save_Replay_1st(struct _TASK *task_ptr);
 s32 Save_Replay_MC_Sub(struct _TASK *task_ptr, s16 /* unused */);
 void Button_Exit_Check_in_Tr(struct _TASK *task_ptr, s16 PL_id);
+s32 VS_Result_Select_Sub(struct _TASK *task_ptr, s16 PL_id);
 
 typedef void (*MenuFunc)(struct _TASK *);
 
@@ -3496,14 +3497,159 @@ void Wait_Replay_Check(struct _TASK *task_ptr) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", VS_Result);
-// VS_Result contains literal_1803
-#else
 void VS_Result(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    s16 ix;
+    s16 char_ix2;
+    s16 total_battle;
+    u16 ave[2];
+
+    s16 s4;
+    s16 s3;
+
+    Clear_Flash_Sub();
+
+    switch (task_ptr->r_no[2]) {
+    case 0:
+        System_all_clear_Level_B();
+        Menu_Init(task_ptr);
+        task_ptr->r_no[1] = 16;
+        task_ptr->r_no[2] = 1;
+        task_ptr->r_no[3] = 0;
+        Sel_PL_Complete[0] = 0;
+        Sel_Arts_Complete[0] = 0;
+        Sel_PL_Complete[1] = 0;
+        Sel_Arts_Complete[1] = 0;
+        Clear_Flash_Init(4);
+        break;
+
+    case 1:
+        FadeOut(1, 0xFF, 8);
+        task_ptr->r_no[2]++;
+        task_ptr->timer = 5;
+        Menu_Common_Init();
+        Menu_Cursor_Y[0] = Cursor_Y_Pos[0][0];
+        Menu_Cursor_Y[1] = Cursor_Y_Pos[1][0];
+        Menu_Suicide[0] = 0;
+        Menu_Suicide[1] = 1;
+        Menu_Cursor_X[0] = 0;
+        Menu_Cursor_X[1] = 0;
+        Order[78] = 2;
+        Order_Dir[78] = 0;
+        Order_Timer[78] = 1;
+        effect_66_init(91, 12, 0, 0, 71, 9, 0);
+        Order[91] = 3;
+        Order_Timer[91] = 1;
+        effect_66_init(138, 24, 0, 0, -1, -1, -0x7FF9);
+        Order[138] = 3;
+        Order_Timer[138] = 1;
+        effect_66_init(139, 25, 0, 0, -1, -1, -0x7FF9);
+        Order[139] = 3;
+        Order_Timer[139] = 1;
+        effect_A0_init(0, VS_Win_Record[0], 0, 3, 0, 0, 0);
+        effect_A0_init(0, VS_Win_Record[1], 1, 3, 0, 0, 0);
+        total_battle = VS_Win_Record[0] + VS_Win_Record[1];
+
+        if (total_battle == 0) {
+            total_battle = 1;
+        }
+
+        if (VS_Win_Record[0] >= VS_Win_Record[1]) {
+            ave[1] = (VS_Win_Record[1] * 100) / total_battle;
+
+            if (ave[1] == 0 && VS_Win_Record[1] > 0) {
+                ave[1] = 1;
+            }
+
+            ave[0] = 100 - ave[1];
+        } else {
+            ave[0] = (VS_Win_Record[0] * 100) / total_battle;
+
+            if (ave[0] == 0 && VS_Win_Record[0] > 0) {
+                ave[0] = 1;
+            }
+
+            ave[1] = 100 - ave[0];
+        }
+
+        effect_A0_init(0, ave[0], 2, 3, 0, 0, 0);
+        effect_A0_init(0, ave[1], 3, 3, 0, 0, 0);
+
+        for (ix = 0, s4 = char_ix2 = 22; ix < 3; ix++, s3 = char_ix2++) {
+            effect_91_init(0, ix, 0, 71, char_ix2, 0);
+            effect_91_init(1, ix, 0, 71, char_ix2, 0);
+        }
+
+        Setup_Win_Lose_OBJ();
+        Menu_Cursor_Move = 0;
+        break;
+
+    case 2:
+        FadeOut(1, 0xFF, 8);
+
+        if (--task_ptr->timer == 0) {
+            task_ptr->r_no[2]++;
+            FadeInit();
+        }
+
+        break;
+
+    case 3:
+        if (FadeIn(1, 25, 8)) {
+            task_ptr->r_no[2]++;
+            Suicide[3] = 0;
+        }
+
+        break;
+
+    case 4:
+        if (VS_Result_Select_Sub(task_ptr, 0) == 0) {
+            VS_Result_Select_Sub(task_ptr, 1);
+        }
+
+        break;
+
+    case 5:
+        if (task_ptr->r_no[3] == 0) {
+            if (--task_ptr->timer == 0) {
+                task_ptr->r_no[3]++;
+            }
+
+            break;
+        }
+
+        Exit_Sub(task_ptr, 0, 17);
+        break;
+
+    case 6:
+        switch (task_ptr->r_no[3]) {
+        case 0:
+            task_ptr->r_no[3]++;
+            /* fallthrough */
+
+        case 1:
+            if (--task_ptr->timer) {
+                break;
+            }
+
+            Setup_VS_Mode(task_ptr);
+            G_No[1] = 12;
+            G_No[2] = 1;
+            Mode_Type = 1;
+            break;
+        }
+
+        break;
+
+    case 7:
+    default:
+        if (Exit_Sub(task_ptr, 0, 0)) {
+            System_all_clear_Level_B();
+            BGM_Request_Code_Check(65);
+        }
+
+        break;
+    }
 }
-#endif
 
 void Setup_Win_Lose_OBJ() {
     s16 x[2];
