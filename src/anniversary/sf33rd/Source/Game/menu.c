@@ -3441,13 +3441,25 @@ void DAS2_4th(struct _TASK *task_ptr) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Wait_Replay_Check);
-#else
 void Wait_Replay_Check(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    switch (task_ptr->free[1]) {
+    case 0:
+        if (vm_w.Request != 0) {
+            break;
+        }
+
+        task_ptr->r_no[0] = 0;
+        task_ptr->r_no[3] = 0;
+
+        if (vm_w.Number == 0 && vm_w.New_File == 0) {
+            task_ptr->r_no[2] = 3;
+            break;
+        }
+
+        task_ptr->r_no[2] = 5;
+        break;
+    }
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", VS_Result);
