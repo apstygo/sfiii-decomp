@@ -3543,13 +3543,13 @@ void Setup_Save_Replay_1st(struct _TASK *task_ptr) {
     Clear_Flash_Init(4);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Save_Replay_2nd);
-#else
-void Setup_Save_Replay_2nd(struct _TASK *task_ptr, s16 unused) {
-    not_implemented(__func__);
+void Setup_Save_Replay_2nd(struct _TASK *task_ptr, s16 arg1) {
+    if (FadeIn(1, 25, 8)) {
+        task_ptr->r_no[2]++;
+        task_ptr->free[3] = 0;
+        Menu_Cursor_X[0] = Setup_Final_Cursor_Pos(Menu_Cursor_X[0], 8);
+    }
 }
-#endif
 
 void Setup_Replay_Sub(s16 /* unused */, s16 type, s16 char_type, s16 master_player) {
     effect_57_init(type, char_type, 0, 63, 2);
