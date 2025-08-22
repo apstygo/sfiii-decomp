@@ -3011,13 +3011,7 @@ u16 Check_Menu_Lever(u8 PL_id, s16 type) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Suspend_Menu);
-#else
-void Suspend_Menu() {
-    not_implemented(__func__);
-}
-#endif
+void Suspend_Menu(struct _TASK * /* unused */) {}
 
 void In_Game(struct _TASK *task_ptr) {
     void (*In_Game_Jmp_Tbl[5])() = { Menu_Init, Menu_Select, Button_Config_in_Game, Character_Change, Pad_Come_Out };
@@ -4271,13 +4265,59 @@ void Dummy_Setting(struct _TASK *task_ptr) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Training_Option);
-#else
 void Training_Option(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    s16 ix;
+    s16 group;
+    s16 y;
+
+    s16 s6;
+    s16 s5;
+    s16 s4;
+    s16 s3;
+
+    switch (task_ptr->r_no[2]) {
+    case 0:
+        task_ptr->r_no[2]++;
+        Menu_Common_Init();
+        Menu_Cursor_Y[0] = 0;
+        Menu_Cursor_Y[1] = 0;
+        Menu_Suicide[0] = 1;
+        Training_Index = 3;
+
+        for (ix = 0, s6 = y = 72; ix < 6; ix++, s5 = y += 16) {
+            effect_A3_init(0, 6, ix, ix, 1, 48, y, 1);
+        }
+
+        for (ix = 0, y = 72, s4 = group = 7; ix < 4; ix++, group++, s3 = y += 16) {
+            effect_A3_init(0, group, ix, ix, 1, 230, y, 1);
+        }
+
+        break;
+
+    case 1:
+        Dummy_Move_Sub(task_ptr, Champion, 0, 1, 5);
+
+        if (Menu_Cursor_Y[0] == 4 && IO_Result & 0x100) {
+            Default_Training_Option();
+            SE_selected();
+            break;
+        }
+
+        save_w[Present_Mode].Damage_Level = Training[2].contents[0][1][2];
+        save_w[Present_Mode].Difficulty = Training[2].contents[0][1][3];
+        break;
+
+    case 2:
+        SE_selected();
+        Menu_Suicide[0] = 0;
+        Menu_Suicide[1] = 1;
+        task_ptr->r_no[2] = 0;
+        task_ptr->r_no[3] = 0;
+        Training_Disp_Sub(task_ptr);
+        Training[0] = Training[2];
+        break;
+    }
 }
-#endif
 
 void Training_Disp_Sub(struct _TASK *task_ptr) {
     if (Mode_Type == 3) {
