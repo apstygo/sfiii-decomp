@@ -26,6 +26,9 @@ extern const u8 ttk_damage_req_tbl[83];
 extern const u8 parisucc_pts[2][40];
 extern const u8 dm_oiuchi_catch[32];
 
+extern HS hs[32];
+
+extern WORK *q_hit_push[32];
 extern s8 ca_check_flag; // size: 0x1, address: 0x5790F4
 
 void make_red_blocking_time(s16 id, s16 ix, s16 num);

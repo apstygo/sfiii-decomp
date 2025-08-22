@@ -4,6 +4,7 @@
 #include "structs.h"
 #include "types.h"
 
+void cal_damage_vitality(PLW *as, PLW *ds);
 void Additinal_Score_DM(WORK_Other *wk, u16 ix);
 
 #endif

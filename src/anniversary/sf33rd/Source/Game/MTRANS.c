@@ -1537,13 +1537,9 @@ void seqsInitialize(void *adrs) {
     seqs_w.sprMax = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", seqsGetSprMax);
-#else
 u16 seqsGetSprMax() {
-    not_implemented(__func__);
+    return seqs_w.sprMax;
 }
-#endif
 
 u32 seqsGetUseMemorySize() {
     return 0xD000;
