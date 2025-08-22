@@ -4793,13 +4793,53 @@ void Dummy_Move_Sub(struct _TASK *task_ptr, s16 PL_id, s16 id, s16 type, s16 max
 const u8 Menu_Max_Data_Tr[2][2][6] = { { { 4, 6, 2, 1, 0, 0 }, { 3, 1, 3, 7, 0, 0 } },
                                        { { 2, 3, 1, 3, 0, 0 }, { 0, 0, 0, 0, 0, 0 } } };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Dummy_Move_Sub_LR);
-#else
 void Dummy_Move_Sub_LR(u16 sw, s16 id, s16 type, s16 cursor_id) {
-    not_implemented(__func__);
+    s16 max = Menu_Max_Data_Tr[id][type][Menu_Cursor_Y[cursor_id]];
+
+    if (max == 0) {
+        return;
+    }
+
+    switch (sw) {
+    case 4:
+        Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]]--;
+
+        if (Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] < 0) {
+            Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] = max;
+        }
+
+        if (Interface_Type[Champion ^ 1] == 0 && id == 0 && type == 0 && Menu_Cursor_Y[cursor_id] == 0 &&
+            Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] == 4) {
+            Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] = 3;
+        }
+
+        SE_dir_cursor_move();
+        break;
+
+    case 8:
+        Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]]++;
+
+        if (Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] > max) {
+            Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] = 0;
+        }
+
+        if (Interface_Type[Champion ^ 1] == 0 && id == 0 && type == 0 && Menu_Cursor_Y[cursor_id] == 0 &&
+            Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] == 4) {
+            Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] = 0;
+        }
+
+        SE_dir_cursor_move();
+        break;
+
+    default:
+        if (Interface_Type[Champion ^ 1] == 0 && id == 0 && type == 0 && Menu_Cursor_Y[cursor_id] == 0 &&
+            Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] == 4) {
+            Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] = 0;
+        }
+
+        break;
+    }
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Blocking_Training);
