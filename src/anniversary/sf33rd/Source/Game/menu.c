@@ -102,6 +102,7 @@ void Setup_VS_Mode(struct _TASK *task_ptr);
 void Setup_Next_Page(struct _TASK *task_ptr, u8 /* unused */);
 void Load_Replay_Sub(struct _TASK *task_ptr);
 void Button_Exit_Check(struct _TASK *task_ptr, s16 PL_id);
+void Back_to_Mode_Select(struct _TASK *task_ptr);
 
 void bg_etc_write_ex(s16 type);
 void Decide_PL(s16 PL_id);
@@ -3543,13 +3544,42 @@ void Return_VS_Result_Sub(struct _TASK *task_ptr) {
     Order_Timer[110] = 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Save_Replay_MC_Sub);
-#else
-s32 Save_Replay_MC_Sub(struct _TASK *task_ptr, s16 unused) {
-    not_implemented(__func__);
+s32 Save_Replay_MC_Sub(struct _TASK *task_ptr, s16 /* unused */) {
+    switch (IO_Result) {
+    case 0x100:
+        SE_selected();
+
+        if (Menu_Cursor_X[0] == -1) {
+            break;
+        }
+
+        if (vm_w.Connect[Menu_Cursor_X[0]] == 0) {
+            break;
+        }
+
+        vm_w.Drive = (u8)Menu_Cursor_X[0];
+
+        if (VM_Access_Request(6, Menu_Cursor_X[0]) == 0) {
+            break;
+        }
+
+        task_ptr->free[1] = 0;
+        task_ptr->free[2] = 0;
+        task_ptr->r_no[0] = 3;
+        return 1;
+
+    case 0x200:
+        if (Mode_Type == 5) {
+            Back_to_Mode_Select(task_ptr);
+        } else {
+            Exit_Replay_Save(task_ptr);
+        }
+
+        return 1;
+    }
+
+    return 0;
 }
-#endif
 
 void Exit_Replay_Save(struct _TASK *task_ptr) {
     if (task_ptr->r_no[1] == 17) {
