@@ -3543,13 +3543,15 @@ void Setup_Save_Replay_2nd(struct _TASK *task_ptr, s16 unused) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Replay_Sub);
-#else
-void Setup_Replay_Sub(s16 type, s16 char_type, s16 master_player, s16 unused) {
-    not_implemented(__func__);
+void Setup_Replay_Sub(s16 /* unused */, s16 type, s16 char_type, s16 master_player) {
+    effect_57_init(type, char_type, 0, 63, 2);
+    Order[type] = 1;
+    Order_Dir[type] = 8;
+    Order_Timer[type] = 1;
+    effect_66_init(138, 8, master_player, 0, -1, -1, -0x7FF4);
+    Order[138] = 3;
+    Order_Timer[138] = 1;
 }
-#endif
 
 void Return_VS_Result_Sub(struct _TASK *task_ptr) {
     Menu_Suicide[0] = 0;
