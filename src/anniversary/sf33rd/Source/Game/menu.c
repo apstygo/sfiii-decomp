@@ -3196,8 +3196,8 @@ void Setup_Button_Sub(s16 x, s16 y, s16 master_player) {
     for (ix = 0; ix < 8; ix++, s1 = y += 2) {
         effect_10_init(0, 5, ix, ix, master_player, x, y);
         effect_10_init(1, 5, ix, ix, master_player, x + 22, y);
-        effect_10_init(0, 2, ix, Convert_Buff[0][2][ix], master_player, x + 3, y);
-        effect_10_init(1, 2, ix, Convert_Buff[0][3][ix], master_player, x + 25, y);
+        effect_10_init(0, 2, ix, Convert_Buff[1][0][ix], master_player, x + 3, y);
+        effect_10_init(1, 2, ix, Convert_Buff[1][1][ix], master_player, x + 25, y);
     }
 
     effect_10_init(0, 3, 8, Convert_Buff[1][0][8], master_player, x, y);
