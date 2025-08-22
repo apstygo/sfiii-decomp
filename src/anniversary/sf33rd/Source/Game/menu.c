@@ -3182,13 +3182,31 @@ void Button_Config_in_Game(struct _TASK *task_ptr) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Button_Sub);
-#else
 void Setup_Button_Sub(s16 x, s16 y, s16 master_player) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s32 effect_10_init(s16 id, u8 Type, u32 Type_in_Type, u32 dir_step, u32 Death_Type, s32 pos_x, s32 pos_y);
 #endif
+
+    s16 ix;
+    s16 s1;
+
+    effect_10_init(0, 7, 99, 0, master_player, x + 7, y + 20);
+    effect_10_init(0, 7, 99, 1, master_player, x + 29, y + 20);
+
+    for (ix = 0; ix < 8; ix++, s1 = y += 2) {
+        effect_10_init(0, 5, ix, ix, master_player, x, y);
+        effect_10_init(1, 5, ix, ix, master_player, x + 22, y);
+        effect_10_init(0, 2, ix, Convert_Buff[0][2][ix], master_player, x + 3, y);
+        effect_10_init(1, 2, ix, Convert_Buff[0][3][ix], master_player, x + 25, y);
+    }
+
+    effect_10_init(0, 3, 8, Convert_Buff[1][0][8], master_player, x, y);
+    effect_10_init(1, 3, 8, Convert_Buff[1][1][8], master_player, x + 22, y);
+    effect_10_init(0, 4, 9, 0, master_player, x, y + 2);
+    effect_10_init(1, 4, 9, 0, master_player, x + 22, y + 2);
+    effect_10_init(0, 0, 10, 2, master_player, x, y + 4);
+    effect_10_init(1, 0, 10, 2, master_player, x + 22, y + 4);
+}
 
 void Button_Exit_Check_in_Game(struct _TASK *task_ptr, s16 PL_id) {
     if (IO_Result & 0x200) {
