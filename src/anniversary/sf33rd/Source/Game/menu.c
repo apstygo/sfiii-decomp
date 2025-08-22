@@ -103,11 +103,13 @@ void Setup_Next_Page(struct _TASK *task_ptr, u8 /* unused */);
 void Load_Replay_Sub(struct _TASK *task_ptr);
 void Button_Exit_Check(struct _TASK *task_ptr, s16 PL_id);
 void Back_to_Mode_Select(struct _TASK *task_ptr);
+void Flash_1P_or_2P(struct _TASK *task_ptr);
 
 void bg_etc_write_ex(s16 type);
 void Decide_PL(s16 PL_id);
 void imgSelectGameButton();
 void jmpRebootProgram();
+s32 Check_Pause_Term_Tr(s16 PL_id);
 
 void Menu_in_Sub(struct _TASK *task_ptr);
 s32 Exit_Sub(struct _TASK *task_ptr, s16 cursor_ix, s16 next_routine);
@@ -3768,13 +3770,107 @@ void Decide_PL(s16 PL_id) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Wait_Pause_in_Tr);
-#else
 void Wait_Pause_in_Tr(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    u16 ans;
+    u16 ix;
+
+    Training_Data_Disp();
+    Control_Player_Tr();
+
+    if (End_Training) {
+        Next_Be_Tr_Menu(task_ptr);
+        return;
+    }
+
+    switch (task_ptr->r_no[1]) {
+    case 0:
+        if (Allow_a_battle_f) {
+            task_ptr->r_no[1]++;
+
+            if (Present_Mode == 4) {
+                Disp_Attack_Data = Training->contents[0][1][1];
+            } else {
+                Disp_Attack_Data = 0;
+            }
+        } else {
+            Disp_Attack_Data = 0;
+        }
+
+        /* fallthrough */
+
+    case 1:
+        if (Allow_a_battle_f == 0 || Extra_Break != 0) {
+            return;
+        }
+
+        ans = 0;
+
+        if (Check_Pause_Term_Tr(0)) {
+            ans = Pause_Check_Tr(0);
+        }
+
+        if (ans == 0 && Check_Pause_Term_Tr(1)) {
+            ans = Pause_Check_Tr(1);
+        }
+
+        switch (ans) {
+        case 1:
+            Setup_Tr_Pause(task_ptr);
+            break;
+
+        case 2:
+            Setup_Tr_Pause(task_ptr);
+            task_ptr->r_no[1] = 3;
+            break;
+        }
+
+        break;
+
+    case 2:
+        if (Interface_Type[Pause_ID] == 0) {
+            Setup_Tr_Pause(task_ptr);
+            task_ptr->r_no[1] = 3;
+            break;
+        }
+
+        if (Pause_Down) {
+            Flash_1P_or_2P(task_ptr);
+        }
+
+        switch (Pause_in_Normal_Tr(task_ptr)) {
+        case 1:
+            task_ptr->r_no[1] = 0;
+            SE_selected();
+            Game_pause = 0;
+            Pause = 0;
+            Pause_Down = 0;
+            Disp_Attack_Data = Training->contents[0][1][1];
+
+            for (ix = 0; ix < 4; ix++) {
+                Menu_Suicide[ix] = 1;
+            }
+
+            pulpul_request_again();
+            SsBgmHalfVolume(0);
+            break;
+
+        case 2:
+            Next_Be_Tr_Menu(task_ptr);
+            break;
+        }
+
+        break;
+
+    case 3:
+        if (Interface_Type[Pause_ID] == 0) {
+            dispControllerWasRemovedMessage(132, 82, 16);
+            break;
+        }
+
+        Setup_Tr_Pause(task_ptr);
+        break;
+    }
 }
-#endif
 
 void Control_Player_Tr() {
     switch (control_pl_rno) {
