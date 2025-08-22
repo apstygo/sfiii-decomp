@@ -4040,7 +4040,38 @@ void Normal_Training(struct _TASK *task_ptr) {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_NTr_Data);
+void Setup_NTr_Data(s16 ix) {
+    switch (ix) {
+    case 0:
+        Play_Mode = 0;
+        Replay_Status[0] = 0;
+        Replay_Status[1] = 0;
+        save_w[Present_Mode].Time_Limit = -1;
+        save_w[Present_Mode].Damage_Level = Training[2].contents[0][1][2];
+        Training[0] = Training[2];
+        break;
+
+    case 1:
+        Record_Data_Tr = 1;
+        Play_Mode = 1;
+        Replay_Status[0] = 1;
+        Replay_Status[1] = 1;
+        save_w[Present_Mode].Time_Limit = 60;
+        save_w[Present_Mode].Damage_Level = Training[2].contents[0][1][2];
+        Training[0] = Training[2];
+        Training[1] = Training[2];
+        break;
+
+    case 2:
+        Play_Mode = 3;
+        Replay_Status[0] = 3;
+        Replay_Status[1] = 3;
+        save_w[Present_Mode].Time_Limit = 60;
+        save_w[Present_Mode].Damage_Level = Training[1].contents[0][1][2];
+        Training[0] = Training[1];
+        break;
+    }
+}
 
 void Check_Skip_Replay(s16 ix) {
     if (Menu_Cursor_Y[0] != ix) {
