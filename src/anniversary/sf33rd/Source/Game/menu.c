@@ -3505,13 +3505,59 @@ u16 After_VS_Move_Sub(u16 sw, s16 cursor_id, s16 menu_max) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", VS_Result_Move_Sub);
-#else
 s32 VS_Result_Move_Sub(struct _TASK *task_ptr, s16 PL_id) {
-    not_implemented(__func__);
+    switch (IO_Result) {
+    case 0x100:
+        switch (Menu_Cursor_Y[PL_id]) {
+        case 0:
+            SE_selected();
+            Menu_Cursor_X[PL_id] = 1;
+
+            if (!Menu_Cursor_X[PL_id ^ 1]) {
+                break;
+            }
+
+            task_ptr->r_no[2] = 6;
+            task_ptr->r_no[3] = 0;
+            task_ptr->timer = 15;
+            return 1;
+
+        case 1:
+            SE_selected();
+            task_ptr->r_no[2] = 5;
+            task_ptr->r_no[3] = 0;
+            task_ptr->timer = 15;
+            return 1;
+
+        case 2:
+            SE_selected();
+            task_ptr->r_no[2] = 7;
+            task_ptr->r_no[3] = 0;
+            task_ptr->timer = 15;
+            return 1;
+        }
+
+        break;
+
+    case 0x200:
+        SE_selected();
+
+        if (Menu_Cursor_X[PL_id]) {
+            Menu_Cursor_X[PL_id] = 0;
+            break;
+        }
+
+        if (Menu_Cursor_Y[PL_id] == 2) {
+            task_ptr->r_no[2] = 99;
+            return 1;
+        }
+
+        Menu_Cursor_Y[PL_id] = 2;
+        break;
+    }
+
+    return 0;
 }
-#endif
 
 void Save_Replay(struct _TASK *task_ptr) {
     Menu_Cursor_X[1] = Menu_Cursor_X[0];
