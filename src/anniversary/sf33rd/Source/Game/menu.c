@@ -3308,13 +3308,80 @@ void bg_etc_write_ex(s16 type) {
     base_y_pos = 40;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Wait_Load_Save);
-#else
 void Wait_Load_Save(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    s16 ix;
+
+    switch (task_ptr->free[1]) {
+    case 0:
+        if (vm_w.Request != 0) {
+            break;
+        }
+
+        task_ptr->free[0] = 0;
+        task_ptr->free[1]++;
+
+        if (task_ptr->r_no[1] == 5) {
+            task_ptr->free[2] = 18;
+        } else {
+            task_ptr->free[2] = task_ptr->r_no[1];
+        }
+
+        Exit_Sub(task_ptr, 2, task_ptr->free[2]);
+        break;
+
+    case 1:
+        if (!Exit_Sub(task_ptr, 2, task_ptr->free[2])) {
+            break;
+        }
+
+        task_ptr->free[1]++;
+        task_ptr->timer = 1;
+
+        for (ix = 0; ix < 4; ix++) {
+            Menu_Suicide[ix] = 1;
+        }
+
+        switch (task_ptr->r_no[1]) {
+        case 13:
+            ix = 105;
+            break;
+
+        case 17:
+            task_ptr->r_no[2] = 99;
+            /* fallthrough */
+
+        case 6:
+            ix = 110;
+            break;
+
+        case 19:
+        case 20:
+            ix = 112;
+            break;
+
+        case 23:
+            ix = 105;
+            task_ptr->r_no[0] = 0;
+            task_ptr->r_no[2] = 99;
+            task_ptr->free[0] = 1;
+            task_ptr->free[1] = 8;
+            break;
+        }
+
+        Order[ix] = 4;
+        Order_Timer[ix] = 1;
+        break;
+
+    case 2:
+        FadeOut(1, 0xFF, 8);
+
+        if (--task_ptr->timer == 0) {
+            task_ptr->r_no[0] = 0;
+        }
+
+        break;
+    }
 }
-#endif
 
 void Disp_Auto_Save(struct _TASK *task_ptr) {
     void (*Auto_Save_Jmp_Tbl[4])() = { DAS_1st, DAS_2nd, DAS_3rd, DAS_4th };
