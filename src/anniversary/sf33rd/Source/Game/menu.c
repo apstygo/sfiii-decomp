@@ -4374,7 +4374,48 @@ void Check_Skip_Recording() {
     Menu_Cursor_Y[0]--;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Yes_No_Cursor_Exit_Training);
+void Yes_No_Cursor_Exit_Training(struct _TASK *task_ptr, s16 cursor_id) {
+    u16 sw = ~(plsw_01[Decide_ID]) & plsw_00[Decide_ID];
+
+    switch (sw) {
+    case 0x4:
+        Menu_Cursor_Y[0]--;
+
+        if (Menu_Cursor_Y[0] < 0) {
+            Menu_Cursor_Y[0] = 0;
+            break;
+        }
+
+        SE_dir_cursor_move();
+        break;
+
+    case 0x8:
+        Menu_Cursor_Y[0]++;
+
+        if (Menu_Cursor_Y[0] > 1) {
+            Menu_Cursor_Y[0] = 1;
+            break;
+        }
+
+        SE_dir_cursor_move();
+        break;
+
+    case 0x200:
+    case 0x100:
+        SE_selected();
+
+        if (Menu_Cursor_Y[0] || sw == 0x200) {
+            task_ptr->r_no[2] = 0;
+            Menu_Suicide[0] = 0;
+            Menu_Suicide[1] = 1;
+            Cursor_Y_Pos[0][0] = cursor_id;
+            break;
+        }
+
+        Soft_Reset_Sub();
+        break;
+    }
+}
 
 void Button_Config_Tr(struct _TASK *task_ptr) {
     switch (task_ptr->r_no[2]) {
@@ -4782,13 +4823,7 @@ void Default_Training_Option() {
     Disp_Attack_Data = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Wait_Replay_Load);
-#else
-void Wait_Replay_Load() {
-    not_implemented(__func__);
-}
-#endif
+void Wait_Replay_Load(struct _TASK *task_ptr) {}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", After_Replay);
