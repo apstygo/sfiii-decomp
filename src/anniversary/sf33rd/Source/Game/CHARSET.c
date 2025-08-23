@@ -341,7 +341,7 @@ s32 comm_djmp(WORK *wk, UNK11 *ctc) {
 
     u8 ldir;
 
-    if (ldir = get_comm_djmp_lever_dir((PLW *)wk)) {
+    if ((ldir = get_comm_djmp_lever_dir((PLW *)wk))) {
         if (ldir == 1) {
             return decord_if_jump(wk, ctc, ctc->ix);
         }
