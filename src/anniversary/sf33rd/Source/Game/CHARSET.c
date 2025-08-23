@@ -32,6 +32,7 @@ void get_char_data_zanzou(WORK *wk);
 
 extern const u16 acatkoa_table[65];
 extern s32 (*const decode_chcmd[125])();
+extern s32 (*const decode_if_lever[16])();
 extern const s16 jphos_table[16];
 extern const s16 kezuri_pow_table[5];
 
@@ -629,7 +630,12 @@ s32 comm_pa_y(WORK *wk, UNK11 *ctc) {
 }
 
 s32 comm_exec(WORK *wk, UNK11 *ctc) {
+#if defined(TARGET_PS2)
     effinitjptbl[ctc->koc](wk, (u8)ctc->ix);
+#else
+    fatal_error("effinitjptbl is not decompiled.");
+#endif
+
     return 1;
 }
 
@@ -1369,7 +1375,32 @@ s32 comm_ifs3(WORK *wk, UNK11 *ctc) {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", decord_if_jump);
+s16 decord_if_jump(WORK *wk, UNK11 *cpc, s16 ix) {
+    s16 rnum;
+
+    switch (ix & 0xE000) {
+    case 0x4000:
+        wk->cg_ix += ((ix & 0xFF) - 1) * wk->cgd_type;
+        rnum = 1;
+        break;
+
+    case 0x8000:
+        wk->cg_ix -= ((ix & 0xFF) + 1) * wk->cgd_type;
+        rnum = 1;
+        break;
+
+    case 0x2000:
+        rnum = decode_if_lever[ix & 0xFF](wk, cpc);
+        break;
+
+    default:
+        wk->cg_ix = (ix - 2) * wk->cgd_type;
+        rnum = 1;
+        break;
+    }
+
+    return rnum;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", get_comm_if_lever);
 
@@ -1381,7 +1412,21 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", get_comm_
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", get_comm_if_lvsh);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", get_comm_djmp_lever_dir);
+u8 get_comm_djmp_lever_dir(PLW *wk) {
+    u8 num;
+
+    if (wk->wu.work_id == 1) {
+        if (wk->py->flag == 0) {
+            num = wcp[wk->wu.id].lever_dir;
+        } else {
+            num = 0;
+        }
+    } else {
+        num = wcp[((WORK_Other *)wk)->master_id & 1].lever_dir;
+    }
+
+    return num;
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", setup_comm_back);
