@@ -160,13 +160,14 @@ void char_move_index(WORK *wk, s16 ix) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_cmja);
-#else
 void char_move_cmja(WORK *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
+
+    setup_comm_back(wk);
+    set_char_move_init2(wk, wk->cmja.koc, wk->cmja.ix, wk->cmja.pat, 0);
+}
 
 void char_move_cmj4(WORK *wk) {
 #if defined(TARGET_PS2)
