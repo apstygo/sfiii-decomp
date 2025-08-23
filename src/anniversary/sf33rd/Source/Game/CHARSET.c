@@ -14,7 +14,7 @@
 #include "sf33rd/Source/Game/cmd_data.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-s32 comm_wca(WORK *wk);
+s32 comm_wca(WORK *wk, UNK11 * /* unused */);
 s16 decord_if_jump(WORK *wk, UNK11 *cpc, s16 ix);
 u16 get_comm_if_lever(WORK *wk);
 u16 get_comm_if_shot(WORK *wk);
@@ -147,7 +147,10 @@ void char_move_wca_init(WORK *wk) {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_wca);
+s32 comm_wca(WORK *wk, UNK11 * /* unused */) {
+    char_move_wca_init(wk);
+    return 1;
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_index);
@@ -165,13 +168,14 @@ void char_move_cmja(WORK *wk) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_cmj4);
-#else
 void char_move_cmj4(WORK *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
+
+    setup_comm_back(wk);
+    set_char_move_init2(wk, wk->cmj4.koc, wk->cmj4.ix, wk->cmj4.pat, 0);
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_cmms);
