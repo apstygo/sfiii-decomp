@@ -2354,7 +2354,69 @@ u16 check_xcopy_filter_se_req(WORK *wk) {
     return voif + 0x600;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", check_cgd_patdat2);
+void check_cgd_patdat2(WORK *wk) {
+    union {
+        s32 l; // offset 0x0, size 0x4
+        struct {
+            // total size: 0x4
+            s16 l; // offset 0x0, size 0x2
+            s16 h; // offset 0x2, size 0x2
+        } w;       // offset 0x0, size 0x4
+    } st;          // r29+0x2C
+    u16 *seadrs;   // r16
+
+    switch (wk->cgd_type) {
+    case 6:
+        if (wk->cg_status & 0x80) {
+            wk->pat_status = wk->cg_status & 0x7F;
+        }
+
+        /* fallthrough */
+
+    case 4:
+        wk->cg_meoshi = wk->cg_hit_ix & 0x1FFF;
+        st.w.h = wk->cg_att_ix;
+        st.w.l = wk->cg_hit_ix;
+        wk->cg_att_ix >>= 6;
+        st.l *= 8;
+        wk->cg_hit_ix = st.w.h & 0x1FF;
+
+        if (wk->cg_att_ix) {
+            set_new_attnum(wk);
+        }
+
+        break;
+    }
+
+    wk->cg_jphos = jphos_table[wk->cg_olc_ix & 0xF];
+    wk->cg_olc_ix >>= 4;
+    wk->cg_flip = wk->cg_se & 3;
+    wk->cg_prio = (wk->cg_se & 0xF) >> 2;
+    wk->cg_se >>= 4;
+
+    if (wk->cg_se & 0x800) {
+        seadrs = (u16 *)&wk->se_random_table[wk->se_random_table[wk->cg_se & 0x7FF] / 4];
+        wk->cg_se = seadrs[random_16()];
+    }
+
+    if (wk->work_id == 1) {
+        if (wk->cg_rival == 0) {
+            wk->curr_rca = 0;
+        } else {
+            wk->curr_rca = &wk->rival_catch_tbl[wk->cg_rival - 20 + ((PLW *)wk)->tsukami_num];
+        }
+    }
+
+    wk->cg_olc.olc_ix = wk->olc_ix_table[wk->cg_olc_ix].olc_ix;
+    wk->cg_ja = wk->hit_ix_table[wk->cg_hit_ix];
+
+    set_jugde_area(wk);
+
+    if (wk->cg_type != 0xFF && wk->cg_type & 0x80) {
+        wk->cg_wca_ix = wk->cg_type & 0x7F;
+        wk->cg_type = 0;
+    }
+}
 
 void set_new_attnum(WORK *wk) {
     s16 aag_sw;
