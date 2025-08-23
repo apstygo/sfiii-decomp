@@ -1,13 +1,30 @@
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "common.h"
+#include "sf33rd/Source/Game/CMD_MAIN.h"
+#include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/EFFXX.h"
 #include "sf33rd/Source/Game/Grade.h"
 #include "sf33rd/Source/Game/HITCHECK.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/PLS03.h"
+#include "sf33rd/Source/Game/PulPul.h"
 #include "sf33rd/Source/Game/Se_Data.h"
+#include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/cmd_data.h"
 #include "sf33rd/Source/Game/workuser.h"
+
+s32 comm_wca(WORK *wk);
+s16 decord_if_jump(WORK *wk, UNK11 *cpc, s16 ix);
+u16 get_comm_if_lever(WORK *wk);
+u16 get_comm_if_shot(WORK *wk);
+u16 get_comm_if_shot_now_off(WORK *wk);
+u16 get_comm_if_shot_now(WORK *wk);
+u16 get_comm_if_lvsh(WORK *wk);
+u8 get_comm_djmp_lever_dir(PLW *wk);
+void setup_comm_retmj(WORK *wk);
+void check_cgd_patdat2(WORK *wk);
+void get_char_data_zanzou(WORK *wk);
 
 #define LO_2_BYTES(_val) (((s16 *)&_val)[0])
 #define HI_2_BYTES(_val) (((s16 *)&_val)[1])
@@ -180,13 +197,17 @@ s32 char_move_cmms3(PLW *wk) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_cmhs);
-#else
 void char_move_cmhs(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
+
+    if (wk->hsjp_ok != 0) {
+        setup_comm_back(&wk->wu);
+        wk->hsjp_ok = 0;
+        set_char_move_init2(&wk->wu, wk->wu.cmhs.koc, wk->wu.cmhs.ix, wk->wu.cmhs.pat, 0);
+    }
+}
 
 void char_move(WORK *wk) {
     wk->K5_exec_ok = 1;
@@ -1713,7 +1734,9 @@ s32 (*const decode_chcmd[125])() = {
     comm_s_chg, comm_schg2, comm_rhsja, comm_uhsja, comm_ifcom, comm_axjmp, comm_ayjmp, comm_ifs3
 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", decode_if_lever);
+s32 (*const decode_if_lever[16])() = { comm_dummy, comm_ret,  comm_uja,   comm_uja2, comm_uja3, comm_uja4,
+                                       comm_uja5,  comm_uja6, comm_uja7,  comm_umja, comm_back, comm_nex,
+                                       comm_nex2,  comm_wca,  comm_retmj, comm_abbak };
 
 const u16 acatkoa_table[65] = { 4,   4,   8,   8,   8,   8,   8,   8,   16,  16,  16,  16,  16,  16,  16,  16,  32,
                                 32,  32,  32,  32,  32,  32,  32,  64,  64,  64,  64,  64,  64,  64,  64,  128, 128,
