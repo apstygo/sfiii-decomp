@@ -2407,7 +2407,7 @@ void check_cgd_patdat2(WORK *wk) {
         }
     }
 
-    wk->cg_olc.cg_olc = wk->olc_ix_table[wk->cg_olc_ix].cg_olc;
+    wk->cg_olc = wk->olc_ix_table[wk->cg_olc_ix];
     wk->cg_ja = wk->hit_ix_table[wk->cg_hit_ix];
 
     set_jugde_area(wk);
