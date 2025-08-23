@@ -131,13 +131,13 @@ void char_move_z(WORK *wk) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_wca);
-#else
 void char_move_wca(WORK *wk) {
-    not_implemented(__func__);
+    wk->cg_next_ix = 0;
+    wk->cg_ix = (wk->cg_wca_ix - 1) * wk->cgd_type - wk->cgd_type;
+    wk->cg_ctr = 1;
+    wk->K5_init_flag = 1;
+    char_move(wk);
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_wca_init);
