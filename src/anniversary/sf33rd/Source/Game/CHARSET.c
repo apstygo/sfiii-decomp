@@ -39,13 +39,45 @@ extern const s16 kezuri_pow_table[5];
 static u16 check_xcopy_filter_se_req(WORK *wk);
 void setup_metamor_kezuri(WORK *wk);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", set_char_move_init);
-#else
 void set_char_move_init(WORK *wk, s16 koc, s16 index) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void grade_add_onaji_waza(s32 ix);
 #endif
+
+    wk->now_koc = koc;
+    wk->char_index = index;
+    wk->set_char_ad = &wk->char_table[koc][wk->char_table[koc][index] / 4];
+    setupCharTableData(wk, 1, 1);
+    wk->cg_ix = -wk->cgd_type;
+    wk->cg_ctr = 1;
+    wk->cg_next_ix = 0;
+    wk->old_cgnum = 0;
+    wk->cg_wca_ix = 0;
+    wk->cmoa.koc = wk->now_koc;
+    wk->cmoa.ix = wk->char_index;
+    wk->cmoa.pat = 1;
+    wk->cmwk[8] = 0;
+    wk->cmwk[0xF] = 0;
+    wk->kow = wk->kind_of_waza;
+
+    if (wk->work_id & 0xF) {
+        wk->at_koa = acatkoa_table[wk->kind_of_waza];
+    }
+
+    if (wk->work_id == 1) {
+        ((PLW *)wk)->tc_1st_flag = 0;
+
+        if (wk->now_koc == 4 || wk->now_koc == 5) {
+            grade_add_onaji_waza(wk->id);
+        }
+
+        ((PLW *)wk)->ja_nmj_rno = 0;
+        pp_pulpara_remake_at_init(wk);
+    }
+
+    wk->K5_init_flag = 1;
+    char_move(wk);
+}
 
 void setupCharTableData(WORK *wk, s32 clr, s32 info) {
     u32 *dst = (u32 *)&wk->cg_type;
