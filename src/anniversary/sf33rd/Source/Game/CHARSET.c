@@ -116,13 +116,21 @@ void set_char_move_init2(WORK *wk, s16 koc, s16 index, s16 ip, s16 scf) {
     char_move(wk);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", exset_char_move_init);
-#else
 void exset_char_move_init(WORK *wk, s16 koc, s16 index) {
-    not_implemented(__func__);
+    u8 now_ctr;
+
+    wk->now_koc = koc;
+    wk->char_index = index;
+    wk->set_char_ad = &wk->char_table[koc][wk->char_table[koc][index] / 4];
+    now_ctr = wk->cg_ctr;
+    setupCharTableData(wk, 0, 0);
+    wk->cg_ctr = now_ctr;
+    wk->cmoa.koc = wk->now_koc;
+    wk->cmoa.ix = wk->char_index;
+    wk->cmoa.pat = 1;
+    wk->K5_init_flag = 1;
+    check_cgd_patdat2(wk);
 }
-#endif
 
 void char_move_z(WORK *wk) {
     if (test_flag) {
