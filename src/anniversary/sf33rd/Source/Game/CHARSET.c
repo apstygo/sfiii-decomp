@@ -123,13 +123,15 @@ void exset_char_move_init(WORK *wk, s16 koc, s16 index) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_z);
-#else
 void char_move_z(WORK *wk) {
-    not_implemented(__func__);
+    if (test_flag) {
+        wk->cg_next_ix = 0;
+    }
+
+    wk->cg_ctr = 1;
+    wk->K5_init_flag = 1;
+    char_move(wk);
 }
-#endif
 
 void char_move_wca(WORK *wk) {
     wk->cg_next_ix = 0;
