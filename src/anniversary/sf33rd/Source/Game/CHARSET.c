@@ -327,13 +327,44 @@ s32 comm_addr(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_if_l);
-#else
 s32 comm_if_l(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
+
+    u16 lvdat;
+    u16 my_lvdat;
+
+    if (ctc->koc & 0x4000) {
+        my_lvdat = wk->cmwk[ctc->koc & 0xF];
+    } else {
+        my_lvdat = ctc->koc;
+    }
+
+    lvdat = get_comm_if_lever(wk);
+
+    if (!(my_lvdat & 0x7FFF)) {
+        if (lvdat == 0) {
+            return decord_if_jump(wk, ctc, ctc->ix);
+        }
+
+        return decord_if_jump(wk, ctc, ctc->pat);
+    }
+
+    if (my_lvdat & 0x8000) {
+        if (lvdat == (my_lvdat & 0xF)) {
+            return decord_if_jump(wk, ctc, ctc->ix);
+        }
+
+        return decord_if_jump(wk, ctc, ctc->pat);
+    }
+
+    if (lvdat & my_lvdat) {
+        return decord_if_jump(wk, ctc, ctc->ix);
+    }
+
+    return decord_if_jump(wk, ctc, ctc->pat);
+}
 
 s32 comm_djmp(WORK *wk, UNK11 *ctc) {
 #if defined(TARGET_PS2)
@@ -663,21 +694,32 @@ s32 comm_pjmp(WORK *wk, UNK11 *ctc) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_hjmp);
-#else
 s32 comm_hjmp(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_hclr);
-#else
-s32 comm_hclr(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    if (wk->meoshi_hit_flag != 0 && wk->hf.hit_flag != 0) {
+        if (wk->hf.hit_flag & 0x303) {
+            return decord_if_jump(wk, ctc, ctc->koc);
+        }
+
+        if (wk->hf.hit_flag & 0x3030) {
+            return decord_if_jump(wk, ctc, ctc->ix);
+        }
+
+        if (wk->hf.hit_flag & 0xC0C0) {
+            return decord_if_jump(wk, ctc, ctc->pat);
+        }
+    }
+
+    return 1;
 }
-#endif
+
+s32 comm_hclr(WORK *wk, UNK11 *ctc) {
+    wk->hf.hit_flag = 0;
+    return 1;
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_ixfw);
@@ -711,13 +753,33 @@ s32 comm_quay(WORK *wk, UNK11 *ctc) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_if_s);
-#else
 s32 comm_if_s(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
+
+    u16 shdat;
+    u16 my_shdat;
+
+    if (ctc->koc & 0x4000) {
+        my_shdat = wk->cmwk[ctc->koc & 0xF];
+    } else {
+        my_shdat = ctc->koc;
+    }
+
+    shdat = get_comm_if_shot(wk);
+
+    if (wk->work_id == 1 && ((PLW *)wk)->player_number == 16 && ((PLW *)wk)->spmv_ng_flag & 2 && my_shdat == 0x440 &&
+        pcon_dp_flag) {
+        shdat = 0;
+    }
+
+    if (my_shdat == shdat) {
+        return decord_if_jump(wk, ctc, ctc->ix);
+    }
+
+    return decord_if_jump(wk, ctc, ctc->pat);
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rapp);
@@ -735,13 +797,10 @@ s32 comm_rapk(WORK *wk, UNK11 *ctc) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_gets);
-#else
 s32 comm_gets(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    setupCharTableData(wk, 0, 1);
+    return 1;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_s123);
@@ -1402,9 +1461,29 @@ s16 decord_if_jump(WORK *wk, UNK11 *cpc, s16 ix) {
     return rnum;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", get_comm_if_lever);
+u16 get_comm_if_lever(WORK *wk) {
+    u16 num;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", get_comm_if_shot);
+    if (wk->work_id == 1) {
+        num = wcp[wk->id].sw_new & 0xF;
+    } else {
+        num = wcp[((WORK_Other *)wk)->master_id & 1].sw_new & 0xF;
+    }
+
+    return num;
+}
+
+u16 get_comm_if_shot(WORK *wk) {
+    u16 num;
+
+    if (wk->work_id == 1) {
+        num = wcp[wk->id].sw_new & 0x770;
+    } else {
+        num = wcp[((WORK_Other *)wk)->master_id & 1].sw_new & 0x770;
+    }
+
+    return num;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", get_comm_if_shot_now_off);
 
