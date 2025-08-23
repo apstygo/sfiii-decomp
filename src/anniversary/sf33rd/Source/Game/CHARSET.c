@@ -2174,23 +2174,24 @@ u8 get_comm_djmp_lever_dir(PLW *wk) {
     return num;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", setup_comm_back);
-#else
 void setup_comm_back(WORK *wk) {
-    not_implemented(__func__);
+    wk->K5_init_flag = 1;
+    wk->cmbk.koc = wk->now_koc;
+    wk->cmbk.ix = wk->char_index;
+    wk->cmbk.pat = (wk->cg_ix / wk->cgd_type) + 2;
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", setup_comm_retmj);
+void setup_comm_retmj(WORK *wk) {
+    wk->cmb2.koc = wk->now_koc;
+    wk->cmb2.ix = wk->char_index;
+    wk->cmb2.pat = wk->cg_ix;
+}
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", setup_comm_abbak);
-#else
 void setup_comm_abbak(WORK *wk) {
-    not_implemented(__func__);
+    wk->cmb3.koc = wk->now_koc;
+    wk->cmb3.ix = wk->char_index;
+    wk->cmb3.pat = (wk->cg_ix / wk->cgd_type) + 2;
 }
-#endif
 
 void check_cgd_patdat(WORK *wk) {
     union {
