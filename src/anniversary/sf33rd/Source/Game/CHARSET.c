@@ -152,13 +152,13 @@ s32 comm_wca(WORK *wk, UNK11 * /* unused */) {
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_index);
-#else
 void char_move_index(WORK *wk, s16 ix) {
-    not_implemented(__func__);
+    wk->cg_next_ix = 0;
+    wk->cg_ix = (ix - 1) * wk->cgd_type - wk->cgd_type;
+    wk->cg_ctr = 1;
+    wk->K5_init_flag = 1;
+    char_move(wk);
 }
-#endif
 
 void char_move_cmja(WORK *wk) {
 #if defined(TARGET_PS2)
