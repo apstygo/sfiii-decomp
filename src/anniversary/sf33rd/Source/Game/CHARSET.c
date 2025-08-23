@@ -2500,7 +2500,14 @@ void set_jugde_area(WORK *wk) {
     wk->h_han = wk->hand_adrs + (wk->cg_ja.bhix + wk->cg_ja.haix);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", get_char_data_zanzou);
+void get_char_data_zanzou(WORK *wk) {
+    if (wk->cg_att_ix) {
+        set_new_attnum(wk);
+    }
+
+    wk->cg_ja = wk->hit_ix_table[wk->cg_hit_ix];
+    set_jugde_area(wk);
+}
 
 const s16 jphos_table[16] = { 0x0000, 0xFFF0, 0xFFF4, 0xFFF8, 0xFFFC, 0x0004, 0x0008, 0x000C,
                               0x0010, 0x0014, 0x0018, 0x001C, 0x0020, 0x0024, 0x0028, 0x002C };
