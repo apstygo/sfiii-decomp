@@ -229,21 +229,83 @@ void char_move_cmms(WORK *wk) {
     set_char_move_init2(wk, wk->cmms.koc, wk->cmms.ix, wk->cmms.pat, 0);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_cmms2);
-#else
 void char_move_cmms2(WORK *wk) {
-    not_implemented(__func__);
-}
-#endif
+    u32 *to_ram;
+    s16 i;
+    s16 now_cgd;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_cmms3);
-#else
-s32 char_move_cmms3(PLW *wk) {
-    not_implemented(__func__);
+    setup_comm_back(wk);
+    now_cgd = wk->cgd_type;
+    wk->now_koc = wk->cmms.koc;
+    wk->char_index = wk->cmms.ix;
+    wk->set_char_ad = &wk->char_table[wk->now_koc][wk->char_table[wk->now_koc][wk->char_index] / 4];
+    setupCharTableData(wk, 0, 1);
+
+    if (now_cgd > wk->cgd_type) {
+        to_ram = (u32 *)&wk->cg_wca_ix;
+
+        for (i = 0; i < (now_cgd - wk->cgd_type); i++) {
+            *--to_ram = 0;
+        }
+    }
+
+    wk->cg_ix = (wk->cmms.pat - 1) * wk->cgd_type - wk->cgd_type;
+    wk->cg_ctr = 1;
+    wk->cg_next_ix = 0;
+    wk->old_cgnum = 0;
+    wk->cg_wca_ix = 0;
+    wk->kow = wk->kind_of_waza;
 }
-#endif
+
+s32 char_move_cmms3(PLW *wk) {
+    UNK11 *cpc;
+    u32 *to_ram;
+    s16 i;
+    s16 now_cgd;
+
+    wk->meoshi_jump_flag = 1;
+    setup_comm_retmj(&wk->wu);
+    setup_comm_back(&wk->wu);
+    now_cgd = wk->wu.cgd_type;
+    wk->wu.now_koc = wk->wu.cmms.koc;
+    wk->wu.char_index = wk->wu.cmms.ix;
+    wk->wu.set_char_ad = &wk->wu.char_table[wk->wu.now_koc][wk->wu.char_table[wk->wu.now_koc][wk->wu.char_index] / 4];
+    setupCharTableData(&wk->wu, 0, 1);
+    wk->wu.cg_ix = wk->wu.cmms.pat * wk->wu.cgd_type - wk->wu.cgd_type;
+    wk->wu.kow = wk->wu.kind_of_waza;
+
+    while (1) {
+        cpc = (UNK11 *)&wk->wu.set_char_ad[wk->wu.cg_ix];
+
+        if (cpc->code >= 0x100) {
+            break;
+        }
+
+        if (decode_chcmd[cpc->code](wk, cpc) != 0) {
+            wk->wu.cg_ix += wk->wu.cgd_type;
+        } else if (wk->meoshi_jump_flag != 0) {
+            break;
+        } else {
+            return 0;
+        }
+    }
+
+    if (now_cgd > wk->wu.cgd_type) {
+        to_ram = (u32 *)&wk->wu.cg_wca_ix;
+
+        for (i = 0; i < now_cgd - wk->wu.cgd_type; i++) {
+            *--to_ram = 0;
+        }
+    }
+
+    wk->wu.cg_ix -= wk->wu.cgd_type;
+    wk->wu.cg_ctr = 1;
+    wk->wu.cg_next_ix = 0;
+    wk->wu.old_cgnum = 0;
+    wk->wu.cg_wca_ix = 0;
+    wk->meoshi_jump_flag = 0;
+    return 1;
+}
 
 void char_move_cmhs(PLW *wk) {
 #if defined(TARGET_PS2)
