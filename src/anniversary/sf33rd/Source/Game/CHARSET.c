@@ -254,10 +254,11 @@ s32 comm_dummy(WORK * /* unused */, UNK11 * /* unused */) {
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_roa);
-#else
 s32 comm_roa(WORK *wk, UNK11 * /* unused */) {
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
+#endif
+
     if (wk->cmoa.pat == 0) {
         wk->cmoa.koc = wk->now_koc;
         wk->cmoa.ix = wk->char_index;
@@ -267,60 +268,62 @@ s32 comm_roa(WORK *wk, UNK11 * /* unused */) {
     set_char_move_init2(wk, wk->cmoa.koc, wk->cmoa.ix, wk->cmoa.pat, 0);
     return 0;
 }
-#endif
 
 s32 comm_end(WORK *wk, UNK11 *ctc) {
     wk->cg_ix = (ctc->pat - 2) * wk->cgd_type;
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_jmp);
-#else
 s32 comm_jmp(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_jpss);
-#else
+    setup_comm_back(wk);
+    set_char_move_init2(wk, ctc->koc, ctc->ix, ctc->pat, 0);
+    return 0;
+}
+
 s32 comm_jpss(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_jsr);
-#else
+    setup_comm_back(wk);
+    set_char_move_init2(wk, ctc->koc, ctc->ix, ctc->pat, 1);
+    return 0;
+}
+
 s32 comm_jsr(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_ret);
-#else
-s32 comm_ret(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->cmsw.koc = wk->now_koc;
+    wk->cmsw.ix = wk->char_index;
+    wk->cmsw.pat = (wk->cg_ix / wk->cgd_type) + 2;
+    set_char_move_init2(wk, ctc->koc, ctc->ix, ctc->pat, 0);
+    return 0;
 }
+
+s32 comm_ret(WORK *wk, UNK11 * /* unused */) {
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_sps);
-#else
+    set_char_move_init2(wk, wk->cmsw.koc, wk->cmsw.ix, wk->cmsw.pat, 0);
+    return 0;
+}
+
 s32 comm_sps(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->pat_status = ctc->pat;
+    return 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_setr);
-#else
 s32 comm_setr(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->routine_no[ctc->koc] = ctc->ix;
+    return 1;
 }
-#endif
 
 s32 comm_addr(WORK *wk, UNK11 *ctc) {
     wk->routine_no[ctc->koc] += ctc->ix;
@@ -397,10 +400,11 @@ s32 comm_for(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_nex);
-#else
 s32 comm_nex(WORK *wk, UNK11 *ctc) {
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
+#endif
+
     if (wk->cmlp.code) {
         if (--wk->cmlp.code > 0) {
             set_char_move_init2(wk, wk->cmlp.koc, wk->cmlp.ix, wk->cmlp.pat, 1);
@@ -410,7 +414,6 @@ s32 comm_nex(WORK *wk, UNK11 *ctc) {
 
     return 1;
 }
-#endif
 
 s32 comm_for2(WORK *wk, UNK11 *ctc) {
     if (ctc->pat & 0x4000) {
@@ -425,165 +428,175 @@ s32 comm_for2(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_nex2);
-#else
 s32 comm_nex2(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rja);
-#else
+    if (wk->cml2.code && --wk->cml2.code > 0) {
+        set_char_move_init2(wk, wk->cml2.koc, wk->cml2.ix, wk->cml2.pat, 1);
+        return 0;
+    }
+
+    return 1;
+}
+
 s32 comm_rja(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->cmja.koc = ctc->koc;
+    wk->cmja.ix = ctc->ix;
+    wk->cmja.pat = ctc->pat;
+    return 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_uja);
-#else
 s32 comm_uja(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rja2);
-#else
+    setup_comm_back(wk);
+    set_char_move_init2(wk, wk->cmja.koc, wk->cmja.ix, wk->cmja.pat, 0);
+    return 0;
+}
+
 s32 comm_rja2(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->cmj2.koc = ctc->koc;
+    wk->cmj2.ix = ctc->ix;
+    wk->cmj2.pat = ctc->pat;
+    return 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_uja2);
-#else
 s32 comm_uja2(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rja3);
-#else
+    setup_comm_back(wk);
+    set_char_move_init2(wk, wk->cmj2.koc, wk->cmj2.ix, wk->cmj2.pat, 0);
+    return 0;
+}
+
 s32 comm_rja3(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->cmj3.koc = ctc->koc;
+    wk->cmj3.ix = ctc->ix;
+    wk->cmj3.pat = ctc->pat;
+    return 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_uja3);
-#else
 s32 comm_uja3(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rja4);
-#else
+    setup_comm_back(wk);
+    set_char_move_init2(wk, wk->cmj3.koc, wk->cmj3.ix, wk->cmj3.pat, 0);
+    return 0;
+}
+
 s32 comm_rja4(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->cmj4.koc = ctc->koc;
+    wk->cmj4.ix = ctc->ix;
+    wk->cmj4.pat = ctc->pat;
+    return 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_uja4);
-#else
 s32 comm_uja4(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rja5);
-#else
+    setup_comm_back(wk);
+    set_char_move_init2(wk, wk->cmj4.koc, wk->cmj4.ix, wk->cmj4.pat, 0);
+    return 0;
+}
+
 s32 comm_rja5(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->cmj5.koc = ctc->koc;
+    wk->cmj5.ix = ctc->ix;
+    wk->cmj5.pat = ctc->pat;
+    return 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_uja5);
-#else
 s32 comm_uja5(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rja6);
-#else
+    setup_comm_back(wk);
+    set_char_move_init2(wk, wk->cmj5.koc, wk->cmj5.ix, wk->cmj5.pat, 0);
+    return 0;
+}
+
 s32 comm_rja6(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->cmj6.koc = ctc->koc;
+    wk->cmj6.ix = ctc->ix;
+    wk->cmj6.pat = ctc->pat;
+    return 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_uja6);
-#else
 s32 comm_uja6(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rja7);
-#else
+    setup_comm_back(wk);
+    set_char_move_init2(wk, wk->cmj6.koc, wk->cmj6.ix, wk->cmj6.pat, 0);
+    return 0;
+}
+
 s32 comm_rja7(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->cmj7.koc = ctc->koc;
+    wk->cmj7.ix = ctc->ix;
+    wk->cmj7.pat = ctc->pat;
+    return 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_uja7);
-#else
 s32 comm_uja7(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rmja);
-#else
+    setup_comm_back(wk);
+    set_char_move_init2(wk, wk->cmj7.koc, wk->cmj7.ix, wk->cmj7.pat, 0);
+    return 0;
+}
+
 s32 comm_rmja(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->cmms.koc = ctc->koc;
+    wk->cmms.ix = ctc->ix;
+    wk->cmms.pat = ctc->pat;
+    return 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_umja);
-#else
 s32 comm_umja(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_mdat);
-#else
+    setup_comm_back(wk);
+    set_char_move_init2(wk, wk->cmms.koc, wk->cmms.ix, wk->cmms.pat, 0);
+    return 0;
+}
+
 s32 comm_mdat(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->cmmd.koc = ctc->koc;
+    wk->cmmd.ix = ctc->ix;
+    wk->cmmd.pat = ctc->pat;
+    return 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_ydat);
-#else
 s32 comm_ydat(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->cmyd.koc = ctc->koc;
+    wk->cmyd.ix = ctc->ix;
+    wk->cmyd.pat = ctc->pat;
+    return 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_mpos);
-#else
 s32 comm_mpos(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->att.hit_mark = ctc->koc;
+    wk->hit_mark_x = ctc->ix;
+    wk->hit_mark_y = ctc->pat;
+    return 1;
 }
-#endif
 
 s32 comm_cafr(WORK *wk, UNK11 *ctc) {
     wk->cmcf.koc = ctc->koc;
@@ -599,45 +612,172 @@ s32 comm_care(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_psxy);
-#else
 s32 comm_psxy(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
-#endif
+    WORK *emwk;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_ps_x);
-#else
+    switch (ctc->koc) {
+    case 0:
+        wk->xyz[0].disp.pos = ctc->ix;
+        wk->xyz[1].disp.pos = ctc->pat;
+        break;
+
+    case 2:
+        wk->xyz[0].disp.pos = ctc->ix;
+        wk->xyz[1].disp.pos = ctc->pat;
+        /* fallthrough */
+
+    default:
+        emwk = (WORK *)wk->target_adrs;
+        emwk->xyz[0].disp.pos = ctc->ix;
+        emwk->xyz[1].disp.pos = ctc->pat;
+        break;
+    }
+
+    return 1;
+}
+
 s32 comm_ps_x(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
-#endif
+    WORK *emwk;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_ps_y);
-#else
+    switch (ctc->koc) {
+    case 0:
+        wk->xyz[0].disp.pos = ctc->ix;
+        break;
+
+    case 2:
+        wk->xyz[0].disp.pos = ctc->ix;
+        /* fallthrough */
+
+    default:
+        emwk = (WORK *)wk->target_adrs;
+        emwk->xyz[0].disp.pos = ctc->ix;
+        break;
+    }
+
+    return 1;
+}
+
 s32 comm_ps_y(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
-#endif
+    WORK *emwk;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_paxy);
-#else
+    if (wk->work_id == 1) {
+        switch (ctc->koc) {
+        case 0:
+            if (bg_w.stage == 20 && ((PLW *)wk)->bs2_on_car && ctc->pat < bs2_floor[2]) {
+                wk->xyz[1].disp.pos = bs2_floor[2];
+            } else {
+                wk->xyz[1].disp.pos = ctc->pat;
+            }
+
+            break;
+
+        case 2:
+            wk->xyz[1].disp.pos = ctc->pat;
+            /* fallthrough */
+
+        default:
+            emwk = (WORK *)wk->target_adrs;
+            emwk->xyz[1].disp.pos = ctc->pat;
+            break;
+        }
+
+        return 1;
+    }
+
+    switch (ctc->koc) {
+    case 0:
+        wk->xyz[1].disp.pos = ctc->pat;
+        break;
+
+    case 2:
+        wk->xyz[1].disp.pos = ctc->pat;
+        /* fallthrough */
+
+    default:
+        emwk = (WORK *)wk->target_adrs;
+        emwk->xyz[1].disp.pos = ctc->pat;
+        break;
+    }
+
+    return 1;
+}
+
 s32 comm_paxy(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
-#endif
+    WORK *emwk;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_pa_x);
-#else
-s32 comm_pa_x(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    switch (ctc->koc) {
+    case 0:
+        if (wk->rl_flag) {
+            wk->xyz[0].cal += ctc->ix << 8;
+        } else {
+            wk->xyz[0].cal -= ctc->ix << 8;
+        }
+
+        wk->xyz[1].cal += ctc->pat << 8;
+        break;
+
+    case 2:
+        if (wk->rl_flag) {
+            wk->xyz[0].cal += ctc->ix << 8;
+        } else {
+            wk->xyz[0].cal -= ctc->ix << 8;
+        }
+
+        wk->xyz[1].cal += ctc->pat << 8;
+        /* fallthrough */
+
+    default:
+        emwk = (WORK *)wk->target_adrs;
+
+        if (emwk->rl_flag) {
+            emwk->xyz[0].cal += ctc->ix << 8;
+        } else {
+            emwk->xyz[0].cal -= ctc->ix << 8;
+        }
+
+        emwk->xyz[1].cal += ctc->pat << 8;
+        break;
+    }
+
+    return 1;
 }
-#endif
+
+s32 comm_pa_x(WORK *wk, UNK11 *ctc) {
+    WORK *emwk;
+
+    switch (ctc->koc) {
+    case 0:
+        if (wk->rl_flag) {
+            wk->xyz[0].cal += ctc->ix << 8;
+        } else {
+            wk->xyz[0].cal -= ctc->ix << 8;
+        }
+
+        break;
+
+    case 2:
+        if (wk->rl_flag) {
+            wk->xyz[0].cal += ctc->ix << 8;
+        } else {
+            wk->xyz[0].cal -= ctc->ix << 8;
+        }
+
+        /* fallthrough */
+
+    default:
+        emwk = (WORK *)wk->target_adrs;
+
+        if (emwk->rl_flag) {
+            emwk->xyz[0].cal += ctc->ix << 8;
+        } else {
+            emwk->xyz[0].cal -= ctc->ix << 8;
+        }
+
+        break;
+    }
+
+    return 1;
+}
 
 s32 comm_pa_y(WORK *wk, UNK11 *ctc) {
     WORK *emwk;
@@ -670,29 +810,51 @@ s32 comm_exec(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rngc);
-#else
 s32 comm_rngc(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_mxyt);
-#else
+    s16 rngdat;
+
+    if (wk->work_id == 1) {
+        rngdat = get_em_body_range(wk);
+    } else {
+        rngdat = get_em_body_range((WORK *)((WORK_Other *)wk)->my_master);
+    }
+
+    if (rngdat > ctc->koc) {
+        return decord_if_jump(wk, ctc, ctc->pat);
+    }
+
+    return decord_if_jump(wk, ctc, ctc->ix);
+}
+
 s32 comm_mxyt(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void setup_mvxy_data(WORK * wk, u32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_pjmp);
-#else
-s32 comm_pjmp(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    if (ctc->koc) {
+        setup_mvxy_data(wk, ctc->koc);
+    } else {
+        reset_mvxy_data(wk);
+    }
+
+    return 1;
 }
+
+s32 comm_pjmp(WORK *wk, UNK11 *ctc) {
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
+
+    if (random_32() < ctc->koc) {
+        return decord_if_jump(wk, ctc, ctc->ix);
+    }
+
+    return decord_if_jump(wk, ctc, ctc->pat);
+}
 
 s32 comm_hjmp(WORK *wk, UNK11 *ctc) {
 #if defined(TARGET_PS2)
@@ -721,13 +883,13 @@ s32 comm_hclr(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_ixfw);
-#else
 s32 comm_ixfw(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    if (test_flag == 0 || ixbfw_cut == 0) {
+        wk->cg_ix += (ctc->pat - 1) * wk->cgd_type;
+    }
+
+    return 1;
 }
-#endif
 
 s32 comm_ixbw(WORK *wk, UNK11 *ctc) {
     if ((test_flag == 0) || (ixbfw_cut == 0)) {
@@ -737,21 +899,20 @@ s32 comm_ixbw(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_quax);
-#else
-s32 comm_quax(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+s32 comm_quax(WORK * /* unused */, UNK11 *ctc) {
+    bg_w.quake_x_index = ctc->koc;
+    return 1;
 }
+
+s32 comm_quay(WORK * /* unused */, UNK11 *ctc) {
+#if defined(TARGET_PS2)
+    void pp_screen_quake(s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_quay);
-#else
-s32 comm_quay(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    bg_w.quake_y_index = ctc->koc;
+    pp_screen_quake(bg_w.quake_y_index);
+    return 1;
 }
-#endif
 
 s32 comm_if_s(WORK *wk, UNK11 *ctc) {
 #if defined(TARGET_PS2)
@@ -781,42 +942,72 @@ s32 comm_if_s(WORK *wk, UNK11 *ctc) {
     return decord_if_jump(wk, ctc, ctc->pat);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rapp);
-#else
 s32 comm_rapp(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rapk);
-#else
-s32 comm_rapk(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    if (wk->work_id == 1) {
+        if (wcp[wk->id].waza_flag[9]) {
+            setup_comm_back(wk);
+            set_char_move_init2(wk, ctc->koc, ctc->ix, ctc->pat, 1);
+            return 0;
+        }
+
+        return 1;
+    }
+
+    if (wcp[((WORK_Other *)wk)->master_id & 1].waza_flag[9]) {
+        setup_comm_back(wk);
+        set_char_move_init2(wk, ctc->koc, ctc->ix, ctc->pat, 1);
+        return 0;
+    }
+
+    return 1;
 }
+
+s32 comm_rapk(WORK *wk, UNK11 *ctc) {
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
+
+    if (wk->work_id == 1) {
+        if (wcp[wk->id].waza_flag[11]) {
+            setup_comm_back(wk);
+            set_char_move_init2(wk, ctc->koc, ctc->ix, ctc->pat, 1);
+            return 0;
+        }
+
+        return 1;
+    }
+
+    if (wcp[((WORK_Other *)wk)->master_id & 1].waza_flag[11]) {
+        setup_comm_back(wk);
+        set_char_move_init2(wk, ctc->koc, ctc->ix, ctc->pat, 1);
+        return 0;
+    }
+
+    return 1;
+}
 
 s32 comm_gets(WORK *wk, UNK11 *ctc) {
     setupCharTableData(wk, 0, 1);
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_s123);
-#else
 s32 comm_s123(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->routine_no[1] = ctc->koc;
+    wk->routine_no[2] = ctc->ix;
+    wk->routine_no[3] = ctc->pat;
+    return 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_s456);
-#else
 s32 comm_s456(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->routine_no[4] = ctc->koc;
+    wk->routine_no[5] = ctc->ix;
+    wk->routine_no[6] = ctc->pat;
+    return 1;
 }
-#endif
 
 s32 comm_a123(WORK *wk, UNK11 *ctc) {
     wk->routine_no[4] += ctc->koc;
@@ -832,45 +1023,91 @@ s32 comm_a456(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
+s32 comm_stop(PLW *wk, UNK11 *ctc) {
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_stop);
-#else
-s32 comm_stop(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+    void setup_shell_hit_stop(WORK * wk, s32 tm, s32 fl);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_smhf);
-#else
+    PLW *wk2;
+
+    if (test_flag == 0) {
+        wk->wu.dm_stop = 0;
+        wk->wu.hit_stop = ctc->koc;
+        wk2 = (PLW *)wk->wu.target_adrs;
+        wk2->wu.hit_stop = ctc->ix;
+        wk2->sa_stop_sai = ctc->ix - 4;
+
+        if (wk2->sa_stop_sai < 0) {
+            wk2->sa_stop_sai = 1;
+        }
+
+        setup_shell_hit_stop(&wk->wu, ctc->ix, ctc->pat);
+        setup_shell_hit_stop(&wk2->wu, ctc->ix, 0);
+        wk->sa_stop_flag = 0;
+        wk2->sa_stop_flag = 2;
+        wk2->just_sa_stop_timer = Game_timer;
+    }
+
+    return 1;
+}
+
 s32 comm_smhf(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->meoshi_hit_flag = ctc->koc;
+    return 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_ngme);
-#else
 s32 comm_ngme(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
-#endif
+    WORK *emwk;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_ngem);
-#else
+    emwk = (WORK *)wk->hit_adrs;
+    emwk->routine_no[1] = 3;
+    emwk->routine_no[2] = 1;
+    emwk->routine_no[3] = 1;
+
+    if (test_flag) {
+        wk->cmyd.pat = 1;
+    }
+
+    return 1;
+}
+
 s32 comm_ngem(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    WORK *emwk;
+
+    emwk = (WORK *)wk->hit_adrs;
+    emwk->routine_no[1] = 3;
+    emwk->routine_no[2] = 2;
+    emwk->routine_no[3] = 1;
+
+    if (test_flag) {
+        wk->cmyd.pat = 2;
+    }
+
+    return 1;
 }
+
+s32 comm_iflb(WORK *wk, UNK11 *ctc) {
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_iflb);
-#else
-s32 comm_iflb(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    u16 shdat;
+    u16 my_shdat;
+
+    if (ctc->koc & 0x4000) {
+        my_shdat = wk->cmwk[ctc->koc & 0xF];
+    } else {
+        my_shdat = ctc->koc;
+    }
+
+    shdat = get_comm_if_lvsh(wk);
+
+    if (my_shdat == shdat) {
+        return decord_if_jump(wk, ctc, ctc->ix);
+    }
+
+    return decord_if_jump(wk, ctc, ctc->pat);
 }
-#endif
 
 s32 comm_asxy(WORK *wk, UNK11 *ctc) {
     s16 *from_rom2 = &wk->step_xy_table[ctc->koc];
@@ -890,21 +1127,41 @@ s32 comm_asxy(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_schx);
-#else
 s32 comm_schx(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
-#endif
+    switch (ctc->koc) {
+    case 0:
+        wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * ctc->ix) / ctc->pat;
+        break;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_schy);
-#else
-s32 comm_schy(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    case 2:
+        wk->mvxy.a[0].sp = (wk->mvxy.a[0].sp * ctc->ix) / ctc->pat;
+        /* fallthrough */
+
+    case 1:
+        wk->mvxy.d[0].sp = (wk->mvxy.d[0].sp * ctc->ix) / ctc->pat;
+        break;
+    }
+
+    return 1;
 }
-#endif
+
+s32 comm_schy(WORK *wk, UNK11 *ctc) {
+    switch (ctc->koc) {
+    case 0:
+        wk->mvxy.a[1].sp = (wk->mvxy.a[1].sp * ctc->ix) / ctc->pat;
+        break;
+
+    case 2:
+        wk->mvxy.a[1].sp = (wk->mvxy.a[1].sp * ctc->ix) / ctc->pat;
+        /* fallthrough */
+
+    case 1:
+        wk->mvxy.d[1].sp = (wk->mvxy.d[1].sp * ctc->ix) / ctc->pat;
+        break;
+    }
+
+    return 1;
+}
 
 s32 comm_back(WORK *wk, UNK11 *ctc) {
 #if defined(TARGET_PS2)
@@ -915,21 +1172,32 @@ s32 comm_back(WORK *wk, UNK11 *ctc) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_mvix);
-#else
 s32 comm_mvix(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->mvxy.index = ctc->koc;
+    return 1;
 }
+
+s32 comm_sajp(WORK *wk, UNK11 *ctc) {
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_sajp);
-#else
-s32 comm_sajp(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    PLW *pwk;
+
+    if (wk->work_id == 1) {
+        if (My_char[wk->id] != 18 && ((PLW *)wk)->sa->kind_of_arts == ctc->koc && ((PLW *)wk)->sa->ok == -1) {
+            return decord_if_jump(wk, ctc, ctc->ix);
+        }
+    } else {
+        pwk = (PLW *)((WORK_Other *)wk)->my_master;
+
+        if (pwk->wu.work_id == 1 && pwk->sa->kind_of_arts == ctc->koc && pwk->sa->ok == -1) {
+            return decord_if_jump(&pwk->wu, ctc, ctc->ix);
+        }
+    }
+
+    return 1;
 }
-#endif
 
 s32 comm_ccch(WORK *wk, UNK11 *ctc) {
     if (ctc->koc) {
@@ -958,117 +1226,215 @@ s32 comm_wswk(WORK *wk, UNK11 *ctc) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_wadd);
-#else
 s32 comm_wadd(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->cmwk[ctc->koc & 0xF] += ctc->ix;
+    wk->cmwk[ctc->koc & 0xF] &= ctc->pat;
+    return 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_wceq);
-#else
 s32 comm_wceq(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_wcne);
-#else
+    if (wk->cmwk[ctc->koc & 0xF] == ctc->ix) {
+        return decord_if_jump(wk, ctc, ctc->pat);
+    }
+
+    return 1;
+}
+
 s32 comm_wcne(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_wcgt);
-#else
+    if (wk->cmwk[ctc->koc & 0xF] != ctc->ix) {
+        return decord_if_jump(wk, ctc, ctc->pat);
+    }
+    return 1;
+}
+
 s32 comm_wcgt(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_wclt);
-#else
+    if (wk->cmwk[ctc->koc & 0xF] > ctc->ix) {
+        return decord_if_jump(wk, ctc, ctc->pat);
+    }
+
+    return 1;
+}
+
 s32 comm_wclt(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_wadd2);
-#else
+    if (wk->cmwk[ctc->koc & 0xF] < ctc->ix) {
+        return decord_if_jump(wk, ctc, ctc->pat);
+    }
+
+    return 1;
+}
+
 s32 comm_wadd2(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->cmwk[ctc->koc & 0xF] += wk->cmwk[ctc->ix & 0xF];
+    wk->cmwk[ctc->koc & 0xF] &= ctc->pat;
+    return 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_wceq2);
-#else
 s32 comm_wceq2(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_wcne2);
-#else
+    if (wk->cmwk[ctc->koc & 0xF] == wk->cmwk[ctc->ix & 0xF]) {
+        return decord_if_jump(wk, ctc, ctc->pat);
+    }
+
+    return 1;
+}
+
 s32 comm_wcne2(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_wcgt2);
-#else
+    if (wk->cmwk[ctc->koc & 0xF] != wk->cmwk[ctc->ix & 0xF]) {
+        return decord_if_jump(wk, ctc, ctc->pat);
+    }
+    return 1;
+}
+
 s32 comm_wcgt2(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_wclt2);
-#else
+    if (wk->cmwk[ctc->koc & 0xF] > wk->cmwk[ctc->ix & 0xF]) {
+        return decord_if_jump(wk, ctc, ctc->pat);
+    }
+
+    return 1;
+}
+
 s32 comm_wclt2(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rapp2);
-#else
+    if (wk->cmwk[ctc->koc & 0xF] < wk->cmwk[ctc->ix & 0xF]) {
+        return decord_if_jump(wk, ctc, ctc->pat);
+    }
+    return 1;
+}
+
 s32 comm_rapp2(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rapk2);
-#else
+    if (wk->work_id == 1) {
+        if (wcp[wk->id].waza_flag[8]) {
+            setup_comm_back(wk);
+            set_char_move_init2(wk, ctc->koc, ctc->ix, ctc->pat, 1);
+            return 0;
+        }
+
+        return 1;
+    }
+
+    if (wcp[((WORK_Other *)wk)->master_id & 1].waza_flag[8]) {
+        setup_comm_back(wk);
+        set_char_move_init2(wk, ctc->koc, ctc->ix, ctc->pat, 1);
+        return 0;
+    }
+
+    return 1;
+}
+
 s32 comm_rapk2(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_iflg);
-#else
+    if (wk->work_id == 1) {
+        if (wcp[wk->id].waza_flag[10]) {
+            setup_comm_back(wk);
+            set_char_move_init2(wk, ctc->koc, ctc->ix, ctc->pat, 1);
+            return 0;
+        }
+
+        return 1;
+    }
+
+    if (wcp[((WORK_Other *)wk)->master_id & 1].waza_flag[10]) {
+        setup_comm_back(wk);
+        set_char_move_init2(wk, ctc->koc, ctc->ix, ctc->pat, 1);
+        return 0;
+    }
+
+    return 1;
+}
+
 s32 comm_iflg(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_mpcy);
-#else
-s32 comm_mpcy(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    if (ctc->koc == 0) {
+        if (wk->cmwk[11] < ctc->ix) {
+            return 1;
+        }
+
+        return decord_if_jump(wk, ctc, ctc->pat);
+    }
+
+    if (((WORK *)wk->target_adrs)->cmwk[11] < ctc->ix) {
+        return 1;
+    }
+
+    return decord_if_jump(wk, ctc, ctc->pat);
 }
+
+s32 comm_mpcy(WORK *wk, UNK11 *ctc) {
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
+
+    s16 ans = 0;
+
+    switch (ctc->ix) {
+    case 1:
+        if (wk->xyz[1].disp.pos > ctc->koc) {
+            ans = 1;
+        }
+
+        break;
+
+    case 2:
+        if (wk->xyz[1].disp.pos < ctc->koc) {
+            ans = 1;
+        }
+
+        break;
+
+    default:
+        if (wk->xyz[1].disp.pos == ctc->koc) {
+            ans = 1;
+        }
+
+        break;
+    }
+
+    if (ans == 0) {
+        return 1;
+    }
+
+    return decord_if_jump(wk, ctc, ctc->pat);
+}
 
 s32 comm_epcy(WORK *wk, UNK11 *ctc) {
 #if defined(TARGET_PS2)
@@ -1108,58 +1474,188 @@ s32 comm_epcy(WORK *wk, UNK11 *ctc) {
     return decord_if_jump(wk, ctc, ctc->pat);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_imgs);
-#else
-s32 comm_imgs(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
-#endif
+s32 comm_imgs(PLW *wk, UNK11 *ctc) {
+    PLW *tk;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_imgc);
-#else
-s32 comm_imgc(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
-#endif
+    if (test_flag == 0) {
+        tk = (PLW *)wk->wu.target_adrs;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rvxy);
-#else
+        switch (ctc->koc) {
+        case 0:
+            wk->image_setup_flag = 2;
+            wk->image_data_index = ctc->ix;
+            break;
+
+        default:
+            wk->image_setup_flag = 2;
+            wk->image_data_index = ctc->ix;
+            /* fallthrough */
+
+        case 1:
+            tk->image_setup_flag = 2;
+            tk->image_data_index = ctc->ix;
+            break;
+        }
+    }
+
+    return 1;
+}
+
+s32 comm_imgc(PLW *wk, UNK11 *ctc) {
+    PLW *tk = (PLW *)wk->wu.target_adrs;
+
+    switch (ctc->koc) {
+    case 0:
+        wk->image_setup_flag = 0;
+        break;
+
+    default:
+        wk->image_setup_flag = 0;
+        /* fallthrough */
+
+    case 1:
+        tk->image_setup_flag = 0;
+        break;
+    }
+
+    return 1;
+}
+
 s32 comm_rvxy(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
-#endif
+    WORK *emwk = (WORK *)wk->target_adrs;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rv_x);
-#else
+    switch (ctc->koc) {
+    case 0:
+        if (wk->rl_flag) {
+            wk->xyz[0].cal = emwk->xyz[0].cal + (ctc->ix << 8);
+        } else {
+            wk->xyz[0].cal = emwk->xyz[0].cal - (ctc->ix << 8);
+        }
+
+        wk->xyz[1].cal = emwk->xyz[1].cal + (ctc->pat << 8);
+        break;
+
+    case 2:
+        if (wk->rl_flag) {
+            wk->xyz[0].cal = emwk->xyz[0].cal + (ctc->ix << 8);
+        } else {
+            wk->xyz[0].cal = emwk->xyz[0].cal - (ctc->ix << 8);
+        }
+
+        wk->xyz[1].cal = emwk->xyz[1].cal + (ctc->pat << 8);
+        /* fallthrough */
+
+    default:
+        if (wk->rl_flag) {
+            emwk->xyz[0].cal = wk->xyz[0].cal + (ctc->ix << 8);
+        } else {
+            emwk->xyz[0].cal = wk->xyz[0].cal - (ctc->ix << 8);
+        }
+
+        emwk->xyz[1].cal = wk->xyz[1].cal + (ctc->pat << 8);
+        break;
+    }
+
+    return 1;
+}
+
 s32 comm_rv_x(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
-#endif
+    WORK *emwk = (WORK *)wk->target_adrs;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rv_y);
-#else
-s32 comm_rv_y(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    switch (ctc->koc) {
+    case 0:
+        if (wk->rl_flag) {
+            wk->xyz[0].cal = emwk->xyz[0].cal + (ctc->ix << 8);
+        } else {
+            wk->xyz[0].cal = emwk->xyz[0].cal - (ctc->ix << 8);
+        }
+
+        break;
+
+    case 2:
+        if (wk->rl_flag) {
+            wk->xyz[0].cal = emwk->xyz[0].cal + (ctc->ix << 8);
+        } else {
+            wk->xyz[0].cal = emwk->xyz[0].cal - (ctc->ix << 8);
+        }
+
+        /* fallthrough */
+
+    default:
+        if (wk->rl_flag) {
+            emwk->xyz[0].cal = wk->xyz[0].cal + (ctc->ix << 8);
+        } else {
+            emwk->xyz[0].cal = wk->xyz[0].cal - (ctc->ix << 8);
+        }
+
+        break;
+    }
+
+    return 1;
 }
-#endif
+
+s32 comm_rv_y(WORK *wk, UNK11 *ctc) {
+    WORK *emwk = (WORK *)wk->target_adrs;
+
+    switch (ctc->koc) {
+    case 0:
+        wk->xyz[1].cal = emwk->xyz[1].cal + (ctc->pat << 8);
+        break;
+
+    case 2:
+        wk->xyz[1].cal = emwk->xyz[1].cal + (ctc->pat << 8);
+        /* fallthrough */
+
+    default:
+        emwk->xyz[1].cal = wk->xyz[1].cal + (ctc->pat << 8);
+        break;
+    }
+
+    return 1;
+}
 
 s32 comm_ccfl(PLW *wk, UNK11 *ctc) {
     wk->caution_flag = 0;
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_myhp);
-#else
 s32 comm_myhp(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
+
+    s16 num = 0;
+    s32 cmpvital = (Max_vitality * ctc->ix) / 100;
+
+    switch (ctc->koc) {
+    case 1:
+        if (wk->vital_new > cmpvital) {
+            num = 1;
+        }
+
+        break;
+
+    case 2:
+        if (wk->vital_new < cmpvital) {
+            num = 1;
+        }
+
+        break;
+
+    default:
+        if (wk->vital_new == cmpvital) {
+            num = 1;
+        }
+
+        break;
+    }
+
+    if (num) {
+        return decord_if_jump(wk, ctc, ctc->pat);
+    }
+
+    return 1;
+}
 
 s32 comm_emhp(WORK *wk, UNK11 *ctc) {
 #if defined(TARGET_PS2)
@@ -1227,13 +1723,15 @@ s32 comm_chkwf(PLW *wk, UNK11 *ctc) {
     return decord_if_jump(&wk->wu, ctc, ctc->ix);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_retmj);
-#else
-s32 comm_retmj(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+s32 comm_retmj(PLW *wk, UNK11 * /* unused */) {
+    wk->wu.now_koc = wk->wu.cmb2.koc;
+    wk->wu.char_index = wk->wu.cmb2.ix;
+    wk->wu.cg_ix = wk->wu.cmb2.pat;
+    wk->wu.set_char_ad = &wk->wu.char_table[wk->wu.now_koc][wk->wu.char_table[wk->wu.now_koc][wk->wu.char_index] / 4];
+    setupCharTableData(&wk->wu, 0, 1);
+    wk->meoshi_jump_flag = 0;
+    return 0;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_sstx);
@@ -1251,47 +1749,61 @@ s32 comm_ssty(WORK *wk, UNK11 *ctc) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_ngda);
-#else
 s32 comm_ngda(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->cmyd.koc = ctc->koc;
+    wk->cmyd.ix = ctc->ix;
+    wk->cmyd.pat = ctc->pat;
+    return 1;
 }
-#endif
 
 s32 comm_flip(WORK *wk, UNK11 *ctc) {
     wk->rl_flag = (wk->rl_flag + 1) & 1;
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_kage);
-#else
 s32 comm_kage(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    wk->kage_hx = ctc->koc;
+    wk->kage_hy = ctc->ix;
+    wk->kage_char = ctc->pat;
+    return 1;
 }
-#endif
 
 s32 comm_dspf(WORK *wk, UNK11 *ctc) {
     wk->disp_flag = ctc->koc;
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_ifrlf);
-#else
 s32 comm_ifrlf(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_srlf);
-#else
-s32 comm_srlf(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    if (ctc->koc) {
+        if (wk->rl_flag == wk->rl_waza) {
+            return decord_if_jump(wk, ctc, ctc->pat);
+        }
+
+        return decord_if_jump(wk, ctc, ctc->ix);
+    }
+
+    if (wk->rl_flag == wk->rl_waza) {
+        return decord_if_jump(wk, ctc, ctc->ix);
+    }
+
+    return decord_if_jump(wk, ctc, ctc->pat);
 }
-#endif
+
+s32 comm_srlf(WORK *wk, UNK11 *ctc) {
+    if (ctc->koc) {
+        if (wk->rl_flag != wk->rl_waza) {
+            wk->rl_flag = wk->rl_waza;
+        }
+    } else if (wk->rl_flag == wk->rl_waza) {
+        wk->rl_flag = (wk->rl_flag + 1) & 1;
+    }
+
+    return 1;
+}
 
 s32 comm_bgrlf(WORK *wk, UNK11 *ctc) {
 #if defined(TARGET_PS2)
@@ -1313,29 +1825,45 @@ s32 comm_bgrlf(WORK *wk, UNK11 *ctc) {
     return decord_if_jump(wk, ctc, ctc->ix);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_scmd);
-#else
-s32 comm_scmd(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+s32 comm_scmd(PLW *wk, UNK11 *ctc) {
+    wk->cmd_request = ctc->koc;
+    return 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rljmp);
-#else
 s32 comm_rljmp(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_ifs2);
-#else
-s32 comm_ifs2(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    if (wk->rl_flag) {
+        return decord_if_jump(wk, ctc, ctc->pat);
+    }
+
+    return decord_if_jump(wk, ctc, ctc->ix);
 }
+
+s32 comm_ifs2(WORK *wk, UNK11 *ctc) {
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
+
+    u16 shdat;
+    u16 my_shdat;
+
+    if (ctc->koc & 0x4000) {
+        my_shdat = wk->cmwk[ctc->koc & 0xF];
+    } else {
+        my_shdat = ctc->koc;
+    }
+
+    shdat = get_comm_if_shot(wk);
+
+    if (my_shdat & shdat) {
+        return decord_if_jump(wk, ctc, ctc->ix);
+    }
+
+    return decord_if_jump(wk, ctc, ctc->pat);
+}
 
 s32 comm_abbak(WORK *wk, UNK11 *ctc) {
 #if defined(TARGET_PS2)
@@ -1346,53 +1874,99 @@ s32 comm_abbak(WORK *wk, UNK11 *ctc) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_sse);
-#else
 s32 comm_sse(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
-#endif
+    u16 *seadrs;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_s_chg);
-#else
+    wk->cg_se = ctc->koc;
+
+    if (wk->cg_se & 0x800) {
+        seadrs = (u16 *)&wk->se_random_table[wk->se_random_table[wk->cg_se & 0x7FF] / 4];
+        wk->cg_se = seadrs[random_16()];
+    }
+
+    if (wk->cg_se) {
+        sound_effect_request[wk->cg_se](wk, check_xcopy_filter_se_req(wk));
+    }
+
+    return 1;
+}
+
 s32 comm_s_chg(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_schg2);
-#else
+    u16 shdat;
+    u16 my_shdat;
+
+    if (ctc->koc & 0x4000) {
+        my_shdat = wk->cmwk[ctc->koc & 0xF];
+    } else {
+        my_shdat = ctc->koc;
+    }
+
+    shdat = get_comm_if_shot_now_off(wk);
+
+    if (my_shdat == shdat) {
+        return decord_if_jump(wk, ctc, ctc->ix);
+    }
+
+    return decord_if_jump(wk, ctc, ctc->pat);
+}
+
 s32 comm_schg2(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_rhsja);
-#else
-s32 comm_rhsja(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    u16 shdat;
+    u16 my_shdat;
+
+    if (ctc->koc & 0x4000) {
+        my_shdat = wk->cmwk[ctc->koc & 0xF];
+    } else {
+        my_shdat = ctc->koc;
+    }
+
+    shdat = get_comm_if_shot_now_off(wk);
+
+    if (my_shdat & shdat) {
+        return decord_if_jump(wk, ctc, ctc->ix);
+    }
+
+    return decord_if_jump(wk, ctc, ctc->pat);
 }
+
+s32 comm_rhsja(PLW *wk, UNK11 *ctc) {
+    wk->wu.cmhs.koc = ctc->koc;
+    wk->wu.cmhs.ix = ctc->ix;
+    wk->wu.cmhs.pat = ctc->pat;
+    wk->hsjp_ok = 1;
+    return 1;
+}
+
+s32 comm_uhsja(PLW *wk, UNK11 * /* unused */) {
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_uhsja);
-#else
-s32 comm_uhsja(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    setup_comm_back(&wk->wu);
+    wk->hsjp_ok = 0;
+    set_char_move_init2(&wk->wu, wk->wu.cmhs.koc, wk->wu.cmhs.ix, wk->wu.cmhs.pat, 0);
+    return 0;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_ifcom);
-#else
 s32 comm_ifcom(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
+
+    if (wk->operator) {
+        return decord_if_jump(wk, ctc, ctc->pat);
+    }
+
+    return decord_if_jump(wk, ctc, ctc->ix);
+}
 
 s32 comm_axjmp(WORK *wk, UNK11 *ctc) {
 #if defined(TARGET_PS2)
@@ -1426,13 +2000,28 @@ s32 comm_ayjmp(WORK *wk, UNK11 *ctc) {
     return decord_if_jump(wk, ctc, ctc->ix);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_ifs3);
-#else
 s32 comm_ifs3(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 decord_if_jump(WORK * wk, UNK11 * cpc, s32 ix);
 #endif
+
+    u16 shdat;
+    u16 my_shdat;
+
+    if (ctc->koc & 0x4000) {
+        my_shdat = wk->cmwk[ctc->koc & 0xF];
+    } else {
+        my_shdat = ctc->koc;
+    }
+
+    shdat = get_comm_if_shot_now(wk);
+
+    if (my_shdat & shdat) {
+        return decord_if_jump(wk, ctc, ctc->ix);
+    }
+
+    return decord_if_jump(wk, ctc, ctc->pat);
+}
 
 s16 decord_if_jump(WORK *wk, UNK11 *cpc, s16 ix) {
     s16 rnum;
@@ -1485,11 +2074,49 @@ u16 get_comm_if_shot(WORK *wk) {
     return num;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", get_comm_if_shot_now_off);
+u16 get_comm_if_shot_now_off(WORK *wk) {
+    u16 num;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", get_comm_if_shot_now);
+    if (wk->work_id == 1) {
+        num = wcp[wk->id].sw_now & 0x770;
+    } else {
+        num = wcp[((WORK_Other *)wk)->master_id & 1].sw_now & 0x770;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", get_comm_if_lvsh);
+    if (wk->cg_cancel & 0x80) {
+        if (wk->work_id == 1) {
+            num |= wcp[wk->id].sw_off & 0x770;
+        } else {
+            num |= wcp[((WORK_Other *)wk)->master_id & 1].sw_off & 0x770;
+        }
+    }
+
+    return num;
+}
+
+u16 get_comm_if_shot_now(WORK *wk) {
+    u16 num;
+
+    if (wk->work_id == 1) {
+        num = wcp[wk->id].sw_now & 0x770;
+    } else {
+        num = wcp[((WORK_Other *)wk)->master_id & 1].sw_now & 0x770;
+    }
+
+    return num;
+}
+
+u16 get_comm_if_lvsh(WORK *wk) {
+    u16 num;
+
+    if (wk->work_id == 1) {
+        num = wcp[wk->id].sw_new & 0x77F;
+    } else {
+        num = wcp[((WORK_Other *)wk)->master_id & 1].sw_new & 0x77F;
+    }
+
+    return num;
+}
 
 u8 get_comm_djmp_lever_dir(PLW *wk) {
     u8 num;
@@ -1871,7 +2498,7 @@ s32 comm_s123(WORK *, UNK11 *);
 s32 comm_s456(WORK *, UNK11 *);
 s32 comm_a123(WORK *, UNK11 *);
 s32 comm_a456(WORK *, UNK11 *);
-s32 comm_stop(WORK *, UNK11 *);
+s32 comm_stop(PLW *, UNK11 *);
 s32 comm_smhf(WORK *, UNK11 *);
 s32 comm_ngme(WORK *, UNK11 *);
 s32 comm_ngem(WORK *, UNK11 *);
@@ -1900,8 +2527,8 @@ s32 comm_rapk2(WORK *, UNK11 *);
 s32 comm_iflg(WORK *, UNK11 *);
 s32 comm_mpcy(WORK *, UNK11 *);
 s32 comm_epcy(WORK *, UNK11 *);
-s32 comm_imgs(WORK *, UNK11 *);
-s32 comm_imgc(WORK *, UNK11 *);
+s32 comm_imgs(PLW *, UNK11 *);
+s32 comm_imgc(PLW *, UNK11 *);
 s32 comm_rvxy(WORK *, UNK11 *);
 s32 comm_rv_x(WORK *, UNK11 *);
 s32 comm_rv_y(WORK *, UNK11 *);
@@ -1912,7 +2539,7 @@ s32 comm_exbgs(WORK *, UNK11 *);
 s32 comm_exbgc(WORK *, UNK11 *);
 s32 comm_atmf(PLW *, UNK11 *);
 s32 comm_chkwf(PLW *, UNK11 *);
-s32 comm_retmj(WORK *, UNK11 *);
+s32 comm_retmj(PLW *, UNK11 *);
 s32 comm_sstx(WORK *, UNK11 *);
 s32 comm_ssty(WORK *, UNK11 *);
 s32 comm_ngda(WORK *, UNK11 *);
@@ -1922,15 +2549,15 @@ s32 comm_dspf(WORK *, UNK11 *);
 s32 comm_ifrlf(WORK *, UNK11 *);
 s32 comm_srlf(WORK *, UNK11 *);
 s32 comm_bgrlf(WORK *, UNK11 *);
-s32 comm_scmd(WORK *, UNK11 *);
+s32 comm_scmd(PLW *, UNK11 *);
 s32 comm_rljmp(WORK *, UNK11 *);
 s32 comm_ifs2(WORK *, UNK11 *);
 s32 comm_abbak(WORK *, UNK11 *);
 s32 comm_sse(WORK *, UNK11 *);
 s32 comm_s_chg(WORK *, UNK11 *);
 s32 comm_schg2(WORK *, UNK11 *);
-s32 comm_rhsja(WORK *, UNK11 *);
-s32 comm_uhsja(WORK *, UNK11 *);
+s32 comm_rhsja(PLW *, UNK11 *);
+s32 comm_uhsja(PLW *, UNK11 *);
 s32 comm_ifcom(WORK *, UNK11 *);
 s32 comm_axjmp(WORK *, UNK11 *);
 s32 comm_ayjmp(WORK *, UNK11 *);
