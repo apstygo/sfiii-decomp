@@ -12,9 +12,8 @@ const s16 efff2_data_tbl1[10][4] = { { 1, 384, 608, 80 }, { 2, 592, 496, 86 }, {
                                      { 1, 464, 584, 80 }, { 1, 544, 640, 80 }, { 2, 640, 512, 86 }, { 1, 480, 592, 80 },
                                      { 2, 416, 640, 86 }, { 1, 576, 576, 80 } };
 
-const s32 efff2_sp_tbl1[10][2] = { { 0xFFFF4000, 0 }, { 0xFFFFE800, 0 }, { 0x2000, 0 }, { 0xFFFFE000, 0 },
-                                   { 0xFFFFE000, 0 }, { 0, 0 },          { 0x3000, 0 }, { 0xFFFF8000, 0 },
-                                   { 0xFFFFA000, 0 }, { 0x6000, 0 } };
+const s32 efff2_sp_tbl1[10][2] = { { -0xC000, 0 }, { -0x1800, 0 }, { 0x2000, 0 },  { -0x2000, 0 }, { -0x2000, 0 },
+                                   { 0, 0 },       { 0x3000, 0 },  { -0x8000, 0 }, { -0x6000, 0 }, { 0x6000, 0 } };
 
 const s16 efff2_timer_tbl[16] = { 60, 0, 40, 90, 20, 10, 8, 130, 1, 34, 50, 70, 6, 80, 22, 100 };
 
@@ -101,7 +100,7 @@ s32 effect_F2_init() {
         }
 
         ewk = (WORK_Other *)frw[ix];
-        ewk->wu.id = 0x98;
+        ewk->wu.id = 152;
         ewk->wu.be_flag = 1;
         ewk->wu.work_id = 0x10;
         ewk->wu.cgromtype = 1;
@@ -113,7 +112,7 @@ s32 effect_F2_init() {
         ewk->wu.my_family = *data_ptr++;
         ewk->wu.old_rno[6] = 0;
         ewk->wu.old_rno[6] += end_w.r_no_2;
-        ewk->wu.old_rno[4] = 0x13;
+        ewk->wu.old_rno[4] = 19;
         ewk->wu.xyz[0].disp.pos = *data_ptr++;
         ewk->wu.xyz[1].disp.pos = *data_ptr++;
         ewk->wu.my_priority = ewk->wu.position_z = *data_ptr++;

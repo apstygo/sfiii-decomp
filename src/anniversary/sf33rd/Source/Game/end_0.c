@@ -76,7 +76,7 @@ void end_00000(s16 pl_num) {
                 break;
             }
 
-            end_w.timer = timer_0_tbl[(end_w.r_no_2)];
+            end_w.timer = timer_0_tbl[end_w.r_no_2];
             bg_w.bgw[0].r_no_1 = 0;
             bg_w.bgw[1].r_no_1 = 0;
         }
@@ -145,7 +145,7 @@ void end_000_0001() {
         break;
 
     case 2:
-        if (!(bgw_ptr->free--)) {
+        if (!bgw_ptr->free--) {
             bgw_ptr->r_no_1++;
             end_no_cut = 1;
             fade_prio = pika_prio[1];
@@ -171,7 +171,7 @@ void end_000_0001() {
         break;
 
     case 5:
-        if (!(bgw_ptr->free--)) {
+        if (!bgw_ptr->free--) {
             bgw_ptr->r_no_1++;
             Fade_Flag = 0;
             bgw_ptr->free = 300;
@@ -180,7 +180,7 @@ void end_000_0001() {
         break;
 
     case 6:
-        if (!(bgw_ptr->free--)) {
+        if (!bgw_ptr->free--) {
             bgw_ptr->r_no_1++;
         }
 
@@ -283,7 +283,7 @@ void end_000_0004() {
         bgw_ptr->xy[1].cal += bgw_ptr->speed_y;
         bgw_ptr->abs_y = bgw_ptr->xy[1].disp.pos;
 
-        if (!(bgw_ptr->l_limit--)) {
+        if (!bgw_ptr->l_limit--) {
             bgw_ptr->r_no_1++;
             bgw_ptr->l_limit = gill_time[8];
         }
@@ -406,7 +406,7 @@ void end_001_0004() {
         bgw_ptr->xy[1].cal += bgw_ptr->speed_y;
         bgw_ptr->abs_y = bgw_ptr->xy[1].disp.pos;
 
-        if (!(bgw_ptr->l_limit--)) {
+        if (!bgw_ptr->l_limit--) {
             bgw_ptr->r_no_1++;
             bgw_ptr->frame_deff = 0;
             bgw_ptr->l_limit = gill_time[8];

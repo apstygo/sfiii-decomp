@@ -392,7 +392,7 @@ void effe6_0009(WORK_Other *ewk) {
 
     case 1:
         ewk->wu.xyz[0].cal -= 0xB000;
-        ewk->wu.xyz[1].cal += 0xFFFE6000;
+        ewk->wu.xyz[1].cal += -0x1A000;
 
         if (ewk->wu.xyz[1].disp.pos < -199) {
             ewk->wu.routine_no[1]++;
@@ -906,7 +906,7 @@ void effe6_0020(WORK_Other *ewk) {
         break;
 
     case 2:
-        ewk->wu.xyz[1].cal += 0xFFFE8000;
+        ewk->wu.xyz[1].cal += -0x18000;
 
         if (ewk->wu.xyz[1].disp.pos <= 0) {
             ewk->wu.routine_no[1]++;

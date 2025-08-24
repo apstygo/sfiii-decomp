@@ -225,17 +225,21 @@ s16 end_e00_0000_col_sub2() {
 const u8 end_e00_1000_col_tbl[8] = { 0, 0, 1, 2, 3, 4, 5, 6 };
 
 void end_e00_1000_col_sub() {
-    if (bgw_ptr->l_limit < 8) {
-        bgw_ptr->free--;
+    if (bgw_ptr->l_limit >= 8) {
+        return;
+    }
 
-        if (bgw_ptr->free <= 0) {
-            bgw_ptr->l_limit++;
+    bgw_ptr->free--;
 
-            if (bgw_ptr->l_limit < 7) {
-                bgw_ptr->free = 8;
-                g_number[1] = end_e00_1000_col_tbl[bgw_ptr->l_limit];
-            }
-        }
+    if (bgw_ptr->free > 0) {
+        return;
+    }
+
+    bgw_ptr->l_limit++;
+
+    if (bgw_ptr->l_limit < 7) {
+        bgw_ptr->free = 8;
+        g_number[1] = end_e00_1000_col_tbl[bgw_ptr->l_limit];
     }
 }
 
@@ -748,7 +752,7 @@ void end_e02_3000() {
         break;
 
     case 1:
-        bgw_ptr->xy[1].cal += 0xFFFE8000;
+        bgw_ptr->xy[1].cal += -0x18000;
 
         if (bgw_ptr->xy[1].disp.pos < 353) {
             bgw_ptr->r_no_1++;

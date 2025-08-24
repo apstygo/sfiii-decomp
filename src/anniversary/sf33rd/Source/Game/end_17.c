@@ -247,7 +247,7 @@ void end_1101_3() {
         break;
 
     case 1:
-        bg_w.bgw[2].xy[1].cal += 0xFFFD0000;
+        bg_w.bgw[2].xy[1].cal += -0x30000;
         break;
 
     case 2:
