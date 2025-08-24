@@ -10,10 +10,10 @@ extern const u16 combo_score_tbl[12][2];
 
 extern u8 cst_write[2];
 extern u8 cst_read[2];
-extern s8 cmb_calc_now[2];
+extern s8 cmb_calc_now[];
 extern s8 last_hit_time;
 extern s8 sarts_finish_flag[2];
-extern s8 cmb_all_stock;
+extern s8 cmb_all_stock[];
 extern s16 score_calc[2][12];
 extern s16 calc_hit[2][10];
 extern u8 end_flag[2];
