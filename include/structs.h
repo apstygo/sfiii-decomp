@@ -2825,4 +2825,22 @@ typedef struct {
     s16 bbdat[4][4]; // offset 0x6, size 0x20
 } BBBSTable;
 
+typedef union {
+    s32 patl; // offset 0x0, size 0x4
+    struct {
+        // total size: 0x4
+        s16 l; // offset 0x0, size 0x2
+        s16 h; // offset 0x2, size 0x2
+    } pats;    // offset 0x0, size 0x4
+} SST;
+
+typedef union {
+    s32 l; // offset 0x0, size 0x4
+    struct {
+        // total size: 0x4
+        s16 l; // offset 0x0, size 0x2
+        s16 h; // offset 0x2, size 0x2
+    } w;       // offset 0x0, size 0x4
+} ST;
+
 #endif
