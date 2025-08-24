@@ -14,18 +14,6 @@
 #include "sf33rd/Source/Game/cmd_data.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-s32 comm_wca(WORK *wk, UNK11 * /* unused */);
-s16 decord_if_jump(WORK *wk, UNK11 *cpc, s16 ix);
-u16 get_comm_if_lever(WORK *wk);
-u16 get_comm_if_shot(WORK *wk);
-u16 get_comm_if_shot_now_off(WORK *wk);
-u16 get_comm_if_shot_now(WORK *wk);
-u16 get_comm_if_lvsh(WORK *wk);
-u8 get_comm_djmp_lever_dir(PLW *wk);
-void setup_comm_retmj(WORK *wk);
-void check_cgd_patdat2(WORK *wk);
-void get_char_data_zanzou(WORK *wk);
-
 #define LO_2_BYTES(_val) (((s16 *)&_val)[0])
 #define HI_2_BYTES(_val) (((s16 *)&_val)[1])
 #define WK_AS_PLW ((PLW *)wk)
@@ -36,7 +24,16 @@ extern s32 (*const decode_if_lever[16])();
 extern const s16 jphos_table[16];
 extern const s16 kezuri_pow_table[5];
 
+s16 decord_if_jump(WORK *wk, UNK11 *cpc, s16 ix);
+u16 get_comm_if_lever(WORK *wk);
+u16 get_comm_if_shot(WORK *wk);
+u16 get_comm_if_shot_now_off(WORK *wk);
+u16 get_comm_if_shot_now(WORK *wk);
+u16 get_comm_if_lvsh(WORK *wk);
+u8 get_comm_djmp_lever_dir(PLW *wk);
+void setup_comm_retmj(WORK *wk);
 static u16 check_xcopy_filter_se_req(WORK *wk);
+void check_cgd_patdat2(WORK *wk);
 void setup_metamor_kezuri(WORK *wk);
 
 void set_char_move_init(WORK *wk, s16 koc, s16 index) {
@@ -57,7 +54,7 @@ void set_char_move_init(WORK *wk, s16 koc, s16 index) {
     wk->cmoa.ix = wk->char_index;
     wk->cmoa.pat = 1;
     wk->cmwk[8] = 0;
-    wk->cmwk[0xF] = 0;
+    wk->cmwk[15] = 0;
     wk->kow = wk->kind_of_waza;
 
     if (wk->work_id & 0xF) {
@@ -601,7 +598,7 @@ s32 comm_rja4(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-s32 comm_uja4(WORK *wk, UNK11 *ctc) {
+s32 comm_uja4(WORK *wk, UNK11 * /* unused */) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -618,7 +615,7 @@ s32 comm_rja5(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-s32 comm_uja5(WORK *wk, UNK11 *ctc) {
+s32 comm_uja5(WORK *wk, UNK11 * /* unused */) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -669,7 +666,7 @@ s32 comm_rmja(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-s32 comm_umja(WORK *wk, UNK11 *ctc) {
+s32 comm_umja(WORK *wk, UNK11 * /* unused */) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -980,7 +977,7 @@ s32 comm_hjmp(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-s32 comm_hclr(WORK *wk, UNK11 *ctc) {
+s32 comm_hclr(WORK *wk, UNK11 * /* unused */) {
     wk->hf.hit_flag = 0;
     return 1;
 }
@@ -1092,7 +1089,7 @@ s32 comm_rapk(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-s32 comm_gets(WORK *wk, UNK11 *ctc) {
+s32 comm_gets(WORK *wk, UNK11 * /* unused */) {
     setupCharTableData(wk, 0, 1);
     return 1;
 }
@@ -1158,7 +1155,7 @@ s32 comm_smhf(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-s32 comm_ngme(WORK *wk, UNK11 *ctc) {
+s32 comm_ngme(WORK *wk, UNK11 * /* unused */) {
     WORK *emwk;
 
     emwk = (WORK *)wk->hit_adrs;
@@ -1173,7 +1170,7 @@ s32 comm_ngme(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-s32 comm_ngem(WORK *wk, UNK11 *ctc) {
+s32 comm_ngem(WORK *wk, UNK11 * /* unused */) {
     WORK *emwk;
 
     emwk = (WORK *)wk->hit_adrs;
@@ -1265,7 +1262,7 @@ s32 comm_schy(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-s32 comm_back(WORK *wk, UNK11 *ctc) {
+s32 comm_back(WORK *wk, UNK11 * /* unused */) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -1459,6 +1456,7 @@ s32 comm_wcne2(WORK *wk, UNK11 *ctc) {
     if (wk->cmwk[ctc->koc & 0xF] != wk->cmwk[ctc->ix & 0xF]) {
         return decord_if_jump(wk, ctc, ctc->pat);
     }
+
     return 1;
 }
 
@@ -1482,6 +1480,7 @@ s32 comm_wclt2(WORK *wk, UNK11 *ctc) {
     if (wk->cmwk[ctc->koc & 0xF] < wk->cmwk[ctc->ix & 0xF]) {
         return decord_if_jump(wk, ctc, ctc->pat);
     }
+
     return 1;
 }
 
@@ -1768,7 +1767,7 @@ s32 comm_rv_y(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-s32 comm_ccfl(PLW *wk, UNK11 *ctc) {
+s32 comm_ccfl(PLW *wk, UNK11 * /* unused */) {
     wk->caution_flag = 0;
     return 1;
 }
@@ -1888,14 +1887,7 @@ s32 comm_retmj(PLW *wk, UNK11 * /* unused */) {
 }
 
 s32 comm_sstx(WORK *wk, UNK11 *ctc) {
-    union {
-        s32 patl; // offset 0x0, size 0x4
-        struct {
-            // total size: 0x4
-            s16 l; // offset 0x0, size 0x2
-            s16 h; // offset 0x2, size 0x2
-        } pats;    // offset 0x0, size 0x4
-    } sstx;
+    SST sstx;
 
     sstx.patl = 0;
     sstx.pats.h = ctc->pat;
@@ -2010,14 +2002,7 @@ s32 comm_sstx(WORK *wk, UNK11 *ctc) {
 }
 
 s32 comm_ssty(WORK *wk, UNK11 *ctc) {
-    union {
-        s32 patl; // offset 0x0, size 0x4
-        struct {
-            // total size: 0x4
-            s16 l; // offset 0x0, size 0x2
-            s16 h; // offset 0x2, size 0x2
-        } pats;    // offset 0x0, size 0x4
-    } ssty;
+    SST ssty;
 
     ssty.patl = 0;
     ssty.pats.h = ctc->pat;
@@ -2138,7 +2123,7 @@ s32 comm_ngda(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-s32 comm_flip(WORK *wk, UNK11 *ctc) {
+s32 comm_flip(WORK *wk, UNK11 * /* unused */) {
     wk->rl_flag = (wk->rl_flag + 1) & 1;
     return 1;
 }
@@ -2247,7 +2232,7 @@ s32 comm_ifs2(WORK *wk, UNK11 *ctc) {
     return decord_if_jump(wk, ctc, ctc->pat);
 }
 
-s32 comm_abbak(WORK *wk, UNK11 *ctc) {
+s32 comm_abbak(WORK *wk, UNK11 * /* unused */) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -2536,14 +2521,7 @@ void setup_comm_abbak(WORK *wk) {
 }
 
 void check_cgd_patdat(WORK *wk) {
-    union {
-        s32 l; // offset 0x0, size 0x4
-        struct {
-            // total size: 0x4
-            s16 l; // offset 0x0, size 0x2
-            s16 h; // offset 0x2, size 0x2
-        } w;       // offset 0x0, size 0x4
-    } st;
+    ST st;
 
     u16 *seAdrs;
     s16 *from_rom2;
@@ -2616,7 +2594,7 @@ void check_cgd_patdat(WORK *wk) {
         if (wk->cg_rival == 0) {
             wk->curr_rca = NULL;
         } else {
-            wk->curr_rca = wk->rival_catch_tbl + (wk->cg_rival - 0x14 + wk[1].before);
+            wk->curr_rca = wk->rival_catch_tbl + (wk->cg_rival - 20 + wk[1].before);
         }
 
         wk->cg_olc = *(wk->olc_ix_table + wk->cg_olc_ix);
@@ -2738,15 +2716,8 @@ u16 check_xcopy_filter_se_req(WORK *wk) {
 }
 
 void check_cgd_patdat2(WORK *wk) {
-    union {
-        s32 l; // offset 0x0, size 0x4
-        struct {
-            // total size: 0x4
-            s16 l; // offset 0x0, size 0x2
-            s16 h; // offset 0x2, size 0x2
-        } w;       // offset 0x0, size 0x4
-    } st;          // r29+0x2C
-    u16 *seadrs;   // r16
+    ST st;
+    u16 *seadrs;
 
     switch (wk->cgd_type) {
     case 6:
