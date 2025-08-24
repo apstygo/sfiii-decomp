@@ -7,13 +7,63 @@
 #include "sf33rd/Source/Game/bg_data.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFJ4", effect_J4_move);
-#else
 void effect_J4_move(WORK_Other *ewk) {
-    not_implemented(__func__);
+    switch (ewk->wu.routine_no[0]) {
+    case 0:
+        ewk->wu.routine_no[0]++;
+        ewk->wu.disp_flag = 1;
+        ewk->wu.blink_timing = 0;
+        ewk->wu.rl_flag = 0;
+
+        if (ewk->wu.type) {
+            SA_shadow_on = 1;
+        }
+
+        if (ewk->wu.dir_timer == 0xFF) {
+            ewk->wu.dir_timer = 0x7FFF;
+            ewk->wu.my_clear_level = 160;
+        }
+
+        ewk->wu.my_priority = ewk->wu.position_z = 71;
+        ewk->wu.shell_ix[0] = 0;
+        ewk->wu.shell_ix[1] = 384;
+        ewk->wu.shell_ix[2] = -base_y_pos;
+        ewk->wu.shell_ix[3] = 224;
+        ewk->wu.position_x = 0;
+        ewk->wu.position_y = 0;
+        break;
+
+    case 1:
+        if (ewk->wu.dead_f == 1 || Suicide[0] != 0) {
+            goto jump;
+        }
+
+        if (Game_pause == 129 && pcon_dp_flag == 0) {
+            break;
+        }
+
+        if (ewk->wu.dir_timer != 0x7FFF && !Game_pause && !EXE_flag && --ewk->wu.dir_timer <= 0) {
+        jump:
+            ewk->wu.routine_no[0]++;
+
+            if (ewk->wu.type) {
+                SA_shadow_on = 0;
+            }
+        }
+
+        sort_push_requestA(&ewk->wu);
+        break;
+
+    case 2:
+        ewk->wu.disp_flag = 0;
+        ewk->wu.routine_no[0]++;
+        break;
+
+    default:
+        push_effect_work(&ewk->wu);
+        break;
+    }
 }
-#endif
 
 s32 effect_J4_init(u8 data2) {
     WORK_Other *ewk;
