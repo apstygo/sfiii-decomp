@@ -1346,13 +1346,39 @@ s32 comm_wset(WORK *wk, UNK11 *ctc) {
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_wswk);
-#else
 s32 comm_wswk(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    switch (ctc->ix) {
+    default:
+        wk->cmwk[ctc->koc & 0xF] = wk->cmwk[ctc->pat & 0xF];
+        break;
+
+    case 1:
+        wk->cmwk[ctc->koc & 0xF] &= wk->cmwk[ctc->pat & 0xF];
+        break;
+
+    case 2:
+        wk->cmwk[ctc->koc & 0xF] |= wk->cmwk[ctc->pat & 0xF];
+        break;
+
+    case 3:
+        wk->cmwk[ctc->koc & 0xF] += wk->cmwk[ctc->pat & 0xF];
+        break;
+
+    case 4:
+        wk->cmwk[ctc->koc & 0xF] -= wk->cmwk[ctc->pat & 0xF];
+        break;
+
+    case 5:
+        wk->cmwk[ctc->koc & 0xF] *= wk->cmwk[ctc->pat & 0xF];
+        break;
+
+    case 6:
+        wk->cmwk[ctc->koc & 0xF] /= wk->cmwk[ctc->pat & 0xF];
+        break;
+    }
+
+    return 1;
 }
-#endif
 
 s32 comm_wadd(WORK *wk, UNK11 *ctc) {
     wk->cmwk[ctc->koc & 0xF] += ctc->ix;
