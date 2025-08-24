@@ -1835,13 +1835,127 @@ s32 comm_retmj(PLW *wk, UNK11 * /* unused */) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_sstx);
-#else
 s32 comm_sstx(WORK *wk, UNK11 *ctc) {
-    not_implemented(__func__);
+    union {
+        s32 patl; // offset 0x0, size 0x4
+        struct {
+            // total size: 0x4
+            s16 l; // offset 0x0, size 0x2
+            s16 h; // offset 0x2, size 0x2
+        } pats;    // offset 0x0, size 0x4
+    } sstx;
+
+    sstx.patl = 0;
+    sstx.pats.h = ctc->pat;
+    sstx.patl >>= 8;
+
+    switch (ctc->koc) {
+    case 0:
+        switch (ctc->ix) {
+        default:
+            wk->mvxy.a[0].sp = sstx.patl;
+            break;
+
+        case 1:
+            wk->mvxy.a[0].sp &= sstx.patl;
+            break;
+
+        case 2:
+            wk->mvxy.a[0].sp |= sstx.patl;
+            break;
+
+        case 3:
+            wk->mvxy.a[0].sp += sstx.patl;
+            break;
+
+        case 4:
+            wk->mvxy.a[0].sp -= sstx.patl;
+            break;
+
+        case 5:
+            wk->mvxy.a[0].sp *= sstx.patl;
+            break;
+
+        case 6:
+            wk->mvxy.a[0].sp /= sstx.patl;
+            break;
+        }
+
+        break;
+
+    case 2:
+        switch (ctc->ix) {
+        default:
+            wk->mvxy.a[0].sp = sstx.patl;
+            break;
+
+        case 1:
+            wk->mvxy.a[0].sp &= sstx.patl;
+            break;
+
+        case 2:
+            wk->mvxy.a[0].sp |= sstx.patl;
+            break;
+
+        case 3:
+            wk->mvxy.a[0].sp += sstx.patl;
+            break;
+
+        case 4:
+            wk->mvxy.a[0].sp -= sstx.patl;
+            break;
+
+        case 5:
+            wk->mvxy.a[0].sp *= sstx.patl;
+            break;
+
+        case 6:
+            wk->mvxy.a[0].sp /= sstx.patl;
+            break;
+        }
+
+        /* fallthrough */
+
+    case 1:
+        switch (ctc->ix) {
+        default:
+            wk->mvxy.d[0].sp = sstx.patl;
+            break;
+
+        case 1:
+            wk->mvxy.d[0].sp &= sstx.patl;
+            break;
+
+        case 2:
+            wk->mvxy.d[0].sp |= sstx.patl;
+            break;
+
+        case 3:
+            wk->mvxy.d[0].sp += sstx.patl;
+            break;
+
+        case 4:
+            wk->mvxy.d[0].sp -= sstx.patl;
+            break;
+
+        case 5:
+            wk->mvxy.d[0].sp *= sstx.patl;
+            break;
+
+        case 6:
+            wk->mvxy.d[0].sp /= sstx.patl;
+            break;
+        }
+
+        break;
+
+    default:
+        wk->mvxy.kop[0] = ctc->pat;
+        break;
+    }
+
+    return 1;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_ssty);
