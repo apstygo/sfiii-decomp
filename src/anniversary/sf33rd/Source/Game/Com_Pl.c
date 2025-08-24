@@ -312,7 +312,7 @@ void Com_Before_Follow(PLW *wk) {
         return;
     }
 
-    if ((Timer_00[wk->wu.id] -= 1) != 0) {
+    if (--Timer_00[wk->wu.id] != 0) {
         return;
     }
 
@@ -349,7 +349,7 @@ void Com_Before_Passive(PLW *wk) {
         }
     }
 
-    if ((Timer_00[wk->wu.id] -= 1) != 0) {
+    if (--Timer_00[wk->wu.id] != 0) {
         return;
     }
 
@@ -563,7 +563,7 @@ void Check_Guard_Type(PLW *wk, WORK *em) {
 static s32 Ck_Exit_Guard(PLW *wk, WORK *em) {
     s16 Lv;
 
-    if (Timer_00[wk->wu.id] -= 1) {
+    if (--Timer_00[wk->wu.id]) {
         return 1;
     }
 
@@ -1140,7 +1140,7 @@ void Float_3rd(PLW *wk) {
         break;
 
     default:
-        if ((Timer_00[wk->wu.id] -= 1) != 0) {
+        if (--Timer_00[wk->wu.id] != 0) {
             break;
         }
 
@@ -1164,7 +1164,7 @@ void Float_4th(PLW *wk) {
         break;
 
     default:
-        if ((Timer_00[wk->wu.id] -= 1) != 0) {
+        if (--Timer_00[wk->wu.id] != 0) {
             break;
         }
 
@@ -1211,7 +1211,7 @@ void Flip_Zero(PLW *wk) {
             break;
         }
 
-        if ((Timer_00[wk->wu.id] -= 1) != 0) {
+        if (--Timer_00[wk->wu.id] != 0) {
             break;
         }
 
@@ -1315,7 +1315,7 @@ void Flip_3rd(PLW *wk) {
 }
 
 void Flip_4th(PLW *wk) {
-    if ((Timer_00[wk->wu.id] -= 1) != 0) {
+    if (--Timer_00[wk->wu.id] != 0) {
         return;
     }
 
@@ -1557,7 +1557,7 @@ const u8 Rapid_Lever_Data[2] = { 8, 4 };
 s32 Com_Rapid_Sub(PLW *wk, s16 Shot, u8 *dir_step) {
     u16 xx;
 
-    if ((Timer_00[wk->wu.id] -= 1) == 0) {
+    if (--Timer_00[wk->wu.id] == 0) {
         Timer_00[wk->wu.id] = Timer_01[wk->wu.id];
         xx = Rapid_Lever_Data[dir_step[0]];
         xx |= Shot;
@@ -1652,11 +1652,14 @@ s32 Command_Attack_SP(PLW *wk, s8 Pl_Number, s16 Tech_Number, s16 Power_Level) {
             if (Command_Type_00(wk, Power_Level & 0xF, Tech_Number, -1) == -1) {
                 CP_Index[wk->wu.id][1] = 99;
             }
+
             break;
+
         case 2:
             if (Command_Type_01(wk, Power_Level & 0xF, -1)) {
                 CP_Index[wk->wu.id][1]++;
             }
+
             break;
         }
 
@@ -1749,7 +1752,7 @@ void Check_At_Count(PLW *wk) {
         return;
     }
 
-    if ((Reset_Timer[wk->wu.id] -= 1) == 0) {
+    if (--Reset_Timer[wk->wu.id] == 0) {
         for (ix = 0; ix < 4; ix++) {
             Attack_Count_Buff[wk->wu.id][ix] = ix;
         }
