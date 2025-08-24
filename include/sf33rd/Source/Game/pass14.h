@@ -4,8 +4,6 @@
 #include "structs.h"
 #include "types.h"
 
-extern void (*const Passive14_Tbl[253])();
-
 void Passive14(PLW *wk);
 
 #endif
