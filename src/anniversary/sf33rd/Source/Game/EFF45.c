@@ -30,4 +30,10 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF45", Check_Pig_P
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF45", Convert_16_10_2);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF45", Convert_16_10_3);
+#else
+void Convert_16_10_3(WORK_Other_CONN *ewk, u16 target) {
+    not_implemented(__func__);
+}
+#endif

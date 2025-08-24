@@ -447,7 +447,13 @@ void System_all_clear_Level_B() {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Cut_Cut_C_Timer);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Switch_Priority_76);
+#else
+void Switch_Priority_76() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Cut_Cut_Sub);
 

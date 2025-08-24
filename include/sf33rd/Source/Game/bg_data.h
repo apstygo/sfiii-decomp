@@ -11,7 +11,7 @@ extern const u8 rewrite_scr[22];          // size: 0x16, address: 0x4E6FB0
 extern const u8 use_scr2[7];              // size: 0x7, address: 0x4E6FC8
 extern const u8 stage_bgw_number[22][3];  // size: 0x42, address: 0x4E6FD0
 extern const s32 msp[22][3][2];           // size: 0x210, address: 0x4E7020
-extern const s32 msp2[7][3][2];           // size: 0xA8, address: 0x4E7230
+extern const s32 msp2[][3][2];            // size: 0xA8, address: 0x4E7230
 extern const u16 stage000_map[64];        // size: 0x80, address: 0x4E72E0
 extern const u16 stage001_map[64];        // size: 0x80, address: 0x4E7360
 extern const u16 stage010_map[64];        // size: 0x80, address: 0x4E73E0
@@ -96,7 +96,7 @@ extern const u8 stage19_loop_tbl2[16];    // size: 0x10, address: 0x4E9070
 extern const u8 ake_bg_off[20];           // size: 0x14, address: 0x4E9080
 extern const s16 limit_tbl3[22][3][4];    // size: 0x210, address: 0x4E90A0
 extern const s8 bg_index_tbl[22][3];      // size: 0x42, address: 0x4E92B0
-extern const s32 bg_pos_tbl2[7][3][2];    // size: 0xA8, address: 0x4E9300
+extern const s32 bg_pos_tbl2[][3][2];     // size: 0xA8, address: 0x4E9300
 extern const s8 quake_x_tbl[130];         // size: 0x82, address: 0x4E93B0
 extern const s8 quake_y_tbl[130];         // size: 0x82, address: 0x4E9440
 

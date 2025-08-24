@@ -32,6 +32,9 @@ void stun_mark_write(u8 Pl_Num, s16 Len);
 void max_mark_write(s8 Pl_Num, u8 Gauge_Len, u8 Mchar, u8 Mass_Len);
 void player_face_init();
 void player_face();
+void hnc_set(u8 num, u8 atr);
+void hnc_wipeinit(u8 atr);
+s32 hnc_wipeout(u8 atr);
 void combo_message_set(u8 pl, u8 kind, u8 x, u8 num, u8 hi, u8 low);
 void combo_pts_set(u8 pl, u8 x, u8 num, s8 *pts, s8 digit);
 void naming_set(u8 pl, s16 place, u16 atr, u16 chr);
@@ -46,6 +49,7 @@ void fade_cont_main();
 void Akaobi();
 void Training_Disp_Work_Clear();
 void Training_Damage_Set(s16 damage, s16 /* unused */, u8 kezuri);
+void Training_Data_Disp();
 void dispButtonImage2(s32 px, s32 py, s32 pz, s32 sx, s32 sy, s32 cl, s32 ix);
 
 #endif
