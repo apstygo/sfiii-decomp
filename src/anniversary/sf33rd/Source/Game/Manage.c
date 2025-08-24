@@ -1209,9 +1209,7 @@ s32 Check_Ending() {
         Operator_Status[WINNER] = 0;
         SsBgmControl(0, 0);
         Control_Time = 481;
-#if defined(TARGET_PS2) // remove this
         Ending_init();
-#endif // remove this
         Stock_My_char[WINNER] = My_char[WINNER];
         Stock_Player_Color[WINNER] = Player_Color[WINNER];
 
