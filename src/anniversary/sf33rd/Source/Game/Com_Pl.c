@@ -198,7 +198,7 @@ void Main_Program(PLW *wk) {
 
     Ck_Distance(wk);
     Area_Number[wk->wu.id] = Ck_Area(wk);
-    Attack_Flag[wk->wu.id] = plw[(wk->wu.id) ^ 1].caution_flag;
+    Attack_Flag[wk->wu.id] = plw[wk->wu.id ^ 1].caution_flag;
     Check_At_Count(wk);
     Disposal_Again[wk->wu.id] = 0;
     Com_Jmp_Tbl[CP_No[wk->wu.id][0]](wk);
@@ -730,100 +730,7 @@ void Com_Damage(PLW *wk) {
 }
 
 #if defined(TARGET_PS2)
-void Damage_1st(PLW *wk) {
-    u8 Lv;
-    u8 Rnd;
-    u8 xx;
-    WORK *em;
-
-    Lever_Buff[wk->wu.id] = Setup_Guard_Lever(wk, 1);
-    Lever_Buff[wk->wu.id] |= 2;
-
-    switch (CP_No[wk->wu.id][2]) {
-    case 0:
-        if (wk->py->flag) {
-            CP_No[wk->wu.id][1] = 9;
-            break;
-        }
-
-        if (PL_Blow_Off_Data[wk->wu.routine_no[2]] == 0) {
-            CP_No[wk->wu.id][1] = 1;
-            break;
-        }
-
-        CP_No[wk->wu.id][2]++;
-        Lv = Setup_Lv08(0);
-
-        if (Break_Into_CPU == 2) {
-            Lv = 7;
-        }
-
-        if (Demo_Flag == 0 && Weak_PL == wk->wu.id) {
-            Lv = 0;
-        }
-
-        Rnd = random_32_com();
-        xx = Setup_EM_Rank_Index(wk);
-
-        if (Receive_Data[xx][emLevelRemake(Lv, 8, 0)] > Rnd) {
-            Receive_Flag[wk->wu.id] = 1;
-            break;
-        }
-
-        break;
-
-    case 1:
-        if (wk->wu.routine_no[3] == 0) {
-            CP_No[wk->wu.id][2] = 0;
-            break;
-        }
-
-        Lv = Setup_Lv04(0);
-
-        if (Break_Into_CPU == 2) {
-            Lv = 3;
-        }
-
-        if (Demo_Flag == 0 && Weak_PL == wk->wu.id) {
-            Lv = 0;
-        }
-
-        Rnd = random_32_com();
-        CP_No[wk->wu.id][1] = Get_Up_Data[wk->player_number][emLevelRemake(Lv, 4, 0)][Rnd] + 1;
-        CP_No[wk->wu.id][2] = 0;
-
-        if (Get_Up_Action_Check_Data[wk->player_number][CP_No[wk->wu.id][1] - 1][Area_Number[wk->wu.id]] == -1) {
-            CP_No[wk->wu.id][1] = Get_Up_Action_Check_Data[wk->player_number][CP_No[wk->wu.id][1]][5];
-        }
-
-        if (CP_No[wk->wu.id][1] == 0) {
-            Lv = Setup_Lv10(0);
-
-            if (Break_Into_CPU == 2) {
-                Lv = 10;
-            }
-
-            if (Demo_Flag == 0 && Weak_PL == wk->wu.id) {
-                Lv = 0;
-            }
-
-            Rnd = random_16_com();
-            Lv += CC_Value[0];
-            Lv = emLevelRemake(Lv, 11, 1);
-            em = (WORK *)wk->wu.target_adrs;
-
-            if (EM_Rank != 0) {
-                Guard_Type[wk->wu.id] = Guard_Data[17][Lv][Rnd];
-            } else {
-                Guard_Type[wk->wu.id] = Guard_Data[wk->player_number][Lv][Rnd];
-            }
-
-            Check_Guard_Type(wk, em);
-        }
-
-        break;
-    }
-}
+INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", Damage_1st);
 #else
 void Damage_1st(PLW *wk) {
     not_implemented(__func__);
@@ -892,84 +799,7 @@ void Damage_5th(PLW *wk) {
 }
 
 #if defined(TARGET_PS2)
-void Damage_6th(PLW *wk) {
-    u8 Lv;
-    u8 Rnd;
-
-    if (wk->wu.routine_no[3] == 0) {
-        CP_No[wk->wu.id][1] = 0;
-        CP_No[wk->wu.id][2] = 0;
-        return;
-    }
-
-    if (wk->wu.routine_no[2] == 0x19) {
-        CP_No[wk->wu.id][1] = 9;
-        CP_No[wk->wu.id][2] = 0;
-        return;
-    }
-
-    Lever_Buff[wk->wu.id] = Setup_Guard_Lever(wk, 1);
-    Lever_Buff[wk->wu.id] |= 2;
-
-    switch (CP_No[wk->wu.id][2]) {
-    case 0:
-        if (wk->wu.routine_no[1] != 1) {
-            Exit_Damage_Sub(wk);
-            break;
-        }
-
-        if (wk->wu.cg_type == 12) {
-            if (Get_Up_Action_Check_Data[wk->player_number][CP_No[wk->wu.id][1] - 1][Area_Number[wk->wu.id]] == -1) {
-                CP_No[wk->wu.id][1] = Get_Up_Action_Check_Data[wk->player_number][CP_No[wk->wu.id][1]][5];
-            }
-
-            CP_No[wk->wu.id][2]++;
-            CP_Index[wk->wu.id][1] = 0;
-            Lv = Setup_Lv04(0);
-
-            if (Break_Into_CPU == 2) {
-                Lv = 3;
-            }
-
-            if (Demo_Flag == 0 && Weak_PL == wk->wu.id) {
-                Lv = 0;
-            }
-
-            Lv = emLevelRemake(Lv, 4, 0);
-            Rnd = random_32_com() & 3;
-            Rnd *= 2;
-
-            CP_Index[wk->wu.id][0] = Get_Up_Action_Tech_Data[wk->player_number][Lv][Rnd];
-            CP_Index[wk->wu.id][7] = Get_Up_Action_Tech_Data[wk->player_number][Lv][Rnd + 1];
-
-            if (CP_Index[wk->wu.id][0] == 0xFF) {
-                CP_Index[wk->wu.id][0] = Get_Up_Action_Tech_Data[wk->player_number][Lv][0];
-                CP_Index[wk->wu.id][7] = 8;
-
-                if (plw[wk->wu.id].sa->ok &&
-                    Arts_Super_Name_Data[wk->player_number][plw[wk->wu.id].sa->kind_of_arts] != -1) {
-                    CP_Index[wk->wu.id][0] = Arts_Super_Name_Data[wk->player_number][plw[wk->wu.id].sa->kind_of_arts];
-                }
-            }
-        }
-
-        break;
-
-    case 1:
-        if (Command_Attack_SP(wk, wk->player_number, CP_Index[wk->wu.id][0], CP_Index[wk->wu.id][7])) {
-            CP_No[wk->wu.id][2]++;
-        }
-
-        break;
-
-    default:
-        if (Command_Attack_SP(wk, wk->player_number, CP_Index[wk->wu.id][0], CP_Index[wk->wu.id][7])) {
-            Exit_Damage_Sub(wk);
-        }
-
-        break;
-    }
-}
+INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Com_Pl", Damage_6th);
 #else
 void Damage_6th(PLW *wk) {
     not_implemented(__func__);
