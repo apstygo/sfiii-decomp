@@ -1,9 +1,11 @@
 #include "sf33rd/Source/Game/active06.h"
+#include "common.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
-#include "common.h"
 
-void Computer06(PLW* wk) {
+void (*const Pattern06_Tbl[64])();
+
+void Computer06(PLW *wk) {
     Pattern06_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
 }
 
@@ -134,7 +136,6 @@ void Pattern06_0008(PLW *wk) {
         break;
     }
 }
-
 
 void Pattern06_0009(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
@@ -430,7 +431,6 @@ void Pattern06_0030(PLW *wk) {
         End_Pattern(wk);
         break;
     }
-
 }
 
 void Pattern06_0031(PLW *wk) {
@@ -532,7 +532,7 @@ void Pattern06_0038(PLW *wk) {
 void Pattern06_0039(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
-    Jump_Attack_Term(wk, -0x7F68, -0x7FC0, 9, 0x200, 0, -0x7F68, -1, 0x400);
+        Jump_Attack_Term(wk, -0x7F68, -0x7FC0, 9, 0x200, 0, -0x7F68, -1, 0x400);
         break;
     default:
         End_Pattern(wk);
@@ -917,20 +917,14 @@ void Pattern06_0063(PLW *wk) {
 }
 
 void (*const Pattern06_Tbl[64])(PLW *) = {
-    Pattern06_0000, Pattern06_0001, Pattern06_0002, Pattern06_0003,
-    Pattern06_0004, Pattern06_0005, Pattern06_0006, Pattern06_0007,
-    Pattern06_0008, Pattern06_0009, Pattern06_0010, Pattern06_0011,
-    Pattern06_0012, Pattern06_0013, Pattern06_0014, Pattern06_0015,
-    Pattern06_0016, Pattern06_0017, Pattern06_0018, Pattern06_0019,
-    Pattern06_0020, Pattern06_0021, Pattern06_0022, Pattern06_0023,
-    Pattern06_0024, Pattern06_0025, Pattern06_0026, Pattern06_0027,
-    Pattern06_0028, Pattern06_0029, Pattern06_0030, Pattern06_0031,
-    Pattern06_0032, Pattern06_0033, Pattern06_0034, Pattern06_0035,
-    Pattern06_0036, Pattern06_0037, Pattern06_0038, Pattern06_0039,
-    Pattern06_0040, Pattern06_0041, Pattern06_0042, Pattern06_0043,
-    Pattern06_0044, Pattern06_0045, Pattern06_0046, Pattern06_0047,
-    Pattern06_0048, Pattern06_0049, Pattern06_0050, Pattern06_0051,
-    Pattern06_0052, Pattern06_0053, Pattern06_0054, Pattern06_0055,
-    Pattern06_0056, Pattern06_0057, Pattern06_0058, Pattern06_0059,
-    Pattern06_0060, Pattern06_0061, Pattern06_0062, Pattern06_0063
+    Pattern06_0000, Pattern06_0001, Pattern06_0002, Pattern06_0003, Pattern06_0004, Pattern06_0005, Pattern06_0006,
+    Pattern06_0007, Pattern06_0008, Pattern06_0009, Pattern06_0010, Pattern06_0011, Pattern06_0012, Pattern06_0013,
+    Pattern06_0014, Pattern06_0015, Pattern06_0016, Pattern06_0017, Pattern06_0018, Pattern06_0019, Pattern06_0020,
+    Pattern06_0021, Pattern06_0022, Pattern06_0023, Pattern06_0024, Pattern06_0025, Pattern06_0026, Pattern06_0027,
+    Pattern06_0028, Pattern06_0029, Pattern06_0030, Pattern06_0031, Pattern06_0032, Pattern06_0033, Pattern06_0034,
+    Pattern06_0035, Pattern06_0036, Pattern06_0037, Pattern06_0038, Pattern06_0039, Pattern06_0040, Pattern06_0041,
+    Pattern06_0042, Pattern06_0043, Pattern06_0044, Pattern06_0045, Pattern06_0046, Pattern06_0047, Pattern06_0048,
+    Pattern06_0049, Pattern06_0050, Pattern06_0051, Pattern06_0052, Pattern06_0053, Pattern06_0054, Pattern06_0055,
+    Pattern06_0056, Pattern06_0057, Pattern06_0058, Pattern06_0059, Pattern06_0060, Pattern06_0061, Pattern06_0062,
+    Pattern06_0063
 };

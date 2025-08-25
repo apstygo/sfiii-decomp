@@ -7,7 +7,9 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
+#include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
 void effect_78_move(WORK_Other *ewk) {
@@ -64,10 +66,11 @@ s32 crow_fuss_check(WORK_Other *ewk) {
 
         return 0;
     }
+
     return 1;
 }
 
-const s16 eff78_data_tbl[4] = { 0x1A0, 0x047, 0x390, 0x040 };
+const s16 eff78_data_tbl[4] = { 416, 71, 912, 64 };
 
 const s16 crow_char_tbl[3][3] = { { 8, 0, 64 }, { 18, -16, 64 }, { 13, 16, 64 } };
 
@@ -75,7 +78,7 @@ void crow_fuss_move(WORK_Other *ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
-    switch ((ewk->wu.routine_no[1])) {
+    switch (ewk->wu.routine_no[1]) {
     case 0:
         ewk->wu.routine_no[1]++;
         ewk->wu.old_rno[0] = crow_char_tbl[ewk->wu.direction][0];
@@ -87,8 +90,8 @@ void crow_fuss_move(WORK_Other *ewk) {
 
         if (ewk->wu.cg_type == 0xFF) {
             ewk->wu.routine_no[1]++;
-            set_char_move_init(&ewk->wu, 0, (ewk->wu.old_rno[0]) + 1);
-            ewk->wu.dir_timer = 0x1C;
+            set_char_move_init(&ewk->wu, 0, ewk->wu.old_rno[0] + 1);
+            ewk->wu.dir_timer = 28;
             ewk->wu.old_rno[1] = ewk->wu.xyz[0].disp.pos + crow_char_tbl[ewk->wu.direction][1];
             ewk->wu.old_rno[2] = ewk->wu.xyz[1].disp.pos + crow_char_tbl[ewk->wu.direction][2];
             cal_all_speed_data(&ewk->wu, ewk->wu.dir_timer, ewk->wu.old_rno[1], ewk->wu.old_rno[2], 2, 2);
@@ -127,7 +130,7 @@ void crow_fuss_move(WORK_Other *ewk) {
         if (ewk->wu.cg_type == 0xFF) {
             ewk->wu.routine_no[1]++;
             set_char_move_init(&ewk->wu, 0, ewk->wu.old_rno[0] + 3);
-            ewk->wu.dir_timer = 0x30;
+            ewk->wu.dir_timer = 48;
             ewk->wu.old_rno[1] = eff78_data_tbl[ewk->wu.type << 1];
             ewk->wu.old_rno[2] = eff78_data_tbl[(ewk->wu.type << 1) + 1];
             cal_all_speed_data(&ewk->wu, ewk->wu.dir_timer, ewk->wu.old_rno[1], ewk->wu.old_rno[2] + 4, 0, 0);
@@ -174,10 +177,41 @@ void crow_fuss_move(WORK_Other *ewk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF78", effect_78_init);
-#else
 s32 effect_78_init() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 get_my_trans_mode(s32 curr);
 #endif
+
+    WORK_Other *ewk;
+    s16 ix;
+    s16 i;
+    const s16 *data_ptr = eff78_data_tbl;
+
+    for (i = 0; i < 2; i++) {
+        if ((ix = pull_effect_work(4)) == -1) {
+            return -1;
+        }
+
+        ewk = (WORK_Other *)frw[ix];
+        ewk->wu.be_flag = 1;
+        ewk->wu.id = 78;
+        ewk->wu.work_id = 16;
+        ewk->wu.cgromtype = 1;
+        ewk->wu.rl_flag = 0;
+        ewk->wu.type = i;
+        ewk->wu.dead_f = 0;
+        ewk->wu.my_family = 2;
+        ewk->wu.my_col_mode = 0x4200;
+        ewk->wu.my_col_code = 8492;
+        ewk->wu.my_mts = 7;
+        ewk->wu.my_trans_mode = get_my_trans_mode(ewk->wu.my_mts);
+        ewk->wu.position_x = ewk->wu.xyz[0].disp.pos = *data_ptr++;
+        ewk->wu.position_y = ewk->wu.xyz[1].disp.pos = *data_ptr++;
+        ewk->wu.position_z = ewk->wu.my_priority = 83;
+        ewk->wu.char_index = 4;
+        ewk->wu.char_table[0] = _j10_char_table;
+        ewk->wu.hit_stop = 0;
+    }
+
+    return 0;
+}

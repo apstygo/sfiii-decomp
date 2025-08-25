@@ -633,7 +633,13 @@ void stun_gauge_waku_write(s16 p1len, s16 p2len) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", silver_stun_put);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", overwrite_panel);
+#else
+void overwrite_panel(u32 color, u8 priority) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sa_stock_trans);

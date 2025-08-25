@@ -1,9 +1,11 @@
 #include "sf33rd/Source/Game/active16.h"
+#include "common.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
-#include "common.h"
 
-void Computer16(PLW* wk) {
+void (*const Pattern16_Tbl[70])();
+
+void Computer16(PLW *wk) {
     Pattern16_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
 }
 
@@ -640,7 +642,7 @@ void Pattern16_0042(PLW *wk) {
 }
 
 void Pattern16_0043(PLW *wk) {
-    switch(CP_Index[wk->wu.id][0]) {
+    switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x30, 2, 0xF);
         break;
@@ -1068,22 +1070,14 @@ void Pattern16_0069(PLW *wk) {
 }
 
 void (*const Pattern16_Tbl[70])(PLW *) = {
-    Pattern16_0000, Pattern16_0001, Pattern16_0002, Pattern16_0003,
-    Pattern16_0004, Pattern16_0005, Pattern16_0006, Pattern16_0007,
-    Pattern16_0008, Pattern16_0009, Pattern16_0010, Pattern16_0011,
-    Pattern16_0012, Pattern16_0013, Pattern16_0014, Pattern16_0015,
-    Pattern16_0016, Pattern16_0017, Pattern16_0018, Pattern16_0019,
-    Pattern16_0020, Pattern16_0021, Pattern16_0022, Pattern16_0023,
-    Pattern16_0024, Pattern16_0025, Pattern16_0026, Pattern16_0027,
-    Pattern16_0028, Pattern16_0029, Pattern16_0030, Pattern16_0031,
-    Pattern16_0032, Pattern16_0033, Pattern16_0034, Pattern16_0035,
-    Pattern16_0036, Pattern16_0037, Pattern16_0038, Pattern16_0039,
-    Pattern16_0040, Pattern16_0041, Pattern16_0042, Pattern16_0043,
-    Pattern16_0044, Pattern16_0045, Pattern16_0046, Pattern16_0047,
-    Pattern16_0048, Pattern16_0049, Pattern16_0050, Pattern16_0051,
-    Pattern16_0052, Pattern16_0053, Pattern16_0054, Pattern16_0055,
-    Pattern16_0056, Pattern16_0057, Pattern16_0058, Pattern16_0059,
-    Pattern16_0060, Pattern16_0061, Pattern16_0062, Pattern16_0063,
-    Pattern16_0064, Pattern16_0065, Pattern16_0066, Pattern16_0067,
-    Pattern16_0068, Pattern16_0069
+    Pattern16_0000, Pattern16_0001, Pattern16_0002, Pattern16_0003, Pattern16_0004, Pattern16_0005, Pattern16_0006,
+    Pattern16_0007, Pattern16_0008, Pattern16_0009, Pattern16_0010, Pattern16_0011, Pattern16_0012, Pattern16_0013,
+    Pattern16_0014, Pattern16_0015, Pattern16_0016, Pattern16_0017, Pattern16_0018, Pattern16_0019, Pattern16_0020,
+    Pattern16_0021, Pattern16_0022, Pattern16_0023, Pattern16_0024, Pattern16_0025, Pattern16_0026, Pattern16_0027,
+    Pattern16_0028, Pattern16_0029, Pattern16_0030, Pattern16_0031, Pattern16_0032, Pattern16_0033, Pattern16_0034,
+    Pattern16_0035, Pattern16_0036, Pattern16_0037, Pattern16_0038, Pattern16_0039, Pattern16_0040, Pattern16_0041,
+    Pattern16_0042, Pattern16_0043, Pattern16_0044, Pattern16_0045, Pattern16_0046, Pattern16_0047, Pattern16_0048,
+    Pattern16_0049, Pattern16_0050, Pattern16_0051, Pattern16_0052, Pattern16_0053, Pattern16_0054, Pattern16_0055,
+    Pattern16_0056, Pattern16_0057, Pattern16_0058, Pattern16_0059, Pattern16_0060, Pattern16_0061, Pattern16_0062,
+    Pattern16_0063, Pattern16_0064, Pattern16_0065, Pattern16_0066, Pattern16_0067, Pattern16_0068, Pattern16_0069
 };
