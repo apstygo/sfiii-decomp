@@ -61,7 +61,7 @@ void cal_combo_waribiki(PLW *as, PLW *ds);
 void cal_combo_waribiki2(PLW *ds);
 void catch_hit_check();
 void attack_hit_check();
-s16 hit_check_subroutine(WORK *wk1, WORK *wk2, const s16 *hd1, s16 *hd2);
+s16 hit_check_subroutine(WORK *wk1, WORK *wk2, const s16 *hd1, const s16 *hd2);
 s32 hit_check_x_only(WORK *wk1, WORK *wk2, s16 *hd1, s16 *hd2);
 void cal_hit_mark_position(WORK *wk1, WORK *wk2, s16 *hd1, s16 *hd2);
 void get_target_att_position(WORK *wk, s16 *tx, s16 *ty);
