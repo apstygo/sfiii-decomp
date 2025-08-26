@@ -1,9 +1,11 @@
 #include "sf33rd/Source/Game/active12.h"
+#include "common.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
-#include "common.h"
 
-void Computer12(PLW* wk) {
+void (*const Pattern12_Tbl[86])();
+
+void Computer12(PLW *wk) {
     Pattern12_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
 }
 
@@ -1372,26 +1374,17 @@ void Pattern12_0085(PLW *wk) {
 }
 
 void (*const Pattern12_Tbl[86])(PLW *) = {
-    Pattern12_0000, Pattern12_0001, Pattern12_0002, Pattern12_0003,
-    Pattern12_0004, Pattern12_0005, Pattern12_0006, Pattern12_0007,
-    Pattern12_0008, Pattern12_0009, Pattern12_0010, Pattern12_0011,
-    Pattern12_0012, Pattern12_0013, Pattern12_0014, Pattern12_0015,
-    Pattern12_0016, Pattern12_0017, Pattern12_0018, Pattern12_0019,
-    Pattern12_0020, Pattern12_0021, Pattern12_0022, Pattern12_0023,
-    Pattern12_0024, Pattern12_0025, Pattern12_0026, Pattern12_0027,
-    Pattern12_0028, Pattern12_0029, Pattern12_0030, Pattern12_0031,
-    Pattern12_0032, Pattern12_0033, Pattern12_0034, Pattern12_0035,
-    Pattern12_0036, Pattern12_0037, Pattern12_0038, Pattern12_0039,
-    Pattern12_0040, Pattern12_0041, Pattern12_0042, Pattern12_0043,
-    Pattern12_0044, Pattern12_0045, Pattern12_0046, Pattern12_0047,
-    Pattern12_0048, Pattern12_0049, Pattern12_0050, Pattern12_0051,
-    Pattern12_0052, Pattern12_0053, Pattern12_0054, Pattern12_0055,
-    Pattern12_0056, Pattern12_0057, Pattern12_0058, Pattern12_0059,
-    Pattern12_0060, Pattern12_0061, Pattern12_0062, Pattern12_0063,
-    Pattern12_0064, Pattern12_0065, Pattern12_0066, Pattern12_0067,
-    Pattern12_0068, Pattern12_0069, Pattern12_0070, Pattern12_0071,
-    Pattern12_0072, Pattern12_0073, Pattern12_0074, Pattern12_0075,
-    Pattern12_0076, Pattern12_0077, Pattern12_0078, Pattern12_0079,
-    Pattern12_0080, Pattern12_0081, Pattern12_0082, Pattern12_0083,
+    Pattern12_0000, Pattern12_0001, Pattern12_0002, Pattern12_0003, Pattern12_0004, Pattern12_0005, Pattern12_0006,
+    Pattern12_0007, Pattern12_0008, Pattern12_0009, Pattern12_0010, Pattern12_0011, Pattern12_0012, Pattern12_0013,
+    Pattern12_0014, Pattern12_0015, Pattern12_0016, Pattern12_0017, Pattern12_0018, Pattern12_0019, Pattern12_0020,
+    Pattern12_0021, Pattern12_0022, Pattern12_0023, Pattern12_0024, Pattern12_0025, Pattern12_0026, Pattern12_0027,
+    Pattern12_0028, Pattern12_0029, Pattern12_0030, Pattern12_0031, Pattern12_0032, Pattern12_0033, Pattern12_0034,
+    Pattern12_0035, Pattern12_0036, Pattern12_0037, Pattern12_0038, Pattern12_0039, Pattern12_0040, Pattern12_0041,
+    Pattern12_0042, Pattern12_0043, Pattern12_0044, Pattern12_0045, Pattern12_0046, Pattern12_0047, Pattern12_0048,
+    Pattern12_0049, Pattern12_0050, Pattern12_0051, Pattern12_0052, Pattern12_0053, Pattern12_0054, Pattern12_0055,
+    Pattern12_0056, Pattern12_0057, Pattern12_0058, Pattern12_0059, Pattern12_0060, Pattern12_0061, Pattern12_0062,
+    Pattern12_0063, Pattern12_0064, Pattern12_0065, Pattern12_0066, Pattern12_0067, Pattern12_0068, Pattern12_0069,
+    Pattern12_0070, Pattern12_0071, Pattern12_0072, Pattern12_0073, Pattern12_0074, Pattern12_0075, Pattern12_0076,
+    Pattern12_0077, Pattern12_0078, Pattern12_0079, Pattern12_0080, Pattern12_0081, Pattern12_0082, Pattern12_0083,
     Pattern12_0084, Pattern12_0085
 };

@@ -1,9 +1,11 @@
 #include "sf33rd/Source/Game/active13.h"
+#include "common.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
-#include "common.h"
 
-void Computer13(PLW* wk) {
+void (*const Pattern13_Tbl[81])();
+
+void Computer13(PLW *wk) {
     Pattern13_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
 }
 
@@ -1192,25 +1194,16 @@ void Pattern13_0080(PLW *wk) {
 }
 
 void (*const Pattern13_Tbl[81])(PLW *) = {
-    Pattern13_0000, Pattern13_0001, Pattern13_0002, Pattern13_0003,
-    Pattern13_0004, Pattern13_0005, Pattern13_0006, Pattern13_0007,
-    Pattern13_0008, Pattern13_0009, Pattern13_0010, Pattern13_0011,
-    Pattern13_0012, Pattern13_0013, Pattern13_0014, Pattern13_0015,
-    Pattern13_0016, Pattern13_0017, Pattern13_0018, Pattern13_0019,
-    Pattern13_0020, Pattern13_0021, Pattern13_0022, Pattern13_0023,
-    Pattern13_0024, Pattern13_0025, Pattern13_0026, Pattern13_0027,
-    Pattern13_0028, Pattern13_0029, Pattern13_0030, Pattern13_0031,
-    Pattern13_0032, Pattern13_0033, Pattern13_0034, Pattern13_0035,
-    Pattern13_0036, Pattern13_0037, Pattern13_0038, Pattern13_0039,
-    Pattern13_0040, Pattern13_0041, Pattern13_0042, Pattern13_0043,
-    Pattern13_0044, Pattern13_0045, Pattern13_0046, Pattern13_0047,
-    Pattern13_0048, Pattern13_0049, Pattern13_0050, Pattern13_0051,
-    Pattern13_0052, Pattern13_0053, Pattern13_0054, Pattern13_0055,
-    Pattern13_0056, Pattern13_0057, Pattern13_0058, Pattern13_0059,
-    Pattern13_0060, Pattern13_0061, Pattern13_0062, Pattern13_0063,
-    Pattern13_0064, Pattern13_0065, Pattern13_0066, Pattern13_0067,
-    Pattern13_0068, Pattern13_0069, Pattern13_0070, Pattern13_0071,
-    Pattern13_0072, Pattern13_0073, Pattern13_0074, Pattern13_0075,
-    Pattern13_0076, Pattern13_0077, Pattern13_0078, Pattern13_0079,
-    Pattern13_0080
+    Pattern13_0000, Pattern13_0001, Pattern13_0002, Pattern13_0003, Pattern13_0004, Pattern13_0005, Pattern13_0006,
+    Pattern13_0007, Pattern13_0008, Pattern13_0009, Pattern13_0010, Pattern13_0011, Pattern13_0012, Pattern13_0013,
+    Pattern13_0014, Pattern13_0015, Pattern13_0016, Pattern13_0017, Pattern13_0018, Pattern13_0019, Pattern13_0020,
+    Pattern13_0021, Pattern13_0022, Pattern13_0023, Pattern13_0024, Pattern13_0025, Pattern13_0026, Pattern13_0027,
+    Pattern13_0028, Pattern13_0029, Pattern13_0030, Pattern13_0031, Pattern13_0032, Pattern13_0033, Pattern13_0034,
+    Pattern13_0035, Pattern13_0036, Pattern13_0037, Pattern13_0038, Pattern13_0039, Pattern13_0040, Pattern13_0041,
+    Pattern13_0042, Pattern13_0043, Pattern13_0044, Pattern13_0045, Pattern13_0046, Pattern13_0047, Pattern13_0048,
+    Pattern13_0049, Pattern13_0050, Pattern13_0051, Pattern13_0052, Pattern13_0053, Pattern13_0054, Pattern13_0055,
+    Pattern13_0056, Pattern13_0057, Pattern13_0058, Pattern13_0059, Pattern13_0060, Pattern13_0061, Pattern13_0062,
+    Pattern13_0063, Pattern13_0064, Pattern13_0065, Pattern13_0066, Pattern13_0067, Pattern13_0068, Pattern13_0069,
+    Pattern13_0070, Pattern13_0071, Pattern13_0072, Pattern13_0073, Pattern13_0074, Pattern13_0075, Pattern13_0076,
+    Pattern13_0077, Pattern13_0078, Pattern13_0079, Pattern13_0080
 };

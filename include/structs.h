@@ -2825,4 +2825,19 @@ typedef struct {
     s16 bbdat[4][4]; // offset 0x6, size 0x20
 } BBBSTable;
 
+typedef struct {
+    // total size: 0x10
+    s16 hx;     // offset 0x0, size 0x2
+    s16 hy;     // offset 0x2, size 0x2
+    s16 hz;     // offset 0x4, size 0x2
+    s8 sel_pri; // offset 0x6, size 0x1
+    s8 sel_rl;  // offset 0x7, size 0x1
+    s16 color;  // offset 0x8, size 0x2
+    s8 sel_col; // offset 0xA, size 0x1
+    s8 dspf;    // offset 0xB, size 0x1
+    s8 ichi;    // offset 0xC, size 0x1
+    s8 mts;     // offset 0xD, size 0x1
+    s16 chix;   // offset 0xE, size 0x2
+} PLEF;
+
 #endif
