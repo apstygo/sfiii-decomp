@@ -18,6 +18,7 @@ void setup_vitality(WORK *wk, s16 pno);
 void add_sp_arts_gauge_init(PLW *wk);
 void add_sp_arts_gauge_maxbit(PLW *wk);
 void add_super_arts_gauge(SA_WORK *wk, s16 ix, s16 asag, u8 mf);
+void dead_voice_request();
 void add_to_mvxy_data(WORK *wk, u16 ix);
 void setup_mvxy_data(WORK *wk, u16 ix);
 void cal_mvxy_speed(WORK *wk);
