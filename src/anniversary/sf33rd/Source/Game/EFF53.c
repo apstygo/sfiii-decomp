@@ -1,6 +1,7 @@
 #include "sf33rd/Source/Game/EFF53.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
+#include "sf33rd/Source/Game/EFF54.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/SLOWF.h"
@@ -8,10 +9,12 @@
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 
+const s16 eff53_vanish_time[8] = { 480, 600, 900, 1440, 480, 1080, 1500, 600 };
+
 void effect_53_move(WORK_Other *ewk) {
     s16 work;
 
-    if (obr_no_disp_check() != 0) {
+    if (obr_no_disp_check()) {
         return;
     }
 
@@ -25,7 +28,7 @@ void effect_53_move(WORK_Other *ewk) {
 
         if (ewk->wu.old_rno[2] <= 0) {
             ewk->wu.routine_no[0]++;
-            ewk->wu.old_rno[0] = 0x1E;
+            ewk->wu.old_rno[0] = 30;
             ewk->wu.old_rno[1] = 0;
             ewk->wu.disp_flag = 1;
         }
@@ -35,23 +38,28 @@ void effect_53_move(WORK_Other *ewk) {
     case 1:
         ewk->wu.old_rno[0]--;
 
-        if (ewk->wu.old_rno[0] <= 0) {
-            ewk->wu.disp_flag ^= 1;
-            ewk->wu.old_rno[0] = 0x1E;
-
-            if (!ewk->wu.disp_flag) {
-                ewk->wu.old_rno[1]++;
-
-                if (ewk->wu.old_rno[1] >= 6) {
-                    ewk->wu.routine_no[0] = 0;
-                    work = random_16();
-                    work &= 7;
-                    ewk->wu.old_rno[2] = eff53_vanish_time[work];
-                    ewk->wu.disp_flag = 0;
-                }
-            }
+        if (ewk->wu.old_rno[0] > 0) {
+            break;
         }
 
+        ewk->wu.disp_flag ^= 1;
+        ewk->wu.old_rno[0] = 30;
+
+        if (ewk->wu.disp_flag) {
+            break;
+        }
+
+        ewk->wu.old_rno[1]++;
+
+        if (ewk->wu.old_rno[1] < 6) {
+            break;
+        }
+
+        ewk->wu.routine_no[0] = 0;
+        work = random_16();
+        work &= 7;
+        ewk->wu.old_rno[2] = eff53_vanish_time[work];
+        ewk->wu.disp_flag = 0;
         break;
 
     default:
@@ -61,12 +69,21 @@ void effect_53_move(WORK_Other *ewk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF53", effect_53_init);
-#else
 s32 effect_53_init() {
-    not_implemented(__func__);
-}
-#endif
+    WORK_Other *ewk;
+    s16 ix;
 
-const s16 eff53_vanish_time[8] = { 480, 600, 900, 1440, 480, 1080, 1500, 600 };
+    if ((ix = pull_effect_work(4)) == -1) {
+        return -1;
+    }
+
+    ewk = (WORK_Other *)frw[ix];
+    ewk->wu.be_flag = 1;
+    ewk->wu.id = 53;
+    ewk->wu.work_id = 16;
+    ewk->wu.cgromtype = 1;
+    ewk->wu.disp_flag = 0;
+    ewk->wu.old_rno[2] = 0;
+    effect_54_init(ewk);
+    return 0;
+}

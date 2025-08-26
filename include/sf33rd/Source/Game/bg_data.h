@@ -100,33 +100,33 @@ extern const s32 bg_pos_tbl2[][3][2];     // size: 0xA8, address: 0x4E9300
 extern const s8 quake_x_tbl[130];         // size: 0x82, address: 0x4E93B0
 extern const s8 quake_y_tbl[130];         // size: 0x82, address: 0x4E9440
 
-extern s16 y_sitei_pos;     // size: 0x2, address: 0x578C20
-extern u8 y_sitei_flag;     // size: 0x1, address: 0x578C24
-extern u8 c_number;         // size: 0x1, address: 0x578C28
-extern u8 c_kakikae;        // size: 0x1, address: 0x578C2C
-extern u8 g_number[2];      // size: 0x2, address: 0x578C30
-extern u8 g_kakikae[2];     // size: 0x2, address: 0x578C34
-extern u8 nosekae;          // size: 0x1, address: 0x578C38
-extern u16 *scr_bcm[4];     // size: 0x10, address: 0x578C40
-extern s16 scrn_adgjust_y;  // size: 0x2, address: 0x578C50
-extern s16 scrn_adgjust_x;  // size: 0x2, address: 0x578C54
-extern u16 zoom_add;        // size: 0x2, address: 0x578C58
-extern s16 ls_cnt1;         // size: 0x2, address: 0x578C5C
-extern s8 bg_app;           // size: 0x1, address: 0x578C60
-extern s8 sa_pa_flag;       // size: 0x1, address: 0x578C64
-extern s8 aku_flag;         // size: 0x1, address: 0x578C68
-extern s8 seraph_flag;      // size: 0x1, address: 0x578C6C
-extern s8 akebono_flag;     // size: 0x1, address: 0x578C70
-extern MVXY bg_mvxy;        // size: 0x18, address: 0x578C80
-extern s16 chase_time_y;    // size: 0x2, address: 0x578C98
-extern s16 chase_time_x;    // size: 0x2, address: 0x578C9C
-extern s16 chase_y;         // size: 0x2, address: 0x578CA0
-extern s16 chase_x;         // size: 0x2, address: 0x578CA4
-extern s8 demo_car_flag[2]; // size: 0x2, address: 0x578CA8
-extern Ideal_W ideal_w;     // size: 0x8, address: 0x578CB0
-extern BGW *bgw_ptr;        // size: 0x4, address: 0x578CB8
-extern s8 bg_app_stop;      // size: 0x1, address: 0x578CBC
-extern s16 bg_stop;         // size: 0x2, address: 0x578CC0
-extern s16 base_y_pos;      // size: 0x2, address: 0x578CC4
+extern s16 y_sitei_pos;       // size: 0x2, address: 0x578C20
+extern u8 y_sitei_flag;       // size: 0x1, address: 0x578C24
+extern u8 c_number;           // size: 0x1, address: 0x578C28
+extern u8 c_kakikae;          // size: 0x1, address: 0x578C2C
+extern u8 g_number[2];        // size: 0x2, address: 0x578C30
+extern u8 g_kakikae[2];       // size: 0x2, address: 0x578C34
+extern u8 nosekae;            // size: 0x1, address: 0x578C38
+extern const u16 *scr_bcm[4]; // size: 0x10, address: 0x578C40
+extern s16 scrn_adgjust_y;    // size: 0x2, address: 0x578C50
+extern s16 scrn_adgjust_x;    // size: 0x2, address: 0x578C54
+extern u16 zoom_add;          // size: 0x2, address: 0x578C58
+extern s16 ls_cnt1;           // size: 0x2, address: 0x578C5C
+extern s8 bg_app;             // size: 0x1, address: 0x578C60
+extern s8 sa_pa_flag;         // size: 0x1, address: 0x578C64
+extern s8 aku_flag;           // size: 0x1, address: 0x578C68
+extern s8 seraph_flag;        // size: 0x1, address: 0x578C6C
+extern s8 akebono_flag;       // size: 0x1, address: 0x578C70
+extern MVXY bg_mvxy;          // size: 0x18, address: 0x578C80
+extern s16 chase_time_y;      // size: 0x2, address: 0x578C98
+extern s16 chase_time_x;      // size: 0x2, address: 0x578C9C
+extern s16 chase_y;           // size: 0x2, address: 0x578CA0
+extern s16 chase_x;           // size: 0x2, address: 0x578CA4
+extern s8 demo_car_flag[2];   // size: 0x2, address: 0x578CA8
+extern Ideal_W ideal_w;       // size: 0x8, address: 0x578CB0
+extern BGW *bgw_ptr;          // size: 0x4, address: 0x578CB8
+extern s8 bg_app_stop;        // size: 0x1, address: 0x578CBC
+extern s16 bg_stop;           // size: 0x2, address: 0x578CC0
+extern s16 base_y_pos;        // size: 0x2, address: 0x578CC4
 
 #endif

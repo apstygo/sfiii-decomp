@@ -5,8 +5,12 @@
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
+#include "sf33rd/Source/Game/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
+#include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
+
+const s16 eff86_data_tbl00[7] = { 0, 2, 8224, 511, 56, 10, 18 };
 
 const s16 *eff86_adrs_tbl[1] = { eff86_data_tbl00 };
 
@@ -44,7 +48,7 @@ void eff86_0000(WORK_Other *ewk) {
         ewk->wu.xyz[0].disp.pos = work;
         work = plw[1].wu.position_y + plw[1].wu.position_y;
         work >>= 1;
-        ewk->wu.xyz[1].disp.pos = work + 0x5C;
+        ewk->wu.xyz[1].disp.pos = work + 92;
         set_char_move_init(&ewk->wu, 0, ewk->wu.char_index);
         break;
 
@@ -60,12 +64,38 @@ void eff86_0000(WORK_Other *ewk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF86", effect_86_init);
-#else
 s32 effect_86_init(s16 type86) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 get_my_trans_mode(s32 curr);
 #endif
 
-const s16 eff86_data_tbl00[7] = { 0x0000, 0x0002, 0x2020, 0x01FF, 0x0038, 0x000A, 0x0012 };
+    WORK_Other *ewk;
+    s16 ix;
+    const s16 *data_ptr;
+
+    if ((ix = pull_effect_work(4)) == -1) {
+        return -1;
+    }
+
+    ewk = (WORK_Other *)frw[ix];
+    data_ptr = eff86_adrs_tbl[type86];
+    ewk->wu.be_flag = 1;
+    ewk->wu.id = 86;
+    ewk->wu.work_id = 16;
+    ewk->wu.type = type86;
+    ewk->wu.cgromtype = 1;
+    ewk->wu.rl_flag = 0;
+    ewk->wu.dead_f = 1;
+    ewk->wu.routine_no[1] = *data_ptr++;
+    ewk->wu.my_col_mode = 0x4200;
+    ewk->wu.my_family = *data_ptr++;
+    ewk->wu.my_col_code = *data_ptr++;
+    ewk->wu.xyz[0].disp.pos = *data_ptr++;
+    ewk->wu.xyz[1].disp.pos = *data_ptr++;
+    ewk->wu.my_priority = ewk->wu.position_z = *data_ptr++;
+    ewk->wu.char_index = *data_ptr++;
+    ewk->wu.char_table[0] = _etc_char_table;
+    ewk->wu.my_mts = 14;
+    ewk->wu.my_trans_mode = get_my_trans_mode(ewk->wu.my_mts);
+    return 0;
+}

@@ -34,12 +34,15 @@ special_cases = {
     ("PLS02", ".rodata", 3): 16,
     ("PLS03", ".rodata", 2): 16,
     ("CHARSET", ".rodata", 0): 16,
+    ("EFFH9", ".rodata", 0): 16,
+    ("staff", ".rodata", 0): 16,
 
     ("bg_data", ".data", 0): 16,
     ("PulPul", ".data", 0): 16,
     ("flps2vram", ".data", 0): 16,
     ("PulPul", ".data", 1): 16,
     ("Sound3rd", ".data", 0): 16,
+    ("end_data", ".data", 0): 16,
 
     ("bg_data", ".sdata", 0): 16,
     ("VM_DATA", ".sdata", 0): 16,
@@ -72,6 +75,7 @@ special_cases = {
     ("OBJTEST", ".sbss", 0): 16,
     ("CHARID", ".sbss", 0): 16,
     ("emlMemMap", ".sbss", 0): 16,
+    ("effl8", ".sbss", 0): 16,
 
     ("bss_6BDA68", ".bss", 0): 8,
     ("iopnotify", ".bss", 0): 8,

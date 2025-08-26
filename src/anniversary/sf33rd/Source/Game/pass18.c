@@ -3,6 +3,8 @@
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 
+void (*const Passive18_Tbl[204])();
+
 void Passive18(PLW *wk) {
     Passive18_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
 }

@@ -22,6 +22,7 @@ void setupSoundMode();
 void BGM_Server();
 void setupAlwaysSeamlessFlag(s16 flag);
 s32 adx_now_playend();
+s32 bgm_play_status();
 s32 bgmSkipCheck(s32 code);
 void SsAllNoteOff();
 void SsRequest(u16 ReqNumber);

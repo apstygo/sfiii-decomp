@@ -1,9 +1,11 @@
 #include "sf33rd/Source/Game/active18.h"
+#include "common.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
-#include "common.h"
 
-void Computer18(PLW* wk) {
+void (*const Pattern18_Tbl[109])();
+
+void Computer18(PLW *wk) {
     Pattern18_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
 }
 
@@ -623,7 +625,7 @@ void Pattern18_0042(PLW *wk) {
 }
 
 void Pattern18_0043(PLW *wk) {
-    switch(CP_Index[wk->wu.id][0]) {
+    switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x30, 2, 0xF);
         break;
@@ -1579,32 +1581,20 @@ void Pattern18_0108(PLW *wk) {
 }
 
 void (*const Pattern18_Tbl[109])(PLW *) = {
-    Pattern18_0000, Pattern18_0001, Pattern18_0002, Pattern18_0003,
-    Pattern18_0004, Pattern18_0005, Pattern18_0006, Pattern18_0007,
-    Pattern18_0008, Pattern18_0009, Pattern18_0010, Pattern18_0011,
-    Pattern18_0012, Pattern18_0013, Pattern18_0014, Pattern18_0015,
-    Pattern18_0016, Pattern18_0017, Pattern18_0018, Pattern18_0019,
-    Pattern18_0020, Pattern18_0021, Pattern18_0022, Pattern18_0023,
-    Pattern18_0024, Pattern18_0025, Pattern18_0026, Pattern18_0027,
-    Pattern18_0028, Pattern18_0029, Pattern18_0030, Pattern18_0031,
-    Pattern18_0032, Pattern18_0033, Pattern18_0034, Pattern18_0035,
-    Pattern18_0036, Pattern18_0037, Pattern18_0038, Pattern18_0039,
-    Pattern18_0040, Pattern18_0041, Pattern18_0042, Pattern18_0043,
-    Pattern18_0044, Pattern18_0045, Pattern18_0046, Pattern18_0047,
-    Pattern18_0048, Pattern18_0049, Pattern18_0050, Pattern18_0051,
-    Pattern18_0052, Pattern18_0053, Pattern18_0054, Pattern18_0055,
-    Pattern18_0056, Pattern18_0057, Pattern18_0058, Pattern18_0059,
-    Pattern18_0060, Pattern18_0061, Pattern18_0062, Pattern18_0063,
-    Pattern18_0064, Pattern18_0065, Pattern18_0066, Pattern18_0067,
-    Pattern18_0068, Pattern18_0069, Pattern18_0070, Pattern18_0071,
-    Pattern18_0072, Pattern18_0073, Pattern18_0074, Pattern18_0075,
-    Pattern18_0076, Pattern18_0077, Pattern18_0078, Pattern18_0079,
-    Pattern18_0080, Pattern18_0081, Pattern18_0082, Pattern18_0083,
-    Pattern18_0084, Pattern18_0085, Pattern18_0086, Pattern18_0087,
-    Pattern18_0088, Pattern18_0089, Pattern18_0090, Pattern18_0091,
-    Pattern18_0092, Pattern18_0093, Pattern18_0094, Pattern18_0095,
-    Pattern18_0096, Pattern18_0097, Pattern18_0098, Pattern18_0099,
-    Pattern18_0100, Pattern18_0101, Pattern18_0102, Pattern18_0103,
-    Pattern18_0104, Pattern18_0105, Pattern18_0106, Pattern18_0107,
-    Pattern18_0108
+    Pattern18_0000, Pattern18_0001, Pattern18_0002, Pattern18_0003, Pattern18_0004, Pattern18_0005, Pattern18_0006,
+    Pattern18_0007, Pattern18_0008, Pattern18_0009, Pattern18_0010, Pattern18_0011, Pattern18_0012, Pattern18_0013,
+    Pattern18_0014, Pattern18_0015, Pattern18_0016, Pattern18_0017, Pattern18_0018, Pattern18_0019, Pattern18_0020,
+    Pattern18_0021, Pattern18_0022, Pattern18_0023, Pattern18_0024, Pattern18_0025, Pattern18_0026, Pattern18_0027,
+    Pattern18_0028, Pattern18_0029, Pattern18_0030, Pattern18_0031, Pattern18_0032, Pattern18_0033, Pattern18_0034,
+    Pattern18_0035, Pattern18_0036, Pattern18_0037, Pattern18_0038, Pattern18_0039, Pattern18_0040, Pattern18_0041,
+    Pattern18_0042, Pattern18_0043, Pattern18_0044, Pattern18_0045, Pattern18_0046, Pattern18_0047, Pattern18_0048,
+    Pattern18_0049, Pattern18_0050, Pattern18_0051, Pattern18_0052, Pattern18_0053, Pattern18_0054, Pattern18_0055,
+    Pattern18_0056, Pattern18_0057, Pattern18_0058, Pattern18_0059, Pattern18_0060, Pattern18_0061, Pattern18_0062,
+    Pattern18_0063, Pattern18_0064, Pattern18_0065, Pattern18_0066, Pattern18_0067, Pattern18_0068, Pattern18_0069,
+    Pattern18_0070, Pattern18_0071, Pattern18_0072, Pattern18_0073, Pattern18_0074, Pattern18_0075, Pattern18_0076,
+    Pattern18_0077, Pattern18_0078, Pattern18_0079, Pattern18_0080, Pattern18_0081, Pattern18_0082, Pattern18_0083,
+    Pattern18_0084, Pattern18_0085, Pattern18_0086, Pattern18_0087, Pattern18_0088, Pattern18_0089, Pattern18_0090,
+    Pattern18_0091, Pattern18_0092, Pattern18_0093, Pattern18_0094, Pattern18_0095, Pattern18_0096, Pattern18_0097,
+    Pattern18_0098, Pattern18_0099, Pattern18_0100, Pattern18_0101, Pattern18_0102, Pattern18_0103, Pattern18_0104,
+    Pattern18_0105, Pattern18_0106, Pattern18_0107, Pattern18_0108
 };
