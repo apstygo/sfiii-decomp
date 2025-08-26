@@ -1,9 +1,11 @@
 #include "sf33rd/Source/Game/active09.h"
+#include "common.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
-#include "common.h"
 
-void Computer09(PLW* wk) {
+void (*const Pattern09_Tbl[102])();
+
+void Computer09(PLW *wk) {
     Pattern09_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
 }
 
@@ -1176,7 +1178,7 @@ void Pattern09_0077(PLW *wk) {
 }
 
 void Pattern09_0078(PLW *wk) {
-    switch(CP_Index[wk->wu.id][0]) {
+    switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x60, 2, 0x4F);
         break;
@@ -1516,30 +1518,19 @@ void Pattern09_0101(PLW *wk) {
 }
 
 void (*const Pattern09_Tbl[102])(PLW *) = {
-    Pattern09_0000, Pattern09_0001, Pattern09_0002, Pattern09_0003,
-    Pattern09_0004, Pattern09_0005, Pattern09_0006, Pattern09_0007,
-    Pattern09_0008, Pattern09_0009, Pattern09_0010, Pattern09_0011,
-    Pattern09_0012, Pattern09_0013, Pattern09_0014, Pattern09_0015,
-    Pattern09_0016, Pattern09_0017, Pattern09_0018, Pattern09_0019,
-    Pattern09_0020, Pattern09_0021, Pattern09_0022, Pattern09_0023,
-    Pattern09_0024, Pattern09_0025, Pattern09_0026, Pattern09_0027,
-    Pattern09_0028, Pattern09_0029, Pattern09_0030, Pattern09_0031,
-    Pattern09_0032, Pattern09_0033, Pattern09_0034, Pattern09_0035,
-    Pattern09_0036, Pattern09_0037, Pattern09_0038, Pattern09_0039,
-    Pattern09_0040, Pattern09_0041, Pattern09_0042, Pattern09_0043,
-    Pattern09_0044, Pattern09_0045, Pattern09_0046, Pattern09_0047,
-    Pattern09_0048, Pattern09_0049, Pattern09_0050, Pattern09_0051,
-    Pattern09_0052, Pattern09_0053, Pattern09_0054, Pattern09_0055,
-    Pattern09_0056, Pattern09_0057, Pattern09_0058, Pattern09_0059,
-    Pattern09_0060, Pattern09_0061, Pattern09_0062, Pattern09_0063,
-    Pattern09_0064, Pattern09_0065, Pattern09_0066, Pattern09_0067,
-    Pattern09_0068, Pattern09_0069, Pattern09_0070, Pattern09_0071,
-    Pattern09_0072, Pattern09_0073, Pattern09_0074, Pattern09_0075,
-    Pattern09_0076, Pattern09_0077, Pattern09_0078, Pattern09_0079,
-    Pattern09_0080, Pattern09_0081, Pattern09_0082, Pattern09_0083,
-    Pattern09_0084, Pattern09_0085, Pattern09_0086, Pattern09_0087,
-    Pattern09_0088, Pattern09_0089, Pattern09_0090, Pattern09_0091,
-    Pattern09_0092, Pattern09_0093, Pattern09_0094, Pattern09_0095,
-    Pattern09_0096, Pattern09_0097, Pattern09_0098, Pattern09_0099,
-    Pattern09_0100, Pattern09_0101
+    Pattern09_0000, Pattern09_0001, Pattern09_0002, Pattern09_0003, Pattern09_0004, Pattern09_0005, Pattern09_0006,
+    Pattern09_0007, Pattern09_0008, Pattern09_0009, Pattern09_0010, Pattern09_0011, Pattern09_0012, Pattern09_0013,
+    Pattern09_0014, Pattern09_0015, Pattern09_0016, Pattern09_0017, Pattern09_0018, Pattern09_0019, Pattern09_0020,
+    Pattern09_0021, Pattern09_0022, Pattern09_0023, Pattern09_0024, Pattern09_0025, Pattern09_0026, Pattern09_0027,
+    Pattern09_0028, Pattern09_0029, Pattern09_0030, Pattern09_0031, Pattern09_0032, Pattern09_0033, Pattern09_0034,
+    Pattern09_0035, Pattern09_0036, Pattern09_0037, Pattern09_0038, Pattern09_0039, Pattern09_0040, Pattern09_0041,
+    Pattern09_0042, Pattern09_0043, Pattern09_0044, Pattern09_0045, Pattern09_0046, Pattern09_0047, Pattern09_0048,
+    Pattern09_0049, Pattern09_0050, Pattern09_0051, Pattern09_0052, Pattern09_0053, Pattern09_0054, Pattern09_0055,
+    Pattern09_0056, Pattern09_0057, Pattern09_0058, Pattern09_0059, Pattern09_0060, Pattern09_0061, Pattern09_0062,
+    Pattern09_0063, Pattern09_0064, Pattern09_0065, Pattern09_0066, Pattern09_0067, Pattern09_0068, Pattern09_0069,
+    Pattern09_0070, Pattern09_0071, Pattern09_0072, Pattern09_0073, Pattern09_0074, Pattern09_0075, Pattern09_0076,
+    Pattern09_0077, Pattern09_0078, Pattern09_0079, Pattern09_0080, Pattern09_0081, Pattern09_0082, Pattern09_0083,
+    Pattern09_0084, Pattern09_0085, Pattern09_0086, Pattern09_0087, Pattern09_0088, Pattern09_0089, Pattern09_0090,
+    Pattern09_0091, Pattern09_0092, Pattern09_0093, Pattern09_0094, Pattern09_0095, Pattern09_0096, Pattern09_0097,
+    Pattern09_0098, Pattern09_0099, Pattern09_0100, Pattern09_0101
 };

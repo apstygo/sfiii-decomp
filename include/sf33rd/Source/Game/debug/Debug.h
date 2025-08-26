@@ -31,7 +31,7 @@ void Debug_Menu_Disp(u32 /* unused */, u32 /* unused */);
 void Debug_Move_Sub(u16 sw);
 s32 Debug_Menu_Lever();
 u16 Debug_Menu_Shot();
-void Disp_Lever(u32 /* unused */, u32 /* unused */, u32 /* unused */);
+void Disp_Lever(u16 * /* unused */, u32 /* unused */, u32 /* unused */);
 void Check_Pos_BG();
 s32 Check_Exit_Check();
 void Check_Check_Screen();

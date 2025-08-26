@@ -1,9 +1,11 @@
 #include "sf33rd/Source/Game/active04.h"
+#include "common.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
-#include "common.h"
 
-void Computer04(PLW* wk) {
+void (*const Pattern04_Tbl[68])();
+
+void Computer04(PLW *wk) {
     Pattern04_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
 }
 
@@ -954,7 +956,7 @@ void Pattern04_0062(PLW *wk) {
 void Pattern04_0063(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
-        Jump_Attack_Term(wk, -0x7F90, -0x7FC0, 8, 0x200, 0, 0-0x7F68, -1, 0x400);
+        Jump_Attack_Term(wk, -0x7F90, -0x7FC0, 8, 0x200, 0, 0 - 0x7F68, -1, 0x400);
         break;
     default:
         End_Pattern(wk);
@@ -1011,21 +1013,14 @@ void Pattern04_0067(PLW *wk) {
 }
 
 void (*const Pattern04_Tbl[68])(PLW *) = {
-    Pattern04_0000, Pattern04_0001, Pattern04_0002, Pattern04_0003,
-    Pattern04_0004, Pattern04_0005, Pattern04_0006, Pattern04_0007,
-    Pattern04_0008, Pattern04_0009, Pattern04_0010, Pattern04_0011,
-    Pattern04_0012, Pattern04_0013, Pattern04_0014, Pattern04_0015,
-    Pattern04_0016, Pattern04_0017, Pattern04_0018, Pattern04_0019,
-    Pattern04_0020, Pattern04_0021, Pattern04_0022, Pattern04_0023,
-    Pattern04_0024, Pattern04_0025, Pattern04_0026, Pattern04_0027,
-    Pattern04_0028, Pattern04_0029, Pattern04_0030, Pattern04_0031,
-    Pattern04_0032, Pattern04_0033, Pattern04_0034, Pattern04_0035,
-    Pattern04_0036, Pattern04_0037, Pattern04_0038, Pattern04_0039,
-    Pattern04_0040, Pattern04_0041, Pattern04_0042, Pattern04_0043,
-    Pattern04_0044, Pattern04_0045, Pattern04_0046, Pattern04_0047,
-    Pattern04_0048, Pattern04_0049, Pattern04_0050, Pattern04_0051,
-    Pattern04_0052, Pattern04_0053, Pattern04_0054, Pattern04_0055,
-    Pattern04_0056, Pattern04_0057, Pattern04_0058, Pattern04_0059,
-    Pattern04_0060, Pattern04_0061, Pattern04_0062, Pattern04_0063,
-    Pattern04_0064, Pattern04_0065, Pattern04_0066, Pattern04_0067
+    Pattern04_0000, Pattern04_0001, Pattern04_0002, Pattern04_0003, Pattern04_0004, Pattern04_0005, Pattern04_0006,
+    Pattern04_0007, Pattern04_0008, Pattern04_0009, Pattern04_0010, Pattern04_0011, Pattern04_0012, Pattern04_0013,
+    Pattern04_0014, Pattern04_0015, Pattern04_0016, Pattern04_0017, Pattern04_0018, Pattern04_0019, Pattern04_0020,
+    Pattern04_0021, Pattern04_0022, Pattern04_0023, Pattern04_0024, Pattern04_0025, Pattern04_0026, Pattern04_0027,
+    Pattern04_0028, Pattern04_0029, Pattern04_0030, Pattern04_0031, Pattern04_0032, Pattern04_0033, Pattern04_0034,
+    Pattern04_0035, Pattern04_0036, Pattern04_0037, Pattern04_0038, Pattern04_0039, Pattern04_0040, Pattern04_0041,
+    Pattern04_0042, Pattern04_0043, Pattern04_0044, Pattern04_0045, Pattern04_0046, Pattern04_0047, Pattern04_0048,
+    Pattern04_0049, Pattern04_0050, Pattern04_0051, Pattern04_0052, Pattern04_0053, Pattern04_0054, Pattern04_0055,
+    Pattern04_0056, Pattern04_0057, Pattern04_0058, Pattern04_0059, Pattern04_0060, Pattern04_0061, Pattern04_0062,
+    Pattern04_0063, Pattern04_0064, Pattern04_0065, Pattern04_0066, Pattern04_0067
 };

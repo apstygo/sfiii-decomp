@@ -245,7 +245,13 @@ void Bg_Texture_Load2(u8 type) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Texture_Load_Ending);
+#else
+void Bg_Texture_Load_Ending(s16 type) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", literal_380_004E6EC8);
 
