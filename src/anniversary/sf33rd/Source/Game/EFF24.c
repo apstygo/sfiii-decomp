@@ -7,16 +7,42 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/bg_sub.h"
+#include "sf33rd/Source/Game/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
+#include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
+
+const s16 eff24_data_tbl[56] = { 8492, 480, 6,  10, 12, 2, 0, 300,  224, 43, 81, 3, 1, 1, 300, 288, 44, 80, 4, 2, 1,
+                                 300,  512, 48, 80, 5,  1, 0, 8492, 512, 48, 80, 6, 2, 0, 300, 644, 48, 80, 7, 1, 1,
+                                 300,  752, 48, 81, 8,  3, 1, 300,  800, 32, 80, 9, 3, 1 };
+
+const s16 eff24_quake_index_tbl[111] = { 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 7, 7, 7, 7,
+                                         7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+                                         7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+                                         7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+                                         7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 };
+
+const s32 eff24_quake_speed_y_tbl[4][8] = { { 0x10000, 0x20000, 0x30000, 0x40000, 0x50000, 0x60000, 0x70000, 0xC0000 },
+                                            { 0xE000, 0x10000, 0x1C000, 0x24000, 0x30000, 0x48000, 0x60000, 0x80000 },
+                                            { 0xC000, 0xE000, 0x10000, 0x18000, 0x20000, 0x30000, 0x48000, 0x60000 },
+                                            { 0x2000, 0x8000, 0xC000, 0x10000, 0x18000, 0x20000, 0x30000, 0x60000 } };
+
+const s32 eff24_quake_speed_x_tbl[4][8] = { { 0x1200, 0x1200, 0x1400, 0x1400, 0x1000, 0x1200, 0x1200, 0x1400 },
+                                            { 0x1800, 0x1800, 0x1400, 0x1400, 0x1000, 0x1800, 0x1400, 0x1400 },
+                                            { 0x1000, 0x1000, 0x800, 0x800, 0x800, 0x800, 0x400, 0x400 },
+                                            { 0x400, 0x400, 0x800, 0x800, 0x400, 0x400, 0x400, 0x400 } };
+
+const s16 dog24_x_data[8] = { 0, 0, 0, 6, 10, 16, 32, 40 };
 
 void effect_24_move(WORK_Other *ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
+
     switch (ewk->wu.routine_no[0]) {
     case 0:
-        ewk->wu.routine_no[0] += 1;
+        ewk->wu.routine_no[0]++;
         ewk->wu.disp_flag = 1;
         ewk->wu.old_rno[0] = 0;
         set_char_move_init(&ewk->wu, 0, ewk->wu.char_index);
@@ -69,31 +95,32 @@ void eff24_quake_sub(WORK_Other *ewk) {
         add_y_sub(ewk);
         ewk->wu.old_rno[5]--;
 
-        if (ewk->wu.old_rno[5] <= 0) {
-            ewk->wu.xyz[0].disp.pos = ewk->wu.old_rno[4];
-            ewk->wu.xyz[0].disp.low = 0;
-            ewk->wu.xyz[1].disp.pos = ewk->wu.old_rno[2];
-            ewk->wu.xyz[1].disp.low = 0;
-
-            if (ewk->wu.type == 0 && ewk->wu.old_rno[1] > 2) {
-                ewk->wu.routine_no[1]++;
-                dog24_data_set(ewk);
-
-                if (ewk->wu.old_rno[6]) {
-                    set_char_move_init(&ewk->wu, 0, 0xE);
-                } else {
-                    set_char_move_init(&ewk->wu, 0, 0xD);
-                }
-
-                ewk->wu.old_rno[6] ^= 1;
-                break;
-            }
-
-            ewk->wu.routine_no[1] = 0;
-            ewk->wu.old_rno[1] = 0;
-            ewk->wu.old_rno[0] = 0;
+        if (ewk->wu.old_rno[5] > 0) {
+            break;
         }
 
+        ewk->wu.xyz[0].disp.pos = ewk->wu.old_rno[4];
+        ewk->wu.xyz[0].disp.low = 0;
+        ewk->wu.xyz[1].disp.pos = ewk->wu.old_rno[2];
+        ewk->wu.xyz[1].disp.low = 0;
+
+        if (ewk->wu.type == 0 && ewk->wu.old_rno[1] > 2) {
+            ewk->wu.routine_no[1]++;
+            dog24_data_set(ewk);
+
+            if (ewk->wu.old_rno[6]) {
+                set_char_move_init(&ewk->wu, 0, 14);
+            } else {
+                set_char_move_init(&ewk->wu, 0, 13);
+            }
+
+            ewk->wu.old_rno[6] ^= 1;
+            break;
+        }
+
+        ewk->wu.routine_no[1] = 0;
+        ewk->wu.old_rno[1] = 0;
+        ewk->wu.old_rno[0] = 0;
         break;
 
     case 3:
@@ -129,12 +156,12 @@ void eff24_quake_sub(WORK_Other *ewk) {
 void dog24_data_set(WORK_Other *ewk) {
     s16 work;
 
-    ewk->wu.old_rno[5] = 0x28;
+    ewk->wu.old_rno[5] = 40;
 
     if (ewk->wu.old_rno[6]) {
-        work = ewk->wu.xyz[0].disp.pos + *(&dog24_x_data[ewk->wu.old_rno[1]]);
+        work = ewk->wu.xyz[0].disp.pos + dog24_x_data[ewk->wu.old_rno[1]];
     } else {
-        work = ewk->wu.xyz[0].disp.pos - *(&dog24_x_data[ewk->wu.old_rno[1]]);
+        work = ewk->wu.xyz[0].disp.pos - dog24_x_data[ewk->wu.old_rno[1]];
     }
 
     cal_all_speed_data(&ewk->wu, ewk->wu.old_rno[5], work, ewk->wu.xyz[1].disp.pos, 2, 0);
@@ -144,7 +171,7 @@ void eff24_sp_data_set(WORK_Other *ewk) {
     s16 work;
 
     if (ewk->wu.old_rno[0]) {
-        ewk->wu.old_rno[5] = 0xC;
+        ewk->wu.old_rno[5] = 12;
         ewk->wu.mvxy.d[0].sp = 0;
 
         switch (ewk->wu.old_rno[1]) {
@@ -189,32 +216,3 @@ s32 effect_24_init() {
     not_implemented(__func__);
 }
 #endif
-
-const s16 eff24_data_tbl[56] = { 0x212C, 0x01E0, 0x0006, 0x000A, 0x000C, 0x0002, 0x0000, 0x012C, 0x00E0, 0x002B,
-                                 0x0051, 0x0003, 0x0001, 0x0001, 0x012C, 0x0120, 0x002C, 0x0050, 0x0004, 0x0002,
-                                 0x0001, 0x012C, 0x0200, 0x0030, 0x0050, 0x0005, 0x0001, 0x0000, 0x212C, 0x0200,
-                                 0x0030, 0x0050, 0x0006, 0x0002, 0x0000, 0x012C, 0x0284, 0x0030, 0x0050, 0x0007,
-                                 0x0001, 0x0001, 0x012C, 0x02F0, 0x0030, 0x0051, 0x0008, 0x0003, 0x0001, 0x012C,
-                                 0x0320, 0x0020, 0x0050, 0x0009, 0x0003, 0x0001 };
-
-const s16 eff24_quake_index_tbl[111] = { 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 7, 7, 7, 7,
-                                         7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-                                         7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-                                         7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,
-                                         7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7 };
-
-const s32 eff24_quake_speed_y_tbl[4][8] = {
-    { 0x10000, 0x20000, 0x30000, 0x40000, 0x50000, 0x60000, 0x70000, 0xC0000 },
-    { 0x0E000, 0x10000, 0x1C000, 0x24000, 0x30000, 0x48000, 0x60000, 0x80000 },
-    { 0x0C000, 0x0E000, 0x10000, 0x18000, 0x20000, 0x30000, 0x48000, 0x60000 },
-    { 0x02000, 0x08000, 0x0C000, 0x10000, 0x18000, 0x20000, 0x30000, 0x60000 }
-};
-
-const s32 eff24_quake_speed_x_tbl[4][8] = {
-    { 0x01200, 0x01200, 0x01400, 0x01400, 0x01000, 0x01200, 0x01200, 0x01400 },
-    { 0x01800, 0x01800, 0x01400, 0x01400, 0x01000, 0x01800, 0x01400, 0x01400 },
-    { 0x01000, 0x01000, 0x00800, 0x00800, 0x00800, 0x00800, 0x00400, 0x00400 },
-    { 0x00400, 0x00400, 0x00800, 0x00800, 0x00400, 0x00400, 0x00400, 0x00400 }
-};
-
-const s16 dog24_x_data[8] = { 0, 0, 0, 6, 10, 16, 32, 40 };
