@@ -37,4 +37,10 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff76", Setup_Color
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff76", Setup_Color_L1);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff76", chkNameAkuma);
+#else
+s32 chkNameAkuma(s32 plnum, s32 rnum) {
+    not_implemented(__func__);
+}
+#endif

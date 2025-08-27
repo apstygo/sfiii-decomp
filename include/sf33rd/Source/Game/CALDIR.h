@@ -4,6 +4,8 @@
 #include "structs.h"
 #include "types.h"
 
+extern const s32 rate_256_table[256][2];
+
 s16 caldir_pos_256(s16 x1, s16 x2, s16 y1, s16 y2);
 s16 caldir_pos_032(s16 x1, s16 x2, s16 y1, s16 y2);
 void add_pos_dir_064(WORK *wk, s16 sp);

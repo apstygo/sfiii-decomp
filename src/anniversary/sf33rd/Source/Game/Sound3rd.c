@@ -726,7 +726,7 @@ void SsAllNoteOff() {
     sound_all_off();
 }
 
-void SsRequestPan(u16 reqNum, s16 start, s32 /* unused */, s32 /* unused */, s32 /* unused */) {
+void SsRequestPan(u16 reqNum, s16 start, s16 /* unused */, s32 /* unused */, s32 /* unused */) {
 #if defined(TARGET_PS2)
     u16 remake_sound_code_for_DC(s32 code, SoundPatchConfig * rmcode);
 #endif

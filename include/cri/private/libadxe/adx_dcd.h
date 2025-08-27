@@ -15,7 +15,7 @@ typedef struct {
     };
 
     union {
-        Uint16 copyright_offset;
+        Sint16 copyright_offset;
         struct {
             Uint8 copyright_offset_0;
             Uint8 copyright_offset_1;
@@ -63,6 +63,6 @@ Sint32 ADX_DecodeInfoExIdly(ADXHeader *hdr, Sint32 arg1, Sint16 *arg2, Sint16 *a
 Sint32 ADX_DecodeInfoExLoop(Uint8 *hdr, Sint32 arg1, Sint32 *arg2, Sint16 *arg3, Sint16 *arg4, Sint32 *arg5,
                             Sint32 *arg6, Sint32 *arg7, Sint32 *arg8);
 Sint32 ADX_DecodeInfoAinf(Uint8 *hdr, Sint32 arg1, Sint32 *arg2, ADX_UNK *arg3, Sint16 *arg4, Sint16 *arg5);
-void ADX_GetCoefficient(Sint16 *, Sint32, Sint16 *, Sint16 *);
+void ADX_GetCoefficient(Sint32 highpass_frequency, Sint32 sample_rate, Sint16 *coef1_ptr, Sint16 *coef2_ptr);
 
 #endif

@@ -98,7 +98,13 @@ void set_char_move_init2(WORK *wk, s16 koc, s16 index, s16 ip, s16 scf) {
     char_move(wk);
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", exset_char_move_init);
+#else
+void exset_char_move_init(WORK *wk, s16 koc, s16 index) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_z);
@@ -108,25 +114,79 @@ void char_move_z(WORK *wk) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_wca);
+#else
+void char_move_wca(WORK *wk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_wca_init);
+#else
+void char_move_wca_init(WORK *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", comm_wca);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_index);
+#else
+void char_move_index(WORK *wk, s16 ix) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_cmja);
+#else
+void char_move_cmja(WORK *wk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_cmj4);
+#else
+void char_move_cmj4(WORK *wk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_cmms);
+#else
+void char_move_cmms(WORK *wk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_cmms2);
+#else
+void char_move_cmms2(WORK *wk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_cmms3);
+#else
+s32 char_move_cmms3(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", char_move_cmhs);
+#else
+void char_move_cmhs(PLW *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 void char_move(WORK *wk) {
     wk->K5_exec_ok = 1;
@@ -1207,11 +1267,23 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", get_comm_
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", get_comm_djmp_lever_dir);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", setup_comm_back);
+#else
+void setup_comm_back(WORK *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", setup_comm_retmj);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/CHARSET", setup_comm_abbak);
+#else
+void setup_comm_abbak(WORK *wk) {
+    not_implemented(__func__);
+}
+#endif
 
 void check_cgd_patdat(WORK *wk) {
     union {
@@ -1424,14 +1496,14 @@ void set_new_attnum(WORK *wk) {
 
     wk->renew_attack = wk->cg_att_ix;
 
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wunsequenced"
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunsequenced"
 
     if ((att_req = (++att_req & 0x7FFF)) == 0) {
         att_req++;
     }
 
-    #pragma clang diagnostic pop
+#pragma clang diagnostic pop
 
     aag_sw = 0;
 

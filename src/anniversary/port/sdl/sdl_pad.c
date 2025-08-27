@@ -1,4 +1,4 @@
-#include "port/sdl_pad.h"
+#include "port/sdl/sdl_pad.h"
 
 #include <SDL3/SDL.h>
 

@@ -10,7 +10,7 @@
 #include <string.h>
 
 #if !defined(TARGET_PS2)
-#include "port/sdl_app.h"
+#include "port/sdl/sdl_message_renderer.h"
 #endif
 
 typedef struct _rgba {
@@ -1109,7 +1109,7 @@ static u32 *make_img_pkt(u32 *p, u32 *img, u32 dbp, u32 dbw, u32 dbsm, u32 dsax,
     }
 
 #if !defined(TARGET_PS2)
-    SDLApp_CreateKnjsubTexture(rrw, rrh, img, dbsm);
+    SDLMessageRenderer_CreateTexture(rrw, rrh, img, dbsm);
 #else
     nw = rrw * rrh * pw / 32;
 
@@ -1195,7 +1195,7 @@ static u32 *make_fnt_pkt(_kanji_w *kw, u32 *p, u32 *img, u32 han_f) {
     m = ((kw->dispw == kw->fontw) && (kw->disph == kw->fonth)) ? 0 : 1;
 
 #if !defined(TARGET_PS2)
-    SDLApp_DrawKnjsubTexture(x0, y0, x1, y1, 0, 0, u1, v1, kw->color);
+    SDLMessageRenderer_DrawTexture(x0, y0, x1, y1, 0, 0, u1, v1, kw->color);
 #else
     *p++ = 0x10000008;
     *p++ = 0;
@@ -1264,7 +1264,7 @@ static u32 *make_fbg_pkt(_kanji_w *kw, u32 *p, u32 * /* unused */, u32 han_f) {
     m = ((kw->dispw == kw->fontw) && (kw->disph == kw->fonth)) ? 0 : 1;
 
 #if !defined(TARGET_PS2)
-    SDLApp_DrawKnjsubTexture(x0, y0, x1, y1, 8, 8, u1 + 8, v1 + 8, kw->bg_color);
+    SDLMessageRenderer_DrawTexture(x0, y0, x1, y1, 8, 8, u1 + 8, v1 + 8, kw->bg_color);
 #else
     *p++ = 0x10000008;
     *p++ = 0;

@@ -6,6 +6,11 @@
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "structs.h"
+
+#if !defined(TARGET_PS2)
+#include "port/sdl/sdl_game_renderer.h"
+#endif
+
 #include <eestruct.h>
 #include <libgraph.h>
 
@@ -66,7 +71,7 @@ void ps2SeqsRenderQuadInit_B() {
 
 void ps2SeqsRenderQuad_Ax(Sprite2 *spr) {
 #if !defined(TARGET_PS2)
-    not_implemented(__func__);
+    SDLGameRenderer_DrawSprite2(spr);
 #else
     u32 data_ptr;
     u32 col;
@@ -127,7 +132,7 @@ void ps2SeqsRenderQuad_Ax(Sprite2 *spr) {
 
 void ps2SeqsRenderQuad_A2(Sprite *spr, u32 col) {
 #if !defined(TARGET_PS2)
-    not_implemented(__func__);
+    SDLGameRenderer_DrawSprite(spr, col);
 #else
     u32 data_ptr;
     u64 rgbaq;
@@ -202,7 +207,8 @@ void ps2SeqsRenderQuad_A(Sprite *spr, u32 col) {
 
 void ps2QuadTexture(VecUnk *ptr, u32 num) {
 #if !defined(TARGET_PS2)
-    not_implemented(__func__);
+    SDLGameRenderer_DrawTexturedQuad(ptr);
+    return;
 #endif
 
     u32 qwc;
@@ -288,7 +294,7 @@ void ps2SeqsRenderQuad_B(Quad *spr, u32 col) {
 
 void ps2QuadSolid(VecUnk *ptr, u32 num) {
 #if !defined(TARGET_PS2)
-    not_implemented(__func__);
+    SDLGameRenderer_DrawSolidQuad(ptr);
 #else
     u32 qwc;
     u32 work;

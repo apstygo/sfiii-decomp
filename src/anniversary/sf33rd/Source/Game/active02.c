@@ -1,9 +1,11 @@
 #include "sf33rd/Source/Game/active02.h"
+#include "common.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
-#include "common.h"
 
-void Computer02(PLW* wk) {
+void (*const Pattern02_Tbl[75])();
+
+void Computer02(PLW *wk) {
     Pattern02_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
 }
 
@@ -696,7 +698,7 @@ void Pattern02_0047(PLW *wk) {
 }
 
 void Pattern02_0048(PLW *wk) {
-    switch(CP_Index[wk->wu.id][0]) {
+    switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, 0x50, -1, 5, 2, 0);
         break;
@@ -1123,23 +1125,15 @@ void Pattern02_0074(PLW *wk) {
 }
 
 void (*const Pattern02_Tbl[75])(PLW *) = {
-    Pattern02_0000, Pattern02_0001, Pattern02_0002, Pattern02_0003,
-    Pattern02_0004, Pattern02_0005, Pattern02_0006, Pattern02_0007,
-    Pattern02_0008, Pattern02_0009, Pattern02_0010, Pattern02_0011,
-    Pattern02_0012, Pattern02_0013, Pattern02_0014, Pattern02_0015,
-    Pattern02_0016, Pattern02_0017, Pattern02_0018, Pattern02_0019,
-    Pattern02_0020, Pattern02_0021, Pattern02_0022, Pattern02_0023,
-    Pattern02_0024, Pattern02_0025, Pattern02_0026, Pattern02_0027,
-    Pattern02_0028, Pattern02_0029, Pattern02_0030, Pattern02_0031,
-    Pattern02_0032, Pattern02_0033, Pattern02_0034, Pattern02_0035,
-    Pattern02_0036, Pattern02_0037, Pattern02_0038, Pattern02_0039,
-    Pattern02_0040, Pattern02_0041, Pattern02_0042, Pattern02_0043,
-    Pattern02_0044, Pattern02_0045, Pattern02_0046, Pattern02_0047,
-    Pattern02_0048, Pattern02_0049, Pattern02_0050, Pattern02_0051,
-    Pattern02_0052, Pattern02_0053, Pattern02_0054, Pattern02_0055,
-    Pattern02_0056, Pattern02_0057, Pattern02_0058, Pattern02_0059,
-    Pattern02_0060, Pattern02_0061, Pattern02_0062, Pattern02_0063,
-    Pattern02_0064, Pattern02_0065, Pattern02_0066, Pattern02_0067,
-    Pattern02_0068, Pattern02_0069, Pattern02_0070, Pattern02_0071,
-    Pattern02_0072, Pattern02_0073, Pattern02_0074
+    Pattern02_0000, Pattern02_0001, Pattern02_0002, Pattern02_0003, Pattern02_0004, Pattern02_0005, Pattern02_0006,
+    Pattern02_0007, Pattern02_0008, Pattern02_0009, Pattern02_0010, Pattern02_0011, Pattern02_0012, Pattern02_0013,
+    Pattern02_0014, Pattern02_0015, Pattern02_0016, Pattern02_0017, Pattern02_0018, Pattern02_0019, Pattern02_0020,
+    Pattern02_0021, Pattern02_0022, Pattern02_0023, Pattern02_0024, Pattern02_0025, Pattern02_0026, Pattern02_0027,
+    Pattern02_0028, Pattern02_0029, Pattern02_0030, Pattern02_0031, Pattern02_0032, Pattern02_0033, Pattern02_0034,
+    Pattern02_0035, Pattern02_0036, Pattern02_0037, Pattern02_0038, Pattern02_0039, Pattern02_0040, Pattern02_0041,
+    Pattern02_0042, Pattern02_0043, Pattern02_0044, Pattern02_0045, Pattern02_0046, Pattern02_0047, Pattern02_0048,
+    Pattern02_0049, Pattern02_0050, Pattern02_0051, Pattern02_0052, Pattern02_0053, Pattern02_0054, Pattern02_0055,
+    Pattern02_0056, Pattern02_0057, Pattern02_0058, Pattern02_0059, Pattern02_0060, Pattern02_0061, Pattern02_0062,
+    Pattern02_0063, Pattern02_0064, Pattern02_0065, Pattern02_0066, Pattern02_0067, Pattern02_0068, Pattern02_0069,
+    Pattern02_0070, Pattern02_0071, Pattern02_0072, Pattern02_0073, Pattern02_0074
 };

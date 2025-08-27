@@ -32,7 +32,7 @@ void flPS2_Mem_move32_16A(const void *src, void *dst, size_t len) {
 }
 
 void flPS2_Mem_move64(const void *src, void *dst, size_t len) {
-    not_implemented(__func__);
+    memmove(dst, src, len * 64);
 }
 
 void flPS2_Clear_Mem(void *str, size_t len) {

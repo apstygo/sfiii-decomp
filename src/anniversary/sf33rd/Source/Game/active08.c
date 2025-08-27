@@ -1,9 +1,11 @@
 #include "sf33rd/Source/Game/active08.h"
+#include "common.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
-#include "common.h"
 
-void Computer08(PLW* wk) {
+void (*const Pattern08_Tbl[71])();
+
+void Computer08(PLW *wk) {
     Pattern08_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
 }
 
@@ -877,7 +879,7 @@ void Pattern08_0050(PLW *wk) {
     }
 }
 
-void Pattern08_0051(PLW* wk) {
+void Pattern08_0051(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Hi_Jump_Attack_Term(wk, -0x7F98, -0x7FB8, 8, 0x40, 0, -1, -0x7FF0, 0x10);
@@ -889,7 +891,7 @@ void Pattern08_0051(PLW* wk) {
     }
 }
 
-void Pattern08_0052(PLW* wk) {
+void Pattern08_0052(PLW *wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Hi_Jump_Attack_Term(wk, -0x7F98, -0x7FB8, 8, 0x40, 0, -1, -0x7FF0, 0x10);
@@ -934,7 +936,7 @@ void Pattern08_0054(PLW *wk) {
 }
 
 void Pattern08_0055(PLW *wk) {
-    switch(CP_Index[wk->wu.id][0]) {
+    switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x60, 1, -1);
         break;
@@ -966,7 +968,7 @@ void Pattern08_0055(PLW *wk) {
 }
 
 void Pattern08_0056(PLW *wk) {
-    switch(CP_Index[wk->wu.id][0]) {
+    switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x60, 1, -1);
         break;
@@ -1170,22 +1172,15 @@ void Pattern08_0070(PLW *wk) {
 }
 
 void (*const Pattern08_Tbl[71])(PLW *) = {
-    Pattern08_0000, Pattern08_0001, Pattern08_0002, Pattern08_0003,
-    Pattern08_0004, Pattern08_0005, Pattern08_0006, Pattern08_0007,
-    Pattern08_0008, Pattern08_0009, Pattern08_0010, Pattern08_0011,
-    Pattern08_0012, Pattern08_0013, Pattern08_0014, Pattern08_0015,
-    Pattern08_0016, Pattern08_0017, Pattern08_0018, Pattern08_0019,
-    Pattern08_0020, Pattern08_0021, Pattern08_0022, Pattern08_0023,
-    Pattern08_0024, Pattern08_0025, Pattern08_0026, Pattern08_0027,
-    Pattern08_0028, Pattern08_0029, Pattern08_0030, Pattern08_0031,
-    Pattern08_0032, Pattern08_0033, Pattern08_0034, Pattern08_0035,
-    Pattern08_0036, Pattern08_0037, Pattern08_0038, Pattern08_0039,
-    Pattern08_0040, Pattern08_0041, Pattern08_0042, Pattern08_0043,
-    Pattern08_0044, Pattern08_0045, Pattern08_0046, Pattern08_0047,
-    Pattern08_0048, Pattern08_0049, Pattern08_0050, Pattern08_0051,
-    Pattern08_0052, Pattern08_0053, Pattern08_0054, Pattern08_0055,
-    Pattern08_0056, Pattern08_0057, Pattern08_0058, Pattern08_0059,
-    Pattern08_0060, Pattern08_0061, Pattern08_0062, Pattern08_0063,
-    Pattern08_0064, Pattern08_0065, Pattern08_0066, Pattern08_0067,
-    Pattern08_0068, Pattern08_0069, Pattern08_0070
+    Pattern08_0000, Pattern08_0001, Pattern08_0002, Pattern08_0003, Pattern08_0004, Pattern08_0005, Pattern08_0006,
+    Pattern08_0007, Pattern08_0008, Pattern08_0009, Pattern08_0010, Pattern08_0011, Pattern08_0012, Pattern08_0013,
+    Pattern08_0014, Pattern08_0015, Pattern08_0016, Pattern08_0017, Pattern08_0018, Pattern08_0019, Pattern08_0020,
+    Pattern08_0021, Pattern08_0022, Pattern08_0023, Pattern08_0024, Pattern08_0025, Pattern08_0026, Pattern08_0027,
+    Pattern08_0028, Pattern08_0029, Pattern08_0030, Pattern08_0031, Pattern08_0032, Pattern08_0033, Pattern08_0034,
+    Pattern08_0035, Pattern08_0036, Pattern08_0037, Pattern08_0038, Pattern08_0039, Pattern08_0040, Pattern08_0041,
+    Pattern08_0042, Pattern08_0043, Pattern08_0044, Pattern08_0045, Pattern08_0046, Pattern08_0047, Pattern08_0048,
+    Pattern08_0049, Pattern08_0050, Pattern08_0051, Pattern08_0052, Pattern08_0053, Pattern08_0054, Pattern08_0055,
+    Pattern08_0056, Pattern08_0057, Pattern08_0058, Pattern08_0059, Pattern08_0060, Pattern08_0061, Pattern08_0062,
+    Pattern08_0063, Pattern08_0064, Pattern08_0065, Pattern08_0066, Pattern08_0067, Pattern08_0068, Pattern08_0069,
+    Pattern08_0070
 };
