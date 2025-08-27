@@ -51,7 +51,7 @@ jobs:
           - name: Build and compare binaries
             run: |
                 set -o pipefail
-                make build -j200 2>&1 | tee build.log
+                make build -j4 2>&1 | tee build.log
             shell: bash
 
           - name: Upload build log
