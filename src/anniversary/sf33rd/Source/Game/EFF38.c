@@ -1,7 +1,12 @@
 #include "sf33rd/Source/Game/EFF38.h"
 #include "common.h"
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF38", EFF38_Base_XY);
+// INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF38", EFF38_Base_XY);
+
+const EFF38_Base_XY[2][2][2] = {
+    { { 0xFFC0, 0x0010 }, { 0xFF80, 0x0020 } },
+    { { 0x0040, 0x0010 }, { 0x0080, 0xFFE0 } },
+};
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF38", EFF38_Jmp_Tbl);
 
