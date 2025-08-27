@@ -735,7 +735,7 @@ segments:
       - [0x36BD70, .data, sf33rd/Source/Game/Com_Data]
       - [0x36C4F0, .data, sf33rd/Source/Game/DEMO00]
       - [0x36C580, .data, sf33rd/Source/Game/DIR_DATA]
-      - [0x36C940, data, sf33rd/Source/Game/EFF10]
+      - [0x36C940, .data, sf33rd/Source/Game/EFF10]
       - [0x36CAC0, data, sf33rd/Source/Game/EFF23]
       - [0x36CB80, data, sf33rd/Source/Game/EFF61]
       - [0x36CC90, data, sf33rd/Source/Game/EFF63]

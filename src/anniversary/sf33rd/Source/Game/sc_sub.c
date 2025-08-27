@@ -241,7 +241,7 @@ s32 SSGetDrawSizePro(const s8 *str) {
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", SSPutStr2);
 #else
-void SSPutStr2(u16 x, u16 y, u8 atr, s8 *str) {
+void SSPutStr2(u16 x, u16 y, u8 atr, const s8 *str) {
     not_implemented(__func__);
 }
 #endif
