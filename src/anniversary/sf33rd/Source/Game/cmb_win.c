@@ -25,7 +25,7 @@ u8 sa_kind;
 u8 end_flag[2];
 s16 calc_hit[2][10];
 s16 score_calc[2][12];
-s8 cmb_all_stock;
+s8 cmb_all_stock[1];
 s8 sarts_finish_flag[2];
 s8 last_hit_time;
 s8 cmb_calc_now[2];
@@ -65,7 +65,7 @@ void combo_cont_init() {
     first_attack = 0;
     hit_num = 0;
     sa_kind = 0;
-    cmb_all_stock = 0;
+    cmb_all_stock[0] = 0;
     last_hit_time = 0;
     memset(&cmst_buff, 0, sizeof(cmst_buff));
 }
@@ -105,7 +105,7 @@ void combo_cont_main() {
             }
         }
 
-        cmb_all_stock = cmb_stock[0] + cmb_stock[1];
+        cmb_all_stock[0] = cmb_stock[0] + cmb_stock[1];
     }
 }
 
