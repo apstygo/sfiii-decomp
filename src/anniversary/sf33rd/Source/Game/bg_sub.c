@@ -4,6 +4,7 @@
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_data.h"
+#include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
 
@@ -264,13 +265,77 @@ void bg_chase_move() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", chase_start_check);
-#else
 void chase_start_check() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void cal_bg_speed_data_x(s32 /* unused */, s32 bg_num, s32 tm);
+    void cal_bg_speed_data_y(s32 /* unused */, s32 bg_num, s32 tm);
 #endif
+
+    s16 work;
+    s16 work2;
+
+    if (zoom_request_flag & 0xF00) {
+        if (chase_x != scr_req_x) {
+            chase_x = scr_req_x;
+
+            if (bgw_ptr->zuubun) {
+                bgw_ptr->chase_xy[0].disp.pos = bgw_ptr->abs_x + bg_w.pos_offset;
+            } else {
+                bgw_ptr->chase_xy[0].disp.pos = bgw_ptr->position_x + bg_w.pos_offset;
+            }
+
+            chase_time_x = 6;
+            cal_bg_speed_data_x(bgw_ptr->fam_no, chase_time_x, chase_x);
+            bg_w.chase_flag |= 1;
+            bg_w.chase_flag &= ~2;
+            bg_w.old_chase_flag = 1;
+        }
+    } else {
+        work = zoom_req_flag_old & 0xF00;
+        work2 = ~(zoom_request_flag & 0xF00);
+        work &= work2;
+
+        if (work) {
+            bg_w.chase_flag |= 2;
+            bg_w.chase_flag &= ~1;
+            chase_x = bgw_ptr->wxy[0].disp.pos;
+            chase_time_x = 6;
+            cal_bg_speed_data_x(bgw_ptr->fam_no, chase_time_x, chase_x);
+        }
+    }
+
+    if (zoom_request_flag & 0xF000) {
+        bg_w.chase_flag |= 0x10;
+        bg_w.chase_flag &= ~0x20;
+        bg_w.old_chase_flag |= 0x10;
+        bg_w.old_chase_flag &= ~0x20;
+
+        if (chase_y != scr_req_y) {
+            chase_y = scr_req_y;
+
+            if (bgw_ptr->abs_y < 0) {
+                bgw_ptr->chase_xy[1].disp.pos = 0;
+            } else {
+                bgw_ptr->chase_xy[1].disp.pos = bgw_ptr->abs_y;
+            }
+
+            chase_time_y = 6;
+            cal_bg_speed_data_y(bgw_ptr->fam_no, chase_time_y, chase_y);
+        }
+    } else {
+        work = zoom_req_flag_old & 0xF000;
+        work2 = ~(zoom_request_flag & 0xF000);
+        work &= work2;
+
+        if (work) {
+            bg_w.chase_flag |= 0x20;
+            bg_w.chase_flag &= ~0x10;
+            chase_y = bgw_ptr->xy[1].disp.pos;
+            chase_time_y = 6;
+            cal_bg_speed_data_y(bgw_ptr->fam_no, chase_time_y, chase_y);
+        }
+    }
+}
 
 void chase_xy_move() {
     if (bg_w.chase_flag & 0xF) {
@@ -686,13 +751,98 @@ void bg_y_move_check() {
     bgw_ptr->wxy[1].cal = bgw_ptr->xy[1].cal;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", zoom_ud_check);
-#else
 void zoom_ud_check() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void Frame_Up(u32 x, u32 y, u16 add);
+    void Frame_Down(u32 x, u32 y, u16 add);
 #endif
+
+    s16 work;
+    s16 work2;
+    s16 pos_w;
+
+    if (bg_app) {
+        return;
+    }
+
+    if (Bonus_Game_Flag) {
+        return;
+    }
+
+    if (bg_app_stop && bg_w.bg_f_x == 64) {
+        return;
+    }
+
+    work2 = zoom_request_flag & 0xFF;
+    bg_w.frame_deff = 64 - zoom_request_level;
+    work = (~(zoom_req_flag_old) & (zoom_request_flag) & 0xFF);
+
+    if (work && !bg_w.frame_flag) {
+        bg_w.frame_flag = 1;
+        bg_w.old_frame_flag = 1;
+        bg_w.center_y = 224 - scr_req_y;
+
+        if (bg_w.center_y < 0) {
+            bg_w.center_y = 0;
+        }
+
+        if (scr_req_x < bg_w.bgw[1].l_limit2) {
+            if (bg_w.bgw[1].zuubun != 0) {
+                bg_w.center_x = scr_req_x + 512;
+                pos_w = bg_w.bgw[1].wxy[0].disp.pos + 512;
+            } else {
+                bg_w.center_x = scr_req_x;
+                pos_w = bg_w.bgw[1].wxy[0].disp.pos;
+            }
+
+            pos_w -= bg_w.pos_offset;
+            bg_w.center_x -= pos_w;
+        } else if (bg_w.bgw[1].r_limit2 < scr_req_x) {
+            if (bg_w.bgw[1].zuubun != 0) {
+                bg_w.center_x = scr_req_x + 512;
+                pos_w = bg_w.bgw[1].wxy[0].disp.pos + 512;
+            } else {
+                bg_w.center_x = scr_req_x;
+                pos_w = bg_w.bgw[1].wxy[0].disp.pos;
+            }
+
+            pos_w -= bg_w.pos_offset;
+            bg_w.center_x -= pos_w;
+        } else {
+            bg_w.center_x = 192;
+            bg_w.center_y = 224;
+        }
+    }
+
+    if (work2) {
+        if (bg_w.bg_f_x > bg_w.frame_deff) {
+            Frame_Up((u16)bg_w.center_x, (u16)bg_w.center_y, 1);
+            bg_w.bg_f_x--;
+            bg_w.bg_f_y--;
+            return;
+        }
+
+        if (bg_w.bg_f_x < bg_w.frame_deff) {
+            Frame_Down((u16)bg_w.center_x, (u16)bg_w.center_y, 1);
+            bg_w.bg_f_x++;
+            bg_w.bg_f_y++;
+
+            if (bg_w.bg_f_x == 64) {
+                bg_w.frame_flag = 0;
+                Zoomf_Init();
+            }
+        }
+    } else if (bg_w.bg_f_x < 64) {
+        Frame_Down((u16)bg_w.center_x, (u16)bg_w.center_y, 1);
+        bg_w.bg_f_x++;
+        bg_w.bg_f_y++;
+
+        if (bg_w.bg_f_x == 64) {
+            bg_w.frame_flag = 0;
+            Zoomf_Init();
+        }
+    }
+}
 
 void suzi_offset_set(WORK_Other *ewk) {
     if (ewk->wu.sync_suzi == 1) {
@@ -732,39 +882,96 @@ void suzi_sync_pos_set(WORK_Other *ewk) {
     ewk->wu.position_y = ewk->wu.xyz[1].disp.pos & 0xFFFF;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", Bg_Family_Set);
-#else
 void Bg_Family_Set() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void Scrn_Move_Set(s32 bgnm, s32 x, s32 y);
+    void Family_Set_W(s32 fmnm, s32 x, s32 y);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", Bg_Family_Set_appoint);
-#else
+    s8 i;
+    s16 x;
+    s16 y;
+
+    for (i = 0; i < bg_w.scno; i++) {
+        x = bg_w.bgw[i].position_x;
+        y = bg_w.bgw[i].position_y;
+        Scrn_Move_Set(i, x, y);
+        x = -x & 0xFFFF;
+        y = (768 - (y & 0xFFFF)) & 0xFFFF;
+        Family_Set_W(i + 1, x, y);
+    }
+}
+
 void Bg_Family_Set_appoint(s32 num_of_bg) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void Scrn_Move_Set(s32 bgnm, s32 x, s32 y);
+    void Family_Set_W(s32 fmnm, s32 x, s32 y);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", Bg_Family_Set_2);
-#else
+    s16 x = bg_w.bgw[num_of_bg].position_x;
+    s16 y = bg_w.bgw[num_of_bg].position_y;
+
+    Scrn_Move_Set(num_of_bg, x, y);
+    x = -x & 0xFFFF;
+    y = (768 - (y & 0xFFFF)) & 0xFFFF;
+    Family_Set_W(num_of_bg + 1, x, y);
+}
+
 void Bg_Family_Set_2() {
-    not_implemented(__func__);
-}
-#endif
-
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", Bg_Family_Set_2_appoint);
-#else
-void Bg_Family_Set_2_appoint(s32 num_of_bg) {
-    not_implemented(__func__);
-}
+    void Scrn_Move_Set(s32 bgnm, s32 x, s32 y);
+    void Family_Set_W(s32 fmnm, s32 x, s32 y);
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", ake_Family_Set2);
+    s8 i;
+    s16 x;
+    s16 y;
+
+    for (i = 0; i < bg_w.scno; i++) {
+        x = bg_w.bgw[i].position_x;
+        y = bg_w.bgw[i].position_y;
+        y += 8;
+        Scrn_Move_Set(i, x, y);
+        x = -x & 0xFFFF;
+        y = (768 - (y & 0xFFFF)) & 0xFFFF;
+        Family_Set_W(i + 1, x, y);
+    }
+}
+
+void Bg_Family_Set_2_appoint(s32 num_of_bg) {
+#if defined(TARGET_PS2)
+    void Scrn_Move_Set(s32 bgnm, s32 x, s32 y);
+    void Family_Set_W(s32 fmnm, s32 x, s32 y);
+#endif
+
+    s16 x;
+    s16 y;
+
+    x = bg_w.bgw[num_of_bg].position_x;
+    y = bg_w.bgw[num_of_bg].position_y;
+    y += 8;
+    Scrn_Move_Set(num_of_bg, x, y);
+    x = -x & 0xFFFF;
+    y = (768 - (y & 0xFFFF)) & 0xFFFF;
+    Family_Set_W(num_of_bg + 1, x, y);
+}
+
+void ake_Family_Set2() {
+#if defined(TARGET_PS2)
+    void Scrn_Move_Set(s32 bgnm, s32 x, s32 y);
+    void Family_Set_W(s32 fmnm, s32 x, s32 y);
+#endif
+
+    s16 x = bg_w.bgw[3].position_x;
+    s16 y = bg_w.bgw[3].position_y;
+
+    Scrn_Move_Set(3, x, y);
+    x = 512 - bg_w.pos_offset;
+    y = 0;
+    x = -x & 0xFFFF;
+    y = (768 - (y & 0xFFFF)) & 0xFFFF;
+    Family_Set_W(4, x, y);
+}
 
 void bg_pos_hosei_sub2(s16 bg_no) {
     u16 pos;
@@ -1009,13 +1216,61 @@ void akebono_initialize() {
     Bg_Off_R(8);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg_sub", bg_etc_write);
-#else
 void bg_etc_write(s16 type) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void Bg_Texture_Load2(u32 type);
 #endif
+
+    u8 i;
+
+    Family_Init();
+    Scrn_Pos_Init();
+    Zoomf_Init();
+    bg_w.bg_opaque = 224;
+    Screen_Switch = 0;
+    Screen_Switch_Buffer = 0;
+    bg_disp_off = 0;
+    bg_w.scno = bg_w.scrno = use_scr2[type];
+    bg_w.pos_offset = 192;
+
+    Bg_Texture_Load2((u8)type);
+
+    for (i = 0; i < 7; i++) {
+        bg_w.bgw[i].pos_x_work = 0;
+        bg_w.bgw[i].pos_y_work = 0;
+        bg_w.bgw[i].hos_xy[1].cal = bg_w.bgw[i].hos_xy[0].cal = bg_w.bgw[i].wxy[1].cal = bg_w.bgw[i].wxy[0].cal =
+            bg_w.bgw[i].xy[1].cal = bg_w.bgw[i].xy[0].cal = bg_w.bgw[i].zuubun = 0;
+        bg_w.bgw[i].rewrite_flag = 0;
+        bg_w.bgw[i].fam_no = i;
+        bg_w.bgw[i].speed_y = bg_w.bgw[i].speed_x = 0;
+        bg_w.bgw[i].r_no_1 = bg_w.bgw[i].r_no_2 = 0;
+    }
+
+    bg_w.scr_stop = 0;
+    bg_w.frame_flag = 0;
+    bg_w.old_chase_flag = bg_w.chase_flag = 0;
+    bg_w.bg_f_x = 64;
+    bg_w.bg_f_y = 64;
+    bg_w.bg2_sp_x2 = bg_w.bg2_sp_x = 0;
+    bg_w.max_x = 8;
+    bg_w.quake_x_index = 0;
+    bg_w.quake_y_index = 0;
+
+    for (i = 0; i < bg_w.scno; i++) {
+        bg_w.bgw[i].hos_xy[0].cal = bg_w.bgw[i].wxy[0].cal = bg_w.bgw[i].xy[0].cal = bg_pos_tbl2[type][i][0];
+        bg_w.bgw[i].hos_xy[1].cal = bg_w.bgw[i].wxy[1].cal = bg_w.bgw[i].xy[1].cal = bg_pos_tbl2[type][i][1];
+        bg_w.bgw[i].pos_y_work = bg_w.bgw[i].xy[1].disp.pos;
+        bg_w.bgw[i].old_pos_x = bg_w.bgw[i].pos_x_work = bg_w.bgw[i].xy[0].disp.pos;
+        bg_w.bgw[i].speed_x = msp2[type][i][0];
+        bg_w.bgw[i].speed_y = msp2[type][i][1];
+        bg_w.bgw[i].rewrite_flag = 0;
+        bg_w.bgw[i].zuubun = 0;
+        bg_w.bgw[i].frame_deff = 64;
+        bg_w.bgw[i].max_x_limit = bg_w.bgw[i].speed_x * bg_w.max_x;
+    }
+
+    base_y_pos = 40;
+}
 
 s32 Ck_Range_Out_S(WORK_Other *ewk, s16 BG_No, s16 R) {
     s16 x;

@@ -19,6 +19,8 @@ void disp_pos_trans_entry_rs(WORK_Other *ewk);
 void pl_eff_trans_entry(WORK_Other *ewk);
 void add_x_sub(WORK_Other *ewk);
 s32 compel_dead_check(WORK_Other *ewk);
+void cal_bg_speed_data_x(s16 bg_num, s16 tm, s16 unk);
+void cal_bg_speed_data_y(s16 bg_num, s16 tm, s16 unk);
 s32 range_x_check(WORK_Other *ewk);
 s16 eff_hit_check(WORK_Other *ewk, s16 type);
 s16 eff_hit_check2(WORK_Other *ewk, s16 type, s16 where_type);

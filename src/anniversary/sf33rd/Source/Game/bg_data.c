@@ -576,3 +576,40 @@ const s8 quake_y_tbl[130] = { 0,  -1,  1,  -2,  2,  -2,  2,  -3,  3,  -3,  3,  -
                               15, -15, 15, -15, 15, -15, 15, -15, 15, -15, 15, -15, 15, -15, 15, -15, 15, -15, 15, -15,
                               15, -15, 15, -15, 15, -15, 15, -15, 15, -15, 15, -15, 15, -15, 15, -15, 15, -15, 15, -15,
                               15, -15, 15, -15, 15, -15, 15, -15, 15, -15 };
+
+// data
+const u16 *bg_map_tbl[22][3] = { { stage000_map, stage001_map, NULL },
+                                 { stage010_map, NULL, NULL },
+                                 { stage020_map, stage021_map, stage022_map },
+                                 { stage030_map, stage031_map, NULL },
+                                 { stage040_map, NULL, NULL },
+                                 { stage050_map, stage051_map, NULL },
+                                 { stage060_map, NULL, NULL },
+                                 { stage070_map, stage071_map, stage072_map },
+                                 { stage080_map, stage081_map, NULL },
+                                 { stage090_map, stage091_map, NULL },
+                                 { stage100_map, stage101_map, NULL },
+                                 { stage110_map, NULL, NULL },
+                                 { stage120_map, stage121_map, NULL },
+                                 { stage130_map, stage131_map, NULL },
+                                 { stage140_map, stage141_map, stage142_map },
+                                 { stage150_map, stage151_map, NULL },
+                                 { stage160_map, stage161_map, NULL },
+                                 { stage160_map, stage161_map, NULL },
+                                 { stage180_map, stage181_map, NULL },
+                                 { stage190_map, NULL, NULL },
+                                 { bonus010_map, bonus011_map, NULL },
+                                 { bonus020_map, NULL, NULL } };
+
+// sdata
+const u16 *bg_map_tbl2[7] = { win_lose_map, rank_map, select_map, win_lose_map, win_lose_map, win_lose_map, rank_map };
+
+s32 etcBgPalCnvTable[7] = { 0, 43, 0, 33, -13, 37, 44 };
+
+u8 etcBgGixCnvTable[7][16] = { { 16, 17, 18, 19, 8, 9, 10, 11, 20, 21, 22, 23, 12, 13, 14, 15 },
+                               { 0, 1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0 },
+                               { 0, 1, 2, 3, 8, 9, 10, 11, 4, 5, 6, 7, 12, 13, 14, 15 },
+                               { 16, 17, 18, 19, 8, 9, 10, 11, 20, 21, 22, 23, 12, 13, 14, 15 },
+                               { 16, 17, 18, 19, 8, 9, 10, 11, 20, 21, 22, 23, 12, 13, 14, 15 },
+                               { 16, 17, 18, 19, 8, 9, 10, 11, 20, 21, 22, 23, 12, 13, 14, 15 },
+                               { 0, 1, 2, 3, 4, 5, 6, 7, 0, 0, 0, 0, 0, 0, 0, 0 } };
