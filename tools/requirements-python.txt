@@ -7,3 +7,4 @@ dataclasses
 pyelftools
 graphviz
 tabulate
+spimdisasm==1.35.0
