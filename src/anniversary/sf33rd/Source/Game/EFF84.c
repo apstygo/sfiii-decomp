@@ -83,9 +83,7 @@ void effect_84_move(WORK_Other *ewk) {
                 break;
             }
 
-#if defined(TARGET_PS2) // remove this
             dead_voice_request();
-#endif // remove this
             request_message = 0;
             Game_pause = 0;
             ewk->wu.routine_no[0] = ewk->wu.routine_no[1] = 0;
