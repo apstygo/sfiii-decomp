@@ -16,8 +16,6 @@
 
 void setup_move_data_easy(WORK *wk, s16 *adrs, s16 prx, s16 pry);
 void read_adrs_store_mvxy(WORK *wk, s16 *adrs);
-void add_mvxy_speed_exp(WORK *wk, s16 dvp);
-void add_mvxy_speed_no_use_rl(WORK *wk);
 void remake_mvxy_PoGR(WORK *wk);
 s16 meri_case_switch(s16 meri);
 s16 hoseishitemo_eenka(WORK *wk, s16 tx);
