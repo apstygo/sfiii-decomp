@@ -2446,8 +2446,8 @@ typedef struct {
     s32 dly;    // offset 0x1C, size 0x4
     s32 amx;    // offset 0x20, size 0x4
     s32 amy;    // offset 0x24, size 0x4
-    char swx;   // offset 0x28, size 0x1
-    char swy;   // offset 0x29, size 0x1
+    s8 swx;     // offset 0x28, size 0x1
+    s8 swy;     // offset 0x29, size 0x1
 } MotionState;
 
 typedef struct {

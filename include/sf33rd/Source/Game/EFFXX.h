@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-extern void (* effmovejptbl[])(); // size: 0x394, address: 0x51B690
-extern s32 (*effinitjptbl[])(); // size: 0x0, address: 0x51BA30
+extern const void (*effmovejptbl[])();
+extern const s32 (*effinitjptbl[])();
 
 #endif
