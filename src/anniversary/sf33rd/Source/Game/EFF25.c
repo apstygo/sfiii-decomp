@@ -1,12 +1,19 @@
 #include "sf33rd/Source/Game/EFF25.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
+#include "sf33rd/Source/Game/EFF26.h"
+#include "sf33rd/Source/Game/EFF27.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
+#include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/bg_sub.h"
 #include "sf33rd/Source/Game/eff05.h"
 #include "sf33rd/Source/Game/ta_sub.h"
+#include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
+
+const s16 eff25_data_0000[16] = { 0, 2, 300, 160, 32, 71, 6, 0, 0, 0, 6, 6, 66, 9, 0, -1 };
 
 const s16 *scr_obj_data25[1] = { eff25_data_0000 };
 
@@ -14,8 +21,8 @@ void (*eff25_jp_tbl[10])(WORK_Other *ewk) = { eff25_00, eff25_00, eff25_02, eff2
                                               eff25_04, eff25_06, eff25_06, eff25_08, eff25_08 };
 
 void effect_25_move(WORK_Other *ewk) {
-    if (compel_dead_check(ewk) != 0) {
-        ewk->wu.routine_no[0] = 0x63;
+    if (compel_dead_check(ewk)) {
+        ewk->wu.routine_no[0] = 99;
         ewk->wu.disp_flag = 0;
         return;
     }
@@ -25,6 +32,7 @@ void effect_25_move(WORK_Other *ewk) {
         if (!EXE_flag && !Game_pause) {
             eff25_jp_tbl[ewk->wu.old_rno[2]](ewk);
         }
+
         disp_pos_trans_entry_rs(ewk);
         break;
 
@@ -50,9 +58,10 @@ void eff25_00(WORK_Other *ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
+
     switch (ewk->wu.routine_no[1]) {
     case 0:
-        if (*(&eff_hit_flag[ewk->wu.type])) {
+        if (eff_hit_flag[ewk->wu.type]) {
             ewk->wu.routine_no[0] = 4;
             break;
         }
@@ -82,6 +91,7 @@ void eff25_00(WORK_Other *ewk) {
         if (ewk->wu.cg_type) {
             ewk->wu.routine_no[1]++;
         }
+
         /* fallthrough */
 
     case 3:
@@ -94,6 +104,7 @@ void eff25_02(WORK_Other *ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
+
     switch (ewk->wu.routine_no[1]) {
     case 0:
         if (eff_hit_flag[ewk->wu.type]) {
@@ -177,6 +188,7 @@ void eff25_06(WORK_Other *ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
+
     switch (ewk->wu.routine_no[1]) {
     case 0:
         if (eff_hit_flag[ewk->wu.type]) {
@@ -242,7 +254,7 @@ void eff25_08(WORK_Other *ewk) {
     case 1:
         if (eff_hit_check(ewk, ewk->wu.old_rno[4])) {
             piece_set(ewk);
-            ewk->wu.routine_no[1] += 1;
+            ewk->wu.routine_no[1]++;
             break;
         }
 
@@ -253,7 +265,7 @@ void eff25_08(WORK_Other *ewk) {
         break;
 
     case 2:
-        ewk->wu.routine_no[0] += 1;
+        ewk->wu.routine_no[0]++;
         break;
     }
 }
@@ -262,26 +274,74 @@ void eff25_char_set(WORK_Other *ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
-    ewk->wu.routine_no[1] += 1;
+
+    ewk->wu.routine_no[1]++;
     ewk->wu.disp_flag = 1;
     set_char_move_init(&ewk->wu, 0, ewk->wu.char_index);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF25", piece_set);
-#else
 void piece_set(WORK_Other *ewk) {
-    not_implemented(__func__);
-}
-#endif
-
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF25", effect_25_init);
-#else
-s32 effect_25_init(s8 num) {
-    not_implemented(__func__);
-}
+    s32 effect_27_init(WORK_Other * oya, s32 type);
 #endif
 
-const s16 eff25_data_0000[16] = { 0x0000, 0x0002, 0x012C, 0x00A0, 0x0020, 0x0047, 0x0006, 0x0000,
-                                  0x0000, 0x0000, 0x0006, 0x0006, 0x0042, 0x0009, 0x0000, 0xFFFF };
+    if (!(ewk->wu.old_rno[2] & 1)) {
+        return;
+    }
+
+    if (ewk->wu.old_rno[0] < 0) {
+        return;
+    }
+
+    effect_27_init(ewk, ewk->wu.old_rno[0]);
+}
+
+s32 effect_25_init(s8 num) {
+#if defined(TARGET_PS2)
+    s16 get_my_trans_mode(s32 curr);
+#endif
+
+    WORK_Other *ewk;
+    s16 ix;
+    const s16 *data_ptr = scr_obj_data25[num];
+
+    if ((ix = pull_effect_work(4)) == -1) {
+        return -1;
+    }
+
+    ewk = (WORK_Other *)frw[ix];
+    ewk->wu.be_flag = 1;
+    ewk->wu.id = 25;
+    ewk->wu.work_id = 16;
+    ewk->wu.cgromtype = 1;
+    ewk->wu.rl_flag = 0;
+    ewk->wu.my_col_mode = 0x4200;
+    ewk->wu.type = num;
+    ewk->wu.dead_f = *data_ptr++;
+    ewk->wu.my_family = *data_ptr++;
+    ewk->wu.my_col_code = *data_ptr++;
+    ewk->wu.xyz[0].disp.pos = *data_ptr++;
+    ewk->wu.xyz[1].disp.pos = *data_ptr++;
+    ewk->wu.my_priority = *data_ptr++;
+    ewk->wu.char_index = *data_ptr++;
+    ewk->wu.hit_stop = *data_ptr++;
+    ewk->wu.sync_suzi = *data_ptr++;
+    ewk->wu.old_rno[0] = *data_ptr++;
+    ewk->wu.old_rno[1] = *data_ptr++;
+    ewk->wu.old_rno[7] = *data_ptr++;
+    ewk->wu.old_rno[3] = *data_ptr++;
+    ewk->wu.old_rno[2] = *data_ptr++;
+    ewk->wu.old_rno[4] = *data_ptr++;
+    ewk->wu.position_z = ewk->wu.my_priority;
+
+    if (*data_ptr >= 0) {
+        effect_26_init(ewk, *data_ptr);
+    }
+
+    *data_ptr++;
+    ewk->wu.char_table[0] = char_add[bg_w.bg_index];
+    suzi_offset_set(ewk);
+    ewk->wu.my_mts = 7;
+    ewk->wu.my_trans_mode = get_my_trans_mode(ewk->wu.my_mts);
+    return 0;
+}
