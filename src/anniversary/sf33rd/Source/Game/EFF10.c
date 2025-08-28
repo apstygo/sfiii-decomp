@@ -40,8 +40,6 @@ const s8 *button_string_data[8][12] = {
     { "PLAYER 1", "PLAYER 2", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
 };
 
-// INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", effect_10_move);
-
 void effect_10_move(WORK_Other *ewk) {
     s16 color;
     s16 correct_index;
