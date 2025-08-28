@@ -274,7 +274,7 @@ segments:
       - [0x0F4910, c, sf33rd/Source/Game/EFF78]
       - [0x0F5290, c, sf33rd/Source/Game/Eff79]
       - [0x0F8050, asm, sf33rd/Source/Game/Eff80]
-      - [0x0F83E0, asm, sf33rd/Source/Game/Eff81]
+      - [0x0F83E0, c, sf33rd/Source/Game/Eff81]
       - [0x0F8830, c, sf33rd/Source/Game/EFF82]
       - [0x0F8E60, c, sf33rd/Source/Game/EFF83]
       - [0x0F9490, c, sf33rd/Source/Game/EFF84]
