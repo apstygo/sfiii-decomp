@@ -691,7 +691,13 @@ void sc_ram_to_vram(s8 sc_num) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sc_ram_to_vram_opc);
+#else
+void sc_ram_to_vram_opc(s8 sc_num, s8 x, s8 y, u16 atr) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sq_paint_chenge);

@@ -39,6 +39,7 @@ void combo_message_set(u8 pl, u8 kind, u8 x, u8 num, u8 hi, u8 low);
 void combo_pts_set(u8 pl, u8 x, u8 num, s8 *pts, s8 digit);
 void naming_set(u8 pl, s16 place, u16 atr, u16 chr);
 void stun_gauge_waku_write(s16 p1len, s16 p2len);
+void sc_ram_to_vram_opc(s8 sc_num, s8 x, s8 y, u16 atr);
 void overwrite_panel(u32 color, u8 priority);
 void sa_stock_trans(s16 St_Num, s16 Spg_Col, s8 Stpl_Num);
 void sa_fullstock_trans(s16 St_Num, s16 Spg_Col, s8 Stpl_Num);
