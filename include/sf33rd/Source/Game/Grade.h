@@ -4,10 +4,12 @@
 #include "structs.h"
 #include "types.h"
 
+extern JudgeGals judge_gals[2];
+
 extern GradeFinalData judge_final[2][2]; // size: 0x2B0, address: 0x5E3070
 extern GradeData judge_item[2][2];       // size: 0x130, address: 0x5E3320
 
-void grade_check_work_1st_init(s32 ix, s32 ix2);
+void grade_check_work_1st_init(s16 ix, s16 ix2);
 void grade_check_work_stage_init(s16 ix);
 void grade_check_work_round_init(s16 ix);
 void grade_makeup_final_parameter(s16 ix, s16 pt);

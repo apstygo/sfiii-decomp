@@ -97,8 +97,10 @@ extern const u8 ake_bg_off[20];           // size: 0x14, address: 0x4E9080
 extern const s16 limit_tbl3[22][3][4];    // size: 0x210, address: 0x4E90A0
 extern const s8 bg_index_tbl[22][3];      // size: 0x42, address: 0x4E92B0
 extern const s32 bg_pos_tbl2[7][3][2];    // size: 0xA8, address: 0x4E9300
-extern const s8 quake_x_tbl[];            // size: 0x82, address: 0x4E93B0
-extern const s8 quake_y_tbl[];            // size: 0x82, address: 0x4E9440
+extern const s8 quake_x_tbl[130];         // size: 0x82, address: 0x4E93B0
+extern const s8 quake_y_tbl[130];         // size: 0x82, address: 0x4E9440
+extern const u16 *bg_map_tbl[][3];
+extern const u16 *bg_map_tbl2[];
 
 extern s16 y_sitei_pos;       // size: 0x2, address: 0x578C20
 extern u8 y_sitei_flag;       // size: 0x1, address: 0x578C24
@@ -128,5 +130,7 @@ extern BGW *bgw_ptr;          // size: 0x4, address: 0x578CB8
 extern s8 bg_app_stop;        // size: 0x1, address: 0x578CBC
 extern s16 bg_stop;           // size: 0x2, address: 0x578CC0
 extern s16 base_y_pos;        // size: 0x2, address: 0x578CC4
+extern s32 etcBgPalCnvTable[7];
+extern u8 etcBgGixCnvTable[7][16];
 
 #endif
