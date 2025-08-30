@@ -30,6 +30,6 @@ void cal_delta_speed(WORK *wk, s16 tm, s16 x1, s16 y1, s8 xsw, s8 ysw);
 s16 cal_top_of_position_y(WORK *wk);
 s16 cal_time_of_sign_change(WORK *wk);
 s16 cal_move_dir_forecast(WORK *wk, s16 tm);
-s16 remake_2_10(s16 num);
+s16 remake_2_10(s16 num, s16 keta);
 
 #endif
