@@ -201,15 +201,113 @@ void effect_13_move(WORK_Other *ewk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", tama_display);
+void tama_display(WORK *wk) {
+    set_quake((PLW *)wk);
+    wk->position_x = wk->xyz[0].disp.pos + wk->next_x;
+    wk->position_y = wk->xyz[1].disp.pos;
+    sort_push_request(wk);
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", screen_x_range_check);
+s32 screen_x_range_check(WORK *wk) {
+    s16 scpx = get_center_position();
+    s16 scpxr = scpx + 256;
+    s16 scpxl = scpx - 256;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", screen_range_check);
+    scpx = wk->xyz[0].disp.pos;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", tama15_screen_check);
+    if (scpxl < 0) {
+        scpxr -= scpxl;
+        scpx -= scpxl;
+        scpxl = 0;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", set_tengu_init_pos);
+    if (scpx > scpxr || scpx < scpxl) {
+        return 1;
+    }
+
+    return 0;
+}
+
+s32 screen_range_check(WORK *wk) {
+    s16 scpx = get_center_position();
+    s16 scpxr = scpx + 256;
+    s16 scpxl = scpx - 256;
+    s16 scpy;
+    s16 scpyu;
+
+    scpx = wk->xyz[0].disp.pos;
+
+    if (scpxl < 0) {
+        scpxr -= scpxl;
+        scpx -= scpxl;
+        scpxl = 0;
+    }
+
+    if (scpx > scpxr || scpx < scpxl) {
+        return 1;
+    }
+
+    scpy = get_height_position();
+    scpyu = scpy + 288;
+    scpy = wk->xyz[1].disp.pos;
+
+    if (scpy > scpyu) {
+        return 1;
+    }
+
+    return 0;
+}
+
+s32 tama15_screen_check(WORK *wk) {
+    s16 scpx = get_center_position();
+    s16 scpxr = scpx + 512;
+    s16 scpxl = scpx - 512;
+    s16 scpy;
+    s16 scpyu;
+    s16 scpyd;
+
+    scpx = wk->xyz[0].disp.pos;
+
+    if (scpxl < 0) {
+        scpxr -= scpxl;
+        scpx -= scpxl;
+        scpxl = 0;
+    }
+
+    if (scpx > scpxr || scpx < scpxl) {
+        return 1;
+    }
+
+    scpy = get_height_position();
+    scpyu = scpy + 512;
+    scpyd = scpy - 288;
+    scpy = wk->xyz[1].disp.pos;
+
+    if (scpyd < 0) {
+        scpyu -= scpyd;
+        scpy -= scpyd;
+        scpyd = 0;
+    }
+
+    if (scpy > scpyu || scpy < scpyd) {
+        return 1;
+    }
+
+    return 0;
+}
+
+void set_tengu_init_pos(WORK *ewk, WORK *mwk) {
+    s16 scp = get_center_position();
+
+    if (mwk->rl_flag) {
+        scp -= 320;
+    } else {
+        scp += 320;
+    }
+
+    ewk->xyz[0].disp.pos = scp;
+    ewk->xyz[1].disp.pos = ewk->direction;
+}
 
 void kotp_00000(WORK_Other *ewk, TAMA *twk) {
 #if defined(TARGET_PS2)
@@ -389,9 +487,140 @@ void kotp_01000(WORK_Other *ewk, TAMA *twk) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", kotp_02000);
+void kotp_02000(WORK_Other *ewk, TAMA *twk) {
+    PLW *mwk = (PLW *)ewk->my_master;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", set_tengu_my_home);
+    if (ewk->wu.hf.hit_flag) {
+        ewk->wu.routine_no[1] = 1;
+    }
+
+    switch (ewk->wu.routine_no[1]) {
+    case 0:
+        if (ewk->wu.hit_stop) {
+            ewk->wu.hit_stop--;
+            break;
+        }
+
+        char_move(&ewk->wu);
+
+        switch (ewk->wu.routine_no[2]) {
+        case 0:
+            ewk->wu.routine_no[2] = 1;
+            ewk->wu.disp_flag = 1;
+            ewk->wu.dir_timer = twk->data00;
+            ewk->wu.mvxy.d[0].sp = 0;
+            ewk->wu.mvxy.d[1].sp = -0x7000;
+            cal_initial_speed(&ewk->wu,
+                              ewk->wu.dir_timer,
+                              mwk->wu.xyz[0].disp.pos + ewk->wu.old_pos[0],
+                              mwk->wu.xyz[1].disp.pos + ewk->wu.old_pos[1]);
+            break;
+
+        case 1:
+            add_mvxy_speed_no_use_rl(&ewk->wu);
+            cal_mvxy_speed(&ewk->wu);
+
+            if (check_tengu_attack(&ewk->wu, &mwk->wu, twk) == 0 && --ewk->wu.dir_timer < 0) {
+                ewk->wu.routine_no[2] = 2;
+            }
+
+            break;
+
+        case 2:
+            ewk->wu.position_z = mwk->wu.position_z + ewk->wu.old_pos[2];
+
+            if (mwk->sa->ok != -1 || ewk->wu.dir_old != mwk->sa->id_arts) {
+                ewk->wu.routine_no[1] = 2;
+                ewk->wu.routine_no[2] = 0;
+                ewk->wu.cg_hit_ix = 0;
+                make_speed_xy_back(&ewk->wu, &mwk->wu, twk);
+                break;
+            }
+
+            if (check_tengu_attack(&ewk->wu, &mwk->wu, twk)) {
+                break;
+            }
+
+            set_tengu_my_home(&ewk->wu, &mwk->wu);
+
+            if (ewk->wu.dir_step > 8) {
+                ewk->wu.routine_no[2] = 1;
+                ewk->wu.dir_timer = 8;
+                cal_all_speed_data(&ewk->wu, ewk->wu.dir_timer, ewk->wu.dmcal_m, ewk->wu.dmcal_d, 2, 2);
+            }
+
+            break;
+
+        case 3:
+            add_mvxy_speed_no_use_rl(&ewk->wu);
+            cal_mvxy_speed(&ewk->wu);
+
+            if (--ewk->wu.dir_timer < 0) {
+                ewk->wu.routine_no[2] = 4;
+                ewk->wu.att_hit_ok = 0;
+                ewk->wu.dir_timer = twk->hos_x;
+                set_tengu_my_home(&ewk->wu, &mwk->wu);
+                cal_all_speed_data(&ewk->wu, ewk->wu.dir_timer, ewk->wu.dmcal_m, ewk->wu.dmcal_d, 2, 2);
+            }
+
+            break;
+
+        case 4:
+            add_mvxy_speed_no_use_rl(&ewk->wu);
+            cal_mvxy_speed(&ewk->wu);
+            ewk->wu.cg_hit_ix = 0;
+
+            if (--ewk->wu.dir_timer < 0) {
+                ewk->wu.routine_no[2] = 2;
+            }
+
+            break;
+
+        case 5:
+            set_tengu_my_home(&ewk->wu, &mwk->wu);
+            ewk->wu.routine_no[2] = 4;
+            ewk->wu.cg_hit_ix = 0;
+            ewk->wu.dir_timer = twk->hos_y;
+            ewk->wu.mvxy.d[0].sp = 0;
+            ewk->wu.mvxy.d[1].sp = -0x4000;
+            cal_initial_speed(&ewk->wu, ewk->wu.dir_timer, ewk->wu.dmcal_m, ewk->wu.dmcal_d);
+            break;
+        }
+
+        break;
+
+    case 1:
+        ewk->wu.routine_no[1] = 0;
+        ewk->wu.routine_no[2] = 5;
+        ewk->wu.hf.hit_flag = 0;
+        ewk->wu.cg_hit_ix = 0;
+        set_hit_stop_hit_quake(&ewk->wu);
+        break;
+
+    case 2:
+        add_mvxy_speed_no_use_rl(&ewk->wu);
+        cal_mvxy_speed(&ewk->wu);
+
+        if (--ewk->wu.dir_timer < 0) {
+            ewk->wu.routine_no[0] = 2;
+            ewk->wu.disp_flag = 0;
+        }
+
+        ewk->wu.cg_hit_ix = 0;
+        break;
+    }
+}
+void set_tengu_my_home(WORK *ewk, WORK *mwk) {
+    if (mwk->pat_status < 32) {
+        ewk->dmcal_m = mwk->xyz[0].disp.pos + ewk->old_pos[0];
+        ewk->dmcal_d = mwk->xyz[1].disp.pos + ewk->old_pos[1];
+    } else {
+        ewk->dmcal_m = mwk->xyz[0].disp.pos + ewk->scr_mv_x;
+        ewk->dmcal_d = mwk->xyz[1].disp.pos + ewk->scr_mv_y;
+    }
+
+    ewk->dir_step = cal_move_quantity2(ewk->xyz[0].disp.pos, ewk->xyz[1].disp.pos, ewk->dmcal_m, ewk->dmcal_d);
+}
 
 s32 check_tengu_attack(WORK *ewk, WORK *mwk, TAMA *twk) {
 #if defined(TARGET_PS2)
@@ -417,9 +646,30 @@ s32 check_tengu_attack(WORK *ewk, WORK *mwk, TAMA *twk) {
     return 1;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", make_speed_xy_att);
+void make_speed_xy_att(WORK *ewk, WORK *mwk, s16 tm, u8 xsw, u8 ysw) {
+    s16 ax;
+    s16 ay;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", make_speed_xy_back);
+    get_target_att_position(mwk, &ax, &ay);
+    cal_all_speed_data(ewk, tm, ax, ay, xsw, ysw);
+}
+
+void make_speed_xy_back(WORK *ewk, WORK *mwk, TAMA *twk) {
+    s16 bx;
+    s16 by;
+
+    ewk->dmcal_m = ewk->xyz[0].disp.pos;
+    ewk->dmcal_d = ewk->xyz[1].disp.pos;
+    ewk->mvxy.d[0].sp = 0;
+    ewk->mvxy.d[1].sp = -0x7000;
+    ewk->dir_timer = twk->data01;
+    set_tengu_init_pos(ewk, mwk);
+    bx = ewk->xyz[0].disp.pos;
+    by = ewk->xyz[1].disp.pos;
+    ewk->xyz[0].disp.pos = ewk->dmcal_m;
+    ewk->xyz[1].disp.pos = ewk->dmcal_d;
+    cal_initial_speed(ewk, ewk->dir_timer, bx, by);
+}
 
 void kotp_03000(WORK_Other *ewk, TAMA *twk) {
     if (ewk->wu.hf.hit_flag) {
@@ -525,29 +775,971 @@ void kotp_04000(WORK_Other *ewk, TAMA * /* unused */) {
     ewk->wu.routine_no[0] = 2;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", kotp_05000);
+void kotp_05000(WORK_Other *ewk, TAMA *twk) {
+#if defined(TARGET_PS2)
+    s32 effect_96_init(WORK * wk, u32 chix, s32 dspf, s32 /* unused */);
+#endif
 
+    if (ewk->wu.hf.hit_flag) {
+        ewk->wu.routine_no[1] = 1;
+    }
+
+    switch (ewk->wu.routine_no[1]) {
+    case 0:
+        if (ewk->wu.routine_no[3] == 0) {
+            ewk->wu.routine_no[3]++;
+            ewk->wu.xyz[1].disp.pos = get_height_position() + 256;
+        }
+
+        if (ewk->wu.hit_stop) {
+            ewk->wu.hit_stop--;
+            break;
+        }
+
+        add_mvxy_speed(&ewk->wu);
+        cal_mvxy_speed(&ewk->wu);
+        char_move(&ewk->wu);
+
+        if ((ewk->wu.xyz[1].disp.pos + ewk->wu.cg_jphos) <= 0) {
+            ewk->wu.mvxy.a[0].sp = 0;
+            ewk->wu.mvxy.a[1].sp = 0;
+            ewk->wu.mvxy.d[0].sp = 0;
+            ewk->wu.mvxy.d[1].sp = 0;
+            set_char_move_init(&ewk->wu, 0, twk->erex);
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 1;
+            ewk->wu.xyz[1].disp.pos = -ewk->wu.cg_jphos;
+            break;
+        }
+
+        if (--ewk->wu.dir_timer >= 0 && screen_x_range_check(&ewk->wu) == 0) {
+            break;
+        }
+
+        ewk->wu.mvxy.a[0].sp /= 4;
+        ewk->wu.mvxy.a[1].sp /= 4;
+        set_char_move_init(&ewk->wu, 0, twk->ernm);
+        ewk->wu.routine_no[1] = 2;
+        ewk->wu.routine_no[2] = 0;
+        break;
+
+    case 1:
+        ewk->wu.vital_new -= ewk->wu.dm_vital;
+        ewk->wu.dm_vital = 0;
+
+        if (ewk->wu.vital_new < 256) {
+            if (ewk->wu.hf.hit.player) {
+                if (ewk->wu.hf.hit.player & 0xF0) {
+                    set_char_move_init(&ewk->wu, 0, twk->erdf);
+                } else {
+                    set_char_move_init(&ewk->wu, 0, twk->erht);
+                }
+            } else {
+                set_char_move_init(&ewk->wu, 0, twk->erex);
+            }
+
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 1;
+            ewk->wu.kage_flag = 0;
+            ewk->wu.hit_stop = 0;
+        } else {
+            ewk->wu.routine_no[1] = 0;
+
+            if (ewk->wu.hf.hit.player) {
+                if (ewk->wu.hf.hit.player & 0xF0) {
+                    effect_96_init(&ewk->wu, twk->erdf, ewk->wu.disp_flag, ewk->wu.hit_stop);
+                } else {
+                    effect_96_init(&ewk->wu, twk->erht, ewk->wu.disp_flag, ewk->wu.hit_stop);
+                }
+            } else {
+                effect_96_init(&ewk->wu, twk->erex, ewk->wu.disp_flag, ewk->wu.hit_stop);
+            }
+        }
+
+        ewk->wu.hf.hit_flag = 0;
+        ewk->wu.hit_quake = 0;
+        break;
+
+    case 2:
+        switch (ewk->wu.routine_no[2]) {
+        case 0:
+            add_mvxy_speed(&ewk->wu);
+            cal_mvxy_speed(&ewk->wu);
+            /* fallthrough */
+
+        case 1:
+            char_move(&ewk->wu);
+
+            if (ewk->wu.cg_type == 0xFF) {
+                ewk->wu.disp_flag = 0;
+                ewk->wu.routine_no[0] = 2;
+            }
+
+            break;
+        }
+
+        break;
+    }
+}
+
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", kotp_06000);
+#else
+void kotp_06000(WORK_Other *ewk, TAMA *twk) {
+    not_implemented(__func__);
+}
+#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", kotp_07000);
+void kotp_07000(WORK_Other *ewk, TAMA *twk) {
+#if defined(TARGET_PS2)
+    void setup_mvxy_data(WORK * wk, u32 ix);
+    s32 effect_96_init(WORK * wk, u32 chix, s32 dspf, s32 /* unused */);
+#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", kotp_08000);
+    WORK *awk;
+    s16 dsst;
+    PLW *mwk;
+    PLW *emwk;
+    s16 tama_x;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", kotp_09000);
+    if (ewk->wu.hf.hit_flag) {
+        ewk->wu.routine_no[1] = 1;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", kotp_10000);
+    switch (ewk->wu.routine_no[1]) {
+    case 0:
+        if (ewk->wu.hit_stop) {
+            ewk->wu.hit_stop--;
+            break;
+        }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", kotp_11000);
+        add_mvxy_speed(&ewk->wu);
+        cal_mvxy_speed(&ewk->wu);
+        char_move(&ewk->wu);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", kotp_12000);
+        if (bg_w.stage == 20) {
+            ewk->wu.vs_id = 7;
+        }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", kotp_13000);
+        if (ewk->wu.cg_type == 20) {
+            setup_mvxy_data(&ewk->wu, ewk->wu.mvxy.index);
+            ewk->wu.mvxy.index++;
+            ewk->wu.cg_type = 0;
+            mwk = (PLW *)ewk->my_master;
+            emwk = (PLW *)mwk->wu.target_adrs;
+            tama_x = ewk->wu.xyz[0].disp.pos;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", kotp_14000);
+            if (tama_x > emwk->wu.xyz[0].disp.pos) {
+                ewk->wu.mvxy.a[0].sp *= ewk->wu.rl_flag ? -1 : 1;
+                ewk->wu.mvxy.d[0].sp *= ewk->wu.rl_flag ? -1 : 1;
+            } else {
+                ewk->wu.mvxy.a[0].sp *= ewk->wu.rl_flag ? 1 : -1;
+                ewk->wu.mvxy.d[0].sp *= ewk->wu.rl_flag ? 1 : -1;
+            }
+        }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", kotp_15000);
+        if (--ewk->wu.dir_timer < 0) {
+            set_char_move_init(&ewk->wu, 0, twk->ernm);
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 0;
+        }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", kotp_16000);
+        break;
+
+    case 1:
+        if (ewk->wu.hf.hit_flag == 0) {
+            awk = (WORK *)ewk->wu.dmg_adrs;
+
+            if (awk->work_id == 1) {
+                dsst = 3;
+
+                if (!(ewk->wu.dm_kind_of_waza & 0xF8)) {
+                    dsst = (ewk->wu.dm_kind_of_waza / 2) & 3;
+                }
+
+                ewk->wu.dm_vital = kotp_07_dm_vital[dsst];
+            } else {
+                ewk->wu.dm_vital = kotp_07_dm_vital[2];
+            }
+        }
+
+        ewk->wu.vital_new -= ewk->wu.dm_vital;
+        ewk->wu.dm_vital = 0;
+
+        if (ewk->wu.vital_new < 0x100) {
+            if (ewk->wu.hf.hit.player) {
+                if (ewk->wu.hf.hit.player & 0xF0) {
+                    set_char_move_init(&ewk->wu, 0, twk->erdf);
+                } else {
+                    set_char_move_init(&ewk->wu, 0, twk->erht);
+                }
+            } else {
+                set_char_move_init(&ewk->wu, 0, twk->erex);
+            }
+
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 1;
+            ewk->wu.kage_flag = 0;
+            ewk->wu.hit_stop = 0;
+        } else {
+            ewk->wu.routine_no[1] = 0;
+
+            if (ewk->wu.hf.hit.player) {
+                if (ewk->wu.hf.hit.player & 0xF0) {
+                    effect_96_init(&ewk->wu, twk->erdf, ewk->wu.disp_flag, ewk->wu.hit_stop);
+                } else {
+                    effect_96_init(&ewk->wu, twk->erht, ewk->wu.disp_flag, ewk->wu.hit_stop);
+                }
+            } else {
+                effect_96_init(&ewk->wu, twk->erex, ewk->wu.disp_flag, ewk->wu.hit_stop);
+            }
+
+            if (ewk->dm_refrect) {
+                ewk->master_id = (ewk->master_id + 1) & 1;
+                ewk->wu.rl_flag = (ewk->wu.rl_flag + 1) & 1;
+                ewk->dm_refrect = 0;
+            }
+        }
+
+        ewk->wu.hf.hit_flag = 0;
+        ewk->wu.hit_quake = 0;
+        break;
+
+    case 2:
+        switch (ewk->wu.routine_no[2]) {
+        case 0:
+            add_mvxy_speed(&ewk->wu);
+            cal_mvxy_speed(&ewk->wu);
+            /* fallthrough */
+
+        case 1:
+            char_move(&ewk->wu);
+
+            if (ewk->wu.cg_type == 0xFF) {
+                ewk->wu.disp_flag = 0;
+                ewk->wu.routine_no[0] = 2;
+            }
+
+            break;
+        }
+
+        break;
+    }
+}
+
+void kotp_08000(WORK_Other *ewk, TAMA *twk) {
+#if defined(TARGET_PS2)
+    s32 effect_96_init(WORK * wk, u32 chix, s32 dspf, s32 /* unused */);
+#endif
+
+    if (ewk->wu.hf.hit_flag) {
+        ewk->wu.routine_no[1] = 1;
+    }
+
+    switch (ewk->wu.routine_no[1]) {
+    case 0:
+        if (ewk->wu.hit_stop) {
+            ewk->wu.hit_stop--;
+            break;
+        }
+
+        add_mvxy_speed(&ewk->wu);
+        cal_mvxy_speed(&ewk->wu);
+        char_move(&ewk->wu);
+
+        if ((ewk->wu.xyz[1].disp.pos + ewk->wu.cg_jphos) <= 0) {
+            ewk->wu.mvxy.a[0].sp = 0;
+            ewk->wu.mvxy.a[1].sp = 0;
+            ewk->wu.mvxy.d[0].sp = 0;
+            ewk->wu.mvxy.d[1].sp = 0;
+            set_char_move_init(&ewk->wu, 0, twk->erex);
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 1;
+            ewk->wu.xyz[1].disp.pos = -ewk->wu.cg_jphos;
+            break;
+        }
+
+        if (--ewk->wu.dir_timer >= 0 && !screen_range_check(&ewk->wu)) {
+            break;
+        }
+
+        ewk->wu.mvxy.a[0].sp /= 4;
+        ewk->wu.mvxy.a[1].sp /= 4;
+        set_char_move_init(&ewk->wu, 0, twk->ernm);
+        ewk->wu.routine_no[1] = 2;
+        ewk->wu.routine_no[2] = 0;
+        break;
+
+    case 1:
+        ewk->wu.vital_new -= ewk->wu.dm_vital;
+        ewk->wu.dm_vital = 0;
+
+        if (ewk->wu.vital_new < 256) {
+            if (ewk->wu.hf.hit.player) {
+                if (ewk->wu.hf.hit.player & 0xF0) {
+                    set_char_move_init(&ewk->wu, 0, twk->erdf);
+                } else {
+                    set_char_move_init(&ewk->wu, 0, twk->erht);
+                }
+            } else {
+                set_char_move_init(&ewk->wu, 0, twk->erex);
+            }
+
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 1;
+            ewk->wu.kage_flag = 0;
+            ewk->wu.hit_stop = 0;
+        } else {
+            ewk->wu.routine_no[1] = 0;
+
+            if (ewk->wu.hf.hit.player) {
+                if (ewk->wu.hf.hit.player & 0xF0) {
+                    effect_96_init(&ewk->wu, twk->erdf, ewk->wu.disp_flag, ewk->wu.hit_stop);
+                } else {
+                    effect_96_init(&ewk->wu, twk->erht, ewk->wu.disp_flag, ewk->wu.hit_stop);
+                }
+            } else if (ewk->dm_refrect) {
+                effect_96_init(&ewk->wu, twk->erex, ewk->wu.disp_flag, ewk->wu.hit_stop);
+            } else {
+                set_char_move_init(&ewk->wu, 0, twk->erex);
+                ewk->wu.routine_no[1] = 2;
+                ewk->wu.routine_no[2] = 1;
+                ewk->wu.kage_flag = 0;
+                ewk->wu.hit_stop = 0;
+            }
+
+            if (ewk->dm_refrect) {
+                ewk->master_id = (ewk->master_id + 1) & 1;
+                ewk->wu.rl_flag = (ewk->wu.rl_flag + 1) & 1;
+                ewk->dm_refrect = 0;
+            }
+        }
+
+        ewk->wu.hf.hit_flag = 0;
+        ewk->wu.hit_quake = 0;
+        break;
+
+    case 2:
+        switch (ewk->wu.routine_no[2]) {
+        case 0:
+            add_mvxy_speed(&ewk->wu);
+            cal_mvxy_speed(&ewk->wu);
+            /* fallthrough */
+
+        case 1:
+            char_move(&ewk->wu);
+            if (ewk->wu.cg_type == 0xFF) {
+                ewk->wu.disp_flag = 0;
+                ewk->wu.routine_no[0] = 2;
+            }
+            break;
+        }
+
+        break;
+    }
+}
+
+void kotp_09000(WORK_Other *ewk, TAMA *twk) {
+#if defined(TARGET_PS2)
+    s32 effect_96_init(WORK * wk, u32 chix, s32 dspf, s32 /* unused */);
+#endif
+
+    if (ewk->wu.hf.hit_flag) {
+        ewk->wu.routine_no[1] = 1;
+    }
+
+    switch (ewk->wu.routine_no[1]) {
+    case 0:
+        if (ewk->wu.hit_stop) {
+            ewk->wu.hit_stop--;
+            break;
+        }
+
+        add_mvxy_speed(&ewk->wu);
+        cal_mvxy_speed(&ewk->wu);
+        char_move(&ewk->wu);
+
+        if (ewk->wu.cg_type == 0xFF) {
+            set_char_move_init(&ewk->wu, 0, twk->ernm);
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 0;
+            break;
+        }
+
+        if ((ewk->wu.xyz[1].disp.pos + ewk->wu.cg_jphos) <= 0) {
+            ewk->wu.mvxy.a[0].sp = 0;
+            ewk->wu.mvxy.a[1].sp = 0;
+            ewk->wu.mvxy.d[0].sp = 0;
+            ewk->wu.mvxy.d[1].sp = 0;
+            set_char_move_init(&ewk->wu, 0, twk->erex);
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 1;
+            ewk->wu.xyz[1].disp.pos = -ewk->wu.cg_jphos;
+            break;
+        }
+
+        if (--ewk->wu.dir_timer >= 0 && !screen_range_check(&ewk->wu)) {
+            break;
+        }
+
+        ewk->wu.mvxy.a[0].sp /= 4;
+        ewk->wu.mvxy.a[1].sp /= 4;
+        set_char_move_init(&ewk->wu, 0, twk->ernm);
+        ewk->wu.routine_no[1] = 2;
+        ewk->wu.routine_no[2] = 0;
+        break;
+
+    case 1:
+        ewk->wu.vital_new -= ewk->wu.dm_vital;
+        ewk->wu.dm_vital = 0;
+
+        if (ewk->wu.vital_new < 256) {
+            if (ewk->wu.hf.hit.player) {
+                if (ewk->wu.hf.hit.player & 0xF0) {
+                    set_char_move_init(&ewk->wu, 0, twk->erdf);
+                } else {
+                    set_char_move_init(&ewk->wu, 0, twk->erht);
+                }
+            } else {
+                set_char_move_init(&ewk->wu, 0, twk->erex);
+            }
+
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 1;
+            ewk->wu.kage_flag = 0;
+            ewk->wu.hit_stop = 0;
+        } else {
+            ewk->wu.routine_no[1] = 0;
+
+            if (ewk->wu.hf.hit.player) {
+                if (ewk->wu.hf.hit.player & 0xF0) {
+                    set_char_move_init(&ewk->wu, 0, twk->erdf);
+                } else {
+                    set_char_move_init(&ewk->wu, 0, twk->erht);
+                }
+
+                ewk->wu.routine_no[1] = 2;
+                ewk->wu.routine_no[2] = 1;
+                ewk->wu.kage_flag = 0;
+                ewk->wu.hit_stop = 0;
+            } else {
+                effect_96_init(&ewk->wu, twk->erex, ewk->wu.disp_flag, ewk->wu.hit_stop);
+            }
+
+            if (ewk->dm_refrect) {
+                ewk->master_id = (ewk->master_id + 1) & 1;
+                ewk->wu.rl_flag = (ewk->wu.rl_flag) + 1 & 1;
+                ewk->dm_refrect = 0;
+            }
+        }
+
+        ewk->wu.hf.hit_flag = 0;
+        ewk->wu.hit_quake = 0;
+        break;
+
+    case 2:
+        switch (ewk->wu.routine_no[2]) {
+        case 0:
+            add_mvxy_speed(&ewk->wu);
+            cal_mvxy_speed(&ewk->wu);
+            /* fallthrough */
+
+        case 1:
+            char_move(&ewk->wu);
+
+            if (ewk->wu.cg_type == 0xFF) {
+                ewk->wu.disp_flag = 0;
+                ewk->wu.routine_no[0] = 2;
+            }
+
+            break;
+        }
+
+        break;
+    }
+}
+
+void kotp_10000(WORK_Other *ewk, TAMA *twk) {
+    char_move(&ewk->wu);
+
+    if (ewk->wu.cg_type == 0xFF) {
+        ewk->wu.routine_no[0] = 2;
+        return;
+    }
+}
+
+void kotp_11000(WORK_Other *ewk, TAMA *twk) {
+    PLW *mwk = (PLW *)ewk->my_master;
+
+    switch (ewk->wu.routine_no[1]) {
+    case 0:
+    case 1:
+        if (mwk->sa_stop_flag == 1) {
+            break;
+        }
+
+        char_move(&ewk->wu);
+        add_mvxy_speed(&ewk->wu);
+        cal_mvxy_speed(&ewk->wu);
+
+        if (ewk->wu.xyz[1].disp.pos <= 0) {
+            ewk->wu.mvxy.a[1].sp = ewk->wu.mvxy.d[1].sp = ewk->wu.mvxy.kop[1] = 0;
+            set_char_move_init(&ewk->wu, 0, twk->erex);
+            ewk->wu.xyz[1].disp.pos = 0;
+            ewk->wu.routine_no[1] = 2;
+        }
+
+        break;
+
+    case 2:
+        if (mwk->sa_stop_flag == 1) {
+            break;
+        }
+
+        char_move(&ewk->wu);
+        add_mvxy_speed(&ewk->wu);
+        cal_mvxy_speed(&ewk->wu);
+
+        if (ewk->wu.cg_type == 0xFF) {
+            ewk->wu.disp_flag = 0;
+            ewk->wu.routine_no[0] = 2;
+        }
+
+        break;
+    }
+
+    if (ewk->wu.position_z == ewk->wu.next_z) {
+        ewk->wu.position_z = ewk->wu.my_priority;
+        return;
+    }
+
+    ewk->wu.position_z = ewk->wu.next_z;
+}
+
+void kotp_12000(WORK_Other *ewk, TAMA *twk) {
+#if defined(TARGET_PS2)
+    s32 effect_96_init(WORK * wk, u32 chix, s32 dspf, s32 /* unused */);
+#endif
+
+    if (ewk->wu.hf.hit_flag) {
+        ewk->wu.routine_no[1] = 1;
+    }
+
+    switch (ewk->wu.routine_no[1]) {
+    case 0:
+        if (ewk->wu.hit_stop) {
+            if (ewk->wu.hit_stop == 1) {
+                ewk->wu.hit_stop = 0;
+                add_mvxy_speed_exp(&ewk->wu, 2);
+            } else {
+                ewk->wu.hit_stop--;
+                break;
+            }
+        } else {
+            add_mvxy_speed(&ewk->wu);
+        }
+
+        cal_mvxy_speed(&ewk->wu);
+        char_move(&ewk->wu);
+
+        if (ewk->wu.cg_type == 10) {
+            add_to_mvxy_data(&ewk->wu, twk->data01);
+            ewk->wu.cg_type = 0;
+            break;
+        }
+
+        if (ewk->wu.cg_type == 0xFF) {
+            set_char_move_init(&ewk->wu, 0, twk->ernm);
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 0;
+            break;
+        }
+
+        if ((ewk->wu.xyz[1].disp.pos + ewk->wu.cg_jphos) <= 0) {
+            ewk->wu.mvxy.a[0].sp = 0;
+            ewk->wu.mvxy.a[1].sp = 0;
+            ewk->wu.mvxy.d[0].sp = 0;
+            ewk->wu.mvxy.d[1].sp = 0;
+            set_char_move_init(&ewk->wu, 0, twk->erex);
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 1;
+            ewk->wu.xyz[1].disp.pos = -ewk->wu.cg_jphos;
+            break;
+        }
+
+        if (--ewk->wu.dir_timer >= 0 && !screen_range_check(&ewk->wu)) {
+            break;
+        }
+
+        ewk->wu.mvxy.a[0].sp /= 4;
+        ewk->wu.mvxy.a[1].sp /= 4;
+        set_char_move_init(&ewk->wu, 0, twk->ernm);
+        ewk->wu.routine_no[1] = 2;
+        ewk->wu.routine_no[2] = 0;
+        break;
+
+    case 1:
+        ewk->wu.vital_new -= ewk->wu.dm_vital;
+        ewk->wu.dm_vital = 0;
+
+        if (ewk->wu.vital_new < 256) {
+            if (ewk->wu.hf.hit.player) {
+                if (ewk->wu.hf.hit.player & 0xF0) {
+                    set_char_move_init(&ewk->wu, 0, twk->erdf);
+                } else {
+                    set_char_move_init(&ewk->wu, 0, twk->erht);
+                }
+            } else {
+                set_char_move_init(&ewk->wu, 0, twk->erex);
+            }
+
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 1;
+            ewk->wu.kage_flag = 0;
+            ewk->wu.hit_stop = 0;
+        } else {
+            ewk->wu.routine_no[1] = 0;
+
+            if (ewk->wu.hf.hit.player) {
+                if (ewk->wu.hf.hit.player & 0xF0) {
+                    effect_96_init(&ewk->wu, twk->erdf, ewk->wu.disp_flag, ewk->wu.hit_stop);
+                } else {
+                    effect_96_init(&ewk->wu, twk->erht, ewk->wu.disp_flag, ewk->wu.hit_stop);
+                }
+            } else {
+                effect_96_init(&ewk->wu, twk->erex, ewk->wu.disp_flag, ewk->wu.hit_stop);
+            }
+
+            if (ewk->dm_refrect) {
+                ewk->master_id = (ewk->master_id + 1) & 1;
+                ewk->wu.rl_flag = (ewk->wu.rl_flag + 1) & 1;
+                ewk->dm_refrect = 0;
+            }
+        }
+
+        ewk->wu.hf.hit_flag = 0;
+        ewk->wu.hit_quake = 0;
+        break;
+
+    case 2:
+        switch (ewk->wu.routine_no[2]) {
+        case 0:
+            add_mvxy_speed(&ewk->wu);
+            cal_mvxy_speed(&ewk->wu);
+            /* fallthrough */
+
+        case 1:
+            char_move(&ewk->wu);
+
+            if (ewk->wu.cg_type == 0xFF) {
+                ewk->wu.disp_flag = 0;
+                ewk->wu.routine_no[0] = 2;
+            }
+
+            break;
+        }
+
+        break;
+    }
+}
+
+void kotp_13000(WORK_Other *ewk, TAMA *twk) {
+    PLW *mwk;
+    PLW *emwk;
+    s16 ipos_x;
+
+    if (ewk->wu.hf.hit_flag) {
+        ewk->wu.routine_no[1] = 1;
+    }
+
+    mwk = (PLW *)ewk->my_master;
+
+    if (mwk->wu.routine_no[1] != 4) {
+        ewk->wu.routine_no[0] = 2;
+        ewk->wu.disp_flag = 0;
+        return;
+    }
+
+    switch (ewk->wu.routine_no[1]) {
+    case 0:
+        if (ewk->wu.hit_stop) {
+            ewk->wu.hit_stop--;
+            break;
+        }
+
+        if (!ewk->wu.routine_no[3]) {
+            ewk->wu.xyz[1].disp.pos = 0;
+            ewk->wu.routine_no[3]++;
+
+            if (twk->data00) {
+                mwk = (PLW *)ewk->my_master;
+                emwk = (PLW *)mwk->wu.target_adrs;
+                ipos_x = enemy_pos_hos[0][emwk->player_number][0];
+                ewk->wu.xyz[0].disp.pos =
+                    emwk->wu.rl_flag ? emwk->wu.xyz[0].disp.pos + ipos_x : emwk->wu.xyz[0].disp.pos - ipos_x;
+            }
+        }
+
+        char_move(&ewk->wu);
+
+        if (ewk->wu.cg_type == 0xFF) {
+            set_char_move_init(&ewk->wu, 0, twk->ernm);
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 0;
+            break;
+        }
+
+        if (screen_range_check(&ewk->wu)) {
+            ewk->wu.routine_no[0] = 2;
+            ewk->wu.disp_flag = 0;
+            break;
+        }
+
+        break;
+
+    case 1:
+        ewk->wu.vital_new -= ewk->wu.dm_vital;
+        ewk->wu.dm_vital = 0;
+
+        if (ewk->wu.vital_new < 256) {
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 1;
+            ewk->wu.kage_flag = 0;
+            ewk->wu.hit_stop = 0;
+            ewk->wu.att_hit_ok = 0;
+        } else {
+            ewk->wu.routine_no[1] = 0;
+        }
+
+        ewk->wu.hf.hit_flag = 0;
+        ewk->wu.hit_quake = 0;
+        break;
+
+    case 2:
+        char_move(&ewk->wu);
+        ewk->wu.att_hit_ok = 0;
+
+        if (ewk->wu.cg_type == 0xFF) {
+            ewk->wu.routine_no[0] = 2;
+            ewk->wu.disp_flag = 0;
+        }
+
+        break;
+    }
+}
+
+void kotp_14000(WORK_Other *ewk, TAMA * /* unused */) {
+    char_move(&ewk->wu);
+
+    if (ewk->wu.hf.hit_flag) {
+        ((WORK *)ewk->my_master)->hf.hit_flag = ewk->wu.hf.hit_flag;
+        ewk->wu.hf.hit_flag = 0;
+    }
+
+    if (ewk->wu.cg_type == 0xFF) {
+        ewk->wu.disp_flag = 0;
+        ewk->wu.routine_no[0] = 2;
+    }
+}
+
+void kotp_15000(WORK_Other *ewk, TAMA *twk) {
+    if (ewk->wu.hf.hit_flag) {
+        ewk->wu.routine_no[1] = 1;
+    }
+
+    switch (ewk->wu.routine_no[1]) {
+    case 0:
+        if (ewk->wu.hit_stop) {
+            ewk->wu.hit_stop--;
+            break;
+        }
+
+        add_mvxy_speed(&ewk->wu);
+        cal_mvxy_speed(&ewk->wu);
+        char_move(&ewk->wu);
+
+        if (ewk->wu.cg_type == 0xFF) {
+            set_char_move_init(&ewk->wu, 0, twk->ernm);
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 0;
+            break;
+        }
+
+        if (--ewk->wu.dir_timer >= 0 && !tama15_screen_check(&ewk->wu)) {
+            break;
+        }
+
+        ewk->wu.mvxy.a[0].sp = 0;
+        ewk->wu.mvxy.a[1].sp = 0;
+        ewk->wu.mvxy.d[0].sp = 0;
+        ewk->wu.mvxy.d[1].sp = 0;
+        set_char_move_init(&ewk->wu, 0, twk->ernm);
+        ewk->wu.routine_no[1] = 2;
+        ewk->wu.routine_no[2] = 0;
+        break;
+
+    case 1:
+        ewk->wu.vital_new -= ewk->wu.dm_vital;
+        ewk->wu.dm_vital = 0;
+
+        if (ewk->wu.vital_new < 256) {
+            set_char_move_init(&ewk->wu, 0, twk->ernm);
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 0;
+        } else {
+            ewk->wu.routine_no[1] = 0;
+        }
+
+        ewk->wu.hf.hit_flag = 0;
+        ewk->wu.hit_quake = 0;
+        pp_pulpara_hit((WORK *)ewk->my_master);
+        break;
+
+    case 2:
+        switch (ewk->wu.routine_no[2]) {
+        case 0:
+            add_mvxy_speed(&ewk->wu);
+            cal_mvxy_speed(&ewk->wu);
+            /* fallthrough */
+
+        case 1:
+            char_move(&ewk->wu);
+
+            if (ewk->wu.cg_type == 0xFF) {
+                ewk->wu.disp_flag = 0;
+                ewk->wu.routine_no[0] = 2;
+            }
+
+            break;
+        }
+
+        break;
+    }
+}
+
+void kotp_16000(WORK_Other *ewk, TAMA *twk) {
+#if defined(TARGET_PS2)
+    s32 effect_96_init(WORK * wk, u32 chix, s32 dspf, s32 /* unused */);
+#endif
+
+    if (ewk->wu.hf.hit_flag) {
+        ewk->wu.routine_no[1] = 1;
+    }
+
+    switch (ewk->wu.routine_no[1]) {
+    case 0:
+        if (ewk->wu.hit_stop) {
+            if (ewk->wu.hit_stop == 1) {
+                ewk->wu.hit_stop = 0;
+            } else {
+                ewk->wu.hit_stop--;
+                break;
+            }
+        } else {
+            add_mvxy_speed(&ewk->wu);
+
+            if (ewk->wu.rl_flag) {
+                ewk->wu.xyz[0].cal += 0x38000;
+            } else {
+                ewk->wu.xyz[0].cal += -0x38000;
+            }
+        }
+
+        cal_mvxy_speed(&ewk->wu);
+        char_move(&ewk->wu);
+
+        if (ewk->wu.cg_type == 0xFF) {
+            set_char_move_init(&ewk->wu, 0, twk->ernm);
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 0;
+            break;
+        }
+
+        if ((ewk->wu.xyz[1].disp.pos + ewk->wu.cg_jphos) <= 0) {
+            ewk->wu.mvxy.a[0].sp = 0;
+            ewk->wu.mvxy.a[1].sp = 0;
+            ewk->wu.mvxy.d[0].sp = 0;
+            ewk->wu.mvxy.d[1].sp = 0;
+            set_char_move_init(&ewk->wu, 0, twk->erex);
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 1;
+            ewk->wu.xyz[1].disp.pos = -ewk->wu.cg_jphos;
+            break;
+        }
+
+        if (--ewk->wu.dir_timer >= 0 && !screen_range_check(&ewk->wu)) {
+            break;
+        }
+
+        set_char_move_init(&ewk->wu, 0, twk->ernm);
+        ewk->wu.routine_no[1] = 2;
+        ewk->wu.routine_no[2] = 0;
+        break;
+
+    case 1:
+        ewk->wu.vital_new -= ewk->wu.dm_vital;
+        ewk->wu.dm_vital = 0;
+
+        if (ewk->wu.vital_new < 256) {
+            if (ewk->wu.hf.hit.player) {
+                if (ewk->wu.hf.hit.player & 0xF0) {
+                    set_char_move_init(&ewk->wu, 0, twk->erdf);
+                } else {
+                    set_char_move_init(&ewk->wu, 0, twk->erht);
+                }
+            } else {
+                set_char_move_init(&ewk->wu, 0, twk->erex);
+            }
+
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 1;
+            ewk->wu.kage_flag = 0;
+            ewk->wu.hit_stop = 0;
+        } else {
+            ewk->wu.routine_no[1] = 0;
+
+            if (ewk->wu.hf.hit.player) {
+                if (ewk->wu.hf.hit.player & 0xF0) {
+                    effect_96_init(&ewk->wu, twk->erdf, ewk->wu.disp_flag, ewk->wu.hit_stop);
+                } else {
+                    effect_96_init(&ewk->wu, twk->erht, ewk->wu.disp_flag, ewk->wu.hit_stop);
+                }
+            } else {
+                effect_96_init(&ewk->wu, twk->erex, ewk->wu.disp_flag, ewk->wu.hit_stop);
+            }
+
+            if (ewk->dm_refrect) {
+                ewk->master_id = (ewk->master_id + 1) & 1;
+                ewk->wu.rl_flag = (ewk->wu.rl_flag + 1) & 1;
+                ewk->dm_refrect = 0;
+            }
+        }
+
+        ewk->wu.hf.hit_flag = 0;
+        ewk->wu.hit_quake = 0;
+        break;
+
+    case 2:
+        switch (ewk->wu.routine_no[2]) {
+        case 0:
+            add_mvxy_speed(&ewk->wu);
+            cal_mvxy_speed(&ewk->wu);
+            /* fallthrough */
+
+        case 1:
+            char_move(&ewk->wu);
+
+            if (ewk->wu.cg_type == 0xFF) {
+                ewk->wu.disp_flag = 0;
+                ewk->wu.routine_no[0] = 2;
+            }
+
+            break;
+        }
+
+        break;
+    }
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", effect_13_init);
