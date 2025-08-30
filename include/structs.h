@@ -2840,4 +2840,10 @@ typedef struct {
     s16 chix;   // offset 0xE, size 0x2
 } PLEF;
 
+typedef struct {
+    // total size: 0x4
+    s16 pos_x; // offset 0x0, size 0x2
+    s16 pos_y; // offset 0x2, size 0x2
+} ImageBuff;
+
 #endif
