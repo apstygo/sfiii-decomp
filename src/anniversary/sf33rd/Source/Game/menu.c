@@ -3952,6 +3952,10 @@ void Exit_Replay_Save(struct _TASK *task_ptr) {
 }
 
 void Decide_PL(s16 PL_id) {
+#if defined(TARGET_PS2)
+    void grade_check_work_1st_init(s32 ix, s32 ix2);
+#endif
+
     plw[PL_id].wu.operator = 1;
     Operator_Status[PL_id] = 1;
     Champion = PL_id;
