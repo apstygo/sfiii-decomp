@@ -882,13 +882,157 @@ void kotp_05000(WORK_Other *ewk, TAMA *twk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", kotp_06000);
-#else
 void kotp_06000(WORK_Other *ewk, TAMA *twk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s32 effect_96_init(WORK * wk, u32 chix, s32 dspf, s32 /* unused */);
 #endif
+
+    PLW *mwk;
+    PLW *emwk;
+    s16 dir;
+    s16 emdir;
+    s16 *target_x;
+    s16 *target_y;
+
+    mwk = (PLW *)ewk->my_master;
+    emwk = (PLW *)mwk->wu.target_adrs;
+    target_x = &ewk->wu.E3_work_index;
+    target_y = &ewk->wu.E4_work_index;
+
+    if (ewk->wu.hf.hit_flag) {
+        ewk->wu.routine_no[1] = 1;
+    }
+
+    switch (ewk->wu.routine_no[1]) {
+    case 0:
+        if (ewk->wu.hit_stop) {
+            ewk->wu.hit_stop--;
+            break;
+        }
+
+        switch (ewk->wu.routine_no[3]) {
+        case 0:
+            ewk->wu.routine_no[3]++;
+            ewk->wu.kezurare_flag = 6;
+            ewk->wu.direction = ewk->wu.rl_flag ? twk->data01 : 256 - twk->data01 & 0xFF;
+            effect_I9_init(ewk, 2, 3, 0x77);
+            break;
+
+        case 1:
+            if (ewk->wu.kezurare_flag--) {
+                break;
+            }
+
+            ewk->wu.routine_no[3]++;
+            ewk->wu.kezurare_flag = 0x70;
+            /* fallthrough */
+
+        case 2:
+            *target_x = homing_empos_hos[0][ewk->master_player][0];
+            *target_x = mwk->wu.rl_flag ? emwk->wu.xyz[0].disp.pos - *target_x : emwk->wu.xyz[0].disp.pos + *target_x;
+            *target_y = homing_empos_hos[0][ewk->master_player][1] + emwk->wu.xyz[1].disp.pos;
+            dir = ewk->wu.direction;
+            emdir = caldir_pos_256(ewk->wu.xyz[0].disp.pos, ewk->wu.xyz[1].disp.pos, *target_x, *target_y);
+            dir += (emdir - (dir - 0x80) & 0xFF) > 0x80 ? 4 : -4;
+            dir = dir & 0xFF;
+            ewk->wu.mvxy.a[0].sp = (rate_256_table[dir][0] * 480) / 256;
+            ewk->wu.mvxy.a[0].sp *= ewk->wu.rl_flag ? 1 : -1;
+            ewk->wu.mvxy.a[1].sp = (rate_256_table[dir][1] * 512) / 256;
+            ewk->wu.direction = dir;
+
+            if (ewk->wu.mvxy.a[0].sp < 0) {
+                ewk->wu.routine_no[3]++;
+            } else if (!ewk->wu.kezurare_flag--) {
+                ewk->wu.routine_no[3]++;
+            }
+
+            break;
+        }
+
+        add_mvxy_speed(&ewk->wu);
+        cal_mvxy_speed(&ewk->wu);
+        char_move(&ewk->wu);
+
+        if ((ewk->wu.xyz[1].disp.pos + ewk->wu.cg_jphos) <= 0) {
+            ewk->wu.mvxy.a[0].sp = 0;
+            ewk->wu.mvxy.a[1].sp = 0;
+            ewk->wu.mvxy.d[0].sp = 0;
+            ewk->wu.mvxy.d[1].sp = 0;
+            set_char_move_init(&ewk->wu, 0, twk->erex);
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 1;
+            ewk->wu.xyz[1].disp.pos = -ewk->wu.cg_jphos;
+            return;
+        }
+
+        if (--ewk->wu.dir_timer < 0 || screen_range_check(&ewk->wu) != 0) {
+            ewk->wu.mvxy.a[0].sp /= 4;
+            ewk->wu.mvxy.a[1].sp /= 4;
+            set_char_move_init(&ewk->wu, 0, twk->ernm);
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 0;
+        }
+
+        break;
+
+    case 1:
+        ewk->wu.vital_new -= ewk->wu.dm_vital;
+        ewk->wu.dm_vital = 0;
+
+        if (ewk->wu.vital_new < 256) {
+            if (ewk->wu.hf.hit.player) {
+                if (ewk->wu.hf.hit.player & 0xF0) {
+                    set_char_move_init(&ewk->wu, 0, twk->erdf);
+                } else {
+                    set_char_move_init(&ewk->wu, 0, twk->erht);
+                }
+            } else {
+                set_char_move_init(&ewk->wu, 0, twk->erex);
+            }
+
+            ewk->wu.routine_no[1] = 2;
+            ewk->wu.routine_no[2] = 1;
+            ewk->wu.kage_flag = 0;
+            ewk->wu.hit_stop = 0;
+        } else {
+            ewk->wu.routine_no[1] = 0;
+
+            if (ewk->wu.hf.hit.player) {
+                if (ewk->wu.hf.hit.player & 0xF0) {
+                    effect_96_init(&ewk->wu, twk->erdf, ewk->wu.disp_flag, ewk->wu.hit_stop);
+                } else {
+                    effect_96_init(&ewk->wu, twk->erht, ewk->wu.disp_flag, ewk->wu.hit_stop);
+                }
+            } else {
+                effect_96_init(&ewk->wu, twk->erex, ewk->wu.disp_flag, ewk->wu.hit_stop);
+            }
+        }
+
+        ewk->wu.hf.hit_flag = 0;
+        ewk->wu.hit_quake = 0;
+        break;
+
+    case 2:
+        switch (ewk->wu.routine_no[2]) {
+        case 0:
+            add_mvxy_speed(&ewk->wu);
+            cal_mvxy_speed(&ewk->wu);
+            /* fallthrough */
+
+        case 1:
+            char_move(&ewk->wu);
+
+            if (ewk->wu.cg_type == 0xFF) {
+                ewk->wu.disp_flag = 0;
+                ewk->wu.routine_no[0] = 2;
+            }
+
+            break;
+        }
+
+        break;
+    }
+}
 
 void kotp_07000(WORK_Other *ewk, TAMA *twk) {
 #if defined(TARGET_PS2)
@@ -1741,13 +1885,60 @@ void kotp_16000(WORK_Other *ewk, TAMA *twk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF13", effect_13_init);
-#else
-s32 effect_13_init(WORK *wk, const u8 data) {
-    not_implemented(__func__);
+s32 effect_13_init(WORK *wk, u8 data) {
+    void write_my_shell_ix(WORK * wk, s32 ix);
+
+    WORK_Other *ewk;
+    s16 ix;
+
+    if ((ix = pull_effect_work(3)) == -1) {
+        return -1;
+    }
+
+    ewk = (WORK_Other *)frw[ix];
+    write_my_shell_ix(wk, ix);
+
+    if (wk->work_id == 1 && wk->rl_flag == 1 && ((PLW *)wk)->player_number == 0) {
+        data++;
+    }
+
+    ewk->wu.be_flag = 1;
+    ewk->wu.id = 13;
+    ewk->wu.type = data;
+    ewk->wu.operator = wk->operator;
+    ewk->wu.rl_flag = wk->rl_flag;
+    ewk->wu.my_family = wk->my_family;
+    ewk->wu.cgromtype = wk->cgromtype;
+    ewk->wu.my_col_mode = wk->my_col_mode;
+    ewk->wu.old_rno[7] = wk->my_col_code;
+    ewk->wu.weight_level = wk->weight_level;
+    ewk->wu.rl_waza = Round_num;
+    ewk->my_master = (u32 *)wk;
+
+    if (wk->work_id == 1) {
+        ewk->master_player = ((PLW *)wk)->player_number;
+        ewk->master_id = wk->id;
+        ewk->master_work_id = wk->work_id;
+        ewk->wu.olc_work_ix[0] = ((PLW *)wk)->tk_dageki;
+        ewk->wu.olc_work_ix[1] = ((PLW *)wk)->tk_nage;
+        ewk->wu.olc_work_ix[2] = ((PLW *)wk)->tk_kizetsu;
+        ewk->wu.olc_work_ix[3] = wk->routine_no[1];
+    } else {
+        ewk->master_player = ((WORK_Other *)wk)->master_player;
+        ewk->master_id = ((WORK_Other *)wk)->master_id;
+        ewk->master_work_id = ((WORK_Other *)wk)->master_work_id;
+    }
+
+    ewk->wu.xyz[0] = wk->xyz[0];
+    ewk->wu.xyz[1] = wk->xyz[1];
+    ewk->wu.my_effadrs = (u32 *)&tama_data[data];
+
+    if (wk->work_id == 1) {
+        ewk->wu.floor = ((PLW *)wk)->metamorphose;
+    }
+
+    return 0;
 }
-#endif
 
 const s16 kotp_07_dm_vital[4] = { 96, 240, 384, 384 };
 
