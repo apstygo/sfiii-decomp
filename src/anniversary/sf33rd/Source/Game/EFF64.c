@@ -1,140 +1,224 @@
 #include "sf33rd/Source/Game/EFF64.h"
 #include "common.h"
+#include "sf33rd/Source/Game/EFF61.h"
+#include "sf33rd/Source/Game/EFFECT.h"
+#include "sf33rd/Source/Game/Sel_Data.h"
+#include "sf33rd/Source/Game/aboutspr.h"
+#include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/texcash.h"
+#include "sf33rd/Source/Game/workuser.h"
 
-// Letter_Data_64
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_280_0050B880);
+void EFF64_WAIT(WORK_Other_CONN *ewk);
+void EFF64_SLIDE_IN(WORK_Other_CONN *ewk);
+void EFF64_CHAR_CHANGE(WORK_Other_CONN * /* unused */);
+void EFF64_SUDDENLY(WORK_Other_CONN * /* unused */);
+void Disp_64_Sub(WORK_Other_CONN *ewk);
+void Setup_Letter_64(WORK_Other_CONN *ewk, s16 disp_index);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_281_0050B888);
+const s8 *Letter_Data_64[16][16] = {
+    { "\"OFF\"", "\"/ON/\"", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    { "#;;;;;;;",
+      "##;;;;;;",
+      "###;;;;;",
+      "####;;;;",
+      "#####;;;",
+      "######;;",
+      "#######;",
+      "########",
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL },
+    { "30", "60", "99", "{", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    { "1", "3", "5", "7", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    { "#;;;", "##;;", "###;", "####", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    { "OLD", "NEW", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    { "DISABLE", "ENABLE", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    { "OFF", "ON", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    { "HUMAN", "CPU", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    { "ENGLISH", "JAPANESE", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    { "SYSTEM  NORMAL",
+      "SYSTEM  ORIGINAL",
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL },
+    { "Stereo", "Monaural", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    { "Silence", "-14", "-13", "-12", "-11", "-10", "-9", "-8", "-7", "-6", "-5", "-4", "-3", "-2", "-1", "Standard" },
+    { "Arrange", "Original", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    { "-PLAY(A)", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    { " STOP(B) BUTTON-", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
+};
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_282_0050B890);
+void (*const EFF64_Jmp_Tbl[4])() = { EFF64_WAIT, EFF64_SLIDE_IN, EFF64_CHAR_CHANGE, EFF64_SUDDENLY };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_283_0050B8A0);
+void effect_64_move(WORK_Other_CONN *ewk) {
+    if (Check_Die_61((WORK_Other *)ewk)) {
+        push_effect_work(&ewk->wu);
+        return;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_284_0050B8B0);
+    EFF64_Jmp_Tbl[ewk->wu.routine_no[0]](ewk);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_285_0050B8C0);
+    if (ewk->wu.be_flag == 0) {
+        return;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_286_0050B8D0);
+    ewk->wu.position_x = ewk->wu.xyz[0].disp.pos & 0xFFFF;
+    ewk->wu.position_y = ewk->wu.xyz[1].disp.pos & 0xFFFF;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_287_0050B8E0);
+    if (Menu_Cursor_Y[0] == ewk->wu.type) {
+        ewk->wu.my_clear_level = 0;
+    } else {
+        ewk->wu.my_clear_level = 128;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_288_0050B8F0);
+    sort_push_request3(&ewk->wu);
+}
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_289_0050B900);
+void EFF64_WAIT(WORK_Other_CONN *ewk) {
+    if ((ewk->wu.routine_no[0] = Order[ewk->wu.dir_old])) {
+        ewk->wu.routine_no[1] = 0;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_290_0050B910);
+    Disp_64_Sub(ewk);
+}
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_291_0050B918);
+void EFF64_SLIDE_IN(WORK_Other_CONN *ewk) {
+    if (Order[ewk->wu.dir_old] != 1) {
+        ewk->wu.routine_no[0] = Order[ewk->wu.dir_old];
+        ewk->wu.routine_no[1] = 0;
+        return;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_292_0050B920);
+    switch (ewk->wu.routine_no[1]) {
+    case 0:
+        if (--Order_Timer[ewk->wu.dir_old]) {
+            break;
+        }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_293_0050B928);
+        ewk->wu.routine_no[1]++;
+        ewk->wu.disp_flag = 1;
+        ewk->wu.xyz[0].disp.pos =
+            bg_w.bgw[ewk->wu.my_family - 1].wxy[0].disp.pos + Slide_Pos_Data_64[ewk->wu.dir_step][0] + 384;
+        ewk->wu.xyz[1].disp.pos =
+            bg_w.bgw[ewk->wu.my_family - 1].wxy[1].disp.pos + Slide_Pos_Data_64[ewk->wu.dir_step][1];
+        ewk->wu.position_z = 70;
+        ewk->wu.hit_quake = bg_w.bgw[ewk->wu.my_family - 1].wxy[0].disp.pos + Slide_Pos_Data_64[ewk->wu.dir_step][0];
+        ewk->wu.mvxy.a[0].sp = -0x400000;
+        ewk->wu.mvxy.d[0].sp = 0x50000;
+        break;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_294_0050B930);
+    default:
+        ewk->wu.xyz[0].cal += ewk->wu.mvxy.a[0].sp;
+        ewk->wu.mvxy.a[0].sp += ewk->wu.mvxy.d[0].sp;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_295_0050B938);
+        if (ewk->wu.hit_quake < ewk->wu.xyz[0].disp.pos) {
+            break;
+        }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_296_0050B940);
+        if (Order[ewk->wu.dir_old] == ewk->wu.routine_no[0]) {
+            Order[ewk->wu.dir_old] = 0;
+        }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_297_0050B948);
+        ewk->wu.routine_no[0] = 0;
+        ewk->wu.xyz[0].disp.pos = ewk->wu.hit_quake;
+        break;
+    }
+}
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_298_0050B950);
+void EFF64_CHAR_CHANGE(WORK_Other_CONN * /* unused */) {}
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_299_0050B958);
+void EFF64_SUDDENLY(WORK_Other_CONN * /* unused */) {}
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_300_0050B960);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_301_0050B968);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_302_0050B970);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_303_0050B978);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_304_0050B980);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_305_0050B988);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_306_0050B990);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_307_0050B998);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_308_0050B9A0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_309_0050B9A8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_310_0050B9B0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_311_0050B9B8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_312_0050B9C8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_313_0050B9E0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_314_0050B9F8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_315_0050BA00);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_316_0050BA10);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_317_0050BA18);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_318_0050BA20);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_319_0050BA28);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_320_0050BA30);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_321_0050BA38);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_322_0050BA40);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_323_0050BA48);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_324_0050BA50);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_325_0050BA58);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_326_0050BA60);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_327_0050BA68);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_328_0050BA70);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_329_0050BA78);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_330_0050BA80);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_331_0050BA88);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_332_0050BA98);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_333_0050BAA0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_334_0050BAB0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", literal_335_0050BAC0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", EFF64_Jmp_Tbl);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", effect_64_move);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", EFF64_WAIT);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", EFF64_SLIDE_IN);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", EFF64_CHAR_CHANGE);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", EFF64_SUDDENLY);
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", effect_64_init);
-#else
 s32 effect_64_init(u8 dir_old, s16 sync_bg, s16 master_player, s16 letter_type, s16 cursor_index, u16 char_offset,
                    s16 pos_index, s16 convert_id, s16 convert_id2) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 get_my_trans_mode(s32 curr);
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", Disp_64_Sub);
+    WORK_Other_CONN *ewk;
+    s16 ix;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF64", Setup_Letter_64);
+    if ((ix = pull_effect_work(4)) == -1) {
+        return -1;
+    }
+
+    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk->wu.be_flag = 1;
+    ewk->wu.id = 64;
+    ewk->wu.work_id = 16;
+    ewk->wu.my_family = sync_bg + 1;
+    ewk->wu.my_col_code = 0x1AC;
+    ewk->wu.dir_step = pos_index;
+    ewk->wu.type = cursor_index;
+    ewk->wu.char_index = letter_type;
+    ewk->wu.dir_old = dir_old;
+    ewk->master_player = master_player;
+    ewk->wu.old_cgnum = char_offset;
+    ewk->master_priority = convert_id;
+    ewk->wu.cg_type = convert_id2;
+    ewk->wu.my_mts = 13;
+    ewk->wu.my_trans_mode = get_my_trans_mode(ewk->wu.my_mts);
+    Disp_64_Sub(ewk);
+    return 0;
+}
+
+void Disp_64_Sub(WORK_Other_CONN *ewk) {
+    Setup_Letter_64(ewk, Convert_Buff[ewk->master_priority][ewk->wu.cg_type][ewk->wu.type]);
+}
+
+void Setup_Letter_64(WORK_Other_CONN *ewk, s16 disp_index) {
+    s16 x;
+    s16 ix;
+    s16 offset_x;
+    const u8 *ptr;
+
+    if (ewk->wu.old_cgnum == 0x70A7) {
+        offset_x = 8;
+    } else {
+        offset_x = 14;
+    }
+
+    ptr = (u8 *)Letter_Data_64[ewk->wu.char_index][disp_index];
+    ix = 0;
+    x = 0;
+
+    while (*ptr != NULL) {
+        if (*ptr == ' ') {
+            x += offset_x;
+            ptr++;
+            continue;
+        }
+
+        if (*ptr == '/') {
+            x += offset_x / 2;
+            ptr++;
+            continue;
+        }
+
+        ewk->conn[ix].nx = x;
+        ewk->conn[ix].ny = 0;
+        ewk->conn[ix].col = 0;
+        ewk->conn[ix].chr = ewk->wu.old_cgnum + *ptr;
+        x += offset_x;
+        ptr++;
+        ix++;
+    }
+
+    ewk->num_of_conn = ix;
+}
