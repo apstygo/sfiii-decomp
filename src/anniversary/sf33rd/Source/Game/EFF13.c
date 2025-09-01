@@ -19,31 +19,11 @@
 #include "sf33rd/Source/Game/workuser.h"
 
 void tama_display(WORK *wk);
-s32 screen_x_range_check(WORK *wk);
-s32 screen_range_check(WORK *wk);
-s32 tama15_screen_check(WORK *wk);
 void set_tengu_init_pos(WORK *ewk, WORK *mwk);
-void kotp_00000(WORK_Other *ewk, TAMA *twk);
-void kotp_01000(WORK_Other *ewk, TAMA *twk);
-void kotp_02000(WORK_Other *ewk, TAMA *twk);
 void set_tengu_my_home(WORK *ewk, WORK *mwk);
 s32 check_tengu_attack(WORK *ewk, WORK *mwk, TAMA *twk);
 void make_speed_xy_att(WORK *ewk, WORK *mwk, s16 tm, u8 xsw, u8 ysw);
 void make_speed_xy_back(WORK *ewk, WORK *mwk, TAMA *twk);
-void kotp_03000(WORK_Other *ewk, TAMA *twk);
-void kotp_04000(WORK_Other *ewk, TAMA *twk);
-void kotp_05000(WORK_Other *ewk, TAMA *twk);
-void kotp_06000(WORK_Other *ewk, TAMA *twk);
-void kotp_07000(WORK_Other *ewk, TAMA *twk);
-void kotp_08000(WORK_Other *ewk, TAMA *twk);
-void kotp_09000(WORK_Other *ewk, TAMA *twk);
-void kotp_10000(WORK_Other *ewk, TAMA *twk);
-void kotp_11000(WORK_Other *ewk, TAMA *twk);
-void kotp_12000(WORK_Other *ewk, TAMA *twk);
-void kotp_13000(WORK_Other *ewk, TAMA *twk);
-void kotp_14000(WORK_Other *ewk, TAMA *twk);
-void kotp_15000(WORK_Other *ewk, TAMA *twk);
-void kotp_16000(WORK_Other *ewk, TAMA *twk);
 
 const s16 kotp_07_dm_vital[4];
 const TAMA tama_data[243];
