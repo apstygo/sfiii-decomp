@@ -1886,7 +1886,9 @@ void kotp_16000(WORK_Other *ewk, TAMA *twk) {
 }
 
 s32 effect_13_init(WORK *wk, u8 data) {
+#if defined(TARGET_PS2)
     void write_my_shell_ix(WORK * wk, s32 ix);
+#endif
 
     WORK_Other *ewk;
     s16 ix;
