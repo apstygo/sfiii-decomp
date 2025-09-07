@@ -3,14 +3,51 @@
 #include "sf33rd/AcrSDK/common/mlPAD.h"
 #include "sf33rd/AcrSDK/ps2/flps2debug.h"
 #include "sf33rd/Source/Game/COM_DATU.h"
+#include "sf33rd/Source/Game/Com_Data.h"
+#include "sf33rd/Source/Game/EFFB8.h"
 #include "sf33rd/Source/Game/EFFECT.h"
+#include "sf33rd/Source/Game/EX_DATA.h"
+#include "sf33rd/Source/Game/Eff93.h"
+#include "sf33rd/Source/Game/Entry.h"
+#include "sf33rd/Source/Game/GD3rd.h"
+#include "sf33rd/Source/Game/Game.h"
+#include "sf33rd/Source/Game/Grade.h"
+#include "sf33rd/Source/Game/MMTMCNT.h"
+#include "sf33rd/Source/Game/PLCNT.h"
+#include "sf33rd/Source/Game/PLS02.h"
+#include "sf33rd/Source/Game/PulPul.h"
 #include "sf33rd/Source/Game/RANKING.h"
+#include "sf33rd/Source/Game/SYS_sub2.h"
+#include "sf33rd/Source/Game/Sound3rd.h"
+#include "sf33rd/Source/Game/SysDir.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/bg_sub.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/main.h"
+#include "sf33rd/Source/Game/menu.h"
 #include "sf33rd/Source/Game/sc_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
+#include <memory.h>
+
+void Disp_Win_Record_Sub(u16 win_record, s16 zz);
+s32 Setup_Target_PL();
+s32 Cut_Cut_Sub(s16 xx);
+void Reset_Sub0();
+void Setup_Replay_Header();
+void Get_Replay_Header();
+void Setup_Replay_Buff(s16 PL_id, u16 sw_buff);
+void Check_Partners_Rank(s16 dir_step, s16 PL_id);
+s32 Check_Sort_Score(s16 PL_id);
+s32 Check_Sort_Wins(s16 PL_id);
+s32 Check_Sort_CPU_Grade(s16 PL_id);
+s32 Check_Sort_Grade(s16 PL_id);
+s32 Check_CPU_Grade_Score(s16 PL_id, s16 i);
+s32 Check_Grade_Score(s16 PL_id, s16 i);
+void Setup_Candidate_Buff(s16 PL_id);
+s16 Check_EM_Buff(s16 ix, s16 ok_urien);
+s32 Check_EM_Sub(s16 ix, s16 ok_urien, s16 Rnd);
+s32 Flash_Violent();
 
 u8 Candidate_Buff[16];
 
@@ -200,8 +237,9 @@ void Setup_IO_ConvDataDefault(s32 id) {
 }
 #endif
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Time_Limit_Data);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Battle_Number_Data);
+const s8 Time_Limit_Data[4] = { 30, 60, 99, -1 };
+
+const s8 Battle_Number_Data[4] = { 0, 1, 2, 3 };
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Save_Game_Data);

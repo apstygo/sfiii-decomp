@@ -1135,9 +1135,41 @@ void Irl_Scrn() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Family_Move);
+void Family_Move() {
+    u8 assign;
+    u8 fam_ix;
+    u8 i;
+    u8 mask;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Ending_Family_Move);
+    fam_ix = use_family[bg_w.stage];
+    mask = 0x80;
+
+    for (i = 0; i < 8; i++, assign = mask >>= 1) {
+        if (fam_ix & mask) {
+            scr_calc(i);
+        }
+
+        (void)assign;
+    }
+
+    (void)assign;
+}
+
+void Ending_Family_Move() {
+    u8 mask_val = ending_use_family[end_w.type];
+    u8 assign;
+    u8 i;
+    u8 mask = 0x80;
+
+    for (i = 0; i < 8; i++, assign = mask >>= 1) {
+        if (mask_val & mask) {
+            scr_calc2(i);
+        }
+    }
+
+    (void)assign;
+    scr_calc(3);
+}
 
 void Bg_Disp_Switch(u8 on_off) {
     bg_disp_off = on_off;
