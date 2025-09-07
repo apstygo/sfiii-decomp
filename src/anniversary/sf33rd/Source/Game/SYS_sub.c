@@ -157,13 +157,28 @@ void Disp_Win_Record() {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Disp_Win_Record_Sub);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Button_Cut_EX);
-#else
 s32 Button_Cut_EX(s16 *Timer, s16 Limit_Time) {
-    not_implemented(__func__);
+    s16 PL_id = Setup_Target_PL();
+    u16 xx;
+
+    if (PL_id) {
+        xx = p2sw_0;
+    } else {
+        xx = p1sw_0;
+    }
+
+    --*Timer;
+
+    if (*Timer == 0) {
+        return 1;
+    }
+
+    if ((xx & 0xFF0) && Limit_Time >= *Timer) {
+        return 1;
+    }
+
+    return 0;
 }
-#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Target_PL);
 
