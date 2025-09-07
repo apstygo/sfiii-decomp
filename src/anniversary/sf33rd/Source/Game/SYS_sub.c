@@ -97,13 +97,23 @@ void Clear_Personal_Data(s16 PL_id) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Count_Cut);
-#else
 s16 Check_Count_Cut(s16 PL_id, s16 Limit) {
-    not_implemented(__func__);
+    s16 xx;
+
+    Continue_Cut[PL_id] = 0;
+
+    if (Continue_Count[PL_id] >= (Limit)) {
+        return 0;
+    }
+
+    if (PL_id) {
+        xx = p2sw_0 & ~p2sw_1;
+    } else {
+        xx = p1sw_0 & ~p1sw_1;
+    }
+
+    return xx & 0xFF0;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Disp_Personal_Count);
