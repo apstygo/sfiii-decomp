@@ -1222,6 +1222,7 @@ void Dir_Move_Sub_LR(u16 sw, s16 /* unused */) {
     }
 }
 
+#if defined(TARGET_PS2)
 void Setup_Next_Page(struct _TASK *task_ptr, u8 /* unused */) {
 #if defined(TARGET_PS2)
     s32 effect_18_init(s32 disp_index, s32 cursor_id, s16 sync_bg, s16 master_player);
@@ -1319,6 +1320,11 @@ void Setup_Next_Page(struct _TASK *task_ptr, u8 /* unused */) {
     effect_40_init(mode_type, 2, 0x4A, 0, 2, 0);
     effect_40_init(mode_type, 3, 0x4B, 0, 2, 2);
 }
+#else
+void Setup_Next_Page(struct _TASK *task_ptr, u8 /* unused */) {
+    not_implemented(__func__);
+}
+#endif
 
 void Save_Direction(struct _TASK *task_ptr) {
     Menu_Cursor_X[1] = Menu_Cursor_X[0];
