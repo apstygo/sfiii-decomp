@@ -449,13 +449,14 @@ void Basic_Sub() {
     move_effect_work(5);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Basic_Sub_Ex);
-#else
 void Basic_Sub_Ex() {
-    not_implemented(__func__);
+    move_effect_work(0);
+    move_effect_work(1);
+    move_effect_work(2);
+    move_effect_work(3);
+    move_effect_work(4);
+    move_effect_work(5);
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_PL_Load);
