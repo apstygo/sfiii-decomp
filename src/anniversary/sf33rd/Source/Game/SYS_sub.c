@@ -644,13 +644,11 @@ void All_Clear_Random_ix() {
     Random_ix32_ex = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", All_Clear_Timer);
-#else
 void All_Clear_Timer() {
-    not_implemented(__func__);
+    system_timer = 0;
+    Game_timer = 0;
+    players_timer = 0;
 }
-#endif
 
 void All_Clear_ETC() {
     old_mes_no2 = 0;
