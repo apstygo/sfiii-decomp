@@ -653,13 +653,12 @@ void All_Clear_Timer() {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", All_Clear_ETC);
-#else
 void All_Clear_ETC() {
-    not_implemented(__func__);
+    old_mes_no2 = 0;
+    old_mes_no3 = 0;
+    old_mes_no_pl = 0;
+    mes_already = 0;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Net_Random_ix);
