@@ -2826,6 +2826,24 @@ typedef struct {
 } BBBSTable;
 
 typedef union {
+    s32 patl; // offset 0x0, size 0x4
+    struct {
+        // total size: 0x4
+        s16 l; // offset 0x0, size 0x2
+        s16 h; // offset 0x2, size 0x2
+    } pats;    // offset 0x0, size 0x4
+} SST;
+
+typedef union {
+    s32 l; // offset 0x0, size 0x4
+    struct {
+        // total size: 0x4
+        s16 l; // offset 0x0, size 0x2
+        s16 h; // offset 0x2, size 0x2
+    } w;       // offset 0x0, size 0x4
+} ST;
+
+typedef union {
     s32 dy; // offset 0x0, size 0x4
     struct {
         // total size: 0x4
@@ -2866,5 +2884,11 @@ typedef struct {
     s8 mts;     // offset 0xD, size 0x1
     s16 chix;   // offset 0xE, size 0x2
 } PLEF;
+
+typedef struct {
+    // total size: 0x4
+    s16 pos_x; // offset 0x0, size 0x2
+    s16 pos_y; // offset 0x2, size 0x2
+} ImageBuff;
 
 #endif

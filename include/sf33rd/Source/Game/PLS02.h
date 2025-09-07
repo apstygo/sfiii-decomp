@@ -27,6 +27,8 @@ void add_to_mvxy_data(WORK *wk, u16 ix);
 void setup_mvxy_data(WORK *wk, u16 ix);
 void cal_mvxy_speed(WORK *wk);
 void add_mvxy_speed(WORK *wk);
+void add_mvxy_speed_exp(WORK *wk, s16 dvp);
+void add_mvxy_speed_no_use_rl(WORK *wk);
 void setup_saishin_lvdir(PLW *ds, s8 gddir);
 void add_sp_arts_gauge_guard(PLW *wk);
 s16 check_work_position(WORK *p1, WORK *p2);

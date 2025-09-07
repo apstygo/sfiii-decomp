@@ -241,7 +241,7 @@ s32 SSGetDrawSizePro(const s8 *str) {
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", SSPutStr2);
 #else
-void SSPutStr2(u16 x, u16 y, u8 atr, s8 *str) {
+void SSPutStr2(u16 x, u16 y, u8 atr, const s8 *str) {
     not_implemented(__func__);
 }
 #endif
@@ -530,11 +530,29 @@ void player_face() {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", face_base_put);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", hnc_set);
+#else
+void hnc_set(u8 num, u8 atr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", hnc_wipeinit);
+#else
+void hnc_wipeinit(u8 atr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", hnc_wipeout);
+#else
+s32 hnc_wipeout(u8 atr) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", ci_set);
 
@@ -746,9 +764,21 @@ void Training_Damage_Set(s16 damage, s16 /* unused */, u8 kezuri) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", Training_Data_Disp);
+#else
+void Training_Data_Disp() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", dispButtonImage);
+#else
+void dispButtonImage(s32 px, s32 py, s32 pz, s32 sx, s32 sy, s32 cl, s32 ix) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", dispButtonImage2);

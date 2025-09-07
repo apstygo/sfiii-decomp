@@ -1,84 +1,111 @@
 #include "sf33rd/Source/Game/EFF10.h"
 #include "common.h"
+#include "sf33rd/Source/Game/EFFECT.h"
+#include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/sc_sub.h"
+#include "sf33rd/Source/Game/workuser.h"
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", Contents_Check_Data);
+const u8 Contents_Check_Data[8] = { 0, 0, 1, 1, 0, 0, 0, 0 };
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_216_00507158);
+const s8 *button_string_data[8][12] = {
+    { "CONTINUE",
+      "BUTTON CONFIG.",
+      "EXIT",
+      "QUIT GAME ?",
+      "RESTART",
+      "CHARACTER CHANGE",
+      "QUIT TRAINING?",
+      NULL,
+      NULL,
+      NULL,
+      NULL,
+      NULL },
+    { "YES", "NO", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    { "L.PUNCH",
+      "M.PUNCH",
+      "H.PUNCH",
+      "L.KICK",
+      "M.KICK",
+      "H.KICK",
+      "L.P+L.K",
+      "M.P+M.K",
+      "H.P+H.K",
+      "PUNCH*3",
+      "KICK*3",
+      "NONE" },
+    { "VIBRATION OFF", "VIBRATION ON", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    { "DEFAULT SETTING", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    { "0", "1", "2", "3", "4", "5", "6", "7", NULL, NULL, NULL, NULL },
+    { "CONTINUE", "TRAINING MENU", "EXIT", "QUIT GAME ?", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
+    { "PLAYER 1", "PLAYER 2", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
+};
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_217_00507168);
+void effect_10_move(WORK_Other *ewk) {
+    s16 color;
+    s16 correct_index;
+    s16 ix;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_218_00507178);
+    if (Game_pause == 0x81 && Pause_Down == 0) {
+        return;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_219_00507180);
+    if (Menu_Suicide[ewk->master_player]) {
+        push_effect_work(&ewk->wu);
+        return;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_220_00507190);
+    correct_index = 0;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_221_005071A0);
+    if (ewk->master_priority != Menu_Cursor_Y[ewk->master_id]) {
+        color = 9;
+    } else {
+        color = 5;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_222_005071B8);
+    if (ewk->wu.type == 5 && Interface_Type[ewk->master_id] == 1) {
+        if (ewk->master_priority == 2) {
+            correct_index = 4;
+        }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_223_005071C8);
+        if (ewk->master_priority == 5) {
+            correct_index = 2;
+        }
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_224_005071D0);
+    if (Contents_Check_Data[ewk->wu.type] == 1) {
+        ix = Convert_Buff[1][ewk->master_id][ewk->master_priority];
+    } else {
+        ix = ewk->wu.cg_type;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_225_005071D8);
+    if (ewk->wu.type == 5) {
+        dispButtonImage2(
+            (ewk->wu.xyz[0].disp.pos * 8) - 6, (ewk->wu.xyz[1].disp.pos * 8) - 5, 1, 22, 17, 0, ix + correct_index);
+        return;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_226_005071E0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_227_005071E8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_228_005071F0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_229_005071F8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_230_00507200);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_231_00507208);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_232_00507210);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_233_00507218);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_234_00507220);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_235_00507228);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_236_00507230);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_237_00507238);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_238_00507248);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_239_00507260);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_240_00507270);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_241_00507278);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_242_00507280);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_243_00507288);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_244_00507290);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_245_00507298);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_246_005072A0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_247_005072A8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_248_005072B0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_249_005072C0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", literal_250_005072D0);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", effect_10_move);
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF10", effect_10_init);
-#else
-s32 effect_10_init(s16 id, u8 Type, u8 Type_in_Type, u8 dir_step, u8 Death_Type, s16 pos_x, s16 pos_y) {
-    not_implemented(__func__);
+    SSPutStr2(
+        ewk->wu.xyz[0].disp.pos, ewk->wu.xyz[1].disp.pos, color, button_string_data[ewk->wu.type][ix + correct_index]);
 }
-#endif
+
+s32 effect_10_init(s16 id, u8 Type, u8 Type_in_Type, u8 dir_step, u8 Death_Type, s16 pos_x, s16 pos_y) {
+    WORK_Other *ewk;
+    s16 ix;
+
+    if ((ix = pull_effect_work(4)) == -1) {
+        return -1;
+    }
+
+    ewk = (WORK_Other *)frw[ix];
+    ewk->wu.be_flag = 1;
+    ewk->wu.id = 10;
+    ewk->wu.work_id = 16;
+    ewk->master_id = id;
+    ewk->wu.type = Type;
+    ewk->master_priority = Type_in_Type;
+    ewk->wu.cg_type = dir_step;
+    ewk->master_player = Death_Type;
+    ewk->wu.xyz[0].disp.pos = pos_x;
+    ewk->wu.xyz[1].disp.pos = pos_y;
+    return 0;
+}
