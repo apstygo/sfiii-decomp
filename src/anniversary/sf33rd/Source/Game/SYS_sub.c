@@ -180,7 +180,21 @@ s32 Button_Cut_EX(s16 *Timer, s16 Limit_Time) {
     return 0;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Target_PL);
+s32 Setup_Target_PL() {
+    if (Play_Type == 1) {
+        return Winner_id;
+    }
+
+    if (Round_Operator[0]) {
+        return 0;
+    }
+
+    if (plw[0].wu.operator) {
+        return 0;
+    }
+
+    return 1;
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Final_Grade);
