@@ -198,7 +198,7 @@ void Setup_Letter_64(WORK_Other_CONN *ewk, s16 disp_index) {
     ix = 0;
     x = 0;
 
-    while (*ptr != NULL) {
+    while (*ptr != '\0') {
         if (*ptr == ' ') {
             x += offset_x;
             ptr++;

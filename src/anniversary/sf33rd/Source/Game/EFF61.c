@@ -250,7 +250,7 @@ s32 effect_61_init(s16 master, u8 dir_old, s16 sync_bg, s16 master_player, s16 c
     ix = 0;
     x = 0;
 
-    while (*ptr != NULL) {
+    while (*ptr != '\0') {
         if (*ptr == ' ') {
             x += offset_x;
             ptr++;

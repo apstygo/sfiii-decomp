@@ -189,7 +189,7 @@ void Setup_Letter_63(WORK_Other_CONN *ewk, s16 disp_index) {
     s16 ix = 0;
     s16 x = 0;
 
-    while (*ptr != NULL) {
+    while (*ptr != '\0') {
         if (*ptr == ' ') {
             x += 12;
             ptr++;
