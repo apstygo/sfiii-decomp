@@ -11,9 +11,11 @@ special_cases = {
     ("chren3rd", ".rodata", 0): 16,
     ("CHARSET", ".rodata", 11): 16,
     ("EFF22", ".rodata", 0): 16,
+    ("eff35", ".rodata", 0): 16,
     ("EFF69", ".rodata", 0): 16,
     ("EFF78", ".rodata", 2): 16,
     ("Eff95", ".rodata", 0): 16,
+    ("EFFA6", ".rodata", 0): 16,
     ("EFFF2", ".rodata", 0): 16,
     ("EFFF8", ".rodata", 0): 16,
     ("aboutspr", ".rodata", 0): 16,
@@ -33,6 +35,7 @@ special_cases = {
     ("PLS02", ".rodata", 3): 16,
     ("PLS03", ".rodata", 2): 16,
     ("CHARSET", ".rodata", 0): 16,
+    ("EFF33", ".rodata", 0): 16,
     ("EFFH9", ".rodata", 0): 16,
     ("staff", ".rodata", 0): 16,
 
@@ -62,6 +65,7 @@ special_cases = {
     ("msgsub", ".sdata", 0): 16,
     ("msgtble", ".sdata", 0): 16,
     ("reboot", ".sdata", 0): 16,
+    ("end_0", ".sdata", 0): 16,
 
     ("sbss_579878", ".sbss", 0): 8,
     ("EFF45", ".sbss", 0): 16,
