@@ -423,21 +423,24 @@ void Setup_Virtual_BG(s16 BG_INDEX, s16 X, s16 Y) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", BG_move);
-#else
 void BG_move() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void bg_pos_hosei_sub2(s32 bg_no);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", BG_move_Ex);
-#else
-void BG_move_Ex(u8 ix) {
-    not_implemented(__func__);
+    s16 ix;
+
+    for (ix = 0; ix < 4; ix++) {
+        if (Unsubstantial_BG[ix]) {
+            bg_pos_hosei_sub2(ix);
+            Bg_Family_Set_appoint(ix);
+        }
+    }
 }
-#endif
+
+void BG_move_Ex(u8 ix) {
+    scr_calc(ix);
+}
 
 void Basic_Sub() {
     bg_w.bgw[0].old_pos_x = bg_w.bgw[0].xy[0].disp.pos;
