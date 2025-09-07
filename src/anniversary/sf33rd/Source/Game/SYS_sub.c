@@ -774,13 +774,17 @@ void Check_Same_CPU(s16 PL_id) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", All_Clear_Suicide);
-#else
 void All_Clear_Suicide() {
-    not_implemented(__func__);
+    s16 ix;
+
+    for (ix = 0; ix < 8; ix++) {
+        Suicide[ix] = 0;
+    }
+
+    for (ix = 0; ix < 4; ix++) {
+        Menu_Suicide[ix] = 0;
+    }
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Clear_Break_Com);
