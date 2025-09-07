@@ -637,13 +637,12 @@ s32 Check_Extra_Setting() {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", All_Clear_Random_ix);
-#else
 void All_Clear_Random_ix() {
-    not_implemented(__func__);
+    Random_ix16 = 0;
+    Random_ix32 = 0;
+    Random_ix16_ex = 0;
+    Random_ix32_ex = 0;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", All_Clear_Timer);
