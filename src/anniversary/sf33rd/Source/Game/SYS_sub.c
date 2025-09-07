@@ -546,13 +546,24 @@ void BG_Draw_System() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Demo_Data);
-#else
 u16 Check_Demo_Data(s16 PL_id) {
-    not_implemented(__func__);
+    u16 ans;
+
+    if (Demo_Timer[PL_id] == 0) {
+        ans = *Demo_Ptr[PL_id];
+        Demo_Ptr[PL_id]++;
+    } else {
+        Demo_Timer[PL_id]--;
+        return 0;
+    }
+
+    if (ans & 0x8000) {
+        Demo_Timer[PL_id] = ans & 0x7FFF;
+        return 0;
+    }
+
+    return ans;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", System_all_clear_Level_B);
@@ -847,7 +858,41 @@ void Initialize_EM_Candidate(s16 PL_id) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Candidate_Buff);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_EM_Buff);
+s16 Check_EM_Buff(s16 ix, s16 ok_urien) {
+    s16 em;
+    s16 Rnd = random_16();
+    s16 Next;
+
+    if (Check_EM_Sub(ix, ok_urien, Rnd)) {
+        em = Candidate_Buff[Rnd];
+        Candidate_Buff[Rnd] = 0xFF;
+        return em;
+    }
+
+    Next = random_16() & 1;
+
+    if (Next == 0) {
+        Next = -1;
+    }
+
+    while (1) {
+        if (Check_EM_Sub(ix, ok_urien, Rnd)) {
+            em = Candidate_Buff[Rnd];
+            Candidate_Buff[Rnd] = 0xFF;
+            return em;
+        }
+
+        Rnd += Next;
+
+        if (Rnd < 0) {
+            Rnd = 15;
+        }
+
+        if (Rnd > 15) {
+            Rnd = 0;
+        }
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_EM_Sub);
 
