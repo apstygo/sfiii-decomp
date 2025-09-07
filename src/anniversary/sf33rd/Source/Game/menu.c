@@ -1222,7 +1222,7 @@ void Dir_Move_Sub_LR(u16 sw, s16 /* unused */) {
     }
 }
 
-void Setup_Next_Page(struct _TASK *task_ptr, s32 /* unused */) {
+void Setup_Next_Page(struct _TASK *task_ptr, u8 /* unused */) {
 #if defined(TARGET_PS2)
     s32 effect_18_init(s32 disp_index, s32 cursor_id, s16 sync_bg, s16 master_player);
 #endif
