@@ -466,13 +466,42 @@ s32 Check_PL_Load() {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", BG_Draw_System);
-#else
 void BG_Draw_System() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void scr_trans(u32 bgnm);
 #endif
+
+    u8 i;
+    u16 mask = 1 & 0xFFFF;
+    u16 s2;
+    u16 s3;
+
+    if (bg_disp_off == 0) {
+        for (i = 0; i < 4; i++, s2 = mask *= 2) {
+            if (Screen_Switch_Buffer & mask) {
+                scr_trans(i);
+            }
+        }
+    } else {
+        for (i = 0; i < 4; i++, s3 = mask *= 2) {
+            if (Screen_Switch_Buffer & mask) {
+                scr_calc(i);
+            }
+        }
+    }
+
+    if (Play_Game == 0) {
+        for (i = 0; i < 4; i++) {
+            if (Unsubstantial_BG[i]) {
+                scr_calc(i);
+            }
+        }
+    } else if (Play_Game == 1) {
+        Family_Move();
+    } else {
+        Ending_Family_Move();
+    }
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Demo_Data);
