@@ -263,13 +263,18 @@ void Setup_Final_Grade() {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Clear_Win_Type);
-#else
 void Clear_Win_Type() {
-    not_implemented(__func__);
+    s16 i;
+
+    for (i = 0; i < 4; i++) {
+        win_type[0][i] = 0;
+        win_type[1][i] = 0;
+        flash_win_type[0][i] = 0;
+        flash_win_type[1][i] = 0;
+        sync_win_type[0][i] = 0;
+        sync_win_type[1][i] = 0;
+    }
 }
-#endif
 
 void Clear_Disp_Ranking(s16 PL_id) {
     s16 ix;
