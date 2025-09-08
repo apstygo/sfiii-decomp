@@ -131,13 +131,11 @@ void Setup_Play_Type() {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Clear_Flash_No);
-#else
 void Clear_Flash_No() {
-    not_implemented(__func__);
+    F_No0[0] = F_No1[0] = F_No2[0] = F_No3[0] = 0;
+    F_No0[1] = F_No1[1] = F_No2[1] = F_No3[1] = 0;
+    Personal_Disp_Flag = 0;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Cut_Cut_Cut);
@@ -778,21 +776,37 @@ s16 Check_SysDir_Page() {
     return count + 6;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Clear_Flash_Init);
-#else
 void Clear_Flash_Init(s16 level) {
-    not_implemented(__func__);
+    Synchro_No = 0;
+    Flash_Synchro = 0;
+    Synchro_Level = level;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Clear_Flash_Sub);
-#else
 s16 Clear_Flash_Sub() {
-    not_implemented(__func__);
+    switch (Synchro_No) {
+    case 0:
+        Flash_Synchro -= Synchro_Level;
+
+        if (Flash_Synchro <= 0) {
+            Synchro_No = 1;
+            Flash_Synchro = 1;
+        }
+
+        break;
+
+    case 1:
+        Flash_Synchro += Synchro_Level;
+
+        if (Flash_Synchro > 127) {
+            Synchro_No = 0;
+            Flash_Synchro = 127;
+        }
+
+        break;
+    }
+
+    return Flash_Synchro;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Copy_Key_Disp_Work);
