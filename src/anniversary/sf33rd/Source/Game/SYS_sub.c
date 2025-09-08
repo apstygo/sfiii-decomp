@@ -1200,13 +1200,37 @@ s32 Check_Grade_Score(s16 PL_id, s16 i) {
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Disp_Digit16x24);
-#else
 void Disp_Digit16x24(u32 Score_Buff, s16 Disp_X, s16 Disp_Y, s16 Color) {
-    not_implemented(__func__);
+    s16 i;
+    s16 j;
+    s32 xx;
+    s16 First_Digit;
+    s16 Digit[8];
+
+    s16 s6;
+    s32 s5;
+    s16 s4;
+
+    if (Score_Buff == 0) {
+        score16x24_put(Disp_X, Disp_Y, 15, 0);
+    }
+
+    for (i = 7, xx = 10000000, s6 = First_Digit = -1; i > 0; i--, s5 = xx /= 10) {
+        Digit[i] = Score_Buff / xx;
+        Score_Buff -= xx * Digit[i];
+
+        if (First_Digit < 0 && Digit[i]) {
+            First_Digit = i;
+        }
+    }
+
+    Digit[0] = Score_Buff;
+    i = Disp_X - (First_Digit * 2);
+
+    for (j = First_Digit; j >= 0; j--, s4 = i += 2) {
+        score16x24_put(i, Disp_Y, Color, Digit[j]);
+    }
 }
-#endif
 
 void Disp_Copyright() {
     s32 xres;
