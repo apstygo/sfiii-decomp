@@ -931,7 +931,25 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Sor
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Sort_Wins);
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Sort_CPU_Grade);
+s32 Check_Sort_CPU_Grade(s16 PL_id) {
+    s16 i;
+    s16 j;
+
+    for (i = 0; i < 5; i++) {
+        if (!Check_CPU_Grade_Score(PL_id, i)) {
+            continue;
+        }
+
+        for (j = 3; j >= i; j--) {
+            Ranking_Data[j + 11] = Ranking_Data[j + 10];
+        }
+
+        Ranking_Data[i + 10] = Present_Data[PL_id];
+        return i;
+    }
+
+    return -1;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Sort_Grade);
 
