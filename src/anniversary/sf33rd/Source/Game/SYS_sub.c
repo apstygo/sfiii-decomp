@@ -47,7 +47,7 @@ s32 Check_Grade_Score(s16 PL_id, s16 i);
 void Setup_Candidate_Buff(s16 PL_id);
 s16 Check_EM_Buff(s16 ix, s16 ok_urien);
 s32 Check_EM_Sub(s16 ix, s16 ok_urien, s16 Rnd);
-s32 Flash_Violent();
+s32 Flash_Violent(s32 /* unused */, s32 /* unused */);
 
 u8 Candidate_Buff[16];
 
@@ -988,13 +988,33 @@ void Check_Replay_Status(s16 PL_id, u8 Status) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Get_Replay);
-#else
 void Get_Replay(s16 PL_id) {
-    not_implemented(__func__);
+    u16 sw_buff;
+
+    if (Game_pause == 0x81) {
+        return;
+    }
+
+    if (PL_id) {
+        sw_buff = p2sw_0;
+    } else {
+        sw_buff = p1sw_0;
+    }
+
+    if (sw_buff == Condense_Buff[PL_id]) {
+        if (Demo_Timer[PL_id] >= 16) {
+            Setup_Replay_Buff(PL_id, sw_buff);
+        } else {
+            Demo_Timer[PL_id]++;
+        }
+    } else {
+        Setup_Replay_Buff(PL_id, sw_buff);
+    }
+
+    if (PL_id == 0) {
+        Disp_Rec_Time(PL_id, Record_Timer);
+    }
 }
-#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Replay_Buff);
 
@@ -1549,4 +1569,6 @@ void Check_Off_Vib() {
     // Do nothing
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Flash_Violent);
+s32 Flash_Violent(s32 /* unused */, s32 /* unused */) {
+    return 1;
+}
