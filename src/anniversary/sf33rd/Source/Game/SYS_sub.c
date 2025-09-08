@@ -89,13 +89,64 @@ u16 Convert_User_Setting(s16 PL_id) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Clear_Personal_Data);
-#else
 void Clear_Personal_Data(s16 PL_id) {
-    not_implemented(__func__);
+    s16 xx;
+
+    Lost_Round[PL_id] = 0;
+    Super_Arts_Finish[PL_id] = 0;
+    Perfect_Finish[PL_id] = 0;
+    Cheap_Finish[PL_id] = 0;
+    Completion_Bonus[PL_id][0] = 0;
+    Completion_Bonus[PL_id][1] = 0;
+    Stage_Continue[PL_id] = 0;
+    Introduce_Boss[PL_id][0] = 0;
+    Introduce_Boss[PL_id][1] = 0;
+    Introduce_Break_Into[PL_id] = 0;
+    Score[PL_id][0] = 0;
+    Stock_Score[PL_id] = 0;
+    Stage_Stock_Score[PL_id] = 0;
+    Continue_Coin[PL_id] = 0;
+    Win_Record[PL_id] = 0;
+    VS_Win_Record[PL_id] = 0;
+    Stock_Win_Record[PL_id] = 0;
+    VS_Index[PL_id] = 0;
+    Used_char[PL_id] = 0xFF;
+    Arts_Y[PL_id] = 0;
+    Continue_Count[PL_id] = 0;
+    Continue_Coin2[PL_id] = 0;
+    Sel_PL_Complete[PL_id] = 0;
+    Sel_Arts_Complete[PL_id] = 0;
+    Sel_EM_Complete[PL_id] = 0;
+    Personal_Continue_Flag[PL_id] = 0;
+    Last_Player_id = -1;
+    Last_Super_Arts[PL_id] = 0;
+    Last_My_char[PL_id] = -1;
+    Last_My_char2[PL_id] = -1;
+    Last_Selected_EM[PL_id] = 1;
+    Select_Start[PL_id] = 0;
+    paring_ctr_vs[0][PL_id] = 0;
+    Straight_Counter[PL_id] = 0;
+    Straight_Flag[PL_id] = 0;
+    SC_Personal_Time[PL_id] = 481;
+    E_Number[PL_id][0] = 0;
+    E_Number[PL_id][1] = 0;
+    E_Number[PL_id][2] = 0;
+    E_Number[PL_id][3] = 0;
+    E_07_Flag[PL_id] = 0;
+    Request_Break[PL_id] = 0;
+
+    if (PL_id == 0) {
+        Cursor_X[0] = permission_player[Present_Mode].cursor_infor[0].first_x;
+        Cursor_Y[0] = permission_player[Present_Mode].cursor_infor[0].first_y;
+    } else {
+        Cursor_X[1] = permission_player[Present_Mode].cursor_infor[1].first_x;
+        Cursor_Y[1] = permission_player[Present_Mode].cursor_infor[1].first_y;
+    }
+
+    for (xx = 0; xx < 10; xx++) {
+        EM_History[PL_id][xx] = 0;
+    }
 }
-#endif
 
 s16 Check_Count_Cut(s16 PL_id, s16 Limit) {
     s16 xx;
