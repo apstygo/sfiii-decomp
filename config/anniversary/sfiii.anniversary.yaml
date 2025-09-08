@@ -1427,7 +1427,7 @@ segments:
       - [0x4741A0, .sdata, sf33rd/Source/Game/sel_pl]
       - [0x4742A0, .sdata, sf33rd/Source/Game/Sound3rd]
       - [0x474368, .sdata, sf33rd/Source/Game/spgauge]
-      - [0x474378, sdata, sf33rd/Source/Game/SYS_sub]
+      - [0x474378, .sdata, sf33rd/Source/Game/SYS_sub]
       - [0x474390, .sdata, sf33rd/Source/Game/ta_sub]
       - [0x4743B0, .sdata, sf33rd/Source/Game/TATE00]
       - [0x474420, .sdata, sf33rd/Source/Game/texcash]

@@ -217,13 +217,13 @@ void Disp_Personal_Count(s16 PL_id, s8 counter) {
     SSPutDec(DE_X[PL_id] + 14, 0, 9, counter, 0);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Play_Type);
-#else
 void Setup_Play_Type() {
-    not_implemented(__func__);
+    if (Operator_Status[0] & 0x7F && Operator_Status[1] & 0x7F) {
+        Play_Type = 1;
+    } else {
+        Play_Type = 0;
+    }
 }
-#endif
 
 void Clear_Flash_No() {
     F_No0[0] = F_No1[0] = F_No2[0] = F_No3[0] = 0;
@@ -428,13 +428,14 @@ s32 Setup_Target_PL() {
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Final_Grade);
-#else
 void Setup_Final_Grade() {
-    not_implemented(__func__);
+    if (Break_Com[Player_id][0] == 0) {
+        Final_Result_id = LOSER;
+        WGJ_Target = LOSER;
+        WGJ_Win = Win_Record[LOSER];
+        WGJ_Score = Continue_Coin[LOSER] + Score[LOSER][0];
+    }
 }
-#endif
 
 void Clear_Win_Type() {
     s16 i;
@@ -466,13 +467,15 @@ void Meltw(u16 *s, u16 *d, s32 file_ptr) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_ID);
-#else
 void Setup_ID() {
-    not_implemented(__func__);
+    if (Operator_Status[0] == 0) {
+        COM_id = 0;
+        Player_id = 1;
+    } else {
+        COM_id = 1;
+        Player_id = 0;
+    }
 }
-#endif
 
 void Game_Data_Init() {
     s32 ix;
@@ -496,13 +499,14 @@ void Game_Data_Init() {
     Copy_Save_w();
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_IO_ConvDataDefault);
-#else
 void Setup_IO_ConvDataDefault(s32 id) {
-    not_implemented(__func__);
+    const u8 ioConvInitData[12] = { 0, 1, 2, 11, 3, 4, 5, 11, 0, 0, 0, 0 };
+    s32 ix;
+
+    for (ix = 0; ix < 12; ix++) {
+        Convert_Buff[1][id][ix] = ioConvInitData[ix];
+    }
 }
-#endif
 
 const s8 Time_Limit_Data[4] = { 30, 60, 99, -1 };
 
@@ -748,13 +752,18 @@ void Setup_Training_Difficulty() {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_BG);
-#else
 void Setup_BG(s16 BG_INDEX, s16 X, s16 Y) {
-    not_implemented(__func__);
+    Unsubstantial_BG[BG_INDEX] = 1;
+    bg_w.bgw[BG_INDEX].xy[0].disp.pos = X;
+    bg_w.bgw[BG_INDEX].xy[1].disp.pos = Y;
+    bg_w.bgw[BG_INDEX].wxy[0].disp.pos = X;
+    bg_w.bgw[BG_INDEX].wxy[1].disp.pos = Y;
+    bg_w.bgw[BG_INDEX].xy[0].disp.low = 0;
+    bg_w.bgw[BG_INDEX].xy[1].disp.low = 0;
+    bg_w.bgw[BG_INDEX].position_x = X;
+    bg_w.bgw[BG_INDEX].position_y = Y;
+    Bg_Family_Set_Ex(BG_INDEX);
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Virtual_BG);
@@ -1137,7 +1146,13 @@ void Get_Replay(s16 PL_id) {
     }
 }
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Replay_Buff);
+#else
+void Setup_Replay_Buff(s16 PL_id, u16 sw_buff) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Replay);
@@ -1255,13 +1270,14 @@ void All_Clear_ETC() {
     mes_already = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Net_Random_ix);
-#else
 void Setup_Net_Random_ix() {
-    not_implemented(__func__);
+    u8 ix = 0;
+
+    Random_ix16 = ix;
+    Random_ix32 = ix;
+    Random_ix16_ex = ix;
+    Random_ix32_ex = ix;
 }
-#endif
 
 s32 Request_Fade(u16 fade_code) {
     if (Fade_Flag == 0) {
