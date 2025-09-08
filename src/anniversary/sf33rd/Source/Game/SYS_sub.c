@@ -824,9 +824,60 @@ void Check_Replay() {
     Demo_Ptr[1] = Replay_w.io_unit.key_buff[1];
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Replay_Header);
+void Setup_Replay_Header() {
+    s16 ix;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Get_Replay_Header);
+    Rep_Game_Infor[10].stage = bg_w.stage;
+    Rep_Game_Infor[10].Direction_Working = Direction_Working[Present_Mode];
+    Rep_Game_Infor[10].Vital_Handicap[0] = Vital_Handicap[Present_Mode][0];
+    Rep_Game_Infor[10].Vital_Handicap[1] = Vital_Handicap[Present_Mode][1];
+
+    for (ix = 0; ix < 2; ix++) {
+        Rep_Game_Infor[10].player_infor[ix].my_char = My_char[ix];
+        Rep_Game_Infor[10].player_infor[ix].sa = Super_Arts[ix];
+        Rep_Game_Infor[10].player_infor[ix].color = Player_Color[ix];
+        Rep_Game_Infor[10].player_infor[ix].player_type = plw[ix].wu.operator;
+        Rep_Game_Infor[10].Vital_Handicap[ix] = Vital_Handicap[Present_Mode][ix];
+    }
+
+    Rep_Game_Infor[10].Random_ix16 = Random_ix16;
+    Rep_Game_Infor[10].Random_ix32 = Random_ix32;
+    Rep_Game_Infor[10].Random_ix16_ex = Random_ix16_ex;
+    Rep_Game_Infor[10].Random_ix32_ex = Random_ix32_ex;
+    Rep_Game_Infor[10].players_timer = players_timer;
+    Random_ix16_com = Random_ix16;
+    Random_ix32_com = Random_ix32;
+    Random_ix16_ex_com = Random_ix16_ex;
+    Random_ix32_ex_com = Random_ix32_ex;
+    Random_ix16_bg = Random_ix16;
+    Rep_Game_Infor[10].old_mes_no2 = old_mes_no2;
+    Rep_Game_Infor[10].old_mes_no3 = old_mes_no3;
+    Rep_Game_Infor[10].old_mes_no_pl = old_mes_no_pl;
+    Rep_Game_Infor[10].mes_already = mes_already;
+    Replay_w.champion = Champion;
+    Replay_w.full_data = 0;
+}
+
+void Get_Replay_Header() {
+    Random_ix16 = Rep_Game_Infor[10].Random_ix16;
+    Random_ix32 = Rep_Game_Infor[10].Random_ix32;
+    Random_ix16_ex = Rep_Game_Infor[10].Random_ix16_ex;
+    Random_ix32_ex = Rep_Game_Infor[10].Random_ix32_ex;
+    players_timer = Rep_Game_Infor[10].players_timer;
+    old_mes_no2 = Rep_Game_Infor[10].old_mes_no2;
+    old_mes_no3 = Rep_Game_Infor[10].old_mes_no3;
+    old_mes_no_pl = Rep_Game_Infor[10].old_mes_no_pl;
+    mes_already = Rep_Game_Infor[10].mes_already;
+    Random_ix16_com = Random_ix16;
+    Random_ix32_com = Random_ix32;
+    Random_ix16_ex_com = Random_ix16_ex;
+    Random_ix32_ex_com = Random_ix32_ex;
+    Random_ix16_bg = Random_ix16;
+    Champion = Replay_w.champion;
+    New_Challenger = Champion ^ 1;
+    Control_Time = Replay_w.Control_Time_Buff;
+    save_w[Present_Mode].Difficulty = Replay_w.Difficulty;
+}
 
 void Check_Replay_Status(s16 PL_id, u8 Status) {
     if (Demo_Flag == 0) {
@@ -1264,7 +1315,40 @@ void Initialize_EM_Candidate(s16 PL_id) {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Candidate_Buff);
+void Setup_Candidate_Buff(s16 PL_id) {
+    s16 em;
+    s16 ix;
+    s16 s2;
+
+    for (em = 0, s2 = ix = 1; ix <= 19; ix++) {
+        if (My_char[PL_id] == 0 && ix == 1) {
+            continue;
+        }
+
+        if (ix == My_char[PL_id]) {
+            continue;
+        }
+
+        if (ix == 17) {
+            continue;
+        }
+
+        if (ix == Middle_Class_Boss_Data[My_char[PL_id]]) {
+            continue;
+        }
+
+        if (Break_Com[PL_id][ix]) {
+            continue;
+        }
+
+        Candidate_Buff[em] = ix;
+        em++;
+
+        if (em >= 16) {
+            break;
+        }
+    }
+}
 
 s16 Check_EM_Buff(s16 ix, s16 ok_urien) {
     s16 em;
