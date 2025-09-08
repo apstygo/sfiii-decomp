@@ -511,13 +511,13 @@ void Basic_Sub_Ex() {
     move_effect_work(5);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_PL_Load);
-#else
 s32 Check_PL_Load() {
-    not_implemented(__func__);
+    if (!Check_LDREQ_Queue_Player(0) || !Check_LDREQ_Queue_Player(1)) {
+        return 0;
+    }
+
+    return 1;
 }
-#endif
 
 void BG_Draw_System() {
 #if defined(TARGET_PS2)
