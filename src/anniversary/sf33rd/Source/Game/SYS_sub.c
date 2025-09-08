@@ -415,13 +415,23 @@ void cpRevivalTask() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Menu_Task);
-#else
 s32 Check_Menu_Task() {
-    not_implemented(__func__);
+    struct _TASK *task_ptr = &task[3];
+
+    if (Mode_Type == 3 || Mode_Type == 4) {
+        if (task[3].r_no[0] == 7 && task[3].r_no[1] == 7) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    if (task_ptr->condition == 1) {
+        return 1;
+    }
+
+    return 0;
 }
-#endif
 
 void Setup_Limit_Time() {
     s16 limit;
