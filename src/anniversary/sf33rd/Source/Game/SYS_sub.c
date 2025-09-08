@@ -808,7 +808,17 @@ s32 Check_Ranking(s16 PL_id) {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Partners_Rank);
+void Check_Partners_Rank(s16 dir_step, s16 PL_id) {
+    if (Rank_In[PL_id][dir_step] > Rank_In[PL_id ^ 1][dir_step]) {
+        return;
+    }
+
+    Rank_In[PL_id ^ 1][dir_step]++;
+
+    if (Rank_In[PL_id ^ 1][dir_step] > 4) {
+        Rank_In[PL_id ^ 1][dir_step] = -1;
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Sort_Score);
 
