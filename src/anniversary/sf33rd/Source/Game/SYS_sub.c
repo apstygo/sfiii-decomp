@@ -235,13 +235,21 @@ void Clear_Flash_No() {
     Personal_Disp_Flag = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Cut_Cut_Cut);
-#else
 s32 Cut_Cut_Cut() {
-    not_implemented(__func__);
+    if (Demo_Flag == 0) {
+        return 0;
+    }
+
+    if (plw[0].wu.operator && (p1sw_0 & 0xFF0)) {
+        return 1;
+    }
+
+    if (plw[1].wu.operator && (p2sw_0 & 0xFF0)) {
+        return 1;
+    }
+
+    return 0;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Score_Sub);
@@ -685,13 +693,15 @@ void System_all_clear_Level_B() {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Cut_Cut_C_Timer);
-#else
 s16 Cut_Cut_C_Timer() {
-    not_implemented(__func__);
+    C_Timer--;
+
+    if (!Cut_Cut_Cut()) {
+        return C_Timer;
+    }
+
+    return C_Timer = 0;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Switch_Priority_76);
@@ -701,15 +711,33 @@ void Switch_Priority_76() {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Cut_Cut_Sub);
+s32 Cut_Cut_Sub(s16 xx) {
+    if (Demo_Flag == 0) {
+        return 1;
+    }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Cut_Cut_Loser);
-#else
-s32 Cut_Cut_Loser() {
-    not_implemented(__func__);
+    if (plw[0].wu.operator && (p1sw_0 & 0xFF0)) {
+        return xx;
+    }
+
+    if (plw[1].wu.operator && (p2sw_0 & 0xFF0)) {
+        return xx;
+    }
+
+    return 1;
 }
-#endif
+
+s32 Cut_Cut_Loser() {
+    if (Round_Operator[0] && (p1sw_0 & 0xFF0)) {
+        return 1;
+    }
+
+    if (Round_Operator[1] && (p2sw_0 & 0xFF0)) {
+        return 1;
+    }
+
+    return 0;
+}
 
 void njWaitVSync_with_N() {
     while (1) {}
