@@ -247,13 +247,60 @@ s32 Cut_Cut_Cut() {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Score_Sub);
-#else
 void Score_Sub() {
-    not_implemented(__func__);
+    u32 Score_Buff;
+    s8 i;
+    s8 j;
+    s32 xx;
+    s8 First_Digit;
+    s8 Digit[8];
+    s16 PL_id;
+
+    s8 assign1;
+    s32 assign2;
+    s8 assign3;
+
+    if (Mode_Type == 3 || Mode_Type == 4) {
+        return;
+    }
+
+    if (omop_cockpit == 0) {
+        return;
+    }
+
+    for (PL_id = 0; PL_id < 2; PL_id++) {
+        if ((Mode_Type != 1 && Mode_Type != 5) && plw[PL_id].wu.operator == 0) {
+            continue;
+        }
+
+        if (Stop_Update_Score) {
+            Score_Buff = Keep_Score[PL_id];
+        } else {
+            Score_Buff = Score[PL_id][Play_Type];
+            Score_Buff += Continue_Coin[PL_id];
+            Keep_Score[PL_id] = Score_Buff;
+        }
+
+        for (i = 7, xx = 10000000, assign1 = First_Digit = -1; i > 0; i--, assign2 = xx /= 10) {
+            Digit[i] = Score_Buff / xx;
+            Score_Buff -= Digit[i] * xx;
+
+            if (First_Digit < 0 && Digit[i]) {
+                First_Digit = i;
+            }
+        }
+
+        Digit[0] = Score_Buff;
+
+        if (First_Digit < 0) {
+            First_Digit = 1;
+        }
+
+        for (i = Coin_Message_Data[3][PL_id] - First_Digit, j = First_Digit; j >= 0; j--, assign3 = i++) {
+            score8x16_put(i, 0, 8, Digit[j]);
+        }
+    }
 }
-#endif
 
 void Disp_Win_Record() {
     s16 PL_id;
@@ -461,13 +508,44 @@ const s8 Time_Limit_Data[4] = { 30, 60, 99, -1 };
 
 const s8 Battle_Number_Data[4] = { 0, 1, 2, 3 };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Save_Game_Data);
-#else
 void Save_Game_Data() {
-    not_implemented(__func__);
+    s16 ix;
+
+    save_w[1].Difficulty = Convert_Buff[0][0][0];
+    save_w[1].Time_Limit = Time_Limit_Data[Convert_Buff[0][0][1]];
+    save_w[1].Battle_Number[0] = Battle_Number_Data[Convert_Buff[0][0][2]];
+    save_w[1].Battle_Number[1] = Battle_Number_Data[Convert_Buff[0][0][3]];
+    save_w[1].Damage_Level = Convert_Buff[0][0][4];
+    save_w[1].GuardCheck = Convert_Buff[0][0][5];
+    save_w[1].AnalogStick = Convert_Buff[0][0][6];
+    save_w[1].Handicap = Convert_Buff[0][0][7];
+    save_w[1].Partner_Type[0] = Convert_Buff[0][0][8];
+    save_w[1].Partner_Type[1] = Convert_Buff[0][0][9];
+    mpp_w.useAnalogStickData = save_w[1].AnalogStick;
+    save_w[4].GuardCheck = save_w[1].GuardCheck;
+    save_w[5].GuardCheck = save_w[1].GuardCheck;
+
+    for (ix = 0; ix < 8; ix++) {
+        save_w[1].Pad_Infor[0].Shot[ix] = Convert_Buff[1][0][ix];
+        save_w[1].Pad_Infor[1].Shot[ix] = Convert_Buff[1][1][ix];
+    }
+
+    save_w[1].Pad_Infor[0].Vibration = Convert_Buff[1][0][8];
+    save_w[1].Pad_Infor[1].Vibration = Convert_Buff[1][1][8];
+    save_w[4].Pad_Infor[0] = save_w[1].Pad_Infor[0];
+    save_w[4].Pad_Infor[1] = save_w[1].Pad_Infor[1];
+    save_w[5].Pad_Infor[0] = save_w[1].Pad_Infor[0];
+    save_w[5].Pad_Infor[1] = save_w[1].Pad_Infor[1];
+    save_w[1].Adjust_X = Convert_Buff[2][0][0];
+    save_w[1].Adjust_Y = Convert_Buff[2][0][1];
+    save_w[1].Screen_Size = Convert_Buff[2][0][2];
+    save_w[1].Screen_Mode = Convert_Buff[2][0][3];
+    save_w[1].Auto_Save = Convert_Buff[3][0][2];
+    save_w[1].SoundMode = Convert_Buff[3][1][0];
+    save_w[1].BGM_Level = Convert_Buff[3][1][1];
+    save_w[1].SE_Level = Convert_Buff[3][1][2];
+    save_w[1].BgmType = Convert_Buff[3][1][3];
 }
-#endif
 
 void Copy_Save_w() {
     s16 ix;
@@ -854,7 +932,18 @@ void Soft_Reset_Sub() {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Reset_Sub0);
+void Reset_Sub0() {
+    Pause = 0;
+    Game_pause = 0;
+    Play_Game = 0;
+    Forbid_Break = 0;
+    Extra_Break = 0;
+    Mode_Type = 0;
+    Present_Mode = 1;
+    Play_Mode = 0;
+    Replay_Status[0] = 0;
+    Replay_Status[1] = 0;
+}
 
 void Check_Replay() {
     s16 ix;
