@@ -222,13 +222,14 @@ void Clear_Win_Type() {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Clear_Disp_Ranking);
-#else
 void Clear_Disp_Ranking(s16 PL_id) {
-    not_implemented(__func__);
+    s16 ix;
+
+    for (ix = 0; ix <= 3; ix++) {
+        Request_Disp_Rank[PL_id][ix] = -1;
+        Rank_In[PL_id][ix] = -1;
+    }
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Meltw);
@@ -1208,13 +1209,13 @@ void All_Clear_Suicide() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Clear_Break_Com);
-#else
 void Clear_Break_Com(s16 PL_id) {
-    not_implemented(__func__);
+    s16 x;
+
+    for (x = 0; x <= 19; x++) {
+        Break_Com[PL_id][x] = 0;
+    }
 }
-#endif
 
 void Check_Off_Vib() {
     // Do nothing
