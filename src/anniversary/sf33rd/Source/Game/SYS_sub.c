@@ -894,7 +894,44 @@ s16 Check_EM_Buff(s16 ix, s16 ok_urien) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_EM_Sub);
+s32 Check_EM_Sub(s16 ix, s16 ok_urien, s16 Rnd) {
+    s16 em;
+
+    if (Candidate_Buff[Rnd] == 0xFF) {
+        return 0;
+    }
+
+    em = Candidate_Buff[Rnd];
+
+    switch (em) {
+    case 2:
+    case 11:
+    case 6:
+    case 8:
+        if (ix < 4) {
+            return 0;
+        }
+
+        return 1;
+
+    case 14:
+        if (ix < 6) {
+            return 0;
+        }
+
+        return 1;
+
+    case 13:
+        if (ok_urien != 0 && ix < 4) {
+            return 0;
+        }
+
+        return 1;
+
+    default:
+        return 1;
+    }
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Same_CPU);
