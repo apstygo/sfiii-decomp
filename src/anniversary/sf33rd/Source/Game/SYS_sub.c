@@ -951,7 +951,25 @@ s32 Check_Sort_CPU_Grade(s16 PL_id) {
     return -1;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Sort_Grade);
+s32 Check_Sort_Grade(s16 PL_id) {
+    s16 i;
+    s16 j;
+
+    for (i = 0; i < 5; i++) {
+        if (!Check_Grade_Score(PL_id, i)) {
+            continue;
+        }
+
+        for (j = 3; j >= i; j--) {
+            Ranking_Data[j + 16] = Ranking_Data[j + 15];
+        }
+
+        Ranking_Data[i + 15] = Present_Data[PL_id];
+        return i;
+    }
+
+    return -1;
+}
 
 s32 Check_CPU_Grade_Score(s16 PL_id, s16 i) {
     if (Ranking_Data[i + 10].cpu_grade > Present_Data[PL_id].cpu_grade) {
