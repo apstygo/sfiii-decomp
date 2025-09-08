@@ -945,7 +945,23 @@ s32 Check_Sort_Score(s16 PL_id) {
     return -1;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Sort_Wins);
+s32 Check_Sort_Wins(s16 PL_id) {
+    s16 i;
+    s16 j;
+
+    for (i = 0; i < 5; i++) {
+        if (Ranking_Data[i + 5].wins < Present_Data[PL_id].wins) {
+            for (j = 3; j >= i; j--) {
+                Ranking_Data[j + 6] = Ranking_Data[j + 5];
+            }
+
+            Ranking_Data[i + 5] = Present_Data[PL_id];
+            return i;
+        }
+    }
+
+    return -1;
+}
 
 s32 Check_Sort_CPU_Grade(s16 PL_id) {
     s16 i;
