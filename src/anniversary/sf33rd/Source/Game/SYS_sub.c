@@ -927,7 +927,23 @@ void Check_Partners_Rank(s16 dir_step, s16 PL_id) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Sort_Score);
+s32 Check_Sort_Score(s16 PL_id) {
+    s16 i;
+    s16 j;
+
+    for (i = 0; i < 5; i++) {
+        if (Ranking_Data[i].score < Present_Data[PL_id].score) {
+            for (j = 3; j >= i; j--) {
+                Ranking_Data[j + 1] = Ranking_Data[j];
+            }
+
+            Ranking_Data[i] = Present_Data[PL_id];
+            return i;
+        }
+    }
+
+    return -1;
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Sort_Wins);
 
