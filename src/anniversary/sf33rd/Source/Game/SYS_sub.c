@@ -713,13 +713,26 @@ void Copy_Key_Disp_Work() {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Extra_Setting);
-#else
 s32 Check_Extra_Setting() {
-    not_implemented(__func__);
+    s16 ix;
+    s16 page;
+
+    for (page = 0; page < 4; page++) {
+        for (ix = Ex_Page_Data[page]; ix < 8; ix++) {
+            save_w[1].extra_option.contents[page][ix] = save_w[0].extra_option.contents[page][ix];
+        }
+    }
+
+    for (page = 0; page < 4; page++) {
+        for (ix = 0; ix < 4; ix++) {
+            if (save_w[1].extra_option.contents[page][ix] != save_w[0].extra_option.contents[page][ix]) {
+                return 1;
+            }
+        }
+    }
+
+    return 0;
 }
-#endif
 
 void All_Clear_Random_ix() {
     Random_ix16 = 0;
