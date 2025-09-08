@@ -81,13 +81,60 @@ s32 Switch_Screen_Revival(u8 Wipe_Type) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Convert_User_Setting);
-#else
 u16 Convert_User_Setting(s16 PL_id) {
-    not_implemented(__func__);
+    u16 sw;
+    u16 answer;
+
+    if (Debug_w[70] == 16) {
+        if (PL_id == 0) {
+            return p1sw_0;
+        }
+
+        return p2sw_0;
+    }
+
+    if (PL_id == 0) {
+        sw = p1sw_0;
+    } else {
+        sw = p2sw_0;
+    }
+
+    answer = sw & 0x400F;
+
+    if (sw & 0x10) {
+        answer |= Convert_Data[save_w[Present_Mode].Pad_Infor[PL_id].Shot[0]];
+    }
+
+    if (sw & 0x20) {
+        answer |= Convert_Data[save_w[Present_Mode].Pad_Infor[PL_id].Shot[1]];
+    }
+
+    if (sw & 0x40) {
+        answer |= Convert_Data[save_w[Present_Mode].Pad_Infor[PL_id].Shot[2]];
+    }
+
+    if (sw & 0x80) {
+        answer |= Convert_Data[save_w[Present_Mode].Pad_Infor[PL_id].Shot[3]];
+    }
+
+    if (sw & 0x100) {
+        answer |= Convert_Data[save_w[Present_Mode].Pad_Infor[PL_id].Shot[4]];
+    }
+
+    if (sw & 0x200) {
+        answer |= Convert_Data[save_w[Present_Mode].Pad_Infor[PL_id].Shot[5]];
+    }
+
+    if (sw & 0x400) {
+        answer |= Convert_Data[save_w[Present_Mode].Pad_Infor[PL_id].Shot[6]];
+    }
+
+    if (sw & 0x800) {
+        answer |= Convert_Data[save_w[Present_Mode].Pad_Infor[PL_id].Shot[7]];
+    }
+
+    return answer;
 }
-#endif
 
 void Clear_Personal_Data(s16 PL_id) {
     s16 xx;
