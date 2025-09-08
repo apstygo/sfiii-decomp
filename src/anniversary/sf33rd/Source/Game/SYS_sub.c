@@ -1398,13 +1398,32 @@ void Disp_Copyright() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Initialize_EM_Candidate);
-#else
 void Initialize_EM_Candidate(s16 PL_id) {
-    not_implemented(__func__);
+    s16 ix;
+    s16 ok_urien = random_16();
+
+    for (ix = 0; ix < 16; ix++) {
+        Candidate_Buff[ix] = 0xFF;
+    }
+
+    Setup_Candidate_Buff(PL_id);
+
+    for (ix = 0; ix < 8; ix++) {
+        EM_Candidate[PL_id][0][ix] = Check_EM_Buff(ix, ok_urien);
+        EM_Candidate[PL_id][1][ix] = Check_EM_Buff(ix, ok_urien);
+    }
+
+    EM_Candidate[PL_id][0][8] = Middle_Class_Boss_Data[My_char[PL_id]];
+    EM_Candidate[PL_id][1][8] = Middle_Class_Boss_Data[My_char[PL_id]];
+
+    if (My_char[PL_id] != 0) {
+        EM_Candidate[PL_id][0][9] = 0;
+        EM_Candidate[PL_id][1][9] = 0;
+    } else {
+        EM_Candidate[PL_id][0][9] = 1;
+        EM_Candidate[PL_id][1][9] = 1;
+    }
 }
-#endif
 
 void Setup_Candidate_Buff(s16 PL_id) {
     s16 em;
