@@ -775,13 +775,10 @@ s32 Request_Fade(u16 fade_code) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Fade_Complete_SP);
-#else
 s32 Check_Fade_Complete_SP() {
-    not_implemented(__func__);
+    fade_cont_main();
+    return Fade_Flag ^ 1;
 }
-#endif
 
 s32 Check_Fade_Complete() {
     if (Fade_Flag) {
