@@ -57,29 +57,34 @@ void Replay(s16 PL_id);
 
 const u16 Convert_Data[12] = { 16, 32, 64, 256, 512, 1024, 272, 544, 1088, 112, 1792, 0 };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Switch_Screen_Init);
-#else
-void Switch_Screen_Init(s32 unused) {
-    not_implemented(__func__);
+void Switch_Screen_Init(s32 /* unused */) {
+    WipeInit();
+    Forbid_Break = 1;
+    Exec_Wipe = 1;
+    Gap_Timer = 4;
+    Stop_SG = 1;
+    Escape_SS = 1;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Switch_Screen);
-#else
 s32 Switch_Screen(u8 Wipe_Type) {
-    not_implemented(__func__);
-}
-#endif
+    if (WipeOut(Wipe_Type) && --Gap_Timer <= 0) {
+        Exec_Wipe = 0;
+        Stop_Combo = 0;
+        return 1;
+    }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Switch_Screen_Revival);
-#else
-s32 Switch_Screen_Revival(u8 Wipe_Type) {
-    not_implemented(__func__);
+    return 0;
 }
-#endif
+
+s32 Switch_Screen_Revival(u8 Wipe_Type) {
+    if (WipeIn(Wipe_Type) && --Gap_Timer <= 0) {
+        Exec_Wipe = 0;
+        Stop_Combo = 0;
+        return 1;
+    }
+
+    return 0;
+}
 
 u16 Convert_User_Setting(s16 PL_id) {
     u16 sw;
@@ -744,13 +749,20 @@ void Setup_Limit_Time() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Training_Difficulty);
-#else
 void Setup_Training_Difficulty() {
-    not_implemented(__func__);
+    s16 unit_time;
+    s16 min_time;
+
+    unit_time = Limit_Time - 481;
+    unit_time = unit_time / 5;
+    min_time = 481 - (unit_time * 2);
+
+    if (min_time < 0) {
+        min_time = 0;
+    }
+
+    Control_Time = min_time + (unit_time * save_w[Present_Mode].Difficulty);
 }
-#endif
 
 void Setup_BG(s16 BG_INDEX, s16 X, s16 Y) {
     Unsubstantial_BG[BG_INDEX] = 1;
@@ -765,13 +777,17 @@ void Setup_BG(s16 BG_INDEX, s16 X, s16 Y) {
     Bg_Family_Set_Ex(BG_INDEX);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Virtual_BG);
-#else
 void Setup_Virtual_BG(s16 BG_INDEX, s16 X, s16 Y) {
-    not_implemented(__func__);
+    bg_w.bgw[BG_INDEX].xy[0].disp.pos = X;
+    bg_w.bgw[BG_INDEX].xy[1].disp.pos = Y;
+    bg_w.bgw[BG_INDEX].wxy[0].disp.pos = X;
+    bg_w.bgw[BG_INDEX].wxy[1].disp.pos = Y;
+    bg_w.bgw[BG_INDEX].xy[0].disp.low = 0;
+    bg_w.bgw[BG_INDEX].xy[1].disp.low = 0;
+    bg_w.bgw[BG_INDEX].position_x = X;
+    bg_w.bgw[BG_INDEX].position_y = Y;
+    Bg_Family_Set_Ex(BG_INDEX);
 }
-#endif
 
 void BG_move() {
 #if defined(TARGET_PS2)
@@ -875,13 +891,10 @@ u16 Check_Demo_Data(s16 PL_id) {
     return ans;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", System_all_clear_Level_B);
-#else
 void System_all_clear_Level_B() {
-    not_implemented(__func__);
+    Bg_Close();
+    effect_work_init();
 }
-#endif
 
 s16 Cut_Cut_C_Timer() {
     C_Timer--;
@@ -893,13 +906,10 @@ s16 Cut_Cut_C_Timer() {
     return C_Timer = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Switch_Priority_76);
-#else
 void Switch_Priority_76() {
-    not_implemented(__func__);
+    Order[56] = 7;
+    Order_Timer[56] = 1;
 }
-#endif
 
 s32 Cut_Cut_Sub(s16 xx) {
     if (Demo_Flag == 0) {
@@ -933,13 +943,39 @@ void njWaitVSync_with_N() {
     while (1) {}
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Soft_Reset_Sub);
-#else
 void Soft_Reset_Sub() {
-    not_implemented(__func__);
+    FadeOut(1, 0xFF, 8);
+    sound_all_off();
+    SsBgmHalfVolume(0);
+
+    if (task[5].condition == 0) {
+        cpReadyTask(5, Game_Task);
+    }
+
+    if (Usage == 7 && task[9].condition == 0) {
+        cpReadyTask(9, Debug_Task);
+    }
+
+    Next_Title_Sub();
+    Bg_TexInit();
+    Purge_mmtm_area(6);
+    Make_texcash_of_list(6);
+    pulpul_stop();
+    init_pulpul_work();
+    pp_operator_check_flag(1);
+    Init_Load_Request_Queue_1st();
+    cpExitTask(3);
+    cpExitTask(6);
+    cpExitTask(4);
+    setup_pos_remake_key(2);
+    Reset_Sub0();
+    task->r_no[0] = 1;
+    task->r_no[1] = 0;
+    task->r_no[2] = 0;
+    task->r_no[3] = 0;
+    vm_w.Request = 0;
+    vm_w.Access = 0;
 }
-#endif
 
 void Reset_Sub0() {
     Pause = 0;
