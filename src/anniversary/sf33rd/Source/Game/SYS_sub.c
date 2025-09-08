@@ -824,7 +824,21 @@ s32 Check_CPU_Grade_Score(s16 PL_id, s16 i) {
     return 1;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Grade_Score);
+s32 Check_Grade_Score(s16 PL_id, s16 i) {
+    if (Ranking_Data[i + 15].grade > Present_Data[PL_id].grade) {
+        return 0;
+    }
+
+    if (Ranking_Data[i + 15].grade < Present_Data[PL_id].grade) {
+        return 1;
+    }
+
+    if (Ranking_Data[i + 15].wins >= Present_Data[PL_id].wins) {
+        return 0;
+    }
+
+    return 1;
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Disp_Digit16x24);
