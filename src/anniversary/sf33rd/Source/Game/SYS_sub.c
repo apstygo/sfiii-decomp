@@ -579,13 +579,45 @@ void Setup_Default_Game_Option() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Change_Contents);
-#else
 s32 Check_Change_Contents() {
-    not_implemented(__func__);
+    s16 ix;
+    s16 ix2;
+    s16 page;
+
+    Check_Buff[3][0][0] = Convert_Buff[3][0][0];
+
+    for (ix = 4; ix < 12; ix++) {
+        Check_Buff[3][1][ix] = Convert_Buff[3][1][ix];
+    }
+
+    for (ix = 0; ix < 4; ix++) {
+        for (ix2 = 0; ix2 < 12; ix2++) {
+            if (Convert_Buff[ix][0][ix2] != Check_Buff[ix][0][ix2]) {
+                return 1;
+            }
+
+            if (Convert_Buff[ix][1][ix2] != Check_Buff[ix][1][ix2]) {
+                return 1;
+            }
+        }
+    }
+
+    for (page = 0; page < 4; page++) {
+        for (ix = Ex_Page_Data[page]; ix < 8; ix++) {
+            ck_ex_option.contents[page][ix] = save_w[1].extra_option.contents[page][ix];
+        }
+    }
+
+    for (ix = 0; ix < 4; ix++) {
+        for (ix2 = 0; ix2 < 8; ix2++) {
+            if (ck_ex_option.contents[ix][ix2] != save_w[1].extra_option.contents[ix][ix2]) {
+                return 1;
+            }
+        }
+    }
+
+    return 0;
 }
-#endif
 
 void cpRevivalTask() {
     struct _TASK *task_ptr;
