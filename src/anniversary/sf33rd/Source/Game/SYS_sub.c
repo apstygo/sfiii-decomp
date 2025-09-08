@@ -800,13 +800,57 @@ s32 Check_Fade_Complete() {
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Ranking);
-#else
 s32 Check_Ranking(s16 PL_id) {
-    not_implemented(__func__);
+    Present_Data[PL_id].name[0] = 12;
+    Present_Data[PL_id].name[1] = 10;
+    Present_Data[PL_id].name[2] = 25;
+    Present_Data[PL_id].player = Stock_My_char[PL_id];
+    Present_Data[PL_id].player_color = Stock_Player_Color[PL_id];
+    Present_Data[PL_id].score = Continue_Coin[PL_id] + Score[PL_id][0];
+    Present_Data[PL_id].wins = Stock_Win_Record[PL_id];
+    Present_Data[PL_id].cpu_grade = judge_final[PL_id]->vs_cpu_grade[12];
+    Present_Data[PL_id].grade = Best_Grade[PL_id];
+
+    if (Break_Com[PL_id][0]) {
+        Present_Data[PL_id].all_clear = 1;
+    } else {
+        Present_Data[PL_id].all_clear = 0;
+    }
+
+    Rank_In[PL_id][0] = Check_Sort_Score(PL_id);
+
+    if (Rank_In[PL_id][0] >= 0 && Rank_In[PL_id ^ 1][0] >= 0) {
+        Check_Partners_Rank(0, PL_id);
+    }
+
+    Rank_In[PL_id][1] = Check_Sort_Wins(PL_id);
+
+    if (Rank_In[PL_id][1] >= 0 && Rank_In[PL_id ^ 1][1] >= 0) {
+        Check_Partners_Rank(1, PL_id);
+    }
+
+    Rank_In[PL_id][2] = Check_Sort_CPU_Grade(PL_id);
+
+    if (Rank_In[PL_id][2]) {
+        Rank_In[PL_id][2] = -1;
+    } else {
+        Rank_In[PL_id ^ 1][2] = -1;
+    }
+
+    Rank_In[PL_id][3] = Check_Sort_Grade(PL_id);
+
+    if (Rank_In[PL_id][3]) {
+        Rank_In[PL_id][3] = -1;
+    } else {
+        Rank_In[PL_id ^ 1][3] = -1;
+    }
+
+    if (Rank_In[PL_id][0] >= 0 || Rank_In[PL_id][1] >= 0 || Rank_In[PL_id][2] >= 0 || Rank_In[PL_id][3] >= 0) {
+        return 1;
+    }
+
+    return 0;
 }
-#endif
 
 void Check_Partners_Rank(s16 dir_step, s16 PL_id) {
     if (Rank_In[PL_id][dir_step] > Rank_In[PL_id ^ 1][dir_step]) {
