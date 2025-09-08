@@ -213,13 +213,9 @@ s16 Check_Count_Cut(s16 PL_id, s16 Limit) {
     return xx & 0xFF0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Disp_Personal_Count);
-#else
 void Disp_Personal_Count(s16 PL_id, s8 counter) {
-    not_implemented(__func__);
+    SSPutDec(DE_X[PL_id] + 14, 0, 9, counter, 0);
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Play_Type);
@@ -259,17 +255,92 @@ void Score_Sub() {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", literal_401_00554498);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", literal_402_005544A0);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Disp_Win_Record);
-#else
 void Disp_Win_Record() {
-    not_implemented(__func__);
-}
-#endif
+    s16 PL_id;
+    s16 zz;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Disp_Win_Record_Sub);
+    if (omop_cockpit == 0) {
+        return;
+    }
+
+    switch (Mode_Type) {
+    case 0:
+        if (Play_Type == 1) {
+            if (Win_Record[0] != 0 || Win_Record[1] != 0) {
+                if (Win_Record[0]) {
+                    PL_id = 0;
+                    zz = 5;
+                } else {
+                    PL_id = 1;
+                    zz = 43;
+                }
+            } else {
+                break;
+            }
+        } else if (Win_Record[Player_id] == 0) {
+            break;
+        } else {
+            PL_id = Player_id;
+
+            if (Player_id == 0) {
+                zz = 5;
+            } else {
+                zz = 43;
+            }
+        }
+
+        Disp_Win_Record_Sub(Win_Record[PL_id], zz);
+        break;
+
+    case 1:
+    case 2:
+        if (VS_Win_Record[0] > 0) {
+            Disp_Win_Record_Sub(VS_Win_Record[0], 5);
+        }
+
+        if (VS_Win_Record[1] > 0) {
+            Disp_Win_Record_Sub(VS_Win_Record[1], 43);
+        }
+
+        break;
+    }
+}
+
+void Disp_Win_Record_Sub(u16 win_record, s16 zz) {
+    s16 xx;
+    s16 Wins_Buff;
+    s16 First_Digit;
+
+    switch (win_record) {
+    case 1:
+        SSPutStr(zz, 0, 9, "WIN");
+        break;
+
+    default:
+        SSPutStr(zz, 0, 9, "WINS");
+        break;
+    }
+
+    First_Digit = 0;
+    Wins_Buff = win_record;
+    xx = Wins_Buff / 100;
+
+    if (xx > 0) {
+        First_Digit = 1;
+        SSPutDec(zz - 4, 0, 9, xx, 1);
+    }
+
+    Wins_Buff -= xx * 100;
+    xx = Wins_Buff / 10;
+
+    if (First_Digit != 0 || xx > 0) {
+        SSPutDec(zz - 3, 0, 9, xx, 1);
+    }
+
+    Wins_Buff -= xx * 10;
+
+    SSPutDec(zz - 2, 0, 9, Wins_Buff, 1);
+}
 
 s32 Button_Cut_EX(s16 *Timer, s16 Limit_Time) {
     s16 PL_id = Setup_Target_PL();
