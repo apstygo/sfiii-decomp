@@ -1084,13 +1084,34 @@ s32 Check_EM_Sub(s16 ix, s16 ok_urien, s16 Rnd) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Same_CPU);
-#else
 void Check_Same_CPU(s16 PL_id) {
-    not_implemented(__func__);
+    s16 ix;
+    s16 ok_urien;
+
+    if (VS_Index[PL_id] >= 9) {
+        return;
+    }
+
+    if (Last_My_char[PL_id] == My_char[PL_id]) {
+        return;
+    }
+
+    ok_urien = random_16();
+
+    for (ix = 0; ix < 16; ix++) {
+        Candidate_Buff[ix] = 0xFF;
+    }
+
+    Setup_Candidate_Buff(PL_id);
+
+    for (ix = VS_Index[PL_id]; ix < 8; ix++) {
+        EM_Candidate[PL_id][0][ix] = Check_EM_Buff(ix, ok_urien);
+        EM_Candidate[PL_id][1][ix] = Check_EM_Buff(ix, ok_urien);
+    }
+
+    EM_Candidate[PL_id][0][8] = Middle_Class_Boss_Data[My_char[PL_id]];
+    EM_Candidate[PL_id][1][8] = Middle_Class_Boss_Data[My_char[PL_id]];
 }
-#endif
 
 void All_Clear_Suicide() {
     s16 ix;
