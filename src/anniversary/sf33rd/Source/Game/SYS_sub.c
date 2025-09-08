@@ -911,13 +911,17 @@ s16 Clear_Flash_Sub() {
     return Flash_Synchro;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Copy_Key_Disp_Work);
-#else
 void Copy_Key_Disp_Work() {
-    not_implemented(__func__);
+    s16 ix;
+
+    for (ix = 0; ix < 8; ix++) {
+        Convert_Buff[1][0][ix] = save_w[1].Pad_Infor[0].Shot[ix];
+        Convert_Buff[1][1][ix] = save_w[1].Pad_Infor[1].Shot[ix];
+    }
+
+    Convert_Buff[1][0][8] = save_w[1].Pad_Infor[0].Vibration;
+    Convert_Buff[1][1][8] = save_w[1].Pad_Infor[1].Vibration;
 }
-#endif
 
 s32 Check_Extra_Setting() {
     s16 ix;
