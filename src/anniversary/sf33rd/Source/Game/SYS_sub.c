@@ -754,13 +754,28 @@ void Replay(s16 PL_id) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_SysDir_Page);
-#else
 s16 Check_SysDir_Page() {
-    not_implemented(__func__);
+    s16 ix;
+    s16 count;
+
+    if (Debug_w[52]) {
+        return Debug_w[52] + 6;
+    }
+
+    for (count = 0, ix = 0; ix < 20; ix++) {
+        if (save_w[1].PL_Color[0][ix]) {
+            count++;
+        }
+    }
+
+    count /= 5;
+
+    if (count > 3) {
+        count = 3;
+    }
+
+    return count + 6;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Clear_Flash_Init);
