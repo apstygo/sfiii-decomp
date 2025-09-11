@@ -10,6 +10,10 @@
 #include "structs.h"
 #include <libvu0.h>
 
+#if !defined(TARGET_PS2)
+#include <string.h>
+#endif
+
 #define NTH_BYTE(value, n) ((((value >> n * 8) & 0xFF) << n * 8))
 
 typedef struct {
@@ -34,6 +38,21 @@ typedef struct {
 
 NJDP2D_W njdp2d_w;
 MTX cmtx;
+
+#if !defined(TARGET_PS2)
+static void matmul(MTX *dst, const MTX *a, const MTX *b) {
+    MTX result;
+
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            result.a[i][j] =
+                a->a[i][0] * b->a[0][j] + a->a[i][1] * b->a[1][j] + a->a[i][2] * b->a[2][j] + a->a[i][3] * b->a[3][j];
+        }
+    }
+
+    memcpy(dst, &result, sizeof(MTX));
+}
+#endif
 
 void njUnitMatrix(MTX *mtx) {
     if (mtx == NULL) {
@@ -121,15 +140,14 @@ void njTranslate(MTX *mtx, f32 x, f32 y, f32 z) {
                          : "r"(mtx), "f"(x), "f"(y), "f"(z)
                          : "t0", "t1", "memory");
 #else
-    f32 result[4] = { 0.0f };
+    MTX translation_matrix;
 
-    for (int i = 0; i < 4; i++) {
-        result[i] = mtx->a[i][0] * x + mtx->a[i][1] * y + mtx->a[i][2] * z + mtx->a[i][3] * 1;
-    }
+    njUnitMatrix(&translation_matrix);
+    translation_matrix.a[3][0] = x;
+    translation_matrix.a[3][1] = y;
+    translation_matrix.a[3][2] = z;
 
-    for (int i = 0; i < 4; i++) {
-        mtx->a[3][i] = result[i];
-    }
+    matmul(mtx, &translation_matrix, mtx);
 #endif
 }
 
