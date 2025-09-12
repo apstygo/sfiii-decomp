@@ -30,13 +30,17 @@
 #include "sf33rd/Source/Game/workuser.h"
 #include <memory.h>
 
+u8 Candidate_Buff[16];
+
+// forward decls
 void Disp_Win_Record_Sub(u16 win_record, s16 zz);
 s32 Setup_Target_PL();
-s32 Cut_Cut_Sub(s16 xx);
 void Reset_Sub0();
 void Setup_Replay_Header();
 void Get_Replay_Header();
+void Get_Replay(s16 PL_id);
 void Setup_Replay_Buff(s16 PL_id, u16 sw_buff);
+void Replay(s16 PL_id);
 void Check_Partners_Rank(s16 dir_step, s16 PL_id);
 s32 Check_Sort_Score(s16 PL_id);
 s32 Check_Sort_Wins(s16 PL_id);
@@ -47,13 +51,6 @@ s32 Check_Grade_Score(s16 PL_id, s16 i);
 void Setup_Candidate_Buff(s16 PL_id);
 s16 Check_EM_Buff(s16 ix, s16 ok_urien);
 s32 Check_EM_Sub(s16 ix, s16 ok_urien, s16 Rnd);
-s32 Flash_Violent(s32 /* unused */, s32 /* unused */);
-
-u8 Candidate_Buff[16];
-
-// forward decls
-void Get_Replay(s16 PL_id);
-void Replay(s16 PL_id);
 
 const u16 Convert_Data[12] = { 16, 32, 64, 256, 512, 1024, 272, 544, 1088, 112, 1792, 0 };
 
