@@ -935,7 +935,7 @@ void Sel_PL_2nd() {
 
     if (Demo_Flag == 0) {
         Demo_Timer[ID] = 0;
-        Demo_Ptr[ID] = Sel_PL_Data_Address[Select_Demo_Index];
+        (const u16 *)Demo_Ptr[ID] = Sel_PL_Data_Address[Select_Demo_Index];
     }
 }
 

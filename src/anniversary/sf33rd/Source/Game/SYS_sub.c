@@ -1224,21 +1224,81 @@ void Get_Replay(s16 PL_id) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Replay_Buff);
-#else
 void Setup_Replay_Buff(s16 PL_id, u16 sw_buff) {
-    not_implemented(__func__);
-}
-#endif
+    u16 buff;
+    u16 timer;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Replay);
-#else
-void Replay(s16 PL_id) {
-    not_implemented(__func__);
+    if (Condense_Buff[PL_id] == 0xFFFF) {
+        Demo_Timer[PL_id] = 1;
+        Condense_Buff[PL_id] = sw_buff;
+        return;
+    }
+
+    timer = Demo_Timer[PL_id] - 1;
+    timer <<= 12;
+    buff = Condense_Buff[PL_id] & 0xFFF;
+    buff |= timer;
+    *Demo_Ptr[PL_id] = buff;
+    Demo_Ptr[PL_id]++;
+
+    if (&Replay_w.io_unit.key_buff[PL_id][7197] < Demo_Ptr[PL_id]) {
+        Replay_Status[PL_id] = 99;
+        Replay_w.full_data |= PL_id + 1;
+        Rec_Time[PL_id] = Record_Timer;
+        return;
+    }
+
+    Demo_Timer[PL_id] = 1;
+    Condense_Buff[PL_id] = sw_buff;
 }
-#endif
+
+void Replay(s16 PL_id) {
+    u16 sw;
+    u16 buff;
+
+    if (&Replay_w.io_unit.key_buff[PL_id][7198] < Demo_Ptr[PL_id]) {
+        Replay_Status[0] = 2;
+        Replay_Status[1] = 2;
+
+        if (Mode_Type == 5) {
+            cpExitTask(4);
+            cpReadyTask(3, Menu_Task);
+            task[3].r_no[0] = 13;
+        }
+
+        Demo_Time_Stop = 1;
+        return;
+    }
+
+    if (Game_pause == 0x81) {
+        return;
+    }
+
+    if (Demo_Timer[PL_id] == 0) {
+        sw = *Demo_Ptr[PL_id];
+        Demo_Ptr[PL_id]++;
+        buff = sw;
+        sw &= 0xFFF;
+        Condense_Buff[PL_id] = sw;
+        buff &= 0xF000;
+        buff >>= 12;
+        Demo_Timer[PL_id] = buff + 1;
+    }
+
+    if (plw[PL_id].wu.operator == 0) {
+        if (PL_id) {
+            p2sw_0 = 0;
+        } else {
+            p1sw_0 = 0;
+        }
+    } else if (PL_id) {
+        p2sw_0 = Condense_Buff[PL_id];
+    } else {
+        p1sw_0 = Condense_Buff[PL_id];
+    }
+
+    Demo_Timer[PL_id]--;
+}
 
 s16 Check_SysDir_Page() {
     s16 ix;

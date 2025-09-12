@@ -436,7 +436,7 @@ extern u16 vital_stop_flag[2];
 extern u16 gauge_stop_flag[2];
 extern s16 Lamp_Timer;
 extern s16 Cont_Timer;
-extern const u16 *Demo_Ptr[2];
+extern u16 *Demo_Ptr[2];
 extern s16 Plate_X[2][3];
 extern s16 Plate_Y[2][3];
 extern u16 Demo_Timer[2];
