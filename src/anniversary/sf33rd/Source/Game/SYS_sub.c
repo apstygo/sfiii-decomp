@@ -464,13 +464,55 @@ void Clear_Disp_Ranking(s16 PL_id) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Meltw);
-#else
 void Meltw(u16 *s, u16 *d, s32 file_ptr) {
-    not_implemented(__func__);
+    s32 flag;
+    s32 i;
+    u32 s_cnt;
+    u32 s_len;
+    u16 *s_ptr;
+
+    while (1) {
+        flag = *s++ * 0x10000;
+        file_ptr--;
+        i = 16;
+
+        do {
+            if (flag >= 0) {
+                *d++ = *s++;
+                file_ptr--;
+            } else {
+                s_len = *s++;
+                s_cnt = s_len >> 11;
+
+                if (s_cnt != 0) {
+                    s_len = s_len & 0x7FF;
+                    file_ptr--;
+                } else {
+                    s_cnt = *s++;
+                    file_ptr -= 2;
+                }
+
+                if (s_len == 0 && s_cnt == 0) {
+                    return;
+                }
+
+                if (s_len == 0) {
+                    do {
+                        *d++ = 0;
+                    } while (--s_cnt);
+                } else {
+                    s_ptr = d - s_len;
+
+                    do {
+                        *d++ = *s_ptr++;
+                    } while (--s_cnt);
+                }
+            }
+
+            flag <<= 1;
+        } while (--i);
+    }
 }
-#endif
 
 void Setup_ID() {
     if (Operator_Status[0] == 0) {
