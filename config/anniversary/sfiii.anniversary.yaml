@@ -1427,7 +1427,7 @@ segments:
       - [0x4741A0, .sdata, sf33rd/Source/Game/sel_pl]
       - [0x4742A0, .sdata, sf33rd/Source/Game/Sound3rd]
       - [0x474368, .sdata, sf33rd/Source/Game/spgauge]
-      - [0x474378, sdata, sf33rd/Source/Game/SYS_sub]
+      - [0x474378, .sdata, sf33rd/Source/Game/SYS_sub]
       - [0x474390, .sdata, sf33rd/Source/Game/ta_sub]
       - [0x4743B0, .sdata, sf33rd/Source/Game/TATE00]
       - [0x474420, .sdata, sf33rd/Source/Game/texcash]
@@ -1550,7 +1550,7 @@ segments:
       - { type: sbss, vram: 0x578F30, name: sf33rd/Source/Game/EFFA6 }
       - { type: sbss, vram: 0x578F48, name: sf33rd/Source/Game/effb2 }
       - { type: sbss, vram: 0x578F50, name: sf33rd/Source/Game/effb3 }
-      - { type: sbss, vram: 0x578F54, name: sf33rd/Source/Game/EFFB8 }
+      - { type: .sbss, vram: 0x578F54, name: sf33rd/Source/Game/EFFB8 }
       - { type: sbss, vram: 0x578F70, name: sf33rd/Source/Game/effb9 }
       - { type: .sbss, vram: 0x578F80, name: sf33rd/Source/Game/EFFECT }
       - { type: .sbss, vram: 0x578FB8, name: sf33rd/Source/Game/EFFF9 }

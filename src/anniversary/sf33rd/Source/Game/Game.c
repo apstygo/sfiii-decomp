@@ -96,7 +96,6 @@ s16 Disp_Rank_Sub(s16 PL_id);
 static s16 Bonus_Sub();
 s16 Ck_Coin();
 void Loop_Demo_Sub();
-void Next_Title_Sub();
 void Before_Select_Sub();
 
 void Game_Task(struct _TASK *task_ptr) {
