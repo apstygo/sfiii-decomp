@@ -440,7 +440,7 @@ segments:
       - [0x167F10, c, sf33rd/Source/Game/Manage]
       - [0x16EBE0, c, sf33rd/Source/Game/menu]
       - [0x1802E0, c, sf33rd/Source/Game/meta_col]
-      - [0x180C00, c, sf33rd/Source/Game/MMTMCNT] # Good first decomp
+      - [0x180C00, c, sf33rd/Source/Game/MMTMCNT]
       - [0x180ED0, c, sf33rd/Source/Game/MTRANS]
       - [0x188DB0, c, sf33rd/Source/Game/n_input]
       - [0x18ABF0, c, sf33rd/Source/Game/Next_CPU]
@@ -507,7 +507,7 @@ segments:
       - [0x27BC10, c, sf33rd/Source/Game/RAMCNT]
       - [0x27C6B0, c, sf33rd/Source/Game/RANKING]
       - [0x27EC70, c, sf33rd/Source/Game/Reset]
-      - [0x27F230, c, sf33rd/Source/Game/Saver] # Good first decomp
+      - [0x27F230, c, sf33rd/Source/Game/Saver]
       - [0x27F520, c, sf33rd/Source/Game/sc_sub]
       - [0x289050, c, sf33rd/Source/Game/SE]
       - [0x28A090, c, sf33rd/Source/Game/sel_pl]
@@ -530,7 +530,7 @@ segments:
       - [0x2A8790, c, sf33rd/Source/Game/aboutspr]
       - [0x2AAFD0, c, sf33rd/Source/Game/SysDir]
       - [0x2ABE00, c, sf33rd/Source/Game/ta_sub]
-      - [0x2AD770, c, sf33rd/Source/Game/TATE00] # Good first decomp
+      - [0x2AD770, c, sf33rd/Source/Game/TATE00]
       - [0x2AD990, c, sf33rd/Source/Game/texcash]
       - [0x2B05C0, c, sf33rd/Source/Game/texgroup]
       - [0x2B14F0, c, sf33rd/Source/Game/VITAL]
