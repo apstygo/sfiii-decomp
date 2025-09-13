@@ -1,6 +1,7 @@
 #include "port/sdl/sdl_app.h"
 #include "common.h"
 #include "port/sdk_threads.h"
+#include "port/float_clamp.h"
 #include "port/sdl/sdl_game_renderer.h"
 #include "port/sdl/sdl_message_renderer.h"
 #include "port/sdl/sdl_pad.h"
@@ -195,7 +196,7 @@ void SDLApp_EndFrame() {
         SDL_RenderDebugTextFormat(renderer, 8, 32, "Opening index: %d", opening_index);
     }
 
-    const Uint64 frame_time_budget = target_frame_time_ns + frame_time_remainder;
+    const Uint64 frame_time_budget = float_to_uint64_clamped(target_frame_time_ns) + frame_time_remainder;
     Uint64 frame_time = SDL_GetTicksNS() - frame_start;
 
     if (frame_time < frame_time_budget) {
@@ -208,7 +209,7 @@ void SDLApp_EndFrame() {
     // Measure
     frame_counter += 1;
     frame_time = SDL_GetTicksNS() - frame_start;
-    frame_time_remainder = target_frame_time_ns - frame_time;
+    frame_time_remainder = float_to_uint64_clamped(target_frame_time_ns) - frame_time;
     add_frame_time(frame_time);
     update_fps();
 
