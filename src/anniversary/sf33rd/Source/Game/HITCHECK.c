@@ -1174,13 +1174,140 @@ void catch_hit_check() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", attack_hit_check);
-#else
 void attack_hit_check() {
-    not_implemented(__func__);
+    WORK *mad;
+    WORK *sad;
+    s16 *mh;
+    s16 *sh;
+    s16 mi;
+    s16 si;
+    s16 lp;
+    s16 lp2;
+    s16 mw;
+
+    s16 *assign1;
+    s16 *assign2;
+
+    for (si = 0; si < hpq_in; si++) {
+        if (hs[si].flag.results & 0x1101) {
+            continue;
+        }
+
+        sad = q_hit_push[si];
+        sh = sad->h_bod->body_dm[0];
+        mh = sad->h_han->hand_dm[0];
+
+        for (lp = 0; lp < 4; lp++, sh += 4, assign1 = mh += 4) {
+            dmdat_adrs[lp] = sh;
+            dmdat_adrs[lp + 4] = mh;
+        }
+
+        dmdat_adrs[8] = &sad->h_att->att_box[2][0];
+        dmdat_adrs[9] = &sad->h_att->att_box[3][0];
+        dmdat_adrs[10] = &sad->h_hos->hos_box[0];
+
+        for (mi = 0; mi < hpq_in; mi++) {
+            if (mi == si) {
+                continue;
+            }
+            if (hs[mi].flag.results & 0x1110) {
+                continue;
+            }
+
+            mad = q_hit_push[mi];
+            if (mad->cg_ja.atix == 0) {
+                continue;
+            }
+            if (mad->att_hit_ok == 0) {
+                continue;
+            }
+
+            if (!(mad->att.dipsw & 2) ||
+                (!(sad->att.dipsw & 2) && (sad->work_id == 1 || !(((WORK_Other *)sad)->refrected)))) {
+                if ((mad->work_id != 1 && mad->work_id != 8) || !(sad->att.dipsw & 2)) {
+                    if (!(mad->vs_id & sad->work_id)) {
+                        continue;
+                    }
+                }
+            }
+
+            if (mad->work_id != 1) {
+                if (sad->work_id == 1) {
+                    if (((WORK_Other *)mad)->master_id == sad->id) {
+                        continue;
+                    }
+                } else if (((WORK_Other *)mad)->master_id == ((WORK_Other *)sad)->master_id) {
+                    continue;
+                }
+            } else if ((sad->work_id != 1 && ((WORK_Other *)sad)->refrected == 0) &&
+                       (mad->id == ((WORK_Other *)sad)->master_id)) {
+                continue;
+            }
+
+            mh = &mad->h_att->att_box[0][0];
+
+            for (lp = 0; lp < 4; lp++, assign2 = mh += 4) {
+                if (mh[1] == 0) {
+                    continue;
+                }
+
+                for (lp2 = 0; lp2 < 11; lp2++) {
+                    if (lp2 > 3 && mad->att_hit_ok == 0) {
+                        goto end;
+                    }
+
+                    if (dmdat_adrs[lp2][1] == 0) {
+                        continue;
+                    }
+
+                    if ((lp == 2 || lp == 3) && (lp2 == 8 || lp2 == 9)) {
+                        continue;
+                    }
+
+                    if ((lp2 > 3) && (lp2 < 0xA)) {
+                        if (!(((mad->rl_flag) + (sad->rl_flag)) & 1)) {
+                            if (mad->rl_flag) {
+                                if (!(mad->xyz[0].disp.pos <= sad->xyz[0].disp.pos)) {
+                                    continue;
+                                }
+                            } else if (!(mad->xyz[0].disp.pos >= sad->xyz[0].disp.pos)) {
+                                continue;
+                            }
+                        }
+                        if (mad->att.dipsw & 4 && (lp2 >= 8 || sad->cg_ja.bhix == 0)) {
+                            continue;
+                        }
+                    }
+
+                    if (lp2 == 10) {
+                        if (!(mad->att.dipsw & 64) || sad->kind_of_waza & 0x60 || pcon_dp_flag ||
+                            sad->pat_status == 0x26) {
+                            continue;
+                        }
+                    }
+
+                    mw = hit_check_subroutine(mad, sad, mh, dmdat_adrs[lp2]);
+
+                    if (mw > mkm_wk[si]) {
+                        hs[mi].flag.results |= 0x10;
+                        hs[mi].my_hit = si;
+                        hs[mi].my_att = lp;
+                        hs[si].flag.results |= 1;
+                        hs[si].dm_me = mi;
+                        hs[si].dm_body = lp2;
+                        mad->att_hit_ok = 0;
+                        mkm_wk[si] = mw;
+                        hs[mi].ah = mh;
+                        hs[si].dh = dmdat_adrs[lp2];
+                    }
+                }
+            }
+        }
+
+    end:
+        continue;
+    }
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", hit_check_subroutine);
