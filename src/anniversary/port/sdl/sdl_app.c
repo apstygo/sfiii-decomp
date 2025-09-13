@@ -189,7 +189,7 @@ void SDLApp_EndFrame() {
     SDL_RenderDebugTextFormat(renderer, 8, 8, "FPS: %f", fps);
     SDL_RenderDebugTextFormat(renderer, 8, 20, "Render tasks: %d", SDLGameRenderer_GetRenderTaskCount());
 
-    const Uint64 frame_time_budget = target_frame_time_ns + frame_time_remainder;
+    const Uint64 frame_time_budget = (Uint64)target_frame_time_ns + frame_time_remainder;
     Uint64 frame_time = SDL_GetTicksNS() - frame_start;
 
     if (frame_time < frame_time_budget) {
@@ -202,7 +202,7 @@ void SDLApp_EndFrame() {
     // Measure
     frame_counter += 1;
     frame_time = SDL_GetTicksNS() - frame_start;
-    frame_time_remainder = target_frame_time_ns - frame_time;
+    frame_time_remainder = (Uint64)target_frame_time_ns - frame_time;
     add_frame_time(frame_time);
     update_fps();
 

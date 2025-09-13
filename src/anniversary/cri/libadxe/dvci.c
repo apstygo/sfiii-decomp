@@ -25,7 +25,7 @@ Sint32 dvCiSeek(DVG_CI handl, Sint32 offset, Sint32 whence);
 Sint32 dvCiTell(DVG_CI handl);
 Sint32 dvCiReqRd(DVG_CI handl, Sint32 nsct, void *buf);
 void dvCiStopTr(DVG_CI handl);
-Sint8 dvCiGetStat(DVG_CI handl);
+Sint32 dvCiGetStat(DVG_CI handl);
 Sint32 dvCiGetSctLen();
 Sint32 dvCiGetNumTr(DVG_CI handl);
 Sint32 dvCiIsExistFile(const Char8 *fname);
@@ -449,7 +449,7 @@ void dvCiStopTr(DVG_CI handl) {
     handl->unk14 = 0;
 }
 
-Sint8 dvCiGetStat(DVG_CI handl) {
+Sint32 dvCiGetStat(DVG_CI handl) {
     if (handl == NULL) {
         dvci_call_errfn(handl, "E0092912:handl is null.");
         return 0;
