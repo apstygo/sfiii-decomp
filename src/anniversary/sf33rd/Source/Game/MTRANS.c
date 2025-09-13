@@ -370,8 +370,9 @@ s16 getObjectHeight(u16 cgnum) {
         }
     }
 
-    if (height)
-        ;
+    if (height) {
+        // do nothing
+    }
 
     return maxHeight;
 }
