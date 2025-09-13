@@ -1309,13 +1309,51 @@ void attack_hit_check() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", hit_check_subroutine);
-#else
 s16 hit_check_subroutine(WORK *wk1, WORK *wk2, const s16 *hd1, const s16 *hd2) {
-    not_implemented(__func__);
+    s16 d0;
+    s16 d1;
+    s16 d2;
+    s16 d3;
+
+    d0 = *hd1++;
+    d1 = *hd1++;
+
+    if (wk1->rl_flag) {
+        d0 = -d0;
+        d0 -= d1;
+    }
+
+    d0 += wk1->xyz[0].disp.pos;
+    d2 = *hd2++;
+    d3 = *hd2++;
+
+    if (wk2->rl_flag) {
+        d2 = -d2;
+        d2 -= d3;
+    }
+
+    d2 += wk2->xyz[0].disp.pos;
+    d2 += d3 - d0;
+    d3 += d1;
+
+    if ((u32)d2 >= d3) {
+        return 0;
+    }
+
+    d0 = (wk1->xyz[1].disp.pos + *hd1++) - (wk2->xyz[1].disp.pos + *hd2++);
+    d0 += d1 = *hd1;
+    d1 += *hd2;
+
+    if ((u32)d0 >= d1) {
+        return 0;
+    }
+
+    if (d2 > (d3 - d2)) {
+        d2 = d3 - d2;
+    }
+
+    return d2;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", hit_check_x_only);
