@@ -273,13 +273,139 @@ void cal_hit_mark_pos(WORK *as, WORK *ds, s16 ix2, s16 ix) {
 
 const s16 Dsas_dir_table[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0 };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", plef_at_vs_player_damage_union);
-#else
 void plef_at_vs_player_damage_union(PLW *as, PLW *ds, s8 gddir) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s32 defense_sky(PLW * as, PLW * ds, s32 gddir);
+    s16 get_sky_sp_damage(u32 ix);
+    s16 get_sky_nm_damage(u32 ix);
+    s32 defense_ground(PLW * as, PLW * ds, s32 gddir);
+    u8 check_head_damage(s32 ix);
+    s16 get_kagami_damage(u32 ix);
+    s16 get_kind_of_head_dm(s32 dir, s32 drl);
+    s16 get_grd_hand_damage(u32 ix);
+    u8 check_trunk_damage(s32 ix);
+    s16 get_kind_of_trunk_dm(s32 dir, s32 drl);
+    void check_guard_miss(WORK * as, PLW * ds, s32 gddir);
+    s32 effect_02_init(WORK * wk, s32 dmgp, s32 mkst, s32 dmrl);
 #endif
+
+    ds->wu.dm_guard_success = -1;
+
+    if (ds->guard_flag == 3 || as->wu.att.guard == 0 || ds->py->flag != 0) {
+        if (ds->wu.pat_status == 10) {
+            ds->wu.xyz[1].cal = 0;
+            goto switch_defense_ground;
+        } else if (ds->wu.pat_status == 12 && ds->wu.xyz[1].disp.pos < 6) {
+            ds->wu.xyz[1].cal = 0;
+            goto switch_defense_ground;
+        }
+
+        if (ds->wu.routine_no[1] == 1) {
+            if (ds->wu.xyz[1].disp.pos > 0 || check_pat_status(&ds->wu)) {
+                goto jump_one;
+            } else {
+                goto jump_two;
+            }
+        }
+    }
+
+    if (ds->wu.xyz[1].disp.pos > 0 || check_pat_status(&ds->wu)) {
+        switch (defense_sky(as, ds, gddir)) {
+        case 0:
+            goto set_paring_status;
+
+        case 1:
+            goto set_guard_status;
+        }
+
+    jump_one:
+        as->wu.hf.hit.player = 2;
+        ds->wu.kezurare_flag = 0;
+        dm_reaction_init_set(as, ds);
+
+        if (as->wu.att.dipsw & 0x10) {
+            ds->wu.routine_no[2] = get_sky_sp_damage(ds->wu.routine_no[2]);
+        } else {
+            ds->wu.routine_no[2] = get_sky_nm_damage(ds->wu.routine_no[2]);
+        }
+    } else {
+    switch_defense_ground:
+        switch (defense_ground(as, ds, gddir)) {
+        case 0:
+            goto set_paring_status;
+
+        case 1:
+            goto set_guard_status;
+        }
+
+    jump_two:
+        as->wu.hf.hit.player = 1;
+        ds->wu.kezurare_flag = 0;
+        dm_reaction_init_set(as, ds);
+
+        if (as->wu.zu_flag == 0) {
+            if (ds->wu.pat_status >= 32) {
+                ds->wu.routine_no[2] = get_kagami_damage(ds->wu.routine_no[2]);
+            } else {
+                switch (ds->dm_point) {
+                case 0:
+                case 1:
+                    if (check_head_damage(ds->wu.routine_no[2])) {
+                        ds->wu.routine_no[2] = get_kind_of_head_dm(as->wu.dir_atthit, ds->wu.dm_rl);
+                    }
+
+                    break;
+
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                    ds->wu.routine_no[2] = get_grd_hand_damage(ds->wu.routine_no[2]);
+                    /* fallthrough */
+
+                default:
+                    if (check_trunk_damage(ds->wu.routine_no[2])) {
+                        ds->wu.routine_no[2] = get_kind_of_trunk_dm(as->wu.dir_atthit, ds->wu.dm_rl);
+                    }
+                }
+            }
+        }
+    }
+
+    ds->wu.routine_no[1] = 1;
+    ds->wu.routine_no[3] = 0;
+    grade_add_clean_hits((WORK_Other *)as);
+    check_guard_miss(&as->wu, ds, gddir);
+    effect_02_init(&as->wu, ds->dm_point, 1, ds->wu.dm_rl);
+    dm_status_copy(&as->wu, &ds->wu);
+    same_dm_stop(&as->wu, &ds->wu);
+    as->wu.cmwk[8]++;
+    as->wu.cmwk[15]++;
+    ds->wu.dm_count_up++;
+
+    if (ds->wu.xyz[1].disp.pos < 0) {
+        ds->wu.xyz[1].cal = 0;
+    }
+
+    add_combo_work(as, ds);
+    hit_pattern_extdat_check(&as->wu);
+
+    if (ds->atemi_flag && ds->atemi_point != ds->dm_point) {
+        ds->atemi_flag = 0;
+    }
+
+    paring_ctr_vs[Play_Type][ds->wu.id] = 0;
+    paring_counter[ds->wu.id] = 0;
+    paring_bonus_r[ds->wu.id] = 0;
+    return;
+
+set_guard_status:
+    set_guard_status(as, ds);
+    return;
+
+set_paring_status:
+    set_paring_status(as, ds);
+}
 
 void dm_reaction_init_set(PLW *as, PLW *ds) {
 #if defined(TARGET_PS2)
