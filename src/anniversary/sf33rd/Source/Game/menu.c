@@ -4487,14 +4487,140 @@ void Training_Init(struct _TASK *task_ptr) {
     Replay_Status[1] = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Normal_Training);
-// Normal_Training contains literal_2331
-#else
 void Normal_Training(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    s16 ix;
+    s16 x;
+    s16 y;
+
+    s16 s2;
+
+    Menu_Cursor_Y[1] = Menu_Cursor_Y[0];
+
+    switch (task_ptr->r_no[2]) {
+    case 0:
+        Training_Init_Sub(task_ptr);
+        Training_Index = 0;
+        x = 120;
+        y = 56;
+        Training[0] = Training[2];
+
+        for (ix = 0; ix < 8; ix++, s2 = y += 16) {
+            (void)s2;
+            if (ix == 1 || ix == 3 || ix == 7) {
+                y += 4;
+            }
+
+            effect_A3_init(0, 0, ix, ix, 0, x, y, 0);
+        }
+
+        break;
+
+    case 1:
+        if (Appear_end < 2) {
+            break;
+        }
+
+        if (Exec_Wipe) {
+            break;
+        }
+
+        MC_Move_Sub(Check_Menu_Lever(Decide_ID, 0), 0, 7, 0xFF);
+        Check_Skip_Recording();
+        Check_Skip_Replay(2);
+
+        switch (IO_Result) {
+        case 0x100:
+            switch (Menu_Cursor_Y[0]) {
+            case 0:
+            case 1:
+            case 2:
+                if (Interface_Type[Champion ^ 1] == 0 && Training[2].contents[0][0][0] == 4) {
+                    Training[2].contents[0][0][0] = 0;
+                }
+
+                task_ptr->r_no[0] = 10;
+                task_ptr->r_no[1] = 0;
+                task_ptr->r_no[2] = 0;
+                task_ptr->r_no[3] = 0;
+                Menu_Suicide[0] = 1;
+                Game_pause = 0;
+                Pause_Down = 0;
+                Training_Disp_Work_Clear();
+                CP_No[0][0] = 0;
+                CP_No[1][0] = 0;
+                plw[New_Challenger].wu.operator = 1;
+                Operator_Status[New_Challenger] = 1;
+                Setup_NTr_Data(Menu_Cursor_Y[0]);
+                count_cont_init(0);
+
+                switch (Training[0].contents[0][0][0]) {
+                case 0:
+                    control_pl_rno = 0;
+                    control_player = New_Challenger;
+                    break;
+
+                case 1:
+                    control_pl_rno = 1;
+                    control_player = New_Challenger;
+                    break;
+
+                case 2:
+                    control_pl_rno = 2;
+                    control_player = New_Challenger;
+                    break;
+
+                case 3:
+                    control_pl_rno = 99;
+                    plw[New_Challenger].wu.operator = 0;
+                    Operator_Status[New_Challenger] = 0;
+                    break;
+
+                case 4:
+                    control_pl_rno = 99;
+                    break;
+                }
+
+                All_Clear_Timer();
+                Check_Replay();
+                Training[0].contents[0][1][3] = Menu_Cursor_Y[0];
+                init_omop();
+                set_init_A4_flag();
+                setup_vitality(&plw[0].wu, My_char[0] + 0);
+                setup_vitality(&plw[1].wu, My_char[1] + 0);
+                Setup_Training_Difficulty();
+                Training_Cursor = Menu_Cursor_Y[0];
+                break;
+
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+                task_ptr->r_no[1] = Menu_Cursor_Y[0];
+                task_ptr->r_no[2] = 0;
+                task_ptr->r_no[3] = 0;
+                Training_Cursor = Menu_Cursor_Y[0];
+                break;
+
+            case 7:
+                Training_Cursor = 7;
+                Training_Exit_Sub(task_ptr);
+            }
+
+            SsBgmHalfVolume(0);
+            SE_selected();
+        }
+
+        break;
+
+    case 2:
+        Yes_No_Cursor_Exit_Training(task_ptr, 7);
+        break;
+
+    default:
+        Exit_Sub(task_ptr, 0, Menu_Cursor_Y[0] + 1);
+        break;
+    }
 }
-#endif
 
 void Setup_NTr_Data(s16 ix) {
     switch (ix) {
