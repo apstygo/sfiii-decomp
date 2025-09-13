@@ -506,13 +506,82 @@ void grade_makeup_bonus_parameter(s16 ix) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", get_offence_total);
-#else
 s16 get_offence_total(s16 ix) {
-    not_implemented(__func__);
+    s32 num;
+    s32 num2;
+    s32 point;
+    s32 point2;
+    s16 i;
+    s16 ix2;
+
+    ix2 = (ix + 1) & 1;
+    point = point2 = 0;
+    num2 = judge_item[ix2][Play_Type].guard_succ + judge_item[ix2][Play_Type].nml_blocking +
+           judge_item[ix2][Play_Type].rpd_blocking + judge_item[ix2][Play_Type].grd_blocking +
+           judge_item[ix][Play_Type].clean_hits;
+
+    if (num2 != 0) {
+        num = (judge_item[ix][Play_Type].clean_hits * 100) / num2;
+    } else {
+        num = 0;
+    }
+
+    last_judge_dada[ix][0] = remake_2_10(num, 3);
+
+    for (i = 0; i < 23; i++) {
+        if (num < grade_t_meichuuritsu2[i + 1][0]) {
+            break;
+        }
+    }
+
+    point2 = grade_t_meichuuritsu2[i][1];
+
+    if (judge_item[ix][Play_Type].att_renew) {
+        num = (num2 * 100) / judge_item[ix][Play_Type].att_renew;
+    } else {
+        num = 0;
+    }
+
+    last_judge_dada[ix][1] = remake_2_10(num, 3);
+    point2 = (point2 * num) / 100;
+
+    if (judge_item[ix2][Play_Type].grd_mcnt) {
+        num = (judge_item[ix2][Play_Type].grd_miss * 100) / judge_item[ix2][Play_Type].grd_mcnt;
+    } else {
+        num = 0;
+    }
+
+    last_judge_dada[ix][2] = remake_2_10(num, 3);
+
+    for (i = 0; i < 20; i++) {
+        if (num < grade_t_meichuuritsu3[i + 1][0]) {
+            break;
+        }
+    }
+
+    point2 *= grade_t_meichuuritsu3[i][1];
+    point2 /= 32;
+
+    point = point2;
+
+    for (i = 0; i < 4; i++) {
+        if (judge_item[ix][Play_Type].em_stun < grade_t_em_stun[i + 1][0]) {
+            break;
+        }
+    }
+
+    point += grade_t_em_stun[i][1];
+
+    for (i = 0; i < 18; i++) {
+        if (judge_item[ix][Play_Type].max_combo < grade_t_max_combo[i + 1][0]) {
+            break;
+        }
+    }
+
+    point += grade_t_max_combo[i][1];
+
+    return point;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", get_defence_total);
