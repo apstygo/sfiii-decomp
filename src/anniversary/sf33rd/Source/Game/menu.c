@@ -154,6 +154,8 @@ void Dummy_Setting(struct _TASK *task_ptr);
 void Training_Option(struct _TASK *task_ptr);
 void Button_Config_Tr(struct _TASK *task_ptr);
 void Blocking_Tr_Option(struct _TASK *task_ptr);
+void Training_Init_Sub(struct _TASK *task_ptr);
+void Training_Exit_Sub(struct _TASK *task_ptr);
 void Menu_Init(struct _TASK *task_ptr);
 s32 Check_Pad_in_Pause(struct _TASK *task_ptr);
 s32 Pause_1st_Sub(struct _TASK *task_ptr);
@@ -4849,14 +4851,146 @@ void Dummy_Move_Sub_LR(u16 sw, s16 id, s16 type, s16 cursor_id) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Blocking_Training);
-// Blocking_Training contains literal_2592
-#else
 void Blocking_Training(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    s16 ix;
+    s16 x;
+    s16 y;
+    s16 s2;
+
+    Menu_Cursor_Y[1] = Menu_Cursor_Y[0];
+
+    switch (task_ptr->r_no[2]) {
+    case 0:
+        Training_Init_Sub(task_ptr);
+        Training_Index = 1;
+        x = 112;
+        y = 72;
+        plw[0].wu.operator = 1;
+        Operator_Status[0] = 1;
+        plw[1].wu.operator = 1;
+        Operator_Status[1] = 1;
+
+        for (ix = 0; ix < 6; ix++, s2 = y += 16) {
+            (void)s2;
+            if (ix == 1 || ix == 2 || ix == 5) {
+                y += 4;
+            }
+
+            effect_A3_init(1, 11, ix, ix, 0, x, y, 0);
+        }
+
+        break;
+
+    case 1:
+        if (Appear_end < 2) {
+            break;
+        }
+
+        if (Exec_Wipe) {
+            break;
+        }
+
+        MC_Move_Sub(Check_Menu_Lever(Decide_ID, 0), 0, 5, 0xFF);
+        Check_Skip_Replay(1);
+
+        switch (IO_Result) {
+        case 0x100:
+            switch (Menu_Cursor_Y[0]) {
+            case 0:
+                Record_Data_Tr = 1;
+                Training[0] = Training[2];
+                Training[0].contents[1][0][2] = 1;
+                Training[1] = Training[2];
+
+                switch (Training[0].contents[1][0][0]) {
+                case 0:
+                    control_pl_rno = 0;
+                    break;
+
+                case 1:
+                    control_pl_rno = 1;
+                    break;
+
+                case 2:
+                    control_pl_rno = 2;
+                    break;
+                }
+
+                /* fallthrough */
+
+            case 1:
+                if (Menu_Cursor_Y[0] == 0) {
+                    Play_Mode = 1;
+                } else {
+                    Play_Mode = 3;
+                }
+
+                All_Clear_Timer();
+                Check_Replay();
+
+                if (Menu_Cursor_Y[0] == 1) {
+                    Replay_Status[Training_ID] = 0;
+                    Replay_Status[Training_ID ^ 1] = 3;
+                    Training[0] = Training[1];
+                    Training[0].contents[1][0][2] = Training[2].contents[1][0][2];
+                    Training[0].contents[1][0][3] = Training[2].contents[1][0][3];
+                    control_pl_rno = 99;
+                }
+
+                task_ptr->r_no[0] = 10;
+                task_ptr->r_no[1] = 0;
+                task_ptr->r_no[2] = 0;
+                task_ptr->r_no[3] = 0;
+                Menu_Suicide[0] = 1;
+                Game_pause = 0;
+                Pause_Down = 0;
+                save_w[Present_Mode].Time_Limit = 60;
+                count_cont_init(0);
+                Training[0].contents[1][1][3] = Menu_Cursor_Y[0];
+                init_omop();
+                set_init_A4_flag();
+                Training_Cursor = Menu_Cursor_Y[0];
+                break;
+
+            case 2:
+                task_ptr->r_no[1] = 7;
+                task_ptr->r_no[2] = 0;
+                task_ptr->r_no[3] = 0;
+                Training_Cursor = 2;
+                break;
+
+            case 3:
+                Training_Cursor = 3;
+                /* fallthrough */
+
+            case 4:
+                task_ptr->r_no[1] = Menu_Cursor_Y[0] + 2;
+                task_ptr->r_no[2] = 0;
+                task_ptr->r_no[3] = 0;
+                break;
+
+            case 5:
+                Training_Cursor = 5;
+                Training_Exit_Sub(task_ptr);
+                break;
+            }
+
+            SsBgmHalfVolume(0);
+            SE_selected();
+            break;
+        }
+
+        break;
+
+    case 2:
+        Yes_No_Cursor_Exit_Training(task_ptr, 5);
+        break;
+
+    default:
+        Exit_Sub(task_ptr, 0, Menu_Cursor_Y[0] + 1);
+        break;
+    }
 }
-#endif
 
 const LetterData training_letter_data[6] = { { 0x68, "NORMAL TRAINING" },   { 0x5C, "PARRYING TRAINING" },
                                              { 0x7C, "DUMMY SETTING" },     { 0x6C, "TRAINING OPTION" },
