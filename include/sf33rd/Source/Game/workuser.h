@@ -148,7 +148,7 @@ extern s8 Jump_Pass_Timer[2][4];
 extern s8 sa_gauge_flash[2];
 extern s8 Receive_Flag[2];
 extern s8 Disposal_Again[2];
-extern s8 BGM_Vol;
+extern volatile s8 BGM_Vol;
 extern u8 Used_char[2];
 extern s8 Break_Com[2][20];
 extern s8 aiuchi_flag;
