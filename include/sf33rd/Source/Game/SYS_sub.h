@@ -47,6 +47,8 @@ s32 Check_PL_Load();                               // Range: 0x3A4BF0 -> 0x3A4C4
 void BG_Draw_System();                             // Range: 0x3A4C50 -> 0x3A4E00
 u16 Check_Demo_Data(s16 PL_id);                    // Range: 0x3A4E00 -> 0x3A4F18
 void System_all_clear_Level_B();                   // Range: 0x3A4F20 -> 0x3A4F48
+void Switch_Priority_76();                         // Range: 0x3A4FA0 -> 0x3A4FC0
+s16 Cut_Cut_C_Timer();                             // Range: 0x3A4F50 -> 0x3A4FA0
 s32 Cut_Cut_Loser();                               // Range: 0x3A5070 -> 0x3A50E0
 void njWaitVSync_with_N();                         // Range: 0x3A50E0 -> 0x3A50FC
 void Soft_Reset_Sub();                             // Range: 0x3A5100 -> 0x3A5258
@@ -56,6 +58,7 @@ s16 Check_SysDir_Page();                           // Range: 0x3A6060 -> 0x3A617
 void Clear_Flash_Init(s16 level);                  // Range: 0x3A6180 -> 0x3A61A4
 s16 Clear_Flash_Sub();                             // Range: 0x3A61B0 -> 0x3A625C
 void Copy_Key_Disp_Work();                         // Range: 0x3A6260 -> 0x3A631C
+s32 Check_Extra_Setting();                         // Range: 0x3A6320 -> 0x3A64EC
 void All_Clear_Random_ix();                        // Range: 0x3A64F0 -> 0x3A6508
 void All_Clear_Timer();                            // Range: 0x3A6510 -> 0x3A6524
 void All_Clear_ETC();                              // Range: 0x3A6530 -> 0x3A6548
@@ -64,11 +67,15 @@ s32 Request_Fade(u16 fade_code);                   // Range: 0x3A6590 -> 0x3A660
 s32 Check_Fade_Complete_SP();                      // Range: 0x3A6600 -> 0x3A6630
 s32 Check_Fade_Complete();                         // Range: 0x3A6630 -> 0x3A6678
 s32 Check_Ranking(s16 PL_id);                      // Range: 0x3A6680 -> 0x3A6CA0
-void Disp_Copyright();                             // Range: 0x3A7AA0 -> 0x3A7B74
-void Initialize_EM_Candidate(s16 PL_id);           // Range: 0x3A7B80 -> 0x3A7E38
-void Check_Same_CPU(s16 PL_id);                    // Range: 0x3A8330 -> 0x3A85C0
-void All_Clear_Suicide();                          // Range: 0x3A85C0 -> 0x3A865C
-void Clear_Break_Com(s16 PL_id);                   // Range: 0x3A8660 -> 0x3A86DC
-void Check_Off_Vib();                              // Range: 0x3A86E0 -> 0x3A86E8
+void Disp_Digit16x24(u32 Score_Buff, s16 Disp_X, s16 Disp_Y, s16 Color);
+void Disp_Copyright();                   // Range: 0x3A7AA0 -> 0x3A7B74
+void Initialize_EM_Candidate(s16 PL_id); // Range: 0x3A7B80 -> 0x3A7E38
+void Check_Same_CPU(s16 PL_id);          // Range: 0x3A8330 -> 0x3A85C0
+void All_Clear_Suicide();                // Range: 0x3A85C0 -> 0x3A865C
+void Clear_Break_Com(s16 PL_id);         // Range: 0x3A8660 -> 0x3A86DC
+void Check_Off_Vib();                    // Range: 0x3A86E0 -> 0x3A86E8
+void njWaitVSync_with_N();
+void Meltw(u16 *s, u16 *d, s32 file_ptr);
+void cpRevivalTask();
 
 #endif

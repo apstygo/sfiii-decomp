@@ -2,6 +2,7 @@
 #include "common.h"
 #include "sf33rd/Source/Game/CALDIR.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
+#include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/HITCHECK.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/bg.h"
@@ -138,13 +139,18 @@ const s16 grade_t_table[32][2] = { { 0, 20 },       { 75, 20 },     { 150, 20 },
                                    { 1750, 3000 },  { 1800, 4000 }, { 1850, 5000 }, { 1900, 6000 }, { 1940, 8000 },
                                    { 1980, 10000 }, { 2020, 20000 } };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", grade_check_work_1st_init);
-#else
-void grade_check_work_1st_init(s32 ix, s32 ix2) {
-    not_implemented(__func__);
+void grade_check_work_1st_init(s16 ix, s16 ix2) {
+    s16 i;
+
+    work_init_zero((s32 *)&judge_item[ix][ix2], sizeof(GradeData));
+    work_init_zero((s32 *)&judge_final[ix][ix2], sizeof(GradeFinalData));
+
+    for (i = 0; i < 16; i++) {
+        judge_final[ix][ix2].vs_cpu_result[i] = -1;
+        judge_final[ix][ix2].vs_cpu_player[i] = -1;
+        judge_final[ix][ix2].vs_cpu_grade[i] = -1;
+    }
 }
-#endif
 
 void grade_check_work_stage_init(s16 ix) {
     judge_item[ix][Play_Type].offence_total = 0;

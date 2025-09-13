@@ -33,6 +33,8 @@ static double fps = 0;
 static Uint64 frame_counter = 0;
 static Uint64 display_refresh_period = 0;
 
+static int opening_index = -1;
+
 int SDLApp_Init() {
     SDL_SetAppMetadata(app_name, "0.1", NULL);
     SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, "1");
@@ -189,6 +191,10 @@ void SDLApp_EndFrame() {
     SDL_RenderDebugTextFormat(renderer, 8, 8, "FPS: %f", fps);
     SDL_RenderDebugTextFormat(renderer, 8, 20, "Render tasks: %d", SDLGameRenderer_GetRenderTaskCount());
 
+    if (opening_index >= 0) {
+        SDL_RenderDebugTextFormat(renderer, 8, 32, "Opening index: %d", opening_index);
+    }
+
     const Uint64 frame_time_budget = (Uint64)target_frame_time_ns + frame_time_remainder;
     Uint64 frame_time = SDL_GetTicksNS() - frame_start;
 
@@ -212,4 +218,8 @@ void SDLApp_EndFrame() {
     begin_interrupt();
     ADXPS2_ExecVint(0);
     end_interrupt();
+}
+
+void SDLApp_SetOpeningIndex(int index) {
+    opening_index = index;
 }

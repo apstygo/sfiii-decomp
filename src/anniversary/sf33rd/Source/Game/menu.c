@@ -3,6 +3,10 @@
 #include "sf33rd/Source/Game/DIR_DATA.h"
 #include "sf33rd/Source/Game/EFF10.h"
 #include "sf33rd/Source/Game/EFF45.h"
+#include "sf33rd/Source/Game/EFF57.h"
+#include "sf33rd/Source/Game/EFF61.h"
+#include "sf33rd/Source/Game/EFF66.h"
+#include "sf33rd/Source/Game/EFFA0.h"
 #include "sf33rd/Source/Game/EFFA3.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/EX_DATA.h"
@@ -13,6 +17,8 @@
 #include "sf33rd/Source/Game/MMTMCNT.h"
 #include "sf33rd/Source/Game/Message3rd/C_USA/msgTable_usa.h"
 #include "sf33rd/Source/Game/PLCNT.h"
+#include "sf33rd/Source/Game/PLS02.h"
+#include "sf33rd/Source/Game/Pause.h"
 #include "sf33rd/Source/Game/PulPul.h"
 #include "sf33rd/Source/Game/RAMCNT.h"
 #include "sf33rd/Source/Game/Reset.h"
@@ -24,10 +30,14 @@
 #include "sf33rd/Source/Game/SysDir.h"
 #include "sf33rd/Source/Game/VM_SUB.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
+#include "sf33rd/Source/Game/appear.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_data.h"
 #include "sf33rd/Source/Game/bg_sub.h"
 #include "sf33rd/Source/Game/color3rd.h"
+#include "sf33rd/Source/Game/count.h"
+#include "sf33rd/Source/Game/debug/Debug.h"
+#include "sf33rd/Source/Game/eff91.h"
 #include "sf33rd/Source/Game/effect_init.h"
 #include "sf33rd/Source/Game/main.h"
 #include "sf33rd/Source/Game/sc_sub.h"
@@ -36,6 +46,25 @@
 #include "sf33rd/Source/PS2/mc/savesub.h"
 #include "sf33rd/Source/PS2/reboot.h"
 #include "structs.h"
+
+void Default_Training_Option();
+void Dummy_Move_Sub(struct _TASK *task_ptr, s16 PL_id, s16 id, s16 type, s16 max);
+void Return_Pause_Sub(struct _TASK *task_ptr);
+void Dummy_Move_Sub_LR(u16 sw, s16 id, s16 type, s16 cursor_id);
+void Return_VS_Result_Sub(struct _TASK *task_ptr);
+void Exit_Replay_Save(struct _TASK *task_ptr);
+void Setup_NTr_Data(s16 ix);
+s32 Check_Pad_in_Pause(struct _TASK *task_ptr);
+void Next_Be_Tr_Menu(struct _TASK *task_ptr);
+void Yes_No_Cursor_Exit_Training(struct _TASK *task_ptr, s16 cursor_id);
+void Check_Skip_Recording();
+void Check_Skip_Replay(s16 ix);
+void Setup_Tr_Pause(struct _TASK *task_ptr);
+void Control_Player_Tr();
+s32 Pause_Check_Tr(s16 PL_id);
+void Setup_Win_Lose_OBJ();
+s32 Pause_in_Normal_Tr(struct _TASK *task_ptr);
+void Training_Disp_Sub(struct _TASK *task_ptr);
 
 // forward decls
 void After_Title(struct _TASK *task_ptr);
@@ -70,14 +99,17 @@ void Direction_Menu(struct _TASK *task_ptr);
 void Save_Direction(struct _TASK *task_ptr);
 void Load_Direction(struct _TASK *task_ptr);
 void Setup_VS_Mode(struct _TASK *task_ptr);
-void Setup_Next_Page(struct _TASK *task_ptr, s32 /* unused */);
+void Setup_Next_Page(struct _TASK *task_ptr, u8 /* unused */);
 void Load_Replay_Sub(struct _TASK *task_ptr);
 void Button_Exit_Check(struct _TASK *task_ptr, s16 PL_id);
+void Back_to_Mode_Select(struct _TASK *task_ptr);
+void Flash_1P_or_2P(struct _TASK *task_ptr);
 
 void bg_etc_write_ex(s16 type);
 void Decide_PL(s16 PL_id);
 void imgSelectGameButton();
 void jmpRebootProgram();
+s32 Check_Pause_Term_Tr(s16 PL_id);
 
 void Menu_in_Sub(struct _TASK *task_ptr);
 s32 Exit_Sub(struct _TASK *task_ptr, s16 cursor_ix, s16 next_routine);
@@ -131,6 +163,7 @@ void Button_Exit_Check_in_Game(struct _TASK *task_ptr, s16 PL_id);
 void Setup_Save_Replay_1st(struct _TASK *task_ptr);
 s32 Save_Replay_MC_Sub(struct _TASK *task_ptr, s16 /* unused */);
 void Button_Exit_Check_in_Tr(struct _TASK *task_ptr, s16 PL_id);
+s32 VS_Result_Select_Sub(struct _TASK *task_ptr, s16 PL_id);
 
 typedef void (*MenuFunc)(struct _TASK *);
 
@@ -1190,7 +1223,11 @@ void Dir_Move_Sub_LR(u16 sw, s16 /* unused */) {
 }
 
 #if defined(TARGET_PS2)
-void Setup_Next_Page(struct _TASK *task_ptr, s32 /* unused */) {
+void Setup_Next_Page(struct _TASK *task_ptr, u8 /* unused */) {
+#if defined(TARGET_PS2)
+    s32 effect_18_init(s32 disp_index, s32 cursor_id, s16 sync_bg, s16 master_player);
+#endif
+
     s16 ix;
     s16 disp_index;
     s16 mode_type;
@@ -1284,7 +1321,7 @@ void Setup_Next_Page(struct _TASK *task_ptr, s32 /* unused */) {
     effect_40_init(mode_type, 3, 0x4B, 0, 2, 2);
 }
 #else
-void Setup_Next_Page(struct _TASK *task_ptr, s32 /* unused */) {
+void Setup_Next_Page(struct _TASK *task_ptr, u8 /* unused */) {
     not_implemented(__func__);
 }
 #endif
@@ -2981,13 +3018,7 @@ u16 Check_Menu_Lever(u8 PL_id, s16 type) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Suspend_Menu);
-#else
-void Suspend_Menu() {
-    not_implemented(__func__);
-}
-#endif
+void Suspend_Menu(struct _TASK * /* unused */) {}
 
 void In_Game(struct _TASK *task_ptr) {
     void (*In_Game_Jmp_Tbl[5])() = { Menu_Init, Menu_Select, Button_Config_in_Game, Character_Change, Pad_Come_Out };
@@ -3106,13 +3137,48 @@ void Menu_Select(struct _TASK *task_ptr) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Yes_No_Cursor_Move_Sub);
-#else
 s32 Yes_No_Cursor_Move_Sub(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    u16 sw = ~(plsw_01[Pause_ID]) & plsw_00[Pause_ID];
+
+    switch (sw) {
+    case 0x4:
+        Menu_Cursor_Y[0]--;
+
+        if (Menu_Cursor_Y[0] < 0) {
+            Menu_Cursor_Y[0] = 0;
+        } else {
+            SE_dir_cursor_move();
+        }
+
+        break;
+
+    case 0x8:
+        Menu_Cursor_Y[0]++;
+
+        if (Menu_Cursor_Y[0] > 1) {
+            Menu_Cursor_Y[0] = 1;
+        } else {
+            SE_dir_cursor_move();
+        }
+
+        break;
+
+    case 0x200:
+    case 0x100:
+        if (Menu_Cursor_Y[0] || sw == 0x200) {
+            task_ptr->r_no[2] = 1;
+            Menu_Suicide[0] = 0;
+            Menu_Suicide[1] = 1;
+            Cursor_Y_Pos[0][0] = 2;
+            return 1;
+        }
+
+        Soft_Reset_Sub();
+        return -1;
+    }
+
+    return 0;
 }
-#endif
 
 void Button_Config_in_Game(struct _TASK *task_ptr) {
     s16 ix;
@@ -3152,55 +3218,212 @@ void Button_Config_in_Game(struct _TASK *task_ptr) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Button_Sub);
-#else
 void Setup_Button_Sub(s16 x, s16 y, s16 master_player) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s32 effect_10_init(s16 id, u8 Type, u32 Type_in_Type, u32 dir_step, u32 Death_Type, s32 pos_x, s32 pos_y);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Button_Exit_Check_in_Game);
-#else
+    s16 ix;
+    s16 s1;
+
+    effect_10_init(0, 7, 99, 0, master_player, x + 7, y + 20);
+    effect_10_init(0, 7, 99, 1, master_player, x + 29, y + 20);
+
+    for (ix = 0; ix < 8; ix++, s1 = y += 2) {
+        effect_10_init(0, 5, ix, ix, master_player, x, y);
+        effect_10_init(1, 5, ix, ix, master_player, x + 22, y);
+        effect_10_init(0, 2, ix, Convert_Buff[1][0][ix], master_player, x + 3, y);
+        effect_10_init(1, 2, ix, Convert_Buff[1][1][ix], master_player, x + 25, y);
+    }
+
+    effect_10_init(0, 3, 8, Convert_Buff[1][0][8], master_player, x, y);
+    effect_10_init(1, 3, 8, Convert_Buff[1][1][8], master_player, x + 22, y);
+    effect_10_init(0, 4, 9, 0, master_player, x, y + 2);
+    effect_10_init(1, 4, 9, 0, master_player, x + 22, y + 2);
+    effect_10_init(0, 0, 10, 2, master_player, x, y + 4);
+    effect_10_init(1, 0, 10, 2, master_player, x + 22, y + 4);
+}
+
 void Button_Exit_Check_in_Game(struct _TASK *task_ptr, s16 PL_id) {
-    not_implemented(__func__);
+    if (IO_Result & 0x200) {
+        goto ten;
+    }
+
+    if (!(IO_Result & 0x100)) {
+        return;
+    }
+
+    if (Menu_Cursor_Y[PL_id] == 10) {
+    ten:
+        SE_selected();
+        Return_Pause_Sub(task_ptr);
+        return;
+    }
+
+    if (Menu_Cursor_Y[PL_id] == 9) {
+        SE_selected();
+        Setup_IO_ConvDataDefault(PL_id);
+    }
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Return_Pause_Sub);
+void Return_Pause_Sub(struct _TASK *task_ptr) {
+    Menu_Suicide[0] = 0;
+    Menu_Suicide[1] = 0;
+    Menu_Suicide[2] = 0;
+    Menu_Suicide[3] = 1;
+    task[4].r_no[2] = 2;
+    task[4].free[0] = 1;
+    task_ptr->r_no[1] = 1;
+    task_ptr->r_no[2] = 1;
+    Cursor_Y_Pos[0][0] = 1;
+    Order[138] = 3;
+    Order_Timer[138] = 1;
+    effect_66_init(138, 9, 2, 7, -1, -1, -0x3FFC);
+}
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Check_Pad_in_Pause);
-#else
 s32 Check_Pad_in_Pause(struct _TASK *task_ptr) {
-    not_implemented(__func__);
-}
-#endif
+    if (Interface_Type[Pause_ID] == 0) {
+        task_ptr->r_no[1] = 4;
+        task[4].r_no[2] = 4;
+        Menu_Suicide[0] = 1;
+        Menu_Suicide[1] = 1;
+        Menu_Suicide[2] = 0;
+        Menu_Suicide[3] = 1;
+        return 1;
+    }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Pad_Come_Out);
-#else
-void Pad_Come_Out(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    return 0;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", bg_etc_write_ex);
-#else
+void Pad_Come_Out(struct _TASK * /* unused */) {}
+
 void bg_etc_write_ex(s16 type) {
-    not_implemented(__func__);
-}
-#endif
+    u8 i;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Wait_Load_Save);
-#else
-void Wait_Load_Save(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    Family_Init();
+    Scrn_Pos_Init();
+    Zoomf_Init();
+    scr_sc = 1.0f;
+    bg_w.bg_opaque = 224;
+    bg_w.pos_offset = 192;
+
+    for (i = 0; i < 7; i++) {
+        bg_w.bgw[i].pos_x_work = 0;
+        bg_w.bgw[i].pos_y_work = 0;
+        bg_w.bgw[i].zuubun = 0;
+        bg_w.bgw[i].xy[0].cal = 0;
+        bg_w.bgw[i].xy[1].cal = 0;
+        bg_w.bgw[i].wxy[0].cal = 0;
+        bg_w.bgw[i].wxy[1].cal = 0;
+        bg_w.bgw[i].hos_xy[0].cal = 0;
+        bg_w.bgw[i].hos_xy[1].cal = 0;
+        bg_w.bgw[i].rewrite_flag = 0;
+        bg_w.bgw[i].fam_no = i;
+        bg_w.bgw[i].speed_x = 0;
+        bg_w.bgw[i].speed_y = 0;
+        bg_w.bgw[i].r_no_1 = bg_w.bgw[i].r_no_2 = 0;
+    }
+
+    bg_w.scr_stop = 0;
+    bg_w.frame_flag = 0;
+    bg_w.old_chase_flag = bg_w.chase_flag = 0;
+    bg_w.bg_f_x = 64;
+    bg_w.bg_f_y = 64;
+    bg_w.bg2_sp_x2 = bg_w.bg2_sp_x = 0;
+    bg_w.max_x = 8;
+    bg_w.quake_x_index = 0;
+    bg_w.quake_y_index = 0;
+
+    for (i = 0; i <= 0; i++) {
+        bg_w.bgw[i].hos_xy[0].cal = bg_w.bgw[i].wxy[0].cal = bg_w.bgw[i].xy[0].cal = bg_pos_tbl2[type][i][0];
+        bg_w.bgw[i].hos_xy[1].cal = bg_w.bgw[i].wxy[1].cal = bg_w.bgw[i].xy[1].cal = bg_pos_tbl2[type][i][1];
+        bg_w.bgw[i].pos_y_work = bg_w.bgw[i].xy[1].disp.pos;
+        bg_w.bgw[i].old_pos_x = bg_w.bgw[i].pos_x_work = bg_w.bgw[i].xy[0].disp.pos;
+        bg_w.bgw[i].speed_x = msp2[type][i][0];
+        bg_w.bgw[i].speed_y = msp2[type][i][1];
+        bg_w.bgw[i].rewrite_flag = 0;
+        bg_w.bgw[i].zuubun = 0;
+        bg_w.bgw[i].frame_deff = 64;
+        bg_w.bgw[i].max_x_limit = bg_w.bgw[i].speed_x * bg_w.max_x;
+    }
+
+    base_y_pos = 40;
 }
-#endif
+
+void Wait_Load_Save(struct _TASK *task_ptr) {
+    s16 ix;
+
+    switch (task_ptr->free[1]) {
+    case 0:
+        if (vm_w.Request != 0) {
+            break;
+        }
+
+        task_ptr->free[0] = 0;
+        task_ptr->free[1]++;
+
+        if (task_ptr->r_no[1] == 5) {
+            task_ptr->free[2] = 18;
+        } else {
+            task_ptr->free[2] = task_ptr->r_no[1];
+        }
+
+        Exit_Sub(task_ptr, 2, task_ptr->free[2]);
+        break;
+
+    case 1:
+        if (!Exit_Sub(task_ptr, 2, task_ptr->free[2])) {
+            break;
+        }
+
+        task_ptr->free[1]++;
+        task_ptr->timer = 1;
+
+        for (ix = 0; ix < 4; ix++) {
+            Menu_Suicide[ix] = 1;
+        }
+
+        switch (task_ptr->r_no[1]) {
+        case 13:
+            ix = 105;
+            break;
+
+        case 17:
+            task_ptr->r_no[2] = 99;
+            /* fallthrough */
+
+        case 6:
+            ix = 110;
+            break;
+
+        case 19:
+        case 20:
+            ix = 112;
+            break;
+
+        case 23:
+            ix = 105;
+            task_ptr->r_no[0] = 0;
+            task_ptr->r_no[2] = 99;
+            task_ptr->free[0] = 1;
+            task_ptr->free[1] = 8;
+            break;
+        }
+
+        Order[ix] = 4;
+        Order_Timer[ix] = 1;
+        break;
+
+    case 2:
+        FadeOut(1, 0xFF, 8);
+
+        if (--task_ptr->timer == 0) {
+            task_ptr->r_no[0] = 0;
+        }
+
+        break;
+    }
+}
 
 void Disp_Auto_Save(struct _TASK *task_ptr) {
     void (*Auto_Save_Jmp_Tbl[4])() = { DAS_1st, DAS_2nd, DAS_3rd, DAS_4th };
@@ -3258,24 +3481,204 @@ void DAS2_4th(struct _TASK *task_ptr) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Wait_Replay_Check);
-#else
 void Wait_Replay_Check(struct _TASK *task_ptr) {
-    not_implemented(__func__);
-}
-#endif
+    switch (task_ptr->free[1]) {
+    case 0:
+        if (vm_w.Request != 0) {
+            break;
+        }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", VS_Result);
-// VS_Result contains literal_1803
-#else
+        task_ptr->r_no[0] = 0;
+        task_ptr->r_no[3] = 0;
+
+        if (vm_w.Number == 0 && vm_w.New_File == 0) {
+            task_ptr->r_no[2] = 3;
+            break;
+        }
+
+        task_ptr->r_no[2] = 5;
+        break;
+    }
+}
+
 void VS_Result(struct _TASK *task_ptr) {
-    not_implemented(__func__);
-}
-#endif
+    s16 ix;
+    s16 char_ix2;
+    s16 total_battle;
+    u16 ave[2];
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Win_Lose_OBJ);
+    s16 s4;
+    s16 s3;
+
+    Clear_Flash_Sub();
+
+    switch (task_ptr->r_no[2]) {
+    case 0:
+        System_all_clear_Level_B();
+        Menu_Init(task_ptr);
+        task_ptr->r_no[1] = 16;
+        task_ptr->r_no[2] = 1;
+        task_ptr->r_no[3] = 0;
+        Sel_PL_Complete[0] = 0;
+        Sel_Arts_Complete[0] = 0;
+        Sel_PL_Complete[1] = 0;
+        Sel_Arts_Complete[1] = 0;
+        Clear_Flash_Init(4);
+        break;
+
+    case 1:
+        FadeOut(1, 0xFF, 8);
+        task_ptr->r_no[2]++;
+        task_ptr->timer = 5;
+        Menu_Common_Init();
+        Menu_Cursor_Y[0] = Cursor_Y_Pos[0][0];
+        Menu_Cursor_Y[1] = Cursor_Y_Pos[1][0];
+        Menu_Suicide[0] = 0;
+        Menu_Suicide[1] = 1;
+        Menu_Cursor_X[0] = 0;
+        Menu_Cursor_X[1] = 0;
+        Order[78] = 2;
+        Order_Dir[78] = 0;
+        Order_Timer[78] = 1;
+        effect_66_init(91, 12, 0, 0, 71, 9, 0);
+        Order[91] = 3;
+        Order_Timer[91] = 1;
+        effect_66_init(138, 24, 0, 0, -1, -1, -0x7FF9);
+        Order[138] = 3;
+        Order_Timer[138] = 1;
+        effect_66_init(139, 25, 0, 0, -1, -1, -0x7FF9);
+        Order[139] = 3;
+        Order_Timer[139] = 1;
+        effect_A0_init(0, VS_Win_Record[0], 0, 3, 0, 0, 0);
+        effect_A0_init(0, VS_Win_Record[1], 1, 3, 0, 0, 0);
+        total_battle = VS_Win_Record[0] + VS_Win_Record[1];
+
+        if (total_battle == 0) {
+            total_battle = 1;
+        }
+
+        if (VS_Win_Record[0] >= VS_Win_Record[1]) {
+            ave[1] = (VS_Win_Record[1] * 100) / total_battle;
+
+            if (ave[1] == 0 && VS_Win_Record[1] > 0) {
+                ave[1] = 1;
+            }
+
+            ave[0] = 100 - ave[1];
+        } else {
+            ave[0] = (VS_Win_Record[0] * 100) / total_battle;
+
+            if (ave[0] == 0 && VS_Win_Record[0] > 0) {
+                ave[0] = 1;
+            }
+
+            ave[1] = 100 - ave[0];
+        }
+
+        effect_A0_init(0, ave[0], 2, 3, 0, 0, 0);
+        effect_A0_init(0, ave[1], 3, 3, 0, 0, 0);
+
+        for (ix = 0, s4 = char_ix2 = 22; ix < 3; ix++, s3 = char_ix2++) {
+            effect_91_init(0, ix, 0, 71, char_ix2, 0);
+            effect_91_init(1, ix, 0, 71, char_ix2, 0);
+        }
+
+        Setup_Win_Lose_OBJ();
+        Menu_Cursor_Move = 0;
+        break;
+
+    case 2:
+        FadeOut(1, 0xFF, 8);
+
+        if (--task_ptr->timer == 0) {
+            task_ptr->r_no[2]++;
+            FadeInit();
+        }
+
+        break;
+
+    case 3:
+        if (FadeIn(1, 25, 8)) {
+            task_ptr->r_no[2]++;
+            Suicide[3] = 0;
+        }
+
+        break;
+
+    case 4:
+        if (VS_Result_Select_Sub(task_ptr, 0) == 0) {
+            VS_Result_Select_Sub(task_ptr, 1);
+        }
+
+        break;
+
+    case 5:
+        if (task_ptr->r_no[3] == 0) {
+            if (--task_ptr->timer == 0) {
+                task_ptr->r_no[3]++;
+            }
+
+            break;
+        }
+
+        Exit_Sub(task_ptr, 0, 17);
+        break;
+
+    case 6:
+        switch (task_ptr->r_no[3]) {
+        case 0:
+            task_ptr->r_no[3]++;
+            /* fallthrough */
+
+        case 1:
+            if (--task_ptr->timer) {
+                break;
+            }
+
+            Setup_VS_Mode(task_ptr);
+            G_No[1] = 12;
+            G_No[2] = 1;
+            Mode_Type = 1;
+            break;
+        }
+
+        break;
+
+    case 7:
+    default:
+        if (Exit_Sub(task_ptr, 0, 0)) {
+            System_all_clear_Level_B();
+            BGM_Request_Code_Check(65);
+        }
+
+        break;
+    }
+}
+
+void Setup_Win_Lose_OBJ() {
+    s16 x[2];
+
+    if (WINNER == 0) {
+        x[0] = 26;
+        x[1] = 27;
+    } else {
+        x[0] = 27;
+        x[1] = 26;
+    }
+
+    effect_66_init(140, x[0], 0, 0, 71, 12, 0);
+    Order[140] = 3;
+    Order_Timer[140] = 1;
+    effect_66_init(141, x[1], 0, 0, 71, 13, 0);
+    Order[141] = 3;
+    Order_Timer[141] = 1;
+    effect_66_init(142, 26, 0, 0, 71, 14, 1);
+    Order[142] = 3;
+    Order_Timer[142] = 1;
+    effect_66_init(143, 27, 0, 0, 71, 14, 01);
+    Order[143] = 3;
+    Order_Timer[143] = 1;
+}
 
 s32 VS_Result_Select_Sub(struct _TASK *task_ptr, s16 PL_id) {
     u16 sw = Check_Menu_Lever(PL_id, 0);
@@ -3295,21 +3698,132 @@ s32 VS_Result_Select_Sub(struct _TASK *task_ptr, s16 PL_id) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", After_VS_Move_Sub);
-#else
 u16 After_VS_Move_Sub(u16 sw, s16 cursor_id, s16 menu_max) {
-    not_implemented(__func__);
-}
-#endif
+    s16 skip;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", VS_Result_Move_Sub);
-#else
-s32 VS_Result_Move_Sub(struct _TASK *task_ptr, s16 PL_id) {
-    not_implemented(__func__);
+    if (plw[0].wu.operator == 0 || plw[1].wu.operator == 0) {
+        skip = 1;
+    } else {
+        skip = 99;
+    }
+    if (Debug_w[49]) {
+        skip = 99;
+    }
+
+    switch (sw) {
+    case 1:
+        Menu_Cursor_Y[cursor_id]--;
+
+        if (Menu_Cursor_Y[cursor_id] < 0) {
+            Menu_Cursor_Y[cursor_id] = menu_max;
+        }
+
+        if (Menu_Cursor_Y[cursor_id] == skip) {
+            Menu_Cursor_Y[cursor_id] = 0;
+        }
+
+        SE_cursor_move();
+        return IO_Result = 1;
+
+    case 2:
+        Menu_Cursor_Y[cursor_id]++;
+
+        if (Menu_Cursor_Y[cursor_id] > menu_max) {
+            Menu_Cursor_Y[cursor_id] = 0;
+        }
+
+        if (Menu_Cursor_Y[cursor_id] == skip) {
+            Menu_Cursor_Y[cursor_id] = 2;
+        }
+
+        SE_cursor_move();
+        return IO_Result = 2;
+
+    case 0x10:
+        return IO_Result = 0x10;
+
+    case 0x100:
+        return IO_Result = 0x100;
+
+    case 0x200:
+        return IO_Result = 0x200;
+
+    case 0x400:
+        return IO_Result = 0x400;
+
+    case 0x4000:
+        return IO_Result = 0x4000;
+
+    default:
+        return IO_Result = 0;
+
+    case 0x20:
+        return IO_Result = 0x20;
+
+    case 0x40:
+        return IO_Result = 0x40;
+
+    case 0x80:
+        return IO_Result = 0x80;
+
+    case 0x800:
+        return IO_Result = 0x800;
+    }
 }
-#endif
+
+s32 VS_Result_Move_Sub(struct _TASK *task_ptr, s16 PL_id) {
+    switch (IO_Result) {
+    case 0x100:
+        switch (Menu_Cursor_Y[PL_id]) {
+        case 0:
+            SE_selected();
+            Menu_Cursor_X[PL_id] = 1;
+
+            if (!Menu_Cursor_X[PL_id ^ 1]) {
+                break;
+            }
+
+            task_ptr->r_no[2] = 6;
+            task_ptr->r_no[3] = 0;
+            task_ptr->timer = 15;
+            return 1;
+
+        case 1:
+            SE_selected();
+            task_ptr->r_no[2] = 5;
+            task_ptr->r_no[3] = 0;
+            task_ptr->timer = 15;
+            return 1;
+
+        case 2:
+            SE_selected();
+            task_ptr->r_no[2] = 7;
+            task_ptr->r_no[3] = 0;
+            task_ptr->timer = 15;
+            return 1;
+        }
+
+        break;
+
+    case 0x200:
+        SE_selected();
+
+        if (Menu_Cursor_X[PL_id]) {
+            Menu_Cursor_X[PL_id] = 0;
+            break;
+        }
+
+        if (Menu_Cursor_Y[PL_id] == 2) {
+            task_ptr->r_no[2] = 99;
+            return 1;
+        }
+
+        Menu_Cursor_Y[PL_id] = 2;
+        break;
+    }
+
+    return 0;
+}
 
 void Save_Replay(struct _TASK *task_ptr) {
     Menu_Cursor_X[1] = Menu_Cursor_X[0];
@@ -3342,74 +3856,334 @@ void Save_Replay(struct _TASK *task_ptr) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Save_Replay_1st);
-#else
 void Setup_Save_Replay_1st(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    FadeOut(1, 0xFF, 8);
+    task_ptr->r_no[2]++;
+    task_ptr->timer = 5;
+    Menu_Common_Init();
+    Menu_Cursor_X[0] = 0;
+    Menu_Suicide[0] = 1;
+    Menu_Suicide[1] = 0;
+    Menu_Suicide[2] = 0;
+    Menu_Suicide[3] = 0;
+    Setup_BG(1, 512, 0);
+    Setup_Replay_Sub(1, 110, 9, 1);
+    Setup_File_Property(1, 0xFF);
+    Clear_Flash_Init(4);
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Save_Replay_2nd);
-#else
-void Setup_Save_Replay_2nd(struct _TASK *task_ptr, s16 unused) {
-    not_implemented(__func__);
+void Setup_Save_Replay_2nd(struct _TASK *task_ptr, s16 arg1) {
+    if (FadeIn(1, 25, 8)) {
+        task_ptr->r_no[2]++;
+        task_ptr->free[3] = 0;
+        Menu_Cursor_X[0] = Setup_Final_Cursor_Pos(Menu_Cursor_X[0], 8);
+    }
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Replay_Sub);
-#else
-void Setup_Replay_Sub(s16 type, s16 char_type, s16 master_player, s16 unused) {
-    not_implemented(__func__);
+void Setup_Replay_Sub(s16 /* unused */, s16 type, s16 char_type, s16 master_player) {
+    effect_57_init(type, char_type, 0, 63, 2);
+    Order[type] = 1;
+    Order_Dir[type] = 8;
+    Order_Timer[type] = 1;
+    effect_66_init(138, 8, master_player, 0, -1, -1, -0x7FF4);
+    Order[138] = 3;
+    Order_Timer[138] = 1;
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Return_VS_Result_Sub);
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Save_Replay_MC_Sub);
-#else
-s32 Save_Replay_MC_Sub(struct _TASK *task_ptr, s16 unused) {
-    not_implemented(__func__);
+void Return_VS_Result_Sub(struct _TASK *task_ptr) {
+    Menu_Suicide[0] = 0;
+    Menu_Suicide[1] = 1;
+    task_ptr->r_no[1] = 16;
+    task_ptr->r_no[2] = 1;
+    task_ptr->r_no[3] = 0;
+    task_ptr->free[0] = 0;
+    Order[110] = 4;
+    Order_Timer[110] = 1;
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Exit_Replay_Save);
+s32 Save_Replay_MC_Sub(struct _TASK *task_ptr, s16 /* unused */) {
+    switch (IO_Result) {
+    case 0x100:
+        SE_selected();
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Decide_PL);
-#else
+        if (Menu_Cursor_X[0] == -1) {
+            break;
+        }
+
+        if (vm_w.Connect[Menu_Cursor_X[0]] == 0) {
+            break;
+        }
+
+        vm_w.Drive = (u8)Menu_Cursor_X[0];
+
+        if (VM_Access_Request(6, Menu_Cursor_X[0]) == 0) {
+            break;
+        }
+
+        task_ptr->free[1] = 0;
+        task_ptr->free[2] = 0;
+        task_ptr->r_no[0] = 3;
+        return 1;
+
+    case 0x200:
+        if (Mode_Type == 5) {
+            Back_to_Mode_Select(task_ptr);
+        } else {
+            Exit_Replay_Save(task_ptr);
+        }
+
+        return 1;
+    }
+
+    return 0;
+}
+
+void Exit_Replay_Save(struct _TASK *task_ptr) {
+    if (task_ptr->r_no[1] == 17) {
+        Return_VS_Result_Sub(task_ptr);
+        return;
+    }
+
+    Menu_Suicide[0] = 0;
+    Menu_Suicide[1] = 0;
+    Menu_Suicide[2] = 1;
+    task_ptr->r_no[1] = 5;
+    task_ptr->r_no[2] = 0;
+    task_ptr->r_no[3] = 0;
+    task_ptr->free[0] = 0;
+    Order[112] = 4;
+    Order_Timer[112] = 4;
+}
+
 void Decide_PL(s16 PL_id) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void grade_check_work_1st_init(s32 ix, s32 ix2);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Wait_Pause_in_Tr);
-#else
+    plw[PL_id].wu.operator = 1;
+    Operator_Status[PL_id] = 1;
+    Champion = PL_id;
+    plw[PL_id ^ 1].wu.operator = 0;
+    Operator_Status[PL_id ^ 1] = 0;
+
+    if (Continue_Coin[PL_id] == 0) {
+        grade_check_work_1st_init(PL_id, 0);
+    }
+}
+
 void Wait_Pause_in_Tr(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    u16 ans;
+    u16 ix;
+
+    Training_Data_Disp();
+    Control_Player_Tr();
+
+    if (End_Training) {
+        Next_Be_Tr_Menu(task_ptr);
+        return;
+    }
+
+    switch (task_ptr->r_no[1]) {
+    case 0:
+        if (Allow_a_battle_f) {
+            task_ptr->r_no[1]++;
+
+            if (Present_Mode == 4) {
+                Disp_Attack_Data = Training->contents[0][1][1];
+            } else {
+                Disp_Attack_Data = 0;
+            }
+        } else {
+            Disp_Attack_Data = 0;
+        }
+
+        /* fallthrough */
+
+    case 1:
+        if (Allow_a_battle_f == 0 || Extra_Break != 0) {
+            return;
+        }
+
+        ans = 0;
+
+        if (Check_Pause_Term_Tr(0)) {
+            ans = Pause_Check_Tr(0);
+        }
+
+        if (ans == 0 && Check_Pause_Term_Tr(1)) {
+            ans = Pause_Check_Tr(1);
+        }
+
+        switch (ans) {
+        case 1:
+            Setup_Tr_Pause(task_ptr);
+            break;
+
+        case 2:
+            Setup_Tr_Pause(task_ptr);
+            task_ptr->r_no[1] = 3;
+            break;
+        }
+
+        break;
+
+    case 2:
+        if (Interface_Type[Pause_ID] == 0) {
+            Setup_Tr_Pause(task_ptr);
+            task_ptr->r_no[1] = 3;
+            break;
+        }
+
+        if (Pause_Down) {
+            Flash_1P_or_2P(task_ptr);
+        }
+
+        switch (Pause_in_Normal_Tr(task_ptr)) {
+        case 1:
+            task_ptr->r_no[1] = 0;
+            SE_selected();
+            Game_pause = 0;
+            Pause = 0;
+            Pause_Down = 0;
+            Disp_Attack_Data = Training->contents[0][1][1];
+
+            for (ix = 0; ix < 4; ix++) {
+                Menu_Suicide[ix] = 1;
+            }
+
+            pulpul_request_again();
+            SsBgmHalfVolume(0);
+            break;
+
+        case 2:
+            Next_Be_Tr_Menu(task_ptr);
+            break;
+        }
+
+        break;
+
+    case 3:
+        if (Interface_Type[Pause_ID] == 0) {
+            dispControllerWasRemovedMessage(132, 82, 16);
+            break;
+        }
+
+        Setup_Tr_Pause(task_ptr);
+        break;
+    }
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Control_Player_Tr);
+void Control_Player_Tr() {
+    switch (control_pl_rno) {
+    case 0:
+        if (control_player) {
+            p2sw_0 = 0;
+            break;
+        }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Next_Be_Tr_Menu);
+        p1sw_0 = 0;
+        break;
 
-#if defined(TARGET_PS2)
-s32 Check_Pause_Term_Tr(s16 PL_id);
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Check_Pause_Term_Tr);
-#else
+    case 1:
+        if (control_player) {
+            p2sw_0 = 2;
+            break;
+        }
+
+        p1sw_0 = 2;
+        break;
+
+    case 2:
+        if (control_player) {
+            p2sw_0 = 1;
+            break;
+        }
+
+        p1sw_0 = 1;
+        break;
+    }
+}
+
+void Next_Be_Tr_Menu(struct _TASK *task_ptr) {
+    s16 ix;
+
+    task_ptr->r_no[0] = 11;
+    task_ptr->r_no[1] = 0;
+    task_ptr->r_no[2] = 0;
+    task_ptr->r_no[3] = 0;
+    Allow_a_battle_f = 0;
+
+    for (ix = 0; ix < 4; ix++) {
+        Menu_Suicide[ix] = 1;
+    }
+
+    SsBgmHalfVolume(0);
+}
+
 s32 Check_Pause_Term_Tr(s16 PL_id) {
-    not_implemented(__func__);
+    if (Mode_Type == 4) {
+        if (PL_id == Champion) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    if (PL_id == Champion) {
+        return 1;
+    }
+
+    if (Training->contents[0][1][3] == 2) {
+        return 0;
+    }
+
+    if (Training->contents[0][0][0] == 4) {
+        return 1;
+    }
+
+    return 0;
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Pause_Check_Tr);
+s32 Pause_Check_Tr(s16 PL_id) {
+    u16 sw;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_Tr_Pause);
+    if (plw[PL_id].wu.operator == 0) {
+        return 0;
+    }
+
+    sw = ~(PLsw[PL_id][1]) & PLsw[PL_id][0];
+
+    if (sw & 0x4000) {
+        Pause_ID = PL_id;
+        return 1;
+    }
+
+    if (Interface_Type[PL_id] == 0) {
+        Pause_ID = PL_id;
+        return 2;
+    }
+
+    return 0;
+}
+
+void Setup_Tr_Pause(struct _TASK *task_ptr) {
+    task_ptr->r_no[1] = 2;
+    task_ptr->r_no[2] = 0;
+    task_ptr->r_no[3] = 0;
+    task_ptr->free[0] = 60;
+    Cursor_Y_Pos[0][0] = 0;
+    Disp_Attack_Data = 0;
+    Game_pause = 0x81;
+    Pause_Down = 1;
+    Menu_Suicide[0] = 1;
+    Menu_Suicide[1] = 1;
+    Menu_Suicide[2] = 0;
+    Order[138] = 3;
+    Order_Timer[138] = 1;
+    effect_66_init(138, 9, 2, 7, -1, -1, -0x3FFC);
+    SsBgmHalfVolume(1);
+    spu_all_off();
+}
 
 void Flash_1P_or_2P(struct _TASK *task_ptr) {
     switch (task_ptr->r_no[3]) {
@@ -3438,7 +4212,90 @@ void Flash_1P_or_2P(struct _TASK *task_ptr) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Pause_in_Normal_Tr);
+s32 Pause_in_Normal_Tr(struct _TASK *task_ptr) {
+    s16 ix;
+    u16 sw;
+
+    Control_Player_Tr();
+
+    switch (task_ptr->r_no[2]) {
+    case 0:
+        return Pause_1st_Sub(task_ptr);
+
+    case 1:
+        task_ptr->r_no[2]++;
+        Menu_Common_Init();
+        Menu_Cursor_Y[0] = Cursor_Y_Pos[0][0];
+
+        for (ix = 0; ix < 4; ix++) {
+            Menu_Suicide[ix] = 0;
+        }
+
+        effect_10_init(0, 6, 0, 0, 0, 20, 12);
+        effect_10_init(0, 6, 1, 1, 0, 18, 14);
+        effect_10_init(0, 6, 2, 2, 0, 22, 16);
+        break;
+
+    case 2:
+        if (Pause_Down) {
+            IO_Result = MC_Move_Sub(Check_Menu_Lever(Pause_ID, 0), 0, 2, 0xFF);
+        } else {
+            sw = ~(PLsw[Pause_ID][1]) & PLsw[Pause_ID][0];
+
+            if (sw & 0xFF0) {
+                IO_Result = 0x10;
+            } else {
+                return 3;
+            }
+        }
+
+        switch (IO_Result) {
+        case 0x200:
+            task_ptr->r_no[2] = 0;
+            Menu_Suicide[0] = 1;
+            SE_selected();
+            break;
+
+        case 0x100:
+            switch (Menu_Cursor_Y[0]) {
+            case 0:
+                task_ptr->r_no[2] = 0;
+                Menu_Suicide[0] = 1;
+                SE_selected();
+                break;
+
+            case 1:
+                Cursor_Y_Pos[0][0] = 0;
+                return 2;
+
+            case 2:
+                task_ptr->r_no[2]++;
+                SE_selected();
+                Menu_Suicide[0] = 1;
+                Menu_Cursor_Y[0] = 1;
+                effect_10_init(0, 0, 3, 6, 1, 17, 12);
+                effect_10_init(0, 1, 0, 0, 1, 20, 15);
+                effect_10_init(0, 1, 1, 1, 1, 26, 15);
+                break;
+            }
+
+            break;
+        }
+
+        break;
+
+    case 3:
+        sw = ~plsw_01[Pause_ID] & plsw_00[Pause_ID];
+
+        if (Pause_Down) {
+            Yes_No_Cursor_Move_Sub(task_ptr);
+        }
+
+        break;
+    }
+
+    return 0;
+}
 
 s32 Pause_1st_Sub(struct _TASK *task_ptr) {
     u16 sw = ~plsw_01[Pause_ID] & plsw_00[Pause_ID];
@@ -3471,21 +4328,127 @@ s32 Pause_1st_Sub(struct _TASK *task_ptr) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Reset_Training);
-#else
 void Reset_Training(struct _TASK *task_ptr) {
-    not_implemented(__func__);
-}
-#endif
+    s16 ix;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Reset_Replay);
-#else
-void Reset_Replay(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    switch (task_ptr->r_no[1]) {
+    case 0:
+        task_ptr->r_no[1]++;
+        task_ptr->timer = 10;
+        Game_pause = 0x81;
+        break;
+
+    case 1:
+        if (--task_ptr->timer != 0) {
+            break;
+        }
+
+        if (Check_LDREQ_Break() == 0) {
+            task_ptr->r_no[1]++;
+            Switch_Screen_Init(0);
+            break;
+        }
+
+        task_ptr->timer = 1;
+        break;
+
+    case 2:
+        if (!Switch_Screen(0)) {
+            break;
+        }
+
+        task_ptr->r_no[1]++;
+        task_ptr->timer = 2;
+        effect_work_kill(6, -1);
+        move_effect_work(6);
+
+        for (ix = 0; ix < 4; ix++) {
+            C_No[ix] = 0;
+        }
+
+        C_No[0] = 1;
+        G_No[2] = 5;
+        G_No[3] = 0;
+        seraph_flag = 0;
+        BGM_No[0] = 1;
+        BGM_Timer[0] = 1;
+        G_Timer = 10;
+        Cover_Timer = 5;
+        Suicide[0] = 1;
+        Suicide[6] = 1;
+        judge_flag = 0;
+        Lever_LR[0] = 0;
+        Lever_LR[1] = 0;
+        break;
+
+    default:
+        Switch_Screen(0);
+
+        if (--task_ptr->timer != 0) {
+            break;
+        }
+
+        for (ix = 0; ix < 4; ix++) {
+            task_ptr->r_no[ix] = 0;
+        }
+
+        task_ptr->r_no[0] = 7;
+        break;
+    }
 }
-#endif
+
+void Reset_Replay(struct _TASK *task_ptr) {
+    switch (task_ptr->r_no[1]) {
+    case 0:
+        task_ptr->r_no[1]++;
+        task_ptr->timer = 10;
+        Game_pause = 0x81;
+        break;
+
+    case 1:
+        if (--task_ptr->timer != 0) {
+            break;
+        }
+
+        if (Check_LDREQ_Break() == 0) {
+            task_ptr->r_no[1]++;
+            Switch_Screen_Init(0);
+            break;
+        }
+
+        task_ptr->timer = 1;
+        break;
+
+    case 2:
+        if (!Switch_Screen(0)) {
+            break;
+        }
+
+        task_ptr->r_no[1]++;
+        task_ptr->timer = 2;
+        G_No[2] = 2;
+        G_No[3] = 0;
+        seraph_flag = 0;
+        G_Timer = 10;
+        Cover_Timer = 5;
+        effect_work_kill_mod_plcol();
+        move_effect_work(6);
+        Suicide[0] = 1;
+        Suicide[6] = 1;
+        judge_flag = 0;
+        cpExitTask(4);
+        break;
+
+    default:
+        Switch_Screen(0);
+
+        if (--task_ptr->timer == 0) {
+            cpExitTask(3);
+        }
+
+        break;
+    }
+}
 
 void Training_Menu(struct _TASK *task_ptr) {
     void (*Training_Jmp_Tbl[8])() = { Training_Init,   Normal_Training,  Blocking_Training, Dummy_Setting,
@@ -3531,13 +4494,117 @@ void Normal_Training(struct _TASK *task_ptr) {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Setup_NTr_Data);
+void Setup_NTr_Data(s16 ix) {
+    switch (ix) {
+    case 0:
+        Play_Mode = 0;
+        Replay_Status[0] = 0;
+        Replay_Status[1] = 0;
+        save_w[Present_Mode].Time_Limit = -1;
+        save_w[Present_Mode].Damage_Level = Training[2].contents[0][1][2];
+        Training[0] = Training[2];
+        break;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Check_Skip_Replay);
+    case 1:
+        Record_Data_Tr = 1;
+        Play_Mode = 1;
+        Replay_Status[0] = 1;
+        Replay_Status[1] = 1;
+        save_w[Present_Mode].Time_Limit = 60;
+        save_w[Present_Mode].Damage_Level = Training[2].contents[0][1][2];
+        Training[0] = Training[2];
+        Training[1] = Training[2];
+        break;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Check_Skip_Recording);
+    case 2:
+        Play_Mode = 3;
+        Replay_Status[0] = 3;
+        Replay_Status[1] = 3;
+        save_w[Present_Mode].Time_Limit = 60;
+        save_w[Present_Mode].Damage_Level = Training[1].contents[0][1][2];
+        Training[0] = Training[1];
+        break;
+    }
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Yes_No_Cursor_Exit_Training);
+void Check_Skip_Replay(s16 ix) {
+    if (Menu_Cursor_Y[0] != ix) {
+        return;
+    }
+
+    if (Record_Data_Tr != 0) {
+        return;
+    }
+
+    if (Menu_Cursor_Y[0] >= Menu_Cursor_Y[1]) {
+        Menu_Cursor_Y[0]++;
+        return;
+    }
+
+    Menu_Cursor_Y[0]--;
+    Check_Skip_Recording();
+}
+
+void Check_Skip_Recording() {
+    if (Menu_Cursor_Y[0] != 1) {
+        return;
+    }
+
+    if (Training->contents[0][0][0] != 3) {
+        return;
+    }
+
+    if (Menu_Cursor_Y[0] >= Menu_Cursor_Y[1]) {
+        Menu_Cursor_Y[0]++;
+        Check_Skip_Replay(2);
+        return;
+    }
+
+    Menu_Cursor_Y[0]--;
+}
+
+void Yes_No_Cursor_Exit_Training(struct _TASK *task_ptr, s16 cursor_id) {
+    u16 sw = ~(plsw_01[Decide_ID]) & plsw_00[Decide_ID];
+
+    switch (sw) {
+    case 0x4:
+        Menu_Cursor_Y[0]--;
+
+        if (Menu_Cursor_Y[0] < 0) {
+            Menu_Cursor_Y[0] = 0;
+            break;
+        }
+
+        SE_dir_cursor_move();
+        break;
+
+    case 0x8:
+        Menu_Cursor_Y[0]++;
+
+        if (Menu_Cursor_Y[0] > 1) {
+            Menu_Cursor_Y[0] = 1;
+            break;
+        }
+
+        SE_dir_cursor_move();
+        break;
+
+    case 0x200:
+    case 0x100:
+        SE_selected();
+
+        if (Menu_Cursor_Y[0] || sw == 0x200) {
+            task_ptr->r_no[2] = 0;
+            Menu_Suicide[0] = 0;
+            Menu_Suicide[1] = 1;
+            Cursor_Y_Pos[0][0] = cursor_id;
+            break;
+        }
+
+        Soft_Reset_Sub();
+        break;
+    }
+}
 
 void Button_Config_Tr(struct _TASK *task_ptr) {
     switch (task_ptr->r_no[2]) {
@@ -3563,38 +4630,224 @@ void Button_Config_Tr(struct _TASK *task_ptr) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Button_Exit_Check_in_Tr);
-#else
 void Button_Exit_Check_in_Tr(struct _TASK *task_ptr, s16 PL_id) {
-    not_implemented(__func__);
-}
-#endif
+    if (IO_Result & 0x200) {
+        goto ten;
+    }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Dummy_Setting);
-#else
+    if (!(IO_Result & 0x100)) {
+        return;
+    }
+
+    if (Menu_Cursor_Y[PL_id] == 10) {
+    ten:
+        SE_selected();
+        Menu_Suicide[0] = 0;
+        Menu_Suicide[1] = 1;
+        task_ptr->r_no[2] = 0;
+        task_ptr->r_no[3] = 0;
+
+        if (Mode_Type == 3) {
+            task_ptr->r_no[1] = 1;
+        } else {
+            task_ptr->r_no[1] = 2;
+        }
+
+        pp_operator_check_flag(1);
+        return;
+    }
+
+    if (Menu_Cursor_Y[PL_id] == 9) {
+        SE_selected();
+        Setup_IO_ConvDataDefault(PL_id);
+    }
+}
+
 void Dummy_Setting(struct _TASK *task_ptr) {
-    not_implemented(__func__);
-}
-#endif
+    s16 ix;
+    s16 group;
+    s16 y;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Training_Option);
-#else
+    s16 s6;
+    s16 s5;
+    s16 s4;
+    s16 s3;
+
+    switch (task_ptr->r_no[2]) {
+    case 0:
+        task_ptr->r_no[2]++;
+        Menu_Common_Init();
+        Menu_Cursor_Y[0] = 0;
+        Menu_Cursor_Y[1] = 0;
+        Menu_Suicide[0] = 1;
+        Training_Index = 2;
+
+        for (ix = 0, s6 = y = 80; ix < 6; ix++, s5 = y += 16) {
+            effect_A3_init(0, 1, ix, ix, 1, 48, y, 0);
+        }
+
+        for (ix = 0, y = 80, s4 = group = 2; ix < 4; ix++, group++, s3 = y += 16) {
+            effect_A3_init(0, group, ix, ix, 1, 0xE6, y, 0);
+        }
+
+        break;
+
+    case 1:
+        Dummy_Move_Sub(task_ptr, Champion, 0, 0, 5);
+
+        if (Menu_Cursor_Y[0] == 4 && IO_Result & 0x100) {
+            Training[2].contents[0][0][0] = 0;
+            Training[2].contents[0][0][1] = 0;
+            Training[2].contents[0][0][2] = 0;
+            Training[2].contents[0][0][3] = 0;
+            SE_selected();
+        }
+
+        break;
+
+    case 2:
+        SE_selected();
+        Menu_Suicide[0] = 0;
+        Menu_Suicide[1] = 1;
+        task_ptr->r_no[2] = 0;
+        task_ptr->r_no[3] = 0;
+        Training_Disp_Sub(task_ptr);
+        break;
+    }
+}
+
 void Training_Option(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    s16 ix;
+    s16 group;
+    s16 y;
+
+    s16 s6;
+    s16 s5;
+    s16 s4;
+    s16 s3;
+
+    switch (task_ptr->r_no[2]) {
+    case 0:
+        task_ptr->r_no[2]++;
+        Menu_Common_Init();
+        Menu_Cursor_Y[0] = 0;
+        Menu_Cursor_Y[1] = 0;
+        Menu_Suicide[0] = 1;
+        Training_Index = 3;
+
+        for (ix = 0, s6 = y = 72; ix < 6; ix++, s5 = y += 16) {
+            effect_A3_init(0, 6, ix, ix, 1, 48, y, 1);
+        }
+
+        for (ix = 0, y = 72, s4 = group = 7; ix < 4; ix++, group++, s3 = y += 16) {
+            effect_A3_init(0, group, ix, ix, 1, 230, y, 1);
+        }
+
+        break;
+
+    case 1:
+        Dummy_Move_Sub(task_ptr, Champion, 0, 1, 5);
+
+        if (Menu_Cursor_Y[0] == 4 && IO_Result & 0x100) {
+            Default_Training_Option();
+            SE_selected();
+            break;
+        }
+
+        save_w[Present_Mode].Damage_Level = Training[2].contents[0][1][2];
+        save_w[Present_Mode].Difficulty = Training[2].contents[0][1][3];
+        break;
+
+    case 2:
+        SE_selected();
+        Menu_Suicide[0] = 0;
+        Menu_Suicide[1] = 1;
+        task_ptr->r_no[2] = 0;
+        task_ptr->r_no[3] = 0;
+        Training_Disp_Sub(task_ptr);
+        Training[0] = Training[2];
+        break;
+    }
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Training_Disp_Sub);
+void Training_Disp_Sub(struct _TASK *task_ptr) {
+    if (Mode_Type == 3) {
+        task_ptr->r_no[1] = 1;
+        Training_Index = 0;
+        return;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Dummy_Move_Sub);
+    task_ptr->r_no[1] = 2;
+    Training_Index = 1;
+}
+
+void Dummy_Move_Sub(struct _TASK *task_ptr, s16 PL_id, s16 id, s16 type, s16 max) {
+    u16 sw = ~(plsw_01[PL_id]) & plsw_00[PL_id];
+
+    sw = Check_Menu_Lever(PL_id, 0);
+    MC_Move_Sub(sw, 0, max, 0xFF);
+    Dummy_Move_Sub_LR(sw, id, type, 0);
+
+    if (IO_Result & 0x200) {
+        task_ptr->r_no[2]++;
+        return;
+    }
+
+    if (IO_Result & 0x100 && Menu_Cursor_Y[0] == max) {
+        task_ptr->r_no[2]++;
+    }
+}
 
 const u8 Menu_Max_Data_Tr[2][2][6] = { { { 4, 6, 2, 1, 0, 0 }, { 3, 1, 3, 7, 0, 0 } },
                                        { { 2, 3, 1, 3, 0, 0 }, { 0, 0, 0, 0, 0, 0 } } };
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Dummy_Move_Sub_LR);
+void Dummy_Move_Sub_LR(u16 sw, s16 id, s16 type, s16 cursor_id) {
+    s16 max = Menu_Max_Data_Tr[id][type][Menu_Cursor_Y[cursor_id]];
+
+    if (max == 0) {
+        return;
+    }
+
+    switch (sw) {
+    case 4:
+        Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]]--;
+
+        if (Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] < 0) {
+            Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] = max;
+        }
+
+        if (Interface_Type[Champion ^ 1] == 0 && id == 0 && type == 0 && Menu_Cursor_Y[cursor_id] == 0 &&
+            Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] == 4) {
+            Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] = 3;
+        }
+
+        SE_dir_cursor_move();
+        break;
+
+    case 8:
+        Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]]++;
+
+        if (Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] > max) {
+            Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] = 0;
+        }
+
+        if (Interface_Type[Champion ^ 1] == 0 && id == 0 && type == 0 && Menu_Cursor_Y[cursor_id] == 0 &&
+            Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] == 4) {
+            Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] = 0;
+        }
+
+        SE_dir_cursor_move();
+        break;
+
+    default:
+        if (Interface_Type[Champion ^ 1] == 0 && id == 0 && type == 0 && Menu_Cursor_Y[cursor_id] == 0 &&
+            Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] == 4) {
+            Training[2].contents[id][type][Menu_Cursor_Y[cursor_id]] = 0;
+        }
+
+        break;
+    }
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Blocking_Training);
@@ -3609,13 +4862,89 @@ const LetterData training_letter_data[6] = { { 0x68, "NORMAL TRAINING" },   { 0x
                                              { 0x7C, "DUMMY SETTING" },     { 0x6C, "TRAINING OPTION" },
                                              { 0x64, "RECORDING SETTING" }, { 0x72, "BUTTON CONFIG." } };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Blocking_Tr_Option);
-#else
 void Blocking_Tr_Option(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    s16 ix;
+    s16 group;
+    s16 y;
+
+    s16 s6;
+    s16 s5;
+    s16 s4;
+    s16 s3;
+
+    switch (task_ptr->r_no[2]) {
+    case 0:
+        task_ptr->r_no[2]++;
+        Menu_Common_Init();
+        Menu_Cursor_Y[0] = 0;
+        Menu_Cursor_Y[1] = 0;
+        Menu_Suicide[0] = 1;
+        Training_Index = 3;
+        effect_A3_init(1, 21, 99, 0, 1, 51, 56, 1);
+        effect_A3_init(1, 21, 99, 1, 1, 51, 106, 1);
+
+        for (ix = 0, s6 = y = 72; ix < 6; ix++, s5 = y += 16) {
+            if (ix == 2) {
+                y += 20;
+            }
+
+            if (ix == 4) {
+                y += 8;
+            }
+
+            effect_A3_init(1, 16, ix, ix, 1, 64, y, 0);
+        }
+
+        for (ix = 0, y = 72, s4 = group = 17; ix < 4; ix++, group++, s3 = y += 16) {
+            if (ix == 2) {
+                y += 20;
+            }
+
+            effect_A3_init(1, group, ix, ix, 1, 264, y, 0);
+        }
+
+        break;
+
+    case 1:
+        Dummy_Move_Sub(task_ptr, Champion, 1, 0, 5);
+
+        if (Menu_Cursor_Y[0] == 4 && IO_Result & 0x100) {
+            Default_Training_Data(1);
+            SE_selected();
+        }
+
+        break;
+
+    case 2:
+        SE_selected();
+        Menu_Suicide[0] = 0;
+        Menu_Suicide[1] = 1;
+        task_ptr->r_no[2] = 0;
+        task_ptr->r_no[3] = 0;
+        Training[0] = Training[2];
+
+        plw[New_Challenger].wu.operator = 1;
+        Operator_Status[New_Challenger] = 1;
+
+        switch (Training[0].contents[1][0][0]) {
+        case 0:
+            control_pl_rno = 0;
+            control_player = Champion;
+            break;
+        case 1:
+            control_pl_rno = 1;
+            control_player = Champion;
+            break;
+        case 2:
+            control_pl_rno = 2;
+            control_player = Champion;
+            break;
+        }
+
+        Training_Disp_Sub(task_ptr);
+        break;
+    }
 }
-#endif
 
 void Training_Init_Sub(struct _TASK *task_ptr) {
     s16 ix;
@@ -3684,31 +5013,206 @@ void Character_Change(struct _TASK *task_ptr) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Default_Training_Data);
-#else
 void Default_Training_Data(s32 flag) {
-    not_implemented(__func__);
+    s16 ix;
+    s16 ix2;
+    s16 ix3;
+
+    if (flag == 0) {
+        if (mpp_w.initTrainingData == 0) {
+            return;
+        }
+        mpp_w.initTrainingData = 0;
+    }
+
+    for (ix = 0; ix < 2; ix++) {
+        for (ix2 = 0; ix2 < 2; ix2++) {
+            for (ix3 = 0; ix3 < 4; ix3++) {
+                Training[0].contents[ix][ix2][ix3] = 0;
+            }
+        }
+    }
+
+    Training[0].contents[0][1][2] = save_w->Damage_Level;
+    Training[0].contents[0][1][3] = save_w->Difficulty;
+    save_w[Present_Mode].Damage_Level = save_w->Damage_Level;
+    save_w[Present_Mode].Difficulty = save_w->Difficulty;
+    Training[2] = Training[0];
+    Disp_Attack_Data = 0;
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Default_Training_Option);
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Wait_Replay_Load);
-#else
-void Wait_Replay_Load() {
-    not_implemented(__func__);
+void Default_Training_Option() {
+    Training->contents[0][1][0] = 0;
+    Training->contents[0][1][1] = 0;
+    Training->contents[0][1][2] = save_w->Damage_Level;
+    Training->contents[0][1][3] = save_w->Difficulty;
+    save_w[Present_Mode].Damage_Level = save_w->Damage_Level;
+    save_w[Present_Mode].Difficulty = save_w->Difficulty;
+    Training[2] = Training[0];
+    Disp_Attack_Data = 0;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", After_Replay);
-#else
+void Wait_Replay_Load(struct _TASK *task_ptr) {}
+
 void After_Replay(struct _TASK *task_ptr) {
-    not_implemented(__func__);
+    s16 ix;
+    s16 char_ix;
+
+    s16 s5;
+    s16 s4;
+    s16 s3;
+    s16 s2;
+
+    switch (task_ptr->r_no[1]) {
+    case 0:
+        task_ptr->r_no[1]++;
+        ToneDown(192, 32);
+        Menu_Common_Init();
+        Menu_Suicide[0] = 0;
+        Menu_Cursor_Y[0] = 0;
+
+        for (ix = 0, s5 = char_ix = '8'; ix < 3; ix++, s4 = char_ix++) {
+            effect_61_init(0, ix + 80, 0, 0, char_ix, ix, 0x7047);
+            Order[ix + 80] = 3;
+            Order_Timer[ix + 80] = 1;
+        }
+
+        effect_66_init(138, 38, 0, 0, -1, -1, -0x7FF7);
+        Order[138] = 3;
+        Order_Timer[138] = 1;
+        break;
+
+    case 1:
+        ToneDown(192, 32);
+        Pause_ID = 0;
+
+        if (MC_Move_Sub(Check_Menu_Lever(0, 0), 0, 2, 0xFF) == 0) {
+            Pause_ID = 1;
+            MC_Move_Sub(Check_Menu_Lever(1, 0), 0, 2, 0xFF);
+        }
+
+        switch (IO_Result) {
+        case 0x100:
+            SE_selected();
+            task_ptr->r_no[1] = Menu_Cursor_Y[0] + 2;
+            break;
+
+        case 0x200:
+            SE_selected();
+            task_ptr->r_no[1] = 4;
+            break;
+        }
+
+        break;
+
+    case 4:
+        ToneDown(192, 32);
+        Back_to_Mode_Select(task_ptr);
+        break;
+
+    case 2:
+        ToneDown(192, 32);
+        task_ptr->r_no[1] = 12;
+        task_ptr->r_no[2] = 0;
+        task_ptr->r_no[3] = 0;
+
+    case 12:
+        Load_Replay_Sub(task_ptr);
+        break;
+
+    case 3:
+        task_ptr->free[0] = 0;
+        task_ptr->r_no[1] = 5;
+        task_ptr->r_no[2] = 0;
+
+    case 5:
+        ToneDown(192, 32);
+
+        if (Exit_Sub(task_ptr, 0, 6)) {
+            Menu_Suicide[0] = 1;
+            Menu_Suicide[1] = Menu_Suicide[2] = Menu_Suicide[3] = 0;
+        }
+
+        break;
+
+    case 6:
+        ToneDown(232, 32);
+        switch (task_ptr->r_no[2]) {
+        case 0:
+            FadeOut(1, 0xFF, 8);
+            task_ptr->r_no[2]++;
+            task_ptr->timer = 5;
+            Menu_Suicide[0] = 0;
+            Menu_Common_Init();
+            Menu_Cursor_X[0] = 0;
+            Setup_BG(1, 512, 0);
+            effect_57_init(110, 9, 0, 63, 999);
+            Order[110] = 3;
+            Order_Dir[110] = 8;
+            Order_Timer[110] = 1;
+            Setup_File_Property(1, 0xFF);
+            SaveInit(2, 1);
+            effect_66_init(138, 41, 0, 0, -1, -1, -0x7FF3);
+            Order[138] = 3;
+            Order_Timer[138] = 1;
+            break;
+
+        case 1:
+            Menu_Sub_case1(task_ptr);
+            break;
+
+        case 2:
+            Setup_Save_Replay_2nd(task_ptr, 1);
+            break;
+
+        case 3:
+            if (SaveMove() > 0) {
+                break;
+            }
+
+            task_ptr->r_no[2]++;
+            /* fallthrough */
+
+        case 4:
+            Exit_Sub(task_ptr, 0, 7);
+            break;
+        }
+
+        break;
+
+    case 7:
+        FadeOut(1, 0xFF, 8);
+        Order[110] = 4;
+        Order_Timer[110] = 1;
+        Menu_Suicide[0] = 1;
+        task_ptr->r_no[1]++;
+        break;
+
+    case 8:
+        FadeOut(1, 0xFF, 8);
+        Menu_Suicide[0] = 0;
+
+        for (ix = 0, s3 = char_ix = '8'; ix < 3; ix++, s2 = char_ix++) {
+            effect_61_init(0, ix + 80, 0, 0, char_ix, ix, 0x7047);
+            Order[ix + 80] = 3;
+            Order_Timer[ix + 80] = 1;
+        }
+
+        effect_66_init(138, 38, 0, 0, -1, -1, -0x7FF7);
+        Order[138] = 3;
+        Order_Timer[138] = 1;
+        task_ptr->r_no[1]++;
+        FadeInit();
+
+    case 9:
+        ToneDown(192, 32);
+
+        if (FadeIn(1, 25, 8)) {
+            task_ptr->r_no[2] = 0;
+            task_ptr->r_no[1] = 1;
+        }
+    }
 }
-#endif
 
 s32 Menu_Sub_case1(struct _TASK *task_ptr) {
     FadeOut(1, 0xFF, 8);
@@ -3745,20 +5249,252 @@ void Back_to_Mode_Select(struct _TASK *task_ptr) {
 }
 
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Extra_Option);
+void Extra_Option(struct _TASK *task_ptr) {
+    Menu_Cursor_Y[1] = Menu_Cursor_Y[0];
+
+    switch (task_ptr->r_no[2]) {
+    case 0:
+        FadeOut(1, 0xFF, 8);
+        task_ptr->r_no[2]++;
+        task_ptr->r_no[3] = 0;
+        task_ptr->timer = 5;
+        Menu_Suicide[1] = 1;
+        Menu_Suicide[2] = 0;
+        Menu_Page = 0;
+        Page_Max = 3;
+        Menu_Page_Buff = Menu_Page;
+        Message_Data->kind_req = 4;
+        break;
+
+    case 1:
+        FadeOut(1, 0xFF, 8);
+        task_ptr->r_no[2]++;
+        Setup_Next_Page(task_ptr, task_ptr->r_no[3]);
+        /* fallthrough */
+
+    case 2:
+        FadeOut(1, 0xFF, 8);
+
+        if (--task_ptr->timer == 0) {
+            task_ptr->r_no[2]++;
+            task_ptr->r_no[3] = 1;
+            FadeInit();
+        }
+
+        break;
+
+    case 3:
+        if (FadeIn(1, 25, 8)) {
+            task_ptr->r_no[2]++;
+            break;
+        }
+
+        break;
+
+    case 4:
+        Pause_ID = 0;
+        Dir_Move_Sub(task_ptr, 0);
+
+        if (IO_Result == 0) {
+            Pause_ID = 1;
+            Dir_Move_Sub(task_ptr, 1);
+        }
+
+        if (Menu_Cursor_Y[1] != Menu_Cursor_Y[0]) {
+            SE_cursor_move();
+            save_w[Present_Mode].extra_option.contents[Menu_Page][Menu_Max] = 1;
+
+            if (Menu_Cursor_Y[0] < Menu_Max) {
+                Message_Data->order = 1;
+                Message_Data->request = Ex_Account_Data[Menu_Page] + Menu_Cursor_Y[0];
+                Message_Data->timer = 2;
+
+                if (msgExtraTbl[0]->msgNum[Menu_Cursor_Y[0] + (Menu_Page * 8)] == 1) {
+                    Message_Data->pos_y = 54;
+                } else {
+                    Message_Data->pos_y = 62;
+                }
+            } else {
+                Message_Data->order = 1;
+                Message_Data->request = save_w[Present_Mode].extra_option.contents[Menu_Page][Menu_Max] + 32;
+                Message_Data->timer = 2;
+                Message_Data->pos_y = 54;
+            }
+        }
+
+        switch (IO_Result) {
+        case 0x200:
+            Return_Option_Mode_Sub(task_ptr);
+            Order[115] = 4;
+            Order_Timer[115] = 4;
+            save_w[4].extra_option = save_w[1].extra_option;
+            save_w[5].extra_option = save_w[1].extra_option;
+            SE_dir_selected();
+            break;
+
+        case 0x80:
+        case 0x800:
+            task_ptr->r_no[2] = 1;
+            task_ptr->timer = 5;
+
+            if (--Menu_Page < 0) {
+                Menu_Page = Page_Max;
+            }
+
+            SE_dir_selected();
+            break;
+
+        case 0x40:
+        case 0x400:
+            task_ptr->r_no[2] = 1;
+            task_ptr->timer = 5;
+
+            if (++Menu_Page > Page_Max) {
+                Menu_Page = 0;
+            }
+
+            SE_dir_selected();
+            break;
+
+        case 0x100:
+            if (Menu_Page == 0 && Menu_Cursor_Y[0] == 6) {
+                save_w[Present_Mode].extra_option = save_w[0].extra_option;
+                SE_selected();
+                break;
+            }
+
+            if (Menu_Cursor_Y[0] != Menu_Max) {
+                break;
+            }
+
+            switch (save_w[Present_Mode].extra_option.contents[Menu_Page][Menu_Max]) {
+            case 0:
+                task_ptr->r_no[2] = 1;
+                task_ptr->timer = 5;
+
+                if (--Menu_Page < 0) {
+                    Menu_Page = Page_Max;
+                }
+
+                break;
+
+            case 2:
+                task_ptr->r_no[2] = 1;
+                task_ptr->timer = 5;
+
+                if (++Menu_Page > Page_Max) {
+                    Menu_Page = 0;
+                }
+
+                break;
+
+            default:
+                Return_Option_Mode_Sub(task_ptr);
+                save_w[4].extra_option = save_w[1].extra_option;
+                save_w[5].extra_option = save_w[1].extra_option;
+                Order[115] = 4;
+                Order_Timer[115] = 4;
+                break;
+            }
+
+            SE_selected();
+
+            break;
+        }
+
+        break;
+    }
+}
 #else
 void Extra_Option(struct _TASK *task_ptr) {
     not_implemented(__func__);
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/menu", Ex_Move_Sub_LR);
-#else
 void Ex_Move_Sub_LR(u16 sw, s16 PL_id) {
-    not_implemented(__func__);
+    u8 last_pos = save_w[Present_Mode].extra_option.contents[Menu_Page][Menu_Cursor_Y[0]];
+
+    switch (sw) {
+    case 4:
+        if (Menu_Page_Buff != 0 || Menu_Cursor_Y[0] != 4) {
+            SE_dir_cursor_move();
+        }
+
+        save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]]--;
+
+        if (Menu_Cursor_Y[0] == Menu_Max) {
+            if (save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] < 0) {
+                save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] = 0;
+                IO_Result = 0x80;
+                break;
+            }
+
+            if (save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] != last_pos) {
+                Message_Data->order = 1;
+                Message_Data->request = save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Max] + 32;
+                Message_Data->timer = 2;
+            }
+        } else if (save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] < 0) {
+            save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] =
+                Ex_Menu_Max_Data[Menu_Page][Menu_Cursor_Y[0]];
+        }
+
+        return;
+
+    case 8:
+        if (Menu_Page_Buff != 0 || Menu_Cursor_Y[0] != 4) {
+            SE_dir_cursor_move();
+        }
+
+        save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]]++;
+
+        if (Menu_Cursor_Y[0] == Menu_Max) {
+            if (save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] > 2) {
+                save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] = 2;
+                IO_Result = 0x400;
+                return;
+            }
+
+            if (save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] > 2) {
+                save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] = 2;
+            }
+
+            if (save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] != last_pos) {
+                Message_Data->order = 1;
+                Message_Data->request = save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Max] + 32;
+                Message_Data->timer = 2;
+            }
+        } else if (save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] >
+                   Ex_Menu_Max_Data[Menu_Page][Menu_Cursor_Y[0]]) {
+            save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] = 0;
+        }
+
+        return;
+
+    case 0x400:
+        if (Interface_Type[PL_id] == 2) {
+            break;
+        }
+
+    case 0x100:
+        if (Menu_Page_Buff != 0 || Menu_Cursor_Y[0] != 4) {
+            SE_dir_cursor_move();
+        }
+
+        if (Menu_Cursor_Y[0] == Menu_Max) {
+            break;
+        }
+
+        save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]]++;
+
+        if (save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] >
+            Ex_Menu_Max_Data[Menu_Page][Menu_Cursor_Y[0]]) {
+            save_w[1].extra_option.contents[Menu_Page_Buff][Menu_Cursor_Y[0]] = 0;
+        }
+
+        return;
+    }
 }
-#endif
 
 void End_Replay_Menu(struct _TASK *task_ptr) {
     s16 ix;

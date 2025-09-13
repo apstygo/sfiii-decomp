@@ -120,7 +120,13 @@ void Disp_Win_Record() {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Disp_Win_Record_Sub);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Button_Cut_EX);
+#else
+s32 Button_Cut_EX(s16 *Timer, s16 Limit_Time) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Setup_Target_PL);
 
@@ -445,9 +451,21 @@ void System_all_clear_Level_B() {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Cut_Cut_C_Timer);
+#else
+s16 Cut_Cut_C_Timer() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Switch_Priority_76);
+#else
+void Switch_Priority_76() {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Cut_Cut_Sub);
 
@@ -573,7 +591,13 @@ void Copy_Key_Disp_Work() {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Extra_Setting);
+#else
+s32 Check_Extra_Setting() {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", All_Clear_Random_ix);
@@ -660,7 +684,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_CPU
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Check_Grade_Score);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Disp_Digit16x24);
+#else
+void Disp_Digit16x24(u32 Score_Buff, s16 Disp_X, s16 Disp_Y, s16 Color) {
+    not_implemented(__func__);
+}
+#endif
 
 void Disp_Copyright() {
     s32 xres;
