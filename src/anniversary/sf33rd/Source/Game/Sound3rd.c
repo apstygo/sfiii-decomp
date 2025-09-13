@@ -275,9 +275,6 @@ s32 cseSysSetMono(u32 mono_sw) {
     return mlSysSetMono(mono_sw);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Sound3rd", sound_request_for_dc);
-#else
 void sound_request_for_dc(SoundPatchConfig *rmc, s16 pan) {
     if (rmc->ptix != 0x7F) {
         if (pan < -0x20) {
@@ -344,7 +341,6 @@ void sound_request_for_dc(SoundPatchConfig *rmc, s16 pan) {
         break;
     }
 }
-#endif
 
 void BGM_Server() {
 #if defined(TARGET_PS2)
@@ -729,6 +725,7 @@ void SsAllNoteOff() {
 void SsRequestPan(u16 reqNum, s16 start, s16 /* unused */, s32 /* unused */, s32 /* unused */) {
 #if defined(TARGET_PS2)
     u16 remake_sound_code_for_DC(s32 code, SoundPatchConfig * rmcode);
+    void sound_request_for_dc(SoundPatchConfig * rmc, s32 pan);
 #endif
 
     SoundPatchConfig rmcode;
