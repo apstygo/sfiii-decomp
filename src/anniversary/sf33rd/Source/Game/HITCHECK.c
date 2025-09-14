@@ -158,13 +158,206 @@ void check_result_extra() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", set_caught_status);
-#else
 void set_caught_status(s16 ix) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void setup_saishin_lvdir(PLW * ds, s32 gddir);
+    s32 effect_02_init(WORK * wk, s32 dmgp, s32 mkst, s32 dmrl);
+    s32 defense_sky(PLW * as, PLW * ds, s32 gddir);
+    s32 defense_ground(PLW * as, PLW * ds, s32 gddir);
+    void check_guard_miss(WORK * as, PLW * ds, s32 gddir);
 #endif
+
+    s16 ix2 = hs[ix].dm_me;
+    PLW *as = (PLW *)q_hit_push[ix2];
+    PLW *ds = (PLW *)q_hit_push[ix];
+    s16 blocking_status = check_blocking_flag(as, ds);
+    s8 gddir;
+
+    s32 var_s4;
+
+    while (1) {
+        if (ix == hs[ix2].my_hit) {
+            break;
+        }
+    }
+
+    while (1) {
+        if (!(hs[ix2].flag.results & 0x100)) {
+            break;
+        }
+
+        if (ix != hs[ix2].dm_me) {
+            continue;
+        }
+
+        if (as->wu.att.dipsw & 0x40) {
+            if (!(ds->wu.att.dipsw & 0x40)) {
+                goto two;
+            } else {
+                // do nothing
+            }
+        } else if (as->wu.att.dipsw & 0x20) {
+            if (ds->wu.att.dipsw & 0x40) {
+                goto one;
+            }
+
+            if (!(ds->wu.att.dipsw & 0x20)) {
+                goto two;
+            } else {
+                // do nothing
+            }
+        } else if (ds->wu.att.dipsw & 0x60) {
+            goto one;
+        } else {
+            switch (blocking_status) {
+            case 1:
+                ds->hazusenai_flag = 1;
+                goto two;
+
+            case 2:
+                as->hazusenai_flag = 1;
+                goto one;
+
+            case 3:
+                ds->hazusenai_flag = 1;
+                as->hazusenai_flag = 1;
+                break;
+
+            default:
+                as->cat_break_reserve = ds->cat_break_reserve = 1;
+                break;
+            }
+        }
+
+        if (!(Game_timer & 1)) {
+        one:
+            hs[ix2].flag.results &= 0x111;
+            hs[ix].flag.results &= 0x1011;
+            return;
+        } else {
+        two:
+            hs[ix2].flag.results &= 0x1011;
+            hs[ix].flag.results &= 0x111;
+            break;
+        }
+    }
+
+    as->wu.hit_adrs = (u32 *)ds;
+    ds->wu.dmg_adrs = (u32 *)as;
+    as->wu.hit_work_id = ds->wu.work_id;
+    ds->wu.dmg_work_id = as->wu.work_id;
+    ds->dm_point = 1;
+    gddir = get_guard_direction(&as->wu, &ds->wu);
+    setup_saishin_lvdir(ds, gddir);
+    setup_dm_rl(&as->wu, &ds->wu);
+    set_catch_hit_mark_pos(&as->wu, &ds->wu);
+    set_damage_and_piyo(as, ds);
+    ds->wu.dm_guard_success = -1;
+
+    if (ds->guard_flag == 3 || as->wu.att.guard == 0 || ds->py->flag != 0) {
+        if (ds->wu.xyz[1].disp.pos <= 0) {
+            switch (check_pat_status(&ds->wu)) {
+            case 0:
+                goto four;
+
+            default:
+                break;
+            }
+        }
+
+        goto three;
+    } else if (ds->wu.xyz[1].disp.pos > 0) {
+        switch (defense_sky(as, ds, gddir)) {
+        case 0:
+            goto set_paring_status;
+
+        case 1:
+            goto set_guard_status;
+        }
+
+    three:
+        as->wu.hf.hit.player = 2;
+        ds->wu.routine_no[2] = as->wu.att.reaction;
+    } else {
+        switch (defense_ground(as, ds, gddir)) {
+        case 0:
+            goto set_paring_status;
+
+        case 1:
+            goto set_guard_status;
+
+        default:
+            break;
+        }
+
+    four:
+        as->wu.hf.hit.player = 1;
+        ds->wu.routine_no[2] = as->wu.att.reaction;
+    }
+
+    var_s4 = 0;
+
+    if (ds->wu.routine_no[1] == 1 && ds->wu.cg_type == 10) {
+        var_s4 = 1;
+    }
+
+    switch (var_s4 + (((as->wu.rl_flag + ds->wu.rl_flag) & 1) * 2)) {
+    case 0:
+    case 3:
+        as->wu.routine_no[1] = as->wu.cmcr.koc;
+        as->wu.routine_no[2] = as->wu.cmcr.ix;
+        as->wu.char_index = as->wu.cmcr.pat;
+        break;
+
+    default:
+        as->wu.routine_no[1] = as->wu.cmcf.koc;
+        as->wu.routine_no[2] = as->wu.cmcf.ix;
+        as->wu.char_index = as->wu.cmcf.pat;
+        break;
+    }
+
+    ds->wu.kezurare_flag = 0;
+    as->wu.routine_no[3] = 0;
+
+    if (ds->guard_flag == 3 || blocking_status & 1) {
+        ds->hazusenai_flag = 1;
+    }
+
+    as->tsukami_num = ds->player_number;
+    as->tsukami_f = 1;
+    ds->tsukamare_f = 1;
+    ds->wu.routine_no[1] = 3;
+    ds->wu.routine_no[2] = as->wu.att.ng_type;
+    ds->wu.routine_no[3] = 0;
+    grade_add_clean_hits((WORK_Other *)as);
+    check_guard_miss(&as->wu, ds, gddir);
+
+    if (as->wu.att.ng_type == 2) {
+        ds->wu.xyz[1].disp.pos = as->wu.xyz[1].disp.pos;
+    }
+
+    effect_02_init(&as->wu, ds->dm_point, 1, ds->wu.dm_rl);
+    dm_status_copy(&as->wu, &ds->wu);
+    ds->wu.dm_vital = 0;
+    as->wu.hit_stop = ds->wu.dm_stop = 0;
+    as->wu.cmwk[8]++;
+    as->wu.cmwk[0xF]++;
+    ds->wu.dm_count_up++;
+    hit_pattern_extdat_check(&as->wu);
+    paring_ctr_vs[Play_Type][ds->wu.id] = 0;
+    paring_counter[ds->wu.id] = 0;
+    paring_bonus_r[ds->wu.id] = 0;
+    pp_pulpara_hit(&as->wu);
+    return;
+
+set_guard_status:
+    set_guard_status(as, ds);
+    pp_pulpara_hit(&as->wu);
+    return;
+
+set_paring_status:
+    set_paring_status(as, ds);
+}
 
 s32 check_pat_status(WORK *wk) {
     if (wk->pat_status >= 14 && wk->pat_status < 31) {
