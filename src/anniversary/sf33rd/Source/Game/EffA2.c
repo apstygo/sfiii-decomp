@@ -104,10 +104,20 @@ void effect_A2_move(WORK_Other *ewk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EffA2", effect_A2_init);
-#else
-s32 effect_A2_init(s16 /* unused */) {
-    not_implemented(__func__);
+s32 effect_A2_init() {
+    WORK_Other *ewk;
+    s16 ix;
+
+    if ((ix = pull_effect_work(4)) == -1) {
+        return -1;
+    }
+
+    ewk = (WORK_Other *)frw[ix];
+    ewk->wu.be_flag = 1;
+    ewk->wu.id = 102;
+    ewk->wu.work_id = 16;
+    ewk->wu.direction = 1;
+    hnc_end_timer = 0;
+    Switch_Priority_76();
+    return 0;
 }
-#endif
