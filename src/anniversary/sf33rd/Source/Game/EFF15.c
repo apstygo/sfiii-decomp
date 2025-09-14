@@ -21,13 +21,12 @@ void effect_15_move(WORK_Other *ewk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF15", eff15_kemuri);
-#else
 void eff15_kemuri(WORK_Other *ewk) {
-    // do nothing
+    WORK *oya_ptr;
+
+    (void)ewk;
+    (void)oya_ptr;
 }
-#endif
 
 void eff15_koishi(WORK_Other *ewk) {
 #if defined(TARGET_PS2)
