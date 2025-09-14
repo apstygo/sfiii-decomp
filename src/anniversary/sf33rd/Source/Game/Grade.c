@@ -457,13 +457,121 @@ void grade_makeup_judgement_gals() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", grade_makeup_stage_parameter);
-#else
 void grade_makeup_stage_parameter(s16 ix) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    u8 old_my_char_check(u32 num, u8 flag);
+    void grade_makeup_stage_para_com(s32 ix);
+    void grade_makeup_final_parameter(s32 ix, s16 pt);
+    s16 get_grade_ix(s32 pts);
+    s32 rannyuu_Q_check(s32 ix);
 #endif
+
+    s16 i;
+    s16 grade;
+    s16 plnum;
+    s16 point = 0;
+    s16 bs;
+    s16 qc;
+
+    if ((Mode_Type != 5) && (Mode_Type != 1) && (Round_Operator[ix] == 0)) {
+        grade_makeup_stage_para_com(ix);
+        return;
+    }
+
+    qc = bs = 0;
+
+    if (judge_item[ix][Play_Type].round == 0) {
+        judge_item[ix][Play_Type].round = 1;
+    }
+
+    judge_item[ix][Play_Type].offence_total /= judge_item[ix][Play_Type].round;
+    judge_item[ix][Play_Type].defence_total /= judge_item[ix][Play_Type].round;
+    judge_item[ix][Play_Type].tech_pts_total /= judge_item[ix][Play_Type].round;
+    judge_item[ix][Play_Type].ex_point_total /= judge_item[ix][Play_Type].round;
+    judge_item[ix][Play_Type].no_lose = 0;
+
+    if (judge_item[ix][Play_Type].round == judge_item[ix][Play_Type].win_round) {
+        judge_item[ix][Play_Type].no_lose = Straight_Counter[ix];
+    }
+
+    if (ix == WINNER) {
+        if (Play_Type == 0) {
+            for (i = 0; i < 10; i++) {
+                if (judge_item[ix][Play_Type].no_lose < grade_t_straight[i + 1][0]) {
+                    break;
+                }
+            }
+
+            judge_item[ix][Play_Type].ex_point_total += grade_t_straight[i][1];
+        } else if (judge_item[ix][Play_Type].renshou) {
+            for (i = 0; i < 7; i++) {
+                if (judge_item[ix][Play_Type].renshou < grade_t_renshou[i + 1][0]) {
+                    break;
+                }
+            }
+
+            point += grade_t_renshou[i][1];
+        } else {
+            for (i = 0; i < 7; i++) {
+                if (judge_item[ix][Play_Type].em_renshou < grade_t_em_renshou[i + 1][0]) {
+                    break;
+                }
+            }
+
+            point += grade_t_em_renshou[i][1];
+        }
+    }
+
+    point = judge_item[ix][Play_Type].offence_total + judge_item[ix][Play_Type].defence_total +
+            judge_item[ix][Play_Type].tech_pts_total + judge_item[ix][Play_Type].ex_point_total;
+    grade = get_grade_ix(point);
+
+    if (Play_Type == 0) {
+        switch (bg_w.stage) {
+        case 21:
+        case 20:
+            bs = 1;
+            break;
+
+        default:
+            if ((qc = rannyuu_Q_check((ix + 1) & 1))) {
+                judge_final[ix][Play_Type].vs_cpu_result[15] = point;
+                judge_final[ix][Play_Type].vs_cpu_grade[15] = grade;
+                judge_final[ix][Play_Type].vs_cpu_player[15] = judge_final[ix][Play_Type].vcr_ix;
+            } else {
+                plnum = old_my_char_check(My_char[(ix + 1) & 1], 0);
+                judge_final[ix][Play_Type].vs_cpu_result[judge_final[ix][Play_Type].vcr_ix] = point;
+                judge_final[ix][Play_Type].vs_cpu_grade[judge_final[ix][Play_Type].vcr_ix] = grade;
+                judge_final[ix][Play_Type].vs_cpu_player[judge_final[ix][Play_Type].vcr_ix] = plnum;
+                judge_final[ix][Play_Type].vcr_ix += 1;
+            }
+
+            judge_item[ix][Play_Type].grade = grade;
+            break;
+        }
+
+        grade_makeup_final_parameter(ix, Play_Type + 0);
+
+        if (ix == WINNER) {
+            return;
+        }
+
+        if (bs != 0) {
+            return;
+        }
+
+        if (qc) {
+            judge_final[ix][Play_Type].vs_cpu_result[15] = -1;
+            judge_final[ix][Play_Type].vs_cpu_grade[15] = -1;
+            judge_final[ix][Play_Type].vs_cpu_player[15] = -1;
+            return;
+        } else {
+            judge_final[ix][Play_Type].vcr_ix--;
+        }
+    } else {
+        judge_item[ix][Play_Type].grade = grade;
+    }
+}
 
 s32 rannyuu_Q_check(s16 ix) {
     if ((Round_Operator[ix] == 0) && (My_char[ix] == 17)) {
