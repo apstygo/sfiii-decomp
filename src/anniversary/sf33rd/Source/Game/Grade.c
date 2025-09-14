@@ -583,13 +583,91 @@ s16 get_offence_total(s16 ix) {
     return point;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", get_defence_total);
-#else
 s16 get_defence_total(s16 ix, s16 wf) {
-    not_implemented(__func__);
+    s32 num = 0;
+    s16 i;
+    s16 ix2;
+    s32 point;
+    s32 point2;
+
+    ix2 = (ix + 1) & 1;
+
+    if (judge_item[ix2][Play_Type].att_renew) {
+        point2 = ((judge_item[ix2][Play_Type].att_renew - judge_item[ix2][Play_Type].clean_hits) * 100) /
+                 judge_item[ix2][Play_Type].att_renew;
+    } else {
+        point2 = 0;
+    }
+
+    last_judge_dada[ix][3] = remake_2_10(point2, 3);
+
+    for (i = 0; i < 13; i++) {
+        if (point2 < grade_t_bougyoritsu2[i + 1][0]) {
+            break;
+        }
+    }
+
+    num += grade_t_bougyoritsu2[i][1];
+    point2 = judge_item[ix][Play_Type].clean_hits + judge_item[ix2][Play_Type].guard_succ;
+
+    if (judge_item[ix][Play_Type].att_renew) {
+        point2 = (point2 * 100) / judge_item[ix][Play_Type].att_renew;
+    } else {
+        point2 = 0;
+    }
+
+    last_judge_dada[ix][4] = remake_2_10(point2, 3);
+
+    for (i = 0; i < 12; i++) {
+        if (point2 < grade_t_bougyoritsu3[i + 1][0]) {
+            break;
+        }
+    }
+
+    point = grade_t_bougyoritsu3[i][1];
+
+    if (judge_item[ix2][Play_Type].att_renew == 0) {
+        point = (point * 200) / 100;
+    }
+
+    num += point;
+
+    if (wf) {
+        for (i = 0; i < 12; i++) {
+            if (judge_item[ix][Play_Type].vitality < grade_t_nokori_vital[i + 1][0]) {
+                break;
+            }
+        }
+
+        num += grade_t_nokori_vital[i][1];
+    }
+
+    for (i = 0; i < 10; i++) {
+        if (judge_item[ix][Play_Type].nml_blocking < grade_t_def_nmlblock[i + 1][0]) {
+            break;
+        }
+    }
+
+    num += grade_t_def_nmlblock[i][1];
+
+    for (i = 0; i < 10; i++) {
+        if (judge_item[ix][Play_Type].rpd_blocking < grade_t_def_rpdblock[i + 1][0]) {
+            break;
+        }
+    }
+
+    num += grade_t_def_rpdblock[i][1];
+
+    for (i = 0; i < 8; i++) {
+        if (judge_item[ix][Play_Type].grd_blocking < grade_t_def_grdblock[i + 1][0]) {
+            break;
+        }
+    }
+
+    num += grade_t_def_grdblock[i][1];
+
+    return num;
 }
-#endif
 
 s16 get_tech_pts_total(s16 ix) {
     s16 i;
