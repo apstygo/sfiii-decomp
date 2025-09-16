@@ -1542,10 +1542,10 @@ segments:
       - { type: .sbss, vram: 0x578E80, name: sf33rd/Source/Game/DC_Ghost }
       - { type: .sbss, vram: 0x578EC0, name: sf33rd/Source/Game/DEMO00 }
       - { type: .sbss, vram: 0x578ED0, name: sf33rd/Source/Game/EFF45 }
-      - { type: sbss, vram: 0x578F00, name: sf33rd/Source/Game/EFF56 }
+      - { type: .sbss, vram: 0x578F00, name: sf33rd/Source/Game/EFF56 }
       - { type: sbss, vram: 0x578F0C, name: sf33rd/Source/Game/EFF77 }
       - { type: sbss, vram: 0x578F10, name: sf33rd/Source/Game/Eff79 }
-      - { type: sbss, vram: 0x578F18, name: sf33rd/Source/Game/Eff95 }
+      - { type: .sbss, vram: 0x578F18, name: sf33rd/Source/Game/Eff95 }
       - { type: .sbss, vram: 0x578F20, name: sf33rd/Source/Game/EffA2 }
       - { type: sbss, vram: 0x578F30, name: sf33rd/Source/Game/EFFA6 }
       - { type: sbss, vram: 0x578F48, name: sf33rd/Source/Game/effb2 }

@@ -554,9 +554,21 @@ s32 hnc_wipeout(u8 atr) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", ci_set);
+#else
+void ci_set(u8 type, u8 atr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", nw_set);
+#else
+void nw_set(u8 PL_num, u8 atr) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", score8x16_put);
 
