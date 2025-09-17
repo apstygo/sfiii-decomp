@@ -245,21 +245,136 @@ void Bg_Texture_Load2(u8 type) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Texture_Load_Ending);
-#else
-void Bg_Texture_Load_Ending(s16 type) {
-    not_implemented(__func__);
-}
-#endif
-
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", literal_380_004E6EC8);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", literal_423_004E6ED8);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", literal_424_004E6EF0);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", literal_502_004E6F20);
+void Bg_Texture_Load_Ending(s16 type) {
+#if defined(TARGET_PS2)
+    void Ed_Kakikae_Set(s32 type);
+#endif
+
+    void *loadAdrs;
+    u32 loadSize;
+    u16 accnum;
+    u32 tgbix[2];
+    u32 prio;
+    u32 mask;
+    u32 pmask;
+    s16 key1;
+    u8 i;
+    u8 j;
+    u8 k;
+    u8 x;
+    u8 shift;
+
+    u32 assign;
+    u32 assign2;
+
+    mmDebWriteTag("\nENDING\n\n");
+    rw_num = 0;
+    Bg_TexInit();
+    ending_flag = 1;
+
+    for (i = 0; i < end_use_real_scr[type]; i++) {
+        scr_bcm[i] = ending_map_tbl[type][i];
+    }
+
+    loadSize = load_it_use_any_key2(bgtex_ending_file[type], &loadAdrs, &key1, 2, 0);
+    pmask = 0xFF000000;
+    shift = 0x18;
+
+    for (j = 0; j < 4; j++, shift -= 8, assign = pmask >>= 8) {
+        prio = ending_priority[0];
+        prio &= pmask;
+        prio >>= shift;
+        bg_priority[j] = prio;
+    }
+
+    for (accnum = 0, j = 0; j < bg_w.scrno; j++) {
+        tgbix[0] = bgtex_ending_gbix[type][j * 2];
+        tgbix[1] = bgtex_ending_gbix[type][(j * 2) + 1];
+        mask = 0x80000000;
+        ppgSetupCurrentDataList(&ppgBgList[j]);
+        ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, (j * 64) + 100, 64, 0, 0);
+        ppgSetupTexChunk_1st_Accnum(0, accnum);
+
+        for (k = 0; k < 2; k++) {
+            for (i = 0; i < 32; i++, assign2 = mask >>= 1) {
+                if (mask & tgbix[k]) {
+                    accnum = ppgSetupTexChunk_2nd(NULL, i + ((j * 64) + 100 + (k * 32)));
+                    ppgSetupTexChunk_3rd(NULL, i + ((j * 64) + 100 + (k * 32)), 1);
+                }
+            }
+
+            mask = 0x80000000;
+        }
+    }
+
+    x = ending_rewrite_scr[type];
+
+    if (x) {
+        ppgSetupCurrentDataList(&ppgRwBgList);
+        ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, (j * 64) + 100, x, 0, 0);
+        ppgSetupTexChunk_1st_Accnum(0, accnum);
+
+        for (i = 0; i < x; i++) {
+            accnum = ppgSetupTexChunk_2nd(NULL, i + ((j * 64) + 100));
+            ppgSetupTexChunk_3rd(NULL, i + ((j * 64) + 100), 1);
+        }
+    }
+
+    switch (type) {
+    case 14:
+        tokusyu_stage = 5;
+
+        for (i = 0; i < 4; i++) {
+            for (j = 0; j < 4; j++) {
+                gouki_end_gbix[j + (i * 4)] = (j + ((i * 8) + 100));
+            }
+        }
+
+        ppgSetupCurrentDataList(&ppgAkeList);
+        ppgSetupPalChunk(NULL, loadAdrs, loadSize, 0, 0, 1);
+        ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, 0x1A0, 0x18, 0, 0);
+        ppgSetupTexChunk_1st_Accnum(0, accnum);
+
+        for (i = 0; i < 0x18; i++) {
+            accnum = ppgSetupTexChunk_2nd(NULL, i + 0x1A0);
+            ppgSetupTexChunk_3rd(NULL, i + 0x1A0, 1);
+        }
+
+        break;
+
+    case 15:
+        tokusyu_stage = 6;
+        break;
+
+    case 19:
+        tokusyu_stage = 7;
+        ppgSetupCurrentDataList(&ppgAkeList);
+        ppgSetupPalChunk(NULL, loadAdrs, loadSize, 0, 0, 1);
+        ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, 0xE4, 1, 0, 0);
+        ppgSetupTexChunk_1st_Accnum(0, accnum);
+        accnum = ppgSetupTexChunk_2nd(NULL, 0xE4);
+        ppgSetupTexChunk_3rd(NULL, 0xE4, 1);
+        break;
+
+    default:
+        tokusyu_stage = 7;
+        break;
+    }
+
+    Push_ramcnt_key(key1);
+    Ed_Kakikae_Set(type);
+    ppgSourceDataReleased(&ppgBgList[0]);
+    ppgSourceDataReleased(&ppgBgList[1]);
+    ppgSourceDataReleased(&ppgBgList[2]);
+    ppgSourceDataReleased(&ppgRwBgList);
+    ppgSourceDataReleased(&ppgAkeList);
+}
 
 void scr_trans(u8 bgnm) {
     PPGDataList *curDataList;
