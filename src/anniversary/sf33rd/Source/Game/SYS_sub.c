@@ -467,7 +467,21 @@ void Switch_Priority_76() {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Cut_Cut_Sub);
+s32 Cut_Cut_Sub(s16 xx) {
+    if (Demo_Flag == 0) {
+        return 1;
+    }
+
+    if (plw[0].wu.operator && (p1sw_0 & 0xFF0)) {
+        return xx;
+    }
+
+    if (plw[1].wu.operator && (p2sw_0 & 0xFF0)) {
+        return xx;
+    }
+
+    return 1;
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/SYS_sub", Cut_Cut_Loser);
