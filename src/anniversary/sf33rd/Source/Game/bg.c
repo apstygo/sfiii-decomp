@@ -229,13 +229,135 @@ void Bg_Close() {
     bg_disp_off = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Texture_Load_EX);
-#else
 void Bg_Texture_Load_EX() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void Bg_On_R(u32 s_prm);
 #endif
+
+    void *loadAdrs;
+    u32 loadSize;
+    u32 tgbix;
+    u32 prio;
+    u32 mask;
+    u32 pmask;
+    s16 key1;
+    u16 accnum;
+    u8 i;
+    u8 j;
+    u8 x;
+    u8 shift;
+    u8 stg;
+    u8 *akeAdrs;
+    s32 akeSize;
+    s16 akeKey;
+
+    u32 assign1;
+    u32 assign2;
+    u8 assign3;
+
+    mmDebWriteTag("\nSTAGE\n\n");
+    Bg_TexInit();
+
+    for (i = 0; i < 8; i++) {
+        bgPalCodeOffset[i] = 0x12C;
+    }
+
+    ending_flag = 0;
+
+    for (stg = 0; stg < 3; stg++) {
+        if (stage_bgw_number[bg_w.stage][stg] != 0) {
+            break;
+        }
+    }
+
+    for (i = 0; i < use_real_scr[bg_w.stage]; i++) {
+        scr_bcm[stg + i] = bg_map_tbl[bg_w.stage][i];
+    }
+
+    for (i = 0; i < 3; i++) {
+        if (stage_bgw_number[bg_w.stage][i] > 0) {
+            Bg_On_R(1 << i);
+        }
+    }
+
+    if (bg_w.stage == 7) {
+        Bg_On_R(4);
+    }
+
+    key1 = Search_ramcnt_type(0x12);
+    loadAdrs = (void *)Get_ramcnt_address(key1);
+    loadSize = Get_size_data_ramcnt_key(key1);
+    pmask = 0xFF000000;
+    shift = 0x18;
+
+    for (j = 0; j < 3; j++, shift -= 8, assign1 = pmask >>= 8) {
+        prio = stage_priority[bg_w.stage];
+        prio &= pmask;
+        prio >>= shift;
+        bg_priority[j] = prio;
+    }
+
+    bg_priority[3] = 70;
+    accnum = 0;
+
+    for (j = 0; j < bg_w.scrno; j++, assign3 = stg++) {
+        tgbix = bgtex_stage_gbix[bg_w.stage][j];
+        mask = 0x80000000;
+        ppgSetupCurrentDataList(&ppgBgList[stg]);
+        ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, (stg * 64) + 0x84, 32, 0, 0);
+        ppgSetupTexChunk_1st_Accnum(0, accnum);
+
+        for (i = 0; i < 32; i++, assign2 = mask >>= 1) {
+            if (tgbix & mask) {
+                accnum = ppgSetupTexChunk_2nd(NULL, i + ((stg * 64) + 0x84));
+                ppgSetupTexChunk_3rd(NULL, i + ((stg * 64) + 0x84), 1);
+            }
+        }
+    }
+
+    x = rewrite_scr[bg_w.stage];
+
+    if (x) {
+        ppgSetupCurrentDataList(&ppgRwBgList);
+        ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, (stg * 64) + 0x64, x, 0, 0);
+        ppgSetupTexChunk_1st_Accnum(0, accnum);
+
+        for (i = 0; i < x; i++) {
+            accnum = ppgSetupTexChunk_2nd(NULL, i + ((stg * 64) + 0x64));
+            ppgSetupTexChunk_3rd(NULL, i + ((stg * 64) + 0x64), 1);
+        }
+    }
+
+    if (bg_w.stage == 7) {
+        ppgSetupCurrentDataList(&ppgAkaneList);
+        ppgSetupPalChunk(NULL, loadAdrs, loadSize, 0, 0, 1);
+        ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, 0, 3, 0, 0);
+        ppgSetupTexChunk_1st_Accnum(0, accnum);
+
+        for (i = 0; i < 3; i++) {
+            accnum = ppgSetupTexChunk_2nd(NULL, i);
+            ppgSetupTexChunk_3rd(NULL, i, 1);
+        }
+
+        ppgSourceDataReleased(&ppgAkaneList);
+    }
+
+    if (bg_w.stage != 20 && bg_w.stage != 21) {
+        akeKey = Search_ramcnt_type(0x1F);
+        akeSize = Get_size_data_ramcnt_key(akeKey);
+        akeAdrs = (u8 *)Get_ramcnt_address(akeKey);
+        ppgSetupCurrentDataList(&ppgAkeList);
+        ppgSetupPalChunk(NULL, akeAdrs, akeSize, 0, 0, 1);
+        ppgSetupTexChunk_1st(NULL, akeAdrs, akeSize, 0, 3, 0, 0);
+
+        for (i = 0; i < 3; i++) {
+            ppgSetupTexChunk_2nd(NULL, i);
+            ppgSetupTexChunk_3rd(NULL, i, 1);
+        }
+
+        ppgSourceDataReleased(&ppgAkeList);
+    }
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Texture_Load2);
@@ -244,8 +366,6 @@ void Bg_Texture_Load2(u8 type) {
     not_implemented(__func__);
 }
 #endif
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", literal_380_004E6EC8);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", literal_423_004E6ED8);
 
