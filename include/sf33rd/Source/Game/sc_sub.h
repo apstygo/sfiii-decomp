@@ -30,6 +30,7 @@ void ToneDown(u8 tone, u8 priority);
 void player_name();
 void stun_mark_write(u8 Pl_Num, s16 Len);
 void max_mark_write(s8 Pl_Num, u8 Gauge_Len, u8 Mchar, u8 Mass_Len);
+void SF3_logo(u8 step);
 void player_face_init();
 void player_face();
 void hnc_set(u8 num, u8 atr);
