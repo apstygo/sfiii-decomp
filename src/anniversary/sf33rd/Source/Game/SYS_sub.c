@@ -4,6 +4,7 @@
 #include "sf33rd/AcrSDK/ps2/flps2debug.h"
 #include "sf33rd/Source/Game/COM_DATU.h"
 #include "sf33rd/Source/Game/EFFECT.h"
+#include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/RANKING.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/bg.h"
