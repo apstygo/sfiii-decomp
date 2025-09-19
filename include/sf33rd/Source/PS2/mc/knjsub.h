@@ -1,6 +1,7 @@
 #ifndef KNJSUB_H
 #define KNJSUB_H
 
+#include "mw_stdarg.h"
 #include "structs.h"
 #include "types.h"
 

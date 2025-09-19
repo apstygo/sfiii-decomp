@@ -561,13 +561,21 @@ static u32 *get_img_adrs(_kanji_w *kw, u32 index) {
     return (u32 *)p;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/PS2/mc/knjsub", KnjPrintf);
-#else
 void KnjPrintf(const s8 *fmt, ...) {
-    not_implemented(__func__);
+    s8 *p;
+    s8 s[128];
+    va_list args;
+
+    if (!KnjUseCheck()) {
+        return;
+    }
+
+    va_start(args, fmt);
+    p = s;
+    p += vsprintf(s, fmt, args);
+    *p = 0;
+    KnjPuts(s);
 }
-#endif
 
 void KnjFlush() {
     u32 *pp;
