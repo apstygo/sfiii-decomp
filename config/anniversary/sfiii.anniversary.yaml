@@ -1455,7 +1455,7 @@ segments:
       - [0x474F94, .sdata, sf33rd/Source/PS2/cseDataFiles/SpuMap]
       - [0x474FF0, .sdata, sf33rd/Source/PS2/mc/msgtblj]
       - [0x4752F0, .sdata, sf33rd/Source/PS2/mc/msgtble]
-      - [0x4755A0, sdata, sf33rd/Source/PS2/reboot]
+      - [0x4755A0, .sdata, sf33rd/Source/PS2/reboot]
       - [0x4755B0, sdata, sf33rd/Source/Game/Message3rd/C_USA/msgTable_usa] # Includes segment below ⬇️
       # - [0x4756B0, sdata, sf33rd/Source/Game/Message3rd/C_USA/msgMenu_usa]
       - [0x4756D0, sdata, sf33rd/Source/Game/Message3rd/C_USA/msgSysDir_usa]

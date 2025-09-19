@@ -69,6 +69,7 @@ special_cases = {
     ("msgtble", ".sdata", 0): 16,
     ("reboot", ".sdata", 0): 16,
     ("end_0", ".sdata", 0): 16,
+    ("msgTable_usa", ".sdata", 0): 16,
 
     ("sbss_579878", ".sbss", 0): 8,
     ("EFF45", ".sbss", 0): 16,
