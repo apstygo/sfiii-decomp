@@ -273,7 +273,7 @@ segments:
       - [0x0F4230, asm, sf33rd/Source/Game/EFF77]
       - [0x0F4910, c, sf33rd/Source/Game/EFF78]
       - [0x0F5290, c, sf33rd/Source/Game/Eff79]
-      - [0x0F8050, asm, sf33rd/Source/Game/Eff80]
+      - [0x0F8050, c, sf33rd/Source/Game/Eff80]
       - [0x0F83E0, c, sf33rd/Source/Game/Eff81]
       - [0x0F8830, c, sf33rd/Source/Game/EFF82]
       - [0x0F8E60, c, sf33rd/Source/Game/EFF83]
@@ -1544,7 +1544,7 @@ segments:
       - { type: .sbss, vram: 0x578ED0, name: sf33rd/Source/Game/EFF45 }
       - { type: sbss, vram: 0x578F00, name: sf33rd/Source/Game/EFF56 }
       - { type: sbss, vram: 0x578F0C, name: sf33rd/Source/Game/EFF77 }
-      - { type: sbss, vram: 0x578F10, name: sf33rd/Source/Game/Eff79 }
+      - { type: .sbss, vram: 0x578F10, name: sf33rd/Source/Game/Eff79 }
       - { type: sbss, vram: 0x578F18, name: sf33rd/Source/Game/Eff95 }
       - { type: .sbss, vram: 0x578F20, name: sf33rd/Source/Game/EffA2 }
       - { type: sbss, vram: 0x578F30, name: sf33rd/Source/Game/EFFA6 }
