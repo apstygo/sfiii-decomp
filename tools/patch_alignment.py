@@ -50,6 +50,10 @@ special_cases = {
     ("Sound3rd", ".data", 0): 16,
     ("end_data", ".data", 0): 16,
     ("EFF63", ".data", 0): 16,
+    ("EFFA3", ".data", 0): 16,
+    ("EFFA8", ".data", 0): 16,
+    ("EFFA8", ".data", 1): 16,
+    ("EFFB6", ".data", 0): 16,
 
     ("VM_DATA", ".sdata", 0): 16,
     ("Demo_Dat", ".sdata", 0): 16,
@@ -69,6 +73,7 @@ special_cases = {
     ("msgtble", ".sdata", 0): 16,
     ("reboot", ".sdata", 0): 16,
     ("end_0", ".sdata", 0): 16,
+    ("EFFB6", ".sdata", 0): 16,
 
     ("sbss_579878", ".sbss", 0): 8,
     ("EFF45", ".sbss", 0): 16,
