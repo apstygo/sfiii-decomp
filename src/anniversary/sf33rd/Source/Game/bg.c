@@ -359,17 +359,72 @@ void Bg_Texture_Load_EX() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Texture_Load2);
-#else
 void Bg_Texture_Load2(u8 type) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void Bg_On_R(u32 s_prm);
 #endif
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", literal_423_004E6ED8);
+    void *loadAdrs;
+    u32 loadSize;
+    s16 key;
+    u32 tgbix;
+    u32 prio;
+    u32 mask;
+    u32 pmask;
+    u8 i;
+    u8 j;
+    u8 shift;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", literal_424_004E6EF0);
+    u32 assign;
+
+    mmDebWriteTag("\nBG ETC.\n\n");
+    Bg_TexInit();
+    (void)assign;
+    ending_flag = 0;
+    tokusyu_stage = 0;
+    rw_num = 0;
+
+    for (i = 0; i < 4; i++) {
+        rw_bg_flag[i] = 0;
+    }
+
+    for (i = 0; i < bg_w.scno; i++) {
+        scr_bcm[i] = bg_map_tbl2[type];
+        Bg_On_R(1 << i);
+    }
+
+    ppgSetupCurrentDataList(ppgBgList);
+    ppgReleaseTextureHandle(NULL, -1);
+    key = Search_ramcnt_type(0x18);
+
+    if (key == 0) {
+        flLogOut("背景用テクスチャが読み込まれていませんでした。\n");
+        while (!NULL) {};
+    }
+
+    loadSize = Get_size_data_ramcnt_key(key);
+    loadAdrs = (void *)Get_ramcnt_address(key);
+    ppgSetupTexChunk_1st(0, loadAdrs, loadSize, 0x84, 0x20, 0, 0);
+    pmask = 0xFF000000;
+    shift = 24;
+    tgbix = bgtex_etc_gbix[type];
+    mask = 0x80000000;
+    prio = etc_bg_priority[type];
+    prio &= pmask;
+    prio >>= shift;
+    bg_priority[0] = prio;
+
+    for (j = 0, i = 0; i < 32; i++, assign = mask >>= 1) {
+        if (tgbix & mask) {
+            ppgBgList->tex->accnum = etcBgGixCnvTable[type][j];
+            ppgSetupTexChunk_2nd(NULL, i + 0x84);
+            ppgSetupTexChunk_3rd(NULL, i + 0x84, 1);
+            j++;
+        }
+    }
+
+    bgPalCodeOffset[0] = etcBgPalCnvTable[type] + 144;
+}
 
 void Bg_Texture_Load_Ending(s16 type) {
 #if defined(TARGET_PS2)
