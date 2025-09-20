@@ -261,10 +261,63 @@ void effl3_kie(WORK_Other *ewk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/effL3", effect_L3_init);
-#else
 s32 effect_L3_init(PLW *oya) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 get_my_trans_mode(s32 curr);
 #endif
+
+    WORK_Other *ewk;
+    s16 ix;
+    s16 i;
+    s16 id_w;
+    const s16 *data_ptr;
+
+    if (!Perfect_Flag) {
+        return 0;
+    }
+
+    data_ptr = effl3_data_tbl;
+    id_w = oya->wu.id ^ 1;
+
+    for (i = 0; i < 6; i++) {
+        if ((ix = pull_effect_work(3)) == -1) {
+            return -1;
+        }
+
+        ewk = (WORK_Other *)frw[ix];
+        ewk->wu.be_flag = 1;
+        ewk->wu.id = 213;
+        ewk->wu.work_id = 16;
+        ewk->my_master = (u32 *)oya;
+        ewk->master_id = oya->wu.id;
+        ewk->wu.cgromtype = 1;
+        ewk->wu.my_family = 2;
+        ewk->wu.my_col_mode = 0x4200;
+        ewk->wu.my_col_code = oya->wu.id ? 8 : 0;
+        ewk->wu.type = i;
+        ewk->wu.xyz[0].disp.pos = bg_w.bgw[1].wxy[0].disp.pos;
+        ewk->wu.xyz[0].disp.pos += *(s16 *)data_ptr++;
+        ewk->wu.xyz[1].disp.pos = plw[id_w].wu.xyz[1].disp.pos;
+        ewk->wu.xyz[1].disp.pos += *(s16 *)data_ptr++;
+        ewk->wu.position_z = plw[id_w].wu.position_z;
+        ewk->wu.position_z += *(s16 *)data_ptr++;
+        ewk->wu.my_priority = ewk->wu.position_z;
+        ewk->wu.rl_flag = *data_ptr++;
+        ewk->wu.kage_char = *data_ptr++;
+        ewk->wu.old_rno[0] = plw[id_w].wu.xyz[0].disp.pos;
+        ewk->wu.old_rno[0] += *(s16 *)data_ptr++;
+        ewk->wu.old_rno[1] = *data_ptr++;
+        ewk->wu.routine_no[1] = *data_ptr++;
+        ewk->wu.char_table[0] = oya->wu.char_table[0];
+        ewk->wu.char_table[1] = _etc_char_table;
+        ewk->wu.char_table[9] = oya->wu.char_table[9];
+        ewk->wu.kage_flag = 1;
+        ewk->wu.kage_hx = 6;
+        ewk->wu.kage_hy = 0;
+        ewk->wu.kage_prio = ewk->wu.position_z + 5;
+        ewk->wu.my_mts = oya->wu.my_mts;
+        ewk->wu.my_trans_mode = get_my_trans_mode(ewk->wu.my_mts);
+    }
+
+    return 0;
+}
