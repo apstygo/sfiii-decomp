@@ -5,9 +5,8 @@
 
 // TODO: get rid of this file
 
-s32 effect_04_init(s16 Death_Type, s16 cg_type, s16 sync_bg, s16 priority); // Range: 0x1C56A0 -> 0x1C5818
-// DWARF says disp_index and cursor_id are s16, but decompilation suggests otherwise
-s32 effect_18_init(s32 disp_index, s32 cursor_id, s16 sync_bg, s16 master_player); // Range: 0x1D36B0 -> 0x1D37E0
+s32 effect_04_init(s16 Death_Type, s16 cg_type, s16 sync_bg, s16 priority);        // Range: 0x1C56A0 -> 0x1C5818
+s32 effect_18_init(s16 disp_index, s16 cursor_id, s16 sync_bg, s16 master_player); // Range: 0x1D36B0 -> 0x1D37E0
 s32 effect_23_init(s16 id, u8 dir_old, s16 sync_bg, s16 master_player, s16 letter_type, s16 cursor_index,
                    u16 char_offset, s16 pos_index, s16 type); // Range: 0x1D5230 -> 0x1D5390
 s32 effect_35_init(s16 wait_timer, s16 c_type);               // Range: 0x1DBE80 -> 0x1DC170

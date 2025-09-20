@@ -241,7 +241,7 @@ s32 SSGetDrawSizePro(const s8 *str) {
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", SSPutStr2);
 #else
-void SSPutStr2(u16 x, u16 y, u8 atr, s8 *str) {
+void SSPutStr2(u16 x, u16 y, u8 atr, const s8 *str) {
     not_implemented(__func__);
 }
 #endif
@@ -358,11 +358,29 @@ void stun_base_put(u8 Pl_Num, s16 len) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", WipeInit);
+#else
+void WipeInit() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", WipeOut);
+#else
+s32 WipeOut(u8 type) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", WipeIn);
+#else
+s32 WipeIn(u8 type) {
+    not_implemented(__func__);
+}
+#endif
 
 void FadeInit() {
     FadeLimit = 1;
@@ -508,7 +526,13 @@ void max_mark_write(s8 Pl_Num, u8 Gauge_Len, u8 Mchar, u8 Mass_Len) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", SF3_logo);
+#else
+void SF3_logo(u8 step) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", player_face_init);
@@ -530,19 +554,61 @@ void player_face() {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", face_base_put);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", hnc_set);
+#else
+void hnc_set(u8 num, u8 atr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", hnc_wipeinit);
+#else
+void hnc_wipeinit(u8 atr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", hnc_wipeout);
+#else
+s32 hnc_wipeout(u8 atr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", ci_set);
+#else
+void ci_set(u8 type, u8 atr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", nw_set);
+#else
+void nw_set(u8 PL_num, u8 atr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", score8x16_put);
+#else
+void score8x16_put(u16 x, u16 y, u8 atr, u8 chr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", score16x24_put);
+#else
+void score16x24_put(u16 x, u16 y, u8 atr, u8 chr) {
+    not_implemented(__func__);
+}
+#endif
 
 void combo_message_set(u8 pl, u8 kind, u8 x, u8 num, u8 hi, u8 low) {
     u8 xw;
@@ -673,7 +739,13 @@ void sc_ram_to_vram(s8 sc_num) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sc_ram_to_vram_opc);
+#else
+void sc_ram_to_vram_opc(s8 sc_num, s8 x, s8 y, u16 atr) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sq_paint_chenge);
@@ -740,9 +812,21 @@ void Training_Damage_Set(s16 damage, s16 /* unused */, u8 kezuri) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", Training_Data_Disp);
+#else
+void Training_Data_Disp() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", dispButtonImage);
+#else
+void dispButtonImage(s32 px, s32 py, s32 pz, s32 sx, s32 sy, s32 cl, s32 ix) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", dispButtonImage2);
@@ -752,7 +836,13 @@ void dispButtonImage2(s32 px, s32 py, s32 pz, s32 sx, s32 sy, s32 cl, s32 ix) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", dispSaveLoadTitle);
+#else
+void dispSaveLoadTitle(void *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
 const s8 scrnAddTex1UV[9][4] = { { 96, 0, 32, 32 },  { 63, 0, 32, 32 },  { 0, 96, 32, 32 },
                                  { 0, 64, 32, 32 },  { 0, 0, 32, 32 },   { 31, 0, 32, 32 },

@@ -40,10 +40,6 @@ static bool dump_textures = false;
 static int texture_index = 0;
 
 static void save_texture(const SDL_Surface *surface, const SDL_Palette *palette) {
-    if (palette->ncolors != 16) {
-        return;
-    }
-
     char filename[128];
     sprintf(filename, "textures/%d.tga", texture_index);
 
@@ -72,10 +68,18 @@ static void save_texture(const SDL_Surface *surface, const SDL_Palette *palette)
     for (int i = 0; i < width * height; ++i) {
         Uint8 index = pixels[i];
 
-        if (i & 1) {
-            index >>= 4;
-        } else {
-            index &= 0xF;
+        switch (palette->ncolors) {
+        case 16:
+            if (i & 1) {
+                index >>= 4;
+            } else {
+                index &= 0xF;
+            }
+
+            break;
+
+        case 256:
+            break;
         }
 
         const SDL_Color *color = &palette->colors[index];
@@ -365,6 +369,7 @@ void SDLGameRenderer_SetTexture(unsigned int th) {
     }
 
     const SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface);
+    SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
     SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
     push_texture(texture);
 }
@@ -392,6 +397,10 @@ void SDLGameRenderer_ReloadTexture(unsigned int th) {
     }
 }
 
+static float adjust_tex_coord(float value, int total_size) {
+    return (SDL_floorf(value * total_size)) / total_size;
+}
+
 static void draw_quad(const SDLGameRenderer_Vertex *vertices, bool textured) {
     RenderTask task;
     task.texture = textured ? get_texture() : NULL;
@@ -404,8 +413,8 @@ static void draw_quad(const SDLGameRenderer_Vertex *vertices, bool textured) {
         task.vertices[i].position.y = vertices[i].coord.y;
 
         if (textured) {
-            task.vertices[i].tex_coord.x = vertices[i].tex_coord.s;
-            task.vertices[i].tex_coord.y = vertices[i].tex_coord.t;
+            task.vertices[i].tex_coord.x = adjust_tex_coord(vertices[i].tex_coord.s, task.texture->w);
+            task.vertices[i].tex_coord.y = adjust_tex_coord(vertices[i].tex_coord.t, task.texture->h);
         }
 
         read_rgba32_fcolor(vertices[i].color, &task.vertices[i].color);
@@ -431,10 +440,10 @@ void SDLGameRenderer_DrawSprite(const SDLGameRenderer_Sprite *sprite, unsigned i
         vertices[i].color = color;
     }
 
-    vertices[0].coord.x = sprite->v[0].x + 0.5;
-    vertices[0].coord.y = sprite->v[0].y + 0.5;
-    vertices[3].coord.x = sprite->v[3].x + 0.5;
-    vertices[3].coord.y = sprite->v[3].y + 0.5;
+    vertices[0].coord.x = sprite->v[0].x;
+    vertices[0].coord.y = sprite->v[0].y;
+    vertices[3].coord.x = sprite->v[3].x;
+    vertices[3].coord.y = sprite->v[3].y;
     vertices[1].coord.x = vertices[3].coord.x;
     vertices[1].coord.y = vertices[0].coord.y;
     vertices[2].coord.x = vertices[0].coord.x;

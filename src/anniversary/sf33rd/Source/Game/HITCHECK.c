@@ -1,6 +1,7 @@
 #include "sf33rd/Source/Game/HITCHECK.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
+#include "sf33rd/Source/Game/CMD_MAIN.h"
 #include "sf33rd/Source/Game/EFF02.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/Grade.h"
@@ -12,6 +13,7 @@
 #include "sf33rd/Source/Game/PLS01.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/PLS03.h"
+#include "sf33rd/Source/Game/Pow_Pow.h"
 #include "sf33rd/Source/Game/PulPul.h"
 #include "sf33rd/Source/Game/SysDir.h"
 #include "sf33rd/Source/Game/cmb_win.h"
@@ -156,13 +158,206 @@ void check_result_extra() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", set_caught_status);
-#else
 void set_caught_status(s16 ix) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void setup_saishin_lvdir(PLW * ds, s32 gddir);
+    s32 effect_02_init(WORK * wk, s32 dmgp, s32 mkst, s32 dmrl);
+    s32 defense_sky(PLW * as, PLW * ds, s32 gddir);
+    s32 defense_ground(PLW * as, PLW * ds, s32 gddir);
+    void check_guard_miss(WORK * as, PLW * ds, s32 gddir);
 #endif
+
+    s16 ix2 = hs[ix].dm_me;
+    PLW *as = (PLW *)q_hit_push[ix2];
+    PLW *ds = (PLW *)q_hit_push[ix];
+    s16 blocking_status = check_blocking_flag(as, ds);
+    s8 gddir;
+
+    s32 var_s4;
+
+    while (1) {
+        if (ix == hs[ix2].my_hit) {
+            break;
+        }
+    }
+
+    while (1) {
+        if (!(hs[ix2].flag.results & 0x100)) {
+            break;
+        }
+
+        if (ix != hs[ix2].dm_me) {
+            continue;
+        }
+
+        if (as->wu.att.dipsw & 0x40) {
+            if (!(ds->wu.att.dipsw & 0x40)) {
+                goto two;
+            } else {
+                // do nothing
+            }
+        } else if (as->wu.att.dipsw & 0x20) {
+            if (ds->wu.att.dipsw & 0x40) {
+                goto one;
+            }
+
+            if (!(ds->wu.att.dipsw & 0x20)) {
+                goto two;
+            } else {
+                // do nothing
+            }
+        } else if (ds->wu.att.dipsw & 0x60) {
+            goto one;
+        } else {
+            switch (blocking_status) {
+            case 1:
+                ds->hazusenai_flag = 1;
+                goto two;
+
+            case 2:
+                as->hazusenai_flag = 1;
+                goto one;
+
+            case 3:
+                ds->hazusenai_flag = 1;
+                as->hazusenai_flag = 1;
+                break;
+
+            default:
+                as->cat_break_reserve = ds->cat_break_reserve = 1;
+                break;
+            }
+        }
+
+        if (!(Game_timer & 1)) {
+        one:
+            hs[ix2].flag.results &= 0x111;
+            hs[ix].flag.results &= 0x1011;
+            return;
+        } else {
+        two:
+            hs[ix2].flag.results &= 0x1011;
+            hs[ix].flag.results &= 0x111;
+            break;
+        }
+    }
+
+    as->wu.hit_adrs = (u32 *)ds;
+    ds->wu.dmg_adrs = (u32 *)as;
+    as->wu.hit_work_id = ds->wu.work_id;
+    ds->wu.dmg_work_id = as->wu.work_id;
+    ds->dm_point = 1;
+    gddir = get_guard_direction(&as->wu, &ds->wu);
+    setup_saishin_lvdir(ds, gddir);
+    setup_dm_rl(&as->wu, &ds->wu);
+    set_catch_hit_mark_pos(&as->wu, &ds->wu);
+    set_damage_and_piyo(as, ds);
+    ds->wu.dm_guard_success = -1;
+
+    if (ds->guard_flag == 3 || as->wu.att.guard == 0 || ds->py->flag != 0) {
+        if (ds->wu.xyz[1].disp.pos <= 0) {
+            switch (check_pat_status(&ds->wu)) {
+            case 0:
+                goto four;
+
+            default:
+                break;
+            }
+        }
+
+        goto three;
+    } else if (ds->wu.xyz[1].disp.pos > 0) {
+        switch (defense_sky(as, ds, gddir)) {
+        case 0:
+            goto set_paring_status;
+
+        case 1:
+            goto set_guard_status;
+        }
+
+    three:
+        as->wu.hf.hit.player = 2;
+        ds->wu.routine_no[2] = as->wu.att.reaction;
+    } else {
+        switch (defense_ground(as, ds, gddir)) {
+        case 0:
+            goto set_paring_status;
+
+        case 1:
+            goto set_guard_status;
+
+        default:
+            break;
+        }
+
+    four:
+        as->wu.hf.hit.player = 1;
+        ds->wu.routine_no[2] = as->wu.att.reaction;
+    }
+
+    var_s4 = 0;
+
+    if (ds->wu.routine_no[1] == 1 && ds->wu.cg_type == 10) {
+        var_s4 = 1;
+    }
+
+    switch (var_s4 + (((as->wu.rl_flag + ds->wu.rl_flag) & 1) * 2)) {
+    case 0:
+    case 3:
+        as->wu.routine_no[1] = as->wu.cmcr.koc;
+        as->wu.routine_no[2] = as->wu.cmcr.ix;
+        as->wu.char_index = as->wu.cmcr.pat;
+        break;
+
+    default:
+        as->wu.routine_no[1] = as->wu.cmcf.koc;
+        as->wu.routine_no[2] = as->wu.cmcf.ix;
+        as->wu.char_index = as->wu.cmcf.pat;
+        break;
+    }
+
+    ds->wu.kezurare_flag = 0;
+    as->wu.routine_no[3] = 0;
+
+    if (ds->guard_flag == 3 || blocking_status & 1) {
+        ds->hazusenai_flag = 1;
+    }
+
+    as->tsukami_num = ds->player_number;
+    as->tsukami_f = 1;
+    ds->tsukamare_f = 1;
+    ds->wu.routine_no[1] = 3;
+    ds->wu.routine_no[2] = as->wu.att.ng_type;
+    ds->wu.routine_no[3] = 0;
+    grade_add_clean_hits((WORK_Other *)as);
+    check_guard_miss(&as->wu, ds, gddir);
+
+    if (as->wu.att.ng_type == 2) {
+        ds->wu.xyz[1].disp.pos = as->wu.xyz[1].disp.pos;
+    }
+
+    effect_02_init(&as->wu, ds->dm_point, 1, ds->wu.dm_rl);
+    dm_status_copy(&as->wu, &ds->wu);
+    ds->wu.dm_vital = 0;
+    as->wu.hit_stop = ds->wu.dm_stop = 0;
+    as->wu.cmwk[8]++;
+    as->wu.cmwk[0xF]++;
+    ds->wu.dm_count_up++;
+    hit_pattern_extdat_check(&as->wu);
+    paring_ctr_vs[Play_Type][ds->wu.id] = 0;
+    paring_counter[ds->wu.id] = 0;
+    paring_bonus_r[ds->wu.id] = 0;
+    pp_pulpara_hit(&as->wu);
+    return;
+
+set_guard_status:
+    set_guard_status(as, ds);
+    pp_pulpara_hit(&as->wu);
+    return;
+
+set_paring_status:
+    set_paring_status(as, ds);
+}
 
 s32 check_pat_status(WORK *wk) {
     if (wk->pat_status >= 14 && wk->pat_status < 31) {
@@ -271,7 +466,139 @@ void cal_hit_mark_pos(WORK *as, WORK *ds, s16 ix2, s16 ix) {
 
 const s16 Dsas_dir_table[16] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0 };
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", plef_at_vs_player_damage_union);
+void plef_at_vs_player_damage_union(PLW *as, PLW *ds, s8 gddir) {
+#if defined(TARGET_PS2)
+    s32 defense_sky(PLW * as, PLW * ds, s32 gddir);
+    s16 get_sky_sp_damage(u32 ix);
+    s16 get_sky_nm_damage(u32 ix);
+    s32 defense_ground(PLW * as, PLW * ds, s32 gddir);
+    u8 check_head_damage(s32 ix);
+    s16 get_kagami_damage(u32 ix);
+    s16 get_kind_of_head_dm(s32 dir, s32 drl);
+    s16 get_grd_hand_damage(u32 ix);
+    u8 check_trunk_damage(s32 ix);
+    s16 get_kind_of_trunk_dm(s32 dir, s32 drl);
+    void check_guard_miss(WORK * as, PLW * ds, s32 gddir);
+    s32 effect_02_init(WORK * wk, s32 dmgp, s32 mkst, s32 dmrl);
+#endif
+
+    ds->wu.dm_guard_success = -1;
+
+    if (ds->guard_flag == 3 || as->wu.att.guard == 0 || ds->py->flag != 0) {
+        if (ds->wu.pat_status == 10) {
+            ds->wu.xyz[1].cal = 0;
+            goto switch_defense_ground;
+        } else if (ds->wu.pat_status == 12 && ds->wu.xyz[1].disp.pos < 6) {
+            ds->wu.xyz[1].cal = 0;
+            goto switch_defense_ground;
+        }
+
+        if (ds->wu.routine_no[1] == 1) {
+            if (ds->wu.xyz[1].disp.pos > 0 || check_pat_status(&ds->wu)) {
+                goto jump_one;
+            } else {
+                goto jump_two;
+            }
+        }
+    }
+
+    if (ds->wu.xyz[1].disp.pos > 0 || check_pat_status(&ds->wu)) {
+        switch (defense_sky(as, ds, gddir)) {
+        case 0:
+            goto set_paring_status;
+
+        case 1:
+            goto set_guard_status;
+        }
+
+    jump_one:
+        as->wu.hf.hit.player = 2;
+        ds->wu.kezurare_flag = 0;
+        dm_reaction_init_set(as, ds);
+
+        if (as->wu.att.dipsw & 0x10) {
+            ds->wu.routine_no[2] = get_sky_sp_damage(ds->wu.routine_no[2]);
+        } else {
+            ds->wu.routine_no[2] = get_sky_nm_damage(ds->wu.routine_no[2]);
+        }
+    } else {
+    switch_defense_ground:
+        switch (defense_ground(as, ds, gddir)) {
+        case 0:
+            goto set_paring_status;
+
+        case 1:
+            goto set_guard_status;
+        }
+
+    jump_two:
+        as->wu.hf.hit.player = 1;
+        ds->wu.kezurare_flag = 0;
+        dm_reaction_init_set(as, ds);
+
+        if (as->wu.zu_flag == 0) {
+            if (ds->wu.pat_status >= 32) {
+                ds->wu.routine_no[2] = get_kagami_damage(ds->wu.routine_no[2]);
+            } else {
+                switch (ds->dm_point) {
+                case 0:
+                case 1:
+                    if (check_head_damage(ds->wu.routine_no[2])) {
+                        ds->wu.routine_no[2] = get_kind_of_head_dm(as->wu.dir_atthit, ds->wu.dm_rl);
+                    }
+
+                    break;
+
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                    ds->wu.routine_no[2] = get_grd_hand_damage(ds->wu.routine_no[2]);
+                    /* fallthrough */
+
+                default:
+                    if (check_trunk_damage(ds->wu.routine_no[2])) {
+                        ds->wu.routine_no[2] = get_kind_of_trunk_dm(as->wu.dir_atthit, ds->wu.dm_rl);
+                    }
+                }
+            }
+        }
+    }
+
+    ds->wu.routine_no[1] = 1;
+    ds->wu.routine_no[3] = 0;
+    grade_add_clean_hits((WORK_Other *)as);
+    check_guard_miss(&as->wu, ds, gddir);
+    effect_02_init(&as->wu, ds->dm_point, 1, ds->wu.dm_rl);
+    dm_status_copy(&as->wu, &ds->wu);
+    same_dm_stop(&as->wu, &ds->wu);
+    as->wu.cmwk[8]++;
+    as->wu.cmwk[15]++;
+    ds->wu.dm_count_up++;
+
+    if (ds->wu.xyz[1].disp.pos < 0) {
+        ds->wu.xyz[1].cal = 0;
+    }
+
+    add_combo_work(as, ds);
+    hit_pattern_extdat_check(&as->wu);
+
+    if (ds->atemi_flag && ds->atemi_point != ds->dm_point) {
+        ds->atemi_flag = 0;
+    }
+
+    paring_ctr_vs[Play_Type][ds->wu.id] = 0;
+    paring_counter[ds->wu.id] = 0;
+    paring_bonus_r[ds->wu.id] = 0;
+    return;
+
+set_guard_status:
+    set_guard_status(as, ds);
+    return;
+
+set_paring_status:
+    set_paring_status(as, ds);
+}
 
 void dm_reaction_init_set(PLW *as, PLW *ds) {
 #if defined(TARGET_PS2)
@@ -332,7 +659,100 @@ const s8 sel_sp_ch_tbl[12] = { 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0 };
 
 const s16 sel_hs_add_tbl[6] = { 4, 3, 2, 1, 0, 0 };
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", set_paring_status);
+void set_paring_status(PLW *as, PLW *ds) {
+    s16 hsadix;
+
+    if ((as->wu.att.hs_you == 0) && (as->wu.att.hs_me == 0)) {
+        ds->wu.routine_no[2] = ds->wu.old_rno[2];
+    } else {
+        hsadix = 4;
+        if ((as->wu.kind_of_waza & 0xF8) == 0) {
+            hsadix = (as->wu.kind_of_waza / 2) & 3;
+        }
+        ds->wu.routine_no[1] = 0;
+        ds->wu.routine_no[3] = 0;
+        waza_compel_all_init2(ds);
+        dm_status_copy(&as->wu, &ds->wu);
+        ds->wu.dm_piyo = 0;
+        ds->wu.cg_type = 0;
+
+        switch ((as->wu.xyz[1].disp.pos > 0) + (ds->wu.routine_no[2] - 31) * 2) {
+        case 0:
+        case 2:
+        case 4:
+            ds->wu.dm_stop = -15;
+            as->wu.hit_stop = sel_hs_add_tbl[hsadix] + 16;
+            as->wu.hit_quake = sel_hs_add_tbl[hsadix] + 16;
+            break;
+
+        case 1:
+        case 3:
+        case 5:
+            ds->wu.dm_stop = -15;
+            as->wu.hit_stop = 16;
+            as->wu.hit_quake = 16;
+            break;
+
+        case 6:
+            ds->wu.dm_stop = -15;
+            as->wu.hit_stop = 16;
+            as->wu.hit_quake = 16;
+            break;
+
+        case 7:
+            ds->wu.dm_stop = -15;
+            as->wu.hit_stop = 16;
+            as->wu.hit_quake = 16;
+            break;
+
+        case 8:
+            ds->wu.dm_stop = -15;
+            as->wu.hit_stop = 16;
+            as->wu.hit_quake = 16;
+            break;
+
+        case 9:
+            ds->wu.dm_stop = -15;
+            as->wu.hit_stop = 16;
+            as->wu.hit_quake = 16;
+            break;
+
+        default:
+            ds->wu.dm_stop = 0;
+            as->wu.hit_stop = 0;
+            as->wu.hit_quake = 0;
+            break;
+        }
+
+        ds->wu.dm_quake = 0;
+
+        if (ds->wu.xyz[1].disp.pos < 0) {
+            ds->wu.xyz[1].cal = 0;
+        }
+
+        ds->wu.dm_arts_point = 0;
+
+        if (as->wu.pat_status >= 0xE && as->wu.pat_status < 31 && as->wu.work_id == 1 &&
+            sel_sp_ch_tbl[as->wu.kind_of_waza >> 3] == 0) {
+            remake_mvxy_PoGR(&as->wu);
+        }
+
+        if (Bonus_Game_Flag == 0 && ds->spmv_ng_flag & 0x80) {
+            paring_bonus_r[ds->wu.id] = 1;
+            paring_ctr_vs[Play_Type][ds->wu.id]++;
+
+            if (paring_ctr_vs[Play_Type][ds->wu.id] > 39) {
+                paring_ctr_vs[Play_Type][ds->wu.id] = 39;
+            }
+
+            paring_counter[ds->wu.id] = parisucc_pts[Play_Type][paring_ctr_vs[Play_Type][ds->wu.id] - 1];
+        }
+
+        as->wu.cmwk[8]++;
+    }
+
+    hit_pattern_extdat_check(&as->wu);
+}
 
 s32 check_normal_attack(u8 waza) {
     return sel_sp_ch_tbl[waza >> 3] == 0;
@@ -1073,29 +1493,220 @@ void catch_hit_check() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", attack_hit_check);
-#else
 void attack_hit_check() {
-    not_implemented(__func__);
-}
-#endif
+    WORK *mad;
+    WORK *sad;
+    s16 *mh;
+    s16 *sh;
+    s16 mi;
+    s16 si;
+    s16 lp;
+    s16 lp2;
+    s16 mw;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", hit_check_subroutine);
-#else
-s16 hit_check_subroutine(WORK *wk1, WORK *wk2, const s16 *hd1, s16 *hd2) {
-    not_implemented(__func__);
-}
-#endif
+    s16 *assign1;
+    s16 *assign2;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", hit_check_x_only);
-#else
+    for (si = 0; si < hpq_in; si++) {
+        if (hs[si].flag.results & 0x1101) {
+            continue;
+        }
+
+        sad = q_hit_push[si];
+        sh = sad->h_bod->body_dm[0];
+        mh = sad->h_han->hand_dm[0];
+
+        for (lp = 0; lp < 4; lp++, sh += 4, assign1 = mh += 4) {
+            dmdat_adrs[lp] = sh;
+            dmdat_adrs[lp + 4] = mh;
+        }
+
+        dmdat_adrs[8] = &sad->h_att->att_box[2][0];
+        dmdat_adrs[9] = &sad->h_att->att_box[3][0];
+        dmdat_adrs[10] = &sad->h_hos->hos_box[0];
+
+        for (mi = 0; mi < hpq_in; mi++) {
+            if (mi == si) {
+                continue;
+            }
+            if (hs[mi].flag.results & 0x1110) {
+                continue;
+            }
+
+            mad = q_hit_push[mi];
+            if (mad->cg_ja.atix == 0) {
+                continue;
+            }
+            if (mad->att_hit_ok == 0) {
+                continue;
+            }
+
+            if (!(mad->att.dipsw & 2) ||
+                (!(sad->att.dipsw & 2) && (sad->work_id == 1 || !(((WORK_Other *)sad)->refrected)))) {
+                if ((mad->work_id != 1 && mad->work_id != 8) || !(sad->att.dipsw & 2)) {
+                    if (!(mad->vs_id & sad->work_id)) {
+                        continue;
+                    }
+                }
+            }
+
+            if (mad->work_id != 1) {
+                if (sad->work_id == 1) {
+                    if (((WORK_Other *)mad)->master_id == sad->id) {
+                        continue;
+                    }
+                } else if (((WORK_Other *)mad)->master_id == ((WORK_Other *)sad)->master_id) {
+                    continue;
+                }
+            } else if ((sad->work_id != 1 && ((WORK_Other *)sad)->refrected == 0) &&
+                       (mad->id == ((WORK_Other *)sad)->master_id)) {
+                continue;
+            }
+
+            mh = &mad->h_att->att_box[0][0];
+
+            for (lp = 0; lp < 4; lp++, assign2 = mh += 4) {
+                if (mh[1] == 0) {
+                    continue;
+                }
+
+                for (lp2 = 0; lp2 < 11; lp2++) {
+                    if (lp2 > 3 && mad->att_hit_ok == 0) {
+                        goto end;
+                    }
+
+                    if (dmdat_adrs[lp2][1] == 0) {
+                        continue;
+                    }
+
+                    if ((lp == 2 || lp == 3) && (lp2 == 8 || lp2 == 9)) {
+                        continue;
+                    }
+
+                    if ((lp2 > 3) && (lp2 < 0xA)) {
+                        if (!(((mad->rl_flag) + (sad->rl_flag)) & 1)) {
+                            if (mad->rl_flag) {
+                                if (!(mad->xyz[0].disp.pos <= sad->xyz[0].disp.pos)) {
+                                    continue;
+                                }
+                            } else if (!(mad->xyz[0].disp.pos >= sad->xyz[0].disp.pos)) {
+                                continue;
+                            }
+                        }
+                        if (mad->att.dipsw & 4 && (lp2 >= 8 || sad->cg_ja.bhix == 0)) {
+                            continue;
+                        }
+                    }
+
+                    if (lp2 == 10) {
+                        if (!(mad->att.dipsw & 64) || sad->kind_of_waza & 0x60 || pcon_dp_flag ||
+                            sad->pat_status == 0x26) {
+                            continue;
+                        }
+                    }
+
+                    mw = hit_check_subroutine(mad, sad, mh, dmdat_adrs[lp2]);
+
+                    if (mw > mkm_wk[si]) {
+                        hs[mi].flag.results |= 0x10;
+                        hs[mi].my_hit = si;
+                        hs[mi].my_att = lp;
+                        hs[si].flag.results |= 1;
+                        hs[si].dm_me = mi;
+                        hs[si].dm_body = lp2;
+                        mad->att_hit_ok = 0;
+                        mkm_wk[si] = mw;
+                        hs[mi].ah = mh;
+                        hs[si].dh = dmdat_adrs[lp2];
+                    }
+                }
+            }
+        }
+
+    end:
+        continue;
+    }
+}
+
+s16 hit_check_subroutine(WORK *wk1, WORK *wk2, const s16 *hd1, const s16 *hd2) {
+    s16 d0;
+    s16 d1;
+    s16 d2;
+    s16 d3;
+
+    d0 = *hd1++;
+    d1 = *hd1++;
+
+    if (wk1->rl_flag) {
+        d0 = -d0;
+        d0 -= d1;
+    }
+
+    d0 += wk1->xyz[0].disp.pos;
+    d2 = *hd2++;
+    d3 = *hd2++;
+
+    if (wk2->rl_flag) {
+        d2 = -d2;
+        d2 -= d3;
+    }
+
+    d2 += wk2->xyz[0].disp.pos;
+    d2 += d3 - d0;
+    d3 += d1;
+
+    if ((u32)d2 >= d3) {
+        return 0;
+    }
+
+    d0 = (wk1->xyz[1].disp.pos + *hd1++) - (wk2->xyz[1].disp.pos + *hd2++);
+    d0 += d1 = *hd1;
+    d1 += *hd2;
+
+    if ((u32)d0 >= d1) {
+        return 0;
+    }
+
+    if (d2 > (d3 - d2)) {
+        d2 = d3 - d2;
+    }
+
+    return d2;
+}
+
 s32 hit_check_x_only(WORK *wk1, WORK *wk2, s16 *hd1, s16 *hd2) {
-    not_implemented(__func__);
+    s16 d0;
+    s16 d1;
+    s16 d2;
+    s16 d3;
+
+    d0 = *hd1++;
+    d1 = *hd1++;
+
+    if (wk1->rl_flag) {
+        d0 = -d0;
+        d0 -= d1;
+    }
+
+    d0 += wk1->xyz[0].disp.pos;
+    d2 = *hd2++;
+    d3 = *hd2++;
+
+    if (wk2->rl_flag) {
+        d2 = -d2;
+        d2 -= d3;
+    }
+
+    d2 += wk2->xyz[0].disp.pos;
+    d2 += d3 - d0;
+    d3 += d1;
+
+    if ((u32)d2 >= d3) {
+        return 0;
+    }
+
+    return 1;
 }
-#endif
 
 void cal_hit_mark_position(WORK *wk1, WORK *wk2, s16 *hd1, s16 *hd2) {
     s16 d0 = *hd1++;
@@ -1147,13 +1758,29 @@ void cal_hit_mark_position(WORK *wk1, WORK *wk2, s16 *hd1, s16 *hd2) {
     wk2->hit_mark_y = (d0 + d1) >> 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", get_target_att_position);
-#else
 void get_target_att_position(WORK *wk, s16 *tx, s16 *ty) {
-    not_implemented(__func__);
+    s16 i;
+    s16(*ta)[4];
+
+    *tx = wk->xyz[0].disp.pos;
+    *ty = wk->xyz[1].disp.pos;
+    ta = &wk->h_att->att_box[0];
+
+    for (i = 0; i < 3; ta++, i++) {
+        if (!ta[0][0]) {
+            continue;
+        }
+
+        if (wk->rl_flag) {
+            *tx -= ta[0][0] + (ta[0][1] / 2);
+        } else {
+            *tx += ta[0][0] + (ta[0][1] / 2);
+        }
+
+        *ty += ta[0][2] + (ta[0][3] / 2);
+        break;
+    }
 }
-#endif
 
 s16 get_att_head_position(WORK *wk) {
     s16 *ta;

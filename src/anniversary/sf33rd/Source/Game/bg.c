@@ -1,13 +1,22 @@
 #include "sf33rd/Source/Game/bg.h"
 #include "common.h"
+#include "sf33rd/AcrSDK/ps2/foundaps2.h"
+#include "sf33rd/Source/Common/MemMan.h"
 #include "sf33rd/Source/Common/PPGFile.h"
 #include "sf33rd/Source/Common/PPGWork.h"
+#include "sf33rd/Source/Game/AcrUtil.h"
 #include "sf33rd/Source/Game/DC_Ghost.h"
+#include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/MTRANS.h"
+#include "sf33rd/Source/Game/PLS02.h"
+#include "sf33rd/Source/Game/RAMCNT.h"
+#include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/bg_data.h"
 #include "sf33rd/Source/Game/color3rd.h"
+#include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/end_data.h"
+#include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
 
 // sbss
@@ -28,7 +37,7 @@ s8 yang_timer;
 u8 ending_flag;
 BackgroundParameters end_prm[8];
 u8 gouki_end_gbix[16];
-u32 *rw3col_ptr;
+const u32 *rw3col_ptr;
 u8 bg_disp_off;
 s32 bgPalCodeOffset[8];
 
@@ -220,33 +229,832 @@ void Bg_Close() {
     bg_disp_off = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Texture_Load_EX);
-#else
 void Bg_Texture_Load_EX() {
-    not_implemented(__func__);
-}
-#endif
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Texture_Load2);
-
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Bg_Texture_Load_Ending);
-#else
-void Bg_Texture_Load_Ending(s16 type) {
-    not_implemented(__func__);
-}
+    void Bg_On_R(u32 s_prm);
 #endif
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", literal_380_004E6EC8);
+    void *loadAdrs;
+    u32 loadSize;
+    u32 tgbix;
+    u32 prio;
+    u32 mask;
+    u32 pmask;
+    s16 key1;
+    u16 accnum;
+    u8 i;
+    u8 j;
+    u8 x;
+    u8 shift;
+    u8 stg;
+    u8 *akeAdrs;
+    s32 akeSize;
+    s16 akeKey;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", literal_423_004E6ED8);
+    u32 assign1;
+    u32 assign2;
+    u8 assign3;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", literal_424_004E6EF0);
+    mmDebWriteTag("\nSTAGE\n\n");
+    Bg_TexInit();
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", literal_502_004E6F20);
+    for (i = 0; i < 8; i++) {
+        bgPalCodeOffset[i] = 0x12C;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", scr_trans);
+    ending_flag = 0;
+
+    for (stg = 0; stg < 3; stg++) {
+        if (stage_bgw_number[bg_w.stage][stg] != 0) {
+            break;
+        }
+    }
+
+    for (i = 0; i < use_real_scr[bg_w.stage]; i++) {
+        scr_bcm[stg + i] = bg_map_tbl[bg_w.stage][i];
+    }
+
+    for (i = 0; i < 3; i++) {
+        if (stage_bgw_number[bg_w.stage][i] > 0) {
+            Bg_On_R(1 << i);
+        }
+    }
+
+    if (bg_w.stage == 7) {
+        Bg_On_R(4);
+    }
+
+    key1 = Search_ramcnt_type(0x12);
+    loadAdrs = (void *)Get_ramcnt_address(key1);
+    loadSize = Get_size_data_ramcnt_key(key1);
+    pmask = 0xFF000000;
+    shift = 0x18;
+
+    for (j = 0; j < 3; j++, shift -= 8, assign1 = pmask >>= 8) {
+        prio = stage_priority[bg_w.stage];
+        prio &= pmask;
+        prio >>= shift;
+        bg_priority[j] = prio;
+    }
+
+    bg_priority[3] = 70;
+    accnum = 0;
+
+    for (j = 0; j < bg_w.scrno; j++, assign3 = stg++) {
+        tgbix = bgtex_stage_gbix[bg_w.stage][j];
+        mask = 0x80000000;
+        ppgSetupCurrentDataList(&ppgBgList[stg]);
+        ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, (stg * 64) + 0x84, 32, 0, 0);
+        ppgSetupTexChunk_1st_Accnum(0, accnum);
+
+        for (i = 0; i < 32; i++, assign2 = mask >>= 1) {
+            if (tgbix & mask) {
+                accnum = ppgSetupTexChunk_2nd(NULL, i + ((stg * 64) + 0x84));
+                ppgSetupTexChunk_3rd(NULL, i + ((stg * 64) + 0x84), 1);
+            }
+        }
+    }
+
+    x = rewrite_scr[bg_w.stage];
+
+    if (x) {
+        ppgSetupCurrentDataList(&ppgRwBgList);
+        ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, (stg * 64) + 0x64, x, 0, 0);
+        ppgSetupTexChunk_1st_Accnum(0, accnum);
+
+        for (i = 0; i < x; i++) {
+            accnum = ppgSetupTexChunk_2nd(NULL, i + ((stg * 64) + 0x64));
+            ppgSetupTexChunk_3rd(NULL, i + ((stg * 64) + 0x64), 1);
+        }
+    }
+
+    if (bg_w.stage == 7) {
+        ppgSetupCurrentDataList(&ppgAkaneList);
+        ppgSetupPalChunk(NULL, loadAdrs, loadSize, 0, 0, 1);
+        ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, 0, 3, 0, 0);
+        ppgSetupTexChunk_1st_Accnum(0, accnum);
+
+        for (i = 0; i < 3; i++) {
+            accnum = ppgSetupTexChunk_2nd(NULL, i);
+            ppgSetupTexChunk_3rd(NULL, i, 1);
+        }
+
+        ppgSourceDataReleased(&ppgAkaneList);
+    }
+
+    if (bg_w.stage != 20 && bg_w.stage != 21) {
+        akeKey = Search_ramcnt_type(0x1F);
+        akeSize = Get_size_data_ramcnt_key(akeKey);
+        akeAdrs = (u8 *)Get_ramcnt_address(akeKey);
+        ppgSetupCurrentDataList(&ppgAkeList);
+        ppgSetupPalChunk(NULL, akeAdrs, akeSize, 0, 0, 1);
+        ppgSetupTexChunk_1st(NULL, akeAdrs, akeSize, 0, 3, 0, 0);
+
+        for (i = 0; i < 3; i++) {
+            ppgSetupTexChunk_2nd(NULL, i);
+            ppgSetupTexChunk_3rd(NULL, i, 1);
+        }
+
+        ppgSourceDataReleased(&ppgAkeList);
+    }
+}
+
+void Bg_Texture_Load2(u8 type) {
+#if defined(TARGET_PS2)
+    void Bg_On_R(u32 s_prm);
+#endif
+
+    void *loadAdrs;
+    u32 loadSize;
+    s16 key;
+    u32 tgbix;
+    u32 prio;
+    u32 mask;
+    u32 pmask;
+    u8 i;
+    u8 j;
+    u8 shift;
+
+    u32 assign;
+
+    mmDebWriteTag("\nBG ETC.\n\n");
+    Bg_TexInit();
+    (void)assign;
+    ending_flag = 0;
+    tokusyu_stage = 0;
+    rw_num = 0;
+
+    for (i = 0; i < 4; i++) {
+        rw_bg_flag[i] = 0;
+    }
+
+    for (i = 0; i < bg_w.scno; i++) {
+        scr_bcm[i] = bg_map_tbl2[type];
+        Bg_On_R(1 << i);
+    }
+
+    ppgSetupCurrentDataList(ppgBgList);
+    ppgReleaseTextureHandle(NULL, -1);
+    key = Search_ramcnt_type(0x18);
+
+    if (key == 0) {
+        flLogOut("背景用テクスチャが読み込まれていませんでした。\n");
+        while (!NULL) {};
+    }
+
+    loadSize = Get_size_data_ramcnt_key(key);
+    loadAdrs = (void *)Get_ramcnt_address(key);
+    ppgSetupTexChunk_1st(0, loadAdrs, loadSize, 0x84, 0x20, 0, 0);
+    pmask = 0xFF000000;
+    shift = 24;
+    tgbix = bgtex_etc_gbix[type];
+    mask = 0x80000000;
+    prio = etc_bg_priority[type];
+    prio &= pmask;
+    prio >>= shift;
+    bg_priority[0] = prio;
+
+    for (j = 0, i = 0; i < 32; i++, assign = mask >>= 1) {
+        if (tgbix & mask) {
+            ppgBgList->tex->accnum = etcBgGixCnvTable[type][j];
+            ppgSetupTexChunk_2nd(NULL, i + 0x84);
+            ppgSetupTexChunk_3rd(NULL, i + 0x84, 1);
+            j++;
+        }
+    }
+
+    bgPalCodeOffset[0] = etcBgPalCnvTable[type] + 144;
+}
+
+void Bg_Texture_Load_Ending(s16 type) {
+#if defined(TARGET_PS2)
+    void Ed_Kakikae_Set(s32 type);
+#endif
+
+    void *loadAdrs;
+    u32 loadSize;
+    u16 accnum;
+    u32 tgbix[2];
+    u32 prio;
+    u32 mask;
+    u32 pmask;
+    s16 key1;
+    u8 i;
+    u8 j;
+    u8 k;
+    u8 x;
+    u8 shift;
+
+    u32 assign;
+    u32 assign2;
+
+    mmDebWriteTag("\nENDING\n\n");
+    rw_num = 0;
+    Bg_TexInit();
+    ending_flag = 1;
+
+    for (i = 0; i < end_use_real_scr[type]; i++) {
+        scr_bcm[i] = ending_map_tbl[type][i];
+    }
+
+    loadSize = load_it_use_any_key2(bgtex_ending_file[type], &loadAdrs, &key1, 2, 0);
+    pmask = 0xFF000000;
+    shift = 0x18;
+
+    for (j = 0; j < 4; j++, shift -= 8, assign = pmask >>= 8) {
+        prio = ending_priority[0];
+        prio &= pmask;
+        prio >>= shift;
+        bg_priority[j] = prio;
+    }
+
+    for (accnum = 0, j = 0; j < bg_w.scrno; j++) {
+        tgbix[0] = bgtex_ending_gbix[type][j * 2];
+        tgbix[1] = bgtex_ending_gbix[type][(j * 2) + 1];
+        mask = 0x80000000;
+        ppgSetupCurrentDataList(&ppgBgList[j]);
+        ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, (j * 64) + 100, 64, 0, 0);
+        ppgSetupTexChunk_1st_Accnum(0, accnum);
+
+        for (k = 0; k < 2; k++) {
+            for (i = 0; i < 32; i++, assign2 = mask >>= 1) {
+                if (mask & tgbix[k]) {
+                    accnum = ppgSetupTexChunk_2nd(NULL, i + ((j * 64) + 100 + (k * 32)));
+                    ppgSetupTexChunk_3rd(NULL, i + ((j * 64) + 100 + (k * 32)), 1);
+                }
+            }
+
+            mask = 0x80000000;
+        }
+    }
+
+    x = ending_rewrite_scr[type];
+
+    if (x) {
+        ppgSetupCurrentDataList(&ppgRwBgList);
+        ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, (j * 64) + 100, x, 0, 0);
+        ppgSetupTexChunk_1st_Accnum(0, accnum);
+
+        for (i = 0; i < x; i++) {
+            accnum = ppgSetupTexChunk_2nd(NULL, i + ((j * 64) + 100));
+            ppgSetupTexChunk_3rd(NULL, i + ((j * 64) + 100), 1);
+        }
+    }
+
+    switch (type) {
+    case 14:
+        tokusyu_stage = 5;
+
+        for (i = 0; i < 4; i++) {
+            for (j = 0; j < 4; j++) {
+                gouki_end_gbix[j + (i * 4)] = (j + ((i * 8) + 100));
+            }
+        }
+
+        ppgSetupCurrentDataList(&ppgAkeList);
+        ppgSetupPalChunk(NULL, loadAdrs, loadSize, 0, 0, 1);
+        ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, 0x1A0, 0x18, 0, 0);
+        ppgSetupTexChunk_1st_Accnum(0, accnum);
+
+        for (i = 0; i < 0x18; i++) {
+            accnum = ppgSetupTexChunk_2nd(NULL, i + 0x1A0);
+            ppgSetupTexChunk_3rd(NULL, i + 0x1A0, 1);
+        }
+
+        break;
+
+    case 15:
+        tokusyu_stage = 6;
+        break;
+
+    case 19:
+        tokusyu_stage = 7;
+        ppgSetupCurrentDataList(&ppgAkeList);
+        ppgSetupPalChunk(NULL, loadAdrs, loadSize, 0, 0, 1);
+        ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, 0xE4, 1, 0, 0);
+        ppgSetupTexChunk_1st_Accnum(0, accnum);
+        accnum = ppgSetupTexChunk_2nd(NULL, 0xE4);
+        ppgSetupTexChunk_3rd(NULL, 0xE4, 1);
+        break;
+
+    default:
+        tokusyu_stage = 7;
+        break;
+    }
+
+    Push_ramcnt_key(key1);
+    Ed_Kakikae_Set(type);
+    ppgSourceDataReleased(&ppgBgList[0]);
+    ppgSourceDataReleased(&ppgBgList[1]);
+    ppgSourceDataReleased(&ppgBgList[2]);
+    ppgSourceDataReleased(&ppgRwBgList);
+    ppgSourceDataReleased(&ppgAkeList);
+}
+
+void scr_trans(u8 bgnm) {
+    PPGDataList *curDataList;
+    Vec3 point[2];
+    s32 xx[2];
+    s32 yy[2];
+    s32 i;
+    s32 x;
+    s32 y;
+    s32 global_index;
+    s32 global_index_real;
+    s32 palOffset;
+    u32 vtxColor;
+    s32 suzi_pos;
+
+    setFilterMode(0);
+    njUnitMatrix(0);
+    njScale(0, 1.0f, -1.0f, 1.0f);
+    njTranslate(0, 0.0f, -1024.0f, 0.0f);
+    njTranslate(0, (s16)bg_prm[bgnm].bg_h_shift, (s16)bg_prm[bgnm].bg_v_shift, 0.0f);
+    njScale(0, 1.0f, -1.0f, 1.0f);
+    njTranslate(0, 0.0f, -224.0f, 0.0f);
+    njScale(0, 1.0f / scr_sc, 1.0f / scr_sc, 1.0f);
+    njScale(0, 1.0f / Frame_Zoom_X, 1.0f / Frame_Zoom_Y, 1.0f);
+    point[0].x = 0.0f;
+    point[0].y = 0.0f;
+    point[0].z = 00.f;
+    point[1].x = 648.0f;
+    point[1].y = 488.0f;
+    point[1].z = 0.0f;
+    njCalcPoints(0, &point[0], &point[0], 2);
+    xx[0] = ((s32)point[0].x) & ~0x7F;
+    yy[0] = ((s32)point[0].y) & ~0x7F;
+    xx[1] = ((s32)point[1].x + 0x7F) & ~0x7F;
+    yy[1] = ((s32)point[1].y + 0x7F) & ~0x7F;
+
+    for (x = 0; x < 2; x++) {
+        if (xx[x] < 0) {
+            xx[x] = 0;
+        }
+
+        if (0x3FF < xx[x]) {
+            xx[x] = 0x3FF;
+        }
+
+        if (yy[x] < 0) {
+            yy[x] = 0;
+        }
+
+        if (0x3FF < yy[x]) {
+            yy[x] = 0x3FF;
+        }
+    }
+
+    njUnitMatrix(0);
+    njScale(0, Frame_Zoom_X, Frame_Zoom_Y, 1.0);
+    njScale(0, scr_sc, scr_sc, 1.0);
+    njTranslate(0, 0, 224.0, 0);
+    njScale(0, 1.0, -1.0, 1.0);
+    njTranslate(0, (s16)-bg_prm[bgnm].bg_h_shift, (s16)-bg_prm[bgnm].bg_v_shift, 0);
+    njGetMatrix(&BgMATRIX[bgnm + 1]);
+    njTranslate(0, 0, 1024.0, PrioBase[bg_priority[bgnm]]);
+    njScale(0, 1.0, -1.0, 1.0);
+
+    if (Debug_w[42]) {
+        return;
+    }
+
+    palOffset = bgPalCodeOffset[bgnm];
+
+    if (ending_flag == 0) {
+        if (bgnm == 3) {
+            ppgSetupCurrentDataList(&ppgAkeList);
+            bgAkebonoDraw();
+            return;
+        }
+
+        global_index = (bgnm * 64) + 100;
+        ppgSetupCurrentDataList(&ppgBgList[bgnm]);
+        curDataList = &ppgBgList[bgnm];
+    } else {
+        global_index = (bgnm * 64) + 100;
+        ppgSetupCurrentDataList(&ppgBgList[bgnm]);
+        curDataList = &ppgBgList[bgnm];
+    }
+
+    switch (tokusyu_stage) {
+    case 1:
+        for (y = yy[0]; y < yy[1]; y += 128) {
+            for (x = xx[0]; x < xx[1]; x += 128) {
+                global_index_real = global_index + (((y >> 7) << 3) + (x >> 7));
+                vtxColor = 0xFFFFFFFF;
+
+                if (bgnm == 0) {
+                    for (i = 0; i < 4; i++) {
+                        if (global_index_real == rw_dat[i + 1].rwgbix) {
+                            global_index_real = rw_dat[i + 1].gbix;
+                            if (ppgCheckTextureNumber(0, global_index_real) == 0) {
+                                ppgSetupCurrentDataList(&ppgRwBgList);
+                            }
+                            break;
+                        }
+                    }
+                } else {
+                    for (i = 0; i < 13; i++) {
+                        if (global_index_real == rw_gbix[i]) {
+                            global_index_real = *(rw_dat[0].rwd_ptr + i + 1);
+                            vtxColor = *rw3col_ptr;
+
+                            if (ppgCheckTextureNumber(0, global_index_real) == 0) {
+                                ppgSetupCurrentDataList(&ppgRwBgList);
+                            }
+                            break;
+                        }
+                    }
+                }
+
+                bgDrawOneChip(x, y, 128, 128, global_index_real, vtxColor, palOffset);
+                ppgSetupCurrentDataList(curDataList);
+            }
+        }
+
+        if (EXE_flag != 0 || Game_pause != 0) {
+            return;
+        }
+
+        if (bgnm == 0) {
+            for (i = 0; i < 4; i = i + 1) {
+                rw_dat[i + 1].rw_cnt--;
+
+                if (rw_dat[i + 1].rw_cnt == 0) {
+                    if (rw_dat[i + 1].rwd_ptr[0] == -1) {
+                        rw_dat[i + 1].rwd_ptr = rw_dat[i + 1].brw_ptr;
+                        rw_dat[i + 1].rw_cnt = *rw_dat[i + 1].rwd_ptr++;
+                        rw_dat[i + 1].gbix = *rw_dat[i + 1].rwd_ptr++;
+                    } else {
+                        rw_dat[i + 1].rw_cnt = *rw_dat[i + 1].rwd_ptr++;
+                        rw_dat[i + 1].gbix = *rw_dat[i + 1].rwd_ptr++;
+                    }
+                }
+            }
+
+            break;
+        }
+
+        rw_dat[0].rw_cnt--;
+
+        if (rw_dat[0].rw_cnt != 0) {
+            break;
+        }
+
+        if (stage_flash == 0) {
+            rw_dat[0].rwd_ptr += 14;
+            rw3col_ptr++;
+            rw_dat[0].rw_cnt = rw_dat[0].rwd_ptr[0];
+
+            if (rw_dat[0].rw_cnt != -1) {
+                break;
+            }
+
+            stage_flash = random_16_bg();
+            stage_flash = stage03_flash_tbl[stage_flash];
+
+            if (stage_flash == 0) {
+                rw_dat[0].rwd_ptr = rw_dat[0].brw_ptr;
+                rw_dat[0].rw_cnt = rw_dat[0].rwd_ptr[0];
+                rw3col_ptr = &rw30col[0];
+            } else {
+                rw_dat[0].rwd_ptr = &rw31[0];
+                rw_dat[0].rw_cnt = 2;
+                stage_ftimer = stage_flash;
+                rw3col_ptr = rw31col;
+            }
+
+            break;
+        }
+
+        rw_dat[0].rwd_ptr += 14;
+        rw3col_ptr++;
+        rw_dat[0].rw_cnt = rw_dat[0].rwd_ptr[0];
+
+        if (rw_dat[0].rw_cnt != -1) {
+            break;
+        }
+
+        stage_ftimer--;
+
+        if (stage_ftimer < 1) {
+            stage_flash = 0;
+            rw_dat[0].rwd_ptr = rw_dat[0].brw_ptr;
+            rw_dat[0].rw_cnt = 2;
+            rw3col_ptr = rw30col;
+        } else {
+            rw_dat[0].rwd_ptr = rw31;
+            rw_dat[0].rw_cnt = 2;
+            rw3col_ptr = rw31col;
+        }
+
+        break;
+
+    case 2:
+        if (judge_flag == 1 && bgnm == 1) {
+            vtxColor = 0xFFA0A0A0;
+        } else {
+            vtxColor = 0xFFFFFFFF;
+        }
+
+        for (y = yy[0]; y < yy[1]; y += 128) {
+            for (x = xx[0]; x < xx[1]; x += 128) {
+                global_index_real = global_index + (((y >> 7) << 3) + (x >> 7));
+
+                if (bgnm == 1) {
+                    global_index_real += yang_ix_plus;
+                }
+
+                if (ppgCheckTextureNumber(0, global_index_real) == 0) {
+                    ppgSetupCurrentDataList(&ppgRwBgList);
+                }
+                bgDrawOneChip(x, y, 128, 128, global_index_real, vtxColor, palOffset);
+                ppgSetupCurrentDataList(curDataList);
+            }
+        }
+
+        if (EXE_flag != 0 || Game_pause != 0) {
+            return;
+        }
+
+        if (bgnm != 1) {
+            break;
+        }
+
+        yang_timer--;
+
+        if (yang_timer != 0) {
+            break;
+        }
+
+        yang_timer = 4;
+        yang_ix++;
+
+        if (yang_ix == 4) {
+            yang_ix = 0;
+        }
+
+        yang_ix_plus = yang_ix << 5;
+        break;
+
+    case 3:
+        for (y = yy[0]; y < yy[1]; y += 128) {
+            for (x = xx[0]; x < xx[1]; x += 128) {
+                global_index_real = global_index + (((y >> 7) << 3) + (x >> 7));
+
+                if (bgnm == 1) {
+                    if (rw_dat[1].rwgbix == global_index_real) {
+                        global_index_real = rw_dat[1].gbix;
+
+                        if (!ppgCheckTextureNumber(0, global_index_real)) {
+                            ppgSetupCurrentDataList(&ppgRwBgList);
+                        }
+                    } else {
+                        for (i = 0; i < 4; i++) {
+                            if (global_index_real == rw_gbix[i]) {
+                                global_index_real = *(rw_dat[0].rwd_ptr + i + 1);
+
+                                if (!ppgCheckTextureNumber(0, global_index_real)) {
+                                    ppgSetupCurrentDataList(&ppgRwBgList);
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                bgDrawOneChip(x, y, 128, 128, global_index_real, -1, palOffset);
+                ppgSetupCurrentDataList(curDataList);
+            }
+        }
+
+        if (EXE_flag != 0 || Game_pause != 0) {
+            return;
+        }
+
+        if (bgnm != 1) {
+            break;
+        }
+
+        rw_dat[0].rw_cnt--;
+
+        if (rw_dat[0].rw_cnt == 0) {
+            rw_dat[0].rwd_ptr += 5;
+            rw_dat[0].rw_cnt = rw_dat[0].rwd_ptr[0];
+
+            if (rw_dat[0].rw_cnt == -1) {
+                stage_ftimer--;
+
+                if (stage_ftimer == 0) {
+                    stage_flash = random_16_bg();
+                    stage_ftimer = random_16_bg();
+
+                    switch (stage_flash) {
+                    case 0:
+                    case 1:
+                        rw_dat[0].rwd_ptr = rw_dat[0].brw_ptr = rw191;
+                        rw_dat[0].rw_cnt = 1;
+                        stage_ftimer = stage19_loop_tbl2[stage_ftimer];
+                        break;
+
+                    case 2:
+                    case 3:
+                        rw_dat[0].rwd_ptr = rw_dat[0].brw_ptr = rw192;
+                        rw_dat[0].rw_cnt = 1;
+                        stage_ftimer = stage19_loop_tbl2[stage_ftimer];
+                        break;
+
+                    default:
+                        rw_dat[0].rwd_ptr = rw_dat[0].brw_ptr = rw190;
+                        rw_dat[0].rw_cnt = 2;
+                        stage_ftimer = stage19_loop_tbl1[stage_ftimer];
+                        break;
+                    }
+                } else {
+                    rw_dat[0].rwd_ptr = rw_dat[0].brw_ptr;
+                    rw_dat[0].rw_cnt = rw_dat[0].rwd_ptr[0];
+                }
+            }
+        }
+
+        rw_dat[1].rw_cnt--;
+
+        if (rw_dat[1].rw_cnt != 0) {
+            break;
+        }
+
+        if (rw_dat[1].rwd_ptr[0] == -1) {
+            rw_dat[1].rwd_ptr = rw_dat[1].brw_ptr;
+            rw_dat[1].rw_cnt = *rw_dat[1].rwd_ptr++;
+            rw_dat[1].gbix = *rw_dat[1].rwd_ptr++;
+        } else {
+            rw_dat[1].rw_cnt = *rw_dat[1].rwd_ptr++;
+            rw_dat[1].gbix = *rw_dat[1].rwd_ptr++;
+        }
+
+        break;
+
+    case 5:
+        for (y = yy[0]; y < yy[1]; y += 128) {
+            for (x = xx[0]; x < xx[1]; x += 128) {
+                global_index_real = global_index + (((y >> 7) << 3) + (x >> 7));
+
+                if (nosekae != 0) {
+                    for (i = 0; i < 16; i++) {
+                        if (gouki_end_gbix[i] == global_index_real) {
+                            global_index_real = gouki_end_nosekae[nosekae - 1][i];
+
+                            if (ppgCheckTextureNumber(0, global_index_real) == 0) {
+                                if (ppgCheckTextureNumber(&ppgRwBgTex, global_index_real)) {
+                                    ppgSetupCurrentDataList(&ppgRwBgList);
+                                } else {
+                                    ppgSetupCurrentDataList(&ppgAkeList);
+                                }
+                            }
+
+                            break;
+                        }
+                    }
+                }
+
+                if (bgnm == 0) {
+                    if (g_kakikae[0]) {
+                        for (i = 0; i < 12; i++) {
+                            if (global_index_real == rw_dat[i].rwgbix) {
+                                global_index_real = rw_dat[i].rwd_ptr[g_number[0]];
+
+                                if (ppgCheckTextureNumber(0, global_index_real) == 0) {
+                                    if (ppgCheckTextureNumber(&ppgRwBgTex, global_index_real)) {
+                                        ppgSetupCurrentDataList(&ppgRwBgList);
+                                    } else {
+                                        ppgSetupCurrentDataList(&ppgAkeList);
+                                    }
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+
+                    if (g_kakikae[1]) {
+                        for (i = 12; i < 20; i++) {
+                            if (global_index_real == rw_dat[i].rwgbix) {
+                                global_index_real = rw_dat[i].rwd_ptr[g_number[1]];
+
+                                if (!ppgCheckTextureNumber(0, global_index_real)) {
+                                    if (ppgCheckTextureNumber(&ppgRwBgTex, global_index_real)) {
+                                        ppgSetupCurrentDataList(&ppgRwBgList);
+                                    } else {
+                                        ppgSetupCurrentDataList(&ppgAkeList);
+                                    }
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                bgDrawOneChip(x, y, 128, 128, global_index_real, -1, palOffset);
+                ppgSetupCurrentDataList(curDataList);
+            }
+        }
+
+        scr_calc2(bgnm);
+        break;
+
+    case 6:
+        for (y = yy[0]; y < yy[1]; y += 128) {
+            for (x = xx[0]; x < xx[1]; x += 128) {
+                global_index_real = global_index + (((y >> 7) << 3) + (x >> 7));
+
+                if (bgnm == 0) {
+                    switch (c_kakikae) {
+                    case 1:
+                        for (i = 0; i < 8; i++) {
+                            if (global_index_real == rw_dat[i].rwgbix) {
+                                global_index_real = rw_dat[i].rwd_ptr[c_number];
+
+                                if (!ppgCheckTextureNumber(0, global_index_real)) {
+                                    ppgSetupCurrentDataList(&ppgRwBgList);
+                                }
+
+                                break;
+                            }
+                        }
+
+                        break;
+
+                    case 2:
+                        for (i = 8; i < 16; i++) {
+                            if (global_index_real == rw_dat[i].rwgbix) {
+                                global_index_real = rw_dat[i].rwd_ptr[c_number];
+
+                                if (!ppgCheckTextureNumber(0, global_index_real)) {
+                                    ppgSetupCurrentDataList(&ppgRwBgList);
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                bgDrawOneChip(x, y, 128, 128, global_index_real, -1, palOffset);
+                ppgSetupCurrentDataList(curDataList);
+            }
+        }
+
+        scr_calc2(bgnm);
+        break;
+
+    case 7:
+        bgDrawOneScreen(bgnm, global_index, &xx[0], &yy[0], -1, palOffset, curDataList);
+
+        if (EXE_flag != 0) {
+            break;
+        }
+
+        if (Game_pause != 0) {
+            break;
+        }
+
+        if (rw_bg_flag[bgnm] && rw_num) {
+            bgRWWorkUpdate();
+        }
+
+        scr_calc2(bgnm);
+        break;
+
+    case 4:
+        if (bgnm == 2) {
+            suzi_pos = bg_pos[2].scr_x_buff.word_pos.h - 320;
+            suzi_pos = suzi_pos * -0.5f;
+            ppgSetupCurrentDataList(&ppgAkaneList);
+
+            for (x = 0; x < 3; x = x + 1) {
+                scr_trans_sub2(x * 256 + 128, 128, suzi_pos);
+
+                if (No_Trans == 0) {
+                    ppgSetupCurrentPaletteNumber(0, x);
+                    njDrawTexture(bgpoly, 4, x, 0);
+                }
+            }
+        }
+
+        /* fallthrough */
+
+    default:
+        bgDrawOneScreen(bgnm, global_index, &xx[0], &yy[0], -1, palOffset, curDataList);
+
+        if (EXE_flag == 0 && Game_pause == 0 && rw_bg_flag[bgnm] && rw_num) {
+            bgRWWorkUpdate();
+        }
+
+        break;
+    }
+}
 
 void bgRWWorkUpdate() {
     s32 i;
@@ -617,9 +1425,41 @@ void Irl_Scrn() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Family_Move);
+void Family_Move() {
+    u8 assign;
+    u8 fam_ix;
+    u8 i;
+    u8 mask;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/bg", Ending_Family_Move);
+    fam_ix = use_family[bg_w.stage];
+    mask = 0x80;
+
+    for (i = 0; i < 8; i++, assign = mask >>= 1) {
+        if (fam_ix & mask) {
+            scr_calc(i);
+        }
+
+        (void)assign;
+    }
+
+    (void)assign;
+}
+
+void Ending_Family_Move() {
+    u8 mask_val = ending_use_family[end_w.type];
+    u8 assign;
+    u8 i;
+    u8 mask = 0x80;
+
+    for (i = 0; i < 8; i++, assign = mask >>= 1) {
+        if (mask_val & mask) {
+            scr_calc2(i);
+        }
+    }
+
+    (void)assign;
+    scr_calc(3);
+}
 
 void Bg_Disp_Switch(u8 on_off) {
     bg_disp_off = on_off;

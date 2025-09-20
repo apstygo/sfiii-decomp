@@ -30,12 +30,7 @@ void move_effect_work(s16 index) {
 
             if (c_addr->timing != exec_tm[index]) {
                 c_addr->timing = exec_tm[index];
-
-#if defined(TARGET_PS2)
                 effmovejptbl[c_addr->id](c_addr);
-#else
-                fatal_error("effmovejptbl is not decompiled.");
-#endif
             }
         }
     }

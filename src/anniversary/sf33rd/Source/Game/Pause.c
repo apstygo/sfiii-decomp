@@ -1,3 +1,4 @@
+#include "sf33rd/Source/Game/Pause.h"
 #include "common.h"
 #include "sf33rd/Source/Game/EFF66.h"
 #include "sf33rd/Source/Game/PLCNT.h"
@@ -30,7 +31,6 @@ void Flash_Pause_2nd(struct _TASK *task_ptr);
 void Flash_Pause_3rd(struct _TASK * /* unused */);
 void Flash_Pause_4th(struct _TASK *task_ptr);
 
-void dispControllerWasRemovedMessage(s32 x, s32 y, s32 step);
 s32 Check_Pause_Term(u16 sw, u8 PL_id);
 void Exit_Pause(struct _TASK *task_ptr);
 void Setup_Pause(struct _TASK *task_ptr);

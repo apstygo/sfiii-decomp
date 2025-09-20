@@ -2,6 +2,7 @@
 #include "common.h"
 #include "sf33rd/Source/Game/CALDIR.h"
 #include "sf33rd/Source/Game/Com_Sub.h"
+#include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/HITCHECK.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/bg.h"
@@ -138,13 +139,18 @@ const s16 grade_t_table[32][2] = { { 0, 20 },       { 75, 20 },     { 150, 20 },
                                    { 1750, 3000 },  { 1800, 4000 }, { 1850, 5000 }, { 1900, 6000 }, { 1940, 8000 },
                                    { 1980, 10000 }, { 2020, 20000 } };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", grade_check_work_1st_init);
-#else
-void grade_check_work_1st_init(s32 ix, s32 ix2) {
-    not_implemented(__func__);
+void grade_check_work_1st_init(s16 ix, s16 ix2) {
+    s16 i;
+
+    work_init_zero((s32 *)&judge_item[ix][ix2], sizeof(GradeData));
+    work_init_zero((s32 *)&judge_final[ix][ix2], sizeof(GradeFinalData));
+
+    for (i = 0; i < 16; i++) {
+        judge_final[ix][ix2].vs_cpu_result[i] = -1;
+        judge_final[ix][ix2].vs_cpu_player[i] = -1;
+        judge_final[ix][ix2].vs_cpu_grade[i] = -1;
+    }
 }
-#endif
 
 void grade_check_work_stage_init(s16 ix) {
     judge_item[ix][Play_Type].offence_total = 0;
@@ -451,13 +457,121 @@ void grade_makeup_judgement_gals() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", grade_makeup_stage_parameter);
-#else
 void grade_makeup_stage_parameter(s16 ix) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    u8 old_my_char_check(u32 num, u8 flag);
+    void grade_makeup_stage_para_com(s32 ix);
+    void grade_makeup_final_parameter(s32 ix, s16 pt);
+    s16 get_grade_ix(s32 pts);
+    s32 rannyuu_Q_check(s32 ix);
 #endif
+
+    s16 i;
+    s16 grade;
+    s16 plnum;
+    s16 point = 0;
+    s16 bs;
+    s16 qc;
+
+    if ((Mode_Type != 5) && (Mode_Type != 1) && (Round_Operator[ix] == 0)) {
+        grade_makeup_stage_para_com(ix);
+        return;
+    }
+
+    qc = bs = 0;
+
+    if (judge_item[ix][Play_Type].round == 0) {
+        judge_item[ix][Play_Type].round = 1;
+    }
+
+    judge_item[ix][Play_Type].offence_total /= judge_item[ix][Play_Type].round;
+    judge_item[ix][Play_Type].defence_total /= judge_item[ix][Play_Type].round;
+    judge_item[ix][Play_Type].tech_pts_total /= judge_item[ix][Play_Type].round;
+    judge_item[ix][Play_Type].ex_point_total /= judge_item[ix][Play_Type].round;
+    judge_item[ix][Play_Type].no_lose = 0;
+
+    if (judge_item[ix][Play_Type].round == judge_item[ix][Play_Type].win_round) {
+        judge_item[ix][Play_Type].no_lose = Straight_Counter[ix];
+    }
+
+    if (ix == WINNER) {
+        if (Play_Type == 0) {
+            for (i = 0; i < 10; i++) {
+                if (judge_item[ix][Play_Type].no_lose < grade_t_straight[i + 1][0]) {
+                    break;
+                }
+            }
+
+            judge_item[ix][Play_Type].ex_point_total += grade_t_straight[i][1];
+        } else if (judge_item[ix][Play_Type].renshou) {
+            for (i = 0; i < 7; i++) {
+                if (judge_item[ix][Play_Type].renshou < grade_t_renshou[i + 1][0]) {
+                    break;
+                }
+            }
+
+            point += grade_t_renshou[i][1];
+        } else {
+            for (i = 0; i < 7; i++) {
+                if (judge_item[ix][Play_Type].em_renshou < grade_t_em_renshou[i + 1][0]) {
+                    break;
+                }
+            }
+
+            point += grade_t_em_renshou[i][1];
+        }
+    }
+
+    point = judge_item[ix][Play_Type].offence_total + judge_item[ix][Play_Type].defence_total +
+            judge_item[ix][Play_Type].tech_pts_total + judge_item[ix][Play_Type].ex_point_total;
+    grade = get_grade_ix(point);
+
+    if (Play_Type == 0) {
+        switch (bg_w.stage) {
+        case 21:
+        case 20:
+            bs = 1;
+            break;
+
+        default:
+            if ((qc = rannyuu_Q_check((ix + 1) & 1))) {
+                judge_final[ix][Play_Type].vs_cpu_result[15] = point;
+                judge_final[ix][Play_Type].vs_cpu_grade[15] = grade;
+                judge_final[ix][Play_Type].vs_cpu_player[15] = judge_final[ix][Play_Type].vcr_ix;
+            } else {
+                plnum = old_my_char_check(My_char[(ix + 1) & 1], 0);
+                judge_final[ix][Play_Type].vs_cpu_result[judge_final[ix][Play_Type].vcr_ix] = point;
+                judge_final[ix][Play_Type].vs_cpu_grade[judge_final[ix][Play_Type].vcr_ix] = grade;
+                judge_final[ix][Play_Type].vs_cpu_player[judge_final[ix][Play_Type].vcr_ix] = plnum;
+                judge_final[ix][Play_Type].vcr_ix += 1;
+            }
+
+            judge_item[ix][Play_Type].grade = grade;
+            break;
+        }
+
+        grade_makeup_final_parameter(ix, Play_Type + 0);
+
+        if (ix == WINNER) {
+            return;
+        }
+
+        if (bs != 0) {
+            return;
+        }
+
+        if (qc) {
+            judge_final[ix][Play_Type].vs_cpu_result[15] = -1;
+            judge_final[ix][Play_Type].vs_cpu_grade[15] = -1;
+            judge_final[ix][Play_Type].vs_cpu_player[15] = -1;
+            return;
+        } else {
+            judge_final[ix][Play_Type].vcr_ix--;
+        }
+    } else {
+        judge_item[ix][Play_Type].grade = grade;
+    }
+}
 
 s32 rannyuu_Q_check(s16 ix) {
     if ((Round_Operator[ix] == 0) && (My_char[ix] == 17)) {
@@ -500,21 +614,168 @@ void grade_makeup_bonus_parameter(s16 ix) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", get_offence_total);
-#else
 s16 get_offence_total(s16 ix) {
-    not_implemented(__func__);
-}
-#endif
+    s32 num;
+    s32 num2;
+    s32 point;
+    s32 point2;
+    s16 i;
+    s16 ix2;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Grade", get_defence_total);
-#else
-s16 get_defence_total(s16 ix, s16 wf) {
-    not_implemented(__func__);
+    ix2 = (ix + 1) & 1;
+    point = point2 = 0;
+    num2 = judge_item[ix2][Play_Type].guard_succ + judge_item[ix2][Play_Type].nml_blocking +
+           judge_item[ix2][Play_Type].rpd_blocking + judge_item[ix2][Play_Type].grd_blocking +
+           judge_item[ix][Play_Type].clean_hits;
+
+    if (num2 != 0) {
+        num = (judge_item[ix][Play_Type].clean_hits * 100) / num2;
+    } else {
+        num = 0;
+    }
+
+    last_judge_dada[ix][0] = remake_2_10(num, 3);
+
+    for (i = 0; i < 23; i++) {
+        if (num < grade_t_meichuuritsu2[i + 1][0]) {
+            break;
+        }
+    }
+
+    point2 = grade_t_meichuuritsu2[i][1];
+
+    if (judge_item[ix][Play_Type].att_renew) {
+        num = (num2 * 100) / judge_item[ix][Play_Type].att_renew;
+    } else {
+        num = 0;
+    }
+
+    last_judge_dada[ix][1] = remake_2_10(num, 3);
+    point2 = (point2 * num) / 100;
+
+    if (judge_item[ix2][Play_Type].grd_mcnt) {
+        num = (judge_item[ix2][Play_Type].grd_miss * 100) / judge_item[ix2][Play_Type].grd_mcnt;
+    } else {
+        num = 0;
+    }
+
+    last_judge_dada[ix][2] = remake_2_10(num, 3);
+
+    for (i = 0; i < 20; i++) {
+        if (num < grade_t_meichuuritsu3[i + 1][0]) {
+            break;
+        }
+    }
+
+    point2 *= grade_t_meichuuritsu3[i][1];
+    point2 /= 32;
+
+    point = point2;
+
+    for (i = 0; i < 4; i++) {
+        if (judge_item[ix][Play_Type].em_stun < grade_t_em_stun[i + 1][0]) {
+            break;
+        }
+    }
+
+    point += grade_t_em_stun[i][1];
+
+    for (i = 0; i < 18; i++) {
+        if (judge_item[ix][Play_Type].max_combo < grade_t_max_combo[i + 1][0]) {
+            break;
+        }
+    }
+
+    point += grade_t_max_combo[i][1];
+
+    return point;
 }
-#endif
+
+s16 get_defence_total(s16 ix, s16 wf) {
+    s32 num = 0;
+    s16 i;
+    s16 ix2;
+    s32 point;
+    s32 point2;
+
+    ix2 = (ix + 1) & 1;
+
+    if (judge_item[ix2][Play_Type].att_renew) {
+        point2 = ((judge_item[ix2][Play_Type].att_renew - judge_item[ix2][Play_Type].clean_hits) * 100) /
+                 judge_item[ix2][Play_Type].att_renew;
+    } else {
+        point2 = 0;
+    }
+
+    last_judge_dada[ix][3] = remake_2_10(point2, 3);
+
+    for (i = 0; i < 13; i++) {
+        if (point2 < grade_t_bougyoritsu2[i + 1][0]) {
+            break;
+        }
+    }
+
+    num += grade_t_bougyoritsu2[i][1];
+    point2 = judge_item[ix][Play_Type].clean_hits + judge_item[ix2][Play_Type].guard_succ;
+
+    if (judge_item[ix][Play_Type].att_renew) {
+        point2 = (point2 * 100) / judge_item[ix][Play_Type].att_renew;
+    } else {
+        point2 = 0;
+    }
+
+    last_judge_dada[ix][4] = remake_2_10(point2, 3);
+
+    for (i = 0; i < 12; i++) {
+        if (point2 < grade_t_bougyoritsu3[i + 1][0]) {
+            break;
+        }
+    }
+
+    point = grade_t_bougyoritsu3[i][1];
+
+    if (judge_item[ix2][Play_Type].att_renew == 0) {
+        point = (point * 200) / 100;
+    }
+
+    num += point;
+
+    if (wf) {
+        for (i = 0; i < 12; i++) {
+            if (judge_item[ix][Play_Type].vitality < grade_t_nokori_vital[i + 1][0]) {
+                break;
+            }
+        }
+
+        num += grade_t_nokori_vital[i][1];
+    }
+
+    for (i = 0; i < 10; i++) {
+        if (judge_item[ix][Play_Type].nml_blocking < grade_t_def_nmlblock[i + 1][0]) {
+            break;
+        }
+    }
+
+    num += grade_t_def_nmlblock[i][1];
+
+    for (i = 0; i < 10; i++) {
+        if (judge_item[ix][Play_Type].rpd_blocking < grade_t_def_rpdblock[i + 1][0]) {
+            break;
+        }
+    }
+
+    num += grade_t_def_rpdblock[i][1];
+
+    for (i = 0; i < 8; i++) {
+        if (judge_item[ix][Play_Type].grd_blocking < grade_t_def_grdblock[i + 1][0]) {
+            break;
+        }
+    }
+
+    num += grade_t_def_grdblock[i][1];
+
+    return num;
+}
 
 s16 get_tech_pts_total(s16 ix) {
     s16 i;

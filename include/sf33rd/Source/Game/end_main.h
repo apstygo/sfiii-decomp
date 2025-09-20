@@ -3,6 +3,7 @@
 
 #include "types.h"
 
+void Ending_init();
 s8 Ending_main(s16 pl_num);
 void fadeout_to_staff_roll();
 void common_end_init00(s16 pl_num);
