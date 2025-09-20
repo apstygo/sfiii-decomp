@@ -136,7 +136,9 @@ void EFF76_SLIDE_IN(WORK_Other *ewk) {
     }
 }
 
-void EFF76_SLIDE_OUT(WORK_Other * /* unused */) {}
+void EFF76_SLIDE_OUT(WORK_Other * /* unused */) {
+    // Do nothing
+}
 
 void EFF76_SUDDENLY(WORK_Other *ewk) {
 #if defined(TARGET_PS2)
@@ -187,6 +189,7 @@ void EFF76_SUDDENLY(WORK_Other *ewk) {
         }
 
         break;
+
     case 3:
         if (Next_Step) {
             ewk->wu.my_family = 4;
@@ -310,10 +313,10 @@ void Setup_Color_L1(WORK_Other *ewk) {
     ewk->wu.my_col_code = Victory_Color_Data[My_char[Winner_id]] + 0x90;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff76", chkNameAkuma);
-#else
 s32 chkNameAkuma(s32 plnum, s32 rnum) {
-    not_implemented(__func__);
+    if ((plnum == 14) && ((Country == 4) || (Country == 2) || (Country == 3))) {
+        return rnum;
+    }
+
+    return 0;
 }
-#endif
