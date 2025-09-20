@@ -418,13 +418,49 @@ s32 WipeOut(u8 type) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", WipeIn);
-#else
 s32 WipeIn(u8 type) {
-    not_implemented(__func__);
+    PAL_CURSOR wipe_pc;
+    PAL_CURSOR_P wipe_p[4];
+    PAL_CURSOR_COL wipe_col[4];
+    s32 i;
+
+    if (WipeLimit == 9) {
+        return 1;
+    }
+
+    if ((WipeLimit != 8) && (!No_Trans)) {
+        wipe_pc.p = &wipe_p[0];
+        wipe_pc.col = &wipe_col[0];
+        wipe_pc.tex = 0;
+        wipe_pc.num = 4;
+        wipe_col[0].color = wipe_col[1].color = wipe_col[2].color = wipe_col[3].color = 0xFF000000;
+
+        if (type == 0) {
+            wipe_p[0].x = wipe_p[2].x = 0.0f;
+            wipe_p[1].x = wipe_p[3].x = 384.0f;
+
+            for (i = 0; i < 224; i += 8) {
+                wipe_p[0].y = wipe_p[1].y = i;
+                wipe_p[2].y = wipe_p[3].y = ((i + 8) - (WipeLimit + 1));
+                njDrawPolygon2D(&wipe_pc, 4, PrioBase[0], 32);
+            }
+        } else {
+            wipe_p[0].y = wipe_p[1].y = 0.0f;
+            wipe_p[2].y = wipe_p[3].y = 224.0f;
+
+            for (i = -224; i < 384; i += 8) {
+                wipe_p[0].x = i;
+                wipe_p[1].x = ((i + 8) - (WipeLimit + 1));
+                wipe_p[2].x = 224.0f + wipe_p[0].x;
+                wipe_p[3].x = 224.0f + wipe_p[1].x;
+                njDrawPolygon2D(&wipe_pc, 4, PrioBase[0], 32);
+            }
+        }
+    }
+
+    WipeLimit += 1;
+    return 0;
 }
-#endif
 
 void FadeInit() {
     FadeLimit = 1;
