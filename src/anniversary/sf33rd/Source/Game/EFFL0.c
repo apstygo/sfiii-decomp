@@ -26,7 +26,7 @@ void effect_L0_move(WORK_Other *ewk) {
             if (ewk->wu.dead_f == 0 && ewk->wu.dir_timer > 0 && mwk->wu.routine_no[1] != 1 &&
                 mwk->wu.routine_no[1] != 2 && mwk->wu.routine_no[1] != 3 &&
                 (mwk->wu.now_koc != 5 ||
-                 !(mwk->wu.kind_of_waza & 0x20) && mwk->wu.char_index != 0x40 && mwk->wu.char_index != 1)) {
+                 (!(mwk->wu.kind_of_waza & 0x20) && mwk->wu.char_index != 0x40 && mwk->wu.char_index != 1))) {
 
                 if (ewk->wu.dir_timer >= 30) {
                     break;
