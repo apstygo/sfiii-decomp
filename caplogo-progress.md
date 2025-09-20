@@ -8,7 +8,7 @@ Notes:
 
 | Module   | Progress   |
 |----------|------------|
-| sf33rd   | 99.94%     |
+| sf33rd   | 100.24%    |
 | cri      | 82.98%     |
 
 | Function                         | File                                                 | Module   | Is decompiled   |
@@ -923,7 +923,7 @@ Notes:
 | Standby_BGM                      | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
 | remake_sound_code_for_DC         | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
 | Store_Sound_Code                 | sf33rd/Source/Game/SE.c                              | sf33rd   | ✅               |
-| sound_request_for_dc             | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   |                 |
+| sound_request_for_dc             | sf33rd/Source/Game/Sound3rd.c                        | sf33rd   | ✅               |
 | CAPLOGO_Init                     | sf33rd/Source/Game/DEMO00.c                          | sf33rd   | ✅               |
 | Push_LDREQ_Queue_Direct          | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |
 | Push_LDREQ_Queue                 | sf33rd/Source/Game/GD3rd.c                           | sf33rd   | ✅               |

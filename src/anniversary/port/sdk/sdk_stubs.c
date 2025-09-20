@@ -345,6 +345,10 @@ void SyncDCache(void *, void *) {
     not_implemented(__func__);
 }
 
+int DisableIntc(int) {
+    not_implemented(__func__);
+}
+
 int EnableIntc(int) {
     not_implemented(__func__);
 }
@@ -357,6 +361,10 @@ int iDisableIntc(int) {
     not_implemented(__func__);
 }
 
+int DisableDmac(int) {
+    not_implemented(__func__);
+}
+
 int EnableDmac(int) {
     not_implemented(__func__);
 }
@@ -365,7 +373,15 @@ int AddIntcHandler(int, int (*)(int), int) {
     not_implemented(__func__);
 }
 
+int RemoveIntcHandler(int, int) {
+    not_implemented(__func__);
+}
+
 int AddDmacHandler(int, int (*)(int), int) {
+    not_implemented(__func__);
+}
+
+int RemoveDmacHandler(int, int) {
     not_implemented(__func__);
 }
 
@@ -376,6 +392,20 @@ void ExitHandler() {
 // libdma
 
 void sceDmaRecvN(sceDmaChan *d, void *addr, int size) {
+    not_implemented(__func__);
+}
+
+// eekernel
+
+void LoadExecPS2(const char *filename, int num_args, char *args[]) __attribute__((noreturn)) {
+    not_implemented(__func__);
+}
+
+int DIntr() {
+    not_implemented(__func__);
+}
+
+int EIntr() {
     not_implemented(__func__);
 }
 
