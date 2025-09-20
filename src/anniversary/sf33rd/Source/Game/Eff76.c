@@ -1,7 +1,32 @@
 #include "sf33rd/Source/Game/Eff76.h"
 #include "common.h"
+#include "sf33rd/Source/Game/CHARSET.h"
+#include "sf33rd/Source/Game/EFF57.h"
+#include "sf33rd/Source/Game/EFFA6.h"
+#include "sf33rd/Source/Game/EFFECT.h"
+#include "sf33rd/Source/Game/Grade.h"
+#include "sf33rd/Source/Game/RANKING.h"
+#include "sf33rd/Source/Game/SYS_sub.h"
+#include "sf33rd/Source/Game/Sel_Data.h"
+#include "sf33rd/Source/Game/aboutspr.h"
+#include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/bg_data.h"
+#include "sf33rd/Source/Game/char_table.h"
+#include "sf33rd/Source/Game/debug/Debug.h"
+#include "sf33rd/Source/Game/texcash.h"
+#include "sf33rd/Source/Game/workuser.h"
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff76", EFF76_Jmp_Tbl);
+void effect_76_move(WORK_Other *ewk);
+void EFF76_WAIT(WORK_Other *ewk);
+void EFF76_WAIT_BREAK_INTO(WORK_Other *ewk);
+void EFF76_SLIDE_IN(WORK_Other *ewk);
+void EFF76_SLIDE_OUT(WORK_Other * /* unused */);
+void EFF76_SUDDENLY(WORK_Other *ewk);
+void EFF76_BEFORE(WORK_Other *ewk);
+void EFF76_SHIFT(WORK_Other *ewk);
+
+void (*const EFF76_Jmp_Tbl[8])() = { EFF76_WAIT, EFF76_SLIDE_IN, EFF76_SLIDE_OUT,       EFF76_SUDDENLY,
+                                     EFF57_KILL, EFF76_SHIFT,    EFF76_WAIT_BREAK_INTO, EFF76_BEFORE };
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff76", effect_76_move);
 
