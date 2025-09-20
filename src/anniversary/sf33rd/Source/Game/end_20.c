@@ -29,7 +29,7 @@ void end_2001_0004();
 void end_2001_0005();
 
 void sea_write();
-void sea_trans(u16 num);
+void sea_trans(u16 num, f64 arg2);
 
 const s16 timer_20_tbl[6] = { 360, 420, 780, 720, 240, 780 };
 
@@ -326,10 +326,19 @@ void sea_write() {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/end_20", sea_trans);
-#else
-void sea_trans(u16 num) {
-    not_implemented(__func__);
+void sea_trans(u16 num, f64 arg2) {
+    f32 suzi = arg2;
+    Polygon poly[4];
+
+    poly[0].col = poly[1].col = poly[2].col = poly[3].col = -1;
+    poly[0].u = poly[1].u = 0.0f;
+    poly[2].u = poly[3].u = 1.0f;
+    poly[0].v = poly[2].v = num / 512.0f;
+    poly[1].v = poly[3].v = (num + 1) / 512.0f;
+    poly[0].x = poly[1].x = (-64.0f + suzi) * Frame_Zoom_X;
+    poly[2].x = poly[3].x = (448.0f + suzi) * Frame_Zoom_X;
+    poly[0].y = poly[2].y = (32.0f + num) * Frame_Zoom_Y;
+    poly[1].y = poly[3].y = (32.0f + (num + 1)) * Frame_Zoom_Y;
+    poly[0].z = poly[1].z = poly[2].z = poly[3].z = PrioBase[84];
+    njDrawTexture(poly, 4, 228, 0);
 }
-#endif

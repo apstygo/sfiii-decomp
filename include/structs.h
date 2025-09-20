@@ -2891,4 +2891,11 @@ typedef struct {
     s16 pos_y; // offset 0x2, size 0x2
 } ImageBuff;
 
+typedef struct {
+    // total size: 0x6
+    u16 flag; // offset 0x0, size 0x2
+    s16 sour; // offset 0x2, size 0x2
+    s16 tm;   // offset 0x4, size 0x2
+} I3_Data;
+
 #endif

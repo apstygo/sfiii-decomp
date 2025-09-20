@@ -273,7 +273,7 @@ segments:
       - [0x0F4230, asm, sf33rd/Source/Game/EFF77]
       - [0x0F4910, c, sf33rd/Source/Game/EFF78]
       - [0x0F5290, c, sf33rd/Source/Game/Eff79]
-      - [0x0F8050, asm, sf33rd/Source/Game/Eff80]
+      - [0x0F8050, c, sf33rd/Source/Game/Eff80]
       - [0x0F83E0, c, sf33rd/Source/Game/Eff81]
       - [0x0F8830, c, sf33rd/Source/Game/EFF82]
       - [0x0F8E60, c, sf33rd/Source/Game/EFF83]
@@ -364,7 +364,7 @@ segments:
       - [0x1243B0, c, sf33rd/Source/Game/EFFI3]
       - [0x124790, c, sf33rd/Source/Game/EFFI4]
       - [0x124D20, asm, sf33rd/Source/Game/effi6]
-      - [0x125040, asm, sf33rd/Source/Game/EFFI7]
+      - [0x125040, c, sf33rd/Source/Game/EFFI7]
       - [0x1254F0, c, sf33rd/Source/Game/EFFI8]
       - [0x126800, c, sf33rd/Source/Game/EFFI9]
       - [0x126D70, c, sf33rd/Source/Game/EFFJ0]
@@ -1063,7 +1063,7 @@ segments:
       - [0x417900, .rodata, sf33rd/Source/Game/EFFH9]
       - [0x417960, rodata, sf33rd/Source/Game/EFFI0]
       - [0x417B30, .rodata, sf33rd/Source/Game/EFFI3]
-      - [0x417B60, rodata, sf33rd/Source/Game/EFFI7]
+      - [0x417B60, .rodata, sf33rd/Source/Game/EFFI7]
       - [0x417D90, .rodata, sf33rd/Source/Game/EFFI8]
       - [0x417E20, .rodata, sf33rd/Source/Game/EFFJ2]
       - [0x417E30, .rodata, sf33rd/Source/Game/EFFJ7]
@@ -1375,7 +1375,7 @@ segments:
       - [0x473030, sdata, sf33rd/Source/Game/EFFA8]
       - [0x473040, sdata, sf33rd/Source/Game/EFFB6]
       - [0x4730A0, sdata, sf33rd/Source/Game/EFFC9]
-      - [0x4730C0, sdata, sf33rd/Source/Game/efff5]
+      - [0x4730C0, .sdata, sf33rd/Source/Game/efff5]
       - [0x4730F0, .sdata, sf33rd/Source/Game/EFFF9]
       - [0x4733B0, sdata, sf33rd/Source/Game/EFFJ7]
       - [0x473430, .sdata, sf33rd/Source/Game/EFFJ8]
@@ -1427,7 +1427,7 @@ segments:
       - [0x4741A0, .sdata, sf33rd/Source/Game/sel_pl]
       - [0x4742A0, .sdata, sf33rd/Source/Game/Sound3rd]
       - [0x474368, .sdata, sf33rd/Source/Game/spgauge]
-      - [0x474378, sdata, sf33rd/Source/Game/SYS_sub]
+      - [0x474378, .sdata, sf33rd/Source/Game/SYS_sub]
       - [0x474390, .sdata, sf33rd/Source/Game/ta_sub]
       - [0x4743B0, .sdata, sf33rd/Source/Game/TATE00]
       - [0x474420, .sdata, sf33rd/Source/Game/texcash]
@@ -1455,7 +1455,7 @@ segments:
       - [0x474F94, .sdata, sf33rd/Source/PS2/cseDataFiles/SpuMap]
       - [0x474FF0, .sdata, sf33rd/Source/PS2/mc/msgtblj]
       - [0x4752F0, .sdata, sf33rd/Source/PS2/mc/msgtble]
-      - [0x4755A0, sdata, sf33rd/Source/PS2/reboot]
+      - [0x4755A0, .sdata, sf33rd/Source/PS2/reboot]
       - [0x4755B0, sdata, sf33rd/Source/Game/Message3rd/C_USA/msgTable_usa] # Includes segment below ⬇️
       # - [0x4756B0, sdata, sf33rd/Source/Game/Message3rd/C_USA/msgMenu_usa]
       - [0x4756D0, sdata, sf33rd/Source/Game/Message3rd/C_USA/msgSysDir_usa]
@@ -1544,13 +1544,13 @@ segments:
       - { type: .sbss, vram: 0x578ED0, name: sf33rd/Source/Game/EFF45 }
       - { type: .sbss, vram: 0x578F00, name: sf33rd/Source/Game/EFF56 }
       - { type: sbss, vram: 0x578F0C, name: sf33rd/Source/Game/EFF77 }
-      - { type: sbss, vram: 0x578F10, name: sf33rd/Source/Game/Eff79 }
+      - { type: .sbss, vram: 0x578F10, name: sf33rd/Source/Game/Eff79 }
       - { type: .sbss, vram: 0x578F18, name: sf33rd/Source/Game/Eff95 }
       - { type: .sbss, vram: 0x578F20, name: sf33rd/Source/Game/EffA2 }
       - { type: sbss, vram: 0x578F30, name: sf33rd/Source/Game/EFFA6 }
       - { type: sbss, vram: 0x578F48, name: sf33rd/Source/Game/effb2 }
       - { type: sbss, vram: 0x578F50, name: sf33rd/Source/Game/effb3 }
-      - { type: sbss, vram: 0x578F54, name: sf33rd/Source/Game/EFFB8 }
+      - { type: .sbss, vram: 0x578F54, name: sf33rd/Source/Game/EFFB8 }
       - { type: sbss, vram: 0x578F70, name: sf33rd/Source/Game/effb9 }
       - { type: .sbss, vram: 0x578F80, name: sf33rd/Source/Game/EFFECT }
       - { type: .sbss, vram: 0x578FB8, name: sf33rd/Source/Game/EFFF9 }
