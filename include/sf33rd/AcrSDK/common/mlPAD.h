@@ -8,6 +8,7 @@ extern FLPAD *flpad_adr[2];
 
 void flpad_ram_clear(u32 *adrs_int, s32 xx);                     // Range: 0x117300 -> 0x1173C8
 s32 flPADInitialize();                                           // Range: 0x1173D0 -> 0x117458
+void flPADDestroy();                                             // Range: 0x117460 -> 0x117480
 void flPADWorkClear();                                           // Range: 0x117480 -> 0x1174C0
 void flPADConfigSet(const FLPAD_CONFIG *adrs, s32 padnum);       // Range: 0x1174C0 -> 0x1175A4
 void flPADGetALL();                                              // Range: 0x1175B0 -> 0x117988

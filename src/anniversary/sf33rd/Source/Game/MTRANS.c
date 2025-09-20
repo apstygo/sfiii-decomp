@@ -340,13 +340,42 @@ void mlt_obj_disp_rgb(MultiTexture *mt, WORK *wk, s32 base_y) {
     appRenewTempPriority(wk->position_z);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/MTRANS", getObjectHeight);
-#else
 s16 getObjectHeight(u16 cgnum) {
-    not_implemented(__func__);
+    s32 count;
+    TileMapEntry *trsptr;
+    s16 maxHeight;
+    u16 *trsbas;
+    s32 i = obj_group_table[cgnum];
+    s16 height;
+
+    if (i == 0) {
+        return 0;
+    }
+
+    if (texgrplds[i].ok == 0) {
+        return 0;
+    }
+
+    cgnum -= texgrpdat[i].num_of_1st;
+    trsbas = (u16 *)((char *)texgrplds[i].trans_table + ((u32 *)texgrplds[i].trans_table)[cgnum]);
+    count = *trsbas;
+    trsbas++;
+    trsptr = (TileMapEntry *)trsbas;
+
+    for (maxHeight = height = 0; count--; trsptr++) {
+        height = height + trsptr->y;
+
+        if (height > maxHeight) {
+            maxHeight = height;
+        }
+    }
+
+    if (height) {
+        // do nothing
+    }
+
+    return maxHeight;
 }
-#endif
 
 void mlt_obj_trans_ext(MultiTexture *mt, WORK *wk, s32 base_y) {
     u32 *textbl;

@@ -92,17 +92,26 @@ int DelayThread(u_int);
  * Interrupt
  */
 
+int DisableIntc(int);
 int EnableIntc(int);
+int DisableDmac(int);
+int EnableDmac(int);
 int iEnableIntc(int);
 int iDisableIntc(int);
-int EnableDmac(int);
 
 int AddIntcHandler(int, int (*)(int), int);
+int RemoveIntcHandler(int, int);
 int AddDmacHandler(int, int (*)(int), int);
+int RemoveDmacHandler(int, int);
 
 void scePrintf(const char *fmt, ...);
 void sceVprintf(const char *fmt, va_list ap);
 int sceSnprintf(char *buffer, size_t count, const char *fmt, ...);
 int sceVsnprintf(char *buffer, size_t count, const char *fmt, va_list ap);
+
+void LoadExecPS2(const char *filename, int num_args, char *args[]) __attribute__((noreturn));
+
+int DIntr();
+int EIntr();
 
 #endif
