@@ -1375,7 +1375,7 @@ segments:
       - [0x473030, sdata, sf33rd/Source/Game/EFFA8]
       - [0x473040, sdata, sf33rd/Source/Game/EFFB6]
       - [0x4730A0, sdata, sf33rd/Source/Game/EFFC9]
-      - [0x4730C0, sdata, sf33rd/Source/Game/efff5]
+      - [0x4730C0, .sdata, sf33rd/Source/Game/efff5]
       - [0x4730F0, .sdata, sf33rd/Source/Game/EFFF9]
       - [0x4733B0, sdata, sf33rd/Source/Game/EFFJ7]
       - [0x473430, .sdata, sf33rd/Source/Game/EFFJ8]
