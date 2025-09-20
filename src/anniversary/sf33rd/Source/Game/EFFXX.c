@@ -19,6 +19,10 @@
 #include "sf33rd/Source/Game/EFF28.h"
 #include "sf33rd/Source/Game/EFF42.h"
 #include "sf33rd/Source/Game/EFF48.h"
+#include "sf33rd/Source/Game/EFF57.h"
+#include "sf33rd/Source/Game/EFF61.h"
+#include "sf33rd/Source/Game/EFF62.h"
+#include "sf33rd/Source/Game/EFF66.h"
 #include "sf33rd/Source/Game/eff06.h"
 #include "sf33rd/Source/Game/eff12.h"
 #include "sf33rd/Source/Game/eff36.h"
@@ -85,16 +89,16 @@ const void (*effmovejptbl[229])() = {
     NULL,           // effect_54_move
     NULL,           // effect_55_move
     NULL,           // effect_56_move
-    NULL,           // effect_57_move
+    effect_57_move, // effect_57_move
     NULL,           // effect_58_move
     NULL,           // effect_59_move
     NULL,           // effect_60_move
-    NULL,           // effect_61_move
-    NULL,           // effect_62_move
+    effect_61_move, // effect_61_move
+    effect_62_move, // effect_62_move
     NULL,           // effect_63_move
     NULL,           // effect_64_move
     NULL,           // effect_65_move
-    NULL,           // effect_66_move
+    effect_66_move, // effect_66_move
     NULL,           // effect_67_move
     NULL,           // effect_68_move
     NULL,           // effect_69_move
