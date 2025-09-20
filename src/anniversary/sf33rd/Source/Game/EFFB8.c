@@ -1,6 +1,14 @@
 #include "sf33rd/Source/Game/EFFB8.h"
 #include "common.h"
 
+s16 test_pl_no;
+s16 test_mes_no;
+s16 test_in;
+s16 old_mes_no2;
+s16 old_mes_no3;
+s16 old_mes_no_pl;
+s16 mes_timer;
+
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFB8", effect_B8_move);
 
 #if defined(TARGET_PS2)

@@ -28,6 +28,10 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
+#if !defined(TARGET_PS2)
+#include "port/sdl/sdl_app.h"
+#endif
+
 typedef const f32 *ro_f32_ptr;
 
 static const f32 title00[25] = { 0.0009765625f, 0.001953125f, 0.7509765625f, 0.751953125f, -192.0f, -96.0f, 384.0f,
@@ -392,9 +396,9 @@ void opening_init() {
     op_w.index = 0;
     op_w.mv_ctr = 0;
     op_w.bgw[0].blk_no = op_w.bgw[1].blk_no = op_w.bgw[2].blk_no = 0;
-    op_w.bgw[0].prio = 0x4B;
-    op_w.bgw[1].prio = 0x50;
-    op_w.bgw[2].prio = 0x55;
+    op_w.bgw[0].prio = 75;
+    op_w.bgw[1].prio = 80;
+    op_w.bgw[2].prio = 85;
 
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 4; j++) {
@@ -459,7 +463,7 @@ void opning_init_00000() {
         bg_w.bgw[i].rewrite_flag = 0;
         bg_w.bgw[i].fam_no = 0;
         bg_w.bgw[i].zuubun = 0;
-        bg_w.bgw[i].wxy[0].cal = 0x02000000;
+        bg_w.bgw[i].wxy[0].cal = 0x02000000; // Isn't this supposed to set xy?
         bg_w.bgw[i].xy[1].cal = 0;
         bg_w.bgw[i].wxy[0].cal = 0x02000000;
         bg_w.bgw[i].wxy[1].cal = 0;
@@ -1736,6 +1740,7 @@ void op_113_move() {
         break;
     }
 }
+
 const s16 op_114_sound[6] = { 0, 2, 3, 4, 7, 9 };
 
 void op_114_move() {
@@ -1970,6 +1975,10 @@ void op_118_move() {
 }
 
 void op_bg_move(s16 r_index) {
+#if !defined(TARGET_PS2)
+    SDLApp_SetOpeningIndex(r_index);
+#endif
+
     op_bg0_move(r_index);
     op_bg1_move(r_index);
     op_bg2_move(r_index);
@@ -1990,8 +1999,8 @@ void op_bg0_move(s16 r_index) {
                  op_bg0_0001, op_bg0_0004, op_bg0_0001, op_bg0_0002, op_bg1_0003, op_bg0_0002, op_bg0_0010, op_bg0_0002,
                  op_bg0_0011, op_bg0_0012, op_bg0_0013, op_bg0_0014, op_bg0_0002, op_bg0_0016 };
 
-    opw_ptr = op_w.bgw;
-    bgw_ptr = bg_w.bgw;
+    opw_ptr = &op_w.bgw[0];
+    bgw_ptr = &bg_w.bgw[0];
     op_bg0_move_jp[r_index](r_index);
 }
 
@@ -2762,16 +2771,16 @@ void op_bg1_move(s16 r_index) {
     bgw_ptr = &bg_w.bgw[1];
 
     switch (r_index) {
-    case 0x37:
-    case 0x38:
+    case 55:
+    case 56:
         op_bg1_0001(r_index);
         break;
 
-    case 0x3C:
+    case 60:
         op_bg1_0002(r_index);
         break;
 
-    case 0x3E:
+    case 62:
         op_bg1_0003(r_index);
         break;
 
@@ -2787,7 +2796,7 @@ void op_bg1_0000(s16 /* unused */) {
     switch (opw_ptr->r_no_0) {
     case 0:
         opw_ptr->r_no_0 += 1;
-        bgw_ptr->wxy[0].disp.pos = 0x200;
+        bgw_ptr->wxy[0].disp.pos = 512;
         bgw_ptr->xy[1].disp.pos = 0;
         Bg_Off_W(2);
         break;
@@ -2883,7 +2892,7 @@ void op_bg1_0003(s16 r_index) {
         Bg_On_W(1 << bgw_ptr->fam_no);
 
         switch (r_index) {
-        case 0x53:
+        case 83:
             bgw_ptr->wxy[0].cal = 0x2200000;
             bgw_ptr->xy[1].cal = 0;
             oh_bg_blk_w(op_w.bgw, 0x10, 1, 0, 0);
@@ -2893,8 +2902,8 @@ void op_bg1_0003(s16 r_index) {
             bgw_ptr->r_limit = 0x200;
             break;
 
-        case 0x3E:
-            bgw_ptr->wxy[0].cal = 0x1E00000;
+        case 62:
+            bgw_ptr->wxy[0].cal = 0x1E00000; // low = 0, pos = 480
             bgw_ptr->xy[1].cal = 0;
             oh_bg_blk_w(&op_w.bgw[1], 0xA, 0, 0, 0);
             oh_bg_blk_w(&op_w.bgw[1], 0xB, 1, 0, 0);
@@ -2908,7 +2917,7 @@ void op_bg1_0003(s16 r_index) {
 
     case 1:
         op_bg_mvxy[bgw_ptr->fam_no].a[0].sp += op_bg_mvxy[bgw_ptr->fam_no].d[0].sp;
-        bgw_ptr->wxy[0].cal += op_bg_mvxy[bgw_ptr->fam_no].a[0].sp;
+        bgw_ptr->wxy[0].cal += op_bg_mvxy[bgw_ptr->fam_no].a[0].sp; // Move background horizontally by the specified offset/speed
 
         if (bgw_ptr->wxy[0].disp.pos <= bgw_ptr->l_limit) {
             opw_ptr->r_no_0 += 1;
@@ -2951,12 +2960,12 @@ void op_bg2_0000() {
     switch (opw_ptr->r_no_0) {
     case 0:
         opw_ptr->r_no_0 += 1;
-        bgw_ptr->wxy[0].disp.pos = 0x200;
+        bgw_ptr->wxy[0].disp.pos = 512;
         bgw_ptr->xy[1].disp.pos = 0;
         break;
 
     case 1:
-        bgw_ptr->wxy[0].cal -= 0x8000 + 0x8000;
+        bgw_ptr->wxy[0].cal -= (0x8000 + 0x8000);
         break;
 
     case 2:
@@ -2968,7 +2977,7 @@ void op_bg2_0001() {
     switch (opw_ptr->r_no_0) {
     case 0:
         opw_ptr->r_no_0 += 1;
-        bgw_ptr->wxy[0].disp.pos = 0x200;
+        bgw_ptr->wxy[0].disp.pos = 512;
         bgw_ptr->xy[1].disp.pos = 0;
         break;
 
@@ -3093,7 +3102,7 @@ void Bg_Family_Set_op() {
         bg_w.bgw[i].position_x = bg_w.bgw[i].wxy[0].disp.pos - bg_w.pos_offset;
         pos_work_x = -bg_w.bgw[i].position_x;
         pos_work_y = bg_w.bgw[i].position_y;
-        pos_work_y = 0x300 - (pos_work_y & 0x3FF);
+        pos_work_y = 768 - (pos_work_y & 0x3FF);
         Family_Set_W(i + 1, pos_work_x, pos_work_y);
     }
 
@@ -3101,6 +3110,6 @@ void Bg_Family_Set_op() {
     bg_w.bgw[5].position_x = bg_w.bgw[5].wxy[0].disp.pos - bg_w.pos_offset;
     pos_work_x = -bg_w.bgw[5].position_x;
     pos_work_y = bg_w.bgw[5].position_y;
-    pos_work_y = 0x300 - (pos_work_y & 0x3FF);
+    pos_work_y = 768 - (pos_work_y & 0x3FF);
     Family_Set_W(6, pos_work_x, pos_work_y);
 }

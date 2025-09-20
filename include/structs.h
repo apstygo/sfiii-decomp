@@ -2446,8 +2446,8 @@ typedef struct {
     s32 dly;    // offset 0x1C, size 0x4
     s32 amx;    // offset 0x20, size 0x4
     s32 amy;    // offset 0x24, size 0x4
-    char swx;   // offset 0x28, size 0x1
-    char swy;   // offset 0x29, size 0x1
+    s8 swx;     // offset 0x28, size 0x1
+    s8 swy;     // offset 0x29, size 0x1
 } MotionState;
 
 typedef struct {
@@ -2898,5 +2898,12 @@ typedef struct {
     const s16 *changetbl_1p; // offset 0x4, size 0x4
     const s16 *changetbl_2p; // offset 0x8, size 0x4
 } ColorTableIndex;
+
+typedef struct {
+    // total size: 0x6
+    u16 flag; // offset 0x0, size 0x2
+    s16 sour; // offset 0x2, size 0x2
+    s16 tm;   // offset 0x4, size 0x2
+} I3_Data;
 
 #endif

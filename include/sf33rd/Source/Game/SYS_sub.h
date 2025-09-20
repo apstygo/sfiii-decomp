@@ -47,8 +47,8 @@ s32 Check_PL_Load();                               // Range: 0x3A4BF0 -> 0x3A4C4
 void BG_Draw_System();                             // Range: 0x3A4C50 -> 0x3A4E00
 u16 Check_Demo_Data(s16 PL_id);                    // Range: 0x3A4E00 -> 0x3A4F18
 void System_all_clear_Level_B();                   // Range: 0x3A4F20 -> 0x3A4F48
-void Switch_Priority_76();                         // Range: 0x3A4FA0 -> 0x3A4FC0
 s16 Cut_Cut_C_Timer();                             // Range: 0x3A4F50 -> 0x3A4FA0
+void Switch_Priority_76();                         // Range: 0x3A4FA0 -> 0x3A4FC0
 s32 Cut_Cut_Sub(s16 xx);                           // Range: 0x3A4FC0 -> 0x3A506C
 s32 Cut_Cut_Loser();                               // Range: 0x3A5070 -> 0x3A50E0
 void njWaitVSync_with_N();                         // Range: 0x3A50E0 -> 0x3A50FC
