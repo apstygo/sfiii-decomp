@@ -358,13 +358,9 @@ void stun_base_put(u8 Pl_Num, s16 len) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", WipeInit);
-#else
 void WipeInit() {
-    not_implemented(__func__);
+    WipeLimit = 0;
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", WipeOut);
@@ -699,13 +695,31 @@ void stun_gauge_waku_write(s16 p1len, s16 p2len) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", silver_stun_put);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", overwrite_panel);
-#else
 void overwrite_panel(u32 color, u8 priority) {
-    not_implemented(__func__);
+    PAL_CURSOR panel_pc;
+    PAL_CURSOR_P panel_p[4];
+    PAL_CURSOR_COL panel_col[4];
+    u8 i;
+
+    if (No_Trans) {
+        return;
+    }
+
+    ppgSetupCurrentDataList(&ppgScrList);
+    setFilterMode(0);
+    njColorBlendingMode(0, 1);
+    panel_pc.p = panel_p;
+    panel_pc.col = panel_col;
+    panel_pc.num = 4;
+
+    for (i = 0; i < 4; i++) {
+        panel_p[i].x = Fade_Pos_tbl[i * 2];
+        panel_p[i].y = Fade_Pos_tbl[(i * 2) + 1];
+        panel_col[i].color = color;
+    }
+
+    njDrawPolygon2D(&panel_pc, 4, PrioBase[priority], 0x60);
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sa_stock_trans);
