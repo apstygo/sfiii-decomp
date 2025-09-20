@@ -215,12 +215,85 @@ void Setup_Char_Index(WORK_Other *ewk) {
     }
 }
 
+s32 effect_42_init(s16 type) {
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF42", effect_42_init);
-#else
-s32 effect_42_init(s16 Type) {
-    not_implemented(__func__);
-}
+    s16 get_my_trans_mode(s32 curr);
 #endif
+
+    WORK_Other *ewk;
+    s16 ix;
+
+    if (Present_Mode == 4 || Present_Mode == 5) {
+        return 0;
+    }
+
+    if ((ix = pull_effect_work(4)) == -1) {
+        return -1;
+    }
+
+    ewk = (WORK_Other *)frw[ix];
+    ewk->wu.be_flag = 1;
+    ewk->wu.id = 42;
+    ewk->wu.work_id = 16;
+    ewk->wu.my_col_code = 0x2090;
+    ewk->wu.my_family = 3;
+    ewk->wu.dir_timer = 10;
+    ewk->wu.rl_waza = Select_Timer;
+    *ewk->wu.char_table = _sel_pl_char_table;
+    ewk->wu.dir_old = type;
+    ewk->wu.my_mts = 13;
+    ewk->wu.my_trans_mode = get_my_trans_mode(ewk->wu.my_mts);
+
+    if (type & 1) {
+        ewk->wu.direction = 4;
+    } else {
+        ewk->wu.direction = 8;
+    }
+
+    ewk->wu.char_index = 3;
+    ewk->wu.position_z = 14;
+
+    switch (type) {
+    case 5:
+        ewk->wu.routine_no[7] = 240;
+        ix = Select_Timer & 0xF0;
+        ix >>= 4;
+        ewk->wu.dir_step = ix;
+        break;
+
+    case 6:
+        ewk->wu.routine_no[7] = 15;
+        ewk->wu.dir_step = 0;
+        break;
+
+    case 7:
+        ewk->wu.routine_no[7] = 240;
+        ix = Select_Timer & 0xF0;
+        ix >>= 4;
+        ewk->wu.dir_step = ix + 10;
+        break;
+
+    case 8:
+        ewk->wu.routine_no[7] = 15;
+        ewk->wu.dir_step = 10;
+        break;
+
+    case 9:
+        ewk->wu.routine_no[7] = 240;
+        ix = Select_Timer & 0xF0;
+        ix >>= 4;
+        ewk->wu.dir_step = ix + 10;
+        ewk->wu.my_family = 4;
+        break;
+
+    case 10:
+        ewk->wu.routine_no[7] = 15;
+        ewk->wu.dir_step = 10;
+        ewk->wu.my_family = 4;
+        break;
+    }
+
+    return 0;
+}
 
 void (*const EFF42_Jmp_Tbl[5])() = { EFF42_SUDDENLY, EFF42_SLIDE_IN, EFF42_SLIDE_OUT, EFF42_MOVE, EFF42_KILL };
