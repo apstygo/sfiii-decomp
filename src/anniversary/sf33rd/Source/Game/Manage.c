@@ -1395,13 +1395,36 @@ void Update_VS_Data() {
     Score[Loser_id][0] = Stock_Score[Loser_id];
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Manage", BGM_Fade_Sub);
-#else
 void BGM_Fade_Sub() {
-    not_implemented(__func__);
+    switch (BGM_No[1]) {
+    case 1:
+        if (--BGM_Timer[1] == 0) {
+            BGM_No[1]++;
+            BGM_Timer[1] = 1;
+            BGM_Vol = -128;
+        }
+
+        break;
+
+    case 0:
+        break;
+
+    default:
+        if (--BGM_Timer[1] == 0) {
+            BGM_Timer[1] = 2;
+
+            if (++BGM_Vol == 0) {
+                BGM_No[1] = 0;
+            }
+        }
+
+        if (!Music_Fade) {
+            SsBgmControl(0, BGM_Vol);
+        }
+
+        break;
+    }
 }
-#endif
 
 void BGM_Control() {
     switch (BGM_No[0]) {

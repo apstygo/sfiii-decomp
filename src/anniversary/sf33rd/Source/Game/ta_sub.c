@@ -294,13 +294,48 @@ s32 eff_hit_check_sub2(WORK_Other *ewk, PLW *pl, s16 where_type) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/ta_sub", hit_check_subroutine_yu);
-#else
 static s16 hit_check_subroutine_yu(WORK *tpl, WORK *tef, s16 *hd1, s16 *hd2) {
-    not_implemented(__func__);
+    s16 d0 = *hd1++;
+    s16 d1 = *hd1++;
+    s16 d2;
+    s16 d3;
+    s16 flag;
+
+    if (tpl->rl_flag) {
+        d0 = -d0;
+        d0 -= d1;
+    }
+
+    d0 += tpl->xyz[0].disp.pos;
+    d2 = *hd2++;
+    d3 = *hd2++;
+
+    if (tef->rl_flag) {
+        d2 = -d2;
+        d2 -= d3;
+    }
+
+    d2 += tef->xyz[0].disp.pos;
+    flag = (d0 < d2);
+    d2 += (d3 - d0);
+    d3 += d1;
+
+    if ((u32)d2 >= d3) {
+        return 0;
+    }
+
+    d0 = (tpl->xyz[1].disp.pos + *hd1++) - (tef->xyz[1].disp.pos + *hd2++ - 40);
+    d0 += d1 = *hd1;
+    d1 += *hd2;
+
+    if ((u32)d0 >= d1) {
+        return 0;
+    } else if (flag) {
+        d2 = d3 - d2;
+    }
+
+    return d2;
 }
-#endif
 
 void eff_hit_flag_clear() {
     s16 i;

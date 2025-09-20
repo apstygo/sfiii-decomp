@@ -5,6 +5,6 @@
 #include "types.h"
 
 void effect_A2_move(WORK_Other *ewk);
-s32 effect_A2_init(s16 /* unused */);
+s32 effect_A2_init();
 
 #endif

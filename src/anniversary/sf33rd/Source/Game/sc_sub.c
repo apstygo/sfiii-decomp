@@ -358,11 +358,29 @@ void stun_base_put(u8 Pl_Num, s16 len) {
 }
 #endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", WipeInit);
+#else
+void WipeInit() {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", WipeOut);
+#else
+s32 WipeOut(u8 type) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", WipeIn);
+#else
+s32 WipeIn(u8 type) {
+    not_implemented(__func__);
+}
+#endif
 
 void FadeInit() {
     FadeLimit = 1;
@@ -564,9 +582,21 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", ci_set);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", nw_set);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", score8x16_put);
+#else
+void score8x16_put(u16 x, u16 y, u8 atr, u8 chr) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", score16x24_put);
+#else
+void score16x24_put(u16 x, u16 y, u8 atr, u8 chr) {
+    not_implemented(__func__);
+}
+#endif
 
 void combo_message_set(u8 pl, u8 kind, u8 x, u8 num, u8 hi, u8 low) {
     u8 xw;

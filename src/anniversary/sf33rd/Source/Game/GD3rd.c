@@ -381,14 +381,14 @@ void Push_LDREQ_Queue_Player(s16 id, s16 ix) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/GD3rd", Push_LDREQ_Queue_BG);
-#else
 void Push_LDREQ_Queue_BG(s16 ix) {
+#if defined(TARGET_PS2)
+    void Push_LDREQ_Queue_Union(s32 ix);
+#endif
+
     Push_LDREQ_Queue_Union(ix + 20);
     Push_LDREQ_Queue_Metamor();
 }
-#endif
 
 void Push_LDREQ_Queue_Union(s16 ix) {
     REQ ldreq;
@@ -412,10 +412,11 @@ void Push_LDREQ_Queue_Union(s16 ix) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/GD3rd", Push_LDREQ_Queue_Metamor);
-#else
 void Push_LDREQ_Queue_Metamor() {
+#if defined(TARGET_PS2)
+    void Push_LDREQ_Queue_Direct(s32 ix, s16 id);
+#endif
+
     switch ((My_char[0] == 0x12) + (My_char[1] == 0x12) * 2) {
     case 1:
         Push_LDREQ_Queue_Direct(My_char[1] + 0xD4, 0);
@@ -430,7 +431,6 @@ void Push_LDREQ_Queue_Metamor() {
         break;
     }
 }
-#endif
 
 void Push_LDREQ_Queue_Direct(s16 ix, s16 id) {
     REQ ldreq;
@@ -552,13 +552,13 @@ s32 Check_LDREQ_Queue_Player(s16 id) {
     return 1;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/GD3rd", Check_LDREQ_Queue_BG);
-#else
 s32 Check_LDREQ_Queue_BG(s16 ix) {
+#if defined(TARGET_PS2)
+    s32 Check_LDREQ_Queue_Union(s32 ix);
+#endif
+
     return Check_LDREQ_Queue_Union(ix + 20);
 }
-#endif
 
 s32 Check_LDREQ_Queue_Union(s16 ix) {
     s16 i;
