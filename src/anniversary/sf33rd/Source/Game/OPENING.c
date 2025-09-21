@@ -34,10 +34,16 @@
 
 typedef const f32 *ro_f32_ptr;
 
+#if defined(TARGET_PS2)
 static const f32 title00[25] = { 0.0009765625f, 0.001953125f, 0.7509765625f, 0.751953125f, -192.0f, -96.0f, 384.0f,
                                  192.0f,        -1.0f,        0.0f,          0.0f,         0.0f,    0.0f,   0.0f,
                                  0.0f,          0.0f,         0.0f,          0.0f,         0.0f,    0.0f,   0.0f,
                                  0.0f,          0.0f,         0.0f,          0.0f };
+#else
+static const f32 title00[25] = { 0.0f, 0.0f, 0.75f, 0.75f, -192.0f, -96.0f, 384.0f, 192.0f, -1.0f,
+                                 0.0f, 0.0f, 0.0f,  0.0f,  0.0f,    0.0f,   0.0f,   0.0f,   0.0f,
+                                 0.0f, 0.0f, 0.0f,  0.0f,  0.0f,    0.0f,   0.0f };
+#endif
 
 static ro_f32_ptr title[2] = { title00, title00 };
 
@@ -2917,7 +2923,8 @@ void op_bg1_0003(s16 r_index) {
 
     case 1:
         op_bg_mvxy[bgw_ptr->fam_no].a[0].sp += op_bg_mvxy[bgw_ptr->fam_no].d[0].sp;
-        bgw_ptr->wxy[0].cal += op_bg_mvxy[bgw_ptr->fam_no].a[0].sp; // Move background horizontally by the specified offset/speed
+        bgw_ptr->wxy[0].cal +=
+            op_bg_mvxy[bgw_ptr->fam_no].a[0].sp; // Move background horizontally by the specified offset/speed
 
         if (bgw_ptr->wxy[0].disp.pos <= bgw_ptr->l_limit) {
             opw_ptr->r_no_0 += 1;

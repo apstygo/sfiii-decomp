@@ -11,7 +11,6 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_66_move(WORK_Other *ewk);
 void EFF66_WAIT(WORK_Other *ewk);
 void EFF66_SUSPEND(WORK_Other *ewk);
 void EFF66_SLIDE_IN(WORK_Other *ewk);

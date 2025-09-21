@@ -1,146 +1,165 @@
 #include "sf33rd/Source/Game/Eff99.h"
 #include "common.h"
+#include "sf33rd/Source/Game/EFFECT.h"
+#include "sf33rd/Source/Game/aboutspr.h"
+#include "sf33rd/Source/Game/bg.h"
+#include "sf33rd/Source/Game/texcash.h"
+#include "sf33rd/Source/Game/workuser.h"
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", effect_99_move);
-#else
-void effect_99_move(WORK_Other *ewk) {
-    not_implemented(__func__);
+void Setup_Letter_99(WORK_Other_CONN *ewk, s16 letter_index, s16 disp_index);
+
+const s16 Pos_Data_99[5][3] = { { -144, 128, 23 }, { 48, 128, 23 }, { 8, 54, 23 }, { 0, 42, 23 }, { 0, 30, 23 } };
+
+const s8 *Letter_Data_99[5][21] = {
+    { ";;;;;;;#", ";;;;;;##", ";;;;;###", ";;;;####", ";;;#####", ";;######", ";#######", "########" },
+    { "#;;;;;;;", "##;;;;;;", "###;;;;;", "####;;;;", "#####;;;", "######;;", "#######;", "########" },
+    { "UNKNOWN", "AMERICA", "JAPAN",  "HONG KONG", "ENGLAND", "RUSSIA", "GERMANY",
+      "JAPAN",   "KENYA",   "BRAZIL", "HONG KONG", "AMERICA", "BRAZIL", "MEXICO",
+      "JAPAN",   "CHINA",   "JAPAN",  "",          "RUSSIA",  "FRANCE", "RANDOM" },
+    { "GILL STAGE",
+      "SUBWAY STATION",
+      "SUZAKU CASTLE ROOFTOP",
+      "SHOPPING DISTRICT",
+      "MAIN STREET",
+      "MOSQUE",
+      "HOME SWEET HOME",
+      "A ROAD IN KYOTO",
+      "SAVANNA",
+      "SANTOS HARBOR",
+      "SHOPPING DISTRICT",
+      "SUBWAY STATION",
+      "SANTOS HARBOR",
+      "ORMECA RUINS",
+      "KOUSYU STREET",
+      "CHINESE RESTAURANT",
+      "THE DOJO OF RINDO-KAN",
+      "",
+      "MOSQUE",
+      "CLUB METRO",
+      "" },
+    { "",
+      "ALEX STAGE",
+      "RYU STAGE",
+      "YUN STAGE",
+      "DUDLEY STAGE",
+      "NECRO STAGE",
+      "HUGO STAGE",
+      "IBUKI STAGE",
+      "ELENA STAGE",
+      "ORO STAGE",
+      "YANG STAGE",
+      "KEN STAGE",
+      "SEAN STAGE",
+      "URIEN STAGE",
+      "AKUMA STAGE",
+      "CHUN-LI STAGE",
+      "MAKOTO STAGE",
+      "",
+      "TWELVE STAGE",
+      "REMY STAGE",
+      "" }
+};
+
+void effect_99_move(WORK_Other_CONN *ewk) {
+    if (Menu_Suicide[ewk->master_player]) {
+        push_effect_work(&ewk->wu);
+        return;
+    }
+
+    switch (ewk->wu.type) {
+    case 0:
+        Setup_Letter_99(ewk, ewk->wu.dir_step, Vital_Handicap[Present_Mode][ewk->master_id]);
+        break;
+
+    case 1:
+        Setup_Letter_99(ewk, ewk->wu.dir_step, VS_Stage);
+        break;
+    }
+
+    sort_push_request3(&ewk->wu);
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", effect_99_init);
-#else
 s32 effect_99_init(s16 id, s16 type, s16 char_offset, s16 letter_index, s16 pos_index, s16 master_player) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 get_my_trans_mode(s32 curr);
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", Setup_Letter_99);
+    WORK_Other_CONN *ewk;
+    s16 ix;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", Pos_Data_99);
+    if ((ix = pull_effect_work(4)) == -1) {
+        return -1;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_241_0050C210);
+    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk->wu.be_flag = 1;
+    ewk->wu.disp_flag = 1;
+    ewk->wu.id = 99;
+    ewk->wu.work_id = 16;
+    ewk->wu.my_col_code = 0x1AC;
+    ewk->wu.my_family = 3;
+    ewk->master_id = id;
+    ewk->wu.type = type;
+    ewk->wu.old_cgnum = char_offset;
+    ewk->wu.dir_step = letter_index;
+    ewk->master_priority = pos_index;
+    ewk->master_player = master_player;
+    ewk->wu.my_mts = 13;
+    ewk->wu.my_trans_mode = get_my_trans_mode(ewk->wu.my_mts);
+    ewk->wu.position_x = bg_w.bgw[ewk->wu.my_family - 1].wxy[0].disp.pos + Pos_Data_99[pos_index][0];
+    ewk->wu.position_y = bg_w.bgw[ewk->wu.my_family - 1].wxy[1].disp.pos + Pos_Data_99[pos_index][1];
+    ewk->wu.position_z = Pos_Data_99[pos_index][2];
+    return 0;
+}
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_242_0050C220);
+void Setup_Letter_99(WORK_Other_CONN *ewk, s16 letter_index, s16 disp_index) {
+    s16 x;
+    s16 ix;
+    s16 offset_x;
+    u8 *ptr;
+    u8 space;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_243_0050C230);
+    if (ewk->wu.old_cgnum == 0x70A7) {
+        offset_x = 8;
+    } else {
+        offset_x = 14;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_244_0050C240);
+    ptr = (u8 *)Letter_Data_99[letter_index][disp_index];
+    ix = 0;
+    x = 0;
+    space = 0;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_245_0050C250);
+    while (*ptr != '\0') {
+        if (*ptr == ' ') {
+            x += offset_x;
+            ptr++;
+            space++;
+            continue;
+        }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_246_0050C260);
+        ewk->conn[ix].nx = x;
+        ewk->conn[ix].ny = 0;
+        ewk->conn[ix].col = 0;
+        ewk->conn[ix].chr = ewk->wu.old_cgnum + *ptr;
+        x += offset_x;
+        ptr++;
+        ix++;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_247_0050C270);
+    ewk->num_of_conn = ix;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_248_0050C280);
+    if (ewk->wu.type != 1) {
+        return;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_249_0050C290);
+    if (ewk->wu.old_cgnum == 0x7047) {
+        x = 16;
+    } else {
+        x = 8;
+    }
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_250_0050C2A0);
+    x = x * (ix + space) / 2;
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_251_0050C2B0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_252_0050C2C0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_253_0050C2D0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_254_0050C2E0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_255_0050C2F0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_256_0050C300);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_257_0050C308);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_258_0050C310);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_259_0050C318);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_260_0050C328);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_261_0050C330);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_262_0050C338);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_263_0050C340);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_264_0050C348);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_265_0050C350);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_266_0050C358);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_267_0050C360);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_268_0050C368);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_269_0050C370);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_270_0050C378);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_271_0050C388);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_272_0050C3A0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_273_0050C3C0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_274_0050C3D8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_275_0050C3E8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_276_0050C3F0);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_277_0050C400);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_278_0050C410);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_279_0050C418);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_280_0050C428);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_281_0050C438);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_282_0050C450);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_283_0050C470);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_284_0050C488);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_285_0050C498);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_286_0050C4A8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_287_0050C4B8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_288_0050C4C8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_289_0050C4D8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_290_0050C4E8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_291_0050C4F8);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_292_0050C508);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_293_0050C518);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_294_0050C528);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_295_0050C538);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_296_0050C548);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_297_0050C558);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_298_0050C568);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_299_0050C578);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_300_0050C588);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_301_0050C598);
-
-INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/Eff99", literal_302_0050C5A8);
+    ewk->wu.position_x = bg_w.bgw[ewk->wu.my_family - 1].wxy[0].disp.pos + Pos_Data_99[ewk->master_priority][0] - x;
+}

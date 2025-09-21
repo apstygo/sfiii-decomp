@@ -168,10 +168,10 @@ void Switch_Work() {
     case 0:
         if (Champion) {
             p1sw_0 = 0;
-            break;
+        } else {
+            p2sw_0 = 0;
         }
 
-        p2sw_0 = 0;
         break;
 
     case 1:
@@ -185,20 +185,20 @@ void Switch_Work() {
         if (Champion) {
             p1sw_0 = p2sw_0;
             p1sw_1 = p2sw_0;
-            break;
+        } else {
+            p2sw_0 = p1sw_0;
+            p2sw_1 = p1sw_0;
         }
 
-        p2sw_0 = p1sw_0;
-        p2sw_1 = p1sw_0;
         break;
 
     case 2:
         if (Champion) {
             p1sw_0 = p2sw_0;
-            break;
+        } else {
+            p2sw_0 = p1sw_0;
         }
 
-        p2sw_0 = p1sw_0;
         break;
     }
 }
@@ -1683,9 +1683,13 @@ void Exit_6th() {
         return;
     }
 
+    // This check always fails with sound not implemented,
+    // which is why we'll have to ifdef it out for now
+#if !defined(SOUND_DISABLED)
     if (!adx_now_playend()) {
         return;
     }
+#endif
 
     if (!sndCheckVTransStatus(0)) {
         return;

@@ -17,6 +17,7 @@ special_cases = {
     ("Eff95", ".rodata", 0): 16,
     ("Eff99", ".rodata", 0): 16,
     ("EFFA6", ".rodata", 0): 16,
+    ("EFFE2", ".rodata", 0): 16,
     ("EFFF2", ".rodata", 0): 16,
     ("EFFF8", ".rodata", 0): 16,
     ("EffK6", ".rodata", 1): 16,
@@ -41,7 +42,9 @@ special_cases = {
     ("CHARSET", ".rodata", 0): 16,
     ("EFF33", ".rodata", 0): 16,
     ("EFFH9", ".rodata", 0): 16,
+    ("EFFC9", ".rodata", 0): 16,
     ("staff", ".rodata", 0): 16,
+    ("EFFK7", ".rodata", 0): 16,
 
     ("bg_data", ".data", 0): 16,
     ("bg_sub", ".data", 0): 16,
@@ -51,6 +54,10 @@ special_cases = {
     ("Sound3rd", ".data", 0): 16,
     ("end_data", ".data", 0): 16,
     ("EFF63", ".data", 0): 16,
+    ("EFFA3", ".data", 0): 16,
+    ("EFFA8", ".data", 0): 16,
+    ("EFFA8", ".data", 1): 16,
+    ("EFFB6", ".data", 0): 16,
 
     ("VM_DATA", ".sdata", 0): 16,
     ("Demo_Dat", ".sdata", 0): 16,
@@ -70,6 +77,7 @@ special_cases = {
     ("msgtble", ".sdata", 0): 16,
     ("reboot", ".sdata", 0): 16,
     ("end_0", ".sdata", 0): 16,
+    ("EFFB6", ".sdata", 0): 16,
     ("msgTable_usa", ".sdata", 0): 16,
 
     ("sbss_579878", ".sbss", 0): 8,

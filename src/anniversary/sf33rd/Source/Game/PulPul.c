@@ -480,7 +480,7 @@ s32 vibParamTrans(s32 id, PULPARA *prm) {
         }
     }
 
-    rnum = sceVibSetActParam(ps2slot[id].socket_id, 1, &profile, vib_data_size, (u8 *)&vib_data);
+    rnum = sceVibSetActParam(ps2slot[id].socket_id, 1, &profile, vib_data_size, vib_data);
 
     return rnum == 1;
 }

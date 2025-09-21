@@ -129,7 +129,7 @@ endif
 
 LINKER_SCRIPT := $(BUILD_DIR)/$(MAIN).lcf
 
-COMPILER_TAR := mwcps2-3.0b52-030722.tar.gz
+COMPILER_TAR := mwcps2-3.0b38-030307.tar.gz
 EE_COMPILER_TAR := ee-gcc2.96.tar.xz
 
 build: $(MAIN_TARGET)
