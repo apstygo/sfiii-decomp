@@ -1683,9 +1683,13 @@ void Exit_6th() {
         return;
     }
 
+    // This check always fails with sound not implemented,
+    // which is why we'll have to ifdef it out for now
+#if !defined(SOUND_DISABLED)
     if (!adx_now_playend()) {
         return;
     }
+#endif
 
     if (!sndCheckVTransStatus(0)) {
         return;
