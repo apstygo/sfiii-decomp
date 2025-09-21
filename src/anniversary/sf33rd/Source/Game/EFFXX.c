@@ -24,14 +24,21 @@
 #include "sf33rd/Source/Game/EFF58.h"
 #include "sf33rd/Source/Game/EFF61.h"
 #include "sf33rd/Source/Game/EFF62.h"
+#include "sf33rd/Source/Game/EFF64.h"
 #include "sf33rd/Source/Game/EFF66.h"
 #include "sf33rd/Source/Game/EFF69.h"
 #include "sf33rd/Source/Game/EFF70.h"
 #include "sf33rd/Source/Game/EFFA5.h"
 #include "sf33rd/Source/Game/Eff39.h"
+#include "sf33rd/Source/Game/Eff50.h"
 #include "sf33rd/Source/Game/Eff52.h"
 #include "sf33rd/Source/Game/Eff59.h"
+#include "sf33rd/Source/Game/Eff79.h"
+#include "sf33rd/Source/Game/Eff80.h"
+#include "sf33rd/Source/Game/Eff93.h"
+#include "sf33rd/Source/Game/EffA9.h"
 #include "sf33rd/Source/Game/EffD8.h"
+#include "sf33rd/Source/Game/EffE0.h"
 #include "sf33rd/Source/Game/EffK6.h"
 #include "sf33rd/Source/Game/eff06.h"
 #include "sf33rd/Source/Game/eff12.h"
@@ -92,7 +99,7 @@ const void (*effmovejptbl[229])() = {
     NULL,           // effect_47_move
     effect_48_move, // effect_48_move
     NULL,           // effect_49_move
-    NULL,           // effect_50_move
+    effect_50_move, // effect_50_move
     NULL,           // effect_51_move
     effect_52_move, // effect_52_move
     NULL,           // effect_53_move
@@ -106,7 +113,7 @@ const void (*effmovejptbl[229])() = {
     effect_61_move, // effect_61_move
     effect_62_move, // effect_62_move
     NULL,           // effect_63_move
-    NULL,           // effect_64_move
+    effect_64_move, // effect_64_move
     NULL,           // effect_65_move
     effect_66_move, // effect_66_move
     NULL,           // effect_67_move
@@ -121,8 +128,8 @@ const void (*effmovejptbl[229])() = {
     NULL,           // effect_76_move
     NULL,           // effect_77_move
     NULL,           // effect_78_move
-    NULL,           // effect_79_move
-    NULL,           // effect_80_move
+    effect_79_move, // effect_79_move
+    effect_80_move, // effect_80_move
     NULL,           // effect_81_move
     NULL,           // effect_82_move
     NULL,           // effect_83_move
@@ -135,7 +142,7 @@ const void (*effmovejptbl[229])() = {
     NULL,           // effect_90_move
     NULL,           // effect_91_move
     NULL,           // effect_92_move
-    NULL,           // effect_93_move
+    effect_93_move, // effect_93_move
     NULL,           // effect_94_move
     NULL,           // effect_95_move
     NULL,           // effect_96_move
@@ -151,7 +158,7 @@ const void (*effmovejptbl[229])() = {
     NULL,           // effect_A6_move
     NULL,           // effect_A7_move
     NULL,           // effect_A8_move
-    NULL,           // effect_A9_move
+    effect_A9_move, // effect_A9_move
     NULL,           // effect_B0_move
     NULL,           // effect_B1_move
     NULL,           // effect_B2_move
@@ -182,7 +189,7 @@ const void (*effmovejptbl[229])() = {
     NULL,           // effect_D7_move
     effect_D8_move, // effect_D8_move
     NULL,           // effect_D9_move
-    NULL,           // effect_E0_move
+    effect_E0_move, // effect_E0_move
     NULL,           // effect_E1_move
     NULL,           // effect_E2_move
     NULL,           // effect_E3_move
