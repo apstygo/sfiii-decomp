@@ -168,10 +168,18 @@ void SSPutStrTexInput(u16 x, u16 y, const s8 *str) {
     s32 u = ((*str & 0xF) * 8) + 0x80;
     s32 v = ((*str & 0xF0) >> 4) * 8;
 
+#if defined(TARGET_PS2)
     scrscrntex[0].u = (u + 0.5f) / 256.0f;
     scrscrntex[3].u = ((u + 8) + 0.5f) / 256.0f;
     scrscrntex[0].v = (v + 0.5f) / 256.0f;
     scrscrntex[3].v = ((v + 8) + 0.5f) / 256.0f;
+#else
+    scrscrntex[0].u = u / 256.0f;
+    scrscrntex[3].u = (u + 8) / 256.0f;
+    scrscrntex[0].v = v / 256.0f;
+    scrscrntex[3].v = (v + 8) / 256.0f;
+#endif
+
     scrscrntex[0].x = x * Frame_Zoom_X;
     scrscrntex[3].x = (x + 8) * Frame_Zoom_X;
     scrscrntex[0].y = y * Frame_Zoom_Y;
@@ -267,10 +275,19 @@ s16 SSPutStrTexInputPro(u16 x, u16 y, u16 ix) {
 
     sideL = (ascProData[ix] >> 4) & 0xF;
     sideR = ascProData[ix] & 0xF;
+
+#if defined(TARGET_PS2)
     scrscrntex[0].u = (u + sideL + 0.5f) / 256.0f;
     scrscrntex[3].u = (u + 8 - sideR + 0.5f) / 256.0f;
     scrscrntex[0].v = (v + 0.5f) / 256.0f;
     scrscrntex[3].v = (v + 8 + 0.5f) / 256.0f;
+#else
+    scrscrntex[0].u = (u + sideL) / 256.0f;
+    scrscrntex[3].u = (u + 8 - sideR) / 256.0f;
+    scrscrntex[0].v = v / 256.0f;
+    scrscrntex[3].v = (v + 8) / 256.0f;
+#endif
+
     slide = (8 - sideL) - sideR;
     scrscrntex[0].x = x * Frame_Zoom_X;
     scrscrntex[3].x = Frame_Zoom_X * (x + slide);
@@ -571,6 +588,7 @@ void scfont_sqput(u16 x, u16 y, u8 atr, u8 page, u8 cx1, u8 cy1, u8 cx2, u8 cy2,
     v1 = cy1 * 8;
     v2 = v1 + (cy2 * 8);
 
+#if defined(TARGET_PS2)
     if (atr & 0x80) {
         scrscrntex[3].u = (u1 - 0.5f) / 256.0f;
         scrscrntex[0].u = (u2 - 0.5f) / 256.0f;
@@ -586,11 +604,28 @@ void scfont_sqput(u16 x, u16 y, u8 atr, u8 page, u8 cx1, u8 cy1, u8 cx2, u8 cy2,
         scrscrntex[0].v = (0.5f + v1) / 256.0f;
         scrscrntex[3].v = (0.5f + v2) / 256.0f;
     }
+#else
+    if (atr & 0x80) {
+        scrscrntex[3].u = u1 / 256.0f;
+        scrscrntex[0].u = u2 / 256.0f;
+    } else {
+        scrscrntex[0].u = u1 / 256.0f;
+        scrscrntex[3].u = u2 / 256.0f;
+    }
+
+    if (atr & 0x40) {
+        scrscrntex[3].v = v1 / 256.0f;
+        scrscrntex[0].v = v2 / 256.0f;
+    } else {
+        scrscrntex[0].v = v1 / 256.0f;
+        scrscrntex[3].v = v2 / 256.0f;
+    }
+#endif
 
     scrscrntex[0].x = x * Frame_Zoom_X;
-    scrscrntex[3].x = Frame_Zoom_X * ((x) + (u2 - u1));
+    scrscrntex[3].x = Frame_Zoom_X * (x + (u2 - u1));
     scrscrntex[0].y = y * Frame_Zoom_Y;
-    scrscrntex[3].y = Frame_Zoom_Y * ((y) + (v2 - v1));
+    scrscrntex[3].y = Frame_Zoom_Y * (y + (v2 - v1));
     njDrawSprite(scrscrntex, 4, page, 1);
 }
 
@@ -881,29 +916,109 @@ void stun_base_put(u8 Pl_Num, s16 len) {
     njDrawPolygon2D(&vtx, 4, PrioBase[4], 96);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", WipeInit);
-#else
 void WipeInit() {
-    not_implemented(__func__);
+    WipeLimit = 0;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", WipeOut);
-#else
 s32 WipeOut(u8 type) {
-    not_implemented(__func__);
-}
-#endif
+    PAL_CURSOR wipe_pc;
+    PAL_CURSOR_P wipe_p[4];
+    PAL_CURSOR_COL wipe_col[4];
+    s32 i;
+    s32 dmylim;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", WipeIn);
-#else
-s32 WipeIn(u8 type) {
-    not_implemented(__func__);
+    if (WipeLimit > 7) {
+        overwrite_panel(0xFF000000, 0);
+    }
+
+    if (WipeLimit == 9) {
+        overwrite_panel(0xFF000000, 0);
+        return 1;
+    }
+
+    if (!No_Trans) {
+        if (WipeLimit > 7) {
+            dmylim = 7;
+        } else {
+            dmylim = WipeLimit;
+        }
+
+        wipe_pc.p = &wipe_p[0];
+        wipe_pc.col = &wipe_col[0];
+        wipe_pc.tex = 0;
+        wipe_pc.num = 4;
+        wipe_col[0].color = wipe_col[1].color = wipe_col[2].color = wipe_col[3].color = 0xFF000000;
+
+        if (type == 0) {
+            wipe_p[0].x = wipe_p[2].x = 0.0f;
+            wipe_p[1].x = wipe_p[3].x = 384.0f;
+
+            for (i = 224; i > 0; i -= 8) {
+                wipe_p[0].y = wipe_p[1].y = i;
+                wipe_p[2].y = wipe_p[3].y = (i - (dmylim + 1));
+                njDrawPolygon2D(&wipe_pc, 4, PrioBase[0], 32);
+            }
+        } else if (WipeLimit != 8) {
+            wipe_p[0].y = wipe_p[1].y = 0.0f;
+            wipe_p[2].y = wipe_p[3].y = 224.0f;
+
+            for (i = -224; i < 384; i += 8) {
+                wipe_p[0].x = i;
+                wipe_p[1].x = (i + dmylim + 1);
+                wipe_p[2].x = 224.0f + wipe_p[0].x;
+                wipe_p[3].x = 224.0f + wipe_p[1].x;
+                njDrawPolygon2D(&wipe_pc, 4, PrioBase[0], 32);
+            }
+        }
+    }
+
+    WipeLimit += 1;
+    return 0;
 }
-#endif
+
+s32 WipeIn(u8 type) {
+    PAL_CURSOR wipe_pc;
+    PAL_CURSOR_P wipe_p[4];
+    PAL_CURSOR_COL wipe_col[4];
+    s32 i;
+
+    if (WipeLimit == 9) {
+        return 1;
+    }
+
+    if ((WipeLimit != 8) && (!No_Trans)) {
+        wipe_pc.p = &wipe_p[0];
+        wipe_pc.col = &wipe_col[0];
+        wipe_pc.tex = 0;
+        wipe_pc.num = 4;
+        wipe_col[0].color = wipe_col[1].color = wipe_col[2].color = wipe_col[3].color = 0xFF000000;
+
+        if (type == 0) {
+            wipe_p[0].x = wipe_p[2].x = 0.0f;
+            wipe_p[1].x = wipe_p[3].x = 384.0f;
+
+            for (i = 0; i < 224; i += 8) {
+                wipe_p[0].y = wipe_p[1].y = i;
+                wipe_p[2].y = wipe_p[3].y = ((i + 8) - (WipeLimit + 1));
+                njDrawPolygon2D(&wipe_pc, 4, PrioBase[0], 32);
+            }
+        } else {
+            wipe_p[0].y = wipe_p[1].y = 0.0f;
+            wipe_p[2].y = wipe_p[3].y = 224.0f;
+
+            for (i = -224; i < 384; i += 8) {
+                wipe_p[0].x = i;
+                wipe_p[1].x = ((i + 8) - (WipeLimit + 1));
+                wipe_p[2].x = 224.0f + wipe_p[0].x;
+                wipe_p[3].x = 224.0f + wipe_p[1].x;
+                njDrawPolygon2D(&wipe_pc, 4, PrioBase[0], 32);
+            }
+        }
+    }
+
+    WipeLimit += 1;
+    return 0;
+}
 
 void FadeInit() {
     FadeLimit = 1;
@@ -1731,6 +1846,8 @@ void silver_stun_put(u8 Pl_Num, s16 len) {
     setFilterMode(0);
     scrscrntex[0].z = scrscrntex[3].z = PrioBase[3];
     njSetPaletteBankNumG(0, 1);
+
+    // FIXME: These values include 0.5 offset
     scrscrntex[0].u = 0.9375f;
     scrscrntex[3].u = 0.96875f;
     scrscrntex[0].v = 0.6894531f;
@@ -1747,17 +1864,35 @@ void silver_stun_put(u8 Pl_Num, s16 len) {
     scrscrntex[0].y = 24.0f * Frame_Zoom_Y;
     scrscrntex[3].y = 32.0f * Frame_Zoom_Y;
     njColorBlendingMode(0, 1);
-    scrscrntex[0].col = scrscrntex[3].col = -1;
+    scrscrntex[0].col = scrscrntex[3].col = 0xFFFFFFFF;
     njDrawSprite(scrscrntex, 4, 0, 1);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", overwrite_panel);
-#else
 void overwrite_panel(u32 color, u8 priority) {
-    not_implemented(__func__);
+    PAL_CURSOR panel_pc;
+    PAL_CURSOR_P panel_p[4];
+    PAL_CURSOR_COL panel_col[4];
+    u8 i;
+
+    if (No_Trans) {
+        return;
+    }
+
+    ppgSetupCurrentDataList(&ppgScrList);
+    setFilterMode(0);
+    njColorBlendingMode(0, 1);
+    panel_pc.p = panel_p;
+    panel_pc.col = panel_col;
+    panel_pc.num = 4;
+
+    for (i = 0; i < 4; i++) {
+        panel_p[i].x = Fade_Pos_tbl[i * 2];
+        panel_p[i].y = Fade_Pos_tbl[(i * 2) + 1];
+        panel_col[i].color = color;
+    }
+
+    njDrawPolygon2D(&panel_pc, 4, PrioBase[priority], 0x60);
 }
-#endif
 
 void sa_stock_trans(s16 St_Num, s16 Spg_Col, s8 Stpl_Num) {
     if (Stpl_Num == 0) {
@@ -1792,13 +1927,13 @@ void sa_number_write(s8 Stpl_Num, u16 x) {
 }
 
 void sc_ram_to_vram(s8 sc_num) {
-    u32 *sc_tbl_ptr;
+    uintptr_t *sc_tbl_ptr;
     u8 *sc_pos_ptr;
     u8 *sc_uv_ptr;
     u16 loop;
     u16 i;
 
-    sc_tbl_ptr = (u32 *)sc_ram_vram_tbl[sc_num];
+    sc_tbl_ptr = (uintptr_t *)sc_ram_vram_tbl[sc_num];
     sc_pos_ptr = (u8 *)*sc_tbl_ptr;
     *sc_tbl_ptr++;
     sc_uv_ptr = (u8 *)*sc_tbl_ptr;

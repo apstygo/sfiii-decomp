@@ -397,10 +397,6 @@ void SDLGameRenderer_ReloadTexture(unsigned int th) {
     }
 }
 
-static float adjust_tex_coord(float value, int total_size) {
-    return (SDL_floorf(value * total_size)) / total_size;
-}
-
 static void draw_quad(const SDLGameRenderer_Vertex *vertices, bool textured) {
     RenderTask task;
     task.texture = textured ? get_texture() : NULL;
@@ -413,8 +409,8 @@ static void draw_quad(const SDLGameRenderer_Vertex *vertices, bool textured) {
         task.vertices[i].position.y = vertices[i].coord.y;
 
         if (textured) {
-            task.vertices[i].tex_coord.x = adjust_tex_coord(vertices[i].tex_coord.s, task.texture->w);
-            task.vertices[i].tex_coord.y = adjust_tex_coord(vertices[i].tex_coord.t, task.texture->h);
+            task.vertices[i].tex_coord.x = vertices[i].tex_coord.s;
+            task.vertices[i].tex_coord.y = vertices[i].tex_coord.t;
         }
 
         read_rgba32_fcolor(vertices[i].color, &task.vertices[i].color);

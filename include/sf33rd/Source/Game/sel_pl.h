@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+extern s16 Play_Type_1st;
+
 s16 Select_Player();
 
 #endif

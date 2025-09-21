@@ -99,6 +99,6 @@ int sceVibGetProfile(int socket_number, unsigned char *profile) {
     return 1;
 }
 
-int sceVibSetActParam(int, int, unsigned char *, int, unsigned char *) {
+int sceVibSetActParam(int socket_number, int profile_size, unsigned char *profile, int data_size, unsigned char *data) {
     not_implemented(__func__);
 }
