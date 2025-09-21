@@ -8,6 +8,7 @@
 #include "sf33rd/Source/Game/GD3rd.h"
 #include "sf33rd/Source/Game/MTRANS.h"
 #include "sf33rd/Source/Game/RAMCNT.h"
+#include "sf33rd/Source/Game/SysDir.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/sc_data.h"
 #include "sf33rd/Source/Game/workuser.h"
@@ -48,6 +49,7 @@ FadeData fd_dat;
 // forward decls
 s32 SSGetDrawSizePro(const s8 *str);
 s16 SSPutStrTexInputPro(u16 x, u16 y, u16 ix);
+void silver_stun_put(u8 Pl_Num, s16 len);
 
 void Scrscreen_Init() {
     void *loadAdrs;
@@ -293,29 +295,102 @@ void scfont_put(u16 x, u16 y, u8 atr, u8 page, u8 cx, u8 cy, u16 priority) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", scfont_put2);
-#else
 void scfont_put2(u16 x, u16 y, u8 atr, u8 page, u8 cx, u8 cy) {
-    not_implemented(__func__);
+    sa_frame[y - 25][x].atr = atr;
+    sa_frame[y - 25][x].page = page;
+    sa_frame[y - 25][x].cx = cx;
+    sa_frame[y - 25][x].cy = cy;
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", scfont_sqput);
-#else
 void scfont_sqput(u16 x, u16 y, u8 atr, u8 page, u8 cx1, u8 cy1, u8 cx2, u8 cy2, u16 priority) {
-    not_implemented(__func__);
-}
-#endif
+    s32 u1;
+    s32 u2;
+    s32 v1;
+    s32 v2;
+
+    if (No_Trans) {
+        return;
+    }
+
+    ppgSetupCurrentDataList(&ppgScrList);
+    setFilterMode(0);
+    njColorBlendingMode(0, 1);
+
+    scrscrntex[0].col = scrscrntex[3].col = -1;
+    scrscrntex[0].z = scrscrntex[3].z = PrioBase[priority];
+    njSetPaletteBankNumG(page, atr & 0x3F);
+    x = x * 8;
+    y = y * 8;
+    u1 = cx1 * 8;
+    u2 = u1 + (cx2 * 8);
+    v1 = cy1 * 8;
+    v2 = v1 + (cy2 * 8);
 
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", scfont_sqput2);
+    if (atr & 0x80) {
+        scrscrntex[3].u = (u1 - 0.5f) / 256.0f;
+        scrscrntex[0].u = (u2 - 0.5f) / 256.0f;
+    } else {
+        scrscrntex[0].u = (0.5f + u1) / 256.0f;
+        scrscrntex[3].u = (0.5f + u2) / 256.0f;
+    }
+
+    if (atr & 0x40) {
+        scrscrntex[3].v = (v1 - 0.5f) / 256.0f;
+        scrscrntex[0].v = (v2 - 0.5f) / 256.0f;
+    } else {
+        scrscrntex[0].v = (0.5f + v1) / 256.0f;
+        scrscrntex[3].v = (0.5f + v2) / 256.0f;
+    }
 #else
-void scfont_sqput2(u16 x, u16 y, u8 atr, u8 inverse, u8 page, u8 cx1, u8 cy1, u8 cx2, u8 cy2) {
-    not_implemented(__func__);
-}
+    if (atr & 0x80) {
+        scrscrntex[3].u = u1 / 256.0f;
+        scrscrntex[0].u = u2 / 256.0f;
+    } else {
+        scrscrntex[0].u = u1 / 256.0f;
+        scrscrntex[3].u = u2 / 256.0f;
+    }
+
+    if (atr & 0x40) {
+        scrscrntex[3].v = v1 / 256.0f;
+        scrscrntex[0].v = v2 / 256.0f;
+    } else {
+        scrscrntex[0].v = v1 / 256.0f;
+        scrscrntex[3].v = v2 / 256.0f;
+    }
 #endif
+
+    scrscrntex[0].x = x * Frame_Zoom_X;
+    scrscrntex[3].x = Frame_Zoom_X * (x + (u2 - u1));
+    scrscrntex[0].y = y * Frame_Zoom_Y;
+    scrscrntex[3].y = Frame_Zoom_Y * (y + (v2 - v1));
+    njDrawSprite(scrscrntex, 4, page, 1);
+}
+
+void scfont_sqput2(u16 x, u16 y, u8 atr, u8 inverse, u8 page, u8 cx1, u8 cy1, u8 cx2, u8 cy2) {
+    u8 i;
+    u8 j;
+
+    if (inverse == 0) {
+        for (j = 0; j < cy2; j++) {
+            for (i = 0; i < cx2; i++) {
+                sa_frame[y - 25 + j][x + i].atr = atr;
+                sa_frame[y - 25 + j][x + i].page = page;
+                sa_frame[y - 25 + j][x + i].cx = cx1 + i;
+                sa_frame[y - 25 + j][x + i].cy = cy1 + j;
+            }
+        }
+    } else {
+        for (j = 0; j < cy2; j++) {
+            for (i = 0; i < cx2; i++) {
+                sa_frame[y - 25 + j][x + i].atr = atr;
+                sa_frame[y - 25 + j][x + i].page = page;
+                sa_frame[y - 25 + j][x + i].cx = (cx1 + (cx2 - 1)) - i;
+                sa_frame[y - 25 + j][x + i].cy = cy1 + j;
+            }
+        }
+    }
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", scfont_sqput3);
 
@@ -367,13 +442,36 @@ void stun_put(u8 Pl_Num, u8 stun) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", stun_base_put);
-#else
 void stun_base_put(u8 Pl_Num, s16 len) {
-    not_implemented(__func__);
+    PAL_CURSOR vtx;
+    PAL_CURSOR_P pos[4];
+    PAL_CURSOR_COL col;
+
+    if (No_Trans || SA_shadow_on) {
+        return;
+    }
+
+    njColorBlendingMode(0, 1);
+    vtx.p = pos;
+    vtx.col = &col;
+    col.color = 0x90000000;
+
+    if (Pl_Num == 0) {
+        pos[0].x = Frame_Zoom_X * (168 - (len * 8));
+        pos[3].x = 168.0f * Frame_Zoom_X;
+    } else {
+        pos[0].x = 216.0f * Frame_Zoom_X;
+        pos[3].x = Frame_Zoom_X * ((len * 8) + 216);
+    }
+
+    pos[0].y = 25.0f * Frame_Zoom_Y;
+    pos[3].y = 31.0f * Frame_Zoom_Y;
+    pos[1].x = pos[3].x;
+    pos[1].y = pos[0].y;
+    pos[2].x = pos[0].x;
+    pos[2].y = pos[3].y;
+    njDrawPolygon2D(&vtx, 4, PrioBase[4], 96);
 }
-#endif
 
 void WipeInit() {
     WipeLimit = 0;
@@ -786,15 +884,64 @@ void naming_set(u8 pl, s16 place, u16 atr, u16 chr) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", stun_gauge_waku_write);
-#else
 void stun_gauge_waku_write(s16 p1len, s16 p2len) {
-    not_implemented(__func__);
-}
-#endif
+    if (omop_cockpit == 0) {
+        return;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", silver_stun_put);
+    if (No_Trans) {
+        return;
+    }
+
+    ppgSetupCurrentDataList(&ppgScrList);
+
+    if (omop_st_bar_disp[0]) {
+        scfont_sqput(21 - p1len, 3, 10, 0, 12 - p1len, p1len + 1, p1len, 1, 3);
+    } else {
+        silver_stun_put(0, p1len);
+    }
+
+    scfont_sqput(11, 3, 1, 0, 2, p1len + 1, 10 - p1len, 1, 3);
+
+    if (omop_st_bar_disp[1]) {
+        scfont_sqput(27, 3, 10, 0, 2, p2len + 12, p2len, 1, 3);
+    } else {
+        silver_stun_put(1, p2len);
+    }
+
+    scfont_sqput(p2len + 27, 3, 1, 0, p2len + 2, p2len + 12, 10 - p2len, 1, 3);
+}
+
+void silver_stun_put(u8 Pl_Num, s16 len) {
+    if (No_Trans) {
+        return;
+    }
+
+    ppgSetupCurrentDataList(&ppgScrList);
+    setFilterMode(0);
+    scrscrntex[0].z = scrscrntex[3].z = PrioBase[3];
+    njSetPaletteBankNumG(0, 1);
+
+    // FIXME: These values include 0.5 offset
+    scrscrntex[0].u = 0.9375f;
+    scrscrntex[3].u = 0.96875f;
+    scrscrntex[0].v = 0.6894531f;
+    scrscrntex[3].v = 0.7207031f;
+
+    if (Pl_Num == 0) {
+        scrscrntex[0].x = Frame_Zoom_X * ((21 - len) * 8);
+        scrscrntex[3].x = 168.0f * Frame_Zoom_X;
+    } else {
+        scrscrntex[0].x = 216.0f * Frame_Zoom_X;
+        scrscrntex[3].x = Frame_Zoom_X * ((len + 27) * 8);
+    }
+
+    scrscrntex[0].y = 24.0f * Frame_Zoom_Y;
+    scrscrntex[3].y = 32.0f * Frame_Zoom_Y;
+    njColorBlendingMode(0, 1);
+    scrscrntex[0].col = scrscrntex[3].col = 0xFFFFFFFF;
+    njDrawSprite(scrscrntex, 4, 0, 1);
+}
 
 void overwrite_panel(u32 color, u8 priority) {
     PAL_CURSOR panel_pc;
@@ -822,37 +969,59 @@ void overwrite_panel(u32 color, u8 priority) {
     njDrawPolygon2D(&panel_pc, 4, PrioBase[priority], 0x60);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sa_stock_trans);
-#else
 void sa_stock_trans(s16 St_Num, s16 Spg_Col, s8 Stpl_Num) {
-    not_implemented(__func__);
+    if (Stpl_Num == 0) {
+        scfont_put2(3, 25, sa_color_data_tbl[Spg_Col], 2, St_Num + 21, 4);
+        scfont_put2(3, 26, sa_color_data_tbl[Spg_Col], 2, St_Num + 21, 5);
+    } else {
+        scfont_put2(44, 25, sa_color_data_tbl[Spg_Col], 2, St_Num + 21, 4);
+        scfont_put2(44, 26, sa_color_data_tbl[Spg_Col], 2, St_Num + 21, 5);
+    }
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sa_fullstock_trans);
-#else
 void sa_fullstock_trans(s16 St_Num, s16 Spg_Col, s8 Stpl_Num) {
-    not_implemented(__func__);
+    if (Stpl_Num == 0) {
+        scfont_put2(1, 26, sa_color_data_tbl[Spg_Col], 2, St_Num + 21, 6);
+    } else {
+        scfont_put2(46, 26, sa_color_data_tbl[Spg_Col], 2, St_Num + 21, 7);
+    }
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sa_number_write);
-#else
 void sa_number_write(s8 Stpl_Num, u16 x) {
-    not_implemented(__func__);
+    if (Stpl_Num == 0) {
+        if (My_char[0] == 0) {
+            scfont_sqput2(x, 26, 14, 0, 2, 27, 2, 2, 2);
+        } else {
+            scfont_sqput2(x, 26, 14, 0, 2, (Super_Arts[0] * 2) + 21, 2, 2, 2);
+        }
+    } else if (My_char[1] == 0) {
+        scfont_sqput2(x, 26, 142, 1, 2, 27, 2, 2, 2);
+    } else {
+        scfont_sqput2(x, 26, 142, 1, 2, (Super_Arts[1] * 2) + 21, 2, 2, 2);
+    }
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sc_ram_to_vram);
-#else
 void sc_ram_to_vram(s8 sc_num) {
-    not_implemented(__func__);
+    uintptr_t *sc_tbl_ptr;
+    u8 *sc_pos_ptr;
+    u8 *sc_uv_ptr;
+    u16 loop;
+    u16 i;
+
+    sc_tbl_ptr = (uintptr_t *)sc_ram_vram_tbl[sc_num];
+    sc_pos_ptr = (u8 *)*sc_tbl_ptr;
+    *sc_tbl_ptr++;
+    sc_uv_ptr = (u8 *)*sc_tbl_ptr;
+    loop = *sc_uv_ptr++;
+
+    for (i = 0; i < loop; i++) {
+        sa_frame[sc_pos_ptr[1] - 25][sc_pos_ptr[0]].atr = sa_ram_vram_col[sc_num][0];
+        sa_frame[sc_pos_ptr[1] - 25][sc_pos_ptr[0]].page = sa_ram_vram_col[sc_num][1];
+        sa_frame[sc_pos_ptr[1] - 25][sc_pos_ptr[0]].cx = *sc_uv_ptr++;
+        sa_frame[sc_pos_ptr[1] - 25][sc_pos_ptr[0]].cy = *sc_uv_ptr++;
+        sc_pos_ptr += 2;
+    }
 }
-#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", sc_ram_to_vram_opc);
