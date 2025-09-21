@@ -252,7 +252,11 @@ void q_ldreq_texture_group(REQ *curr) {
 
                 // 25 is the number of members in CharInitData struct
                 for (i = 0; i < 25; i++) {
+#if defined(TARGET_PS2)
                     ((uintptr_t *)ldchd)[i] += ldchd;
+#else
+                    ((uintptr_t *)ldchd)[i] = ldchd;
+#endif
                 }
 
                 cit = (CharInitData *)ldchd;

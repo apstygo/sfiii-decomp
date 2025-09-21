@@ -1,3 +1,4 @@
+#include "sf33rd/Source/Game/bg_data.h"
 #include "common.h"
 #include "structs.h"
 
@@ -497,12 +498,6 @@ const u32 bgrw_data_tbl[20][3] = { { 0x0, 0x9E, (u32)rw070 }, { 0x0, 0x9F, (u32)
                                    { 0x0, 0xA0, (u32)rw033 }, { 0x0, 0xA1, (u32)rw034 }, { 0x0, 0xA2, (u32)rw035 },
                                    { 0x0, 0x95, (u32)rw140 }, { 0x1, 0xD6, (u32)rw193 } };
 #else
-typedef struct {
-    u32 unk0;
-    u32 unk4;
-    const s16 *unk8;
-} bgrw_data_tbl_elem;
-
 const bgrw_data_tbl_elem bgrw_data_tbl[20] = {
     { 0x0, 0x9E, rw070 }, { 0x0, 0x9F, rw071 }, { 0x0, 0xA0, rw072 }, { 0x0, 0xA1, rw073 }, { 0x0, 0x8F, rw180 },
     { 0x0, 0x99, rw181 }, { 0x0, 0x96, rw080 }, { 0x0, 0x97, rw081 }, { 0x0, 0x98, rw082 }, { 0x0, 0x99, rw083 },
