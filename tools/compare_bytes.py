@@ -209,9 +209,6 @@ EXPECTED_ERRORS = {
     0x2C9458: 0x4400A28F,
     0x2C9508: 0x3000A287,
     0x2C938C: 0x3200A593,
-
-    # EFF42::effect_42_init
-    0xE24CC: 0xFBFF4224,
 }
 
 # Weird issue with cri_srd::srd_exec_dvd. 
