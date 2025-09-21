@@ -72,7 +72,6 @@ void Setup_VS_OBJ(s16 Option);
 s8 Check_Bonus_Type();
 void Setup_Next_Stage(s16 dir_step);
 void Check_Auto_Cut();
-s32 Auto_Cut_Sub();
 
 // sbss
 u8 SEL_CPU_X;
