@@ -126,10 +126,18 @@ void SSPutStrTexInput(u16 x, u16 y, const s8 *str) {
     s32 u = ((*str & 0xF) * 8) + 0x80;
     s32 v = ((*str & 0xF0) >> 4) * 8;
 
+#if defined(TARGET_PS2)
     scrscrntex[0].u = (u + 0.5f) / 256.0f;
     scrscrntex[3].u = ((u + 8) + 0.5f) / 256.0f;
     scrscrntex[0].v = (v + 0.5f) / 256.0f;
     scrscrntex[3].v = ((v + 8) + 0.5f) / 256.0f;
+#else
+    scrscrntex[0].u = u / 256.0f;
+    scrscrntex[3].u = (u + 8) / 256.0f;
+    scrscrntex[0].v = v / 256.0f;
+    scrscrntex[3].v = (v + 8) / 256.0f;
+#endif
+
     scrscrntex[0].x = x * Frame_Zoom_X;
     scrscrntex[3].x = (x + 8) * Frame_Zoom_X;
     scrscrntex[0].y = y * Frame_Zoom_Y;
@@ -213,10 +221,19 @@ s16 SSPutStrTexInputPro(u16 x, u16 y, u16 ix) {
 
     sideL = (ascProData[ix] >> 4) & 0xF;
     sideR = ascProData[ix] & 0xF;
+
+#if defined(TARGET_PS2)
     scrscrntex[0].u = (u + sideL + 0.5f) / 256.0f;
     scrscrntex[3].u = (u + 8 - sideR + 0.5f) / 256.0f;
     scrscrntex[0].v = (v + 0.5f) / 256.0f;
     scrscrntex[3].v = (v + 8 + 0.5f) / 256.0f;
+#else
+    scrscrntex[0].u = (u + sideL) / 256.0f;
+    scrscrntex[3].u = (u + 8 - sideR) / 256.0f;
+    scrscrntex[0].v = v / 256.0f;
+    scrscrntex[3].v = (v + 8) / 256.0f;
+#endif
+
     slide = (8 - sideL) - sideR;
     scrscrntex[0].x = x * Frame_Zoom_X;
     scrscrntex[3].x = Frame_Zoom_X * (x + slide);

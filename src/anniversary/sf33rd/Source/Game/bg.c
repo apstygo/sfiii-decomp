@@ -1147,10 +1147,19 @@ void ppgCalScrPosition(s32 x, s32 y, s32 xs, s32 ys) {
     scrDrawPos[1].x = scrDrawPos[3].x = point[1].x;
     scrDrawPos[2].y = scrDrawPos[3].y = point[1].y;
     scrDrawPos[0].z = scrDrawPos[1].z = scrDrawPos[2].z = scrDrawPos[3].z = point[0].z;
+
+#if defined(TARGET_PS2)
     scrDrawPos[0].s = (0.5f + (f32)(x & 0x7F)) / 128.0f;
     scrDrawPos[0].t = (0.5f + (f32)(y & 0x7F)) / 128.0f;
     scrDrawPos[3].s = (0.5f + (f32)((x & 0x7F) + xs)) / 128.0f;
     scrDrawPos[3].t = (0.5f + (f32)((y & 0x7F) + ys)) / 128.0f;
+#else
+    scrDrawPos[0].s = (f32)(x & 0x7F) / 128.0f;
+    scrDrawPos[0].t = (f32)(y & 0x7F) / 128.0f;
+    scrDrawPos[3].s = (f32)((x & 0x7F) + xs) / 128.0f;
+    scrDrawPos[3].t = (f32)((y & 0x7F) + ys) / 128.0f;
+#endif
+
     scrDrawPos[1].s = scrDrawPos[3].s;
     scrDrawPos[2].s = scrDrawPos[0].s;
     scrDrawPos[1].t = scrDrawPos[0].t;
