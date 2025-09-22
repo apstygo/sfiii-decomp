@@ -96,7 +96,7 @@ void effect_E5_move(WORK_Other *ewk) {
             (ewk->wu.dir_old & 2 &&
              (ewk->wu.routine_no[5] != mwk->wu.routine_no[1] || ewk->wu.routine_no[6] != mwk->wu.routine_no[2]) &&
              (mwk->image_data_index != 11 || mwk->wu.routine_no[1] != 4 || mwk->wu.routine_no[3] != 0)) ||
-            ewk->wu.dir_old & 4 && mwk->sa->ok != -1 ||
+            (ewk->wu.dir_old & 4 && mwk->sa->ok != -1) ||
             (ewk->wu.dir_old & 8 && ((WORK *)mwk->wu.target_adrs)->routine_no[1] != 4 &&
              ((WORK *)mwk->wu.target_adrs)->routine_no[1] != 2) ||
             (ewk->wu.dir_old & 0x10 && mwk->wu.routine_no[1] != 4 && mwk->wu.routine_no[1] != 2) ||
