@@ -2906,4 +2906,11 @@ typedef struct {
     s16 tm;   // offset 0x4, size 0x2
 } I3_Data;
 
+typedef struct {
+    // total size: 0x8
+    s16 timer;       // offset 0x0, size 0x2
+    s16 endcode;     // offset 0x2, size 0x2
+    const s16 *adrs; // offset 0x4, size 0x4
+} ColorCode;
+
 #endif

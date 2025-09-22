@@ -18,7 +18,6 @@
 #define HI_2_BYTES(_val) (((s16 *)&_val)[1])
 #define WK_AS_PLW ((PLW *)wk)
 
-extern const u16 acatkoa_table[65];
 extern s32 (*const decode_chcmd[125])();
 extern s32 (*const decode_if_lever[16])();
 extern const s16 jphos_table[16];
