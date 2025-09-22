@@ -17,6 +17,7 @@ extern const s16 eff44_data_tbl8[32];
 extern const s16 eff44_data_tbl9[16];
 extern const s16 *scr_obj_data44[10];
 
+void effect_44_move(WORK_Other *ewk);
 s32 effect_44_init(s16 type);
 
 #endif
