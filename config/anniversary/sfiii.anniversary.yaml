@@ -234,7 +234,7 @@ segments:
       - [0x0DD600, c, sf33rd/Source/Game/EFF38]
       - [0x0DF6A0, c, sf33rd/Source/Game/Eff39]
       - [0x0E0830, c, sf33rd/Source/Game/EFF40]
-      - [0x0E0F00, asm, sf33rd/Source/Game/EFF41]
+      - [0x0E0F00, c, sf33rd/Source/Game/EFF41]
       - [0x0E1850, c, sf33rd/Source/Game/EFF42]
       - [0x0E2660, c, sf33rd/Source/Game/Eff43]
       - [0x0E2930, c, sf33rd/Source/Game/EFF44]
@@ -296,7 +296,7 @@ segments:
       - [0x0FF050, c, sf33rd/Source/Game/EffA2]
       - [0x0FF490, c, sf33rd/Source/Game/EFFA3]
       - [0x0FF940, c, sf33rd/Source/Game/EFFA5]
-      - [0x0FFC80, asm, sf33rd/Source/Game/EFFA6]
+      - [0x0FFC80, c, sf33rd/Source/Game/EFFA6]
       - [0x100730, c, sf33rd/Source/Game/EFFA7]
       - [0x101080, c, sf33rd/Source/Game/EFFA8]
       - [0x101790, c, sf33rd/Source/Game/EffA9]
@@ -328,7 +328,7 @@ segments:
       - [0x10F000, asm, sf33rd/Source/Game/EFFD6]
       - [0x10F6C0, c, sf33rd/Source/Game/EFFD7]
       - [0x110A40, c, sf33rd/Source/Game/EffD8]
-      - [0x111300, asm, sf33rd/Source/Game/EFFD9]
+      - [0x111300, c, sf33rd/Source/Game/EFFD9]
       - [0x1118E0, c, sf33rd/Source/Game/EffE0]
       - [0x112190, c, sf33rd/Source/Game/EFFE1]
       - [0x112410, asm, sf33rd/Source/Game/EFFE2]
@@ -336,8 +336,8 @@ segments:
       - [0x113D90, c, sf33rd/Source/Game/EFFE4]
       - [0x1142B0, c, sf33rd/Source/Game/EFFE5]
       - [0x1153E0, c, sf33rd/Source/Game/effe6]
-      - [0x1195A0, asm, sf33rd/Source/Game/EFFE7]
-      - [0x119C10, asm, sf33rd/Source/Game/EFFE8]
+      - [0x1195A0, c, sf33rd/Source/Game/EFFE7]
+      - [0x119C10, c, sf33rd/Source/Game/EFFE8]
       - [0x11A580, c, sf33rd/Source/Game/effe9]
       - [0x11AC40, c, sf33rd/Source/Game/EFFECT]
       - [0x11C6A0, asm, sf33rd/Source/Game/efff0]
@@ -440,7 +440,7 @@ segments:
       - [0x167F10, c, sf33rd/Source/Game/Manage]
       - [0x16EBE0, c, sf33rd/Source/Game/menu]
       - [0x1802E0, c, sf33rd/Source/Game/meta_col]
-      - [0x180C00, c, sf33rd/Source/Game/MMTMCNT] # Good first decomp
+      - [0x180C00, c, sf33rd/Source/Game/MMTMCNT]
       - [0x180ED0, c, sf33rd/Source/Game/MTRANS]
       - [0x188DB0, c, sf33rd/Source/Game/n_input]
       - [0x18ABF0, c, sf33rd/Source/Game/Next_CPU]
@@ -507,7 +507,7 @@ segments:
       - [0x27BC10, c, sf33rd/Source/Game/RAMCNT]
       - [0x27C6B0, c, sf33rd/Source/Game/RANKING]
       - [0x27EC70, c, sf33rd/Source/Game/Reset]
-      - [0x27F230, c, sf33rd/Source/Game/Saver] # Good first decomp
+      - [0x27F230, c, sf33rd/Source/Game/Saver]
       - [0x27F520, c, sf33rd/Source/Game/sc_sub]
       - [0x289050, c, sf33rd/Source/Game/SE]
       - [0x28A090, c, sf33rd/Source/Game/sel_pl]
@@ -530,7 +530,7 @@ segments:
       - [0x2A8790, c, sf33rd/Source/Game/aboutspr]
       - [0x2AAFD0, c, sf33rd/Source/Game/SysDir]
       - [0x2ABE00, c, sf33rd/Source/Game/ta_sub]
-      - [0x2AD770, c, sf33rd/Source/Game/TATE00] # Good first decomp
+      - [0x2AD770, c, sf33rd/Source/Game/TATE00]
       - [0x2AD990, c, sf33rd/Source/Game/texcash]
       - [0x2B05C0, c, sf33rd/Source/Game/texgroup]
       - [0x2B14F0, c, sf33rd/Source/Game/VITAL]
@@ -976,7 +976,7 @@ segments:
       - [0x40A0A0, .rodata, sf33rd/Source/Game/EFF38]
       - [0x40A0D0, .rodata, sf33rd/Source/Game/Eff39]
       - [0x40A0F0, .rodata, sf33rd/Source/Game/EFF40]
-      - [0x40A120, rodata, sf33rd/Source/Game/EFF41]
+      - [0x40A120, .rodata, sf33rd/Source/Game/EFF41]
       - [0x40A3E0, .rodata, sf33rd/Source/Game/EFF42]
       - [0x40A420, .rodata, sf33rd/Source/Game/EFF44]
       - [0x40A620, .rodata, sf33rd/Source/Game/EFF45]
@@ -1019,7 +1019,7 @@ segments:
       - [0x40C640, .rodata, sf33rd/Source/Game/EFFA0]
       - [0x40C660, .rodata, sf33rd/Source/Game/EffA2]
       - [0x40C6E0, .rodata, sf33rd/Source/Game/EFFA3]
-      - [0x40CAC0, rodata, sf33rd/Source/Game/EFFA6]
+      - [0x40CAC0, .rodata, sf33rd/Source/Game/EFFA6]
       - [0x40D4C0, .rodata, sf33rd/Source/Game/EFFA8]
       - [0x40E6C0, .rodata, sf33rd/Source/Game/EFFB0]
       - [0x40E6F0, .rodata, sf33rd/Source/Game/EFFB1]
@@ -1040,7 +1040,7 @@ segments:
       - [0x412E40, rodata, sf33rd/Source/Game/EFFD6]
       - [0x412EE0, .rodata, sf33rd/Source/Game/EFFD7]
       - [0x412EF0, .rodata, sf33rd/Source/Game/EffD8]
-      - [0x412F00, rodata, sf33rd/Source/Game/EFFD9]
+      - [0x412F00, .rodata, sf33rd/Source/Game/EFFD9]
       - [0x413100, rodata, sf33rd/Source/Game/EFFE2]
       - [0x4140A0, .rodata, sf33rd/Source/Game/effe3]
       - [0x4140E0, .rodata, sf33rd/Source/Game/EFFE5]
@@ -1377,7 +1377,7 @@ segments:
       - [0x4730A0, sdata, sf33rd/Source/Game/EFFC9]
       - [0x4730C0, .sdata, sf33rd/Source/Game/efff5]
       - [0x4730F0, .sdata, sf33rd/Source/Game/EFFF9]
-      - [0x4733B0, sdata, sf33rd/Source/Game/EFFJ7]
+      - [0x4733B0, .sdata, sf33rd/Source/Game/EFFJ7]
       - [0x473430, .sdata, sf33rd/Source/Game/EFFJ8]
       - [0x473450, .sdata, sf33rd/Source/Game/effL3]
       - [0x473460, .sdata, sf33rd/Source/Game/effM0]
@@ -1547,7 +1547,7 @@ segments:
       - { type: .sbss, vram: 0x578F10, name: sf33rd/Source/Game/Eff79 }
       - { type: .sbss, vram: 0x578F18, name: sf33rd/Source/Game/Eff95 }
       - { type: .sbss, vram: 0x578F20, name: sf33rd/Source/Game/EffA2 }
-      - { type: sbss, vram: 0x578F30, name: sf33rd/Source/Game/EFFA6 }
+      - { type: .sbss, vram: 0x578F30, name: sf33rd/Source/Game/EFFA6 }
       - { type: sbss, vram: 0x578F48, name: sf33rd/Source/Game/effb2 }
       - { type: sbss, vram: 0x578F50, name: sf33rd/Source/Game/effb3 }
       - { type: .sbss, vram: 0x578F54, name: sf33rd/Source/Game/EFFB8 }

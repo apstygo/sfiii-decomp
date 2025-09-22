@@ -393,13 +393,22 @@ void Setup_CharK6(WORK_Other *ewk, s16 dm_vital) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EffK6", Setup_K6_Index);
-#else
 s16 Setup_K6_Index(WORK_Other *ewk) {
-    not_implemented(__func__);
+    switch (ewk->wu.dir_old) {
+    case 25:
+    case 26:
+    case 27:
+    case 28:
+        return ID_of_Face[Cursor_Y[ewk->master_id]][Cursor_X[ewk->master_id]];
+
+    case 29:
+    case 30:
+        return My_char[ewk->master_id];
+
+    default:
+        return ewk->wu.dir_step;
+    }
 }
-#endif
 
 s32 chkNameSuv(s32 plnum, s32 rnum) {
     if (plnum == 20 && (Country == 4 || Country == 2 || Country == 3)) {

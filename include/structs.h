@@ -2892,10 +2892,25 @@ typedef struct {
 } ImageBuff;
 
 typedef struct {
+    // total size: 0xC
+    s16 flag;                // offset 0x0, size 0x2
+    s16 timer;               // offset 0x2, size 0x2
+    const s16 *changetbl_1p; // offset 0x4, size 0x4
+    const s16 *changetbl_2p; // offset 0x8, size 0x4
+} ColorTableIndex;
+
+typedef struct {
     // total size: 0x6
     u16 flag; // offset 0x0, size 0x2
     s16 sour; // offset 0x2, size 0x2
     s16 tm;   // offset 0x4, size 0x2
 } I3_Data;
+
+typedef struct {
+    // total size: 0x8
+    s16 timer;       // offset 0x0, size 0x2
+    s16 endcode;     // offset 0x2, size 0x2
+    const s16 *adrs; // offset 0x4, size 0x4
+} ColorCode;
 
 #endif

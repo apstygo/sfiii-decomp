@@ -17,6 +17,7 @@ special_cases = {
     ("Eff95", ".rodata", 0): 16,
     ("Eff99", ".rodata", 0): 16,
     ("EFFA6", ".rodata", 0): 16,
+    ("EFFE2", ".rodata", 0): 16,
     ("EFFF2", ".rodata", 0): 16,
     ("EFFF8", ".rodata", 0): 16,
     ("EffK6", ".rodata", 1): 16,
@@ -43,6 +44,7 @@ special_cases = {
     ("EFFH9", ".rodata", 0): 16,
     ("EFFC9", ".rodata", 0): 16,
     ("staff", ".rodata", 0): 16,
+    ("EFFK7", ".rodata", 0): 16,
 
     ("bg_data", ".data", 0): 16,
     ("bg_sub", ".data", 0): 16,
