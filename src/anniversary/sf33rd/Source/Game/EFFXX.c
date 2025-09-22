@@ -107,6 +107,7 @@
 #include "sf33rd/Source/Game/EFFJ4.h"
 #include "sf33rd/Source/Game/EFFJ7.h"
 #include "sf33rd/Source/Game/EFFJ8.h"
+#include "sf33rd/Source/Game/EFFK5.h"
 #include "sf33rd/Source/Game/EFFL0.h"
 #include "sf33rd/Source/Game/EFFM2.h"
 #include "sf33rd/Source/Game/Eff39.h"
@@ -155,7 +156,9 @@ s32 effect_dummy_init() {
     return -1;
 }
 
-void effect_dummy_move() {}
+void effect_dummy_move() {
+    // Do nothing
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFXX", effmovejptbl);
@@ -366,7 +369,7 @@ const void (*effmovejptbl[229])() = {
     NULL, // effect_K2_move
     NULL, // effect_K3_move
     NULL, // effect_K4_move
-    NULL, // effect_K5_move
+    effect_K5_move,
     effect_K6_move,
     NULL, // effect_K7_move
     NULL, // effect_K8_move
