@@ -3,6 +3,8 @@
 
 #include "structs.h"
 
+extern const u16 acatkoa_table[];
+
 void setupCharTableData(WORK *wk, s32 clr, s32 info);
 void char_move_cmhs(PLW *wk);
 void char_move(WORK *wk);
@@ -24,5 +26,6 @@ void char_move_cmms2(WORK *wk);
 s32 char_move_cmms3(PLW *wk);
 void char_move_index(WORK *wk, s16 ix);
 void char_move_cmj4(WORK *wk);
+void get_char_data_zanzou(WORK *wk);
 
 #endif
