@@ -95,7 +95,7 @@ CLANG_LINKER_FLAGS := -lm -g -Llibco/build -llibco
 
 ifneq ($(PLATFORM),ps2)
 	ifeq ($(PLATFORM),windows)
-		CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
+		CLANG_FLAGS += -I"$(SDL3_PREFIX)/include" -D_CRT_SECURE_NO_WARNINGS
 		CLANG_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
 	else
 		CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
