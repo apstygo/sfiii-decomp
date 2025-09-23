@@ -44,6 +44,11 @@ typedef s32 ssize_t;
 #include <stdint.h>
 #include <sys/types.h>
 
+#if defined(_WIN32) || defined(WIN32)
+#include <BaseTsd.h>
+typedef SSIZE_T ssize_t;
+#endif
+
 typedef int8_t s8;
 typedef int16_t s16;
 typedef int32_t s32;
