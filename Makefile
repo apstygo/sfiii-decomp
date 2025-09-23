@@ -17,6 +17,8 @@ endif
 
 ifeq ($(PLATFORM),ps2)
 	MAIN := THIRD_U.BIN
+else ifeq ($(PLATFORM),windows)
+	MAIN := sf33rd.exe
 else
 	MAIN := sf33rd
 endif
@@ -92,8 +94,13 @@ CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) -std=c99 -O0
 CLANG_LINKER_FLAGS := -lm -g -Llibco/build -llibco
 
 ifneq ($(PLATFORM),ps2)
-	CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
-	CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
+	ifeq ($(PLATFORM),windows)
+		CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
+		CLANG_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
+	else
+		CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
+		CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
+	endif
 endif
 
 # Files
