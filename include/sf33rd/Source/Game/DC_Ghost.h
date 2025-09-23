@@ -18,7 +18,7 @@ void njDrawTexture(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */
 void njDrawSprite(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */);
 void njdp2d_init();
 void njdp2d_draw();
-void njdp2d_sort(f32 *pos, f32 pri, u32 col, s32 flag);
+void njdp2d_sort(f32 *pos, f32 pri, uintptr_t col, s32 flag);
 void njDrawPolygon2D(PAL_CURSOR *p, s32 /* unused */, f32 pri, u32 attr);
 void njSetPaletteBankNumG(u32 globalIndex, s32 bank);
 void njSetPaletteMode(u32 mode);
