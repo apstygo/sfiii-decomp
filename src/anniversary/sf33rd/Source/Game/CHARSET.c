@@ -18,7 +18,6 @@
 #define HI_2_BYTES(_val) (((s16 *)&_val)[1])
 #define WK_AS_PLW ((PLW *)wk)
 
-extern const u16 acatkoa_table[65];
 extern s32 (*const decode_chcmd[125])();
 extern s32 (*const decode_if_lever[16])();
 extern const s16 jphos_table[16];
@@ -2597,11 +2596,11 @@ void check_cgd_patdat(WORK *wk) {
             wk->curr_rca = wk->rival_catch_tbl + (wk->cg_rival - 20 + wk[1].before);
         }
 
-        wk->cg_olc = *(wk->olc_ix_table + wk->cg_olc_ix);
+        wk->cg_olc = wk->olc_ix_table[wk->cg_olc_ix];
     }
 
     if (wk->work_id < 16) {
-        wk->cg_ja = *(wk->hit_ix_table + wk->cg_hit_ix);
+        wk->cg_ja = wk->hit_ix_table[wk->cg_hit_ix];
         set_jugde_area(wk);
     }
 

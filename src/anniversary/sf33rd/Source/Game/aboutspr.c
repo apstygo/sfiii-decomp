@@ -600,7 +600,7 @@ s32 sort_push_requestB(WORK *wk) {
 void shadow_setup(WORK *wk, s16 bsy) {
     f32 base_y = (f32)bsy;
 
-    njdp2d_sort(&base_y, (f32)PrioBase[wk->kage_prio], (u32)(uintptr_t)wk, 1);
+    njdp2d_sort(&base_y, (f32)PrioBase[wk->kage_prio], (uintptr_t)wk, 1);
 }
 
 void shadow_drawing(WORK *wk, s16 bsy) {

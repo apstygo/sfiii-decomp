@@ -2089,13 +2089,64 @@ void Training_Damage_Set(s16 damage, s16 arg1, u8 kezuri) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/sc_sub", Training_Data_Disp);
-#else
 void Training_Data_Disp() {
-    not_implemented(__func__);
+    u8 i;
+    u8 j;
+    u8 atr;
+    u8 gr;
+
+    if (No_Trans) {
+        return;
+    }
+
+    ppgSetupCurrentDataList(&ppgScrList);
+
+    if (Disp_Attack_Data == 0) {
+        return;
+    }
+
+    if (Training_ID == 0) {
+        j = 1;
+    } else {
+        j = 0;
+    }
+
+    for (i = 0; i < 2; i++) {
+        scfont_sqput3(i + Training_combo_pos_tbl[j], i + 48, 13, 4, 0, 176, 76, 8, i + 5, Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
+        SSPutDec3((i + (Training_combo_pos_tbl[j] + 158)), i + 48, 13, tr_data[j].damage, 3, i + 7, Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
+    }
+
+    for (i = 0; i < 2; i++) {
+        scfont_sqput3(i + (Training_combo_pos_tbl[j] + 1), i + 58, 13, 4, 0, 184, 134, 8, i + 5, Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
+        SSPutDec3(i + (Training_combo_pos_tbl[j] + 158), i + 58, 13, tr_data[j].disp_total_damage, 3, i + 7, Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
+    }
+
+    if (tr_data[j].frash_flag) {
+        atr = 0x1E;
+        gr = 9;
+    } else {
+        atr = 13;
+        gr = 7;
+    }
+
+    tr_data[j].frash_switch--;
+    
+    if (tr_data[j].new_max_flag != 0 && tr_data[j].frash_switch == 0) {
+        tr_data[j].frash_switch = 2;
+        tr_data[j].new_max_flag--;
+        tr_data[j].frash_flag = ~tr_data[j].frash_flag;
+        
+        if (tr_data[j].frash_flag) {
+            atr = 0x1E;
+            gr = 0;
+        }
+    }
+
+    for (i = 0; i < 2; i++) {
+        scfont_sqput3(i + (Training_combo_pos_tbl[j] + 1), i + 68, 13, 4, 0, 192, 98, 8, i + 3, Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
+        SSPutDec3(i + (Training_combo_pos_tbl[j] + 158), i + 68, atr, tr_data[j].max_hitcombo, 2, gr + i, Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
+    }
 }
-#endif
 
 const u8 scrnAddTex1UV[9][4] = { { 96, 0, 32, 32 },  { 63, 0, 32, 32 },  { 0, 96, 32, 32 },
                                  { 0, 64, 32, 32 },  { 0, 0, 32, 32 },   { 31, 0, 32, 32 },

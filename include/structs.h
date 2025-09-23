@@ -7,6 +7,22 @@
 #include <libgraph.h>
 
 typedef struct {
+    // total size: 0x4
+    s16 l; // offset 0x0, size 0x2
+    s16 h; // offset 0x2, size 0x2
+} LoHi16;
+
+typedef union {
+    s32 sp;      // offset 0x0, size 0x4
+    LoHi16 real; // offset 0x0, size 0x4
+} Reg32SpReal;
+
+typedef union {
+    s32 cal;    // offset 0x0, size 0x4
+    LoHi16 pos; // offset 0x0, size 0x4
+} Reg32CalPos;
+
+typedef struct {
     // total size: 0x18
     f32 x0; // offset 0x0, size 0x4
     f32 y0; // offset 0x4, size 0x4
@@ -208,21 +224,12 @@ typedef struct {
     s16 pat;  // offset 0x6, size 0x2
 } UNK11;
 
-typedef union {
-    s32 sp; // offset 0x0, size 0x4
-    struct /* @anon17 */ {
-        // total size: 0x4
-        s16 l; // offset 0x0, size 0x2
-        s16 h; // offset 0x2, size 0x2
-    } real;    // offset 0x0, size 0x4
-} UNK13;
-
 typedef struct {
     // total size: 0x18
-    UNK13 a[2]; // offset 0x0, size 0x8
-    UNK13 d[2]; // offset 0x8, size 0x8
-    s16 kop[2]; // offset 0x10, size 0x4
-    u16 index;  // offset 0x14, size 0x2
+    Reg32SpReal a[2]; // offset 0x0, size 0x8
+    Reg32SpReal d[2]; // offset 0x8, size 0x8
+    s16 kop[2];       // offset 0x10, size 0x4
+    u16 index;        // offset 0x14, size 0x2
 } MVXY;
 
 typedef union {
@@ -245,20 +252,16 @@ typedef struct {
 
 typedef struct {
     // total size: 0x14
-    char flag;  // offset 0x0, size 0x1
+    s8 flag;    // offset 0x0, size 0x1
     s16 genkai; // offset 0x2, size 0x2
     s16 time;   // offset 0x4, size 0x2
     union {
-        s32 timer; // offset 0x0, size 0x4
-        struct {
-            // total size: 0x4
-            s16 l;  // offset 0x0, size 0x2
-            s16 h;  // offset 0x2, size 0x2
-        } quantity; // offset 0x0, size 0x4
-    } now;          // offset 0x8, size 0x4
-    s32 recover;    // offset 0xC, size 0x4
-    s16 store;      // offset 0x10, size 0x2
-    s16 again;      // offset 0x12, size 0x2
+        s32 timer;       // offset 0x0, size 0x4
+        LoHi16 quantity; // offset 0x0, size 0x4
+    } now;               // offset 0x8, size 0x4
+    s32 recover;         // offset 0xC, size 0x4
+    s16 store;           // offset 0x10, size 0x2
+    s16 again;           // offset 0x12, size 0x2
 } PiyoriType;
 
 typedef struct {
@@ -537,12 +540,8 @@ typedef struct {
     s8 saeff_mp;      // offset 0x15, size 0x1
     s16 gauge_len;    // offset 0x16, size 0x2
     union {
-        s32 i; // offset 0x0, size 0x4
-        struct {
-            // total size: 0x4
-            s16 l;   // offset 0x0, size 0x2
-            s16 h;   // offset 0x2, size 0x2
-        } s;         // offset 0x0, size 0x4
+        s32 i;       // offset 0x0, size 0x4
+        LoHi16 s;    // offset 0x0, size 0x4
     } gauge;         // offset 0x18, size 0x4
     s32 dtm;         // offset 0x1C, size 0x4
     s16 store_max;   // offset 0x20, size 0x2
@@ -2011,12 +2010,8 @@ typedef struct {
 } BackgroundParameters;
 
 union POS_FLOAT {
-    s32 long_pos; // offset 0x0, size 0x4
-    struct {
-        // total size: 0x4
-        s16 l;  // offset 0x0, size 0x2
-        s16 h;  // offset 0x2, size 0x2
-    } word_pos; // offset 0x0, size 0x4
+    s32 long_pos;    // offset 0x0, size 0x4
+    LoHi16 word_pos; // offset 0x0, size 0x4
 };
 
 typedef struct {
@@ -2425,13 +2420,8 @@ typedef struct {
 } MTS_OK;
 
 typedef union {
-    s32 pl; // offset 0x0, size 0x4
-    struct {
-        // total size: 0x4
-        s16 l; // offset 0x0, size 0x2
-        s16 h; // offset 0x2, size 0x2,
-
-    } ps; // offset 0x0, size 0x4
+    s32 pl;    // offset 0x0, size 0x4
+    LoHi16 ps; // offset 0x0, size 0x4
 } S32Split;
 
 typedef struct {
@@ -2699,12 +2689,8 @@ typedef struct {
 } END_W;
 
 typedef union {
-    s32 psi; // offset 0x0, size 0x4
-    struct {
-        // total size: 0x4
-        s16 l; // offset 0x0, size 0x2
-        s16 h; // offset 0x2, size 0x2
-    } pss;     // offset 0x0, size 0x4
+    s32 psi;    // offset 0x0, size 0x4
+    LoHi16 pss; // offset 0x0, size 0x4
 } MS;
 
 typedef struct {
@@ -2826,48 +2812,28 @@ typedef struct {
 } BBBSTable;
 
 typedef union {
-    s32 patl; // offset 0x0, size 0x4
-    struct {
-        // total size: 0x4
-        s16 l; // offset 0x0, size 0x2
-        s16 h; // offset 0x2, size 0x2
-    } pats;    // offset 0x0, size 0x4
+    s32 patl;    // offset 0x0, size 0x4
+    LoHi16 pats; // offset 0x0, size 0x4
 } SST;
 
 typedef union {
-    s32 l; // offset 0x0, size 0x4
-    struct {
-        // total size: 0x4
-        s16 l; // offset 0x0, size 0x2
-        s16 h; // offset 0x2, size 0x2
-    } w;       // offset 0x0, size 0x4
+    s32 l;    // offset 0x0, size 0x4
+    LoHi16 w; // offset 0x0, size 0x4
 } ST;
 
 typedef union {
-    s32 dy; // offset 0x0, size 0x4
-    struct {
-        // total size: 0x4
-        s16 l; // offset 0x0, size 0x2
-        s16 h; // offset 0x2, size 0x2
-    } ry;      // offset 0x0, size 0x4
+    s32 dy;    // offset 0x0, size 0x4
+    LoHi16 ry; // offset 0x0, size 0x4
 } PS_DY;
 
 typedef union {
-    s32 psy; // offset 0x0, size 0x4
-    struct {
-        // total size: 0x4
-        s16 l; // offset 0x0, size 0x2
-        s16 h; // offset 0x2, size 0x2
-    } psys;    // offset 0x0, size 0x4
+    s32 psy;     // offset 0x0, size 0x4
+    LoHi16 psys; // offset 0x0, size 0x4
 } PS_UNI;
 
 typedef union {
-    s32 dp; // offset 0x0, size 0x4
-    struct {
-        // total size: 0x4
-        s16 l; // offset 0x0, size 0x2
-        s16 h; // offset 0x2, size 0x2
-    } rp;      // offset 0x0, size 0x4
+    s32 dp;    // offset 0x0, size 0x4
+    LoHi16 rp; // offset 0x0, size 0x4
 } PS_DP;
 
 typedef struct {
@@ -2905,5 +2871,12 @@ typedef struct {
     s16 sour; // offset 0x2, size 0x2
     s16 tm;   // offset 0x4, size 0x2
 } I3_Data;
+
+typedef struct {
+    // total size: 0x8
+    s16 timer;       // offset 0x0, size 0x2
+    s16 endcode;     // offset 0x2, size 0x2
+    const s16 *adrs; // offset 0x4, size 0x4
+} ColorCode;
 
 #endif

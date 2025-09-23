@@ -115,6 +115,10 @@ void Se_Shock(WORK_Other *ewk, u16 Code) {
 }
 
 void Se_Myself(WORK_Other *ewk, u16 Code) {
+#if defined(SOUND_DISABLED)
+    return;
+#endif
+
     s16 xx;
     s16 uid = ewk->wu.id;
 
@@ -141,6 +145,10 @@ void Se_Myself_Die(WORK_Other *ewk, u16 Code) {
 }
 
 void Se_Let(WORK_Other *ewk, u16 Code) {
+#if defined(SOUND_DISABLED)
+    return;
+#endif
+
     s16 xx;
     s16 uid;
 
