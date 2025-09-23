@@ -1,6 +1,6 @@
 #include "sf33rd/Source/Game/CHARID.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
-#include "sf33rd/Source/Game/char_table.h"
 
 // bss
 CharInitData char_init_data[23];

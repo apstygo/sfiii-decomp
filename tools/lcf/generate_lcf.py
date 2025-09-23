@@ -150,7 +150,7 @@ def generate_lcf():
                     decreased_alignment = True
 
                 if decreased_alignment:
-                    lcf.align_all(4)
+                    lcf.align_all(2)
 
                 lcf.add_entry(entry, ".data")
 
