@@ -146,12 +146,16 @@
 #include "sf33rd/Source/Game/effL2.h"
 #include "sf33rd/Source/Game/effL3.h"
 #include "sf33rd/Source/Game/effL4.h"
+#include "sf33rd/Source/Game/effL5.h"
 #include "sf33rd/Source/Game/effb2.h"
+#include "sf33rd/Source/Game/effb3.h"
+#include "sf33rd/Source/Game/effb9.h"
 #include "sf33rd/Source/Game/effe3.h"
 #include "sf33rd/Source/Game/effe6.h"
 #include "sf33rd/Source/Game/effe9.h"
 #include "sf33rd/Source/Game/efff5.h"
 #include "sf33rd/Source/Game/efff6.h"
+#include "sf33rd/Source/Game/effi6.h"
 #include "sf33rd/Source/Game/effl6.h"
 
 s32 effect_dummy_init() {
@@ -279,13 +283,13 @@ const void (*effmovejptbl[229])() = {
     effect_B0_move,
     effect_B1_move,
     effect_B2_move,
-    NULL, // effect_B3_move
+    effect_B3_move,
     effect_B4_move,
     NULL, // effect_B5_move
     NULL, // effect_B6_move
     effect_B7_move,
     NULL, // effect_B8_move
-    NULL, // effect_B9_move
+    effect_B9_move,
     NULL, // effect_C0_move
     effect_C1_move,
     effect_C2_move,
@@ -352,7 +356,7 @@ const void (*effmovejptbl[229])() = {
     effect_I3_move,
     effect_I4_move,
     effect_dummy_move,
-    NULL, // effect_I6_move
+    effect_I6_move,
     effect_I7_move,
     effect_I8_move,
     effect_I9_move,
@@ -381,7 +385,7 @@ const void (*effmovejptbl[229])() = {
     effect_L2_move,
     effect_L3_move,
     effect_L4_move,
-    NULL, // effect_L5_move
+    effect_L5_move,
     effect_L6_move,
     NULL, // effect_L7_move
     NULL, // effect_L8_move
