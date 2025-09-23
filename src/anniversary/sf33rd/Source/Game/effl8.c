@@ -1,4 +1,4 @@
-#include "sf33rd/Source/Game/effL8.h"
+#include "sf33rd/Source/Game/effl8.h"
 #include "common.h"
 
 #if defined(TARGET_PS2)
