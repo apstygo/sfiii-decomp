@@ -10,6 +10,10 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "structs.h"
 
+#if !defined(TARGET_PS2)
+#include <stdlib.h>
+#endif
+
 typedef struct {
     // total size: 0x8
     s16 x;    // offset 0x0, size 0x2
@@ -250,28 +254,58 @@ void q_ldreq_texture_group(REQ *curr) {
             case 1:
                 ldchd = ldadr + bsd->to_chd;
 
-                // 25 is the number of members in CharInitData struct
-                for (i = 0; i < 25; i++) {
+                // Explanation:
+                //
+                // The code above loads a bunch of data from the AFS partition.
+                // This data includes character init data which starts at `ldchd`.
+                // Data at `ldchd` starts with 25 4-byte ints which are offsets
+                // from `ldchd` to the actual data.
+                //
+                // On PS2 it is okay to just add `ldchd` to each of these offsets
+                // to turn them into pointers, because a 4-byte int can hold a pointer.
+                // However on modern 64-bit platforms pointers are bigger, meaning we
+                // can't add `ldchd` to the offsets inplace. That's why we have to 
+                // allocate a separate memory region for `cit` and compute the pointers
+                // that comprise it there.
+                //
+                // Because 25 is the number of members in CharInitData struct, `i` goes
+                // to 25 too.
+
 #if defined(TARGET_PS2)
-                    ((uintptr_t *)ldchd)[i] += ldchd;
-#else
-                    ((uintptr_t *)ldchd)[i] = ldchd;
-#endif
+                for (i = 0; i < 25; i++) {
+                    ((u32 *)ldchd)[i] += ldchd;
                 }
 
                 cit = (CharInitData *)ldchd;
+#else
+                cit = (CharInitData *)malloc(sizeof(CharInitData));
+
+                for (i = 0; i < 25; i++) {
+                    ((uintptr_t *)cit)[i] = ldchd + ((u32 *)ldchd)[i];
+                }
+#endif
 
                 cit2 = &char_init_data[plid_data[plt_req[curr->id]]];
                 *cit2 = *cit;
 
+#if !defined(TARGET_PS2)
+                free(cit);
+#endif
+
                 parabora_own_table[plt_req[curr->id]] = cit2->prot;
 
                 if (curr->ix == 18) {
+#if !defined(TARGET_PS2)
+                    fatal_error("This code is highly suspicious. Investigate it before removing this error");
+#endif
                     patchAdrs = ((u32 **)ldchd)[8];
                     patchAdrs[37] = patchAdrs[3];
                 }
 
                 if (curr->ix == 15) {
+#if !defined(TARGET_PS2)
+                    fatal_error("This code is highly suspicious. Investigate it before removing this error");
+#endif
                     trsbas = (u16 *)(((u32 *)texgrplds[15].trans_table)[166] + texgrplds[15].trans_table); // ??
                     count = *trsbas;
                     count -= 1;
