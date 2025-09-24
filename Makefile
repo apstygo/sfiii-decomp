@@ -115,7 +115,7 @@ CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) -std=c99 -O0
 
 ifeq ($(PLATFORM),windows)
   ifeq ($(CROSS_COMPILING),1)
-    LIBCO_A := libco/build/libco.a
+    LIBCO_A := libco/build/liblibco.a
   else
     LIBCO_A := libco/build/Debug/libco.lib
   endif
