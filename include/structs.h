@@ -2886,4 +2886,19 @@ typedef struct {
     s16 data_ix; // offset 0x4, size 0x2
 } asstbl_elem;
 
+typedef struct {
+    // total size: 0x40
+    s16 data[32]; // offset 0x0, size 0x40
+} POWER;
+
+typedef struct {
+    // total size: 0x48
+    s16 step[9][4]; // offset 0x0, size 0x48
+} KOATT;
+
+typedef union {
+    s32 ixl;    // offset 0x0, size 0x4
+    LoHi16 ixs; // offset 0x0, size 0x4
+} TBL;
+
 #endif

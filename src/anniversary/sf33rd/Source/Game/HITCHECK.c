@@ -1,4 +1,6 @@
 #include "sf33rd/Source/Game/HITCHECK.h"
+#include "bin2obj/exchange.h"
+#include "bin2obj/gauge.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/CMD_MAIN.h"
@@ -1377,7 +1379,57 @@ void nise_combo_work(PLW *as, PLW *ds, s16 num) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", cal_combo_waribiki);
+void cal_combo_waribiki(PLW *as, PLW *ds) {
+    POWER *power;
+    KOATT *koatt;
+    s16 i;
+    s16 j;
+    s16 k;
+    TBL tbl;
+
+    if (ds->wu.dm_vital == 0) {
+        return;
+    }
+
+    if (ds->rp->total == 0) {
+        return;
+    }
+
+    koatt = (KOATT *)_exchange_koa[(as->wu.kind_of_waza) >> 1];
+    tbl.ixl = 0;
+
+    for (i = 0; i < 9; i++) {
+        for (j = 0; j < 4; j++) {
+            k = ds->rp->kind_of[i][j][0];
+            k += ds->rp->kind_of[i][j][1];
+
+            if (k) {
+                tbl.ixl += k * koatt->step[i][j] * 256;
+            }
+        }
+    }
+
+    if (tbl.ixs.l) {
+        tbl.ixs.h++;
+    }
+
+    power = (POWER *)_exchange_pow[as->wu.kind_of_waza >> 1];
+
+    if ((as->player_number == 3 || as->player_number == 10) && (as->sa->kind_of_arts == 2 && as->sa->ok == -1)) {
+        power = (POWER *)_exchange_pow_pl03_sa3[as->wu.kind_of_waza >> 1];
+    }
+
+    if (tbl.ixs.h > 31) {
+        tbl.ixs.h = 31;
+    }
+
+    ds->wu.dm_vital *= power[0].data[tbl.ixs.h];
+    ds->wu.dm_vital >>= 5;
+
+    if (ds->wu.dm_vital <= 0) {
+        ds->wu.dm_vital = 1;
+    }
+}
 
 void cal_combo_waribiki2(PLW *ds) {
     s16 num;
