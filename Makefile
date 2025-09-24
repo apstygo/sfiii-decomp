@@ -97,7 +97,11 @@ else
 LIBCO_A := libco/build/liblibco.a
 endif
 
-CLANG_LINKER_FLAGS := -g -Llibco/build -llibco
+ifeq ($(PLATFORM),windows)
+CLANG_LINKER_FLAGS := -g
+else
+CLANG_LINKER_FLAGS := -g -Llibco/build -llibco -lm
+endif
 
 ifneq ($(PLATFORM),ps2)
 	ifeq ($(PLATFORM),windows)
@@ -105,7 +109,7 @@ ifneq ($(PLATFORM),ps2)
 		CLANG_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
 	else
 		CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
-		CLANG_LINKER_FLAGS += -lm $(shell pkg-config --libs sdl3)
+		CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
 	endif
 endif
 
