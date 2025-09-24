@@ -91,6 +91,12 @@ CLANG_DEFINES := -DTARGET_SDL3 -DSOUND_DISABLED -DXPT_TGT_EE -D_POSIX_C_SOURCE -
 CLANG_INCLUDES := $(COMMON_INCLUDES) -Ilibco
 CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) -std=c99 -O0
 
+ifeq ($(PLATFORM),windows)
+LIBCO_A := libco/build/Debug/libco.lib
+else
+LIBCO_A := libco/build/liblibco.a
+endif
+
 CLANG_LINKER_FLAGS := -lm -g -Llibco/build -llibco
 
 ifneq ($(PLATFORM),ps2)
@@ -180,20 +186,21 @@ $(CRI_O_FILES): $(BUILD_DIR)/%.c.o: %.c
 
 else
 
-$(MAIN_TARGET): $(ALL_O_FILES) libco/build/liblibco.o
+$(MAIN_TARGET): $(ALL_O_FILES) $(LIBCO_A)
 ifeq ($(PLATFORM),windows)
-	@echo $(ALL_O_FILES) > $(BUILD_DIR)/objects.txt
-	@echo libco/build/liblibco.o >> $(BUILD_DIR)/objects.txt
+	@> $(BUILD_DIR)/objects.txt
+	@for obj in $(ALL_O_FILES); do echo $$obj >> $(BUILD_DIR)/objects.txt; done
+	@echo $(LIBCO_A) >> $(BUILD_DIR)/objects.txt
 	clang @$(BUILD_DIR)/objects.txt $(CLANG_LINKER_FLAGS) -o $@
 else
-	clang $(ALL_O_FILES) libco/build/liblibco.o $(CLANG_LINKER_FLAGS) -o $@
+	clang $(ALL_O_FILES) $(LIBCO_A) $(CLANG_LINKER_FLAGS) -o $@
 endif
 
 $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)
 	clang -g -c $< -o $@ $(CLANG_FLAGS)
 
-libco/build/liblibco.o:
+$(LIBCO_A):
 	@mkdir -p $(dir $@)
 	cd libco && \
 		mkdir -p build && \
