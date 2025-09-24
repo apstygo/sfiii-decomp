@@ -175,7 +175,6 @@
 #include "sf33rd/Source/Game/effl6.h"
 #include "sf33rd/Source/Game/effl8.h"
 
-
 s32 effect_dummy_init() {
     return -1;
 }
