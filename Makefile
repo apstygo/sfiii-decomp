@@ -123,6 +123,7 @@ else
   LIBCO_A := libco/build/liblibco.a
 endif
 
+
 ifeq ($(PLATFORM),windows)
 CLANG_LINKER_FLAGS := -g
 else
@@ -224,6 +225,7 @@ ifeq ($(PLATFORM),windows)
 else
 	$(CC) $(ALL_O_FILES) $(LIBCO_A) $(CLANG_LINKER_FLAGS) -o $@
 endif
+
 
 $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)
