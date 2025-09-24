@@ -17,6 +17,8 @@ endif
 
 ifeq ($(PLATFORM),ps2)
 	MAIN := THIRD_U.BIN
+else ifeq ($(PLATFORM),windows)
+	MAIN := sf33rd.exe
 else
 	MAIN := sf33rd
 endif
@@ -89,11 +91,26 @@ CLANG_DEFINES := -DTARGET_SDL3 -DSOUND_DISABLED -DXPT_TGT_EE -D_POSIX_C_SOURCE -
 CLANG_INCLUDES := $(COMMON_INCLUDES) -Ilibco
 CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) -std=c99 -O0
 
-CLANG_LINKER_FLAGS := -lm -g -Llibco/build -llibco
+ifeq ($(PLATFORM),windows)
+LIBCO_A := libco/build/Debug/libco.lib
+else
+LIBCO_A := libco/build/liblibco.a
+endif
+
+ifeq ($(PLATFORM),windows)
+CLANG_LINKER_FLAGS := -g
+else
+CLANG_LINKER_FLAGS := -g -Llibco/build -llibco -lm
+endif
 
 ifneq ($(PLATFORM),ps2)
-	CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
-	CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
+	ifeq ($(PLATFORM),windows)
+		CLANG_FLAGS += -I"$(SDL3_PREFIX)/include" -D_CRT_SECURE_NO_WARNINGS
+		CLANG_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
+	else
+		CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
+		CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
+	endif
 endif
 
 # Files
@@ -173,14 +190,20 @@ $(CRI_O_FILES): $(BUILD_DIR)/%.c.o: %.c
 
 else
 
-$(MAIN_TARGET): $(ALL_O_FILES) libco/build/liblibco.o
-	clang $(ALL_O_FILES) $(CLANG_LINKER_FLAGS) -o $@
+$(MAIN_TARGET): $(ALL_O_FILES) $(LIBCO_A)
+ifeq ($(PLATFORM),windows)
+	@find build -name '*.o' > $(BUILD_DIR)/objects.txt
+	@echo $(LIBCO_A) >> $(BUILD_DIR)/objects.txt
+	clang @$(BUILD_DIR)/objects.txt $(CLANG_LINKER_FLAGS) -o $@
+else
+	clang $(ALL_O_FILES) $(LIBCO_A) $(CLANG_LINKER_FLAGS) -o $@
+endif
 
 $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)
 	clang -g -c $< -o $@ $(CLANG_FLAGS)
 
-libco/build/liblibco.o:
+$(LIBCO_A):
 	@mkdir -p $(dir $@)
 	cd libco && \
 		mkdir -p build && \
