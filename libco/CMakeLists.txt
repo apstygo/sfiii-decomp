@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.9)
+project(libco C)
 add_library(libco STATIC libco.c)
 
+if(NOT CMAKE_SYSTEM_PROCESSOR)
+  set(CMAKE_SYSTEM_PROCESSOR "unknown")
+endif()
 string(TOLOWER ${CMAKE_SYSTEM_PROCESSOR} LOWERCASE_CMAKE_SYSTEM_PROCESSOR)
 
 if(LOWERCASE_CMAKE_SYSTEM_PROCESSOR MATCHES "(i[3-6]86|x86)")

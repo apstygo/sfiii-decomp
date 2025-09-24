@@ -131,8 +131,8 @@ endif
 
 # SDL3 dependency for Windows cross-compilation
 SDL3_WINDOWS_URL := https://github.com/libsdl-org/SDL/releases/download/release-3.2.22/SDL3-devel-3.2.22-mingw.tar.gz
+SDL3_WINDOWS_DIR := build/deps/SDL3-windows
 SDL3_WINDOWS_TAR := build/deps/SDL3-devel-3.2.22-mingw.tar.gz
-SDL3_WINDOWS_DIR := build/deps/SDL3-3.2.22
 SDL3_PREFIX ?= $(SDL3_WINDOWS_DIR)/x86_64-w64-mingw32
 
 ifneq ($(PLATFORM),ps2)
@@ -256,10 +256,8 @@ setup_tools: $(MWCCPS2) $(WIBO) $(EEGCC)
 
 $(SDL3_WINDOWS_DIR)/.stamp:
 	@echo "Downloading and extracting SDL3 for Windows cross-compilation..."
-	@mkdir -p build/deps
-	@wget -O $(SDL3_WINDOWS_TAR) $(SDL3_WINDOWS_URL)
-	@tar -xzf $(SDL3_WINDOWS_TAR) -C build/deps
-	@mv build/deps/SDL3-3.2.22 $(SDL3_WINDOWS_DIR)
+	@mkdir -p $(SDL3_WINDOWS_DIR)
+	@wget -q -O - $(SDL3_WINDOWS_URL) | tar -xz -C $(SDL3_WINDOWS_DIR) --strip-components=1
 	@touch $@
 
 ifeq ($(CROSS_COMPILING),1)
