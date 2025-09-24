@@ -70,7 +70,11 @@ void Bg_TexInit() {
 
 void Bg_Kakikae_Set() {
     u8 i;
+#if defined(TARGET_PS2)
     const u32 *rwtbl_ptr;
+#else
+    const bgrw_data_tbl_elem *rwtbl_ptr;
+#endif
     s8 rw;
 
     switch (bg_w.stage) {
@@ -89,10 +93,19 @@ void Bg_Kakikae_Set() {
 
         for (i = 0; i < 4; i++) {
             rw = bgrw_on[bg_w.stage][i];
-            rwtbl_ptr = &bgrw_data_tbl[rw][0];
+
+#if defined(TARGET_PS2)
+            rwtbl_ptr = bgrw_data_tbl[rw];
             rw_dat[i + 1].bg_num = *rwtbl_ptr++;
             rw_dat[i + 1].rwgbix = *rwtbl_ptr++;
             rw_dat[i + 1].rwd_ptr = rw_dat[i + 1].brw_ptr = (s16 *)rwtbl_ptr[0];
+#else
+            rwtbl_ptr = &bgrw_data_tbl[rw];
+            rw_dat[i + 1].bg_num = rwtbl_ptr->bg_num;
+            rw_dat[i + 1].rwgbix = rwtbl_ptr->rwgbix;
+            rw_dat[i + 1].rwd_ptr = rw_dat[i + 1].brw_ptr = rwtbl_ptr->rw_ptr;
+#endif
+
             rw_dat[i + 1].rw_cnt = *rw_dat[i + 1].rwd_ptr++;
             rw_dat[i + 1].gbix = *rw_dat[i + 1].rwd_ptr++;
         }
@@ -117,10 +130,19 @@ void Bg_Kakikae_Set() {
         }
 
         rw = bgrw_on[bg_w.stage][0];
-        rwtbl_ptr = &bgrw_data_tbl[rw][0];
+
+#if defined(TARGET_PS2)
+        rwtbl_ptr = bgrw_data_tbl[rw];
         rw_dat[1].bg_num = *rwtbl_ptr++;
         rw_dat[1].rwgbix = *rwtbl_ptr++;
         rw_dat[1].rwd_ptr = rw_dat[1].brw_ptr = (s16 *)rwtbl_ptr[0];
+#else
+        rwtbl_ptr = &bgrw_data_tbl[rw];
+        rw_dat[1].bg_num = rwtbl_ptr->bg_num;
+        rw_dat[1].rwgbix = rwtbl_ptr->rwgbix;
+        rw_dat[1].rwd_ptr = rw_dat[1].brw_ptr = rwtbl_ptr->rw_ptr;
+#endif
+
         rw_dat[1].rw_cnt = *rw_dat[1].rwd_ptr++;
         rw_dat[1].gbix = *rw_dat[1].rwd_ptr++;
         break;
@@ -145,12 +167,22 @@ void Bg_Kakikae_Set() {
                 break;
             }
 
-            rw_num++;
-            rwtbl_ptr = &bgrw_data_tbl[rw][0];
+            rw_num += 1;
+
+#if defined(TARGET_PS2)
+            rwtbl_ptr = bgrw_data_tbl[rw];
             rw_dat[i].bg_num = *rwtbl_ptr++;
             rw_bg_flag[rw_dat[i].bg_num] = 1;
             rw_dat[i].rwgbix = *rwtbl_ptr++;
             rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
+#else
+            rwtbl_ptr = &bgrw_data_tbl[rw];
+            rw_dat[i].bg_num = rwtbl_ptr->bg_num;
+            rw_bg_flag[rw_dat[i].bg_num] = 1;
+            rw_dat[i].rwgbix = rwtbl_ptr->rwgbix;
+            rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = rwtbl_ptr->rw_ptr;
+#endif
+
             rw_dat[i].rw_cnt = *rw_dat[i].rwd_ptr++;
             rw_dat[i].gbix = *rw_dat[i].rwd_ptr++;
         }

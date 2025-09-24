@@ -21,12 +21,13 @@ typedef struct {
     u32 col;
 } _Polygon;
 
+// `col` needs to be `uintptr_t` because it sometimes stores a pointer to `WORK`
 typedef struct {
     // total size: 0x3C
-    Vec3 v[4]; // offset 0x0, size 0x30
-    u32 col;   // offset 0x30, size 0x4
-    u32 type;  // offset 0x34, size 0x4
-    s32 next;  // offset 0x38, size 0x4
+    Vec3 v[4];     // offset 0x0, size 0x30
+    uintptr_t col; // offset 0x30, size 0x4
+    u32 type;      // offset 0x34, size 0x4
+    s32 next;      // offset 0x38, size 0x4
 } NJDP2D_PRIM;
 
 typedef struct {
@@ -269,7 +270,7 @@ void njdp2d_draw() {
             break;
 
         case 1:
-            shadow_drawing((WORK *)njdp2d_w.prim[i].col, njdp2d_w.prim[i].v[0].y); // Looks weird
+            shadow_drawing((WORK *)njdp2d_w.prim[i].col, njdp2d_w.prim[i].v[0].y);
             break;
         }
     }
@@ -278,7 +279,8 @@ void njdp2d_draw() {
     ps2SeqsRenderQuadEnd();
 }
 
-void njdp2d_sort(f32 *pos, f32 pri, u32 col, s32 flag) {
+// `col` needs to be `uintptr_t` because it sometimes stores a pointer to `WORK`
+void njdp2d_sort(f32 *pos, f32 pri, uintptr_t col, s32 flag) {
     s32 i;
     s32 ix = njdp2d_w.total;
     s32 prev;

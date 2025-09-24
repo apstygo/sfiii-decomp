@@ -94,7 +94,7 @@ void cmd_init(PLW *pl) {
 
 void cmd_move() {
     s16 j;
-    s32 *adrs;
+    intptr_t *adrs;
 
     cmd_id = cmd_pl->wu.id;
 
@@ -1799,7 +1799,7 @@ void waza_compel_init(s16 pl_id, s16 num, s32 *adrs) {
 
 void waza_compel_all_init(PLW *pl) {
     s16 i;
-    s32 *adrs;
+    intptr_t *adrs;
 
     if (cmd_sel[pl->wu.id]) {
         adrs = pl_CMD[pl->player_number];

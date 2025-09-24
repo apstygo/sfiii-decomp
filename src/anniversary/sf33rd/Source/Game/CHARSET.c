@@ -2596,11 +2596,11 @@ void check_cgd_patdat(WORK *wk) {
             wk->curr_rca = wk->rival_catch_tbl + (wk->cg_rival - 20 + wk[1].before);
         }
 
-        wk->cg_olc = *(wk->olc_ix_table + wk->cg_olc_ix);
+        wk->cg_olc = wk->olc_ix_table[wk->cg_olc_ix];
     }
 
     if (wk->work_id < 16) {
-        wk->cg_ja = *(wk->hit_ix_table + wk->cg_hit_ix);
+        wk->cg_ja = wk->hit_ix_table[wk->cg_hit_ix];
         set_jugde_area(wk);
     }
 
