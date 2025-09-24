@@ -9,7 +9,7 @@
 #include "sf33rd/Source/Game/PLS01.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "sf33rd/Source/Game/effL8.h"
+#include "sf33rd/Source/Game/effl8.h"
 #include "sf33rd/Source/Game/workuser.h"
 
 void set_kabe_move_spd(WORK *wk, s16 tm);

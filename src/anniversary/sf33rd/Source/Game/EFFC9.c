@@ -1,7 +1,13 @@
 #include "sf33rd/Source/Game/EFFC9.h"
 #include "common.h"
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC9", effect_C9_move);
+#else
+void effect_C9_move(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC9", effect_C9_init);
