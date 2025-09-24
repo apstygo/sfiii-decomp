@@ -117,7 +117,7 @@ ifeq ($(PLATFORM),windows)
   ifeq ($(CROSS_COMPILING),1)
     LIBCO_A := libco/build/liblibco.a
   else
-    LIBCO_A := libco/build/Debug/libco.lib
+    LIBCO_A := libco/build/liblibco.a
   endif
 else
   LIBCO_A := libco/build/liblibco.a
