@@ -162,6 +162,16 @@ ifneq ($(PLATFORM),ps2)
 	endif
 endif
 
+# DLL copy command for Windows builds
+DLL_COPY_COMMAND :=
+ifeq ($(PLATFORM),windows)
+  ifeq ($(CROSS_COMPILING),1)
+    DLL_COPY_COMMAND := @echo "Copying SDL3.dll for cross-compilation..." && cp "$(SDL3_PREFIX)/bin/SDL3.dll" "$(BUILD_DIR)/"
+  else ifneq ($(IS_WINDOWS_HOST),)
+    DLL_COPY_COMMAND := @echo "Copying SDL3.dll for native build..." && cp /mingw64/bin/SDL3.dll "$(BUILD_DIR)/"
+  endif
+endif
+
 # Files
 
 MAIN_TARGET := $(BUILD_DIR)/$(MAIN)
@@ -244,13 +254,7 @@ ifeq ($(PLATFORM),windows)
 	@find build -name '*.o' > $(BUILD_DIR)/objects.txt
 	@echo $(LIBCO_A) >> $(BUILD_DIR)/objects.txt
 	$(CC) @$(BUILD_DIR)/objects.txt $(CLANG_LINKER_FLAGS) -o $@
-	ifeq ($(CROSS_COMPILING),1)
-		@echo "Copying SDL3.dll for cross-compilation..."
-		@cp "$(SDL3_PREFIX)/bin/SDL3.dll" "$(BUILD_DIR)/"
-	else ifneq ($(IS_WINDOWS_HOST),)
-		@echo "Copying SDL3.dll for native build..."
-		@cp /mingw64/bin/SDL3.dll "$(BUILD_DIR)/"
-	endif
+	$(DLL_COPY_COMMAND)
 else
 	$(CC) $(ALL_O_FILES) $(LIBCO_A) $(CLANG_LINKER_FLAGS) -o $@
 endif
