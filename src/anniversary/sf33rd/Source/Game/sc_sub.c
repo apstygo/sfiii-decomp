@@ -18,6 +18,16 @@
 #include "sf33rd/Source/PS2/ps2Quad.h"
 #include "structs.h"
 
+#if defined(TARGET_PS2)
+#define TO_UV_256(val) ((0.5f + (val)) / 256.0f)
+#define TO_UV_256_NEG(val) (((val) - 0.5f) / 256.0f)
+#define TO_UV_128(val) ((0.5f + (val)) / 128.0f)
+#else
+#define TO_UV_256(val) ((val) / 256.0f)
+#define TO_UV_256_NEG(val) (TO_UV_256(val))
+#define TO_UV_128(val) ((val) / 128.0f)
+#endif
+
 typedef struct {
     // total size: 0x6
     s16 fade;      // offset 0x0, size 0x2
@@ -168,18 +178,10 @@ void SSPutStrTexInput(u16 x, u16 y, const s8 *str) {
     s32 u = ((*str & 0xF) * 8) + 0x80;
     s32 v = ((*str & 0xF0) >> 4) * 8;
 
-#if defined(TARGET_PS2)
-    scrscrntex[0].u = (u + 0.5f) / 256.0f;
-    scrscrntex[3].u = ((u + 8) + 0.5f) / 256.0f;
-    scrscrntex[0].v = (v + 0.5f) / 256.0f;
-    scrscrntex[3].v = ((v + 8) + 0.5f) / 256.0f;
-#else
-    scrscrntex[0].u = u / 256.0f;
-    scrscrntex[3].u = (u + 8) / 256.0f;
-    scrscrntex[0].v = v / 256.0f;
-    scrscrntex[3].v = (v + 8) / 256.0f;
-#endif
-
+    scrscrntex[0].u = TO_UV_256(u);
+    scrscrntex[3].u = TO_UV_256(u + 8);
+    scrscrntex[0].v = TO_UV_256(v);
+    scrscrntex[3].v = TO_UV_256(v + 8);
     scrscrntex[0].x = x * Frame_Zoom_X;
     scrscrntex[3].x = (x + 8) * Frame_Zoom_X;
     scrscrntex[0].y = y * Frame_Zoom_Y;
@@ -190,10 +192,11 @@ void SSPutStrTexInput2(u16 x, u16 y, u8 str) {
     s32 u;
 
     u = (str * 8) + 128;
-    scrscrntex[0].u = (0.5f + u) / 256.0f;
-    scrscrntex[3].u = (0.5f + (u + 8)) / 256.0f;
-    scrscrntex[0].v = 0.001953125f;
-    scrscrntex[3].v = 0.033203125f;
+
+    scrscrntex[0].u = TO_UV_256(u);
+    scrscrntex[3].u = TO_UV_256(u + 8);
+    scrscrntex[0].v = TO_UV_256(0.0f);
+    scrscrntex[3].v = TO_UV_256(8.0f);
     scrscrntex[0].x = x * Frame_Zoom_X;
     scrscrntex[3].x = (x + 8) * Frame_Zoom_X;
     scrscrntex[0].y = y * Frame_Zoom_Y;
@@ -275,19 +278,10 @@ s16 SSPutStrTexInputPro(u16 x, u16 y, u16 ix) {
 
     sideL = (ascProData[ix] >> 4) & 0xF;
     sideR = ascProData[ix] & 0xF;
-
-#if defined(TARGET_PS2)
-    scrscrntex[0].u = (u + sideL + 0.5f) / 256.0f;
-    scrscrntex[3].u = (u + 8 - sideR + 0.5f) / 256.0f;
-    scrscrntex[0].v = (v + 0.5f) / 256.0f;
-    scrscrntex[3].v = (v + 8 + 0.5f) / 256.0f;
-#else
-    scrscrntex[0].u = (u + sideL) / 256.0f;
-    scrscrntex[3].u = (u + 8 - sideR) / 256.0f;
-    scrscrntex[0].v = v / 256.0f;
-    scrscrntex[3].v = (v + 8) / 256.0f;
-#endif
-
+    scrscrntex[0].u = TO_UV_256(u + sideL);
+    scrscrntex[3].u = TO_UV_256(u + 8 - sideR);
+    scrscrntex[0].v = TO_UV_256(v);
+    scrscrntex[3].v = TO_UV_256(v + 8);
     slide = (8 - sideL) - sideR;
     scrscrntex[0].x = x * Frame_Zoom_X;
     scrscrntex[3].x = Frame_Zoom_X * (x + slide);
@@ -332,13 +326,13 @@ void SSPutStr2(u16 x, u16 y, u8 atr, const s8 *str) {
 }
 
 void SSPutStrTexInputB(f32 x, f32 y, s8 *str, f32 sc) {
-    s32 u = ((*str & 0xF) * 8) + 0x80;
+    s32 u = ((*str & 0xF) * 8) + 128;
     s32 v = ((*str & 0xF0) >> 4) * 8;
 
-    scrscrntex[0].u = scrscrntex[1].u = (0.5f + u) / 256.0f;
-    scrscrntex[2].u = scrscrntex[3].u = (0.5f + (u + 8)) / 256.0f;
-    scrscrntex[0].v = scrscrntex[2].v = (0.5f + v) / 256.0f;
-    scrscrntex[1].v = scrscrntex[3].v = (0.5f + (v + 8)) / 256.0f;
+    scrscrntex[0].u = scrscrntex[1].u = TO_UV_256(u);
+    scrscrntex[2].u = scrscrntex[3].u = TO_UV_256(u + 8);
+    scrscrntex[0].v = scrscrntex[2].v = TO_UV_256(v);
+    scrscrntex[1].v = scrscrntex[3].v = TO_UV_256(v + 8);
     scrscrntex[0].x = scrscrntex[1].x = x * Frame_Zoom_X;
     scrscrntex[2].x = scrscrntex[3].x = Frame_Zoom_X * (x + (8.0f * sc));
     scrscrntex[0].y = scrscrntex[2].y = y * Frame_Zoom_Y;
@@ -348,10 +342,10 @@ void SSPutStrTexInputB(f32 x, f32 y, s8 *str, f32 sc) {
 void SSPutStrTexInputB2(f32 x, f32 y, s8 str) {
     s32 u = str * 11;
 
-    scrscrntex[0].u = scrscrntex[1].u = (0.5f + u) / 256.0f;
-    scrscrntex[2].u = scrscrntex[3].u = (0.5f + (u + 11)) / 256.0f;
-    scrscrntex[0].v = scrscrntex[2].v = 0.7832031f;
-    scrscrntex[1].v = scrscrntex[3].v = 0.8144531f;
+    scrscrntex[0].u = scrscrntex[1].u = TO_UV_256(u);
+    scrscrntex[2].u = scrscrntex[3].u = TO_UV_256(u + 11);
+    scrscrntex[0].v = scrscrntex[2].v = TO_UV_256(200.0f);
+    scrscrntex[1].v = scrscrntex[3].v = TO_UV_256(208.0f);
     scrscrntex[0].x = scrscrntex[1].x = x * Frame_Zoom_X;
     scrscrntex[2].x = scrscrntex[3].x = (11.0f + x) * Frame_Zoom_X;
     scrscrntex[0].y = scrscrntex[2].y = y * Frame_Zoom_Y;
@@ -535,19 +529,19 @@ void scfont_put(u16 x, u16 y, u8 atr, u8 page, u8 cx, u8 cy, u16 priority) {
     v = cy * 8;
 
     if (atr & 0x80) {
-        scrscrntex[3].u = (u - 0.5f) / 256.0f;
-        scrscrntex[0].u = ((u + 8) - 0.5f) / 256.0f;
+        scrscrntex[3].u = TO_UV_256_NEG(u);
+        scrscrntex[0].u = TO_UV_256_NEG(u + 8);
     } else {
-        scrscrntex[0].u = (0.5f + u) / 256.0f;
-        scrscrntex[3].u = (0.5f + (u + 8)) / 256.0f;
+        scrscrntex[0].u = TO_UV_256(u);
+        scrscrntex[3].u = TO_UV_256(u + 8);
     }
 
     if (atr & 0x40) {
-        scrscrntex[3].v = (v - 0.5f) / 256.0f;
-        scrscrntex[0].v = ((v + 8) - 0.5f) / 256.0f;
+        scrscrntex[3].v = TO_UV_256_NEG(v);
+        scrscrntex[0].v = TO_UV_256_NEG(v + 8);
     } else {
-        scrscrntex[0].v = (0.5f + v) / 256.0f;
-        scrscrntex[3].v = (0.5f + (v + 8)) / 256.0f;
+        scrscrntex[0].v = TO_UV_256(v);
+        scrscrntex[3].v = TO_UV_256(v + 8);
     }
 
     scrscrntex[0].x = x * Frame_Zoom_X;
@@ -588,39 +582,21 @@ void scfont_sqput(u16 x, u16 y, u8 atr, u8 page, u8 cx1, u8 cy1, u8 cx2, u8 cy2,
     v1 = cy1 * 8;
     v2 = v1 + (cy2 * 8);
 
-#if defined(TARGET_PS2)
     if (atr & 0x80) {
-        scrscrntex[3].u = (u1 - 0.5f) / 256.0f;
-        scrscrntex[0].u = (u2 - 0.5f) / 256.0f;
+        scrscrntex[3].u = TO_UV_256_NEG(u1);
+        scrscrntex[0].u = TO_UV_256_NEG(u2);
     } else {
-        scrscrntex[0].u = (0.5f + u1) / 256.0f;
-        scrscrntex[3].u = (0.5f + u2) / 256.0f;
+        scrscrntex[0].u = TO_UV_256(u1);
+        scrscrntex[3].u = TO_UV_256(u2);
     }
 
     if (atr & 0x40) {
-        scrscrntex[3].v = (v1 - 0.5f) / 256.0f;
-        scrscrntex[0].v = (v2 - 0.5f) / 256.0f;
+        scrscrntex[3].v = TO_UV_256_NEG(v1);
+        scrscrntex[0].v = TO_UV_256_NEG(v2);
     } else {
-        scrscrntex[0].v = (0.5f + v1) / 256.0f;
-        scrscrntex[3].v = (0.5f + v2) / 256.0f;
+        scrscrntex[0].v = TO_UV_256(v1);
+        scrscrntex[3].v = TO_UV_256(v2);
     }
-#else
-    if (atr & 0x80) {
-        scrscrntex[3].u = u1 / 256.0f;
-        scrscrntex[0].u = u2 / 256.0f;
-    } else {
-        scrscrntex[0].u = u1 / 256.0f;
-        scrscrntex[3].u = u2 / 256.0f;
-    }
-
-    if (atr & 0x40) {
-        scrscrntex[3].v = v1 / 256.0f;
-        scrscrntex[0].v = v2 / 256.0f;
-    } else {
-        scrscrntex[0].v = v1 / 256.0f;
-        scrscrntex[3].v = v2 / 256.0f;
-    }
-#endif
 
     scrscrntex[0].x = x * Frame_Zoom_X;
     scrscrntex[3].x = Frame_Zoom_X * (x + (u2 - u1));
@@ -679,10 +655,11 @@ void scfont_sqput3(u16 x, u16 y, u8 atr, u8 page, u16 cx1, u16 cy1, u16 cx2, u16
     u2 = u1 + cx2;
     v1 = cy1;
     v2 = v1 + cy2;
-    scrscrntex[0].u = scrscrntex[1].u = (0.5f + u1) / 256.0f;
-    scrscrntex[2].u = scrscrntex[3].u = (0.5f + u2) / 256.0f;
-    scrscrntex[0].v = scrscrntex[2].v = (0.5f + v1) / 256.0f;
-    scrscrntex[1].v = scrscrntex[3].v = (0.5f + v2) / 256.0f;
+
+    scrscrntex[0].u = scrscrntex[1].u = TO_UV_256(u1);
+    scrscrntex[2].u = scrscrntex[3].u = TO_UV_256(u2);
+    scrscrntex[0].v = scrscrntex[2].v = TO_UV_256(v1);
+    scrscrntex[1].v = scrscrntex[3].v = TO_UV_256(v2);
     scrscrntex[0].x = scrscrntex[1].x = x * Frame_Zoom_X;
     scrscrntex[2].x = scrscrntex[3].x = Frame_Zoom_X * (x + (u2 - u1));
     scrscrntex[0].y = scrscrntex[2].y = y * Frame_Zoom_Y;
@@ -721,18 +698,18 @@ void vital_put(u8 Pl_Num, s8 atr, s16 vital, u8 kind, u16 priority) {
     }
 
     scrscrntex[0].z = scrscrntex[3].z = PrioBase[priority];
-    njSetPaletteBankNumG(0U, atr & 0x3F);
+    njSetPaletteBankNumG(0, atr & 0x3F);
 
     if (kind) {
         scrscrntex[0].u = 0.0f;
-        scrscrntex[3].u = 0.03125f;
-        scrscrntex[0].v = 0.25195312f;
-        scrscrntex[3].v = 0.28320312f;
+        scrscrntex[3].u = 8.0f / 256.0f;
+        scrscrntex[0].v = TO_UV_256(64.0f);
+        scrscrntex[3].v = TO_UV_256(72.0f);
     } else {
         scrscrntex[0].u = 0.0f;
-        scrscrntex[3].u = 0.03125f;
-        scrscrntex[0].v = 0.28320312f;
-        scrscrntex[3].v = 0.31445312f;
+        scrscrntex[3].u = 8.0f / 256.0f;
+        scrscrntex[0].v = TO_UV_256(72.0f);
+        scrscrntex[3].v = TO_UV_256(80.0f);
     }
 
     if (Pl_Num == 0) {
@@ -759,10 +736,10 @@ void silver_vital_put(u8 Pl_Num) {
     setFilterMode(0);
     scrscrntex[0].z = scrscrntex[3].z = PrioBase[2];
     njSetPaletteBankNumG(0, 9);
-    scrscrntex[0].u = 0.875f;
-    scrscrntex[3].u = 0.90625f;
-    scrscrntex[0].v = 0.6894531f;
-    scrscrntex[3].v = 0.7207031f;
+    scrscrntex[0].u = 224.0f / 256.0f;
+    scrscrntex[3].u = 232.0f / 256.0f;
+    scrscrntex[0].v = TO_UV_256(176.0f);
+    scrscrntex[3].v = TO_UV_256(184.0f);
 
     if (Pl_Num == 0) {
         scrscrntex[0].x = 8.0f * Frame_Zoom_X;
@@ -867,9 +844,9 @@ void stun_put(u8 Pl_Num, u8 stun) {
     scrscrntex[0].z = scrscrntex[3].z = PrioBase[4];
     njSetPaletteBankNumG(0, 10);
     scrscrntex[0].u = 0.0f;
-    scrscrntex[3].u = 0.03125f;
-    scrscrntex[0].v = 0.37695312f;
-    scrscrntex[3].v = 0.40820312f;
+    scrscrntex[3].u = 8.0f / 256.0f;
+    scrscrntex[0].v = TO_UV_256(96.0f);
+    scrscrntex[3].v = TO_UV_256(104.0f);
 
     if (Pl_Num == 0) {
         scrscrntex[0].x = (168 - stun) * Frame_Zoom_X;
@@ -1204,110 +1181,112 @@ void SF3_logo(u8 step) {
     if (step < 9) {
         pos[0].x = pos[1].x = 128.0f;
         pos[2].y = pos[3].y = 128.0f;
-        pos[0].s = pos[1].s = (0.5f + pos[0].x) / 256.0f;
-        pos[2].t = pos[3].t = 0.9394531f;
+        pos[0].s = pos[1].s = TO_UV_256(pos[0].x);
+        pos[2].t = pos[3].t = TO_UV_256(240.0f);
 
         for (i = 48; i > 0; i -= 8) {
             pos[0].y = i + 80;
             pos[1].y = pos[0].y - step;
             pos[2].x = 176 - i;
             pos[3].x = pos[2].x + step;
-            pos[0].t = (0.5f + (i + 192)) / 256.0f;
-            pos[1].t = (0.5f + ((i + 192) - step)) / 256.0f;
-            pos[2].s = (0.5f + (176 - i)) / 256.0f;
-            pos[3].s = (0.5f + ((176 - i) + step)) / 256.0f;
+            pos[0].t = TO_UV_256(i + 192);
+            pos[1].t = TO_UV_256((i + 192) - step);
+            pos[2].s = TO_UV_256(176 - i);
+            pos[3].s = TO_UV_256((176 - i) + step);
             ppgWriteQuadWithST_B(pos, -1, NULL, 0, -1);
         }
 
         pos[0].y = pos[1].y = 80.0f;
         pos[2].y = pos[3].y = 128.0f;
-        pos[0].t = pos[1].t = 0.7519531f;
-        pos[2].t = pos[3].t = 0.9394531f;
+        pos[0].t = pos[1].t = TO_UV_256(192.0f);
+        pos[2].t = pos[3].t = TO_UV_256(240.0f);
 
         for (i = 128; i < 208; i += 8) {
             pos[0].x = i;
             pos[1].x = i + step;
             pos[2].x = 48.0f + pos[0].x;
             pos[3].x = 48.0f + pos[1].x;
-            pos[0].s = (0.5f + pos[0].x) / 256.0f;
-            pos[1].s = (0.5f + pos[1].x) / 256.0f;
-            pos[2].s = (0.5f + pos[2].x) / 256.0f;
-            pos[3].s = (0.5f + pos[3].x) / 256.0f;
+            pos[0].s = TO_UV_256(pos[0].x);
+            pos[1].s = TO_UV_256(pos[1].x);
+            pos[2].s = TO_UV_256(pos[2].x);
+            pos[3].s = TO_UV_256(pos[3].x);
             ppgWriteQuadWithST_B(pos, -1, NULL, 0, -1);
         }
 
         pos[0].y = pos[1].y = 80.0f;
         pos[2].x = pos[3].x = 256.0f;
-        pos[0].t = pos[1].t = 0.7519531f;
-        pos[2].s = pos[3].s = 1.0019531f;
+        pos[0].t = pos[1].t = TO_UV_256(192.0f);
+        pos[2].s = pos[3].s = TO_UV_256(256.0f);
 
         for (i = 0; i < 48; i += 8) {
             pos[0].x = i + 208;
             pos[1].x = pos[0].x + step;
             pos[2].y = 128 - i;
             pos[3].y = pos[2].y - step;
-            pos[0].s = (0.5f + pos[0].x) / 256.0f;
-            pos[1].s = (0.5f + pos[1].x) / 256.0f;
-            pos[2].t = (0.5f + (240 - i)) / 256.0f;
-            pos[3].t = (0.5f + ((240 - i) - step)) / 256.0f;
+            pos[0].s = TO_UV_256(pos[0].x);
+            pos[1].s = TO_UV_256(pos[1].x);
+            pos[2].t = TO_UV_256(240 - i);
+            pos[3].t = TO_UV_256((240 - i) - step);
             ppgWriteQuadWithST_B(pos, -1, NULL, 0, -1);
         }
     } else {
         step -= 8;
         pos[0].x = pos[1].x = 128.0f;
         pos[2].y = pos[3].y = 128.0f;
-        pos[0].s = pos[1].s = (0.5f + pos[0].x) / 256.0f;
-        pos[2].t = pos[3].t = 0.9394531f;
+        pos[0].s = pos[1].s = TO_UV_256(pos[0].x);
+        pos[2].t = pos[3].t = TO_UV_256(240.0f);
 
         for (i = 40; i >= 0; i -= 8) {
             pos[1].y = i + 80;
             pos[0].y = (8.0f + pos[1].y) - step;
             pos[3].x = (176 - i);
             pos[2].x = (pos[3].x - 8.0f) + step;
-            pos[0].t = (0.5f + ((i + 200) - step)) / 256.0f;
-            pos[1].t = (0.5f + (i + 192)) / 256.0f;
-            pos[2].s = (0.5f + ((168 - i) + step)) / 256.0f;
-            pos[3].s = (0.5f + (176 - i)) / 256.0f;
+            pos[0].t = TO_UV_256((i + 200) - step);
+            pos[1].t = TO_UV_256(i + 192);
+            pos[2].s = TO_UV_256((168 - i) + step);
+            pos[3].s = TO_UV_256(176 - i);
             ppgWriteQuadWithST_B(pos, -1, NULL, 0, -1);
         }
 
         pos[0].y = pos[1].y = 80.0f;
         pos[2].y = pos[3].y = 128.0f;
-        pos[0].t = pos[1].t = 0.7519531f;
-        pos[2].t = pos[3].t = 0.9394531f;
+        pos[0].t = pos[1].t = TO_UV_256(192.0f);
+        pos[2].t = pos[3].t = TO_UV_256(240.0f);
 
         for (i = 128; i < 208; i += 8) {
             pos[0].x = (i + step);
             pos[1].x = (i + 8);
             pos[2].x = 48.0f + pos[0].x;
             pos[3].x = 48.0f + pos[1].x;
-            pos[0].s = (0.5f + pos[0].x) / 256.0f;
-            pos[1].s = (0.5f + pos[1].x) / 256.0f;
-            pos[2].s = (0.5f + pos[2].x) / 256.0f;
-            pos[3].s = (0.5f + pos[3].x) / 256.0f;
+            pos[0].s = TO_UV_256(pos[0].x);
+            pos[1].s = TO_UV_256(pos[1].x);
+            pos[2].s = TO_UV_256(pos[2].x);
+            pos[3].s = TO_UV_256(pos[3].x);
             ppgWriteQuadWithST_B(pos, -1, NULL, 0, -1);
         }
 
         pos[0].y = pos[1].y = 80.0f;
         pos[2].x = pos[3].x = 256.0f;
-        pos[0].t = pos[1].t = 0.7519531f;
-        pos[2].s = pos[3].s = 1.0019531f;
+        pos[0].t = pos[1].t = TO_UV_256(192.0f);
+        pos[2].s = pos[3].s = TO_UV_256(256.0f);
 
         for (i = 0; i < 48; i += 8) {
             pos[0].x = i + 208 + step;
             pos[1].x = i + 216;
             pos[2].y = 128 - i - step;
             pos[3].y = 120 - i;
-            pos[0].s = (0.5f + pos[0].x) / 256.0f;
-            pos[1].s = (0.5f + pos[1].x) / 256.0f;
-            pos[2].t = (0.5f + (240 - i - step)) / 256.0f;
-            pos[3].t = (0.5f + (232 - i)) / 256.0f;
+            pos[0].s = TO_UV_256(pos[0].x);
+            pos[1].s = TO_UV_256(pos[1].x);
+            pos[2].t = TO_UV_256(240 - i - step);
+            pos[3].t = TO_UV_256(232 - i);
             ppgWriteQuadWithST_B(pos, -1, NULL, 0, -1);
         }
     }
 }
 
-void player_face_init() {}
+void player_face_init() {
+    // Do nothing
+}
 
 void scfont_sqput_face(u16 x, u16 y, u16 atr, u8 page, u8 cx1, u8 cy1, u8 cx2, u8 cy2, u16 priority) {
     s32 u1;
@@ -1327,19 +1306,19 @@ void scfont_sqput_face(u16 x, u16 y, u16 atr, u8 page, u8 cx1, u8 cy1, u8 cx2, u
     v2 = v1 + (cy2 * 8);
 
     if (atr & 0x8000) {
-        scrscrntex[3].u = (u1 - 0.5f) / 256.0f;
-        scrscrntex[0].u = (u2 - 0.5f) / 256.0f;
+        scrscrntex[3].u = TO_UV_256_NEG(u1);
+        scrscrntex[0].u = TO_UV_256_NEG(u2);
     } else {
-        scrscrntex[0].u = (0.5f + u1) / 256.0f;
-        scrscrntex[3].u = (0.5f + u2) / 256.0f;
+        scrscrntex[0].u = TO_UV_256(u1);
+        scrscrntex[3].u = TO_UV_256(u2);
     }
 
     if (atr & 0x4000) {
-        scrscrntex[3].v = (v1 - 0.5f) / 256.0f;
-        scrscrntex[0].v = (v2 - 0.5f) / 256.0f;
+        scrscrntex[3].v = TO_UV_256_NEG(v1);
+        scrscrntex[0].v = TO_UV_256_NEG(v2);
     } else {
-        scrscrntex[0].v = (0.5f + v1) / 256.0f;
-        scrscrntex[3].v = (0.5f + v2) / 256.0f;
+        scrscrntex[0].v = TO_UV_256(v1);
+        scrscrntex[3].v = TO_UV_256(v2);
     }
 
     scrscrntex[0].x = x * Frame_Zoom_X;
@@ -1461,18 +1440,18 @@ void hnc_set(u8 num, u8 atr) {
 
     for (i = 0; i < 2; i++) {
         if (i) {
-            scrscrntex[0].u = 0.001953125f;
-            scrscrntex[3].u = (0.5f + (num * 8)) / 256.0f;
-            scrscrntex[0].v = 0.37695312f;
-            scrscrntex[3].v = 0.47070312f;
+            scrscrntex[0].u = TO_UV_256(0.0f);
+            scrscrntex[3].u = TO_UV_256(num * 8);
+            scrscrntex[0].v = TO_UV_256(96.0f);
+            scrscrntex[3].v = TO_UV_256(120.0f);
             scrscrntex[0].x = 184.0f * Frame_Zoom_X;
-            scrscrntex[3].x = Frame_Zoom_X * ((num + 0x17) * 8);
+            scrscrntex[3].x = Frame_Zoom_X * ((num + 23) * 8);
         } else {
-            scrscrntex[0].u = (0.5f + ((0x17 - num) * 8)) / 256.0f;
-            scrscrntex[3].u = 0.7207031f;
-            scrscrntex[0].v = 0.28320312f;
-            scrscrntex[3].v = 0.37695312f;
-            scrscrntex[0].x = Frame_Zoom_X * ((0x17 - num) * 8);
+            scrscrntex[0].u = TO_UV_256((23 - num) * 8);
+            scrscrntex[3].u = TO_UV_256(184.0f);
+            scrscrntex[0].v = TO_UV_256(72.0f);
+            scrscrntex[3].v = TO_UV_256(96.0f);
+            scrscrntex[0].x = Frame_Zoom_X * ((23 - num) * 8);
             scrscrntex[3].x = 184.0f * Frame_Zoom_X;
         }
 
@@ -1501,9 +1480,9 @@ void hnc_wipeinit(u8 atr) {
         for (j = 0; j < 26; j++) {
             for (k = 0; k < 4; k++) {
                 scrscrntex[k].u = hnc_wipe_tbl1[j][k * 2] / 256.0f;
-                scrscrntex[k].v = ((i * 0x18) + hnc_wipe_tbl1[j][(k * 2) + 1]) / 256.0f;
-                scrscrntex[k].x = Frame_Zoom_X * ((i * 0xB8) + hnc_wipe_tbl1[j][k * 2]);
-                scrscrntex[k].y = Frame_Zoom_Y * (hnc_wipe_tbl1[j][(k * 2) + 1] + 0x10);
+                scrscrntex[k].v = ((i * 24) + hnc_wipe_tbl1[j][(k * 2) + 1]) / 256.0f;
+                scrscrntex[k].x = Frame_Zoom_X * ((i * 184) + hnc_wipe_tbl1[j][k * 2]);
+                scrscrntex[k].y = Frame_Zoom_Y * (hnc_wipe_tbl1[j][(k * 2) + 1] + 16);
                 dmyvtx[k] = scrscrntex[k];
             }
 
@@ -1672,6 +1651,7 @@ void combo_message_set(u8 pl, u8 kind, u8 x, u8 num, u8 hi, u8 low) {
     }
 
     ppgSetupCurrentDataList(&ppgScrList);
+
     if (num > combo_mtbl[kind][2]) {
         xw = combo_mtbl[kind][2];
     } else {
@@ -1703,6 +1683,7 @@ void combo_message_set(u8 pl, u8 kind, u8 x, u8 num, u8 hi, u8 low) {
             }
         } else {
             scfont_sqput(xw2, 7, 8, 2, (combo_mtbl[kind][0] + combo_mtbl[kind][2]) - xw, combo_mtbl[kind][1], xw, 2, 2);
+
             if (xw2 > 1) {
                 scfont_sqput(xw2 - 2, 7, 8, 0, low, 6, 1, 2, 2);
             }
@@ -1712,6 +1693,7 @@ void combo_message_set(u8 pl, u8 kind, u8 x, u8 num, u8 hi, u8 low) {
                 return;
             }
         }
+
         break;
 
     case 3:
@@ -1723,6 +1705,8 @@ void combo_message_set(u8 pl, u8 kind, u8 x, u8 num, u8 hi, u8 low) {
         } else {
             scfont_sqput(xw2, 7, 8, 2, (combo_mtbl[kind][0] + combo_mtbl[kind][2]) - xw, combo_mtbl[kind][1], xw, 2, 2);
         }
+
+        break;
     }
 }
 
@@ -1847,11 +1831,10 @@ void silver_stun_put(u8 Pl_Num, s16 len) {
     scrscrntex[0].z = scrscrntex[3].z = PrioBase[3];
     njSetPaletteBankNumG(0, 1);
 
-    // FIXME: These values include 0.5 offset
-    scrscrntex[0].u = 0.9375f;
-    scrscrntex[3].u = 0.96875f;
-    scrscrntex[0].v = 0.6894531f;
-    scrscrntex[3].v = 0.7207031f;
+    scrscrntex[0].u = 240.0f / 256.0f;
+    scrscrntex[3].u = 248.0f / 256.0f;
+    scrscrntex[0].v = TO_UV_256(176.0f);
+    scrscrntex[3].v = TO_UV_256(184.0f);
 
     if (Pl_Num == 0) {
         scrscrntex[0].x = Frame_Zoom_X * ((21 - len) * 8);
@@ -2112,13 +2095,45 @@ void Training_Data_Disp() {
     }
 
     for (i = 0; i < 2; i++) {
-        scfont_sqput3(i + Training_combo_pos_tbl[j], i + 48, 13, 4, 0, 176, 76, 8, i + 5, Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
-        SSPutDec3((i + (Training_combo_pos_tbl[j] + 158)), i + 48, 13, tr_data[j].damage, 3, i + 7, Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
+        scfont_sqput3(i + Training_combo_pos_tbl[j],
+                      i + 48,
+                      13,
+                      4,
+                      0,
+                      176,
+                      76,
+                      8,
+                      i + 5,
+                      Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
+
+        SSPutDec3(i + (Training_combo_pos_tbl[j] + 158),
+                  i + 48,
+                  13,
+                  tr_data[j].damage,
+                  3,
+                  i + 7,
+                  Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
     }
 
     for (i = 0; i < 2; i++) {
-        scfont_sqput3(i + (Training_combo_pos_tbl[j] + 1), i + 58, 13, 4, 0, 184, 134, 8, i + 5, Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
-        SSPutDec3(i + (Training_combo_pos_tbl[j] + 158), i + 58, 13, tr_data[j].disp_total_damage, 3, i + 7, Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
+        scfont_sqput3(i + (Training_combo_pos_tbl[j] + 1),
+                      i + 58,
+                      13,
+                      4,
+                      0,
+                      184,
+                      134,
+                      8,
+                      i + 5,
+                      Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
+
+        SSPutDec3(i + (Training_combo_pos_tbl[j] + 158),
+                  i + 58,
+                  13,
+                  tr_data[j].disp_total_damage,
+                  3,
+                  i + 7,
+                  Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
     }
 
     if (tr_data[j].frash_flag) {
@@ -2130,12 +2145,12 @@ void Training_Data_Disp() {
     }
 
     tr_data[j].frash_switch--;
-    
+
     if (tr_data[j].new_max_flag != 0 && tr_data[j].frash_switch == 0) {
         tr_data[j].frash_switch = 2;
         tr_data[j].new_max_flag--;
         tr_data[j].frash_flag = ~tr_data[j].frash_flag;
-        
+
         if (tr_data[j].frash_flag) {
             atr = 0x1E;
             gr = 0;
@@ -2143,8 +2158,24 @@ void Training_Data_Disp() {
     }
 
     for (i = 0; i < 2; i++) {
-        scfont_sqput3(i + (Training_combo_pos_tbl[j] + 1), i + 68, 13, 4, 0, 192, 98, 8, i + 3, Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
-        SSPutDec3(i + (Training_combo_pos_tbl[j] + 158), i + 68, atr, tr_data[j].max_hitcombo, 2, gr + i, Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
+        scfont_sqput3(i + (Training_combo_pos_tbl[j] + 1),
+                      i + 68,
+                      13,
+                      4,
+                      0,
+                      192,
+                      98,
+                      8,
+                      i + 3,
+                      Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
+
+        SSPutDec3(i + (Training_combo_pos_tbl[j] + 158),
+                  i + 68,
+                  atr,
+                  tr_data[j].max_hitcombo,
+                  2,
+                  gr + i,
+                  Training_combo_prio_tbl[i] + (sa_pa_flag * 14) * i);
     }
 }
 
@@ -2229,9 +2260,15 @@ void dispSaveLoadTitle(void *ewk) {
     flSetRenderState(FLRENDER_TEXSTAGE0, prm.texCode);
     prm.t[0].s = 0.0f;
     prm.t[3].s = 1.0f;
-    prm.t[0].t = 0.00390625f;
-    prm.t[3].t = 0.28515625f;
+    prm.t[0].t = TO_UV_128(0.0f);
+    prm.t[3].t = TO_UV_128(36.0f);
+
+#if defined(TARGET_PS2)
     step_t = 36.5f;
+#else
+    step_t = 36.0f;
+#endif
+
     pos[0].x = -192.0f;
     pos[0].y = -12.0f;
     pos[1].x = -64.0f;

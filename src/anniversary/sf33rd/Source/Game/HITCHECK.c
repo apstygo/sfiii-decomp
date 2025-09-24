@@ -1,4 +1,6 @@
 #include "sf33rd/Source/Game/HITCHECK.h"
+#include "bin2obj/exchange.h"
+#include "bin2obj/gauge.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/CMD_MAIN.h"
@@ -951,13 +953,75 @@ s16 check_dm_att_blocking(WORK *as, WORK *ds, s16 dnum) {
     return rnum;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", set_damage_and_piyo);
-#else
 void set_damage_and_piyo(PLW *as, PLW *ds) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 remake_score_index(s32 dmv);
 #endif
+
+    cal_damage_vitality(as, ds);
+    ds->wu.dm_piyo = _add_piyo_gauge[as->player_number][as->wu.att.piyo];
+    ds->wu.dm_piyo = ds->wu.dm_piyo * stun_gauge_omake[omop_stun_gauge_add[(ds->wu.id + 1) & 1]] / 32;
+
+    if ((ds->wu.pat_status == 32 || ds->wu.pat_status == 3) || ds->wu.pat_status == 25) {
+        ds->wu.dm_vital = (ds->wu.dm_vital * 125) / 100;
+    } else if (ds->wu.pat_status == 7 || ds->wu.pat_status == 23 || ds->wu.pat_status == 35) {
+        ds->wu.dm_vital = (ds->wu.dm_vital * 150) / 100;
+    } else if (ds->wu.pat_status == 1 || ds->wu.pat_status == 21 || ds->wu.pat_status == 37) {
+        ds->wu.dm_vital *= 2;
+    }
+
+    if (ds->wu.dm_vital) {
+        if (as->wu.routine_no[1] == 2) {
+            ds->wu.dm_vital = (ds->wu.dm_vital) * (as->tk_nage + 32) / 32;
+
+            if ((as->tk_nage -= 2) < 0) {
+                as->tk_nage = 0;
+            }
+        }
+
+        if (as->wu.routine_no[1] == 4) {
+            ds->wu.dm_vital = (ds->wu.dm_vital) * (as->tk_dageki + 32) / 32;
+
+            if ((as->tk_dageki -= 2) < 0) {
+                as->tk_dageki = 0;
+            }
+        }
+
+        ds->utk_nage = as->tk_nage;
+        ds->utk_dageki = as->tk_dageki;
+    }
+
+    if (ds->wu.dm_piyo) {
+        ds->wu.dm_piyo = ds->wu.dm_piyo * (as->tk_kizetsu + 32) / 32;
+
+        if ((as->tk_kizetsu -= 2) < 0) {
+            as->tk_kizetsu = 0;
+        }
+
+        ds->utk_kizetsu = as->tk_kizetsu;
+    }
+
+    as->wu.at_ten_ix = remake_score_index(ds->wu.dm_vital);
+    cal_combo_waribiki(as, ds);
+    cal_dm_vital_gauge_hosei(ds);
+    cal_combo_waribiki2(ds);
+
+    if (as->wu.work_id != 1) {
+        return;
+    }
+
+    switch (as->dm_vital_use) {
+    case 1:
+        ds->wu.dm_vital += as->dm_vital_backup;
+        as->dm_vital_backup = 0;
+        break;
+
+    case 2:
+        as->dm_vital_backup /= 2;
+        ds->wu.dm_vital += as->dm_vital_backup;
+        break;
+    }
+}
 
 s16 remake_score_index(s16 dmv) {
     s16 i;
@@ -1377,7 +1441,57 @@ void nise_combo_work(PLW *as, PLW *ds, s16 num) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", cal_combo_waribiki);
+void cal_combo_waribiki(PLW *as, PLW *ds) {
+    POWER *power;
+    KOATT *koatt;
+    s16 i;
+    s16 j;
+    s16 k;
+    TBL tbl;
+
+    if (ds->wu.dm_vital == 0) {
+        return;
+    }
+
+    if (ds->rp->total == 0) {
+        return;
+    }
+
+    koatt = (KOATT *)_exchange_koa[(as->wu.kind_of_waza) >> 1];
+    tbl.ixl = 0;
+
+    for (i = 0; i < 9; i++) {
+        for (j = 0; j < 4; j++) {
+            k = ds->rp->kind_of[i][j][0];
+            k += ds->rp->kind_of[i][j][1];
+
+            if (k) {
+                tbl.ixl += k * koatt->step[i][j] * 256;
+            }
+        }
+    }
+
+    if (tbl.ixs.l) {
+        tbl.ixs.h++;
+    }
+
+    power = (POWER *)_exchange_pow[as->wu.kind_of_waza >> 1];
+
+    if ((as->player_number == 3 || as->player_number == 10) && (as->sa->kind_of_arts == 2 && as->sa->ok == -1)) {
+        power = (POWER *)_exchange_pow_pl03_sa3[as->wu.kind_of_waza >> 1];
+    }
+
+    if (tbl.ixs.h > 31) {
+        tbl.ixs.h = 31;
+    }
+
+    ds->wu.dm_vital *= power[0].data[tbl.ixs.h];
+    ds->wu.dm_vital >>= 5;
+
+    if (ds->wu.dm_vital <= 0) {
+        ds->wu.dm_vital = 1;
+    }
+}
 
 void cal_combo_waribiki2(PLW *ds) {
     s16 num;
