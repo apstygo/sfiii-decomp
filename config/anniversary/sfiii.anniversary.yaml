@@ -751,12 +751,12 @@ segments:
       - [0x370220, .data, sf33rd/Source/Game/OPENING]
       - [0x3703A0, .data, sf33rd/Source/Game/PulPul]
       - [0x370620, .data, sf33rd/Source/Game/Sound3rd]
-      - [0x370CE0, data, data_370CE0] # asstbl?
-      - [0x3753C0, data, data_3753C0]
-      - [0x375980, .data, sf33rd/Source/Game/PLS02]
-      - [0x375E80, data, data_375E80]
-      - [0x375FC0, data, data_375FC0] # buttobi?
-      - [0x376200, data, data_376200] # guard_data/step_data?
+
+      - [0x370CE0, .data, bin2obj/asstbl]
+      - [0x3753C0, .data, bin2obj/exchange]
+      - [0x375980, .data, bin2obj/gauge]
+      - [0x375FC0, .data, bin2obj/buttobi]
+      - [0x376200, .data, bin2obj/etc]
       - [0x376E30, .data, bin2obj/char_table]
 
       - [0x3A54E0, data, data_3A54E0] # zlib stuff

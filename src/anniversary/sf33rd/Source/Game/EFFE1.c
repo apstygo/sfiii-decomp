@@ -3,7 +3,7 @@
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "sf33rd/Source/Game/char_table.h"
+#include "bin2obj/char_table.h"
 
 void effect_E1_move(WORK_Other *ewk) {
 #if defined(TARGET_PS2)

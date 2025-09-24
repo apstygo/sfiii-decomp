@@ -4,7 +4,7 @@
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "sf33rd/Source/Game/char_table.h"
+#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/workuser.h"
 
 const s16 hok_table_ef[8] = { 1, 1, 2, 2, 3, 3, 3, 3 };

@@ -3,7 +3,7 @@
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "sf33rd/Source/Game/char_table.h"
+#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 

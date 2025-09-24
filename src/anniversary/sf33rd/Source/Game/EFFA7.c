@@ -9,7 +9,7 @@
 #include "sf33rd/Source/Game/Se_Data.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "sf33rd/Source/Game/char_table.h"
+#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/workuser.h"
 
 void effect_A7_move(WORK_Other *ewk) {
