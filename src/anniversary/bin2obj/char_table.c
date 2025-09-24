@@ -1,11 +1,5 @@
+#include "bin2obj/common.h"
 #include "common.h"
-
-#if defined(TARGET_PS2)
-#pragma define_section __data ".data"
-#define DATA_SECTION __declspec(__data)
-#else
-#define DATA_SECTION
-#endif
 
 u32 _sel_pl_char_table[] = {
     0x168,  0x508,      0x5D8,  0x6A8,      0x7A8,  0xD58,      0x808,  0x1618,     0x19E8, 0xE08,

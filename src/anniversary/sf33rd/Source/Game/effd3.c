@@ -1,7 +1,13 @@
 #include "sf33rd/Source/Game/effd3.h"
 #include "common.h"
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/effd3", effect_D3_move);
+#else
+void effect_D3_move(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/effd3", akebono_finish);
 

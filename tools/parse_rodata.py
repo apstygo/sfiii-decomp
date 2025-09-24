@@ -182,7 +182,7 @@ def generate_code(value: Any, hex_ints: bool = False):
                 value *= -1
                 prefix = "-"
 
-            print(f"{prefix}0x{value:X}", end="")
+            print(f"{prefix}{"" if value == 0 else "0x"}{value:X}", end="")
         else:
             print(value, end="")
 
