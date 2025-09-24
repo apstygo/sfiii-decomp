@@ -240,7 +240,7 @@ segments:
       - [0x0E2930, c, sf33rd/Source/Game/EFF44]
       - [0x0E2D50, c, sf33rd/Source/Game/EFF45]
       - [0x0E3F50, c, sf33rd/Source/Game/EFF46]
-      - [0x0E45B0, asm, sf33rd/Source/Game/EFF47]
+      - [0x0E45B0, c, sf33rd/Source/Game/EFF47]
       - [0x0E49F0, c, sf33rd/Source/Game/EFF48]
       - [0x0E50C0, c, sf33rd/Source/Game/EFF49]
       - [0x0E5620, c, sf33rd/Source/Game/Eff50]
@@ -266,11 +266,11 @@ segments:
       - [0x0EFFE0, c, sf33rd/Source/Game/EFF70]
       - [0x0F05D0, c, sf33rd/Source/Game/EFF71]
       - [0x0F0840, c, sf33rd/Source/Game/EFF72]
-      - [0x0F0B20, asm, sf33rd/Source/Game/eff73]
-      - [0x0F10E0, asm, sf33rd/Source/Game/EFF74]
+      - [0x0F0B20, c, sf33rd/Source/Game/eff73]
+      - [0x0F10E0, c, sf33rd/Source/Game/EFF74]
       - [0x0F15B0, c, sf33rd/Source/Game/EFF75]
       - [0x0F1AB0, c, sf33rd/Source/Game/Eff76]
-      - [0x0F4230, asm, sf33rd/Source/Game/EFF77]
+      - [0x0F4230, c, sf33rd/Source/Game/EFF77]
       - [0x0F4910, c, sf33rd/Source/Game/EFF78]
       - [0x0F5290, c, sf33rd/Source/Game/Eff79]
       - [0x0F8050, c, sf33rd/Source/Game/Eff80]
@@ -310,7 +310,7 @@ segments:
       - [0x105180, c, sf33rd/Source/Game/EFFB7]
       - [0x105280, c, sf33rd/Source/Game/EFFB8]
       - [0x105A30, c, sf33rd/Source/Game/effb9]
-      - [0x105E00, asm, sf33rd/Source/Game/EFFC0]
+      - [0x105E00, c, sf33rd/Source/Game/EFFC0]
       - [0x1062F0, c, sf33rd/Source/Game/EFFC1]
       - [0x1068E0, c, sf33rd/Source/Game/EFFC2]
       - [0x109330, asm, sf33rd/Source/Game/EFFC3]
@@ -751,12 +751,12 @@ segments:
       - [0x370220, .data, sf33rd/Source/Game/OPENING]
       - [0x3703A0, .data, sf33rd/Source/Game/PulPul]
       - [0x370620, .data, sf33rd/Source/Game/Sound3rd]
-      - [0x370CE0, data, data_370CE0] # asstbl?
-      - [0x3753C0, data, data_3753C0]
-      - [0x375980, .data, sf33rd/Source/Game/PLS02]
-      - [0x375E80, data, data_375E80]
-      - [0x375FC0, data, data_375FC0] # buttobi?
-      - [0x376200, data, data_376200] # guard_data/step_data?
+
+      - [0x370CE0, .data, bin2obj/asstbl]
+      - [0x3753C0, .data, bin2obj/exchange]
+      - [0x375980, .data, bin2obj/gauge]
+      - [0x375FC0, .data, bin2obj/buttobi]
+      - [0x376200, .data, bin2obj/etc]
       - [0x376E30, .data, bin2obj/char_table]
 
       - [0x3A54E0, data, data_3A54E0] # zlib stuff
@@ -980,7 +980,7 @@ segments:
       - [0x40A3E0, .rodata, sf33rd/Source/Game/EFF42]
       - [0x40A420, .rodata, sf33rd/Source/Game/EFF44]
       - [0x40A620, .rodata, sf33rd/Source/Game/EFF45]
-      - [0x40A630, rodata, sf33rd/Source/Game/EFF47]
+      - [0x40A630, .rodata, sf33rd/Source/Game/EFF47]
       - [0x40A690, .rodata, sf33rd/Source/Game/EFF48]
       - [0x40B290, .rodata, sf33rd/Source/Game/Eff52]
       - [0x40B2B0, .rodata, sf33rd/Source/Game/EFF53]
@@ -999,11 +999,11 @@ segments:
       - [0x40BD20, .rodata, sf33rd/Source/Game/EFF68]
       - [0x40BDB0, .rodata, sf33rd/Source/Game/EFF69]
       - [0x40BDD0, .rodata, sf33rd/Source/Game/EFF71]
-      - [0x40BDE0, rodata, sf33rd/Source/Game/eff73]
-      - [0x40BE30, rodata, sf33rd/Source/Game/EFF74]
+      - [0x40BDE0, .rodata, sf33rd/Source/Game/eff73]
+      - [0x40BE30, .rodata, sf33rd/Source/Game/EFF74]
       - [0x40BE70, .rodata, sf33rd/Source/Game/EFF75]
       - [0x40BE90, .rodata, sf33rd/Source/Game/Eff76]
-      - [0x40C010, rodata, sf33rd/Source/Game/EFF77]
+      - [0x40C010, .rodata, sf33rd/Source/Game/EFF77]
       - [0x40C038, .rodata, sf33rd/Source/Game/EFF78]
       - [0x40C080, .rodata, sf33rd/Source/Game/Eff79]
       - [0x40C0C0, .rodata, sf33rd/Source/Game/EFF84]
@@ -1026,7 +1026,7 @@ segments:
       - [0x40E7B0, .rodata, sf33rd/Source/Game/effb2]
       - [0x40E7F0, .rodata, sf33rd/Source/Game/EFFB4]
       - [0x40E830, rodata, sf33rd/Source/Game/EFFB6]
-      - [0x4112D0, rodata, sf33rd/Source/Game/EFFC0]
+      - [0x4112D0, .rodata, sf33rd/Source/Game/EFFC0]
       - [0x411360, .rodata, sf33rd/Source/Game/EFFC2]
       - [0x411680, rodata, sf33rd/Source/Game/EFFC3]
       - [0x412650, .rodata, sf33rd/Source/Game/EFFC5]
@@ -1543,7 +1543,7 @@ segments:
       - { type: .sbss, vram: 0x578EC0, name: sf33rd/Source/Game/DEMO00 }
       - { type: .sbss, vram: 0x578ED0, name: sf33rd/Source/Game/EFF45 }
       - { type: .sbss, vram: 0x578F00, name: sf33rd/Source/Game/EFF56 }
-      - { type: sbss, vram: 0x578F0C, name: sf33rd/Source/Game/EFF77 }
+      - { type: .sbss, vram: 0x578F0C, name: sf33rd/Source/Game/EFF77 }
       - { type: .sbss, vram: 0x578F10, name: sf33rd/Source/Game/Eff79 }
       - { type: .sbss, vram: 0x578F18, name: sf33rd/Source/Game/Eff95 }
       - { type: .sbss, vram: 0x578F20, name: sf33rd/Source/Game/EffA2 }

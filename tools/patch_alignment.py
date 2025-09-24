@@ -58,6 +58,8 @@ special_cases = {
     ("EFFA8", ".data", 0): 16,
     ("EFFA8", ".data", 1): 16,
     ("EFFB6", ".data", 0): 16,
+    ("exchange", ".data", 0): 32,
+    ("gauge", ".data", 0): 32,
 
     ("VM_DATA", ".sdata", 0): 16,
     ("Demo_Dat", ".sdata", 0): 16,

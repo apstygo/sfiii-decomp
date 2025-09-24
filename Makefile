@@ -115,7 +115,7 @@ CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) -std=c99 -O0
 
 ifeq ($(PLATFORM),windows)
   ifeq ($(CROSS_COMPILING),1)
-    LIBCO_A := libco/build/libco.a
+    LIBCO_A := libco/build/liblibco.a
   else
     LIBCO_A := libco/build/Debug/libco.lib
   endif
@@ -132,6 +132,7 @@ endif
 # SDL3 dependency for Windows cross-compilation
 SDL3_WINDOWS_URL := https://github.com/libsdl-org/SDL/releases/download/release-3.2.22/SDL3-devel-3.2.22-mingw.tar.gz
 SDL3_WINDOWS_DIR := build/deps/SDL3-windows
+SDL3_WINDOWS_TAR := build/deps/SDL3-devel-3.2.22-mingw.tar.gz
 SDL3_PREFIX ?= $(SDL3_WINDOWS_DIR)/x86_64-w64-mingw32
 
 ifneq ($(PLATFORM),ps2)
@@ -239,6 +240,7 @@ $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) -g -c $< -o $@ $(CLANG_FLAGS)
 endif
+
 
 CMAKE_CMD = cmake ..
 ifeq ($(CROSS_COMPILING),1)

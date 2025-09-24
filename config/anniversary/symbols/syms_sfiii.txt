@@ -19334,8 +19334,24 @@ _asstbl_lv_B010 = 0x470CD8; // size:0x12
 _asstbl_lv_A010 = 0x470CEA; // size:0x12
 
 _exchange_pow_pl03_sa3 = 0x475340;
+_exchange_pow = 0x4753C4;
+_exchange_koa = 0x475548;
+// power_down_32_ooo_08 = 0x475448;
+// power_down_32_Ooo_08 = 0x475488;
+// power_down_32_Oo__08 = 0x4754c8;
+// power_down_32_O___01 = 0x475508;
+
 _add_arts_gauge = 0x475900; // size:0x500
 _add_piyo_gauge = 0x475E00; // size:0x140
+
+_buttobi_time_table = 0x475F40;
+_buttobi_add_y_table = 0x476058;
+
+_guard_pause_table = 0x476180;
+_damage_pause_table = 0x476190;
+_select_hit_dsd = 0x4761B0;
+_select_grd_dsd = 0x4763B0;
+_dm_step_data = 0x4765B0;
 
 frw = 0x5A9CA0; // size:0x38000
 adx_VS = 0x682F00; // size:0x3092A

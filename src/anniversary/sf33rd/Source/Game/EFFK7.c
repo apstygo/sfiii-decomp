@@ -1,7 +1,13 @@
 #include "sf33rd/Source/Game/EFFK7.h"
 #include "common.h"
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK7", effect_K7_move);
+#else
+void effect_K7_move(WORK_Other *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK7", K7_move_type_0);
 

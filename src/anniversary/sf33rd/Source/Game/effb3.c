@@ -4,7 +4,7 @@
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SE.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "sf33rd/Source/Game/char_table.h"
+#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/effb2.h"
 #include "sf33rd/Source/Game/effb9.h"
 #include "sf33rd/Source/Game/ta_sub.h"

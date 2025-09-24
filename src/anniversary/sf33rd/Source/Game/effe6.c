@@ -5,7 +5,7 @@
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "sf33rd/Source/Game/char_table.h"
+#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/Game/end_0.h"
 #include "sf33rd/Source/Game/end_data.h"
