@@ -111,27 +111,38 @@ CLANG_WARNINGS += -Wno-shift-count-overflow
 
 CLANG_DEFINES := -DTARGET_SDL3 -DSOUND_DISABLED -DXPT_TGT_EE -D_POSIX_C_SOURCE -DDEBUG
 CLANG_INCLUDES := $(COMMON_INCLUDES) -Ilibco
-CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) -std=c99 -O0
+
+# Platform-specific flags and libraries
+PLATFORM_CLANG_FLAGS :=
+PLATFORM_LINKER_FLAGS := -g
 
 ifeq ($(PLATFORM),windows)
+  PLATFORM_CLANG_FLAGS += -D_CRT_SECURE_NO_WARNINGS
   ifeq ($(CROSS_COMPILING),1)
     # Cross-compiling
     LIBCO_A := libco/build/liblibco.a
+    PLATFORM_CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
+    PLATFORM_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
   else ifneq ($(IS_WINDOWS_HOST),)
     # Native MSYS2/MinGW build
     LIBCO_A := libco/build/liblibco.a
+    PLATFORM_CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
+    PLATFORM_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
   else
     # Native MSVC build (CI)
     LIBCO_A := libco/build/Debug/libco.lib
+    PLATFORM_CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
+    PLATFORM_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
   endif
-else
+else ifneq ($(PLATFORM),ps2)
+  # macOS or Linux
   LIBCO_A := libco/build/liblibco.a
-endif
-
-ifeq ($(PLATFORM),windows)
-CLANG_LINKER_FLAGS := -g
+  PLATFORM_CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
+  PLATFORM_LINKER_FLAGS += -Llibco/build -llibco -lm
+  PLATFORM_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
 else
-CLANG_LINKER_FLAGS := -g -Llibco/build -llibco -lm
+  # PS2
+  LIBCO_A :=
 endif
 
 # SDL3 dependency for Windows
@@ -140,28 +151,9 @@ SDL3_WINDOWS_DIR := build/deps/SDL3-windows
 SDL3_WINDOWS_TAR := build/deps/SDL3-devel-3.2.22-mingw.tar.gz
 SDL3_PREFIX ?= $(SDL3_WINDOWS_DIR)/x86_64-w64-mingw32
 
-ifneq ($(PLATFORM),ps2)
-	ifeq ($(PLATFORM),windows)
-		CLANG_DEFINES += -D_CRT_SECURE_NO_WARNINGS
-		ifeq ($(CROSS_COMPILING),1)
-			# Cross-compiling
-			CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
-			CLANG_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
-		else ifneq ($(IS_WINDOWS_HOST),)
-			# Native MSYS2/MinGW build
-			CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
-			CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
-		else
-			# Native MSVC build (CI)
-			CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
-			CLANG_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
-		endif
-	else
-		# macOS or Linux
-		CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
-		CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
-	endif
-endif
+# Finalize flags
+CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) $(PLATFORM_CLANG_FLAGS) -std=c99 -O0
+CLANG_LINKER_FLAGS := $(PLATFORM_LINKER_FLAGS)
 
 # DLL copy command for Windows builds
 DLL_COPY_COMMAND :=
