@@ -18,7 +18,17 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
+
+#if defined(_WIN32)
+#include <io.h>
+#define open _open
+#define close _close
+#define read _read
+#define write _write
+#define lseek _lseek
+#else
 #include <unistd.h>
+#endif
 
 // libcdvd
 
