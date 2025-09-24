@@ -1,6 +1,8 @@
 #include "common.h"
 
+#if !defined(_WIN32)
 #include <execinfo.h>
+#endif
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,10 +19,12 @@ void fatal_error(const s8 *fmt, ...) __dead2 {
 
     va_end(args);
 
+#if !defined(_WIN32)
     void *buffer[BACKTRACE_MAX];
     int nptrs = backtrace(buffer, BACKTRACE_MAX);
     fprintf(stderr, "Stack trace:\n");
     backtrace_symbols_fd(buffer, nptrs, fileno(stderr));
+#endif
 
     abort();
 }
