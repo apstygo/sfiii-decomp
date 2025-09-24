@@ -1,8 +1,12 @@
 #include "sf33rd/Source/Game/PLPCU.h"
+#include "bin2obj/buttobi.h"
+#include "bin2obj/etc.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CALDIR.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFA7.h"
+#include "sf33rd/Source/Game/EFFD9.h"
+#include "sf33rd/Source/Game/EFFE2.h"
 #include "sf33rd/Source/Game/MTRANS.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/PLPDM.h"
@@ -245,50 +249,64 @@ s32 check_tsukamare_keizoku_check(PLW *wk, PLW *emwk) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPCU", scdmd_12000);
-#else
 void scdmd_12000(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s32 setup_accessories(PLW *, u32 data);
+    s32 effect_D9_init(PLW * wk, u32 data);
 #endif
+
+    wk->dm_step_tbl = _dm_step_data[_select_hit_dsd[wk->wu.dm_impact][get_weight_point(&wk->wu)]];
+
+    if (!wk->wu.dm_attribute) {
+        return;
+    }
+
+    setup_accessories(wk, wk->wu.pat_status);
+
+    if (wk->wu.dm_attribute != 2) {
+        effect_D9_init(wk, (u8)wk->wu.dm_attribute);
+    }
+}
 
 void scdmd_14000(PLW *wk) {
     setup_butt_own_data(&wk->wu);
     wk->wu.mvxy.a[1].sp = wk->wu.mvxy.d[1].sp = wk->wu.mvxy.kop[1] = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPCU", scdmd_16000);
-#else
 void scdmd_16000(PLW *wk) {
-    not_implemented(__func__);
+    setup_butt_own_data(&wk->wu);
+    cal_initial_speed_y(&wk->wu, _buttobi_time_table[wk->wu.char_index][wk->wu.dm_attlv], 0);
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPCU", scdmd_17000);
-#else
 void scdmd_17000(PLW *wk) {
-    not_implemented(__func__);
+    setup_butt_own_data(&wk->wu);
+    cal_initial_speed_y(&wk->wu, _buttobi_time_table[wk->wu.char_index][wk->wu.dm_attlv], wk->wu.xyz[1].disp.pos);
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPCU", scdmd_18000);
-#else
 void scdmd_18000(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s32 setup_accessories(PLW *, u32 data);
+    s32 effect_D9_init(PLW * wk, u32 data);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPCU", scdmd_19000);
-#else
-void scdmd_19000(PLW *wk) {
-    not_implemented(__func__);
+    setup_butt_own_data(&wk->wu);
+    cal_initial_speed_y(&wk->wu, _buttobi_time_table[wk->wu.char_index][wk->wu.dm_attlv], wk->wu.xyz[1].disp.pos);
+
+    if (!wk->wu.dm_attribute) {
+        return;
+    }
+
+    setup_accessories(wk, wk->wu.pat_status);
+
+    if (wk->wu.dm_attribute != 2) {
+        effect_D9_init(wk, (u8)wk->wu.dm_attribute);
+    }
 }
-#endif
+
+void scdmd_19000(PLW *wk) {
+    setup_butt_own_data(&wk->wu);
+    cal_initial_speed_y(&wk->wu, _buttobi_time_table[wk->wu.char_index][wk->wu.dm_attlv], 0);
+}
 
 void scdmd_20000(PLW *wk) {
     setup_butt_own_data(&wk->wu);
@@ -323,23 +341,17 @@ void scdmd_27000(PLW *wk) {
     wk->wu.mvxy.a[1].sp = wk->wu.mvxy.d[1].sp = wk->wu.mvxy.kop[1] = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPCU", scdmd_28000);
-#else
 void scdmd_28000(PLW *wk) {
-    not_implemented(__func__);
+    setup_butt_own_data(&wk->wu);
+    cal_initial_speed_y(&wk->wu, _buttobi_time_table[wk->wu.char_index][wk->wu.dm_attlv], wk->wu.xyz[1].disp.pos);
 }
-#endif
 
 void scdmd_29000(PLW *wk) {}
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPCU", scdmd_30000);
-#else
 void scdmd_30000(PLW *wk) {
-    not_implemented(__func__);
+    setup_butt_own_data(&wk->wu);
+    cal_initial_speed_y(&wk->wu, _buttobi_time_table[wk->wu.char_index][wk->wu.dm_attlv], 0);
 }
-#endif
 
 void scdmd_31000(PLW *wk) {
     setup_butt_own_data(&wk->wu);
