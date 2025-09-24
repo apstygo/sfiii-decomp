@@ -265,3 +265,11 @@ bool SDLPad_IsGamepadConnected(int id) {
 void SDLPad_GetButtonState(int id, SDLPad_ButtonState *state) {
     memcpy(state, &button_state[id], sizeof(SDLPad_ButtonState));
 }
+
+SDL_Gamepad *SDLPad_GetGamepad(int id) {
+    if (input_sources[id].type != SDLPAD_INPUT_GAMEPAD) {
+        return NULL;
+    }
+
+    return input_sources[id].gamepad.gamepad;
+}

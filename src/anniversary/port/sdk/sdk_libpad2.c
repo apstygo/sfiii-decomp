@@ -99,12 +99,6 @@ int sceVibGetProfile(int socket_number, unsigned char *profile) {
     return 1;
 }
 
-#if defined(_WIN32)
-#include "SDL3/SDL_joystick.h"
-#else
-#include "SDL_joystick.h"
-#endif
-
 int sceVibSetActParam(int socket_number, int profile_size, unsigned char *profile, int data_size, unsigned char *data) {
     s32 profile_val;
 
@@ -122,7 +116,7 @@ int sceVibSetActParam(int socket_number, int profile_size, unsigned char *profil
         return 1;
     }
 
-    if (SDL_JoystickRumble(SDLPad_GetJoystick(socket_number), data[0] * 0xFF, data[1] * 0xFF, 0) == 0) {
+    if (SDL_RumbleGamepad(SDLPad_GetGamepad(socket_number), data[0] * 0xFF, data[1] * 0xFF, 0) == 0) {
         return 1;
     }
 

@@ -29,7 +29,10 @@ void SDLPad_HandleGamepadDeviceEvent(SDL_GamepadDeviceEvent *event);
 void SDLPad_HandleGamepadButtonEvent(SDL_GamepadButtonEvent *event);
 void SDLPad_HandleGamepadAxisMotionEvent(SDL_GamepadAxisEvent *event);
 void SDLPad_HandleKeyboardEvent(SDL_KeyboardEvent *event);
+#include <SDL3/SDL_gamepad.h>
+
 bool SDLPad_IsGamepadConnected(int id);
 void SDLPad_GetButtonState(int id, SDLPad_ButtonState *state);
+SDL_Gamepad *SDLPad_GetGamepad(int id);
 
 #endif
