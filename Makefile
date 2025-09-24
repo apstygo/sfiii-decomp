@@ -142,9 +142,10 @@ SDL3_PREFIX ?= $(SDL3_WINDOWS_DIR)/x86_64-w64-mingw32
 
 ifneq ($(PLATFORM),ps2)
 	ifeq ($(PLATFORM),windows)
+		CLANG_DEFINES += -D_CRT_SECURE_NO_WARNINGS
 		ifeq ($(CROSS_COMPILING),1)
 			# Cross-compiling
-			CLANG_FLAGS += -I"$(SDL3_PREFIX)/include" -D_CRT_SECURE_NO_WARNINGS
+			CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
 			CLANG_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
 		else ifneq ($(IS_WINDOWS_HOST),)
 			# Native MSYS2/MinGW build
@@ -152,7 +153,7 @@ ifneq ($(PLATFORM),ps2)
 			CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
 		else
 			# Native MSVC build (CI)
-			CLANG_FLAGS += -I"$(SDL3_PREFIX)/include" -D_CRT_SECURE_NO_WARNINGS
+			CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
 			CLANG_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
 		endif
 	else
