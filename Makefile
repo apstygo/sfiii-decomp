@@ -67,7 +67,7 @@ ifeq ($(PLATFORM),ps2)
 	CC := $(CCPS2)
 else
 	ifeq ($(CROSS_COMPILING),1)
-		CC := x86_64-w64-mingw32-clang
+		CC := clang --target=x86_64-w64-mingw32
 	else
 		CC := clang
 	endif
@@ -126,8 +126,8 @@ ifeq ($(PLATFORM),windows)
   else ifneq ($(IS_WINDOWS_HOST),)
     # Native MSYS2/MinGW build
     LIBCO_A := libco/build/liblibco.a
-    PLATFORM_CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
-    PLATFORM_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
+    PLATFORM_CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
+    PLATFORM_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
   else
     # Native MSVC build (CI)
     LIBCO_A := libco/build/Debug/libco.lib
