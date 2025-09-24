@@ -259,6 +259,7 @@ $(SDL3_WINDOWS_DIR)/.stamp:
 	@mkdir -p build/deps
 	@wget -O $(SDL3_WINDOWS_TAR) $(SDL3_WINDOWS_URL)
 	@tar -xzf $(SDL3_WINDOWS_TAR) -C build/deps
+	@mv build/deps/SDL3-3.2.22 $(SDL3_WINDOWS_DIR)
 	@touch $@
 
 ifeq ($(CROSS_COMPILING),1)
