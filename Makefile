@@ -123,8 +123,13 @@ ifeq ($(PLATFORM),windows)
     LIBCO_A := libco/build/Debug/libco.lib
     PLATFORM_CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
     PLATFORM_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
+  else ifeq ($(CROSS_COMPILING),1)
+    # Cross-compiling
+    LIBCO_A := libco/build/liblibco.a
+    PLATFORM_CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
+    PLATFORM_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
   else
-    # Cross-compiling or native MSYS2/MinGW build
+    # Native MSYS2/MinGW build
     LIBCO_A := libco/build/liblibco.a
     PLATFORM_CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
     PLATFORM_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
@@ -153,10 +158,12 @@ CLANG_LINKER_FLAGS := $(PLATFORM_LINKER_FLAGS)
 # DLL copy command for Windows builds
 DLL_COPY_COMMAND :=
 ifeq ($(PLATFORM),windows)
-  ifeq ($(CROSS_COMPILING),1)
+  ifeq ($(CI),true)
+    DLL_COPY_COMMAND := @echo "Copying SDL3.dll for CI build..." && cp "$(SDL3_PREFIX)/bin/SDL3.dll" "$(BUILD_DIR)/"
+  else ifeq ($(CROSS_COMPILING),1)
     DLL_COPY_COMMAND := @echo "Copying SDL3.dll for cross-compilation..." && cp "$(SDL3_PREFIX)/bin/SDL3.dll" "$(BUILD_DIR)/"
-  else ifneq ($(IS_WINDOWS_HOST),)
-    DLL_COPY_COMMAND := @echo "Copying SDL3.dll for native build..." && cp /mingw64/bin/SDL3.dll "$(BUILD_DIR)/"
+  else
+    DLL_COPY_COMMAND := @echo "Copying SDL3.dll for native build..." && cp "$(SDL3_PREFIX)/bin/SDL3.dll" "$(BUILD_DIR)/"
   endif
 endif
 
