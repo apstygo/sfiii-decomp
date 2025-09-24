@@ -115,9 +115,14 @@ CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) -std=c99 -O0
 
 ifeq ($(PLATFORM),windows)
   ifeq ($(CROSS_COMPILING),1)
+    # Cross-compiling
+    LIBCO_A := libco/build/liblibco.a
+  else ifneq ($(IS_WINDOWS_HOST),)
+    # Native MSYS2/MinGW build
     LIBCO_A := libco/build/liblibco.a
   else
-    LIBCO_A := libco/build/liblibco.a
+    # Native MSVC build (CI)
+    LIBCO_A := libco/build/Debug/libco.lib
   endif
 else
   LIBCO_A := libco/build/liblibco.a
@@ -129,7 +134,7 @@ else
 CLANG_LINKER_FLAGS := -g -Llibco/build -llibco -lm
 endif
 
-# SDL3 dependency for Windows cross-compilation
+# SDL3 dependency for Windows
 SDL3_WINDOWS_URL := https://github.com/libsdl-org/SDL/releases/download/release-3.2.22/SDL3-devel-3.2.22-mingw.tar.gz
 SDL3_WINDOWS_DIR := build/deps/SDL3-windows
 SDL3_WINDOWS_TAR := build/deps/SDL3-devel-3.2.22-mingw.tar.gz
@@ -137,9 +142,21 @@ SDL3_PREFIX ?= $(SDL3_WINDOWS_DIR)/x86_64-w64-mingw32
 
 ifneq ($(PLATFORM),ps2)
 	ifeq ($(PLATFORM),windows)
-		CLANG_FLAGS += -I"$(SDL3_PREFIX)/include" -D_CRT_SECURE_NO_WARNINGS
-		CLANG_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
+		ifeq ($(CROSS_COMPILING),1)
+			# Cross-compiling
+			CLANG_FLAGS += -I"$(SDL3_PREFIX)/include" -D_CRT_SECURE_NO_WARNINGS
+			CLANG_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
+		else ifneq ($(IS_WINDOWS_HOST),)
+			# Native MSYS2/MinGW build
+			CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
+			CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
+		else
+			# Native MSVC build (CI)
+			CLANG_FLAGS += -I"$(SDL3_PREFIX)/include" -D_CRT_SECURE_NO_WARNINGS
+			CLANG_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
+		endif
 	else
+		# macOS or Linux
 		CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
 		CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
 	endif
@@ -227,6 +244,13 @@ ifeq ($(PLATFORM),windows)
 	@find build -name '*.o' > $(BUILD_DIR)/objects.txt
 	@echo $(LIBCO_A) >> $(BUILD_DIR)/objects.txt
 	$(CC) @$(BUILD_DIR)/objects.txt $(CLANG_LINKER_FLAGS) -o $@
+	ifeq ($(CROSS_COMPILING),1)
+		@echo "Copying SDL3.dll for cross-compilation..."
+		@cp "$(SDL3_PREFIX)/bin/SDL3.dll" "$(BUILD_DIR)/"
+	else ifneq ($(IS_WINDOWS_HOST),)
+		@echo "Copying SDL3.dll for native build..."
+		@cp /mingw64/bin/SDL3.dll "$(BUILD_DIR)/"
+	endif
 else
 	$(CC) $(ALL_O_FILES) $(LIBCO_A) $(CLANG_LINKER_FLAGS) -o $@
 endif
