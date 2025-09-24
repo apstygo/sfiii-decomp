@@ -170,7 +170,11 @@ endif
 MAIN_TARGET := $(BUILD_DIR)/$(MAIN)
 
 S_FILES := $(shell find $(ASM_DIR) -name '*.s' -not -path *nonmatchings* 2>/dev/null)
+ifeq ($(PLATFORM),ps2)
 GAME_C_FILES := $(shell find $(SRC_DIR)/sf33rd -name '*.c' 2>/dev/null)
+else
+GAME_C_FILES := $(shell find $(SRC_DIR)/sf33rd -name '*.c' -not -path "*/AcrSDK/ps2/*" 2>/dev/null)
+endif
 CRI_C_FILES := $(shell find $(SRC_DIR)/cri -name '*.c' 2>/dev/null)
 BIN2OBJ_C_FILES := $(shell find $(SRC_DIR)/bin2obj -name '*.c' 2>/dev/null)
 PORT_C_FILES := $(shell find $(SRC_DIR)/port -name '*.c' 2>/dev/null)
