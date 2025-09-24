@@ -12,6 +12,8 @@
 #include <cri/sj.h>
 
 #include <memory.h>
+#include <stdio.h>
+#include <string.h>
 
 typedef struct {
     /* 0x000 */ struct _adxf_ptinfo *next;
