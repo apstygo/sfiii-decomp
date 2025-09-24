@@ -132,7 +132,7 @@ endif
 # SDL3 dependency for Windows cross-compilation
 SDL3_WINDOWS_URL := https://github.com/libsdl-org/SDL/releases/download/release-3.2.22/SDL3-devel-3.2.22-mingw.tar.gz
 SDL3_WINDOWS_TAR := build/deps/SDL3-devel-3.2.22-mingw.tar.gz
-SDL3_WINDOWS_DIR := build/deps/SDL3-devel-3.2.22-mingw
+SDL3_WINDOWS_DIR := build/deps/SDL3-3.2.22
 SDL3_PREFIX ?= $(SDL3_WINDOWS_DIR)/x86_64-w64-mingw32
 
 ifneq ($(PLATFORM),ps2)
