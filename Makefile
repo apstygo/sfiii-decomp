@@ -188,8 +188,7 @@ else
 
 $(MAIN_TARGET): $(ALL_O_FILES) $(LIBCO_A)
 ifeq ($(PLATFORM),windows)
-	@> $(BUILD_DIR)/objects.txt
-	@for obj in $(ALL_O_FILES); do echo $$obj >> $(BUILD_DIR)/objects.txt; done
+	@find build -name '*.o' > $(BUILD_DIR)/objects.txt
 	@echo $(LIBCO_A) >> $(BUILD_DIR)/objects.txt
 	clang @$(BUILD_DIR)/objects.txt $(CLANG_LINKER_FLAGS) -o $@
 else
