@@ -2,6 +2,17 @@ PLATFORM ?= ps2
 VERSION ?= anniversary
 
 OS := $(shell uname -s)
+IS_WINDOWS_HOST := $(findstring MINGW,$(OS))$(findstring CYGWIN,$(OS))
+
+CROSS_COMPILING :=
+ifeq ($(PLATFORM),windows)
+  ifneq ($(IS_WINDOWS_HOST),)
+    # Native Windows build
+  else
+    # Cross-compiling from non-Windows
+    CROSS_COMPILING := 1
+  endif
+endif
 
 ifeq ($(OS)_$(PLATFORM),Darwin_ps2)
 $(error Can't build for PS2 on macOS. Did you mean 'make PLATFORM=macos'?)
@@ -51,6 +62,17 @@ EEGCC := $(BIN_DIR)/ee/bin/gcc
 CCPS2 := MWCIncludes=$(BIN_DIR) $(WIBO) $(MWCCPS2)
 
 CC := $(CCPS2)
+
+ifeq ($(PLATFORM),ps2)
+	CC := $(CCPS2)
+else
+	ifeq ($(CROSS_COMPILING),1)
+		CC := x86_64-w64-mingw32-clang
+	else
+		CC := clang
+	endif
+endif
+
 AS := mipsel-linux-gnu-as
 LD := $(MWLDPS2)
 
@@ -92,10 +114,15 @@ CLANG_INCLUDES := $(COMMON_INCLUDES) -Ilibco
 CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) -std=c99 -O0
 
 ifeq ($(PLATFORM),windows)
-LIBCO_A := libco/build/Debug/libco.lib
+  ifeq ($(CROSS_COMPILING),1)
+    LIBCO_A := libco/build/libco.a
+  else
+    LIBCO_A := libco/build/Debug/libco.lib
+  endif
 else
-LIBCO_A := libco/build/liblibco.a
+  LIBCO_A := libco/build/liblibco.a
 endif
+
 
 ifeq ($(PLATFORM),windows)
 CLANG_LINKER_FLAGS := -g
@@ -194,21 +221,27 @@ $(MAIN_TARGET): $(ALL_O_FILES) $(LIBCO_A)
 ifeq ($(PLATFORM),windows)
 	@find build -name '*.o' > $(BUILD_DIR)/objects.txt
 	@echo $(LIBCO_A) >> $(BUILD_DIR)/objects.txt
-	clang @$(BUILD_DIR)/objects.txt $(CLANG_LINKER_FLAGS) -o $@
+	$(CC) @$(BUILD_DIR)/objects.txt $(CLANG_LINKER_FLAGS) -o $@
 else
-	clang $(ALL_O_FILES) $(LIBCO_A) $(CLANG_LINKER_FLAGS) -o $@
+	$(CC) $(ALL_O_FILES) $(LIBCO_A) $(CLANG_LINKER_FLAGS) -o $@
 endif
+
 
 $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)
-	clang -g -c $< -o $@ $(CLANG_FLAGS)
+	$(CC) -g -c $< -o $@ $(CLANG_FLAGS)
+
+CMAKE_CMD = cmake ..
+ifeq ($(CROSS_COMPILING),1)
+CMAKE_CMD = cmake .. -DCMAKE_TOOLCHAIN_FILE=../../tools/toolchain-windows.cmake
+endif
 
 $(LIBCO_A):
 	@mkdir -p $(dir $@)
 	cd libco && \
 		mkdir -p build && \
 		cd build && \
-		cmake .. && \
+		$(CMAKE_CMD) && \
 		cmake --build .
 
 endif
