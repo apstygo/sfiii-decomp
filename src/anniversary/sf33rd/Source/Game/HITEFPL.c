@@ -55,12 +55,12 @@ void effect_at_vs_player_dm(s16 ix2, s16 ix) {
     }
 
     as->wu.at_ten_ix = remake_score_index(ds->wu.dm_vital);
-    cal_combo_waribiki((PLW *)as, (PLW *)ds);
+    cal_combo_waribiki((PLW *)as, ds);
     cal_dm_vital_gauge_hosei(ds);
-    cal_combo_waribiki2((PLW *)ds);
+    cal_combo_waribiki2(ds);
     as->wu.dm_vital = 256;
     ds->atemi_flag = 0;
-    plef_at_vs_player_damage_union((PLW *)as, (PLW *)ds, gddir);
+    plef_at_vs_player_damage_union((PLW *)as, ds, gddir);
 }
 
 void setup_dm_rl_pldm(WORK *as, WORK *ds) {
