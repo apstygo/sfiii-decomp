@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#if !defined(TARGET_PS2)
+#if !defined(TARGET_PS2) && !defined(_WIN32)
 #include <ctype.h>
 
 s8 *strupr(s8 *s) {
@@ -75,7 +75,11 @@ s32 flFileRead(s8 *filename, void *buf, s32 len) {
     strcpy(temp, "cdrom0:\\THIRD\\");
     p = strlen(temp) + temp;
     strcat(temp, filename);
+#ifdef _WIN32
+    _strupr(p);
+#else
     strupr(p);
+#endif
     strcat(temp, ";1");
 
     ADXM_Lock();
@@ -101,7 +105,11 @@ s32 flFileWrite(s8 *filename, void *buf, s32 len) {
     strcpy(temp, "cdrom0:\\THIRD\\");
     p = strlen(temp) + temp;
     strcat(temp, filename);
+#ifdef _WIN32
+    _strupr(p);
+#else
     strupr(p);
+#endif
     strcat(temp, ";1");
     ADXM_Lock();
 
@@ -124,7 +132,11 @@ s32 flFileAppend(s8 *filename, void *buf, ssize_t len) {
     strcpy(temp, "cdrom0:\\THIRD\\");
     p = strlen(temp) + temp;
     strcat(temp, filename);
+#ifdef _WIN32
+    _strupr(p);
+#else
     strupr(p);
+#endif
     strcat(temp, ";1");
     ADXM_Lock();
 
@@ -149,7 +161,11 @@ s32 flFileLength(s8 *filename) {
     strcpy(temp, "cdrom0:\\THIRD\\");
     p = strlen(temp) + temp;
     strcat(temp, filename);
+#ifdef _WIN32
+    _strupr(p);
+#else
     strupr(p);
+#endif
     strcat(temp, ";1");
     ADXM_Lock();
 
