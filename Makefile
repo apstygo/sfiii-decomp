@@ -111,25 +111,60 @@ CLANG_WARNINGS += -Wno-shift-count-overflow
 
 CLANG_DEFINES := -DTARGET_SDL3 -DSOUND_DISABLED -DXPT_TGT_EE -D_POSIX_C_SOURCE -DDEBUG
 CLANG_INCLUDES := $(COMMON_INCLUDES) -Ilibco
-CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) -std=c99 -O0
 
-LIBCO_A := libco/build/liblibco.a
-CLANG_LINKER_FLAGS := -g -Llibco/build -llibco -lm
+# Platform-specific flags and libraries
+PLATFORM_CLANG_FLAGS :=
+PLATFORM_LINKER_FLAGS := -g
 
-# SDL3 dependency for Windows cross-compilation
+ifeq ($(PLATFORM),windows)
+  PLATFORM_CLANG_FLAGS += -D_CRT_SECURE_NO_WARNINGS
+  ifeq ($(CI),true)
+    # Native MSVC build (CI)
+    LIBCO_A := libco/build/Debug/libco.lib
+    PLATFORM_CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
+    PLATFORM_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
+  else ifeq ($(CROSS_COMPILING),1)
+    # Cross-compiling
+    LIBCO_A := libco/build/liblibco.a
+    PLATFORM_CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
+    PLATFORM_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
+  else
+    # Native MSYS2/MinGW build
+    LIBCO_A := libco/build/liblibco.a
+    PLATFORM_CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
+    PLATFORM_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
+  endif
+else ifneq ($(PLATFORM),ps2)
+  # macOS or Linux
+  LIBCO_A := libco/build/liblibco.a
+  PLATFORM_CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
+  PLATFORM_LINKER_FLAGS += -Llibco/build -llibco -lm
+  PLATFORM_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
+else
+  # PS2
+  LIBCO_A :=
+endif
+
+# SDL3 dependency for Windows
 SDL3_WINDOWS_URL := https://github.com/libsdl-org/SDL/releases/download/release-3.2.22/SDL3-devel-3.2.22-mingw.tar.gz
 SDL3_WINDOWS_DIR := build/deps/SDL3-windows
 SDL3_WINDOWS_TAR := build/deps/SDL3-devel-3.2.22-mingw.tar.gz
 SDL3_PREFIX ?= $(SDL3_WINDOWS_DIR)/x86_64-w64-mingw32
 
-ifneq ($(PLATFORM),ps2)
-	ifeq ($(PLATFORM),windows)
-		CLANG_FLAGS += -I"$(SDL3_PREFIX)/include" -D_CRT_SECURE_NO_WARNINGS
-		CLANG_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
-	else
-		CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
-		CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
-	endif
+# Finalize flags
+CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) $(PLATFORM_CLANG_FLAGS) -std=c99 -O0
+CLANG_LINKER_FLAGS := $(PLATFORM_LINKER_FLAGS)
+
+# DLL copy command for Windows builds
+DLL_COPY_COMMAND :=
+ifeq ($(PLATFORM),windows)
+  ifeq ($(CI),true)
+    DLL_COPY_COMMAND := @echo "Copying SDL3.dll for CI build..." && cp "$(SDL3_PREFIX)/bin/SDL3.dll" "$(BUILD_DIR)/"
+  else ifeq ($(CROSS_COMPILING),1)
+    DLL_COPY_COMMAND := @echo "Copying SDL3.dll for cross-compilation..." && cp "$(SDL3_PREFIX)/bin/SDL3.dll" "$(BUILD_DIR)/"
+  else
+    DLL_COPY_COMMAND := @echo "Copying SDL3.dll for native build..." && cp "$(SDL3_PREFIX)/bin/SDL3.dll" "$(BUILD_DIR)/"
+  endif
 endif
 
 # Files
@@ -137,11 +172,7 @@ endif
 MAIN_TARGET := $(BUILD_DIR)/$(MAIN)
 
 S_FILES := $(shell find $(ASM_DIR) -name '*.s' -not -path *nonmatchings* 2>/dev/null)
-ifeq ($(PLATFORM),ps2)
 GAME_C_FILES := $(shell find $(SRC_DIR)/sf33rd -name '*.c' 2>/dev/null)
-else
-GAME_C_FILES := $(shell find $(SRC_DIR)/sf33rd -name '*.c' -not -path "*/AcrSDK/ps2/*" 2>/dev/null)
-endif
 CRI_C_FILES := $(shell find $(SRC_DIR)/cri -name '*.c' 2>/dev/null)
 BIN2OBJ_C_FILES := $(shell find $(SRC_DIR)/bin2obj -name '*.c' 2>/dev/null)
 PORT_C_FILES := $(shell find $(SRC_DIR)/port -name '*.c' 2>/dev/null)
@@ -218,6 +249,7 @@ ifeq ($(PLATFORM),windows)
 	@find build -name '*.o' > $(BUILD_DIR)/objects.txt
 	@echo $(LIBCO_A) >> $(BUILD_DIR)/objects.txt
 	$(CC) @$(BUILD_DIR)/objects.txt $(CLANG_LINKER_FLAGS) -o $@
+	$(DLL_COPY_COMMAND)
 else
 	$(CC) $(ALL_O_FILES) $(LIBCO_A) $(CLANG_LINKER_FLAGS) -o $@
 endif
