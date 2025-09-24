@@ -953,13 +953,75 @@ s16 check_dm_att_blocking(WORK *as, WORK *ds, s16 dnum) {
     return rnum;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/HITCHECK", set_damage_and_piyo);
-#else
 void set_damage_and_piyo(PLW *as, PLW *ds) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 remake_score_index(s32 dmv);
 #endif
+
+    cal_damage_vitality(as, ds);
+    ds->wu.dm_piyo = _add_piyo_gauge[as->player_number][as->wu.att.piyo];
+    ds->wu.dm_piyo = ds->wu.dm_piyo * stun_gauge_omake[omop_stun_gauge_add[(ds->wu.id + 1) & 1]] / 32;
+
+    if ((ds->wu.pat_status == 32 || ds->wu.pat_status == 3) || ds->wu.pat_status == 25) {
+        ds->wu.dm_vital = (ds->wu.dm_vital * 125) / 100;
+    } else if (ds->wu.pat_status == 7 || ds->wu.pat_status == 23 || ds->wu.pat_status == 35) {
+        ds->wu.dm_vital = (ds->wu.dm_vital * 150) / 100;
+    } else if (ds->wu.pat_status == 1 || ds->wu.pat_status == 21 || ds->wu.pat_status == 37) {
+        ds->wu.dm_vital *= 2;
+    }
+
+    if (ds->wu.dm_vital) {
+        if (as->wu.routine_no[1] == 2) {
+            ds->wu.dm_vital = (ds->wu.dm_vital) * (as->tk_nage + 32) / 32;
+
+            if ((as->tk_nage -= 2) < 0) {
+                as->tk_nage = 0;
+            }
+        }
+
+        if (as->wu.routine_no[1] == 4) {
+            ds->wu.dm_vital = (ds->wu.dm_vital) * (as->tk_dageki + 32) / 32;
+
+            if ((as->tk_dageki -= 2) < 0) {
+                as->tk_dageki = 0;
+            }
+        }
+
+        ds->utk_nage = as->tk_nage;
+        ds->utk_dageki = as->tk_dageki;
+    }
+
+    if (ds->wu.dm_piyo) {
+        ds->wu.dm_piyo = ds->wu.dm_piyo * (as->tk_kizetsu + 32) / 32;
+
+        if ((as->tk_kizetsu -= 2) < 0) {
+            as->tk_kizetsu = 0;
+        }
+
+        ds->utk_kizetsu = as->tk_kizetsu;
+    }
+
+    as->wu.at_ten_ix = remake_score_index(ds->wu.dm_vital);
+    cal_combo_waribiki(as, ds);
+    cal_dm_vital_gauge_hosei(ds);
+    cal_combo_waribiki2(ds);
+
+    if (as->wu.work_id != 1) {
+        return;
+    }
+
+    switch (as->dm_vital_use) {
+    case 1:
+        ds->wu.dm_vital += as->dm_vital_backup;
+        as->dm_vital_backup = 0;
+        break;
+
+    case 2:
+        as->dm_vital_backup /= 2;
+        ds->wu.dm_vital += as->dm_vital_backup;
+        break;
+    }
+}
 
 s16 remake_score_index(s16 dmv) {
     s16 i;
