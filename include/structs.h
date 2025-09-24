@@ -2879,11 +2879,4 @@ typedef struct {
     const s16 *adrs; // offset 0x4, size 0x4
 } ColorCode;
 
-typedef struct {
-    // total size: 0x6
-    s16 r_no;    // offset 0x0, size 0x2
-    s16 char_ix; // offset 0x2, size 0x2
-    s16 data_ix; // offset 0x4, size 0x2
-} asstbl_elem;
-
 #endif
