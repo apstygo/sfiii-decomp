@@ -231,9 +231,16 @@ else
 	$(CC) $(ALL_O_FILES) $(LIBCO_A) $(CLANG_LINKER_FLAGS) -o $@
 endif
 
+ifeq ($(CROSS_COMPILING),1)
+$(BUILD_DIR)/%.c.o: %.c $(SDL3_WINDOWS_DIR)/.stamp
+	@mkdir -p $(dir $@)
+	$(CC) -g -c $< -o $@ $(CLANG_FLAGS)
+else
 $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)
 	$(CC) -g -c $< -o $@ $(CLANG_FLAGS)
+endif
+
 
 CMAKE_CMD = cmake ..
 ifeq ($(CROSS_COMPILING),1)
