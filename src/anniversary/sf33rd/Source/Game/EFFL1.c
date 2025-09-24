@@ -37,7 +37,13 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFL1", gj_loser
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFL1", gj_bar2);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFL1", effect_L1_move);
+#else
+void effect_L1_move(WORK_Other_CONN *ewk) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFL1", effL1_trans);
 
