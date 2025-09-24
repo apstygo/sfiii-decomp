@@ -69,6 +69,7 @@
 #include "sf33rd/Source/Game/EFF85.h"
 #include "sf33rd/Source/Game/EFF86.h"
 #include "sf33rd/Source/Game/EFF87.h"
+#include "sf33rd/Source/Game/EFF90.h"
 #include "sf33rd/Source/Game/EFF92.h"
 #include "sf33rd/Source/Game/EFF96.h"
 #include "sf33rd/Source/Game/EFF98.h"
@@ -277,7 +278,7 @@ const void (*effmovejptbl[229])() = {
     effect_87_move,
     effect_dummy_move,
     effect_dummy_move,
-    NULL, // effect_90_move
+    effect_90_move,
     effect_91_move,
     effect_92_move,
     effect_93_move,

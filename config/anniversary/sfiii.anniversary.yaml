@@ -281,7 +281,7 @@ segments:
       - [0x0F9830, c, sf33rd/Source/Game/EFF85]
       - [0x0FA390, c, sf33rd/Source/Game/EFF86]
       - [0x0FA780, c, sf33rd/Source/Game/EFF87]
-      - [0x0FA790, asm, sf33rd/Source/Game/EFF90]
+      - [0x0FA790, c, sf33rd/Source/Game/EFF90]
       - [0x0FAAA0, c, sf33rd/Source/Game/eff91]
       - [0x0FAEB0, c, sf33rd/Source/Game/EFF92]
       - [0x0FB230, c, sf33rd/Source/Game/Eff93]
