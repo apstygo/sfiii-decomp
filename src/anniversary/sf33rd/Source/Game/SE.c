@@ -79,6 +79,10 @@ void Se_Dummy(WORK_Other *ewk, u16 Code) {
 }
 
 void Se_Shock(WORK_Other *ewk, u16 Code) {
+#if defined(SOUND_DISABLED)
+    return;
+#endif
+
     PLW *em;
     s16 xx;
     s16 zz;
