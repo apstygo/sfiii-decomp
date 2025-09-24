@@ -100,5 +100,25 @@ int sceVibGetProfile(int socket_number, unsigned char *profile) {
 }
 
 int sceVibSetActParam(int socket_number, int profile_size, unsigned char *profile, int data_size, unsigned char *data) {
-    not_implemented(__func__);
+    s32 profile_val;
+
+    if (profile_size == 0) {
+        return 1;
+    }
+
+    profile_val = *profile;
+
+    if (profile_val == 0) {
+        return 1;
+    }
+
+    if (data_size == 0) {
+        return 1;
+    }
+
+    if (SDL_RumbleGamepad(SDLPad_GetGamepad(socket_number), data[0] * 0xFF, data[1] * 0xFF, 0) == 0) {
+        return 1;
+    }
+
+    return 0;
 }
