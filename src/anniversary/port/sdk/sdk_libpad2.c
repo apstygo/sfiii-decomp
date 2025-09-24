@@ -1,267 +1,104 @@
+#include "common.h"
 #include "port/sdl/sdl_pad.h"
 
-#include <SDL3/SDL.h>
+#include <libpad2.h>
 
-#define INPUT_SOURCES_MAX 2
+#include <string.h>
 
-typedef enum SDLPad_InputType { SDLPAD_INPUT_NONE = 0, SDLPAD_INPUT_GAMEPAD, SDLPAD_INPUT_KEYBOARD } SDLPad_InputType;
-
-typedef struct SDLPad_GamepadInputSource {
-    Uint32 type;
-    SDL_Gamepad *gamepad;
-} SDLPad_GamepadInputSource;
-
-typedef struct SDLPad_KeyboardInputSource {
-    Uint32 type;
-} SDLPad_KeyboardInputSource;
-
-typedef union SDLPad_InputSource {
-    Uint32 type;
-    SDLPad_GamepadInputSource gamepad;
-    SDLPad_KeyboardInputSource keyboard;
-} SDLPad_InputSource;
-
-static SDLPad_InputSource input_sources[INPUT_SOURCES_MAX] = { 0 };
-static int connected_input_sources = 0;
-static SDLPad_ButtonState button_state[INPUT_SOURCES_MAX] = { 0 };
-
-static int input_source_index_from_joystick_id(SDL_JoystickID id) {
-    for (int i = 0; i < INPUT_SOURCES_MAX; i++) {
-        const SDLPad_InputSource *input_source = &input_sources[i];
-
-        if (input_source->type != SDLPAD_INPUT_GAMEPAD) {
-            continue;
-        }
-
-        const SDL_JoystickID this_id = SDL_GetGamepadID(input_source->gamepad.gamepad);
-
-        if (this_id == id) {
-            return i;
-        }
-    }
-
-    return -1;
+int scePad2Init(int mode) {
+    // Do nothing
+    return 1;
 }
 
-static void handle_gamepad_added_event(SDL_GamepadDeviceEvent *event) {
-    if (connected_input_sources >= INPUT_SOURCES_MAX) {
-        return;
-    }
-
-    const SDL_Gamepad *gamepad = SDL_OpenGamepad(event->which);
-
-    for (int i = 0; i < INPUT_SOURCES_MAX; i++) {
-        SDLPad_InputSource *input_source = &input_sources[i];
-
-        if (input_source->type != SDLPAD_INPUT_NONE) {
-            continue;
-        }
-
-        input_source->type = SDLPAD_INPUT_GAMEPAD;
-        input_source->gamepad.gamepad = gamepad;
-        break;
-    }
-
-    connected_input_sources += 1;
+int scePad2End(void) {
+    not_implemented(__func__);
 }
 
-static void handle_gamepad_removed_event(SDL_GamepadDeviceEvent *event) {
-    const int index = input_source_index_from_joystick_id(event->which);
-
-    if (index < 0) {
-        return;
-    }
-
-    SDLPad_InputSource *input_source = &input_sources[index];
-    SDL_CloseGamepad(input_source->gamepad.gamepad);
-    input_source->type = SDLPAD_INPUT_NONE;
-    memset(&button_state[index], 0, sizeof(SDLPad_ButtonState));
-    connected_input_sources -= 1;
+int scePad2GetState(int socket_number) {
+    return SDLPad_IsGamepadConnected(socket_number) ? scePad2StateStable : scePad2StateNoLink;
 }
 
-void SDLPad_Init() {
-    input_sources[0].type = SDLPAD_INPUT_KEYBOARD;
-    connected_input_sources += 1;
+int scePad2GetButtonProfile(int socket_number, unsigned char *profile) {
+    // Profile for Digital controller
+    // profile[0] = 0xF9;
+    // profile[1] = 0xFF;
+    // profile[2] = 0;
+    // profile[3] = 0;
+
+    // Profile for Dualshock 2
+    profile[0] = 0xFF;
+    profile[1] = 0xFF;
+    profile[2] = 0xFF;
+    profile[3] = 0xFF;
+
+    return 4;
 }
 
-void SDLPad_HandleGamepadDeviceEvent(SDL_GamepadDeviceEvent *event) {
-    switch (event->type) {
-    case SDL_EVENT_GAMEPAD_ADDED:
-        handle_gamepad_added_event(event);
-        break;
+int scePad2Read(int socket_number, scePad2ButtonState *data) {
+    memset(data, 0, sizeof(scePad2ButtonState));
 
-    case SDL_EVENT_GAMEPAD_REMOVED:
-        handle_gamepad_removed_event(event);
-        break;
+    SDLPad_ButtonState button_state;
+    SDLPad_GetButtonState(socket_number, &button_state);
 
-    default:
-        // Do nothing
-        break;
-    }
+    // sw0 and sw1 store the pressed state of each button as bits.
+    // 0 = pressed, 1 = released
+
+    data->sw0.byte = 0xFF;
+    data->sw1.byte = 0xFF;
+
+    data->sw0.bits.l3 = !button_state.left_stick;
+    data->sw0.bits.r3 = !button_state.right_stick;
+    data->sw0.bits.select = !button_state.back;
+    data->sw0.bits.start = !button_state.start;
+    data->sw0.bits.left = !button_state.dpad_left;
+    data->sw0.bits.right = !button_state.dpad_right;
+    data->sw0.bits.up = !button_state.dpad_up;
+    data->sw0.bits.down = !button_state.dpad_down;
+
+    data->sw1.bits.l1 = !button_state.left_shoulder;
+    data->sw1.bits.r1 = !button_state.right_shoulder;
+    data->sw1.bits.l2 = button_state.left_trigger == 0;
+    data->sw1.bits.r2 = button_state.right_trigger == 0;
+    data->sw1.bits.cross = !button_state.south;
+    data->sw1.bits.circle = !button_state.east;
+    data->sw1.bits.square = !button_state.west;
+    data->sw1.bits.triangle = !button_state.north;
+
+    // This sets stick positions
+    // (Sticks are not supported yet, that's why we just set positions to neutral)
+
+    data->lJoyH = 0x7F;
+    data->lJoyV = 0x7F;
+    data->rJoyH = 0x7F;
+    data->rJoyV = 0x7F;
+
+    // This sets button pressure
+
+    data->crossP = button_state.south ? 0xFF : 0;
+    data->circleP = button_state.east ? 0xFF : 0;
+    data->squareP = button_state.west ? 0xFF : 0;
+    data->triangleP = button_state.north ? 0xFF : 0;
+    data->upP = button_state.dpad_up ? 0xFF : 0;
+    data->downP = button_state.dpad_down ? 0xFF : 0;
+    data->leftP = button_state.dpad_left ? 0xFF : 0;
+    data->rightP = button_state.dpad_right ? 0xFF : 0;
+
+    return sizeof(scePad2ButtonState);
 }
 
-void SDLPad_HandleGamepadButtonEvent(SDL_GamepadButtonEvent *event) {
-    const int index = input_source_index_from_joystick_id(event->which);
-
-    if (index < 0) {
-        return;
-    }
-
-    SDLPad_ButtonState *state = &button_state[index];
-
-    switch (event->button) {
-    case SDL_GAMEPAD_BUTTON_SOUTH:
-        state->south = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_EAST:
-        state->east = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_WEST:
-        state->west = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_NORTH:
-        state->north = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_BACK:
-        state->back = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_START:
-        state->start = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_LEFT_STICK:
-        state->left_stick = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_RIGHT_STICK:
-        state->right_stick = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_LEFT_SHOULDER:
-        state->left_shoulder = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_RIGHT_SHOULDER:
-        state->right_shoulder = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_DPAD_UP:
-        state->dpad_up = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_DPAD_DOWN:
-        state->dpad_down = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_DPAD_LEFT:
-        state->dpad_left = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_DPAD_RIGHT:
-        state->dpad_right = event->down;
-        break;
-    }
+int scePad2CreateSocket(scePad2SocketParam *socket, void *addr) {
+    return socket->port;
 }
 
-void SDLPad_HandleGamepadAxisMotionEvent(SDL_GamepadAxisEvent *event) {
-    const int index = input_source_index_from_joystick_id(event->which);
-
-    if (index < 0) {
-        return;
-    }
-
-    SDLPad_ButtonState *state = &button_state[index];
-
-    switch (event->axis) {
-    case SDL_GAMEPAD_AXIS_LEFT_TRIGGER:
-        state->left_trigger = event->value;
-        break;
-
-    case SDL_GAMEPAD_AXIS_RIGHT_TRIGGER:
-        state->right_trigger = event->value;
-        break;
-    }
+int scePad2DeleteSocket(int) {
+    not_implemented(__func__);
 }
 
-void SDLPad_HandleKeyboardEvent(SDL_KeyboardEvent *event) {
-    SDLPad_ButtonState *state = &button_state[0];
-
-    switch (event->key) {
-    case SDLK_W:
-        state->dpad_up = event->down;
-        break;
-
-    case SDLK_A:
-        state->dpad_left = event->down;
-        break;
-
-    case SDLK_S:
-        state->dpad_down = event->down;
-        break;
-
-    case SDLK_D:
-        state->dpad_right = event->down;
-        break;
-
-    case SDLK_I:
-        state->north = event->down;
-        break;
-
-    case SDLK_J:
-        state->west = event->down;
-        break;
-
-    case SDLK_K:
-        state->south = event->down;
-        break;
-
-    case SDLK_L:
-        state->east = event->down;
-        break;
-
-    case SDLK_Q:
-        state->left_shoulder = event->down;
-        break;
-
-    case SDLK_E:
-        state->right_shoulder = event->down;
-        break;
-
-    case SDLK_1:
-        state->left_trigger = event->down ? SDL_MAX_SINT16 : 0;
-        break;
-
-    case SDLK_3:
-        state->right_trigger = event->down ? SDL_MAX_SINT16 : 0;
-        break;
-
-    case SDLK_2:
-        state->left_stick = event->down;
-        break;
-
-    case SDLK_4:
-        state->right_stick = event->down;
-        break;
-
-    case SDLK_BACKSPACE:
-        state->back = event->down;
-        break;
-
-    case SDLK_RETURN:
-        state->start = event->down;
-        break;
-    }
+int sceVibGetProfile(int socket_number, unsigned char *profile) {
+    profile[0] = 3; // Small and big motor
+    return 1;
 }
 
-bool SDLPad_IsGamepadConnected(int id) {
-    return input_sources[id].type != SDLPAD_INPUT_NONE;
-}
-
-void SDLPad_GetButtonState(int id, SDLPad_ButtonState *state) {
-    memcpy(state, &button_state[id], sizeof(SDLPad_ButtonState));
+int sceVibSetActParam(int socket_number, int profile_size, unsigned char *profile, int data_size, unsigned char *data) {
+    not_implemented(__func__);
 }
