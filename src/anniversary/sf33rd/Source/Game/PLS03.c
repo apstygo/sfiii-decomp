@@ -1,11 +1,21 @@
 #include "sf33rd/Source/Game/PLS03.h"
+#include "bin2obj/asstbl.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
+#include "sf33rd/Source/Game/CMD_MAIN.h"
+#include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/Grade.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/PulPul.h"
+#include "sf33rd/Source/Game/SysDir.h"
 #include "sf33rd/Source/Game/workuser.h"
+
+// Forward decls
+
+extern const s16 cmdshot_conv_tbl[32];
+
+u16 decode_wst_data(PLW *wk, u16 cmd, s16 cmd_ex);
 
 void hissatsu_setup_union(PLW *wk, s16 rno) {
     wk->wu.routine_no[1] = 4;
@@ -26,21 +36,267 @@ s16 cmdixconv(s16 ix) {
     return cmdixconv_table[ix - 20];
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", check_full_gauge_attack);
-#else
 s32 check_full_gauge_attack(PLW *wk, s8 always) {
-    not_implemented(__func__);
-}
-#endif
+    u16 *conpane;
+    s16 j;
+    u16 cusw;
+    u16 exsw;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", check_full_gauge_attack2);
-#else
-s32 check_full_gauge_attack2(PLW *wk, s8 always) {
-    not_implemented(__func__);
+    if (wk->sa->mp != 1) {
+        return 0;
+    }
+
+    if (pcon_dp_flag) {
+        return 0;
+    }
+
+    if (((Bonus_Game_Flag == 0x14) && (wk->bs2_on_car)) || (wk->wu.xyz[1].disp.pos <= 0)) {
+        if (wk->spmv_ng_flag & 0x40000000) {
+            return 0;
+        }
+
+        if (wk->sa->exsa_g_ix == 0) {
+            return 0;
+        }
+
+        if (wk->sa->exsa_g_ix > 0x1C) {
+            return 0;
+        }
+
+        if (always && !(wk->cp->btix[wk->sa->exsa_g_ix] & 0x100)) {
+            return 0;
+        }
+
+        if ((wk->spmv_ng_flag2 & 0x800000) && (chainex_check[wk->wu.id][wk->sa->exsa_g_ix - 20])) {
+            return 0;
+        }
+
+        if (wk->cancel_timer == 0) {
+            wk->permited_koa |= 0x40;
+        }
+
+        conpane = &wk->cp->sw_lvbt;
+
+        if (wk->cp->waza_flag[wk->sa->exsa_g_ix] == -1) {
+            return 0;
+        }
+
+        if (((wk->cp->btix[wk->sa->exsa_g_ix] & 0xFF) != 0x80) && (wk->cp->waza_flag[wk->sa->exsa_g_ix])) {
+            cusw = conpane[wk->cp->btix[wk->sa->exsa_g_ix] & 0xFF];
+
+            for (j = 3; j >= 0; j--) {
+                if ((j == 3) && !(wk->cp->btix[wk->sa->exsa_g_ix] & 0x600)) {
+                    continue;
+                }
+
+                exsw = cusw & cmdshot_conv_tbl[wk->cp->exdt[wk->sa->exsa_g_ix][j]];
+
+                if (exsw == cmdshot_conv_tbl[wk->cp->exdt[wk->sa->exsa_g_ix][j] & 0xF]) {
+                    setup_comm_back(&wk->wu);
+                    wk->as = &_assadr_lv_9900[wk->player_number][cmdixconv(wk->sa->exsa_g_ix)]
+                                             [j + ((wk->sa->exsa_g_ix - 20) * 4)];
+                    wk->wu.cg_cancel = 0;
+                    wk->sa->mp = -1;
+                    hissatsu_setup_union(wk, wk->cp->waza_r[wk->sa->exsa_g_ix][j]);
+                    waza_compel_all_init2(wk);
+                    chainex_check[wk->wu.id][wk->sa->exsa_g_ix - 20] = 1;
+                    chainex_spat_cancel_kidou(&wk->wu);
+                    return 1;
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    if (wk->spmv_ng_flag & 0x80000000) {
+        return 0;
+    }
+
+    if (wk->sa->exsa_a_ix == 0) {
+        return 0;
+    }
+
+    if ((wk->sa->exsa_a_ix) < 0x1C) {
+        return 0;
+    }
+
+    if (always && !(wk->cp->btix[wk->sa->exsa_a_ix] & 0x100)) {
+        return 0;
+    }
+
+    if ((wk->spmv_ng_flag2 & 0x800000) && chainex_check[wk->wu.id][wk->sa->exsa_a_ix - 20]) {
+        return 0;
+    }
+
+    if (wk->cancel_timer == 0) {
+        wk->permited_koa |= 0x40;
+    }
+
+    conpane = &wk->cp->sw_lvbt;
+
+    if (wk->cp->waza_flag[wk->sa->exsa_a_ix] == -1) {
+        return 0;
+    }
+
+    if (((wk->cp->btix[wk->sa->exsa_a_ix] & 0xFF) != 0x80) && (wk->cp->waza_flag[wk->sa->exsa_a_ix])) {
+        cusw = conpane[wk->cp->btix[wk->sa->exsa_a_ix] & 0xFF];
+
+        for (j = 3; j >= 0; j--) {
+            if ((j == 3) && !(wk->cp->btix[wk->sa->exsa_a_ix] & 0x600)) {
+                continue;
+            }
+
+            exsw = cusw & cmdshot_conv_tbl[wk->cp->exdt[wk->sa->exsa_a_ix][j]];
+
+            if (exsw == cmdshot_conv_tbl[wk->cp->exdt[wk->sa->exsa_a_ix][j] & 0xF]) {
+                setup_comm_back(&wk->wu);
+                wk->as = &_assadr_lv_9900[wk->player_number][cmdixconv(wk->sa->exsa_a_ix)]
+                                         [j + ((wk->sa->exsa_a_ix - 38) * 4)];
+                wk->wu.cg_cancel = 0;
+                wk->sa->mp = -1;
+                hissatsu_setup_union(wk, wk->cp->waza_r[wk->sa->exsa_a_ix][j]);
+                waza_compel_all_init2(wk);
+                chainex_check[wk->wu.id][wk->sa->exsa_a_ix - 20] = 1;
+                chainex_spat_cancel_kidou(&wk->wu);
+                return 1;
+            }
+        }
+    }
+
+    return 0;
 }
-#endif
+
+s32 check_full_gauge_attack2(PLW *wk, s8 always) {
+    u16 *conpane;
+    s16 j;
+    u16 cusw;
+    u16 exsw;
+
+    if (wk->sa->mp != 1) {
+        return 0;
+    }
+
+    if (pcon_dp_flag) {
+        return 0;
+    }
+
+    if (((Bonus_Game_Flag == 0x14) && (wk->bs2_on_car)) || (wk->wu.xyz[1].disp.pos <= 0)) {
+        if (wk->spmv_ng_flag & 0x40000000) {
+            return 0;
+        }
+
+        if (wk->sa->exs2_g_ix == 0) {
+            return 0;
+        }
+
+        if (wk->sa->exs2_g_ix > 0x1C) {
+            return 0;
+        }
+
+        if (always && !(wk->cp->btix[wk->sa->exs2_g_ix] & 0x100)) {
+            return 0;
+        }
+
+        if ((wk->spmv_ng_flag2 & 0x800000) && (chainex_check[wk->wu.id][wk->sa->exs2_g_ix - 20])) {
+            return 0;
+        }
+
+        if (wk->cancel_timer == 0) {
+            wk->permited_koa |= 0x40;
+        }
+
+        conpane = &wk->cp->sw_lvbt;
+
+        if (wk->cp->waza_flag[wk->sa->exs2_g_ix] == -1) {
+            return 0;
+        }
+
+        if (((wk->cp->btix[wk->sa->exs2_g_ix] & 0xFF) != 0x80) && (wk->cp->waza_flag[wk->sa->exs2_g_ix])) {
+            cusw = conpane[wk->cp->btix[wk->sa->exs2_g_ix] & 0xFF];
+
+            for (j = 3; j >= 0; j--) {
+                if ((j == 3) && !(wk->cp->btix[wk->sa->exs2_g_ix] & 0x600)) {
+                    continue;
+                }
+
+                exsw = cusw & cmdshot_conv_tbl[wk->cp->exdt[wk->sa->exs2_g_ix][j]];
+
+                if (exsw == cmdshot_conv_tbl[wk->cp->exdt[wk->sa->exs2_g_ix][j] & 0xF]) {
+                    setup_comm_back(&wk->wu);
+                    wk->as = &_assadr_lv_9900[wk->player_number][cmdixconv(wk->sa->exs2_g_ix)]
+                                             [j + ((wk->sa->exs2_g_ix - 20) * 4)];
+                    wk->wu.cg_cancel = 0;
+                    wk->sa->mp = -1;
+                    hissatsu_setup_union(wk, wk->cp->waza_r[wk->sa->exs2_g_ix][j]);
+                    waza_compel_all_init2(wk);
+                    chainex_check[wk->wu.id][wk->sa->exs2_g_ix - 20] = 1;
+                    chainex_spat_cancel_kidou(&wk->wu);
+                    return 1;
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    if (wk->spmv_ng_flag & 0x80000000) {
+        return 0;
+    }
+
+    if (wk->sa->exs2_a_ix == 0) {
+        return 0;
+    }
+
+    if ((wk->sa->exs2_a_ix) < 0x1C) {
+        return 0;
+    }
+
+    if (always && !(wk->cp->btix[wk->sa->exs2_a_ix] & 0x100)) {
+        return 0;
+    }
+
+    if ((wk->spmv_ng_flag2 & 0x800000) && (chainex_check[wk->wu.id][wk->sa->exs2_a_ix - 20])) {
+        return 0;
+    }
+
+    if (wk->cancel_timer == 0) {
+        wk->permited_koa |= 0x40;
+    }
+
+    conpane = &wk->cp->sw_lvbt;
+
+    if (wk->cp->waza_flag[wk->sa->exs2_a_ix] == -1) {
+        return 0;
+    }
+
+    if (((wk->cp->btix[wk->sa->exs2_a_ix] & 0xFF) != 0x80) && (wk->cp->waza_flag[wk->sa->exs2_a_ix])) {
+        cusw = conpane[wk->cp->btix[wk->sa->exs2_a_ix] & 0xFF];
+
+        for (j = 3; j >= 0; j--) {
+            if ((j == 3) && !(wk->cp->btix[wk->sa->exs2_a_ix] & 0x600)) {
+                continue;
+            }
+
+            exsw = cusw & cmdshot_conv_tbl[wk->cp->exdt[wk->sa->exs2_a_ix][j]];
+
+            if (exsw == cmdshot_conv_tbl[wk->cp->exdt[wk->sa->exs2_a_ix][j] & 0xF]) {
+                setup_comm_back(&wk->wu);
+                wk->as = &_assadr_lv_9900[wk->player_number][cmdixconv(wk->sa->exs2_a_ix)]
+                                         [j + (((wk->sa->exs2_a_ix) - 38) * 4)];
+                wk->wu.cg_cancel = 0;
+                wk->sa->mp = -1;
+                hissatsu_setup_union(wk, wk->cp->waza_r[wk->sa->exs2_a_ix][j]);
+                waza_compel_all_init2(wk);
+                chainex_check[wk->wu.id][wk->sa->exs2_a_ix - 20] = 1;
+                chainex_spat_cancel_kidou(&wk->wu);
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
 
 s16 check_super_arts_attack(PLW *wk) {
 #if defined(TARGET_PS2)
@@ -70,29 +326,381 @@ s16 check_super_arts_attack(PLW *wk) {
     return rnum;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", check_super_arts_attack_dc);
-#else
 s32 check_super_arts_attack_dc(PLW *wk) {
-    not_implemented(__func__);
-}
-#endif
+    s16 j;
+    u16 cusw;
+    u16 exsw;
+    u16 *conpane;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", execute_super_arts);
-#else
+    if (wk->sa->ok != 1) {
+        return 0;
+    }
+
+    if (pcon_dp_flag) {
+        return 0;
+    }
+
+    if (wk->cancel_timer == 0) {
+        wk->permited_koa |= 1;
+    }
+
+    if (((Bonus_Game_Flag == 0x14) && wk->bs2_on_car) || (wk->wu.xyz[1].disp.pos <= 0)) {
+        if (wk->spmv_ng_flag & 0x40000000) {
+            return 0;
+        }
+
+        if (wk->sa->nmsa_g_ix == 0) {
+            return 0;
+        }
+
+        if ((wk->sa->nmsa_g_ix) > 0x1C) {
+            return 0;
+        }
+
+        if ((wk->spmv_ng_flag2 & 0x800000) && (chainex_check[wk->wu.id][wk->sa->nmsa_g_ix - 20])) {
+            return 0;
+        }
+
+        conpane = &wk->cp->sw_lvbt;
+
+        if (wk->cp->waza_flag[wk->sa->nmsa_g_ix] == -1) {
+            return 0;
+        }
+
+        if (((wk->cp->btix[wk->sa->nmsa_g_ix] & 0xFF) != 0x80) && (wk->cp->waza_flag[wk->sa->nmsa_g_ix])) {
+            cusw = conpane[wk->cp->btix[wk->sa->nmsa_g_ix] & 0xFF];
+
+            for (j = 3; j >= 0; j--) {
+                if (j == 3) {
+                    if (!(wk->cp->btix[wk->sa->nmsa_g_ix] & 0x600) || ((wk->sa->ex4th_full) && (wk->sa->mp != 1))) {
+                        continue;
+                    }
+                }
+
+                exsw = cusw & cmdshot_conv_tbl[wk->cp->exdt[wk->sa->nmsa_g_ix][j]];
+
+                if (exsw == cmdshot_conv_tbl[wk->cp->exdt[wk->sa->nmsa_g_ix][j] & 0xF]) {
+                    setup_comm_back(&wk->wu);
+                    wk->as = &_assadr_lv_9900[wk->player_number][cmdixconv(wk->sa->nmsa_g_ix)]
+                                             [j + ((wk->sa->nmsa_g_ix - 20) * 4)];
+                    wk->sa->ex4th_exec = (j == 3) * wk->sa->ex4th_full;
+                    wk->wu.cg_cancel = 0;
+                    wk->sa->ok = -1;
+                    hissatsu_setup_union(wk, wk->cp->waza_r[wk->sa->nmsa_g_ix][j]);
+                    waza_compel_all_init2(wk);
+                    chainex_check[wk->wu.id][wk->sa->nmsa_g_ix - 20] = 1;
+                    chainex_spat_cancel_kidou(&wk->wu);
+                    return 1;
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    if (wk->spmv_ng_flag & 0x80000000) {
+        return 0;
+    }
+
+    if (wk->sa->nmsa_a_ix == 0) {
+        return 0;
+    }
+
+    if ((wk->sa->nmsa_a_ix) < 0x1C) {
+        return 0;
+    }
+
+    if ((wk->spmv_ng_flag2 & 0x800000) && (chainex_check[wk->wu.id][wk->sa->nmsa_a_ix - 20])) {
+        return 0;
+    }
+
+    conpane = &wk->cp->sw_lvbt;
+
+    if (wk->cp->waza_flag[wk->sa->nmsa_a_ix] == -1) {
+        return 0;
+    }
+
+    if (((wk->cp->btix[wk->sa->nmsa_a_ix] & 0xFF) != 0x80) && (wk->cp->waza_flag[wk->sa->nmsa_a_ix])) {
+        cusw = conpane[wk->cp->btix[wk->sa->nmsa_a_ix] & 0xFF];
+
+        for (j = 3; j >= 0; j--) {
+            if (j == 3) {
+                if (!(wk->cp->btix[wk->sa->nmsa_a_ix] & 0x600) || (wk->sa->ex4th_full && (wk->sa->mp != 1))) {
+                    continue;
+                }
+            }
+
+            exsw = cusw & cmdshot_conv_tbl[wk->cp->exdt[wk->sa->nmsa_a_ix][j]];
+
+            if (exsw == cmdshot_conv_tbl[wk->cp->exdt[wk->sa->nmsa_a_ix][j] & 0xF]) {
+                setup_comm_back(&wk->wu);
+                wk->as = &_assadr_lv_9900[wk->player_number][cmdixconv(wk->sa->nmsa_a_ix)]
+                                         [j + (((wk->sa->nmsa_a_ix) - 38) * 4)];
+                wk->sa->ex4th_exec = ((j == 3) * (wk->sa->ex4th_full));
+                wk->wu.cg_cancel = 0;
+                wk->sa->ok = -1;
+                hissatsu_setup_union(wk, wk->cp->waza_r[wk->sa->nmsa_a_ix][j]);
+                waza_compel_all_init2(wk);
+                chainex_check[wk->wu.id][wk->sa->nmsa_a_ix - 20] = 1;
+                chainex_spat_cancel_kidou(&wk->wu);
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
+
 s32 execute_super_arts(PLW *wk) {
-    not_implemented(__func__);
+    if (wk->cancel_timer == 0) {
+        wk->permited_koa |= 1;
+    }
+
+    if ((wk->sa->gauge_type != 3) && pcon_dp_flag) {
+        return 0;
+    }
+
+    if (((Bonus_Game_Flag == 0x14) && wk->bs2_on_car) || (wk->wu.xyz[1].disp.pos <= 0)) {
+        if (wk->spmv_ng_flag & 0x40000000) {
+            return 0;
+        }
+
+        if (wk->sa->ok != 1) {
+            return 0;
+        }
+
+        if (wk->sa->nmsa_g_ix > 28) {
+            return 0;
+        }
+
+        setup_comm_back(&wk->wu);
+        wk->as = _assadr_lv_9900[wk->player_number][cmdixconv(wk->sa->nmsa_g_ix)] + (wk->sa->nmsa_g_ix - 20) * 4;
+        wk->sa->ex4th_exec = 0;
+        wk->wu.cg_cancel = 0;
+        wk->sa->ok = -1;
+        hissatsu_setup_union(wk, wk->cp->waza_r[wk->sa->nmsa_g_ix][0]);
+        waza_compel_all_init2(wk);
+        wk->sa->gt2 = wk->sa->gauge_type;
+        return 1;
+    }
+
+    if (wk->spmv_ng_flag & 0x80000000) {
+        return 0;
+    }
+
+    if (wk->sa->ok != 1) {
+        return 0;
+    }
+
+    if (wk->sa->nmsa_a_ix < 0x1C) {
+        return 0;
+    }
+
+    setup_comm_back(&wk->wu);
+    wk->as = _assadr_lv_9900[wk->player_number][cmdixconv(wk->sa->nmsa_a_ix)] + (wk->sa->nmsa_a_ix - 38) * 4;
+    wk->sa->ex4th_exec = 0;
+    wk->wu.cg_cancel = 0;
+    wk->sa->ok = -1;
+    hissatsu_setup_union(wk, wk->cp->waza_r[wk->sa->nmsa_a_ix][0]);
+    waza_compel_all_init2(wk);
+    wk->sa->gt2 = wk->sa->gauge_type;
+    return 1;
 }
+
+s32 check_special_attack(PLW *wk) {
+#if defined(TARGET_PS2)
+    s32 shell_live_check(PLW * wk, s32 wix);
+    void grade_add_command_waza(s32 ix);
 #endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", check_special_attack);
-#else
-s32 check_special_attack(PLW *wk) {
-    not_implemented(__func__);
+    s16 i;
+    s16 j;
+    u16 cusw;
+    u16 exsw;
+    u16 *conpane;
+
+    if (wk->cancel_timer == 0) {
+        wk->permited_koa |= 2;
+    }
+
+    if (pcon_dp_flag) {
+        return 0;
+    }
+
+    if (((Bonus_Game_Flag == 0x14) && wk->bs2_on_car) || (wk->wu.xyz[1].disp.pos <= 0)) {
+        conpane = (u16 *)wk->cp;
+
+        for (i = 28; i < 38; i++) {
+            if ((wk->spmv_ng_flag2 & 0x400000) && chainex_check[wk->wu.id][i - 20]) {
+                continue;
+            }
+
+            if (wk->cp->waza_flag[i] == -1) {
+                continue;
+            }
+
+            if ((wk->cp->btix[i] & 0x800) && shell_live_check(wk, i)) {
+                continue;
+            }
+
+            if ((wk->cp->btix[i] & 0x1000) && (wk->metamorphose || (wk->sa->ok != -1))) {
+                continue;
+            }
+
+            if (((wk->cp->btix[i] & 0xFF) == 0x80) || !wk->cp->waza_flag[i]) {
+                continue;
+            }
+
+            cusw = conpane[wk->cp->btix[i] & 0xFF];
+
+            for (j = 3; j >= 0; j--) {
+                exsw = cusw & cmdshot_conv_tbl[wk->cp->exdt[i][j]];
+
+                if (exsw != cmdshot_conv_tbl[wk->cp->exdt[i][j] & 0xF]) {
+                    continue;
+                }
+
+                if (j == 3) {
+                    if (!(wk->cp->btix[i] & 0x600)) {
+                        continue;
+                    }
+
+                    if ((wk->cp->btix[i] & 0x200) && (wk->spmv_ng_flag & 0x10000000)) {
+                        continue;
+                    }
+
+                    if (wk->metamorphose) {
+                        if (wk->cp->btix[i] & 0x400) {
+                            continue;
+                        }
+                    } else {
+                        if ((wk->sa->mp == -1) || (wk->sa->ok == -1)) {
+                            continue;
+                        }
+
+                        if (wk->cp->btix[i] & 0x400) {
+                            if ((wk->spmv_ng_flag2 & 0x1000) || (wk->sa->ex != 1)) {
+                                continue;
+                            }
+
+                            wk->sa->ex = -1;
+                        }
+                    }
+                } else if (wk->spmv_ng_flag & 0x10000000) {
+                    continue;
+                }
+
+                setup_comm_back(&wk->wu);
+                wk->as = &_assadr_lv_9900[wk->player_number][cmdixconv(i)][j + (i - 28) * 4];
+                wk->wu.cg_cancel &= 0x40;
+                hissatsu_setup_union(wk, wk->cp->waza_r[i][j]);
+                waza_flag_clear_only_1(wk->wu.id, i);
+                grade_add_command_waza(wk->wu.id);
+                chainex_check[wk->wu.id][i - 20] = 1;
+                chainex_spat_cancel_kidou(&wk->wu);
+                return 1;
+            }
+        }
+
+        return 0;
+    }
+
+    if ((wk->spmv_ng_flag2 & 2) && (wk->wu.mvxy.a[1].sp > 0) && (wk->wu.xyz[1].disp.pos < 32)) {
+        return 0;
+    }
+
+    conpane = (u16 *)wk->cp;
+
+    for (i = 46; i < 56; i++) {
+        if ((wk->spmv_ng_flag2 & 0x400000) && chainex_check[wk->wu.id][i - 20]) {
+            continue;
+        }
+
+        if (wk->cp->waza_flag[i] == -1) {
+            continue;
+        }
+
+        if ((wk->cp->btix[i] & 0x1000) && (wk->metamorphose || (wk->sa->ok != -1))) {
+            continue;
+        }
+
+        if ((wk->cp->btix[i] & 0x2000) && (wk->wu.mvxy.a[0].sp < 0)) {
+            continue;
+        }
+
+        if ((wk->cp->btix[i] & 0xFF) != 0x80) {
+            if (!wk->cp->waza_flag[i]) {
+                continue;
+            }
+
+            cusw = conpane[wk->cp->btix[i] & 0xFF];
+
+            for (j = 3; j >= 0; j--) {
+                exsw = cusw & cmdshot_conv_tbl[wk->cp->exdt[i][j]];
+
+                if (exsw != cmdshot_conv_tbl[wk->cp->exdt[i][j] & 0xF]) {
+                    continue;
+                }
+
+                if (j == 3) {
+                    if (!(wk->cp->btix[i] & 0x600)) {
+                        continue;
+                    }
+
+                    if ((wk->cp->btix[i] & 0x200) && (wk->spmv_ng_flag & 0x20000000)) {
+                        continue;
+                    }
+
+                    if (wk->metamorphose) {
+                        if (wk->cp->btix[i] & 0x400) {
+                            continue;
+                        }
+                    } else {
+                        if ((wk->sa->mp == -1) || (wk->sa->ok == -1)) {
+                            continue;
+                        }
+
+                        if (wk->cp->btix[i] & 0x400) {
+                            if ((wk->spmv_ng_flag2 & 0x1000) || (wk->sa->ex != 1)) {
+                                continue;
+                            }
+
+                            wk->sa->ex = -1;
+                        }
+                    }
+                } else if (wk->spmv_ng_flag & 0x20000000) {
+                    continue;
+                }
+
+                setup_comm_back(&wk->wu);
+                wk->as = &_assadr_lv_9900[wk->player_number][cmdixconv(i)][j + (i - 46) * 4];
+                wk->wu.cg_cancel &= 0x40;
+                hissatsu_setup_union(wk, wk->cp->waza_r[i][j]);
+                waza_flag_clear_only_1(wk->wu.id, i);
+                grade_add_command_waza(wk->wu.id);
+                chainex_check[wk->wu.id][i - 20] = 1;
+                chainex_spat_cancel_kidou(&wk->wu);
+                return 1;
+            }
+
+            continue;
+        }
+
+        if (wk->cp->waza_flag[i]) {
+            setup_comm_back(&wk->wu);
+            wk->as = &_assadr_lv_9900[wk->player_number][cmdixconv(i)][(i - 46) * 4];
+            wk->wu.cg_cancel &= 0x40;
+            hissatsu_setup_union(wk, wk->cp->waza_r[i][0]);
+            waza_flag_clear_only_1(wk->wu.id, i);
+            grade_add_command_waza(wk->wu.id);
+            chainex_check[wk->wu.id][i - 20] = 1;
+            chainex_spat_cancel_kidou(&wk->wu);
+            return 1;
+        }
+    }
+
+    return 0;
 }
-#endif
 
 void chainex_spat_cancel_kidou(WORK *wk) {
     MVXY curr;
@@ -106,21 +714,163 @@ void chainex_spat_cancel_kidou(WORK *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", check_leap_attack);
-#else
 s32 check_leap_attack(PLW *wk) {
-    not_implemented(__func__);
-}
-#endif
+    if (wk->spmv_ng_flag2 & 0x10) {
+        return 0;
+    }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", check_nm_attack);
-#else
-s32 check_nm_attack(PLW *wk) {
-    not_implemented(__func__);
+    if (pcon_dp_flag) {
+        return 0;
+    }
+
+    wk->permited_koa |= 0x200;
+
+    if (wk->spmv_ng_flag2 & 0x20) {
+        if (wk->cp->ca25 == 0) {
+            return 0;
+        }
+
+        if (wk->cp->sw_lvbt & 0xF) {
+            return 0;
+        }
+    } else {
+        if (wk->cp->waza_flag[14] == 0) {
+            return 0;
+        }
+
+        if (!(wk->cp->sw_now & 0x770)) {
+            return 0;
+        }
+    }
+
+    if (((Bonus_Game_Flag != 0x14) || !wk->bs2_on_car) && (wk->wu.xyz[1].disp.pos > 0)) {
+        return 0;
+    }
+
+    setup_comm_back(&wk->wu);
+    wk->as = &_asstbl_lv_D010[wk->player_number];
+    hissatsu_setup_union(wk, wk->cp->waza_r[14][0]);
+    return 1;
 }
-#endif
+
+s32 check_nm_attack(PLW *wk) {
+    s16 kos;
+    s16 koa;
+
+    wk->permited_koa |= 4;
+
+    if ((kos = shot_data_convert(wk->cp->sw_now)) < 0) {
+        return 0;
+    }
+
+    switch (wk->wu.pat_status) {
+    case 20:
+        if (hikusugi_check(&wk->wu)) {
+            return 0;
+        }
+
+        koa = waza_select(wk, kos, 3);
+        wk->as = &_asstbl_lv_3010[wk->player_number][kos][koa];
+        break;
+
+    case 14:
+        if (hikusugi_check(&wk->wu)) {
+            return 0;
+        }
+
+        koa = waza_select(wk, kos, 6);
+        wk->as = &_asstbl_lv_3010[wk->player_number][kos][koa];
+        break;
+
+    case 26:
+        if (hikusugi_check(&wk->wu)) {
+            return 0;
+        }
+
+        koa = waza_select(wk, kos, 9);
+        wk->as = &_asstbl_lv_3010[wk->player_number][kos][koa];
+        break;
+
+    case 22:
+        if (hikusugi_check(&wk->wu)) {
+            return 0;
+        }
+
+        koa = waza_select(wk, kos, 2);
+        wk->as = &_asstbl_lv_2010[wk->player_number][kos][koa];
+        break;
+
+    case 16:
+        if (hikusugi_check(&wk->wu)) {
+            return 0;
+        }
+
+        koa = waza_select(wk, kos, 5);
+        wk->as = &_asstbl_lv_2010[wk->player_number][kos][koa];
+        break;
+
+    case 28:
+        if (hikusugi_check(&wk->wu)) {
+            return 0;
+        }
+
+        koa = waza_select(wk, kos, 8);
+        wk->as = &_asstbl_lv_2010[wk->player_number][kos][koa];
+        break;
+
+    case 24:
+        if (hikusugi_check(&wk->wu)) {
+            return 0;
+        }
+
+        koa = waza_select(wk, kos, 4);
+        wk->as = &_asstbl_lv_4010[wk->player_number][kos][koa];
+        break;
+
+    case 18:
+        if (hikusugi_check(&wk->wu)) {
+            return 0;
+        }
+
+        koa = waza_select(wk, kos, 7);
+        wk->as = &_asstbl_lv_4010[wk->player_number][kos][koa];
+        break;
+
+    case 30:
+        if (hikusugi_check(&wk->wu)) {
+            return 0;
+        }
+
+        koa = waza_select(wk, kos, 10);
+        wk->as = &_asstbl_lv_4010[wk->player_number][kos][koa];
+        break;
+
+    default:
+        if (((Bonus_Game_Flag != 0x14) || !wk->bs2_on_car) && (wk->wu.xyz[1].disp.pos > 0)) {
+            return 0;
+        }
+
+        if (wk->cp->sw_lvbt & 2) {
+            koa = waza_select(wk, kos, 1);
+            wk->as = &_asstbl_lv_1010[wk->player_number][kos][koa];
+        } else {
+            koa = waza_select(wk, kos, 0);
+            wk->as = &_asstbl_lv_0010[wk->player_number][kos][koa];
+        }
+
+        break;
+    }
+
+    setup_comm_back(&wk->wu);
+    wk->current_attack = shot_data_refresh(kos);
+    set_attack_routine_number(wk);
+    wk->wu.paring_attack_flag = 0;
+    wk->wu.meoshi_hit_flag = 0;
+    wk->wu.att_hit_ok = 0;
+    wk->wu.hf.hit_flag = 0;
+    wk->wu.cg_cancel &= 0xF8;
+    return 1;
+}
 
 s16 hikusugi_check(WORK *wk) {
     s16 rnum = 0;
@@ -132,13 +882,42 @@ s16 hikusugi_check(WORK *wk) {
     return rnum;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", check_chouhatsu);
-#else
 s32 check_chouhatsu(PLW *wk) {
-    not_implemented(__func__);
+    if (wk->spmv_ng_flag & 1) {
+        return 0;
+    }
+
+    if ((wk->spmv_ng_flag & 2) && pcon_dp_flag) {
+        return 0;
+    }
+
+    wk->permited_koa |= 0x80;
+
+    if (wk->wu.xyz[1].disp.pos > 0) {
+        return 0;
+    }
+
+    if (wk->player_number == 6) {
+        if (wk->cp->sw_lvbt & 0xE) {
+            return 0;
+        }
+    } else if (wk->cp->sw_lvbt & 0xF) {
+        return 0;
+    }
+
+    if (wk->cp->ca36 == 0) {
+        return 0;
+    }
+
+    wk->as = &_asstbl_lv_E010[wk->player_number];
+    setup_comm_back(&wk->wu);
+    set_attack_routine_number(wk);
+    wk->wu.paring_attack_flag = 0;
+    wk->wu.meoshi_hit_flag = 0;
+    wk->wu.att_hit_ok = 0;
+    wk->wu.hf.hit_flag = 0;
+    return 1;
 }
-#endif
 
 s32 check_nagenuke_cmd(PLW *wk) {
     if (wk->spmv_ng_flag2 & 0x400) {
@@ -167,13 +946,53 @@ s32 check_nagenuke_cmd(PLW *wk) {
 const u8 nml_catch_h2_ok[2][20] = { { 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 },
                                     { 0, 0, 0, 0, 0, 0, 0, 17, 0, 17, 0, 0, 0, 0, 0, 17, 0, 0, 0, 0 } };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", check_catch_attack);
-#else
 s32 check_catch_attack(PLW *wk) {
-    not_implemented(__func__);
+    s16 kos;
+
+    if (pcon_dp_flag) {
+        return 0;
+    }
+
+    if (wk->spmv_ng_flag2 & 0x100) {
+        return 0;
+    }
+
+    wk->permited_koa |= 0x100;
+
+    if (wk->cp->ca14 == 0) {
+        return 0;
+    }
+
+    kos = ((wk->cp->sw_new & 4) != 0) + (((wk->cp->sw_new & 8) != 0) * 2);
+
+    if ((wk->wu.pat_status < 0xE) || (wk->wu.pat_status > 0x1E)) {
+        if (wk->cp->sw_lvbt & 3) {
+            return 0;
+        }
+
+        wk->as = &_asstbl_lv_A010[kos];
+    } else {
+        if (!(nml_catch_h2_ok[1][wk->player_number] & 0x10)) {
+            return 0;
+        }
+
+        if (wk->wu.xyz[1].disp.pos < 24) {
+            return 0;
+        }
+
+        wk->as = &_asstbl_lv_B010[kos];
+    }
+
+    setup_comm_back(&wk->wu);
+    set_attack_routine_number(wk);
+    wk->cancel_timer = 0;
+    wk->wu.paring_attack_flag = 0;
+    wk->wu.meoshi_hit_flag = 0;
+    wk->wu.att_hit_ok = 0;
+    wk->wu.hf.hit_flag = 0;
+    wk->wu.cg_cancel = 0;
+    return 1;
 }
-#endif
 
 void set_attack_routine_number(PLW *wk) {
     wk->wu.routine_no[1] = 4;
@@ -182,21 +1001,90 @@ void set_attack_routine_number(PLW *wk) {
     wk->wu.cg_type = 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", get_nearing_range);
-#else
 u16 get_nearing_range(s16 pnum, s16 kos) {
-    not_implemented(__func__);
-}
-#endif
+    const u16 *asstbl;
+    u16 nrange = 0;
+    u16 lwork;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", waza_select);
-#else
-s32 waza_select(PLW *wk, s16 kos, s16 sf) {
-    not_implemented(__func__);
+    if ((kos = shot_data_convert(kos)) < 0) {
+        return nrange;
+    }
+
+    asstbl = _asstbl_lv_0000[pnum][kos];
+
+    if ((lwork = asstbl[0] & 0x7FF)) {
+        nrange = lwork;
+    } else {
+        if ((lwork = asstbl[1] & 0x7FF)) {
+            nrange = lwork;
+        }
+    }
+
+    return nrange;
 }
-#endif
+
+s32 waza_select(PLW *wk, s16 kos, s16 sf) {
+    const u16 *wst;
+
+    switch (sf) {
+    case 0:
+        wst = _asstbl_lv_0000[wk->player_number][kos];
+        break;
+
+    case 1:
+        wst = _asstbl_lv_1000[wk->player_number][kos];
+        break;
+
+    case 2:
+        wst = _asstbl_lv_2000[wk->player_number][kos];
+        break;
+
+    case 3:
+        wst = _asstbl_lv_3000[wk->player_number][kos];
+        break;
+
+    case 4:
+        wst = _asstbl_lv_4000[wk->player_number][kos];
+        break;
+
+    case 5:
+        wst = _asstbl_lv_2000[wk->player_number][kos];
+        break;
+
+    case 6:
+        wst = _asstbl_lv_3000[wk->player_number][kos];
+        break;
+
+    case 7:
+        wst = _asstbl_lv_4000[wk->player_number][kos];
+        break;
+
+    case 8:
+        wst = _asstbl_lv_2000[wk->player_number][kos];
+        break;
+
+    case 9:
+        wst = _asstbl_lv_3000[wk->player_number][kos];
+        break;
+
+    case 10:
+        wst = _asstbl_lv_4000[wk->player_number][kos];
+        break;
+
+    default:
+        return 0;
+    }
+
+    if (decode_wst_data(wk, wst[0], wst[1])) {
+        return 2;
+    }
+
+    if (decode_wst_data(wk, wst[1], wst[1])) {
+        return 1;
+    }
+
+    return 0;
+}
 
 u16 decode_wst_data(PLW *wk, u16 cmd, s16 cmd_ex) {
     u16 lever;
