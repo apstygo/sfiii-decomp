@@ -67,7 +67,7 @@ ifeq ($(PLATFORM),ps2)
 	CC := $(CCPS2)
 else
 	ifeq ($(CROSS_COMPILING),1)
-		CC := clang --target=x86_64-w64-mingw32
+		CC := x86_64-w64-mingw32-clang
 	else
 		CC := clang
 	endif
@@ -118,19 +118,14 @@ PLATFORM_LINKER_FLAGS := -g
 
 ifeq ($(PLATFORM),windows)
   PLATFORM_CLANG_FLAGS += -D_CRT_SECURE_NO_WARNINGS
-  ifeq ($(CROSS_COMPILING),1)
-    # Cross-compiling
-    LIBCO_A := libco/build/liblibco.a
-    PLATFORM_CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
-    PLATFORM_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
-  else ifneq ($(IS_WINDOWS_HOST),)
-    # Native MSYS2/MinGW build
-    LIBCO_A := libco/build/liblibco.a
+  ifeq ($(CI),true)
+    # Native MSVC build (CI)
+    LIBCO_A := libco/build/Debug/libco.lib
     PLATFORM_CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
     PLATFORM_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
   else
-    # Native MSVC build (CI)
-    LIBCO_A := libco/build/Debug/libco.lib
+    # Cross-compiling or native MSYS2/MinGW build
+    LIBCO_A := libco/build/liblibco.a
     PLATFORM_CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
     PLATFORM_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
   endif
