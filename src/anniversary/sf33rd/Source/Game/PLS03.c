@@ -15,6 +15,8 @@
 
 extern const s16 cmdshot_conv_tbl[32];
 
+u16 decode_wst_data(PLW *wk, u16 cmd, s16 cmd_ex);
+
 void hissatsu_setup_union(PLW *wk, s16 rno) {
     wk->wu.routine_no[1] = 4;
     wk->wu.routine_no[2] = rno;
@@ -1021,13 +1023,68 @@ u16 get_nearing_range(s16 pnum, s16 kos) {
     return nrange;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLS03", waza_select);
-#else
 s32 waza_select(PLW *wk, s16 kos, s16 sf) {
-    not_implemented(__func__);
+    const u16 *wst;
+
+    switch (sf) {
+    case 0:
+        wst = _asstbl_lv_0000[wk->player_number][kos];
+        break;
+
+    case 1:
+        wst = _asstbl_lv_1000[wk->player_number][kos];
+        break;
+
+    case 2:
+        wst = _asstbl_lv_2000[wk->player_number][kos];
+        break;
+
+    case 3:
+        wst = _asstbl_lv_3000[wk->player_number][kos];
+        break;
+
+    case 4:
+        wst = _asstbl_lv_4000[wk->player_number][kos];
+        break;
+
+    case 5:
+        wst = _asstbl_lv_2000[wk->player_number][kos];
+        break;
+
+    case 6:
+        wst = _asstbl_lv_3000[wk->player_number][kos];
+        break;
+
+    case 7:
+        wst = _asstbl_lv_4000[wk->player_number][kos];
+        break;
+
+    case 8:
+        wst = _asstbl_lv_2000[wk->player_number][kos];
+        break;
+
+    case 9:
+        wst = _asstbl_lv_3000[wk->player_number][kos];
+        break;
+
+    case 10:
+        wst = _asstbl_lv_4000[wk->player_number][kos];
+        break;
+
+    default:
+        return 0;
+    }
+
+    if (decode_wst_data(wk, wst[0], wst[1])) {
+        return 2;
+    }
+
+    if (decode_wst_data(wk, wst[1], wst[1])) {
+        return 1;
+    }
+
+    return 0;
 }
-#endif
 
 u16 decode_wst_data(PLW *wk, u16 cmd, s16 cmd_ex) {
     u16 lever;
