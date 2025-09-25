@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#if !defined(TARGET_PS2)
+#if !defined(TARGET_PS2) && !defined (_WIN32)
 #include <ctype.h>
 
 s8 *strupr(s8 *s) {
