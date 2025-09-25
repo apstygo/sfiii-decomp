@@ -57,24 +57,163 @@ const s16 c2_last_bomb[4][4] = {
     { 1024, 0, 1024, -112 }, { 896, 0, 1280, -112 }, { 768, 0, 1536, -112 }, { 640, 0, 1792, -112 }
 };
 
+// forward declares
+void effC2_main_process_first(WORK_Other *ewk, PLW *twk);
 void effc2_parts_work_chain_check(s16 flag);
-void copy_rno(WORK *wk);
-void setup_prio_ix(WORK_Other *c2wk);
-void setup_parts_break(WORK *wk);
-void send_to_shizumi_guai(WORK *wk);
-
 void effC2_main_process_second(WORK_Other *ewk, PLW *twk);
 void c2_last_char_and_mvxy(WORK_Other *ewk);
 s16 c2_last_dir_select(PLW *wk, WORK *efw);
+void copy_rno(WORK *wk);
+void set_c2_quake(WORK *wk);
+void setup_prio_ix(WORK_Other *c2wk);
+void setup_vital_bonus2(WORK *wk);
+void setup_parts_break(WORK *wk);
+void setup_parts_break2(WORK *wk);
+void bs2_status_disp(WORK_Other * /* unused */);
 void bs2_score_add_next(WORK *wk);
+void set_1st_Bonus_Game_result(WORK *wk);
+void set_bs2_floor(WORK_Other *wk);
+void send_to_shizumi_guai(WORK *wk);
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC2", effect_C2_move);
-#else
 void effect_C2_move(WORK_Other *ewk) {
-    not_implemented(__func__);
+    bs2_status_disp(ewk);
+
+    switch (ewk->wu.routine_no[0]) {
+    case 0:
+        ewk->wu.routine_no[0]++;
+        ewk->wu.routine_no[2] = 0;
+        ewk->wu.routine_no[3] = 2;
+        Bonus_Game_result = 0;
+        ewk->wu.charset_id = 17;
+        set_char_base_data(&ewk->wu);
+        ewk->wu.vital_new = ewk->master_id == 0;
+        setup_prio_ix(ewk);
+        get_bs2_parts_data(&ewk->wu);
+        setup_vital_bonus2(&ewk->wu);
+        ewk->wu.position_x = ewk->wu.xyz[0].disp.pos;
+        ewk->wu.position_y = ewk->wu.xyz[1].disp.pos;
+        ewk->wu.cg_number = 9;
+        effect_C3_init(ewk, 3);
+        effect_C3_init(ewk, 4);
+        effect_C3_init(ewk, 5);
+        effect_C3_init(ewk, 6);
+        effect_C3_init(ewk, 7);
+        effect_C3_init(ewk, 1);
+        effect_C3_init(ewk, 2);
+        effect_00_init(&ewk->wu);
+        clear_attack_num(&ewk->wu);
+        ewk->wu.dir_old = 0;
+        ewk->wu.direction = 0;
+        ewk->wu.dir_timer = 0;
+        ewk->wu.routine_no[1] = 0;
+        ewk->wu.routine_no[2] = 0;
+        effect_J9_init(ewk, 8);
+        break;
+
+    case 1:
+        if (ewk->wu.dead_f == 1) {
+            ewk->wu.disp_flag = 0;
+            ewk->wu.routine_no[0] = 2;
+            ewk->wu.routine_no[1] = 10;
+            ewk->wu.hit_stop = 0;
+            break;
+        }
+
+        if (ewk->wu.dir_timer) {
+            effC2_main_process_second(ewk, (PLW *)ewk->wu.target_adrs);
+        } else {
+            effC2_main_process_first(ewk, (PLW *)ewk->wu.target_adrs);
+        }
+
+        set_bs2_floor(ewk);
+        break;
+
+    case 2:
+        if (EXE_flag == 0 && Game_pause == 0) {
+            switch (ewk->wu.routine_no[1]) {
+            case 0:
+                if (--ewk->wu.hit_stop > 0) {
+                    break;
+                }
+
+                ewk->wu.routine_no[1] = 9;
+                ewk->wu.routine_no[2] = 0;
+                Bonus_Game_result |= 2;
+                ewk->wu.xyz[1].disp.pos = 80;
+                ewk->wu.next_y = 64;
+                ewk->wu.position_z = 25;
+                illegal_setup_effK2(&ewk->wu, 4);
+                c2_last_char_and_mvxy(ewk);
+                setup_demojump((PLW *)ewk->wu.target_adrs, 2);
+                break;
+
+            case 9:
+                switch (ewk->wu.routine_no[2]) {
+                case 0:
+                    char_move(&ewk->wu);
+                    add_mvxy_speed(&ewk->wu);
+                    cal_mvxy_speed(&ewk->wu);
+
+                    if (ewk->wu.mvxy.a[1].sp <= 0 && (ewk->wu.xyz[1].disp.pos <= ewk->wu.next_y)) {
+                        ewk->wu.xyz[1].disp.pos = ewk->wu.next_y;
+                        ewk->wu.routine_no[2] = 1;
+                        char_move_cmja(&ewk->wu);
+                    }
+
+                    break;
+
+                case 1:
+                    char_move(&ewk->wu);
+
+                    switch (ewk->wu.cg_type) {
+                    case 1:
+                        if (ewk->wu.mvxy.a[0].sp > 0) {
+                            add_mvxy_speed_direct(&ewk->wu, 128, 0);
+                        } else {
+                            add_mvxy_speed_direct(&ewk->wu, -128, 0);
+                        }
+
+                        break;
+
+                    case 2:
+                        if (ewk->wu.mvxy.a[0].sp > 0) {
+                            add_mvxy_speed_direct(&ewk->wu, 256, 0);
+                        } else {
+                            add_mvxy_speed_direct(&ewk->wu, -256, 0);
+                        }
+
+                        break;
+
+                    case 0xFF:
+                        ewk->wu.routine_no[2] = 2;
+                        break;
+                    }
+
+                    break;
+                }
+
+                break;
+
+            default:
+                ewk->wu.routine_no[0] = 3;
+                ewk->wu.routine_no[1] = 0;
+                break;
+            }
+
+            ewk->wu.next_x = 0;
+            set_c2_quake(&ewk->wu);
+        }
+
+        ewk->wu.position_x = ewk->wu.xyz[0].disp.pos + ewk->wu.next_x;
+        ewk->wu.position_y = ewk->wu.xyz[1].disp.pos;
+        sort_push_request(&ewk->wu);
+        break;
+
+    default:
+        push_effect_work(&ewk->wu);
+        break;
+    }
 }
-#endif
 
 void effC2_main_process_first(WORK_Other *ewk, PLW *twk) {
 #if defined(TARGET_PS2)
@@ -247,11 +386,180 @@ void effc2_parts_work_chain_check(s16 flag) {
 }
 #endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC2", effC2_main_process_second);
+void effC2_main_process_second(WORK_Other *ewk, PLW *twk) {
+#if defined(TARGET_PS2)
+    void player_hosei_data(WORK_Other * ewk, s32 flag, s16 f2);
+#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC2", c2_last_char_and_mvxy);
+    if (EXE_flag == 0 && Game_pause == 0) {
+        switch (ewk->wu.routine_no[1]) {
+        case 0:
+            switch (ewk->wu.routine_no[2]) {
+            case 0:
+                break;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC2", c2_last_dir_select);
+            case 9:
+                if (ewk->wu.hit_stop == 0) {
+                    illegal_setup_effK2(&ewk->wu, 0);
+                }
+
+                if (--ewk->wu.hit_stop < 0) {
+                    Time_Stop = 1;
+                    setup_demojump(twk, 0);
+                    ewk->wu.routine_no[2]++;
+                    ewk->wu.mvxy.a[1].sp = 0x20000;
+                    ewk->wu.mvxy.d[1].sp = -0x8000;
+                    ewk->wu.xyz[1].disp.pos = 64;
+                    set_char_move_init(&ewk->wu, 0, 71);
+                    ewk->wu.disp_flag = 1;
+                    bs2_score_add_next(&ewk->wu);
+                    set_1st_Bonus_Game_result(&ewk->wu);
+                }
+
+                break;
+
+            case 10:
+                add_mvxy_speed(&ewk->wu);
+                cal_mvxy_speed(&ewk->wu);
+
+                if (ewk->wu.xyz[1].disp.pos <= 0) {
+                    ewk->wu.routine_no[2]++;
+                    ewk->wu.position_y = 0;
+                    ewk->wu.xyz[1].cal = 0;
+                    ewk->wu.mvxy.a[1].sp = 0;
+                    reset_mvxy_data(&ewk->wu);
+                    char_move_z(&ewk->wu);
+                    illegal_setup_effK2(&ewk->wu, 1);
+                }
+
+                break;
+
+            case 11:
+                char_move(&ewk->wu);
+
+                switch (ewk->wu.cg_type) {
+                case 2:
+                    illegal_setup_effK2(&ewk->wu, 2);
+                    ewk->wu.cg_type = 0;
+                    break;
+
+                case 3:
+                    illegal_setup_effK2(&ewk->wu, 3);
+                    ewk->wu.cg_type = 0;
+                    break;
+                }
+
+                if (ewk->wu.cg_type == 0xFF) {
+                    set_char_move_init(&ewk->wu, 0, 70);
+                    ewk->wu.dir_old = 0;
+                    ewk->wu.routine_no[2] = 0;
+                    ewk->wu.original_vitality = ewk->wu.shell_ix[0] = 0x640;
+                    ewk->wu.vital_old = 0;
+                    Time_Stop = 0;
+                }
+
+                break;
+            }
+
+            break;
+
+        case 1:
+            switch (ewk->wu.routine_no[2]) {
+            case 0:
+                if (Time_Over) {
+                    ewk->wu.dm_vital = 0;
+                }
+
+                ewk->wu.shell_ix[0] -= ewk->wu.dm_vital;
+                ewk->wu.dm_vital = 0;
+                ewk->wu.hit_stop = ewk->wu.dm_stop;
+
+                if (ewk->wu.hit_stop < 0) {
+                    ewk->wu.hit_stop = -ewk->wu.hit_stop;
+                }
+
+                ewk->wu.hit_stop /= 2;
+                ewk->wu.routine_no[2] = 1;
+                setup_parts_break2(&ewk->wu);
+
+                if (check_parts_break_level(&ewk->wu) != 0) {
+                    char_move_z(&ewk->wu);
+                    setup_effK2(&ewk->wu);
+                }
+
+                setup_effK4(&ewk->wu);
+
+                if (ewk->wu.shell_ix[0] < 0 || ewk->wu.cg_type == 0xFF) {
+                    ewk->wu.dir_old = 1;
+                    ewk->wu.routine_no[0] = 2;
+                    ewk->wu.routine_no[1] = 0;
+                    ewk->wu.routine_no[2] = 0;
+                    ewk->wu.cg_type = 0;
+                    Time_Stop = 1;
+                }
+
+                break;
+
+            case 1:
+                if (--ewk->wu.hit_stop <= 0) {
+                    ewk->wu.routine_no[1] = 0;
+                    ewk->wu.routine_no[2] = 0;
+                }
+
+                break;
+            }
+
+            break;
+        }
+
+        if (ewk->wu.dir_old == 0) {
+            hit_push_request(&ewk->wu);
+        }
+
+        ewk->wu.next_x = 0;
+        set_c2_quake(&ewk->wu);
+    }
+
+    setup_prio_ix(ewk);
+    set_parts_priority(&ewk->wu);
+    player_hosei_data(ewk, ewk->wu.dir_timer, 1);
+    ewk->wu.position_x = ewk->wu.xyz[0].disp.pos + ewk->wu.next_x;
+    ewk->wu.position_y = ewk->wu.xyz[1].disp.pos;
+    sort_push_request(&ewk->wu);
+}
+
+void c2_last_char_and_mvxy(WORK_Other *ewk) {
+#if defined(TARGET_PS2)
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
+#endif
+
+    s16 ix = c2_last_dir_select((PLW *)ewk->wu.target_adrs, &ewk->wu);
+
+    set_char_move_init(&ewk->wu, 0, ewk->wu.dm_attlv + 92 + ix);
+    setup_move_data_easy(&ewk->wu, c2_last_bomb[ewk->wu.dm_attlv], 1, 0);
+
+    if (ix) {
+        ewk->wu.mvxy.a[0].sp = -ewk->wu.mvxy.a[0].sp;
+    }
+}
+
+s16 c2_last_dir_select(PLW *wk, WORK *efw) {
+#if defined(TARGET_PS2)
+    s16 get_sel_hosei_tbl_ix(s32 plnum);
+    s16 check_work_position_bonus(WORK * hm, s32 tx);
+#endif
+
+    s16 ix = get_sel_hosei_tbl_ix(wk->player_number) + 1;
+    s16 *dad = efw->hosei_adrs[ix].hos_box;
+
+    ix = 4;
+
+    if (check_work_position_bonus(&wk->wu, dad[0] + (dad[1] / 2) + efw->xyz[0].disp.pos)) {
+        ix = 0;
+    }
+
+    return ix;
+}
 
 void setup_demojump(PLW *twk, s16 ix) {
     switch (ix) {
@@ -313,13 +621,24 @@ void copy_rno(WORK *wk) {
     wk->old_rno[3] = wk->routine_no[3];
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC2", player_hosei_data);
-#else
 void player_hosei_data(WORK_Other *ewk, s16 flag, s16 f2) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 get_sel_hosei_tbl_ix(s32 plnum);
 #endif
+
+    if (f2) {
+        if (ewk->wu.type) {
+            ewk->wu.cg_ja.hoix = get_sel_hosei_tbl_ix(ewk->master_player) + 1 + ((flag == 1) * 2);
+            ewk->wu.h_hos = &ewk->wu.hosei_adrs[ewk->wu.cg_ja.hoix];
+        } else {
+            ewk->wu.cg_ja.hoix = get_sel_hosei_tbl_ix(ewk->master_player) + ((flag == 1) * 2);
+            ewk->wu.h_hos = &ewk->wu.hosei_adrs[ewk->wu.cg_ja.hoix];
+        }
+    } else {
+        ewk->wu.cg_ja.hoix = 0;
+        ewk->wu.h_hos = &ewk->wu.hosei_adrs[ewk->wu.cg_ja.hoix];
+    }
+}
 
 void set_c2_quake(WORK *wk) {
     if (!wk->hit_stop) {
@@ -475,21 +794,37 @@ void setup_parts_break2(WORK *wk) {
     wk->cmwk[0] = j;
 }
 
-void bs2_status_disp(s32 /* unused */) {
+void bs2_status_disp(WORK_Other * /* unused */) {
     if (Usage == 7) {
         return;
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC2", check_parts_break_level);
-#else
 s32 check_parts_break_level(WORK *wk) {
-    not_implemented(__func__);
-}
-#endif
+    WORK *c2wk = (WORK *)wk->my_effadrs;
+    s16 i;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC2", bs2_score_add_next);
+    if (wk->vital_old == c2wk->cmwk[wk->type]) {
+        return 0;
+    }
+
+    if ((wk->id != 0x7A || c2wk->dir_timer != 0) && wk->vital_old < c2wk->cmwk[wk->type]) {
+        for (i = wk->vital_old; i < c2wk->cmwk[wk->type]; i++) {
+            Additinal_Score_DM((WORK_Other *)wk->target_adrs, pbs_table[wk->type][i]);
+        }
+    }
+
+    wk->vital_old = c2wk->cmwk[wk->type];
+    return 1;
+}
+
+void bs2_score_add_next(WORK *wk) {
+    s16 i;
+
+    for (i = 1; i < 8; i++) {
+        Additinal_Score_DM((WORK_Other *)wk->target_adrs, pbs_table[i][wk->cmwk[i]]);
+    }
+}
 
 void set_1st_Bonus_Game_result(WORK *wk) {
     s16 i;
