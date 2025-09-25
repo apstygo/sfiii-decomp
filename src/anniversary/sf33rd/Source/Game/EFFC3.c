@@ -3,6 +3,7 @@
 #include "sf33rd/Source/Game/CHARID.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFF00.h"
+#include "sf33rd/Source/Game/EFFC2.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/EFFK2.h"
 #include "sf33rd/Source/Game/EFFK3.h"
@@ -1030,28 +1031,217 @@ const u16 car_parts[7][8][18][2] = { { { { 0x7D10, 0x0000 },
                                          { 0x7A3E, 0x0000 },
                                          { 0x7A3F, 0x0000 } } } };
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC3", effect_C3_move);
-#else
 void effect_C3_move(WORK_Other *ewk) {
-    not_implemented(__func__);
-}
-#endif
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC3", bs2_display_C3);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC3", set_display_car_parts);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC3", clear_parts_hit_data);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC3", effC3_main_process);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC3", get_efffC3_nsc);
-
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC3", effect_C3_init);
-#else
-s32 effect_C3_init(WORK_Other *wk, s16 data) {
-    not_implemented(__func__);
-}
+    s16 c3_hit_disp_check(u32 ix);
 #endif
+
+    switch (ewk->wu.routine_no[0]) {
+    case 0:
+        ewk->wu.routine_no[0]++;
+        ewk->wu.disp_flag = 1;
+        ewk->wu.charset_id = 17;
+        set_char_base_data(&ewk->wu);
+        get_bs2_parts_data(&ewk->wu);
+        clear_parts_hit_data(&ewk->wu);
+        set_display_car_parts(ewk);
+
+        if (c3_hit_disp_check(ewk->wu.type)) {
+            effect_00_init(&ewk->wu);
+        }
+
+        clear_attack_num(&ewk->wu);
+        break;
+
+    case 1:
+        if (ewk->wu.dead_f == 1) {
+            ewk->wu.disp_flag = 0;
+            ewk->wu.routine_no[0] = 2;
+            ewk->wu.routine_no[1] = 1;
+            break;
+        }
+
+        ewk->wu.dir_old = bs2_sync_bomb(&ewk->wu);
+
+        if (EXE_flag == 0 && Game_pause == 0) {
+            effC3_main_process(ewk);
+        }
+
+        if (ewk->wu.dir_old == 0) {
+            hit_push_request(&ewk->wu);
+        }
+
+        bs2_display_C3(&ewk->wu);
+        break;
+
+    case 2:
+        switch (ewk->wu.routine_no[1]) {
+        case 0:
+            if (check_effc2_p2_rno(&ewk->wu) == 0) {
+                bs2_display_C3(&ewk->wu);
+                break;
+            }
+
+            ewk->wu.disp_flag = 0;
+            clear_parts_hit_data(&ewk->wu);
+
+            if (ewk->wu.type != 3) {
+                ewk->wu.routine_no[1] = 1;
+            } else {
+                ewk->wu.routine_no[1] = 10;
+            }
+
+            break;
+
+        case 1:
+            ewk->wu.routine_no[0] = 3;
+            ewk->wu.routine_no[1] = 0;
+            break;
+
+        case 10:
+            switch (get_efffC3_nsc(&ewk->wu, (WORK *)ewk->wu.my_effadrs)) {
+            case 0:
+                ewk->wu.disp_flag = 0;
+                break;
+
+            case 1:
+                ewk->wu.disp_flag = 1;
+                break;
+
+            default:
+                ewk->wu.disp_flag = 0;
+                ewk->wu.routine_no[1] = 1;
+                break;
+            }
+
+            sort_push_request(&ewk->wu);
+            break;
+        }
+
+        break;
+
+    default:
+        push_effect_work(&ewk->wu);
+        break;
+    }
+}
+
+void bs2_display_C3(WORK *wk) {
+    wk->position_x = wk->xyz[0].disp.pos + wk->next_x;
+    wk->position_y = wk->xyz[1].disp.pos + wk->next_y;
+    wk->next_y = 0;
+    set_parts_priority(wk);
+    sort_push_request(wk);
+}
+
+void set_display_car_parts(WORK_Other *wk) {
+    const u16 *adrs;
+
+    bs2_get_parts_break(&wk->wu);
+    adrs = car_parts[wk->wu.type - 1][wk->wu.scr_mv_y][wk->wu.scr_mv_x - 1];
+    wk->wu.cg_number = adrs[0];
+    wk->wu.h_bod = wk->wu.body_adrs + (wk->wu.cg_hit_ix = adrs[1]);
+}
+
+void clear_parts_hit_data(WORK *wk) {
+    wk->cg_ja = wk->hit_ix_table[0];
+    wk->h_bod = &wk->body_adrs[wk->cg_ja.boix];
+    wk->h_cat = &wk->catch_adrs[wk->cg_ja.caix];
+    wk->h_cau = &wk->caught_adrs[wk->cg_ja.cuix];
+    wk->h_att = &wk->attack_adrs[wk->cg_ja.atix];
+    wk->h_hos = &wk->hosei_adrs[wk->cg_ja.hoix];
+    wk->h_han = &wk->hand_adrs[wk->cg_ja.bhix + wk->cg_ja.haix];
+}
+
+void effC3_main_process(WORK_Other *ewk) {
+#if defined(TARGET_PS2)
+    void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
+#endif
+
+    if (ewk->wu.dir_old) {
+        ewk->wu.routine_no[0] = 2;
+        ewk->wu.routine_no[1] = 0;
+        ewk->wu.routine_no[2] = 0;
+        bs2_get_parts_break(&ewk->wu);
+        set_char_move_init2(&ewk->wu, 0, ewk->wu.dir_step + 7, ewk->wu.scr_mv_x, 0);
+
+        if (ewk->wu.vital_old < 7) {
+            setup_effK2_sync_bomb(&ewk->wu);
+        }
+
+        return;
+    }
+
+    switch (ewk->wu.routine_no[1]) {
+    case 0:
+        break;
+
+    case 1:
+        switch (ewk->wu.routine_no[2]) {
+        case 0:
+            c3_new_damage(&ewk->wu);
+            ewk->wu.routine_no[2] = 1;
+            break;
+
+        case 1:
+            if (check_parts_break_level(&ewk->wu)) {
+                setup_effK2(&ewk->wu);
+            }
+
+            if (!setup_effK3(&ewk->wu)) {
+                setup_effK4(&ewk->wu);
+            }
+
+            ewk->wu.routine_no[1] = 0;
+            ewk->wu.routine_no[2] = 0;
+            break;
+        }
+
+        break;
+    }
+
+    set_display_car_parts(ewk);
+    get_shizumi_guai(&ewk->wu);
+}
+
+s32 get_efffC3_nsc(WORK *wk, WORK *c2wk) {
+    u16 num = c2wk->cg_number - 0x7DAA;
+
+    wk->position_x = c2wk->position_x;
+    wk->position_y = c2wk->position_y;
+    wk->position_z = c2wk->position_z + 2;
+
+    if (num < 6) {
+        wk->cg_number = effC3_nsc[num];
+        return 1;
+    }
+
+    if (c2wk->routine_no[0] == 2 && c2wk->routine_no[1] == 1) {
+        return -1;
+    }
+
+    return 0;
+}
+
+s32 effect_C3_init(WORK_Other *wk, s16 data) {
+    WORK_Other *ewk;
+    s16 ix;
+
+    if ((ix = pull_effect_work(1)) == -1) {
+        return -1;
+    }
+
+    ewk = (WORK_Other *)frw[ix];
+    ewk->wu.be_flag = 1;
+    ewk->wu.id = 123;
+    ewk->wu.type = data;
+    ewk->wu.my_mts = 5;
+    ewk->my_master = (u32 *)wk->my_master;
+    ewk->wu.target_adrs = wk->wu.target_adrs;
+    ewk->wu.my_effadrs = (u32 *)wk;
+    ewk->master_player = wk->master_player;
+    ewk->master_id = wk->master_id;
+    ewk->master_work_id = wk->master_work_id;
+    effect_C3_move(ewk);
+    return 0;
+}
