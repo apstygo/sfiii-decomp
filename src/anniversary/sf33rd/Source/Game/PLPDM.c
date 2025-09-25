@@ -1,4 +1,6 @@
 #include "sf33rd/Source/Game/PLPDM.h"
+#include "bin2obj/buttobi.h"
+#include "bin2obj/etc.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CALDIR.h"
 #include "sf33rd/Source/Game/CHARSET.h"
@@ -782,13 +784,13 @@ void buttobi_chakuchi_cg_type_check(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPDM", buttobi_add_y_check);
-#else
 void buttobi_add_y_check(PLW *wk) {
-    not_implemented(__func__);
+    s16 ady = _buttobi_add_y_table[wk->as->char_ix][wk->wu.dm_attlv];
+
+    if (wk->wu.xyz[1].disp.pos < ady) {
+        wk->wu.xyz[1].disp.pos = ady;
+    }
 }
-#endif
 
 void setup_smoke_type(PLW *wk) {
 #if defined(TARGET_PS2)
