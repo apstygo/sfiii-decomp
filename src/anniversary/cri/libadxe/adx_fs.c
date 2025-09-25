@@ -12,6 +12,9 @@
 #include <cri/sj.h>
 
 #include <memory.h>
+#if defined (_WIN32)
+#include <string.h>
+#endif
 
 typedef struct {
     /* 0x000 */ struct _adxf_ptinfo *next;

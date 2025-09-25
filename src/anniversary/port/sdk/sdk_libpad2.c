@@ -100,5 +100,9 @@ int sceVibGetProfile(int socket_number, unsigned char *profile) {
 }
 
 int sceVibSetActParam(int socket_number, int profile_size, unsigned char *profile, int data_size, unsigned char *data) {
+#if !defined(_WIN32)
     not_implemented(__func__);
+#else
+	return 1; //causes the game to crash before the title screen (on windows) even though stuff after it works. This is very temporary until a real implementation replaces this.
+#endif
 }
