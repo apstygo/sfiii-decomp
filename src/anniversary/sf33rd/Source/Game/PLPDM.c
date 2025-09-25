@@ -5,6 +5,8 @@
 #include "sf33rd/Source/Game/CALDIR.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFA7.h"
+#include "sf33rd/Source/Game/EFFD9.h"
+#include "sf33rd/Source/Game/EFFE2.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/EFFG6.h"
 #include "sf33rd/Source/Game/EFFI3.h"
@@ -484,13 +486,72 @@ s32 remake_initial_speeds(WORK *wk) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPDM", Damage_12000);
-#else
 void Damage_12000(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
+    s32 setup_accessories(PLW *, u32 data);
+    s32 effect_D9_init(PLW * wk, u32 data);
 #endif
+
+    set_dm_hos_flag_grd(wk);
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        wk->wu.rl_flag = (wk->wu.dm_rl + 1) & 1;
+        wk->dm_ix = wk->as->char_ix + wk->wu.dm_attlv;
+        set_char_move_init(&wk->wu, 1, wk->dm_ix);
+        wk->dm_step_tbl = _dm_step_data[_select_hit_dsd[wk->wu.dm_impact][get_weight_point(&wk->wu)]];
+        wk->zuru_timer = 0;
+        wk->zuru_ix_counter = 0;
+
+        if (wk->wu.dm_attribute) {
+            setup_accessories(wk, wk->wu.pat_status);
+
+            if (wk->wu.dm_attribute != 2) {
+                effect_D9_init(wk, (u8)wk->wu.dm_attribute);
+            }
+        }
+
+        break;
+
+    case 1:
+        wk->wu.routine_no[3]++;
+        setup_smoke_type(wk);
+
+        if (wk->wu.pat_status == 32) {
+            wk->wu.cmwk[14] = _damage_pause_table[1][wk->wu.dm_attlv];
+        } else {
+            wk->wu.cmwk[14] = _damage_pause_table[0][wk->wu.dm_attlv];
+        }
+        if (wk->wu.dm_jump_att_flag) {
+            wk->wu.cmwk[14] = _damage_pause_table[2][wk->wu.dm_attlv];
+        }
+
+        char_move_wca(&wk->wu);
+        add_dm_step_tbl(wk, 1);
+        break;
+
+    case 2:
+        add_dm_step_tbl(wk, 1);
+
+        if (--wk->wu.cmwk[14] <= 0) {
+            wk->wu.routine_no[3]++;
+            char_move_wca(&wk->wu);
+            break;
+        }
+
+        /* fallthrough */
+
+    default:
+        char_move(&wk->wu);
+        break;
+    }
+
+    if (wk->wu.cg_type == 0xFF || wk->wu.cg_type == 0x40) {
+        wk->guard_flag = 0;
+    }
+}
 
 void Damage_14000(PLW *wk) {
 #if defined(TARGET_PS2)
