@@ -2,8 +2,16 @@
 #include "common.h"
 #include "sf33rd/Source/Game/CHARID.h"
 #include "sf33rd/Source/Game/CHARSET.h"
+#include "sf33rd/Source/Game/EFF00.h"
+#include "sf33rd/Source/Game/EFFC3.h"
 #include "sf33rd/Source/Game/EFFECT.h"
+#include "sf33rd/Source/Game/EFFJ9.h"
+#include "sf33rd/Source/Game/EFFK2.h"
+#include "sf33rd/Source/Game/EFFK4.h"
+#include "sf33rd/Source/Game/HITCHECK.h"
+#include "sf33rd/Source/Game/PLMAIN.h"
 #include "sf33rd/Source/Game/PLS02.h"
+#include "sf33rd/Source/Game/Pow_Pow.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/workuser.h"
@@ -51,12 +59,14 @@ const s16 c2_last_bomb[4][4] = {
 
 void effc2_parts_work_chain_check(s16 flag);
 void copy_rno(WORK *wk);
-void player_hosei_data(WORK_Other *ewk, s16 flag, s16 f2);
 void setup_prio_ix(WORK_Other *c2wk);
-void set_parts_priority(WORK *wk);
 void setup_parts_break(WORK *wk);
-s32 check_parts_break_level(WORK *wk);
 void send_to_shizumi_guai(WORK *wk);
+
+void effC2_main_process_second(WORK_Other *ewk, PLW *twk);
+void c2_last_char_and_mvxy(WORK_Other *ewk);
+s16 c2_last_dir_select(PLW *wk, WORK *efw);
+void bs2_score_add_next(WORK *wk);
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC2", effect_C2_move);
