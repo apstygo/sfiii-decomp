@@ -5,6 +5,7 @@
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/workuser.h"
+#include "sf33rd/Source/Game/aboutspr.h"
 
 // forward declaration
 
@@ -24,12 +25,14 @@ void effect_F8_move(WORK_Other *ewk) {
         } else {
             ewk->wu.position_x = mwk->position_x - paring_b_mark_data[ewk->wu.direction][ewk->master_player][0];
         }
+        
         ewk->wu.position_y = mwk->position_y + paring_b_mark_data[ewk->wu.direction][ewk->master_player][1];
         if (ewk->wu.position_z == ewk->wu.xyz[2].disp.pos) {
             ewk->wu.position_z = ewk->wu.next_z;
         } else {
             ewk->wu.position_z = ewk->wu.xyz[2].disp.pos;
         }
+        
         set_char_move_init(&ewk->wu, 0, 3);
         sort_push_request(&ewk->wu);
         return;
@@ -39,6 +42,7 @@ void effect_F8_move(WORK_Other *ewk) {
             ewk->wu.routine_no[0] += 1;
             return;
         }
+        
         if ((EXE_flag == 0) && (Game_pause == 0)) {
             char_move(&ewk->wu);
             if (ewk->wu.cg_type == 0xFF) {
@@ -47,6 +51,7 @@ void effect_F8_move(WORK_Other *ewk) {
                 return;
             }
         }
+        
         sort_push_request(&ewk->wu);
         return;
     case 2:
