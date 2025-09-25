@@ -341,6 +341,8 @@ void Damage_04000(PLW *wk) {
             break;
         }
 
+        /* fallthrough */
+
     default:
         char_move(&wk->wu);
         break;
