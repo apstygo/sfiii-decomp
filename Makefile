@@ -112,27 +112,28 @@ CLANG_WARNINGS += -Wno-shift-count-overflow
 CLANG_DEFINES := -DTARGET_SDL3 -DSOUND_DISABLED -DXPT_TGT_EE -D_POSIX_C_SOURCE -DDEBUG
 CLANG_INCLUDES := $(COMMON_INCLUDES) -Ilibco
 
+# SDL3 dependency for Windows
+SDL3_WINDOWS_URL := https://github.com/libsdl-org/SDL/releases/download/release-3.2.22/SDL3-devel-3.2.22-mingw.tar.gz
+SDL3_WINDOWS_DIR := build/deps/SDL3-windows
+SDL3_WINDOWS_TAR := build/deps/SDL3-devel-3.2.22-mingw.tar.gz
+SDL3_PREFIX ?= $(SDL3_WINDOWS_DIR)/x86_64-w64-mingw32
+
 # Platform-specific flags and libraries
 PLATFORM_CLANG_FLAGS :=
 PLATFORM_LINKER_FLAGS := -g
 
 ifeq ($(PLATFORM),windows)
   PLATFORM_CLANG_FLAGS += -D_CRT_SECURE_NO_WARNINGS
+  PLATFORM_CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
+  PLATFORM_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
   ifeq ($(CI),true)
     # Native MSVC build (CI)
     LIBCO_A := libco/build/Debug/libco.lib
-    PLATFORM_CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
-    PLATFORM_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
-  else ifeq ($(CROSS_COMPILING),1)
-    # Cross-compiling
-    LIBCO_A := libco/build/liblibco.a
-    PLATFORM_CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
-    PLATFORM_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
+    PLATFORM_LINKER_FLAGS += -Llibco/build/Debug -llibco
   else
-    # Native MSYS2/MinGW build
+    # Cross-compiling or native MSYS2/MinGW build
     LIBCO_A := libco/build/liblibco.a
-    PLATFORM_CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
-    PLATFORM_LINKER_FLAGS += -L"$(SDL3_PREFIX)/lib" -lSDL3
+    PLATFORM_LINKER_FLAGS += -Llibco/build -llibco
   endif
 else ifneq ($(PLATFORM),ps2)
   # macOS or Linux
@@ -145,12 +146,6 @@ else
   LIBCO_A :=
 endif
 
-# SDL3 dependency for Windows
-SDL3_WINDOWS_URL := https://github.com/libsdl-org/SDL/releases/download/release-3.2.22/SDL3-devel-3.2.22-mingw.tar.gz
-SDL3_WINDOWS_DIR := build/deps/SDL3-windows
-SDL3_WINDOWS_TAR := build/deps/SDL3-devel-3.2.22-mingw.tar.gz
-SDL3_PREFIX ?= $(SDL3_WINDOWS_DIR)/x86_64-w64-mingw32
-
 # Finalize flags
 CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) $(PLATFORM_CLANG_FLAGS) -std=c99 -O0
 CLANG_LINKER_FLAGS := $(PLATFORM_LINKER_FLAGS)
@@ -158,13 +153,7 @@ CLANG_LINKER_FLAGS := $(PLATFORM_LINKER_FLAGS)
 # DLL copy command for Windows builds
 DLL_COPY_COMMAND :=
 ifeq ($(PLATFORM),windows)
-  ifeq ($(CI),true)
-    DLL_COPY_COMMAND := @echo "Copying SDL3.dll for CI build..." && cp "$(SDL3_PREFIX)/bin/SDL3.dll" "$(BUILD_DIR)/"
-  else ifeq ($(CROSS_COMPILING),1)
-    DLL_COPY_COMMAND := @echo "Copying SDL3.dll for cross-compilation..." && cp "$(SDL3_PREFIX)/bin/SDL3.dll" "$(BUILD_DIR)/"
-  else
-    DLL_COPY_COMMAND := @echo "Copying SDL3.dll for native build..." && cp "$(SDL3_PREFIX)/bin/SDL3.dll" "$(BUILD_DIR)/"
-  endif
+    DLL_COPY_COMMAND := @echo "Copying SDL3.dll..." && cp "$(SDL3_PREFIX)/bin/SDL3.dll" "$(BUILD_DIR)/"
 endif
 
 # Files
@@ -246,8 +235,7 @@ else
 
 $(MAIN_TARGET): $(ALL_O_FILES) $(LIBCO_A)
 ifeq ($(PLATFORM),windows)
-	@find build -name '*.o' > $(BUILD_DIR)/objects.txt
-	@echo $(LIBCO_A) >> $(BUILD_DIR)/objects.txt
+	@find $(BUILD_DIR) -name '*.o' > $(BUILD_DIR)/objects.txt
 	$(CC) @$(BUILD_DIR)/objects.txt $(CLANG_LINKER_FLAGS) -o $@
 	$(DLL_COPY_COMMAND)
 else
@@ -290,8 +278,10 @@ $(SDL3_WINDOWS_DIR)/.stamp:
 	@wget -q -O - $(SDL3_WINDOWS_URL) | tar -xz -C $(SDL3_WINDOWS_DIR) --strip-components=1
 	@touch $@
 
-ifeq ($(CROSS_COMPILING),1)
+ifeq ($(PLATFORM),windows)
+ifeq ($(CI),)
 $(MAIN_TARGET): $(SDL3_WINDOWS_DIR)/.stamp
+endif
 endif
 
 $(WIBO):
