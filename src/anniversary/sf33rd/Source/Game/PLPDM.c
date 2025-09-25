@@ -981,13 +981,58 @@ void Damage_25000(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPDM", Damage_26000);
-#else
 void Damage_26000(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        set_char_move_init(&wk->wu, 6, wk->as->char_ix);
+        check_dmpat_to_dmpat(wk);
+        buttobi_add_y_check(wk);
+        setup_butt_own_data(&wk->wu);
+        wk->wu.mvxy.d[1].sp = (wk->wu.mvxy.d[1].sp * 80) / 100;
+        cal_initial_speed_y(&wk->wu, _buttobi_time_table[wk->as->char_ix][wk->wu.dm_attlv], 0);
+        wk->wu.mvxy.a[0].real.h = wk->move_power;
+        wk->wu.mvxy.a[0].real.l = 0;
+        wk->wu.mvxy.a[0].sp *= 3;
+        wk->wu.mvxy.a[0].sp /= 4;
+        wk->wu.mvxy.d[0].sp = 0;
+
+        if (wk->wu.mvxy.a[0].real.h > 4) {
+            wk->wu.mvxy.a[0].real.h = 4;
+        }
+
+        if (wk->wu.mvxy.a[0].real.h <= 0) {
+            wk->wu.mvxy.a[0].real.h = 1;
+        }
+
+        get_sky_dm_timer(wk);
+        break;
+
+    case 1:
+        wk->wu.routine_no[3]++;
+        char_move_wca_init(&wk->wu);
+        /* fallthrough */
+
+    case 2:
+        set_dm_hos_flag_sky(wk);
+        first_flight_union(wk, 3, 3);
+
+        if (wk->wu.routine_no[3] == 3 && wk->player_number == 8) {
+            wk->wu.rl_flag = (wk->wu.rl_flag + 1) & 1;
+        }
+
+        break;
+
+    case 3:
+        char_move(&wk->wu);
+        buttobi_chakuchi_cg_type_check(wk);
+        break;
+    }
+}
 
 void Damage_27000(PLW *wk) {
 #if defined(TARGET_PS2)
