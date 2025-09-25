@@ -880,13 +880,56 @@ void Damage_23000(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPDM", Damage_24000);
-#else
 void Damage_24000(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        wk->wu.rl_flag = (wk->wu.dm_rl + 1) & 1;
+        wk->dm_step_tbl = _dm_step_data[_select_hit_dsd[wk->wu.dm_impact][get_weight_point(&wk->wu)]];
+
+        if (wk->as->char_ix == 0x44 && (wk->dm_point == 2 || wk->dm_point == 3)) {
+            set_char_move_init(&wk->wu, 1, 0x45);
+        } else {
+            wk->zuru_timer = 0;
+            wk->zuru_ix_counter = 0;
+            set_char_move_init(&wk->wu, 1, wk->as->char_ix);
+        }
+
+        break;
+
+    case 1:
+        wk->wu.routine_no[3]++;
+        wk->wu.cmwk[14] = _damage_pause_table[0][wk->wu.dm_attlv];
+        char_move_wca(&wk->wu);
+        add_dm_step_tbl(wk, 1);
+        break;
+
+    case 2:
+        add_dm_step_tbl(wk, 1);
+
+        if (--wk->wu.cmwk[14] <= 0) {
+            wk->wu.routine_no[3]++;
+            char_move_wca(&wk->wu);
+            break;
+        }
+
+        /* fallthrough */
+
+    default:
+        char_move(&wk->wu);
+
+        if (wk->wu.cg_type == 1) {
+            wk->wu.routine_no[2] = 0;
+            wk->wu.routine_no[3] = 1;
+        }
+
+        break;
+    }
+}
 
 void Damage_25000(PLW *wk) {
 #if defined(TARGET_PS2)
