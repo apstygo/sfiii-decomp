@@ -1089,13 +1089,68 @@ void Damage_28000(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPDM", Damage_29000);
-#else
 void Damage_29000(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
+
+    PLW *twk = (PLW *)wk->wu.target_adrs;
+    const u16 *datadrs;
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.dm_rl = twk->wu.rl_flag;
+
+        if (wk->dm_point > 2) {
+            wk->wu.routine_no[2] = wk->as->data_ix;
+            plpdm_lv_00[wk->wu.routine_no[2]](wk);
+            break;
+        }
+
+        wk->wu.routine_no[3]++;
+        datadrs = exdm_ix_data[wk->wu.dm_exdm_ix][wk->player_number];
+
+        if (twk->wu.rl_flag) {
+            wk->wu.xyz[0].disp.pos = twk->wu.xyz[0].disp.pos - datadrs[0];
+        } else {
+            wk->wu.xyz[0].disp.pos = twk->wu.xyz[0].disp.pos + datadrs[0];
+        }
+
+        wk->wu.xyz[1].disp.pos = twk->wu.xyz[1].disp.pos + datadrs[1];
+        wk->wu.rl_flag = (wk->wu.dm_rl + datadrs[2]) & 1;
+        wk->wu.cg_olc_ix = datadrs[3];
+        wk->wu.cg_olc.olc_ix = wk->wu.olc_ix_table[wk->wu.cg_olc_ix].olc_ix;
+        wk->wu.cg_number = datadrs[4];
+        wk->wu.cg_ctr = 0xFA;
+        wk->wu.cg_flip = 0;
+        wk->wu.cg_type = 0;
+        wk->wu.cg_hit_ix = 0;
+        wk->wu.cg_ja = wk->wu.hit_ix_table[wk->wu.cg_hit_ix];
+        set_jugde_area(&wk->wu);
+        break;
+
+    case 1:
+        wk->wu.routine_no[2] = wk->as->data_ix;
+        wk->wu.routine_no[3]++;
+
+        if (wk->wu.routine_no[2] == 18) {
+            set_char_move_init(&wk->wu, 6, wk->as->char_ix);
+            char_move_wca_init(&wk->wu);
+            buttobi_add_y_check(wk);
+            setup_butt_own_data(&wk->wu);
+            cal_initial_speed_y(&wk->wu, _buttobi_time_table[wk->as->char_ix][wk->wu.dm_attlv], wk->wu.xyz[1].disp.pos);
+        } else {
+            setup_butt_own_data(&wk->wu);
+            set_char_move_init(&wk->wu, 6, wk->as->char_ix);
+            char_move_wca_init(&wk->wu);
+            buttobi_add_y_check(wk);
+        }
+
+        get_sky_dm_timer(wk);
+        plpdm_lv_00[wk->wu.routine_no[2]](wk);
+        break;
+    }
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPDM", Damage_30000);
