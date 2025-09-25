@@ -53,6 +53,10 @@ void get_damage_reaction_data(PLW *wk);
 void damage_atemi_setup(PLW *wk, PLW *ek);
 void check_bullet_damage(PLW *wk);
 void check_dmpat_to_dmpat(PLW * /* unused */);
+void add_dm_step_tbl(PLW *wk, s8 flag);
+void set_dm_hos_flag_grd(PLW *wk);
+void setup_smoke_type(PLW *wk);
+s32 remake_initial_speeds(WORK *wk);
 
 const s16 dir32_guard_air[32] = { 0, 0, 0, 1, 1, 1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4,
                                   4, 4, 4, 4, 4, 3, 3, 3, 3, 2, 2, 1, 1, 1, 0, 0 };
@@ -293,13 +297,53 @@ void Damage_01000(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPDM", Damage_04000);
-#else
 void Damage_04000(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
+
+    wk->guard_flag = 0;
+    wk->guard_chuu = guard_kind[wk->wu.routine_no[2] - 4];
+    set_dm_hos_flag_grd(wk);
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        wk->wu.rl_flag = (wk->wu.dm_rl + 1) & 1;
+
+        if ((wk->wu.dm_quake /= 2) < 4) {
+            wk->wu.dm_quake = 4;
+        }
+
+        set_char_move_init(&wk->wu, 1, wk->as->char_ix);
+        wk->dm_step_tbl = _dm_step_data[_select_grd_dsd[wk->wu.dm_impact][get_weight_point(&wk->wu)]];
+        wk->zuru_timer = 0;
+        wk->zuru_ix_counter = 0;
+        pp_pulpara_guard(&wk->wu);
+        break;
+
+    case 1:
+        wk->wu.routine_no[3]++;
+        setup_smoke_type(wk);
+        wk->wu.cmwk[14] = _guard_pause_table[0][wk->wu.dm_attlv];
+        char_move_wca(&wk->wu);
+        add_dm_step_tbl(wk, 1);
+        break;
+
+    case 2:
+        add_dm_step_tbl(wk, 1);
+
+        if (--wk->wu.cmwk[14] <= 0) {
+            wk->wu.routine_no[3]++;
+            char_move_wca(&wk->wu);
+            break;
+        }
+
+    default:
+        char_move(&wk->wu);
+        break;
+    }
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPDM", Damage_07000);
