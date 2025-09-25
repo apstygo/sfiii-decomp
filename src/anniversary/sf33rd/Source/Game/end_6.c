@@ -384,7 +384,7 @@ void end_601_2000() {
 #if defined(TARGET_PS2)
             bgw_ptr->xy[1].disp.pos = end_6_pos[end_w.r_no_2][1] - end_600_2000_tbl[bgw_ptr->free][2];
 #else
-            bgw_ptr->xy[1].disp.pos = end_6_pos[end_w.r_no_2][1] - *(((s16 *)end_600_2000_tbl[bgw_ptr->free]) + 2);
+            bgw_ptr->xy[1].disp.pos = end_6_pos[end_w.r_no_2][1] - end_600_2000_tbl[bgw_ptr->free + 1][0];
 #endif
             bgw_ptr->abs_x = 0x200 - end_600_2000_tbl[bgw_ptr->free][0];
             bgw_ptr->abs_y = -end_600_2000_tbl[bgw_ptr->free][1];
