@@ -1860,6 +1860,6 @@ void Check_Off_Vib() {
     // Do nothing
 }
 
-s32 Flash_Violent(s32 /* unused */, s32 /* unused */) {
+s32 Flash_Violent(WORK_Other * /* unused */, s32 /* unused */) {
     return 1;
 }
