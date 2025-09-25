@@ -1062,13 +1062,32 @@ void Damage_27000(PLW *wk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPDM", Damage_28000);
-#else
 void Damage_28000(PLW *wk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
+
+    switch (wk->wu.routine_no[3]) {
+    case 0:
+        wk->wu.routine_no[3]++;
+        set_char_move_init(&wk->wu, 6, wk->as->char_ix);
+        buttobi_add_y_check(wk);
+        setup_butt_own_data(&wk->wu);
+        cal_initial_speed_y(&wk->wu, _buttobi_time_table[wk->as->char_ix][wk->wu.dm_attlv], wk->wu.xyz[1].disp.pos);
+        get_sky_dm_timer(wk);
+        break;
+
+    case 1:
+        set_dm_hos_flag_sky(wk);
+        first_flight_union(wk, 2, 3);
+        break;
+
+    case 2:
+        char_move(&wk->wu);
+        buttobi_chakuchi_cg_type_check(wk);
+        break;
+    }
+}
 
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/PLPDM", Damage_29000);
