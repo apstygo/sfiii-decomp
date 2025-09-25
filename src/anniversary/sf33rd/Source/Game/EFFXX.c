@@ -488,6 +488,6 @@ const s32 (*effinitjptbl[59])() = {
     NULL, // effect_L7_init
     effect_M2_init,
     NULL, // effect_M8_init
-    effect_F0_init, // effect_F0_init
+    effect_F0_init,
 };
 #endif
