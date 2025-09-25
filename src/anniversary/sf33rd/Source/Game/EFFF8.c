@@ -1,18 +1,18 @@
 #include "sf33rd/Source/Game/EFFF8.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
+#include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
-#include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/workuser.h"
-#include "bin2obj/char_table.h"
 
-//forward declaration
+// forward declaration
 
 const s16 paring_b_mark_data[3][20][2];
 
-void effect_F8_move(WORK_Other* ewk) {
-    WORK *mwk = (WORK*)ewk->my_master;
-    
+void effect_F8_move(WORK_Other *ewk) {
+    WORK *mwk = (WORK *)ewk->my_master;
+
     switch (ewk->wu.routine_no[0]) {
     case 0:
         ewk->wu.routine_no[0] += 1;
@@ -58,15 +58,15 @@ void effect_F8_move(WORK_Other* ewk) {
     }
 }
 
-s32 effect_F8_init(PLW* wk, u8 data) {
+s32 effect_F8_init(PLW *wk, u8 data) {
     WORK_Other *ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(2)) == -1) {
         return -1;
     }
-    
-    ewk = (WORK_Other*)frw[ix];
+
+    ewk = (WORK_Other *)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 158;
     ewk->wu.work_id = 64;
@@ -76,7 +76,7 @@ s32 effect_F8_init(PLW* wk, u8 data) {
     ewk->wu.my_col_mode = 0x4200;
     ewk->wu.my_col_code = 0x2020;
     ewk->wu.my_family = wk->wu.my_family;
-    ewk->my_master = (u32*)wk;
+    ewk->my_master = (u32 *)wk;
     ewk->master_id = wk->wu.id;
     ewk->master_work_id = wk->wu.work_id;
     ewk->master_player = wk->player_number;
@@ -84,4 +84,14 @@ s32 effect_F8_init(PLW* wk, u8 data) {
     return 0;
 }
 
-const s16 paring_b_mark_data[3][20][2] = {{{28,100},{12,88},{10,84},{8,76},{14,88},{16,86},{24,104},{8,70},{20,82},{28,70},{8,76},{10,84},{10,84},{28,100},{10,84},{10,72},{27,64},{28,93},{28,71},{24,80}},{{12,52},{26,52},{16,50},{10,48},{24,60},{24,66},{26,68},{16,46},{28,44},{26,44},{10,48},{16,50},{16,50},{12,52},{16,50},{0,0},{27,39},{35,44},{18,57},{27,43}},{{40,92},{42,62},{28,76},{28,76},{38,68},{30,84},{28,108},{28,56},{38,52},{40,60},{28,76},{32,48},{32,48},{40,92},{28,76},{28,64},{28,76},{52,95},{20,97},{26,77}}};
+const s16 paring_b_mark_data[3][20][2] = {
+    { { 28, 100 }, { 12, 88 }, { 10, 84 }, { 8, 76 },  { 14, 88 }, { 16, 86 }, { 24, 104 },
+      { 8, 70 },   { 20, 82 }, { 28, 70 }, { 8, 76 },  { 10, 84 }, { 10, 84 }, { 28, 100 },
+      { 10, 84 },  { 10, 72 }, { 27, 64 }, { 28, 93 }, { 28, 71 }, { 24, 80 } },
+    { { 12, 52 }, { 26, 52 }, { 16, 50 }, { 10, 48 }, { 24, 60 }, { 24, 66 }, { 26, 68 },
+      { 16, 46 }, { 28, 44 }, { 26, 44 }, { 10, 48 }, { 16, 50 }, { 16, 50 }, { 12, 52 },
+      { 16, 50 }, { 0, 0 },   { 27, 39 }, { 35, 44 }, { 18, 57 }, { 27, 43 } },
+    { { 40, 92 }, { 42, 62 }, { 28, 76 }, { 28, 76 }, { 38, 68 }, { 30, 84 }, { 28, 108 },
+      { 28, 56 }, { 38, 52 }, { 40, 60 }, { 28, 76 }, { 32, 48 }, { 32, 48 }, { 40, 92 },
+      { 28, 76 }, { 28, 64 }, { 28, 76 }, { 52, 95 }, { 20, 97 }, { 26, 77 } }
+};
