@@ -36,6 +36,7 @@ void effect_F8_move(WORK_Other *ewk) {
         set_char_move_init(&ewk->wu, 0, 3);
         sort_push_request(&ewk->wu);
         return;
+        
     case 1:
         if ((ewk->wu.dead_f == 1) || (Suicide[0] != 0)) {
             ewk->wu.disp_flag = 0;
@@ -54,9 +55,11 @@ void effect_F8_move(WORK_Other *ewk) {
         
         sort_push_request(&ewk->wu);
         return;
+        
     case 2:
         ewk->wu.routine_no[0] = 3;
         return;
+        
     default:
         push_effect_work(&ewk->wu);
         return;

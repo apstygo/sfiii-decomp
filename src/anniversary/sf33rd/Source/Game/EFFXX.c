@@ -455,7 +455,7 @@ const s32 (*effinitjptbl[59])() = {
     setup_status_flag,
     reset_extra_bg_flag,
     flip_my_rl_flag,
-    effect_F8_init, // effect_F8_init
+    effect_F8_init,
     clear_caution_flag,
     NULL, // effect_G3_init
     NULL, // effect_G4_init
