@@ -1119,7 +1119,7 @@ void Damage_29000(PLW *wk) {
         wk->wu.xyz[1].disp.pos = twk->wu.xyz[1].disp.pos + datadrs[1];
         wk->wu.rl_flag = (wk->wu.dm_rl + datadrs[2]) & 1;
         wk->wu.cg_olc_ix = datadrs[3];
-        wk->wu.cg_olc.olc_ix = wk->wu.olc_ix_table[wk->wu.cg_olc_ix].olc_ix;
+        wk->wu.cg_olc = wk->wu.olc_ix_table[wk->wu.cg_olc_ix];
         wk->wu.cg_number = datadrs[4];
         wk->wu.cg_ctr = 0xFA;
         wk->wu.cg_flip = 0;
