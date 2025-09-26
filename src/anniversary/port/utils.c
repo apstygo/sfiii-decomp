@@ -24,7 +24,7 @@ void fatal_error(const s8 *fmt, ...) __dead2 {
     fprintf(stderr, "Stack trace:\n");
     backtrace_symbols_fd(buffer, nptrs, fileno(stderr));
 #else
-	fprintf(stderr, "Stack trace not available on Windows currently\n");
+	fprintf(stderr, "Stack trace not available on Windows currently\n"); //TODO: fix!!!
 #endif
     abort();
 }

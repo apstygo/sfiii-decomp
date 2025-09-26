@@ -1,0 +1,36 @@
+name: Build (Windows)
+
+on:
+    push:
+        branches: [ "main" ]
+    pull_request:
+        branches: [ "main" ]
+
+jobs:
+    build:
+        runs-on: windows-latest
+
+        steps:
+          - name: Checkout repository
+            uses: actions/checkout@v4
+
+          - name: Install SDL3 #potentially remove this
+            uses: libsdl-org/setup-sdl@v1
+            id: sdl
+            with:
+                version: 3-latest
+
+          - name: Install dependencies #revise this
+            run: choco install make
+
+          - name: Build for Windows
+            run: |
+                make PLATFORM=windows SDL3_PREFIX=${{ steps.sdl.outputs.prefix }} 2>&1 | tee build.log
+            shell: bash
+
+          - name: Upload build log
+            if: always()
+            uses: actions/upload-artifact@v4
+            with:
+                name: build-log
+                path: build.log
