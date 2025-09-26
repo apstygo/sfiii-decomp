@@ -11,18 +11,8 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void disp_effK2(WORK *wk, WORK *mk, HAHEN *hk);
-void effK2_parts_move_type_0(WORK_Other *ewk);
-void effK2_parts_move_type_1(WORK_Other *ewk, HAHEN *hahen);
-void effK2_parts_move_type_2(WORK_Other *ewk);
-void effK2_parts_move_type_3(WORK_Other *ewk, HAHEN *hahen);
-void effK2_parts_move_type_4(WORK_Other *ewk);
-void effK2_parts_move_type_5(WORK_Other *ewk);
-void effK2_parts_move_type_6(WORK_Other *ewk);
-void effK2_parts_move_type_7(WORK_Other *ewk);
-void effK2_parts_move_type_8(WORK_Other *ewk, HAHEN *hahen);
+void disp_effK2(WORK *wk, WORK *mk, DADD *hk);
 void set_next_next_y(WORK *wk, u8 flag);
-s32 effect_K2_init(WORK_Other *wk, u32 *dad);
 
 const DADD hahen_dummy[1] = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
 
@@ -231,116 +221,536 @@ const s16 k2_kidou[83][4] = {
     { 512, 0, 1280, -96 },    { 768, 0, 768, -96 },    { 128, 0, 1536, -96 }
 };
 
+void (*const effK2_main_process[9])();
+
+void effect_K2_move(WORK_Other *ewk) {
+#if defined(TARGET_PS2)
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
+#endif
+
+    DADD *hahen = (DADD *)ewk->wu.target_adrs;
+    WORK *mwk = (WORK *)ewk->my_master;
+
+    if (ewk->wu.dir_old == 0 && (mwk->id != ewk->master_work_id || mwk->dir_old != 0)) {
+        ewk->wu.dir_old = 1;
+    }
+
+    switch (ewk->wu.routine_no[0]) {
+    case 0:
+        ewk->wu.routine_no[0]++;
+        ewk->wu.routine_no[1] = hahen->rno;
+        ewk->wu.disp_flag = hahen->init_dsp;
+        ewk->wu.blink_timing = ewk->master_id;
+        ewk->wu.xyz[0].disp.pos += hahen->hx;
+        ewk->wu.xyz[1].disp.pos += hahen->hy;
+        ewk->wu.position_z = 24;
+        ewk->wu.kage_hy = 0;
+
+        if ((ewk->wu.next_y = hahen->gr1st) == 0) {
+            ewk->wu.next_y = (random_16() & 7) + 4;
+
+            if (hahen->kage_char) {
+                ewk->wu.next_y = -ewk->wu.next_y;
+            }
+            if ((ewk->wu.xyz[1].disp.pos) < 0) {
+                ewk->wu.next_y += ewk->wu.xyz[1].disp.pos;
+            }
+        }
+
+        setup_move_data_easy(&ewk->wu, k2_kidou[hahen->ispix], 1, 0);
+        set_char_move_init(&ewk->wu, 0, (hahen->cix));
+
+        if (hahen->cix == 0x78) {
+            setup_demojump((PLW *)ewk->wu.hit_adrs, 1);
+        }
+
+        disp_effK2(&ewk->wu, mwk, hahen);
+        break;
+
+    case 1:
+        if (ewk->wu.dead_f == 1 || Suicide[0] != 0) {
+            ewk->wu.disp_flag = 0;
+            ewk->wu.routine_no[0]++;
+            break;
+        }
+
+        if (EXE_flag == 0 && Game_pause == 0) {
+            effK2_main_process[ewk->wu.routine_no[1]](ewk, hahen);
+        }
+
+        disp_effK2(&ewk->wu, mwk, hahen);
+        break;
+
+    case 2:
+        ewk->wu.routine_no[0] = 3;
+        break;
+
+    default:
+        push_effect_work(&ewk->wu);
+        break;
+    }
+}
+
+void disp_effK2(WORK *wk, WORK *mk, DADD *hk) {
+    s16 flag;
+    s16 hz;
+
+    wk->position_x = wk->xyz[0].disp.pos;
+    wk->position_y = wk->xyz[1].disp.pos;
+
+    if (wk->dir_old == 0) {
+        flag = hk->pri_use;
+        hz = hk->hzd;
+
+        if (wk->mvxy.a[1].real.h >= 0) {
+            flag >>= 4;
+            hz = hk->hzr;
+        }
+
+        flag &= 0xF;
+
+        switch (flag) {
+        case 1:
+            wk->position_z = hz + 24;
+            break;
+
+        case 15:
+            wk->position_z = hz + 68;
+            break;
+
+        default:
+            wk->position_z = hz + mk->position_z;
+            break;
+        }
+    }
+
+    sort_push_request(wk);
+}
+
+void effK2_parts_move_type_0(WORK_Other *ewk, DADD *) {
+    switch (ewk->wu.routine_no[2]) {
+    case 0:
+        char_move(&ewk->wu);
+        add_mvxy_speed(&ewk->wu);
+        cal_mvxy_speed(&ewk->wu);
+
+        if (ewk->wu.cg_type == 0xFF) {
+            ewk->wu.routine_no[1] = 1;
+            ewk->wu.routine_no[2] = 10;
+            reset_mvxy_data(&ewk->wu);
+        } else if (screen_x_range_check(&ewk->wu)) {
+            ewk->wu.routine_no[2] = 20;
+            ewk->wu.routine_no[1] = 1;
+        }
+
+        break;
+    }
+}
+
+void effK2_parts_move_type_1(WORK_Other *ewk, DADD *hahen) {
+#if defined(TARGET_PS2)
+    void set_next_next_y(WORK * wk, u32 flag);
+#endif
+
+    switch (ewk->wu.routine_no[2]) {
+    case 0:
+        switch (ewk->wu.dm_attlv) {
+        case 2:
+        case 3:
+            char_move(&ewk->wu);
+            /* fallthrough */
+
+        case 1:
+            char_move(&ewk->wu);
+            break;
+        }
+
+        char_move(&ewk->wu);
+        add_mvxy_speed(&ewk->wu);
+        cal_mvxy_speed(&ewk->wu);
+
+        if (ewk->wu.cg_type == 0xFF) {
+            ewk->wu.routine_no[2] = 10;
+            break;
+        }
+
+        if (ewk->wu.mvxy.a[1].sp <= 0) {
+            if (ewk->wu.xyz[1].disp.pos <= ewk->wu.next_y) {
+                ewk->wu.xyz[1].disp.pos = ewk->wu.next_y;
+
+                if (++ewk->wu.kage_hy > hahen->bau) {
+                    ewk->wu.routine_no[2] = 10;
+                } else {
+                    ewk->wu.routine_no[2] = 1;
+                }
+            }
+
+            if (screen_x_range_check(&ewk->wu)) {
+                ewk->wu.routine_no[2] = 20;
+            }
+        }
+
+        break;
+
+    case 1:
+        ewk->wu.routine_no[2] = 0;
+        ewk->wu.mvxy.a[0].sp /= 2;
+        ewk->wu.mvxy.d[0].sp /= 2;
+        ewk->wu.mvxy.a[1].sp = -ewk->wu.mvxy.a[1].sp;
+        ewk->wu.mvxy.a[1].sp /= 3;
+        set_next_next_y(&ewk->wu, hahen->kage_char);
+        break;
+
+    case 10:
+        switch (hahen->doa) {
+        case 0:
+            ewk->wu.disp_flag = 0;
+            ewk->wu.routine_no[2] = 20;
+            break;
+
+        case 1:
+            ewk->wu.disp_flag = 1;
+            ewk->wu.routine_no[2] = 15;
+            break;
+
+        default:
+            ewk->wu.disp_flag = 2;
+            ewk->wu.kage_prio = 20;
+            ewk->wu.routine_no[2] = 11;
+            break;
+        }
+
+        break;
+
+    case 11:
+        if (--ewk->wu.kage_prio > 0) {
+            break;
+        }
+
+        /* fallthrough */
+
+    case 20:
+        ewk->wu.disp_flag = 0;
+        ewk->wu.routine_no[0] = 2;
+        break;
+    }
+}
+
+void effK2_parts_move_type_2(WORK_Other *ewk, DADD * /* unused */) {
+    switch (ewk->wu.routine_no[2]) {
+    case 0:
+        char_move(&ewk->wu);
+        add_mvxy_speed(&ewk->wu);
+        cal_mvxy_speed(&ewk->wu);
+
+        if (ewk->wu.xyz[1].disp.pos <= ewk->wu.next_y) {
+            ewk->wu.xyz[1].disp.pos = ewk->wu.next_y;
+            ewk->wu.routine_no[1] = 0;
+            char_move_cmja(&ewk->wu);
+            reset_mvxy_data(&ewk->wu);
+        } else if (screen_x_range_check(&ewk->wu) != 0) {
+            ewk->wu.routine_no[2] = 20;
+            ewk->wu.routine_no[1] = 1;
+        }
+
+        break;
+    }
+}
+
+void effK2_parts_move_type_3(WORK_Other *ewk, DADD *hahen) {
+    switch (ewk->wu.routine_no[2]) {
+    case 0:
+        char_move(&ewk->wu);
+        add_mvxy_speed(&ewk->wu);
+        cal_mvxy_speed(&ewk->wu);
+
+        if (ewk->wu.mvxy.a[1].sp > 0) {
+            break;
+        }
+
+        if (ewk->wu.xyz[1].disp.pos <= ewk->wu.next_y) {
+            ewk->wu.xyz[1].disp.pos = ewk->wu.next_y;
+
+            if (++ewk->wu.kage_hy > hahen->bau) {
+                ewk->wu.routine_no[2] = 10;
+            } else {
+                ewk->wu.routine_no[2] = 1;
+            }
+
+            ewk->wu.routine_no[1] = 1;
+            char_move_cmja(&ewk->wu);
+            reset_mvxy_data(&ewk->wu);
+        } else if (screen_x_range_check(&ewk->wu)) {
+            ewk->wu.routine_no[1] = 1;
+            ewk->wu.routine_no[2] = 20;
+        }
+
+        break;
+    }
+}
+
+void effK2_parts_move_type_4(WORK_Other *ewk, DADD *arg1) {
+    switch (ewk->wu.routine_no[2]) {
+    case 0:
+        char_move(&ewk->wu);
+
+        if (ewk->wu.dir_old) {
+            ewk->wu.routine_no[2] = 1;
+            ewk->wu.kage_prio = 60;
+        }
+
+        break;
+
+    case 1:
+        char_move(&ewk->wu);
+
+        if (--ewk->wu.kage_prio <= 0) {
+            char_move_cmja(&ewk->wu);
+            ewk->wu.routine_no[1] = 0;
+            ewk->wu.routine_no[2] = 0;
+        }
+
+        break;
+    }
+}
+
+void effK2_parts_move_type_5(WORK_Other *ewk, DADD *arg1) {
+    char_move(&ewk->wu);
+
+    if (ewk->wu.dir_old) {
+        ewk->wu.disp_flag = 0;
+        ewk->wu.routine_no[1] = 1;
+        ewk->wu.routine_no[2] = 20;
+    }
+}
+
+void effK2_parts_move_type_6(WORK_Other *ewk, DADD *arg1) {
+    switch (ewk->wu.routine_no[2]) {
+    case 0:
+        ewk->wu.kage_prio = (random_16() & 7) + 28;
+        ewk->wu.kage_hy = ewk->wu.kage_prio / 2;
+        ewk->wu.routine_no[2]++;
+        /* fallthrough */
+
+    case 1:
+        char_move(&ewk->wu);
+        add_mvxy_speed(&ewk->wu);
+        cal_mvxy_speed(&ewk->wu);
+
+        if (ewk->wu.kage_hy) {
+            ewk->wu.kage_hy--;
+        } else {
+            ewk->wu.disp_flag = 2;
+        }
+
+        if (--ewk->wu.kage_prio < 0) {
+            ewk->wu.disp_flag = 0;
+            ewk->wu.routine_no[0] = 2;
+        }
+
+        break;
+    }
+}
+
+void effK2_parts_move_type_7(WORK_Other *ewk, DADD *arg1) {
+    switch (ewk->wu.routine_no[2]) {
+    case 0:
+        char_move(&ewk->wu);
+
+        if (ewk->wu.dir_old) {
+            ewk->wu.routine_no[1] = 1;
+            ewk->wu.routine_no[2] = 10;
+        }
+
+        break;
+    }
+}
+
+void effK2_parts_move_type_8(WORK_Other *ewk, DADD *hahen) {
+#if defined(TARGET_PS2)
+    void set_next_next_y(WORK * wk, u32 flag);
+#endif
+
+    switch (ewk->wu.routine_no[2]) {
+    case 0:
+        switch (ewk->wu.dm_attlv) {
+        case 2:
+        case 3:
+            char_move(&ewk->wu);
+            /* fallthrough */
+
+        case 1:
+            char_move(&ewk->wu);
+            break;
+        }
+
+        char_move(&ewk->wu);
+        add_mvxy_speed(&ewk->wu);
+        cal_mvxy_speed(&ewk->wu);
+
+        if (ewk->wu.cg_type == 0xFF) {
+            ewk->wu.routine_no[2] = 10;
+            break;
+        }
+
+        if (ewk->wu.mvxy.a[1].sp > 0) {
+            break;
+        }
+
+        if (ewk->wu.xyz[1].disp.pos <= ewk->wu.next_y) {
+            ewk->wu.xyz[1].disp.pos = ewk->wu.next_y;
+
+            if (++ewk->wu.kage_hy > hahen->bau) {
+                ewk->wu.routine_no[2] = 10;
+            } else {
+                ewk->wu.routine_no[2] = 1;
+            }
+
+            sound_effect_request[0x3E4](ewk, 0x3E4);
+        }
+
+        if (screen_x_range_check(&ewk->wu)) {
+            ewk->wu.routine_no[2] = 20;
+        }
+
+        break;
+
+    case 1:
+        ewk->wu.routine_no[2] = 0;
+        ewk->wu.mvxy.a[0].sp /= 2;
+        ewk->wu.mvxy.d[0].sp /= 2;
+        ewk->wu.mvxy.a[1].sp = -ewk->wu.mvxy.a[1].sp;
+        ewk->wu.mvxy.a[1].sp /= 3;
+        set_next_next_y(&ewk->wu, hahen->kage_char);
+        break;
+
+    case 10:
+        switch (hahen->doa) {
+        case 0:
+            ewk->wu.disp_flag = 0;
+            ewk->wu.routine_no[2] = 20;
+            break;
+
+        case 1:
+            ewk->wu.disp_flag = 1;
+            ewk->wu.routine_no[2] = 15;
+            break;
+
+        default:
+            ewk->wu.disp_flag = 2;
+            ewk->wu.kage_prio = 20;
+            ewk->wu.routine_no[2] = 11;
+            break;
+        }
+
+        break;
+
+    case 11:
+        if (--ewk->wu.kage_prio > 0) {
+            break;
+        }
+
+        /* fallthrough */
+
+    case 20:
+        ewk->wu.disp_flag = 0;
+        ewk->wu.routine_no[0] = 2;
+        break;
+    }
+}
+
+void set_next_next_y(WORK *wk, u8 flag) {
+    if (flag) {
+        wk->next_y -= (random_16() & 4) + 2;
+    } else {
+        wk->next_y += (random_16() & 4) + 2;
+    }
+}
+
+s32 effect_K2_init(WORK_Other *wk, u32 *dad) {
+    WORK_Other *ewk;
+    s16 ix;
+
+    if ((ix = pull_effect_work(1)) == -1) {
+        return -1;
+    }
+
+    ewk = (WORK_Other *)frw[ix];
+    ewk->wu.be_flag = 1;
+    ewk->wu.id = 202;
+    ewk->wu.work_id = 16;
+    ewk->wu.type = wk->wu.type;
+    ewk->wu.dm_rl = wk->wu.dm_rl;
+    ewk->wu.dm_dir = wk->wu.dm_dir;
+    ewk->wu.dm_attlv = wk->wu.dm_attlv;
+    ewk->wu.my_family = wk->wu.my_family;
+    ewk->wu.cgromtype = wk->wu.cgromtype;
+    ewk->wu.my_col_mode = wk->wu.my_col_mode;
+    ewk->wu.my_col_code = wk->wu.my_col_code;
+    ewk->wu.my_priority = wk->wu.position_z;
+    ewk->wu.my_mts = 5;
+    ewk->master_id = wk->master_id;
+    ewk->master_work_id = wk->wu.id;
+    ewk->wu.dir_old = 0;
+    ewk->my_master = (u32 *)wk;
+    ewk->wu.target_adrs = dad;
+    ewk->wu.hit_adrs = wk->wu.target_adrs;
+    ewk->wu.xyz[0].disp.pos = 448;
+    ewk->wu.xyz[1].disp.pos = 0;
+    *ewk->wu.char_table = _bonus_char_table;
+    effect_K2_move(ewk);
+    return 0;
+}
+
+void setup_effK2(WORK *wk) {
+    const DADD *dhead;
+    s16 i;
+    s16 num;
+
+    if (!(num = hahen_data[wk->vital_old][wk->type].kosuu)) {
+        return;
+    }
+
+    dhead = hahen_data[wk->vital_old][wk->type].dadd;
+
+    for (i = 0; i < num; i++) {
+        effect_K2_init((WORK_Other *)wk, (u32 *)&dhead[i]);
+    }
+}
+
+void setup_effK2_sync_bomb(WORK *wk) {
+    const DADD *dhead;
+    s16 i;
+    s16 j;
+    s16 num;
+
+    for (j = wk->vital_old + 1; j < 8; j++) {
+        if (!(num = hahen_data[j][wk->type].kosuu) || hahen_data[j][wk->type].bomb != 0) {
+            continue;
+        }
+
+        dhead = hahen_data[j][wk->type].dadd;
+
+        for (i = 0; i < num; i++) {
+            if (dhead[i].bomb == 0) {
+                effect_K2_init((WORK_Other *)wk, (u32 *)&dhead[i]);
+            }
+        }
+    }
+}
+
+void illegal_setup_effK2(WORK *wk, s16 ix) {
+    const DADD *dhead;
+    s16 i;
+    s16 num = ill_hahen_data[ix].kosuu;
+
+    dhead = ill_hahen_data[ix].dadd;
+
+    for (i = 0; i < num; i++) {
+        effect_K2_init((WORK_Other *)wk, (u32 *)&dhead[i]);
+    }
+}
+
 void (*const effK2_main_process[9])() = { effK2_parts_move_type_0, effK2_parts_move_type_1, effK2_parts_move_type_2,
                                           effK2_parts_move_type_3, effK2_parts_move_type_4, effK2_parts_move_type_5,
                                           effK2_parts_move_type_6, effK2_parts_move_type_7, effK2_parts_move_type_8 };
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK2", effect_K2_move);
-#else
-void effect_K2_move(WORK_Other *ewk) {
-    not_implemented(__func__);
-}
-#endif
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK2", disp_effK2);
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK2", effK2_parts_move_type_0);
-#else
-void effK2_parts_move_type_0(WORK_Other *ewk) {
-    not_implemented(__func__);
-}
-#endif
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK2", effK2_parts_move_type_1);
-#else
-void effK2_parts_move_type_1(WORK_Other *ewk, HAHEN *hahen) {
-    not_implemented(__func__);
-}
-#endif
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK2", effK2_parts_move_type_2);
-#else
-void effK2_parts_move_type_2(WORK_Other *ewk) {
-    not_implemented(__func__);
-}
-#endif
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK2", effK2_parts_move_type_3);
-#else
-void effK2_parts_move_type_3(WORK_Other *ewk, HAHEN *hahen) {
-    not_implemented(__func__);
-}
-#endif
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK2", effK2_parts_move_type_4);
-#else
-void effK2_parts_move_type_4(WORK_Other *ewk) {
-    not_implemented(__func__);
-}
-#endif
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK2", effK2_parts_move_type_5);
-#else
-void effK2_parts_move_type_5(WORK_Other *ewk) {
-    not_implemented(__func__);
-}
-#endif
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK2", effK2_parts_move_type_6);
-#else
-void effK2_parts_move_type_6(WORK_Other *ewk) {
-    not_implemented(__func__);
-}
-#endif
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK2", effK2_parts_move_type_7);
-#else
-void effK2_parts_move_type_7(WORK_Other *ewk) {
-    not_implemented(__func__);
-}
-#endif
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK2", effK2_parts_move_type_8);
-#else
-void effK2_parts_move_type_8(WORK_Other *ewk, HAHEN *hahen) {
-    not_implemented(__func__);
-}
-#endif
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK2", set_next_next_y);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK2", effect_K2_init);
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK2", setup_effK2);
-#else
-void setup_effK2(WORK *wk) {
-    not_implemented(__func__);
-}
-#endif
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK2", setup_effK2_sync_bomb);
-#else
-void setup_effK2_sync_bomb(WORK *wk) {
-    not_implemented(__func__);
-}
-#endif
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFK2", illegal_setup_effK2);
-#else
-void illegal_setup_effK2(WORK *wk, s16 ix) {
-    not_implemented(__func__);
-}
-#endif
