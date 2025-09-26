@@ -99,7 +99,6 @@ ifneq ($(PLATFORM),ps2)
 endif
 
 ifeq ($(PLATFORM),windows)
-#may need -L"/c/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/um/x64/"
 	CLANG_LINKER_FLAGS += --for-linker --pdb=$(BUILD_DIR)/sf33rd.pdb -ldbghelp
 endif
 
