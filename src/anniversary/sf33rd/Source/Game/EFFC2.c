@@ -378,13 +378,72 @@ void effC2_main_process_first(WORK_Other *ewk, PLW *twk) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFC2", effc2_parts_work_chain_check);
-#else
 void effc2_parts_work_chain_check(s16 flag) {
-    not_implemented(__func__);
+    WORK *adr0;
+    WORK *adr1;
+    WORK *adr2;
+    WORK *adr3;
+    s16 wix = search_effect_index(1, 0, 0x7B);
+    s16 bff;
+    s16 bhf;
+    s16 bf[4];
+    s16 bh[4];
+
+    if (wix == -1) {
+        return;
+    }
+
+    while (wix != -1) {
+        adr1 = (WORK *)frw[wix];
+
+        if (adr1->type == 4 || adr1->type == 5) {
+            goto jump;
+        }
+
+        wix = adr1->behind;
+    }
+
+    return;
+
+jump:
+    if (flag) {
+        if (adr1->type == 4) {
+            return;
+        }
+    } else if (adr1->type == 5) {
+        return;
+    }
+
+    if (adr1->behind == -1) {
+        return;
+    }
+
+    adr2 = (WORK *)frw[adr1->behind];
+
+    if (flag) {
+        if (adr2->type != 4) {
+            return;
+        }
+    } else if (adr2->type != 5) {
+        return;
+    }
+
+    bff = bhf = 0;
+    adr0 = (WORK *)frw[adr1->before];
+    adr3 = (WORK *)frw[adr2->behind];
+    bf[1] = adr1->before;
+    bf[2] = adr2->before;
+    bf[3] = adr3->before;
+    bh[0] = adr0->behind;
+    bh[1] = adr1->behind;
+    bh[2] = adr2->behind;
+    adr0->behind = bh[1];
+    adr1->behind = bh[2];
+    adr2->behind = bh[0];
+    adr1->before = bf[3];
+    adr2->before = bf[1];
+    adr3->before = bf[2];
 }
-#endif
 
 void effC2_main_process_second(WORK_Other *ewk, PLW *twk) {
 #if defined(TARGET_PS2)
