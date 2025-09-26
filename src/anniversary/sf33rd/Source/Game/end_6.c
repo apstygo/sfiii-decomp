@@ -149,13 +149,60 @@ void end_600_1000() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/end_6", end_600_2000);
-#else
 void end_600_2000() {
-    not_implemented(__func__);
-}
+    switch (bgw_ptr->r_no_1) {
+    case 0:
+        bgw_ptr->r_no_1++;
+        bgw_ptr->xy[0].disp.pos = end_6_pos[end_w.r_no_2][1] + 16;
+        bgw_ptr->xy[1].disp.pos = end_6_pos[end_w.r_no_2][1] + 16;
+        bgw_ptr->abs_x = 0x210;
+        bgw_ptr->abs_y = 16;
+        bgw_ptr->free = 0;
+        bgw_ptr->old_pos_x = 16;
+        effect_E6_init(0x2B);
+        Rewrite_End_Message(0);
+        break;
+
+    case 1:
+        bgw_ptr->old_pos_x--;
+
+        if (bgw_ptr->old_pos_x < 0) {
+            bgw_ptr->r_no_1++;
+            bgw_ptr->old_pos_x = end_600_2000_tbl[bgw_ptr->free][0];
+            bgw_ptr->free++;
+            bgw_ptr->free &= 7;
+            bgw_ptr->xy[0].disp.pos = end_6_pos[end_w.r_no_2][0] + end_600_2000_tbl[bgw_ptr->free][1];
+#if defined(TARGET_PS2)
+            bgw_ptr->xy[1].disp.pos = end_6_pos[end_w.r_no_2][1] + end_600_2000_tbl[bgw_ptr->free][2];
+#else
+            bgw_ptr->xy[1].disp.pos = end_6_pos[end_w.r_no_2][1] - end_600_2000_tbl[bgw_ptr->free + 1][0];
 #endif
+            bgw_ptr->abs_x = end_600_2000_tbl[bgw_ptr->free][0] + 0x200;
+            bgw_ptr->abs_y = end_600_2000_tbl[bgw_ptr->free][1];
+        }
+
+        break;
+
+    case 2:
+        bgw_ptr->old_pos_x--;
+
+        if (bgw_ptr->old_pos_x < 0) {
+            bgw_ptr->old_pos_x = end_600_2000_tbl[bgw_ptr->free][0];
+            bgw_ptr->free++;
+            bgw_ptr->free &= 7;
+            bgw_ptr->xy[0].disp.pos = end_6_pos[end_w.r_no_2][0] + end_600_2000_tbl[bgw_ptr->free][1];
+#if defined(TARGET_PS2)
+            bgw_ptr->xy[1].disp.pos = end_6_pos[end_w.r_no_2][1] + end_600_2000_tbl[bgw_ptr->free][2];
+#else
+            bgw_ptr->xy[1].disp.pos = end_6_pos[end_w.r_no_2][1] - end_600_2000_tbl[bgw_ptr->free + 1][0];
+#endif
+            bgw_ptr->abs_x = end_600_2000_tbl[bgw_ptr->free][0] + 0x200;
+            bgw_ptr->abs_y = end_600_2000_tbl[bgw_ptr->free][1];
+        }
+
+        break;
+    }
+}
 
 void end_600_3000() {
     switch (bgw_ptr->r_no_1) {
@@ -302,13 +349,53 @@ void end_601_1000() {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/end_6", end_601_2000);
-#else
 void end_601_2000() {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    void Bg_Off_W(u32 s_prm);
 #endif
+
+    switch (bgw_ptr->r_no_1) {
+    case 0:
+        bgw_ptr->r_no_1++;
+        Bg_Off_W(1 << (bgw_ptr->fam_no));
+        bgw_ptr->xy[0].disp.pos = end_6_pos[end_w.r_no_2][1] - 16;
+        bgw_ptr->xy[1].disp.pos = end_6_pos[end_w.r_no_2][1] - 16;
+        bgw_ptr->abs_x = 0x1F0;
+        bgw_ptr->abs_y = -16;
+        bgw_ptr->free = 0;
+        bgw_ptr->old_pos_x = 16;
+
+        if (Country == 1 || Country == 8) {
+            effect_E6_init(0x2C);
+            break;
+        }
+
+        effect_E6_init(0x98);
+        break;
+
+    case 1:
+        bgw_ptr->old_pos_x--;
+
+        if (bgw_ptr->old_pos_x < 0) {
+            bgw_ptr->old_pos_x = end_600_2000_tbl[bgw_ptr->free][0];
+            bgw_ptr->free++;
+            bgw_ptr->free &= 7;
+            bgw_ptr->xy[0].disp.pos = end_6_pos[end_w.r_no_2][0] - end_600_2000_tbl[bgw_ptr->free][1];
+#if defined(TARGET_PS2)
+            bgw_ptr->xy[1].disp.pos = end_6_pos[end_w.r_no_2][1] - end_600_2000_tbl[bgw_ptr->free][2];
+#else
+            bgw_ptr->xy[1].disp.pos = end_6_pos[end_w.r_no_2][1] - end_600_2000_tbl[bgw_ptr->free + 1][0];
+#endif
+            bgw_ptr->abs_x = 0x200 - end_600_2000_tbl[bgw_ptr->free][0];
+            bgw_ptr->abs_y = -end_600_2000_tbl[bgw_ptr->free][1];
+        }
+
+        break;
+
+    case 2:
+        break;
+    }
+}
 
 void end_601_3000() {
 #if defined(TARGET_PS2)
