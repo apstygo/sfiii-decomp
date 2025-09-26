@@ -265,3 +265,14 @@ bool SDLPad_IsGamepadConnected(int id) {
 void SDLPad_GetButtonState(int id, SDLPad_ButtonState *state) {
     memcpy(state, &button_state[id], sizeof(SDLPad_ButtonState));
 }
+
+void SDLPad_Rumble(int id, float strength, int duration_ms) {
+    if (input_sources[id].type != SDLPAD_INPUT_GAMEPAD) {
+        return;
+    }
+
+    const Uint16 low_frequency_rumble = strength * 0xFFFF;
+    const Uint16 high_frequency_rumble = strength * 0xFFFF;
+
+    SDL_RumbleGamepad(input_sources[id].gamepad.gamepad, low_frequency_rumble, high_frequency_rumble, duration_ms);
+}

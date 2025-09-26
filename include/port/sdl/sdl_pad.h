@@ -31,5 +31,6 @@ void SDLPad_HandleGamepadAxisMotionEvent(SDL_GamepadAxisEvent *event);
 void SDLPad_HandleKeyboardEvent(SDL_KeyboardEvent *event);
 bool SDLPad_IsGamepadConnected(int id);
 void SDLPad_GetButtonState(int id, SDLPad_ButtonState *state);
+void SDLPad_Rumble(int id, float strength, int duration_ms);
 
 #endif
