@@ -14,17 +14,17 @@
 #include <stdio.h>
 #include <time.h>
 
-#if defined(_WIN32) || defined(_WIN64)
-#include <io.h>
-#include <direct.h>
-#define mkdir(path, mode) _mkdir(path)
-#define S_ISDIR(m) (((m)&S_IFMT) == S_IFDIR)
-#else
+#ifndef _MSC_VER
 #include <unistd.h>
 #include <dirent.h>
 #ifndef O_BINARY
 #define O_BINARY 0
 #endif
+#else
+#include <io.h>
+#include <direct.h>
+#define S_ISDIR(m) (((m)&S_IFMT) == S_IFDIR)
+#define mkdir(path, mode) _mkdir(path)
 #endif
 
 typedef void (*OperationFinalizer)(int *result);
