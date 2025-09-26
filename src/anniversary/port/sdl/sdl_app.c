@@ -1,7 +1,7 @@
 #include "port/sdl/sdl_app.h"
 #include "common.h"
-#include "port/sdk_threads.h"
 #include "port/float_clamp.h"
+#include "port/sdk_threads.h"
 #include "port/sdl/sdl_game_renderer.h"
 #include "port/sdl/sdl_message_renderer.h"
 #include "port/sdl/sdl_pad.h"
@@ -46,8 +46,12 @@ int SDLApp_Init() {
         return 1;
     }
 
-    if (!SDL_CreateWindowAndRenderer(
-            app_name, window_default_width, window_default_height, SDL_WINDOW_RESIZABLE, &window, &renderer)) {
+    if (!SDL_CreateWindowAndRenderer(app_name,
+                                     window_default_width,
+                                     window_default_height,
+                                     SDL_WINDOW_RESIZABLE | SDL_WINDOW_HIGH_PIXEL_DENSITY,
+                                     &window,
+                                     &renderer)) {
         SDL_Log("Couldn't create window/renderer: %s", SDL_GetError());
         return 1;
     }
@@ -197,7 +201,7 @@ void SDLApp_EndFrame() {
     SDL_RenderClear(renderer);
 
     int win_w, win_h;
-    SDL_GetWindowSize(window, &win_w, &win_h);
+    SDL_GetRenderOutputSize(renderer, &win_w, &win_h);
     const SDL_FRect dst_rect = get_letterbox_rect(win_w, win_h);
 
     // Render game canvas
