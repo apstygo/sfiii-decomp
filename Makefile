@@ -17,6 +17,8 @@ endif
 
 ifeq ($(PLATFORM),ps2)
 	MAIN := THIRD_U.BIN
+else ifeq ($(PLATFORM),windows)
+	MAIN := sf33rd.exe
 else
 	MAIN := sf33rd
 endif
@@ -174,7 +176,13 @@ $(CRI_O_FILES): $(BUILD_DIR)/%.c.o: %.c
 else
 
 $(MAIN_TARGET): $(ALL_O_FILES) libco/build/liblibco.o
+ifeq ($(PLATFORM),windows)
+	@find build -name '*.o' > $(BUILD_DIR)/objects.txt
+	@echo libco/build/liblibco.a >> $(BUILD_DIR)/objects.txt
+	clang @$(BUILD_DIR)/objects.txt $(CLANG_LINKER_FLAGS) -o $@
+else
 	clang $(ALL_O_FILES) $(CLANG_LINKER_FLAGS) -o $@
+endif
 
 $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)
