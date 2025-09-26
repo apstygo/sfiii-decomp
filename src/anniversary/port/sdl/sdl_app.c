@@ -35,6 +35,7 @@ static Uint64 frame_counter = 0;
 static Uint64 display_refresh_period = 0;
 
 static int opening_index = -1;
+static bool should_save_screenshot = false;
 
 int SDLApp_Init() {
     SDL_SetAppMetadata(app_name, "0.1", NULL);
@@ -87,6 +88,12 @@ void SDLApp_Quit() {
     SDL_Quit();
 }
 
+static void set_screenshot_flag_if_needed(SDL_KeyboardEvent *event) {
+    if ((event->key == SDLK_GRAVE) && event->down && !event->repeat) {
+        should_save_screenshot = true;
+    }
+}
+
 int SDLApp_PollEvents() {
     SDL_Event event;
     int continue_running = 1;
@@ -109,6 +116,7 @@ int SDLApp_PollEvents() {
 
         case SDL_EVENT_KEY_DOWN:
         case SDL_EVENT_KEY_UP:
+            set_screenshot_flag_if_needed(&event.key);
             SDLPad_HandleKeyboardEvent(&event.key);
             break;
 
@@ -168,8 +176,19 @@ static void update_fps() {
     fps = 1000000000.0 / average_frame_time;
 }
 
+static void save_texture(SDL_Texture *texture, const char *filename) {
+    SDL_SetRenderTarget(renderer, texture);
+    const SDL_Surface *rendered_surface = SDL_RenderReadPixels(renderer, NULL);
+    SDL_SaveBMP(rendered_surface, filename);
+    SDL_DestroySurface(rendered_surface);
+}
+
 void SDLApp_EndFrame() {
     SDLGameRenderer_RenderFrame();
+
+    if (should_save_screenshot) {
+        save_texture(cps3_canvas, "screenshot_cps3.bmp");
+    }
 
     SDL_SetRenderTarget(renderer, NULL);
 
@@ -215,6 +234,7 @@ void SDLApp_EndFrame() {
 
     // Cleanup
     SDLGameRenderer_EndFrame();
+    should_save_screenshot = false;
 
     begin_interrupt();
     ADXPS2_ExecVint(0);
