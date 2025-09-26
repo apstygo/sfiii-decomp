@@ -10,23 +10,24 @@ jobs:
     build:
         runs-on: windows-latest
 
+        defaults:
+          run:
+            shell: msys2 {0}
+
         steps:
+          - name: setup MSYS2
+            uses: msys2/setup-msys2@v2
+            with:
+                update: true
+                msystem: MINGW64
+                install: make clang cmake mingw-w64-x86_64-sdl3 ninja
+
           - name: Checkout repository
+            run: git config --global core.autocrlf input #apparently this mitigates an MSYS or GHA bug
             uses: actions/checkout@v4
 
-          - name: Install SDL3 #potentially remove this
-            uses: libsdl-org/setup-sdl@v1
-            id: sdl
-            with:
-                version: 3-latest
-
-          - name: Install dependencies
-            run: choco install make
-
           - name: Build for Windows
-            run: |
-                make PLATFORM=windows SDL3_PREFIX=${{ steps.sdl.outputs.prefix }} 2>&1 | tee build.log
-            shell: bash
+            run: make PLATFORM=windows 2>&1 | tee build.log
 
           - name: Upload build log
             if: always()

@@ -94,17 +94,11 @@ CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) -std=c99 -O0
 CLANG_LINKER_FLAGS := -lm -g -Llibco/build -llibco
 
 ifneq ($(PLATFORM),ps2)
-	ifeq ($(SDL3_PREFIX),)
-		CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
-		CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
-	endif
+	CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
+	CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
 endif
 
 ifeq ($(PLATFORM),windows)
-	ifneq ($(SDL3_PREFIX),)
-		CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
-		CLANG_LINKER_FLAGS += -I"$(SDL3_PREFIX)/lib" -lSDL3
-	endif
 #may need -L"/c/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/um/x64/"
 	CLANG_LINKER_FLAGS += --for-linker --pdb=$(BUILD_DIR)/sf33rd.pdb -ldbghelp
 endif
