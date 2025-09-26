@@ -20,7 +20,7 @@ jobs:
             with:
                 version: 3-latest
 
-          - name: Install dependencies #revise this
+          - name: Install dependencies
             run: choco install make
 
           - name: Build for Windows

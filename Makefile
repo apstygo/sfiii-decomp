@@ -98,6 +98,15 @@ ifneq ($(PLATFORM),ps2)
 	CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
 endif
 
+ifeq ($(PLATFORM),windows)
+	ifneq ($(SDL3_PREFIX),)
+		CLANG_FLAGS += -I"$(SDL3_PREFIX)/include"
+		CLANG_LINKER_FLAGS += -I"$(SDL3_PREFIX)/lib" -lSDL3
+	endif
+#may need -L"/c/Program Files (x86)/Windows Kits/10/Lib/10.0.26100.0/um/x64/"
+	CLANG_LINKER_FLAGS += --for-linker --pdb=$(BUILD_DIR)/sf33rd.pdb -ldbghelp
+endif
+
 # Files
 
 MAIN_TARGET := $(BUILD_DIR)/$(MAIN)

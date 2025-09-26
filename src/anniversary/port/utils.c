@@ -2,6 +2,11 @@
 
 #if !defined(_WIN32)
 #include <execinfo.h>
+#else
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <dbghelp.h>
+#define SYMBOL_NAME_MAX 256
 #endif
 #include <stdarg.h>
 #include <stdio.h>
@@ -18,13 +23,35 @@ void fatal_error(const s8 *fmt, ...) __dead2 {
     fprintf(stderr, "\n");
 
     va_end(args);
-#if !defined(_WIN32)
     void *buffer[BACKTRACE_MAX];
+#if !defined(_WIN32)
     int nptrs = backtrace(buffer, BACKTRACE_MAX);
     fprintf(stderr, "Stack trace:\n");
     backtrace_symbols_fd(buffer, nptrs, fileno(stderr));
 #else
-	fprintf(stderr, "Stack trace not available on Windows currently\n"); //TODO: fix!!!
+    FILE* crashlog = fopen("crashlog.txt", "w"); //Because, currently, the Windows console is a separate window that closes when the game exits, save to a log for later review/access
+	fprintf(stderr, "Stack trace:\n");
+	fprintf(crashlog, "Stack trace:\n");
+    HANDLE process = GetCurrentProcess();
+    SymInitialize(process, NULL, TRUE);
+    int nptrs = CaptureStackBackTrace(0, BACKTRACE_MAX, buffer, NULL);
+    SYMBOL_INFO* symbol = (SYMBOL_INFO*)calloc(1, sizeof(SYMBOL_INFO)+SYMBOL_NAME_MAX);
+    if (!symbol) {
+        fprintf(stderr, "Calloc failed when allocating SYMBOL_INFO, bailing!\n\n");
+        fprintf(crashlog, "Calloc failed when allocating SYMBOL_INFO, bailing!\n\n");
+        fclose(crashlog);
+        abort();
+    }
+    symbol->MaxNameLen = SYMBOL_NAME_MAX;
+    symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
+    for (int i = 0; i < nptrs; i++) {
+        SymFromAddr(process, (DWORD64)buffer[i], 0, symbol);
+        fprintf(stderr, "%i: %s - 0x%0llX\n", nptrs-i-1, symbol->Name, symbol->Address);
+        fprintf(crashlog, "%i: %s - 0x%0llX\n", nptrs-i-1, symbol->Name, symbol->Address);
+    }
+    fclose(crashlog);
+    free(symbol);
+    SymCleanup(process);
 #endif
     abort();
 }
