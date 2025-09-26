@@ -1,8 +1,12 @@
 binutils-mipsel-linux-gnu
+build-essential
+cmake
 curl
 git
 make
+openssl
 p7zip-full
+pkg-config
 python3-pip
 python3-venv
 unzip
