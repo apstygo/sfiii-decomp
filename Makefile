@@ -94,8 +94,10 @@ CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) -std=c99 -O0
 CLANG_LINKER_FLAGS := -lm -g -Llibco/build -llibco
 
 ifneq ($(PLATFORM),ps2)
-	CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
-	CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
+	ifeq ($(SDL3_PREFIX),)
+		CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
+		CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
+	endif
 endif
 
 ifeq ($(PLATFORM),windows)
