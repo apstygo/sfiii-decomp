@@ -2894,30 +2894,4 @@ typedef union {
     LoHi16 ixs; // offset 0x0, size 0x4
 } TBL;
 
-typedef struct {
-    // total size: 0x18
-    s16 rno;      // offset 0x0, size 0x2
-    s16 cix;      // offset 0x2, size 0x2
-    s16 hx;       // offset 0x4, size 0x2
-    s16 hy;       // offset 0x6, size 0x2
-    s16 hzr;      // offset 0x8, size 0x2
-    s16 hzd;      // offset 0xA, size 0x2
-    u8 pri_use;   // offset 0xC, size 0x1
-    u8 bomb;      // offset 0xD, size 0x1
-    s16 ispix;    // offset 0xE, size 0x2
-    u8 bau;       // offset 0x10, size 0x1
-    u8 kage_char; // offset 0x11, size 0x1
-    u8 doa;       // offset 0x12, size 0x1
-    u8 init_dsp;  // offset 0x13, size 0x1
-    s16 tmt;      // offset 0x14, size 0x2
-    s16 gr1st;    // offset 0x16, size 0x2
-} DADD;
-
-typedef struct /* @anon19 */ {
-    // total size: 0x8
-    s16 kosuu;        // offset 0x0, size 0x2
-    s16 bomb;         // offset 0x2, size 0x2
-    const DADD *dadd; // offset 0x4, size 0x4
-} HAHEN;
-
 #endif

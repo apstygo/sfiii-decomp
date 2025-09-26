@@ -90,10 +90,8 @@
 #include "sf33rd/Source/Game/EFFC0.h"
 #include "sf33rd/Source/Game/EFFC1.h"
 #include "sf33rd/Source/Game/EFFC2.h"
-#include "sf33rd/Source/Game/EFFC3.h"
 #include "sf33rd/Source/Game/EFFC4.h"
 #include "sf33rd/Source/Game/EFFC5.h"
-#include "sf33rd/Source/Game/EFFC6.h"
 #include "sf33rd/Source/Game/EFFC8.h"
 #include "sf33rd/Source/Game/EFFC9.h"
 #include "sf33rd/Source/Game/EFFD7.h"
@@ -104,10 +102,8 @@
 #include "sf33rd/Source/Game/EFFE7.h"
 #include "sf33rd/Source/Game/EFFE8.h"
 #include "sf33rd/Source/Game/EFFECT.h"
-#include "sf33rd/Source/Game/efff0.h"
 #include "sf33rd/Source/Game/EFFF2.h"
 #include "sf33rd/Source/Game/EFFF4.h"
-#include "sf33rd/Source/Game/EFFF8.h"
 #include "sf33rd/Source/Game/EFFF9.h"
 #include "sf33rd/Source/Game/EFFG6.h"
 #include "sf33rd/Source/Game/EFFG9.h"
@@ -116,7 +112,6 @@
 #include "sf33rd/Source/Game/EFFH2.h"
 #include "sf33rd/Source/Game/EFFH6.h"
 #include "sf33rd/Source/Game/EFFH9.h"
-#include "sf33rd/Source/Game/EFFI0.h"
 #include "sf33rd/Source/Game/EFFI3.h"
 #include "sf33rd/Source/Game/EFFI4.h"
 #include "sf33rd/Source/Game/EFFI7.h"
@@ -127,10 +122,6 @@
 #include "sf33rd/Source/Game/EFFJ4.h"
 #include "sf33rd/Source/Game/EFFJ7.h"
 #include "sf33rd/Source/Game/EFFJ8.h"
-#include "sf33rd/Source/Game/EFFJ9.h"
-#include "sf33rd/Source/Game/EFFK2.h"
-#include "sf33rd/Source/Game/EFFK3.h"
-#include "sf33rd/Source/Game/EFFK4.h"
 #include "sf33rd/Source/Game/EFFK5.h"
 #include "sf33rd/Source/Game/EFFK7.h"
 #include "sf33rd/Source/Game/EFFL0.h"
@@ -324,10 +315,10 @@ const void (*effmovejptbl[229])() = {
     effect_C0_move,
     effect_C1_move,
     effect_C2_move,
-    effect_C3_move,
+    NULL, // effect_C3_move
     effect_C4_move,
     effect_C5_move,
-    effect_C6_move,
+    NULL, // effect_C6_move
     NULL, // effect_C7_move
     effect_C8_move,
     effect_C9_move,
@@ -351,7 +342,7 @@ const void (*effmovejptbl[229])() = {
     effect_E7_move,
     effect_E8_move,
     effect_E9_move,
-    effect_F0_move,
+    NULL, // effect_F0_move
     effect_dummy_move,
     effect_F2_move,
     effect_dummy_move,
@@ -359,7 +350,7 @@ const void (*effmovejptbl[229])() = {
     effect_F5_move,
     effect_F6_move,
     effect_dummy_move,
-    effect_F8_move,
+    NULL, // effect_F8_move
     effect_F9_move,
     effect_G0_move,
     effect_dummy_move,
@@ -381,7 +372,7 @@ const void (*effmovejptbl[229])() = {
     effect_dummy_move,
     effect_dummy_move,
     effect_H9_move,
-    effect_I0_move,
+    NULL, // effect_I0_move
     effect_dummy_move,
     effect_dummy_move,
     effect_I3_move,
@@ -400,12 +391,12 @@ const void (*effmovejptbl[229])() = {
     effect_J6_move,
     effect_J7_move,
     effect_J8_move,
-    effect_J9_move,
+    NULL, // effect_J9_move
     effect_dummy_move,
     effect_dummy_move,
-    effect_K2_move,
-    effect_K3_move,
-    effect_K4_move,
+    NULL, // effect_K2_move
+    NULL, // effect_K3_move
+    NULL, // effect_K4_move
     effect_K5_move,
     effect_K6_move,
     effect_K7_move,
@@ -462,7 +453,7 @@ const s32 (*effinitjptbl[59])() = {
     setup_status_flag,
     reset_extra_bg_flag,
     flip_my_rl_flag,
-    effect_F8_init,
+    NULL, // effect_F8_init
     clear_caution_flag,
     NULL, // effect_G3_init
     NULL, // effect_G4_init
@@ -478,7 +469,7 @@ const s32 (*effinitjptbl[59])() = {
     setup_bg_quake_x,
     setup_bg_quake_y,
     effect_47_init,
-    setup_koishi_extra,
+    NULL, // setup_koishi_extra (EFFI0.c)
     effect_77_init,
     setup_exdm_ix,
     setup_dmv_use_flag,
@@ -495,6 +486,6 @@ const s32 (*effinitjptbl[59])() = {
     NULL, // effect_L7_init
     effect_M2_init,
     NULL, // effect_M8_init
-    effect_F0_init,
+    NULL, // effect_F0_init
 };
 #endif

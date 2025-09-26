@@ -24,7 +24,6 @@ void add_sp_arts_gauge_maxbit(PLW *wk);
 void add_super_arts_gauge(SA_WORK *wk, s16 ix, s16 asag, u8 mf);
 void dead_voice_request();
 void add_to_mvxy_data(WORK *wk, u16 ix);
-void setup_move_data_easy(WORK *wk, const s16 *adrs, s16 prx, s16 pry);
 void setup_mvxy_data(WORK *wk, u16 ix);
 void cal_mvxy_speed(WORK *wk);
 void add_mvxy_speed(WORK *wk);

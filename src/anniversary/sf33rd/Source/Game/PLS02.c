@@ -15,6 +15,7 @@
 #include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
 
+void setup_move_data_easy(WORK *wk, s16 *adrs, s16 prx, s16 pry);
 void read_adrs_store_mvxy(WORK *wk, s16 *adrs);
 void remake_mvxy_PoGR(WORK *wk);
 s16 meri_case_switch(s16 meri);
@@ -125,7 +126,7 @@ void add_to_mvxy_data(WORK *wk, u16 ix) {
     wk->mvxy.kop[1] = adrs[5];
 }
 
-void setup_move_data_easy(WORK *wk, const s16 *adrs, s16 prx, s16 pry) {
+void setup_move_data_easy(WORK *wk, s16 *adrs, s16 prx, s16 pry) {
     wk->mvxy.a[0].sp = adrs[0];
     wk->mvxy.a[0].sp <<= 8;
     wk->mvxy.d[0].sp = adrs[1];
