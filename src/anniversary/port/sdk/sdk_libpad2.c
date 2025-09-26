@@ -5,6 +5,8 @@
 
 #include <string.h>
 
+#define JOYSTICK_DEADZONE 8000
+
 int scePad2Init(int mode) {
     // Do nothing
     return 1;
@@ -50,10 +52,10 @@ int scePad2Read(int socket_number, scePad2ButtonState *data) {
     data->sw0.bits.r3 = !button_state.right_stick;
     data->sw0.bits.select = !button_state.back;
     data->sw0.bits.start = !button_state.start;
-    data->sw0.bits.left = !button_state.dpad_left;
-    data->sw0.bits.right = !button_state.dpad_right;
-    data->sw0.bits.up = !button_state.dpad_up;
-    data->sw0.bits.down = !button_state.dpad_down;
+    data->sw0.bits.left = !(button_state.dpad_left || button_state.left_stick_x < -JOYSTICK_DEADZONE);
+    data->sw0.bits.right = !(button_state.dpad_right || button_state.left_stick_x > JOYSTICK_DEADZONE);
+    data->sw0.bits.up = !(button_state.dpad_up || button_state.left_stick_y < -JOYSTICK_DEADZONE);
+    data->sw0.bits.down = !(button_state.dpad_down || button_state.left_stick_y > JOYSTICK_DEADZONE);
 
     data->sw1.bits.l1 = !button_state.left_shoulder;
     data->sw1.bits.r1 = !button_state.right_shoulder;
@@ -65,10 +67,8 @@ int scePad2Read(int socket_number, scePad2ButtonState *data) {
     data->sw1.bits.triangle = !button_state.north;
 
     // This sets stick positions
-    // (Sticks are not supported yet, that's why we just set positions to neutral)
-
-    data->lJoyH = 0x7F;
-    data->lJoyV = 0x7F;
+    data->lJoyH = (button_state.left_stick_x + 0x8000) >> 8;
+    data->lJoyV = (button_state.left_stick_y + 0x8000) >> 8;
     data->rJoyH = 0x7F;
     data->rJoyV = 0x7F;
 

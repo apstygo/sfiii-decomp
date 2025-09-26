@@ -178,6 +178,14 @@ void SDLPad_HandleGamepadAxisMotionEvent(SDL_GamepadAxisEvent *event) {
     SDLPad_ButtonState *state = &button_state[index];
 
     switch (event->axis) {
+    case SDL_GAMEPAD_AXIS_LEFTX:
+        state->left_stick_x = event->value;
+        break;
+
+    case SDL_GAMEPAD_AXIS_LEFTY:
+        state->left_stick_y = event->value;
+        break;
+
     case SDL_GAMEPAD_AXIS_LEFT_TRIGGER:
         state->left_trigger = event->value;
         break;
