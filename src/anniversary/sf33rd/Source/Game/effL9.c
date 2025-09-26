@@ -7,6 +7,40 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/texcash.h"
+#include "sf33rd/Source/Game/workuser.h"
+
+void effect_L9_move(WORK_Other *ewk) {
+    WORK_Other *oya;
+#if defined(TARGET_PS2)
+    void set_char_move_init(WORK * wk, s16 koc, s32 index);
+#endif
+
+    oya = (WORK_Other *)ewk->my_master;
+    switch (ewk->wu.routine_no[1]) {
+    case 0:
+        ewk->wu.routine_no[1] += 1;
+        ewk->wu.disp_flag = 1;
+        set_char_move_init(&ewk->wu, 0, ewk->wu.char_index);
+        return;
+    case 1:
+        char_move(&ewk->wu);
+        if (oya->wu.routine_no[0] >= 3) {
+            ewk->wu.routine_no[1] += 1;
+            ewk->wu.disp_flag = 0;
+        }
+        ewk->wu.position_x = ewk->wu.xyz[0].disp.pos & 0xFFFF;
+        ewk->wu.position_y = ewk->wu.xyz[1].disp.pos & 0xFFFF;
+        sort_push_request4(&ewk->wu);
+        return;
+    case 2:
+        ewk->wu.routine_no[1] += 1;
+        return;
+    default:
+        all_cgps_put_back(&ewk->wu);
+        push_effect_work(&ewk->wu);
+        return;
+    }
+}
 
 s32 effect_L9_init(WORK_Other *oya, u8 ten_type) {
     WORK_Other *ewk;
@@ -32,7 +66,7 @@ s32 effect_L9_init(WORK_Other *oya, u8 ten_type) {
     ewk->wu.my_col_mode = 0x4200;
     ewk->wu.char_table[0] = _etc2_char_table;
     ewk->wu.my_family = 8;
-    ewk->wu.my_col_code = 232;
+    ewk->wu.my_col_code = 56;
     ewk->wu.position_x = ewk->wu.xyz[0].disp.pos & 0xFFFF;
     ewk->wu.position_y = ewk->wu.xyz[1].disp.pos & 0xFFFF;
     ewk->wu.xyz[0].disp.pos = bg_w.bgw[1].wxy[0].disp.pos;
@@ -52,38 +86,7 @@ s32 effect_L9_init(WORK_Other *oya, u8 ten_type) {
         ewk->wu.xyz[0].disp.pos = 192;
         ewk->wu.xyz[1].disp.pos = 8;
     }
-    ewk->wu.my_mts = 15;
+    ewk->wu.my_mts = 14;
     ewk->wu.my_trans_mode = get_my_trans_mode(ewk->wu.my_mts);
     return 0;
-}
-
-void effect_L9_move(WORK_Other *ewk) {
-    WORK_Other *oya;
-    void set_char_move_init(WORK * wk, s16 koc, s32 index);
-
-    oya = (WORK_Other *)ewk->my_master;
-    switch (ewk->wu.routine_no[1]) {
-    case 0:
-        ewk->wu.routine_no[1] += 1;
-        ewk->wu.disp_flag = 1;
-        set_char_move_init(&ewk->wu, 0, ewk->wu.char_index);
-        return;
-    case 1:
-        char_move(&ewk->wu);
-        if (oya->wu.routine_no[0] >= 3) {
-            ewk->wu.routine_no[1] += 1;
-            ewk->wu.disp_flag = 0;
-        }
-        ewk->wu.position_x = ewk->wu.xyz[0].disp.pos & 0xFFFF;
-        ewk->wu.position_y = ewk->wu.xyz[1].disp.pos & 0xFFFF;
-        sort_push_request4(&ewk->wu);
-        return;
-    case 2:
-        ewk->wu.routine_no[1] += 1;
-        return;
-    default:
-        all_cgps_put_back(ewk);
-        push_effect_work(&ewk->wu);
-        return;
-    }
 }

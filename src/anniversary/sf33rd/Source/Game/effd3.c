@@ -1,6 +1,8 @@
 #include "sf33rd/Source/Game/effd3.h"
 #include "common.h"
+#include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/Manage.h"
+#include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/SE.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
@@ -113,7 +115,7 @@ void akebono_finish(WORK_Other *ewk) {
         overwrite_panel(ake_color[0], 69);
         return;
     case 4:
-        all_cgps_put_back(ewk);
+        all_cgps_put_back(&ewk->wu);
         push_effect_work(&ewk->wu);
         break;
     }
@@ -201,7 +203,7 @@ void syungoku_finish(WORK_Other *ewk) {
         return;
     default:
         akebono_flag = 0;
-        all_cgps_put_back(ewk);
+        all_cgps_put_back(&ewk->wu);
         push_effect_work(&ewk->wu);
         return;
     }

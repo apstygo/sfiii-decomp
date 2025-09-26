@@ -10,11 +10,9 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/Se_Data.h"
 #include "sf33rd/Source/Game/aboutspr.h"
+#include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
-
-u32 *ag_char_table[8] = { _ag_00_char_table, _ag_01_char_table, _ag_02_char_table, _ag_03_char_table,
-                          _ag_04_char_table, _ag_05_char_table, _ag_06_char_table, _ag_07_char_table };
 
 // forward declarations
 
@@ -24,6 +22,7 @@ const u16 ag_cc_table[8];
 const s16 app_pos_hosei[3][3];
 const s16 judge_gals_kage_tbl[8][4];
 const u8 ag_sel_table[22][4][4];
+u32 *ag_char_table[];
 
 void effect_C9_move(WORK_Other *ewk) {
     s16 scrc;
@@ -186,6 +185,9 @@ void setup_EJG_index() {
         EJG_index[i] = sel_ejg_ix_table[Winner_id][Game_timer & 1][i];
     }
 }
+
+u32 *ag_char_table[] = { _ag_00_char_table, _ag_01_char_table, _ag_02_char_table, _ag_03_char_table,
+                         _ag_04_char_table, _ag_05_char_table, _ag_06_char_table, _ag_07_char_table };
 
 const s32 efy_data[6] = { 40, -368, -851968, 32768, 229376, -24576 };
 

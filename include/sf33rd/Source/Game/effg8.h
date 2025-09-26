@@ -1,10 +1,11 @@
-#ifndef EFFG9_H
-#define EFFG9_H
+#ifndef EFFG8_H
+#define EFFG8_H
 
 #include "structs.h"
 #include "types.h"
 
-void effect_G9_move(WORK_Other *ewk);
-s32 effect_G9_init(WORK *wk);
+void effect_G8_move(WORK_Other *ewk);
+s16 effg8_range_check(WORK_Other *ewk);
+s32 effect_G8_init();
 
 #endif
