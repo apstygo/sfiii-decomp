@@ -175,7 +175,12 @@ $(CRI_O_FILES): $(BUILD_DIR)/%.c.o: %.c
 
 else
 
-$(MAIN_TARGET): $(ALL_O_FILES) libco/build/liblibco.o
+SDL3_CHECK_TARGET :=
+ifeq ($(OS),Linux)
+SDL3_CHECK_TARGET := check_sdl3
+endif
+
+$(MAIN_TARGET): $(SDL3_CHECK_TARGET) $(ALL_O_FILES) libco/build/liblibco.o
 ifeq ($(PLATFORM),windows)
 	@find build -name '*.o' > $(BUILD_DIR)/objects.txt
 	@echo libco/build/liblibco.a >> $(BUILD_DIR)/objects.txt
@@ -214,3 +219,25 @@ $(MWCCPS2):
 $(EEGCC):
 	@mkdir -p $(BIN_DIR)
 	wget -O- https://github.com/decompme/compilers/releases/download/compilers/$(EE_COMPILER_TAR) | tar xJv -C $(BIN_DIR)
+
+check_sdl3:
+	@pkg-config --exists sdl3 || $(MAKE) install_sdl3
+
+install_sdl3: ##@ build and install SDL3 library from source
+	@echo "Installing SDL3 from source. This may require sudo for installation."
+	@echo "Make sure you have build-essential, git, and cmake installed."
+	( \
+		set -e; \
+		rm -rf /tmp/SDL; \
+		git clone https://github.com/libsdl-org/SDL.git /tmp/SDL; \
+		cd /tmp/SDL; \
+		mkdir build; \
+		cd build; \
+		cmake ..; \
+		$(MAKE) -j$(shell nproc); \
+		sudo $(MAKE) install; \
+		sudo ldconfig; \
+		cd /; \
+		rm -rf /tmp/SDL; \
+		echo "SDL3 installation complete."; \
+	)

@@ -17,6 +17,18 @@ RUN dpkg --add-architecture i386
 ADD tools/requirements-debian.txt /tools/requirements-debian.txt
 RUN apt-get update && apt-get install -y $(cat /tools/requirements-debian.txt)
 
+# Install SDL3
+RUN git clone https://github.com/libsdl-org/SDL.git /tmp/SDL && \
+    cd /tmp/SDL && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make -j$(nproc) && \
+    make install && \
+    ldconfig && \
+    cd / && \
+    rm -rf /tmp/SDL
+
 # Install Swift 6.1 dependencies
 # RUN ln -fs /usr/share/zoneinfo/Etc/UTC /etc/localtime && echo "Etc/UTC" > /etc/timezone
 # RUN apt-get -y install gnupg2 libcurl4-openssl-dev libxml2-dev libz3-dev pkg-config python3-lldb-13 tzdata
