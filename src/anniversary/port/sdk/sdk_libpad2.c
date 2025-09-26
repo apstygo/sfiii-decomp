@@ -100,5 +100,36 @@ int sceVibGetProfile(int socket_number, unsigned char *profile) {
 }
 
 int sceVibSetActParam(int socket_number, int profile_size, unsigned char *profile, int data_size, unsigned char *data) {
-    not_implemented(__func__);
+    float strength = 0.0f;
+
+    bool stop = true;
+    if (data && data_size > 0) {
+        for (int i = 0; i < data_size; ++i) {
+            if (data[i] != 0) {
+                stop = false;
+                break;
+            }
+        }
+    }
+
+    if (stop) {
+        SDLPad_Rumble(socket_number, 0.0f, 0);
+    } else {
+        unsigned char p = *profile;
+        if ((p & 2) && data_size == 1) {
+            strength = data[0] / 160.f;
+        } else if ((p & 1) && data_size == 1) {
+            strength = 0.6f;
+        } else if (data_size == 2) {
+            strength = 1.0f;
+        }
+
+        if (strength > 1.0f) {
+            strength = 1.0f;
+        }
+
+        SDLPad_Rumble(socket_number, strength, 200);
+    }
+
+    return 1;
 }
