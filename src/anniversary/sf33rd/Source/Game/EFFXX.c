@@ -94,6 +94,7 @@
 #include "sf33rd/Source/Game/EFFC4.h"
 #include "sf33rd/Source/Game/EFFC5.h"
 #include "sf33rd/Source/Game/EFFC6.h"
+#include "sf33rd/Source/Game/EFFC7.h"
 #include "sf33rd/Source/Game/EFFC8.h"
 #include "sf33rd/Source/Game/EFFC9.h"
 #include "sf33rd/Source/Game/EFFD7.h"
@@ -330,7 +331,7 @@ const void (*effmovejptbl[229])() = {
     effect_C4_move,
     effect_C5_move,
     effect_C6_move,
-    NULL, // effect_C7_move
+    effect_C7_move,
     effect_C8_move,
     effect_C9_move,
     NULL, // effect_D0_move
@@ -445,7 +446,7 @@ const s32 (*effinitjptbl[59])() = {
     effect_09_init,
     NULL, // effect_G7_init
     effect_C0_init,
-    NULL, // effect_C7_init
+    effect_C7_init,
     NULL, // effect_D0_init
     NULL, // effect_D1_init
     effect_F4_init,
