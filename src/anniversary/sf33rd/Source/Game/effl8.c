@@ -10,11 +10,9 @@ u32 spmv_ng_save[2];
 const s16 pl17_0_00[12];
 
 void effect_L8_move(WORK_Other *ewk) {
-    PLW *mwk;
-    s16 *save_old_col_ptr;
+    PLW *mwk = (PLW *)ewk->my_master;
+    s16 *save_old_col_ptr = (s16 *)&ewk->wu.zu_flag;
 
-    mwk = (PLW *)ewk->my_master;
-    save_old_col_ptr = (s16 *)&ewk->wu.zu_flag;
     switch (ewk->wu.routine_no[0]) {
     case 0:
         ewk->wu.routine_no[0] += 1;
@@ -26,10 +24,11 @@ void effect_L8_move(WORK_Other *ewk) {
         mwk->att_plus = 14;
         spmv_ng_save[ewk->master_id] = mwk->spmv_ng_flag;
         mwk->spmv_ng_flag = (mwk->spmv_ng_flag | 48);
-        return;
+        break;
+
     case 1:
         if ((mwk->sa->ok == -1) && (ewk->wu.dead_f == 0)) {
-            return;
+            break;
         }
 
         ewk->wu.routine_no[0] += 1;
@@ -37,10 +36,12 @@ void effect_L8_move(WORK_Other *ewk) {
         load_old_color_data(save_old_col_ptr, ewk->wu.move_xy_table);
         mwk->att_plus = 8;
         mwk->spmv_ng_flag = spmv_ng_save[ewk->master_id];
-        return;
+        break;
+
     case 2:
         ewk->wu.routine_no[0] += 1;
         /* fallthrough */
+
     default:
         push_effect_work(&ewk->wu);
         break;
@@ -89,6 +90,7 @@ s32 effect_L8_init(PLW *wk) {
     if ((ix = pull_effect_work(6)) == -1) {
         return -1;
     }
+
     ewk = (WORK_Other *)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 218;

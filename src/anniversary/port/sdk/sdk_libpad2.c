@@ -100,5 +100,23 @@ int sceVibGetProfile(int socket_number, unsigned char *profile) {
 }
 
 int sceVibSetActParam(int socket_number, int profile_size, unsigned char *profile, int data_size, unsigned char *data) {
-    not_implemented(__func__);
+    const bool is_small_enabled = profile[0] & 1;
+    const bool is_big_enabled = profile[0] & 2;
+    unsigned char big_value = 0;
+    bool small_value = false;
+
+    if (is_small_enabled) {
+        small_value = data[0] & 1;
+    }
+
+    if (is_big_enabled) {
+        if (is_small_enabled) {
+            big_value = ((data[0] & 0xFE) >> 1) | ((data[1] & 1) << 7);
+        } else {
+            big_value = data[0];
+        }
+    }
+
+    SDLPad_RumblePad(socket_number, small_value, big_value);
+    return 1;
 }

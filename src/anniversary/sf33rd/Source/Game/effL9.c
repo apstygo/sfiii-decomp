@@ -10,44 +10,50 @@
 #include "sf33rd/Source/Game/workuser.h"
 
 void effect_L9_move(WORK_Other *ewk) {
-    WORK_Other *oya;
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    oya = (WORK_Other *)ewk->my_master;
+    WORK_Other *oya = (WORK_Other *)ewk->my_master;
+
     switch (ewk->wu.routine_no[1]) {
     case 0:
         ewk->wu.routine_no[1] += 1;
         ewk->wu.disp_flag = 1;
         set_char_move_init(&ewk->wu, 0, ewk->wu.char_index);
-        return;
+        break;
+
     case 1:
         char_move(&ewk->wu);
+
         if (oya->wu.routine_no[0] >= 3) {
             ewk->wu.routine_no[1] += 1;
             ewk->wu.disp_flag = 0;
         }
+
         ewk->wu.position_x = ewk->wu.xyz[0].disp.pos & 0xFFFF;
         ewk->wu.position_y = ewk->wu.xyz[1].disp.pos & 0xFFFF;
         sort_push_request4(&ewk->wu);
-        return;
+        break;
+
     case 2:
         ewk->wu.routine_no[1] += 1;
-        return;
+        break;
+
     default:
         all_cgps_put_back(&ewk->wu);
         push_effect_work(&ewk->wu);
-        return;
+        break;
     }
 }
 
 s32 effect_L9_init(WORK_Other *oya, u8 ten_type) {
-    WORK_Other *ewk;
-    s16 ix;
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
+
+    WORK_Other *ewk;
+    s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
@@ -70,15 +76,17 @@ s32 effect_L9_init(WORK_Other *oya, u8 ten_type) {
     ewk->wu.position_x = ewk->wu.xyz[0].disp.pos & 0xFFFF;
     ewk->wu.position_y = ewk->wu.xyz[1].disp.pos & 0xFFFF;
     ewk->wu.xyz[0].disp.pos = bg_w.bgw[1].wxy[0].disp.pos;
+
     if (ewk->wu.type) {
         ewk->wu.char_index = 53;
+
         if (plw[Winner_id].wu.rl_flag) {
             ewk->wu.xyz[0].disp.pos = 191;
         } else {
             ewk->wu.xyz[0].disp.pos = 192;
         }
-        ewk->wu.my_priority = ewk->wu.position_z = 9;
 
+        ewk->wu.my_priority = ewk->wu.position_z = 9;
         ewk->wu.xyz[1].disp.pos = 24;
     } else {
         ewk->wu.char_index = 48;
@@ -86,6 +94,7 @@ s32 effect_L9_init(WORK_Other *oya, u8 ten_type) {
         ewk->wu.xyz[0].disp.pos = 192;
         ewk->wu.xyz[1].disp.pos = 8;
     }
+
     ewk->wu.my_mts = 14;
     ewk->wu.my_trans_mode = get_my_trans_mode(ewk->wu.my_mts);
     return 0;

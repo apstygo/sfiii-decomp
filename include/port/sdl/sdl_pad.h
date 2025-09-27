@@ -31,5 +31,6 @@ void SDLPad_HandleGamepadAxisMotionEvent(SDL_GamepadAxisEvent *event);
 void SDLPad_HandleKeyboardEvent(SDL_KeyboardEvent *event);
 bool SDLPad_IsGamepadConnected(int id);
 void SDLPad_GetButtonState(int id, SDLPad_ButtonState *state);
+void SDLPad_RumblePad(int id, bool low_freq_enabled, Uint8 high_freq_rumble);
 
 #endif
