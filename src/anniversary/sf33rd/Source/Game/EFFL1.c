@@ -284,13 +284,40 @@ void effL1_w_score_init(WORK_Other_CONN *ewk) {
     ewk->wu.position_x -= 384;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFL1", effL1_w_graph_init);
-#else
 void effL1_w_graph_init(WORK_Other_CONN *ewk) {
-    not_implemented(__func__);
-}
+#if defined(TARGET_PS2)
+    s16 grade_get_my_point_percentage(s16 ix, s32 flag);
 #endif
+
+    s16 i;
+
+    ewk->wu.direction = grade_get_my_point_percentage((s32)Winner_id, (s16)(ewk->wu.type - 3));
+
+    if (ewk->wu.direction) {
+        ewk->wu.direction /= 2;
+
+        if (ewk->wu.direction == 0) {
+            ewk->wu.direction = 1;
+        }
+    }
+
+    ewk->wu.dir_step = ewk->wu.direction % 10;
+    ewk->wu.direction /= 10;
+
+    for (i = 0; i < 6; i++) {
+        ewk->conn[i] = gj_bar[i];
+        ewk->conn[i].ny -= (ewk->wu.type - 3) * 4;
+    }
+
+    ewk->num_of_conn = ewk->wu.direction;
+
+    if (ewk->wu.dir_step) {
+        ewk->conn[ewk->num_of_conn].chr = (ewk->conn[ewk->num_of_conn].chr - 10) + ewk->wu.dir_step;
+        ewk->num_of_conn++;
+    }
+
+    ewk->wu.position_x -= 384;
+}
 
 void effL1_k_graph_init(WORK_Other_CONN *ewk) {
 #if defined(TARGET_PS2)
