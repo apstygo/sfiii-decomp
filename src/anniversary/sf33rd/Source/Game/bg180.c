@@ -46,6 +46,10 @@ void bg1802() {
 }
 
 void bg1802_init00() {
+#if defined(TARGET_PS2)
+    s32 effect_22_init();
+#endif
+
     bgw_ptr->r_no_0++;
     bgw_ptr->old_pos_x = bgw_ptr->xy[0].disp.pos = bgw_ptr->pos_x_work = 0x200;
     bgw_ptr->hos_xy[0].cal = bgw_ptr->wxy[0].cal = bgw_ptr->xy[0].cal;

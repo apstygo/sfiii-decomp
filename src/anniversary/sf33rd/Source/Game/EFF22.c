@@ -1,10 +1,10 @@
 #include "sf33rd/Source/Game/EFF22.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
@@ -125,9 +125,35 @@ void effect_22_move(WORK_Other *ewk) {
 }
 
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF22", effect_22_init);
+s32 effect_22_init(s32 /* unused */) {
+    s16 get_my_trans_mode(s32 curr);
 #else
 s32 effect_22_init() {
-    not_implemented(__func__);
-}
 #endif
+
+    s16 ix;
+    s16 i;
+    WORK_Other *ewk;
+
+    for (i = 0; i < 12; i++) {
+        if ((ix = pull_effect_work(4)) == -1) {
+            return -1;
+        }
+
+        ewk = (WORK_Other *)frw[ix];
+        ewk->wu.be_flag = 1;
+        ewk->wu.id = 22;
+        ewk->wu.work_id = 16;
+        ewk->wu.cgromtype = 1;
+        ewk->wu.type = i;
+        ewk->wu.my_family = 2;
+        ewk->wu.my_col_mode = 0x4200;
+        ewk->wu.my_col_code = 300;
+        ewk->wu.my_mts = 7;
+        ewk->wu.my_trans_mode = get_my_trans_mode(ewk->wu.my_mts);
+        ewk->wu.char_table[0] = _rca_char_table;
+        ewk->wu.my_priority = ewk->wu.position_z = 10;
+    }
+
+    return 0;
+}

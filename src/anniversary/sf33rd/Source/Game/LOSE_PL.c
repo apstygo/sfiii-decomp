@@ -85,6 +85,7 @@ void Lose_20000(PLW *wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
+    s32 effect_C1_init(WORK * wk);
 #endif
 
     s16 work;
