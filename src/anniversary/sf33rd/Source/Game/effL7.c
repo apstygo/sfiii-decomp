@@ -30,24 +30,28 @@ void effect_L7_move(WORK_Other *ewk) {
         if ((!EXE_flag) && (!Game_pause)) {
             effl7_move(ewk);
         }
+
         pl_eff_trans_entry(ewk);
-        return;
+        break;
+
     case 1:
         ewk->wu.routine_no[0] += 1;
         poison_flag[oya_ptr->id] = 0;
         /* fallthrough */
+
     default:
         push_effect_work(&ewk->wu);
-        return;
+        break;
     }
 }
 
 void effl7_move(WORK_Other *ewk) {
-    WORK *oya_ptr = (WORK *)ewk->my_master;
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void set_char_move_init2(WORK * wk, s16 koc, s16 index, s16 ip);
 #endif
+
+    WORK *oya_ptr = (WORK *)ewk->my_master;
 
     switch (ewk->wu.routine_no[1]) {
     case 0:
@@ -61,64 +65,88 @@ void effl7_move(WORK_Other *ewk) {
         set_char_move_init(&ewk->wu, 0, ewk->wu.char_index);
         ewk->wu.old_rno[0] = 80;
         cal_initial_speed(&ewk->wu, ewk->wu.old_rno[0], ewk->wu.old_rno[1], ewk->wu.xyz[1].disp.pos);
-        return;
+        break;
+
     case 1:
         char_move(&ewk->wu);
         add_x_sub(ewk);
         add_y_sub(ewk);
         ewk->wu.old_rno[0]--;
+
         if (ewk->wu.old_rno[0] <= 0) {
             ewk->wu.routine_no[1] += 1;
             set_char_move_init(&ewk->wu, 0, 1);
         }
-    default:
+
         break;
+
+    default:
+        // Do nothing
+        break;
+
     case 2:
         char_move(&ewk->wu);
+
         if (ewk->wu.cg_type == 0xFF) {
             ewk->wu.routine_no[1] += 1;
             set_char_move_init(&ewk->wu, 1, ewk->wu.old_rno[2]);
-            return;
         }
+
         break;
+
     case 3:
         char_move(&ewk->wu);
+
         if (ewk->wu.cg_type == 9) {
             ewk->wu.routine_no[1] += 1;
             ewk->wu.rl_flag ^= 1;
-            return;
         }
+
         break;
+
     case 4:
         char_move(&ewk->wu);
+
         if (ewk->wu.cg_type == 0xFF) {
             ewk->wu.routine_no[1] += 1;
+
+            // The original programmers managed to call a func that accepts 5 args with just 4.
+            // This means that register t0 has some garbage that was stored there previously
+            // by a different func.
+            //
+            // To match the original behavior run the game in PCSX2, set a breakpoing at
+            // 0x234efc and note the value of t0. If it's 0, call set_char_move_init2
+            // with 0 in the last arg. If it's non-zero, call with 1.
+
 #if defined(TARGET_PS2)
             set_char_move_init2(&ewk->wu, 0, 0, 3);
 #else
-            // Note: Estimating that since the programmers didn't put in a parameter, that a zero would be a reasonable
-            // replacement.
-            set_char_move_init2(&ewk->wu, 0, 0, 3, 0);
+            fatal_error("This part needs debugging. Check the comment above for details.");
 #endif
+
             if (ewk->wu.rl_flag) {
                 ewk->wu.mvxy.a[0].sp = 0x20000;
             } else {
                 ewk->wu.mvxy.a[0].sp = -0x20000;
             }
+
             ewk->wu.mvxy.a[1].sp = 0;
-            return;
         }
+
         break;
+
     case 5:
         char_move(&ewk->wu);
         add_x_sub(ewk);
+
         if (range_x_check3(ewk, 64) == 0) {
             ewk->wu.routine_no[1] += 1;
             ewk->wu.disp_flag = 0;
             ewk->wu.kage_flag = 0;
-            return;
         }
+
         break;
+
     case 6:
         ewk->wu.routine_no[1] += 1;
         ewk->wu.routine_no[0] += 1;
@@ -127,14 +155,15 @@ void effl7_move(WORK_Other *ewk) {
 }
 
 s32 effect_L7_init(WORK *wk, s32 /* unused */) {
-    WORK_Other *ewk;
-    s16 ix;
-    s16 kind_w;
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    if ((wk->work_id == 1) && (((PLW *)wk)->player_number != (My_char[wk->id]))) {
+    WORK_Other *ewk;
+    s16 ix;
+    s16 kind_w;
+
+    if ((wk->work_id == 1) && (((PLW *)wk)->player_number != My_char[wk->id])) {
         return 0;
     }
 
@@ -165,6 +194,7 @@ s32 effect_L7_init(WORK *wk, s32 /* unused */) {
     ewk->wu.my_family = wk->my_family;
     ewk->my_master = (u32 *)wk;
     ewk->wu.rl_flag = wk->rl_flag;
+
     if (wk->rl_flag) {
         if (wk->xyz[0].disp.pos < bg_w.bgw[1].wxy[0].disp.pos) {
             ewk->wu.xyz[0].disp.pos = wk->xyz[0].disp.pos - 256;

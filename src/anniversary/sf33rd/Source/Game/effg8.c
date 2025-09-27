@@ -33,33 +33,43 @@ void effect_G8_move(WORK_Other *ewk) {
         ewk->wu.mvxy.d[0].sp = effg8_sp_tbl[ewk->wu.old_rno[2]][1];
         ewk->wu.mvxy.a[1].sp = effg8_sp_tbl[ewk->wu.old_rno[2]][2];
         ewk->wu.mvxy.d[1].sp = effg8_sp_tbl[ewk->wu.old_rno[2]][3];
-        return;
+        break;
+
     case 1:
         ewk->wu.old_rno[3] -= 1;
-        if (ewk->wu.old_rno[3] <= 0) {
-            ewk->wu.routine_no[0] += 1;
-            ewk->wu.disp_flag = 1;
-            /* fallthrough */
-        case 2:
-            ewk->wu.my_mr.size.x += 2;
-            ewk->wu.my_mr.size.y += 2;
-            if (ewk->wu.my_mr.size.x >= 63) {
-                ewk->wu.routine_no[0] += 1;
-            }
-            /* fallthrough */
-        case 3:
-            add_x_sub(ewk);
-            add_y_sub(ewk);
-            if (effg8_range_check(ewk)) {
-                ewk->wu.routine_no[0] = 99;
-                return;
-            }
 
-            ewk->wu.position_x = (ewk->wu.xyz[0].disp.pos & 0xFFFF);
-            ewk->wu.position_y = (ewk->wu.xyz[1].disp.pos & 0xFFFF);
-            sort_push_request4(&ewk->wu);
+        if (ewk->wu.old_rno[3] > 0) {
+            break;
         }
+
+        ewk->wu.routine_no[0] += 1;
+        ewk->wu.disp_flag = 1;
+        /* fallthrough */
+
+    case 2:
+        ewk->wu.my_mr.size.x += 2;
+        ewk->wu.my_mr.size.y += 2;
+
+        if (ewk->wu.my_mr.size.x >= 63) {
+            ewk->wu.routine_no[0] += 1;
+        }
+
+        /* fallthrough */
+
+    case 3:
+        add_x_sub(ewk);
+        add_y_sub(ewk);
+
+        if (effg8_range_check(ewk)) {
+            ewk->wu.routine_no[0] = 99;
+            break;
+        }
+
+        ewk->wu.position_x = (ewk->wu.xyz[0].disp.pos & 0xFFFF);
+        ewk->wu.position_y = (ewk->wu.xyz[1].disp.pos & 0xFFFF);
+        sort_push_request4(&ewk->wu);
         break;
+
     default:
         all_cgps_put_back(&ewk->wu);
         push_effect_work(&ewk->wu);
@@ -71,28 +81,32 @@ s16 effg8_range_check(WORK_Other *ewk) {
     if (ewk->wu.xyz[0].disp.pos < 88) {
         return 1;
     }
+
     if (ewk->wu.xyz[0].disp.pos > 296) {
         return 1;
     }
+
     if (ewk->wu.xyz[1].disp.pos < 64) {
         return 1;
     }
+
     if (ewk->wu.xyz[1].disp.pos > 208) {
         return 1;
     }
+
     return 0;
 }
 
 s32 effect_G8_init() {
-    WORK_Other *ewk;
-    s16 ix;
-    s16 i;
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    for (i = 0; i < 16; i++) {
+    WORK_Other *ewk;
+    s16 ix;
+    s16 i;
 
+    for (i = 0; i < 16; i++) {
         if ((ix = pull_effect_work(4)) == -1) {
             return -1;
         }
@@ -112,6 +126,7 @@ s32 effect_G8_init() {
         ewk->wu.my_mts = 14;
         ewk->wu.my_trans_mode = get_my_trans_mode(ewk->wu.my_mts);
     }
+
     return 0;
 }
 
