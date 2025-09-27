@@ -60,6 +60,7 @@ extern const s16 **kizetsu_timer_table[];
 void Player_control();
 void reqPlayerDraw();
 void erase_extra_plef_work();
+void set_base_data_metamorphose(PLW *wk, s16 dmid);
 void set_player_shadow(PLW *wk);
 void clear_chainex_check(s16 ix);
 void set_kizetsu_status(s16 ix);
