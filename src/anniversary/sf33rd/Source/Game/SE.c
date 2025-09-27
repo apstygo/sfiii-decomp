@@ -173,6 +173,10 @@ void Se_Let(WORK_Other *ewk, u16 Code) {
 }
 
 void Se_Let_SP(WORK_Other *ewk, u16 Code) {
+#if defined(SOUND_DISABLED)
+    return;
+#endif
+
     PLW *em;
     s16 xx;
     s16 uid;
@@ -210,6 +214,10 @@ void Call_Se(WORK_Other *ewk, u16 Code) {
 }
 
 void Se_Term(WORK_Other *ewk, u16 Code) {
+#if defined(SOUND_DISABLED)
+    return;
+#endif
+
     s16 xx;
 
     if (ewk->wu.work_id != 1) {
