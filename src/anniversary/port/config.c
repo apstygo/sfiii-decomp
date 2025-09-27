@@ -8,16 +8,16 @@ Config config;
 static const char* CONFIG_FILE = "config.ini";
 
 static void set_default_keyboard_mapping() {
-    config.keyboard_mapping.dpad_up = SDLK_w;
-    config.keyboard_mapping.dpad_down = SDLK_s;
-    config.keyboard_mapping.dpad_left = SDLK_a;
-    config.keyboard_mapping.dpad_right = SDLK_d;
-    config.keyboard_mapping.north = SDLK_i;
-    config.keyboard_mapping.west = SDLK_j;
-    config.keyboard_mapping.south = SDLK_k;
-    config.keyboard_mapping.east = SDLK_l;
-    config.keyboard_mapping.left_shoulder = SDLK_q;
-    config.keyboard_mapping.right_shoulder = SDLK_e;
+    config.keyboard_mapping.dpad_up = SDLK_W;
+    config.keyboard_mapping.dpad_down = SDLK_S;
+    config.keyboard_mapping.dpad_left = SDLK_A;
+    config.keyboard_mapping.dpad_right = SDLK_D;
+    config.keyboard_mapping.north = SDLK_I;
+    config.keyboard_mapping.west = SDLK_J;
+    config.keyboard_mapping.south = SDLK_K;
+    config.keyboard_mapping.east = SDLK_L;
+    config.keyboard_mapping.left_shoulder = SDLK_Q;
+    config.keyboard_mapping.right_shoulder = SDLK_E;
     config.keyboard_mapping.left_trigger = SDLK_1;
     config.keyboard_mapping.right_trigger = SDLK_3;
     config.keyboard_mapping.left_stick = SDLK_2;

@@ -33,6 +33,7 @@
 #include "structs.h"
 
 #if !defined(TARGET_PS2)
+#include "port/config.h"
 #include "port/sdl/sdl_app.h"
 #endif
 
@@ -314,6 +315,10 @@ u8 *mppMalloc(u32 size) {
 void njUserInit() {
     s32 i;
     u32 size;
+
+#if !defined(TARGET_PS2)
+    Config_Load();
+#endif
 
     sysFF = 1;
     mpp_w.sysStop = 0;
