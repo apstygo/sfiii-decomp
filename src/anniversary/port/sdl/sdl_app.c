@@ -1,5 +1,6 @@
 #include "port/sdl/sdl_app.h"
 #include "common.h"
+#include "port/config.h"
 #include "port/sdk_threads.h"
 #include "port/float_clamp.h"
 #include "port/sdl/sdl_game_renderer.h"
@@ -74,6 +75,9 @@ int SDLApp_Init() {
     }
 
     display_refresh_period = 1000000000.0 / display_mode->refresh_rate;
+
+    // Load config
+    Config_Load();
 
     // Initialize pads
     SDLPad_Init();
