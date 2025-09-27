@@ -50,8 +50,13 @@ int SDLApp_Init() {
     Uint32 window_flags = SDL_WINDOW_RESIZABLE;
     if (config.display.fullscreen) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
-    } else if (config.display.borderless) {
-        window_flags |= SDL_WINDOW_BORDERLESS;
+    } else {
+        if (config.display.borderless) {
+            window_flags |= SDL_WINDOW_BORDERLESS;
+        }
+        if (config.display.maximized) {
+            window_flags |= SDL_WINDOW_MAXIMIZED;
+        }
     }
 
     if (!SDL_CreateWindowAndRenderer(

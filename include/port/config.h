@@ -9,6 +9,7 @@ typedef struct Config_Display {
     bool fullscreen;
     bool borderless;
     bool stretched;
+    bool maximized;
 } Config_Display;
 
 typedef struct Config_KeyboardMapping {

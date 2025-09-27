@@ -15,6 +15,7 @@ static void set_default_display_config() {
     config.display.fullscreen = false;
     config.display.borderless = false;
     config.display.stretched = false;
+    config.display.maximized = false;
 }
 
 static void set_default_keyboard_mapping() {
@@ -69,6 +70,7 @@ static int handler(void* user, const char* section, const char* name, const char
     else if (MATCH("Display", "fullscreen")) { pconfig->display.fullscreen = (strcmp(value, "true") == 0 || strcmp(value, "1") == 0); }
     else if (MATCH("Display", "borderless")) { pconfig->display.borderless = (strcmp(value, "true") == 0 || strcmp(value, "1") == 0); }
     else if (MATCH("Display", "stretched")) { pconfig->display.stretched = (strcmp(value, "true") == 0 || strcmp(value, "1") == 0); }
+    else if (MATCH("Display", "maximized")) { pconfig->display.maximized = (strcmp(value, "true") == 0 || strcmp(value, "1") == 0); }
     else if (MATCH("Keyboard", "dpad_up")) { pconfig->keyboard_mapping.dpad_up = SDL_GetKeyFromName(value); }
     else if (MATCH("Keyboard", "dpad_down")) { pconfig->keyboard_mapping.dpad_down = SDL_GetKeyFromName(value); }
     else if (MATCH("Keyboard", "dpad_left")) { pconfig->keyboard_mapping.dpad_left = SDL_GetKeyFromName(value); }
@@ -125,6 +127,7 @@ void Config_Save() {
     fprintf(fp, "fullscreen = %s\n", config.display.fullscreen ? "true" : "false");
     fprintf(fp, "borderless = %s\n", config.display.borderless ? "true" : "false");
     fprintf(fp, "stretched = %s\n", config.display.stretched ? "true" : "false");
+    fprintf(fp, "maximized = %s\n", config.display.maximized ? "true" : "false");
 
     fprintf(fp, "\n[Keyboard]\n");
     fprintf(fp, "dpad_up = %s\n", SDL_GetKeyName(config.keyboard_mapping.dpad_up));
