@@ -302,11 +302,9 @@ void q_ldreq_texture_group(REQ *curr) {
                     patchAdrs[37] = patchAdrs[3];
                 }
 
+                // Looks like this code handles some Akuma specific stuff
                 if (curr->ix == 15) {
-#if !defined(TARGET_PS2)
-                    fatal_error("This code is highly suspicious. Investigate it before removing this error");
-#endif
-                    trsbas = (u16 *)(((u32 *)texgrplds[15].trans_table)[166] + texgrplds[15].trans_table); // ??
+                    trsbas = (u16 *)(((u32 *)texgrplds[15].trans_table)[166] + texgrplds[15].trans_table);
                     count = *trsbas;
                     count -= 1;
                     trsbas[0] = count;
