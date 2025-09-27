@@ -121,6 +121,7 @@ void effect_M5_move(WORK_Other *ewk) {
     default:
         all_cgps_put_back(&ewk->wu);
         push_effect_work(&ewk->wu);
+        break;
     }
 }
 
