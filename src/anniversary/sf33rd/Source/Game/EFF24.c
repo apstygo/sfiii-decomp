@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/EFF24.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CALDIR.h"
 #include "sf33rd/Source/Game/CHARSET.h"
@@ -8,7 +9,6 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
@@ -210,9 +210,55 @@ void eff24_sp_data_set(WORK_Other *ewk) {
 }
 
 #if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFF24", effect_24_init);
+s32 effect_24_init(s32 /* unused */) {
+    s16 get_my_trans_mode(s32 curr);
 #else
 s32 effect_24_init() {
-    not_implemented(__func__);
-}
 #endif
+
+    WORK_Other *ewk;
+    s16 ix;
+    s16 i;
+    const s16 *data_ptr = eff24_data_tbl;
+
+    for (i = 0; i < 8; i++) {
+        if ((ix = pull_effect_work(4)) == -1) {
+            return -1;
+        }
+
+        ewk = (WORK_Other *)frw[ix];
+        ewk->wu.be_flag = 1;
+        ewk->wu.id = 24;
+        ewk->wu.type = i;
+        ewk->wu.work_id = 16;
+        ewk->wu.cgromtype = 1;
+        ewk->wu.rl_flag = 0;
+
+        if (i) {
+            ewk->wu.my_family = 2;
+        } else {
+            ewk->wu.my_family = 3;
+        }
+
+        ewk->wu.my_col_mode = 0x4200;
+        *ewk->wu.char_table = _grm_char_table;
+        ewk->wu.sync_suzi = 0;
+        ewk->wu.my_col_code = *data_ptr++;
+        ewk->wu.xyz[0].disp.pos = *data_ptr++;
+        ewk->wu.xyz[1].disp.pos = *data_ptr++;
+        ewk->wu.my_priority = ewk->wu.position_z = *data_ptr++;
+        ewk->wu.char_index = *data_ptr++;
+        ewk->wu.old_rno[3] = *data_ptr++;
+        ewk->wu.old_rno[7] = *data_ptr++;
+        ewk->wu.old_rno[6] = 0;
+        ewk->wu.old_rno[0] = 0;
+        ewk->wu.old_rno[1] = 0;
+        ewk->wu.old_rno[4] = ewk->wu.xyz[0].disp.pos;
+        ewk->wu.old_rno[2] = ewk->wu.xyz[1].disp.pos;
+        suzi_offset_set(ewk);
+        ewk->wu.my_mts = 7;
+        ewk->wu.my_trans_mode = get_my_trans_mode(ewk->wu.my_mts);
+    }
+
+    return 0;
+}

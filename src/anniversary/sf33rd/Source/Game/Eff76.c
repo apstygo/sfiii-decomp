@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/Eff76.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFF57.h"
@@ -12,7 +13,6 @@
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_data.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
@@ -29,7 +29,6 @@ void Setup_Pos_76(WORK_Other *ewk);
 void Setup_Char_76(WORK_Other *ewk);
 s16 Check_Range_Out(WORK_Other *ewk);
 void Setup_Color_76(WORK_Other *ewk);
-void Setup_Color_L1(WORK_Other *ewk);
 
 void (*const EFF76_Jmp_Tbl[8])() = { EFF76_WAIT, EFF76_SLIDE_IN, EFF76_SLIDE_OUT,       EFF76_SUDDENLY,
                                      EFF57_KILL, EFF76_SHIFT,    EFF76_WAIT_BREAK_INTO, EFF76_BEFORE };

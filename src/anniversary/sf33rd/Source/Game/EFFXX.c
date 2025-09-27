@@ -104,7 +104,6 @@
 #include "sf33rd/Source/Game/EFFE7.h"
 #include "sf33rd/Source/Game/EFFE8.h"
 #include "sf33rd/Source/Game/EFFECT.h"
-#include "sf33rd/Source/Game/efff0.h"
 #include "sf33rd/Source/Game/EFFF2.h"
 #include "sf33rd/Source/Game/EFFF4.h"
 #include "sf33rd/Source/Game/EFFF8.h"
@@ -156,6 +155,7 @@
 #include "sf33rd/Source/Game/EffE0.h"
 #include "sf33rd/Source/Game/EffG0.h"
 #include "sf33rd/Source/Game/EffK6.h"
+#include "sf33rd/Source/Game/EffM3.h"
 #include "sf33rd/Source/Game/PLPAT09.h"
 #include "sf33rd/Source/Game/eff05.h"
 #include "sf33rd/Source/Game/eff06.h"
@@ -175,6 +175,7 @@
 #include "sf33rd/Source/Game/effL4.h"
 #include "sf33rd/Source/Game/effL5.h"
 #include "sf33rd/Source/Game/effM5.h"
+#include "sf33rd/Source/Game/effM6.h"
 #include "sf33rd/Source/Game/effM7.h"
 #include "sf33rd/Source/Game/effb2.h"
 #include "sf33rd/Source/Game/effb3.h"
@@ -183,6 +184,7 @@
 #include "sf33rd/Source/Game/effe3.h"
 #include "sf33rd/Source/Game/effe6.h"
 #include "sf33rd/Source/Game/effe9.h"
+#include "sf33rd/Source/Game/efff0.h"
 #include "sf33rd/Source/Game/efff5.h"
 #include "sf33rd/Source/Game/efff6.h"
 #include "sf33rd/Source/Game/effi6.h"
@@ -424,10 +426,10 @@ const void (*effmovejptbl[229])() = {
     NULL, // effect_M0_move
     effect_M1_move,
     effect_M2_move,
-    NULL, // effect_M3_move
+    effect_M3_move,
     effect_dummy_move,
     effect_M5_move,
-    NULL, // effect_M6_move
+    effect_M6_move,
     effect_M7_move,
     NULL, // effect_M8_move
 };

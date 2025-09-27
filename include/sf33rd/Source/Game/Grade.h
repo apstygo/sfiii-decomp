@@ -5,6 +5,7 @@
 #include "types.h"
 
 extern JudgeGals judge_gals[2];
+extern JudgeCom judge_com[2];
 
 extern GradeFinalData judge_final[2][2]; // size: 0x2B0, address: 0x5E3070
 extern GradeData judge_item[2][2];       // size: 0x130, address: 0x5E3320

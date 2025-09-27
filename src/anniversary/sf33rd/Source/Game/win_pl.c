@@ -637,6 +637,8 @@ void Win_07000(PLW *wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
+    s32 effect_82_init(WORK * wk);
+    s32 effect_83_init(WORK * wk);
 #endif
 
     s16 work;
