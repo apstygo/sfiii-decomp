@@ -34,6 +34,11 @@
 
 #if !defined(TARGET_PS2)
 #include "port/sdl/sdl_app.h"
+#if defined(_WIN32)
+#include <windef.h> // including windows.h causes conflicts with the Polygon struct, so I just included the header where AllocConsole is and the Windows-specific typedefs that it requires.
+#include <ConsoleApi.h>
+#include <stdio.h>
+#endif
 #endif
 
 #include <memory.h>
@@ -61,6 +66,12 @@ void AcrMain() {
 #if !defined(TARGET_PS2)
     int is_running = 1;
 
+#if defined(_WIN32)
+    AllocConsole();
+    freopen("CONIN$", "r", stdin);
+    freopen("CONOUT$", "w", stdout);
+    freopen("CONOUT$", "w", stderr);
+#endif
     SDLApp_Init();
 #endif
 

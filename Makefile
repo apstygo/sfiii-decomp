@@ -98,6 +98,10 @@ ifneq ($(PLATFORM),ps2)
 	CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
 endif
 
+ifeq ($(PLATFORM),windows)
+	CLANG_LINKER_FLAGS += --for-linker --pdb=$(BUILD_DIR)/sf33rd.pdb -ldbghelp
+endif
+
 # Files
 
 MAIN_TARGET := $(BUILD_DIR)/$(MAIN)

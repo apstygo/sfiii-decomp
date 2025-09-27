@@ -1,0 +1,42 @@
+name: Build (Windows)
+
+on:
+    push:
+        branches: [ "main" ]
+    pull_request:
+        branches: [ "main" ]
+
+jobs:
+    build:
+        runs-on: windows-latest
+
+        defaults:
+          run:
+            shell: msys2 {0}
+
+        steps:
+          - uses: msys2/setup-msys2@v2
+            with:
+              update: true
+              msystem: MINGW64
+              install: >-
+                make
+                mingw-w64-x86_64-clang
+                cmake
+                mingw-w64-x86_64-sdl3
+                ninja
+                mingw-w64-x86_64-headers-git
+
+          - name: Checkout repository
+            uses: actions/checkout@v4
+
+          - name: Build for Windows
+            run: |
+              make PLATFORM=windows 2>&1 MSYS2_LOCATION=${{ steps.msys2.outputs.msys2-location }} | tee build.log
+
+          - name: Upload build log
+            if: always()
+            uses: actions/upload-artifact@v4
+            with:
+                name: build-log
+                path: build.log
