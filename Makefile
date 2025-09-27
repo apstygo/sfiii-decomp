@@ -106,7 +106,7 @@ S_FILES := $(shell find $(ASM_DIR) -name '*.s' -not -path *nonmatchings* 2>/dev/
 GAME_C_FILES := $(shell find $(SRC_DIR)/sf33rd -name '*.c' 2>/dev/null)
 CRI_C_FILES := $(shell find $(SRC_DIR)/cri -name '*.c' 2>/dev/null)
 BIN2OBJ_C_FILES := $(shell find $(SRC_DIR)/bin2obj -name '*.c' 2>/dev/null)
-PORT_C_FILES := $(shell find $(SRC_DIR)/port -name '*.c' -not -name 'flps2asm_stubs.c' 2>/dev/null)
+PORT_C_FILES := $(shell find $(SRC_DIR)/port -name '*.c' 2>/dev/null)
 ZLIB_C_FILES := $(shell find zlib -name '*.c' 2>/dev/null)
 
 ASM_O_FILES := $(patsubst %.s,%.s.o,$(S_FILES))
