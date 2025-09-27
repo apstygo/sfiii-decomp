@@ -19,8 +19,6 @@ int ADXPS2_ExecVint(int mode);
 
 static const char *app_name = "Street Fighter III: 3rd Strike";
 static const float display_target_ratio = 4.0 / 3.0;
-static const int window_default_width = 640;
-static const int window_default_height = (int)(window_default_width / display_target_ratio);
 static const int target_fps = 60;
 static const float target_frame_time_ns = 1000000000.0 / target_fps;
 
@@ -41,13 +39,23 @@ int SDLApp_Init() {
     SDL_SetAppMetadata(app_name, "0.1", NULL);
     SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, "1");
 
+    // Load config
+    Config_Load();
+
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
         SDL_Log("Couldn't initialize SDL: %s", SDL_GetError());
         return 1;
     }
 
+    Uint32 window_flags = SDL_WINDOW_RESIZABLE;
+    if (config.display.fullscreen) {
+        window_flags |= SDL_WINDOW_FULLSCREEN;
+    } else if (config.display.borderless) {
+        window_flags |= SDL_WINDOW_BORDERLESS;
+    }
+
     if (!SDL_CreateWindowAndRenderer(
-            app_name, window_default_width, window_default_height, SDL_WINDOW_RESIZABLE, &window, &renderer)) {
+            app_name, config.display.width, config.display.height, window_flags, &window, &renderer)) {
         SDL_Log("Couldn't create window/renderer: %s", SDL_GetError());
         return 1;
     }
@@ -75,9 +83,6 @@ int SDLApp_Init() {
     }
 
     display_refresh_period = 1000000000.0 / display_mode->refresh_rate;
-
-    // Load config
-    Config_Load();
 
     // Initialize pads
     SDLPad_Init();
@@ -138,15 +143,24 @@ void SDLApp_BeginFrame() {
 }
 
 static SDL_FRect get_letterbox_rect(int win_w, int win_h) {
-    float out_w = win_w;
-    float out_h = win_w / display_target_ratio;
+    SDL_FRect rect;
 
-    if (out_h > win_h) {
-        out_h = win_h;
-        out_w = win_h * display_target_ratio;
+    if (config.display.stretched) {
+        rect.x = 0;
+        rect.y = 0;
+        rect.w = (float)win_w;
+        rect.h = (float)win_h;
+        return rect;
     }
 
-    SDL_FRect rect;
+    float out_w = (float)win_w;
+    float out_h = (float)win_w / display_target_ratio;
+
+    if (out_h > win_h) {
+        out_h = (float)win_h;
+        out_w = (float)win_h * display_target_ratio;
+    }
+
     rect.w = out_w;
     rect.h = out_h;
     rect.x = (win_w - out_w) / 2;

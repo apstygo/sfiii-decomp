@@ -1,6 +1,15 @@
 #pragma once
 
+#include <stdbool.h>
 #include <SDL3/SDL.h>
+
+typedef struct Config_Display {
+    int width;
+    int height;
+    bool fullscreen;
+    bool borderless;
+    bool stretched;
+} Config_Display;
 
 typedef struct Config_KeyboardMapping {
     SDL_Keycode dpad_up;
@@ -39,6 +48,7 @@ typedef struct Config_GamepadMapping {
 } Config_GamepadMapping;
 
 typedef struct Config {
+    Config_Display display;
     Config_KeyboardMapping keyboard_mapping;
     Config_GamepadMapping gamepad_mapping;
 } Config;
