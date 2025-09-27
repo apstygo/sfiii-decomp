@@ -45,6 +45,7 @@ special_cases = {
     ("EFFC9", ".rodata", 0): 16,
     ("staff", ".rodata", 0): 16,
     ("EFFK7", ".rodata", 0): 16,
+    ("EFFXX", ".rodata", 0): 16,
 
     ("bg_data", ".data", 0): 16,
     ("bg_sub", ".data", 0): 16,
