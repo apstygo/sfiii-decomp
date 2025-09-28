@@ -29,6 +29,9 @@ static SDL_Surface* surfaces[FL_TEXTURE_MAX] = { NULL };
 static SDL_Palette* palettes[FL_PALETTE_MAX] = { NULL };
 static SDL_Texture* textures[FL_PALETTE_MAX] = { NULL };
 static int texture_count = 0;
+static SDL_Texture* texture_cache[FL_TEXTURE_MAX][FL_PALETTE_MAX + 1] = { NULL };
+static SDL_Texture* textures_to_destroy[1024] = { NULL };
+static int textures_to_destroy_count = 0;
 static RenderTask render_tasks[RENDER_TASK_MAX] = { 0 };
 static int render_task_count = 0;
 
@@ -106,13 +109,23 @@ static SDL_Texture* get_texture() {
     return textures[texture_count - 1];
 }
 
+static void push_texture_to_destroy(SDL_Texture* texture) {
+    textures_to_destroy[textures_to_destroy_count] = texture;
+    textures_to_destroy_count += 1;
+}
+
 static void destroy_textures() {
     for (int i = 0; i < texture_count; i++) {
-        SDL_DestroyTexture(textures[i]);
         textures[i] = NULL;
     }
 
     texture_count = 0;
+
+    for (int i = 0; i < textures_to_destroy_count; i++) {
+        SDL_DestroyTexture(textures_to_destroy[i]);
+    }
+
+    textures_to_destroy_count = 0;
 }
 
 static void push_render_task(RenderTask* task) {
@@ -291,6 +304,17 @@ void SDLGameRenderer_CreateTexture(unsigned int th) {
 void SDLGameRenderer_DestroyTexture(unsigned int texture_handle) {
     const int texture_index = texture_handle - 1;
 
+    for (int i = 0; i < FL_PALETTE_MAX + 1; i++) {
+        SDL_Texture** texture_p = &texture_cache[texture_index][i];
+
+        if (*texture_p == NULL) {
+            continue;
+        }
+
+        push_texture_to_destroy(*texture_p);
+        *texture_p = NULL;
+    }
+
     SDL_DestroySurface(surfaces[texture_index]);
     surfaces[texture_index] = NULL;
 }
@@ -350,6 +374,17 @@ void SDLGameRenderer_CreatePalette(unsigned int ph) {
 void SDLGameRenderer_DestroyPalette(unsigned int palette_handle) {
     const int palette_index = palette_handle - 1;
 
+    for (int i = 0; i < FL_TEXTURE_MAX; i++) {
+        SDL_Texture** texture_p = &texture_cache[i][palette_handle];
+
+        if (*texture_p == NULL) {
+            continue;
+        }
+
+        push_texture_to_destroy(*texture_p);
+        *texture_p = NULL;
+    }
+
     SDL_DestroyPalette(palettes[palette_index]);
     palettes[palette_index] = NULL;
 }
@@ -368,9 +403,18 @@ void SDLGameRenderer_SetTexture(unsigned int th) {
         SDL_SetSurfacePalette(surface, palette);
     }
 
-    const SDL_Texture* texture = SDL_CreateTextureFromSurface(_renderer, surface);
-    SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
-    SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+    SDL_Texture* texture = NULL;
+    const SDL_Texture* cached_texture = texture_cache[texture_handle - 1][palette_handle];
+
+    if (cached_texture != NULL) {
+        texture = cached_texture;
+    } else {
+        texture = SDL_CreateTextureFromSurface(_renderer, surface);
+        SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
+        SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
+        texture_cache[texture_handle - 1][palette_handle] = texture;
+    }
+
     push_texture(texture);
 }
 
