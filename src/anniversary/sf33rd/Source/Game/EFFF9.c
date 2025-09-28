@@ -145,7 +145,6 @@ s16 keep_mes_no;
 
 s32 Rewrite();
 
-#if defined(TARGET_PS2)
 void effect_F9_move(WORK_Other *ewk) {
 #if defined(TARGET_PS2)
     void get_message_conn_data(WORK_Other_CONN * ewk, s32 kind, s32 pl, s32 msg);
@@ -235,11 +234,6 @@ void effect_F9_move(WORK_Other *ewk) {
         push_effect_work(&ewk->wu);
     }
 }
-#else
-void effect_F9_move(WORK_Other *ewk) {
-    not_implemented(__func__);
-}
-#endif
 
 void effect_F9_init(s16 END_PL_NO) {
     mes_already = 0;

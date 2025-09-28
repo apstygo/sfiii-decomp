@@ -107,7 +107,6 @@ s32 effect_45_init(u8 id, s16 sync_bg, s16 master_player) {
     return 0;
 }
 
-#if defined(TARGET_PS2)
 void Setup_Message(WORK_Other_CONN *ewk) {
     Message_Data[ewk->wu.dir_old].contents = Message_Data[ewk->wu.dir_old].request;
     Message_Data[ewk->wu.dir_old].kind_cnt = Message_Data[ewk->wu.dir_old].kind_req;
@@ -124,11 +123,6 @@ void Setup_Message(WORK_Other_CONN *ewk) {
     ewk->wu.position_z = Message_Data[ewk->wu.dir_old].pos_z;
     Check_Pig_Pig(ewk);
 }
-#else
-void Setup_Message(WORK_Other_CONN *ewk) {
-    not_implemented(__func__);
-}
-#endif
 
 s16 Centering_Sub(WORK_Other_CONN *ewk, s16 dot_type) {
     s16 i;

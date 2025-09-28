@@ -24,7 +24,6 @@ void effect_18_move(WORK_Other_CONN *ewk) {
     sort_push_request3(&ewk->wu);
 }
 
-#if defined(TARGET_PS2)
 s32 effect_18_init(s16 disp_index, s16 cursor_id, s16 sync_bg, s16 master_player) {
 #if defined(TARGET_PS2)
     void get_message_conn_data(WORK_Other_CONN * ewk, s32 kind, s32 pl, s32 msg);
@@ -53,11 +52,6 @@ s32 effect_18_init(s16 disp_index, s16 cursor_id, s16 sync_bg, s16 master_player
     Setup_Pos_18(ewk);
     return 0;
 }
-#else
-s32 effect_18_init(s16 disp_index, s16 cursor_id, s16 sync_bg, s16 master_player) {
-    not_implemented(__func__);
-}
-#endif
 
 void Setup_Pos_18(WORK_Other_CONN *ewk) {
     ewk->wu.position_x = bg_w.bgw[ewk->wu.my_family - 1].wxy[0].disp.pos - 143;
