@@ -23,7 +23,6 @@ s32 random_32();
 s32 random_32_ex();
 s32 random_16_ex();
 s8 get_guard_direction(WORK *as, WORK *ds);
-s16 cal_attdir_flip(s16 dir);
 void add_sp_arts_gauge_guard(PLW *wk);
 s16 cal_sa_gauge_waribiki(PLW *wk, s16 asag);
 void setup_saishin_lvdir(PLW *ds, s8 gddir);

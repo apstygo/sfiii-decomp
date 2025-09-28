@@ -15,6 +15,7 @@ s32 random_32_com();
 s32 random_32_ex_com();
 s8 get_guard_direction(WORK *as, WORK *ds);
 s16 cal_attdir(WORK *wk);
+s16 cal_attdir_flip(s16 dir);
 s16 get_kind_of_head_dm(s16 dir, s8 drl);
 s16 get_kind_of_trunk_dm(s16 dir, s8 drl);
 void setup_vitality(WORK *wk, s16 pno);

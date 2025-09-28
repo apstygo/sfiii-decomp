@@ -2920,4 +2920,12 @@ typedef struct /* @anon19 */ {
     const DADD *dadd; // offset 0x4, size 0x4
 } HAHEN;
 
+typedef struct {
+    // total size: 0x8
+    s16 hx;   // offset 0x0, size 0x2
+    s16 hy;   // offset 0x2, size 0x2
+    s16 hz;   // offset 0x4, size 0x2
+    s16 chix; // offset 0x6, size 0x2
+} GillEffData;
+
 #endif
