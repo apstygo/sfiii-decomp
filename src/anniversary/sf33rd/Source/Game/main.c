@@ -67,11 +67,16 @@ void AcrMain() {
     int is_running = 1;
 
 #if defined(_WIN32)
-    AllocConsole();
+    // attaches to an existing console for printouts. Works with windows CMD but not MSYS2
+    if (AttachConsole(ATTACH_PARENT_PROCESS) == 0) {
+        // if fails, then allocate a new console
+        AllocConsole();
+    }
     freopen("CONIN$", "r", stdin);
     freopen("CONOUT$", "w", stdout);
     freopen("CONOUT$", "w", stderr);
 #endif
+
     SDLApp_Init();
 #endif
 
