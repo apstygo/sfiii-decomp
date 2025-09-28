@@ -1,0 +1,14 @@
+binutils
+curl
+git
+make
+7zip
+python-pip
+python-virtualenv
+unzip
+wget
+7zip
+openssl
+lib32-glibc
+zsh
+clang
