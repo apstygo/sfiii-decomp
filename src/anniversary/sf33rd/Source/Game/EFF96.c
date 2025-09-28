@@ -1,13 +1,13 @@
 #include "sf33rd/Source/Game/EFF96.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_96_move(WORK_Other *ewk) {
+void effect_96_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -51,15 +51,15 @@ void effect_96_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_96_init(WORK *wk, u8 chix, s8 dspf, s32 /* unused */) {
-    WORK_Other *ewk;
+s32 effect_96_init(WORK* wk, u8 chix, s8 dspf, s32 /* unused */) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 96;
     ewk->wu.work_id = 16;
@@ -78,11 +78,11 @@ s32 effect_96_init(WORK *wk, u8 chix, s8 dspf, s32 /* unused */) {
     ewk->wu.position_z = 26;
 
     if (wk->work_id == 1) {
-        ewk->master_player = ((PLW *)wk)->player_number;
+        ewk->master_player = ((PLW*)wk)->player_number;
         ewk->master_id = wk->id;
     } else {
-        ewk->master_player = ((WORK_Other *)wk)->master_player;
-        ewk->master_id = ((WORK_Other *)wk)->master_id;
+        ewk->master_player = ((WORK_Other*)wk)->master_player;
+        ewk->master_id = ((WORK_Other*)wk)->master_id;
     }
 
     return 0;

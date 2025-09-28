@@ -4,7 +4,7 @@
 #include "structs.h"
 #include "types.h"
 
-typedef const u8 *UV_POS_TBL;
+typedef const u8* UV_POS_TBL;
 
 extern const u8 nwdata_tbl[21][6];
 extern const u8 vmark_tbl[8];

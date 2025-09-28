@@ -25,7 +25,7 @@ void disp_ramcnt_free_area() {
     }
 }
 
-void Init_ram_control_work(u8 *adrs, s32 size) {
+void Init_ram_control_work(u8* adrs, s32 size) {
     s16 i;
 
     mmHeapInitialize(&rckey_mmobj, adrs, size, ALIGN_UP(sizeof(_MEMMAN_CELL), 64), "- for Ramcnt -");
@@ -39,7 +39,7 @@ void Init_ram_control_work(u8 *adrs, s32 size) {
     rckeyque[rckeyctr] = 0;
 
     for (i = 0; i < sizeof(RCKeyWork) / 4; i++) {
-        ((s32 *)rckey_work)[i] = 0;
+        ((s32*)rckey_work)[i] = 0;
     }
 
     for (i = 1; i < RCKEY_WORK_MAX; i++) {
@@ -48,7 +48,7 @@ void Init_ram_control_work(u8 *adrs, s32 size) {
 }
 
 void Push_ramcnt_key(s16 key) {
-    RCKeyWork *rwk = &rckey_work[key];
+    RCKeyWork* rwk = &rckey_work[key];
 
     if (rwk->use != 0) {
         if ((rwk->type == 8) || (rwk->type == 9)) {
@@ -63,7 +63,7 @@ void Push_ramcnt_key(s16 key) {
 }
 
 void Push_ramcnt_key_original(s16 key) {
-    RCKeyWork *rwk = &rckey_work[key];
+    RCKeyWork* rwk = &rckey_work[key];
 
     if (rwk->use != 0) {
         if ((rwk->type != 8) && (rwk->type != 9)) {
@@ -82,10 +82,10 @@ void Push_ramcnt_key_original_2(s16 key) {
     void purge_texture_group(u16 grp);
 #endif
 
-    RCKeyWork *rwk = &rckey_work[key];
+    RCKeyWork* rwk = &rckey_work[key];
 
     if (rwk->use != 0) {
-        mmFree(&rckey_mmobj, (u8 *)rwk->adr);
+        mmFree(&rckey_mmobj, (u8*)rwk->adr);
         rwk->type = 0;
         rwk->use = 0;
 
@@ -99,7 +99,7 @@ void Push_ramcnt_key_original_2(s16 key) {
 }
 
 void Purge_memory_of_kind_of_key(u8 kokey) {
-    RCKeyWork *rwk;
+    RCKeyWork* rwk;
     s16 i;
 
     for (i = 0; i < RCKEY_WORK_MAX; i++) {
@@ -170,7 +170,7 @@ s32 Test_ramcnt_key(s16 key) {
 }
 
 s16 Pull_ramcnt_key(size_t memreq, u8 kokey, u8 group, u8 frre) {
-    RCKeyWork *rwk;
+    RCKeyWork* rwk;
     s16 key;
 
     if (rckeyctr <= 0) {

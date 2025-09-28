@@ -46,13 +46,13 @@ u8 flPadFASS[2];
 s32 MtapSlotMax;
 
 static s32 PADRead_for_PS2(s32 i);
-static void update_pad_stick_dir(PAD_STICK *st, s16 depth);
-static u8 lever_analog_to_digital(PAD_STICK *st);
+static void update_pad_stick_dir(PAD_STICK* st, s16 depth);
+static u8 lever_analog_to_digital(PAD_STICK* st);
 static void PADReadSub(s32 i);
 s32 flPADShockSet(s32 pad_id, u32 level, u32 time);
 static s32 PADDeviceInit();
 static void ps2PADWorkClear();
-static void PADPortOpen(s32 port, s32 slot, PS2Slot *adrs);
+static void PADPortOpen(s32 port, s32 slot, PS2Slot* adrs);
 static void PADDeviceDestroy();
 
 s32 flPS2PADModuleInit() {
@@ -118,7 +118,7 @@ void flPADConfigSetACRtoXX(s32 padnum, s16 a, s16 b, s16 c) {
 
 void tarPADRead() {
     s32 i;
-    TARPAD *pad;
+    TARPAD* pad;
     u32 ast1;
     u32 ast2;
 
@@ -140,10 +140,10 @@ void tarPADRead() {
 }
 
 void ps2PADWorkClear() {
-    flpad_ram_clear((u32 *)tarpad_root, sizeof(tarpad_root));
-    flpad_ram_clear((u32 *)ps2pad_state, sizeof(ps2pad_state));
-    flpad_ram_clear((u32 *)ps2pad_backup, sizeof(ps2pad_backup));
-    flpad_ram_clear((u32 *)&ps2pad_clear, sizeof(ps2pad_clear));
+    flpad_ram_clear((u32*)tarpad_root, sizeof(tarpad_root));
+    flpad_ram_clear((u32*)ps2pad_state, sizeof(ps2pad_state));
+    flpad_ram_clear((u32*)ps2pad_backup, sizeof(ps2pad_backup));
+    flpad_ram_clear((u32*)&ps2pad_clear, sizeof(ps2pad_clear));
 }
 
 static s32 PADRead_for_PS2(s32 i) {
@@ -266,7 +266,7 @@ static s32 PADRead_for_PS2(s32 i) {
     return 1;
 }
 
-void update_pad_stick_dir(PAD_STICK *st, s16 depth) {
+void update_pad_stick_dir(PAD_STICK* st, s16 depth) {
     f32 radian;
 
     if ((st->y | st->x) == 0) {
@@ -296,7 +296,7 @@ void update_pad_stick_dir(PAD_STICK *st, s16 depth) {
     }
 }
 
-u8 lever_analog_to_digital(PAD_STICK *st) {
+u8 lever_analog_to_digital(PAD_STICK* st) {
     static u8 ps2lever_analog_to_digital[16] = { 8, 9, 9, 1, 1, 5, 5, 4, 4, 6, 6, 2, 2, 10, 10, 8 };
 
     if (st->pow < 0x40) {
@@ -318,7 +318,7 @@ s32 PADDeviceInit() {
     return 1;
 }
 
-void PADPortOpen(s32 port, s32 slot, PS2Slot *adrs) {
+void PADPortOpen(s32 port, s32 slot, PS2Slot* adrs) {
     scePad2SocketParam param;
 
     param.option = 2;
@@ -458,7 +458,7 @@ void PADReadSub(s32 i) {
 
         ps2slot[i].phase += 1;
     } else {
-        if ((len = scePad2Read(ps2slot[i].socket_id, (scePad2ButtonState *)rdata)) < 0) {
+        if ((len = scePad2Read(ps2slot[i].socket_id, (scePad2ButtonState*)rdata)) < 0) {
             return;
         }
 
@@ -472,29 +472,29 @@ void PADReadSub(s32 i) {
             break;
 
         case 1:
-            ps2pad_state[i].ix.pos.stick.r_ax = ((scePad2ButtonState *)rdata)->rJoyH;
-            ps2pad_state[i].ix.pos.stick.r_ay = ((scePad2ButtonState *)rdata)->rJoyV;
-            ps2pad_state[i].ix.pos.stick.l_ax = ((scePad2ButtonState *)rdata)->lJoyH;
-            ps2pad_state[i].ix.pos.stick.l_ay = ((scePad2ButtonState *)rdata)->lJoyV;
+            ps2pad_state[i].ix.pos.stick.r_ax = ((scePad2ButtonState*)rdata)->rJoyH;
+            ps2pad_state[i].ix.pos.stick.r_ay = ((scePad2ButtonState*)rdata)->rJoyV;
+            ps2pad_state[i].ix.pos.stick.l_ax = ((scePad2ButtonState*)rdata)->lJoyH;
+            ps2pad_state[i].ix.pos.stick.l_ay = ((scePad2ButtonState*)rdata)->lJoyV;
             break;
 
         case 2:
-            ps2pad_state[i].ix.pos.stick.r_ax = ((scePad2ButtonState *)rdata)->rJoyH;
-            ps2pad_state[i].ix.pos.stick.r_ay = ((scePad2ButtonState *)rdata)->rJoyV;
-            ps2pad_state[i].ix.pos.stick.l_ax = ((scePad2ButtonState *)rdata)->lJoyH;
-            ps2pad_state[i].ix.pos.stick.l_ay = ((scePad2ButtonState *)rdata)->lJoyV;
-            ps2pad_state[i].ix.depth[0] = ((scePad2ButtonState *)rdata)->rightP;
-            ps2pad_state[i].ix.depth[1] = ((scePad2ButtonState *)rdata)->leftP;
-            ps2pad_state[i].ix.depth[2] = ((scePad2ButtonState *)rdata)->upP;
-            ps2pad_state[i].ix.depth[3] = ((scePad2ButtonState *)rdata)->downP;
-            ps2pad_state[i].ix.depth[4] = ((scePad2ButtonState *)rdata)->triangleP;
-            ps2pad_state[i].ix.depth[5] = ((scePad2ButtonState *)rdata)->circleP;
-            ps2pad_state[i].ix.depth[6] = ((scePad2ButtonState *)rdata)->crossP;
-            ps2pad_state[i].ix.depth[7] = ((scePad2ButtonState *)rdata)->squareP;
-            ps2pad_state[i].ix.depth[8] = ((scePad2ButtonState *)rdata)->l1P;
-            ps2pad_state[i].ix.depth[9] = ((scePad2ButtonState *)rdata)->r1P;
-            ps2pad_state[i].ix.depth[10] = ((scePad2ButtonState *)rdata)->l2P;
-            ps2pad_state[i].ix.depth[11] = ((scePad2ButtonState *)rdata)->r2P;
+            ps2pad_state[i].ix.pos.stick.r_ax = ((scePad2ButtonState*)rdata)->rJoyH;
+            ps2pad_state[i].ix.pos.stick.r_ay = ((scePad2ButtonState*)rdata)->rJoyV;
+            ps2pad_state[i].ix.pos.stick.l_ax = ((scePad2ButtonState*)rdata)->lJoyH;
+            ps2pad_state[i].ix.pos.stick.l_ay = ((scePad2ButtonState*)rdata)->lJoyV;
+            ps2pad_state[i].ix.depth[0] = ((scePad2ButtonState*)rdata)->rightP;
+            ps2pad_state[i].ix.depth[1] = ((scePad2ButtonState*)rdata)->leftP;
+            ps2pad_state[i].ix.depth[2] = ((scePad2ButtonState*)rdata)->upP;
+            ps2pad_state[i].ix.depth[3] = ((scePad2ButtonState*)rdata)->downP;
+            ps2pad_state[i].ix.depth[4] = ((scePad2ButtonState*)rdata)->triangleP;
+            ps2pad_state[i].ix.depth[5] = ((scePad2ButtonState*)rdata)->circleP;
+            ps2pad_state[i].ix.depth[6] = ((scePad2ButtonState*)rdata)->crossP;
+            ps2pad_state[i].ix.depth[7] = ((scePad2ButtonState*)rdata)->squareP;
+            ps2pad_state[i].ix.depth[8] = ((scePad2ButtonState*)rdata)->l1P;
+            ps2pad_state[i].ix.depth[9] = ((scePad2ButtonState*)rdata)->r1P;
+            ps2pad_state[i].ix.depth[10] = ((scePad2ButtonState*)rdata)->l2P;
+            ps2pad_state[i].ix.depth[11] = ((scePad2ButtonState*)rdata)->r2P;
             break;
 
         default:

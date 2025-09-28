@@ -9,7 +9,7 @@
 #include <cri/sj.h>
 
 void SJX_Init();
-SJX SJX_Create(SJ, void *, Sint32);
+SJX SJX_Create(SJ, void*, Sint32);
 void SJX_Destroy(SJX);
 void SJX_Finish();
 void SJX_ExecServer();

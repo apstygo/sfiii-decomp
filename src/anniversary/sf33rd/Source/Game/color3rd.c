@@ -53,25 +53,25 @@ u16 ColorRAM[512][64];
 Col3rd_W col3rd_w;
 
 // sbss
-COL *plcol[2];
+COL* plcol[2];
 PixelFormat palFormRam;
 PixelFormat palFormSrc;
 s32 palFormConv;
 
 // forward decls
-void palConvRowTim2CI8Clut(u16 *src, u16 *dst, s32 size);
+void palConvRowTim2CI8Clut(u16* src, u16* dst, s32 size);
 const u16 hitmark_color[128];
 const col_file_data color_file[161];
 
-void q_ldreq_color_data(REQ *curr) {
+void q_ldreq_color_data(REQ* curr) {
 #if defined(TARGET_PS2)
     void init_trans_color_ram(s32 id, s32 key, u32 type, u32 data);
 #endif
 
-    col_file_data *cfn;
+    col_file_data* cfn;
     s32 err;
 
-    cfn = (col_file_data *)&color_file[curr->ix];
+    cfn = (col_file_data*)&color_file[curr->ix];
 
     switch (curr->rno) {
     case 0:
@@ -113,7 +113,7 @@ void q_ldreq_color_data(REQ *curr) {
         curr->rno = 3;
         /* fallthrough */
     case 3:
-        err = fsRequestFileRead(curr, curr->sect, (void *)Get_ramcnt_address(curr->key));
+        err = fsRequestFileRead(curr, curr->sect, (void*)Get_ramcnt_address(curr->key));
 
         if (err == 0) {
             Push_ramcnt_key(curr->key);
@@ -130,7 +130,7 @@ void q_ldreq_color_data(REQ *curr) {
         case 1:
             if (cfn->type == 10) {
                 fsClose(curr);
-                cseSendBd2SpuWithId((void *)Get_ramcnt_address(curr->key),
+                cseSendBd2SpuWithId((void*)Get_ramcnt_address(curr->key),
                                     Get_size_data_ramcnt_key(curr->key),
                                     curr->id + 1,
                                     cfn->data + 1);
@@ -158,7 +158,7 @@ void q_ldreq_color_data(REQ *curr) {
             Push_ramcnt_key(curr->key);
             cseMemMapSetPhdAddr(curr->id + 1, csePHDDataTable[cfn->data + 1]);
             cseTsbSetBankAddr(curr->id + 1, cseTSBDataTable[cfn->data + 1]);
-            sdbd[curr->id + 1] = (s8 *)cseTSBDataTable[cfn->data + 1];
+            sdbd[curr->id + 1] = (s8*)cseTSBDataTable[cfn->data + 1];
             *curr->result |= lpr_wrdata[curr->id];
             curr->be = 0;
         }
@@ -166,11 +166,11 @@ void q_ldreq_color_data(REQ *curr) {
     }
 }
 
-s32 cseTsbSetBankAddr(u32 bank, SoundEvent *addr) {
+s32 cseTsbSetBankAddr(u32 bank, SoundEvent* addr) {
     return mlTsbSetBankAddr(bank, addr);
 }
 
-s32 cseMemMapSetPhdAddr(u32 bank, void *addr) {
+s32 cseMemMapSetPhdAddr(u32 bank, void* addr) {
     return mlMemMapSetPhdAddr(bank, addr);
 }
 
@@ -179,10 +179,10 @@ void load_any_color(u16 ix, u8 kokey) {
     void init_trans_color_ram(s16 id, s32 key, u32 type, u32 data);
 #endif
 
-    col_file_data *cfn;
+    col_file_data* cfn;
     s16 key;
 
-    cfn = (col_file_data *)&color_file[ix];
+    cfn = (col_file_data*)&color_file[ix];
     key = load_it_use_any_key(cfn->apfn, kokey, 0);
 
     if (key) {
@@ -191,7 +191,7 @@ void load_any_color(u16 ix, u8 kokey) {
 }
 
 void set_hitmark_color() {
-    u16 *hmcol = (u16 *)&hitmark_color;
+    u16* hmcol = (u16*)&hitmark_color;
     s16 i;
 
     for (i = 0; i < 64; i++) {
@@ -213,15 +213,15 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
     void metamor_color_store(s32 wkid);
 #endif
 
-    u16 *ldadrs;
-    u16 *tradrs;
+    u16* ldadrs;
+    u16* tradrs;
     s16 i;
     s16 j;
     s32 size;
 
     switch (type) {
     case 1:
-        plcol[id] = (COL *)Get_ramcnt_address(key);
+        plcol[id] = (COL*)Get_ramcnt_address(key);
         if (My_char[id] == 0) {
             for (i = 0; i < 64; i++) {
                 ColorRAM[id * 16][i] = palConvSrcToRam(plcol[id]->col[0][Player_Color[id]][i]);
@@ -236,13 +236,13 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
             }
         } else {
 
-            tradrs = (u16 *)plcol[id]->col[0][Player_Color[id]];
-            ldadrs = (u16 *)ColorRAM[id * 16];
+            tradrs = (u16*)plcol[id]->col[0][Player_Color[id]];
+            ldadrs = (u16*)ColorRAM[id * 16];
             for (i = 0; i < 64; i++) {
                 ldadrs[i] = ldadrs[i + 512] = palConvSrcToRam(tradrs[i]);
             }
             ldadrs += 64;
-            tradrs = (u16 *)plcol[id]->col[0][16];
+            tradrs = (u16*)plcol[id]->col[0][16];
             for (i = 0; i < 384; i++) {
                 ldadrs[i] = ldadrs[i + 512] = palConvSrcToRam(tradrs[i]);
             }
@@ -272,8 +272,8 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
     case 2:
         size = Get_size_data_ramcnt_key(key);
         size = size / 2;
-        tradrs = (u16 *)Get_ramcnt_address(key);
-        ldadrs = (u16 *)&ColorRAM[data];
+        tradrs = (u16*)Get_ramcnt_address(key);
+        ldadrs = (u16*)&ColorRAM[data];
 
         for (i = 0; i < size; i++) {
             ldadrs[i] = palConvSrcToRam(tradrs[i]);
@@ -290,7 +290,7 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
         palUpdateGhostCP3(data, size / 64);
         break;
     case 3: {
-        COL_x1000 *dadr = (COL_x1000 *)Get_ramcnt_address(key);
+        COL_x1000* dadr = (COL_x1000*)Get_ramcnt_address(key);
         if (id == 2) {
             for (i = 0; i < 64; i++) {
                 hi_meta[0][0][i] = dadr->col[0][Player_Color[0]][i];
@@ -320,16 +320,16 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
         break;
     }
     case 4: {
-        COL_x80 *adr = (COL_x80 *)Get_ramcnt_address(key);
-        u16 *src = (&adr[Player_Color[id]])->col;
-        u16 *dst = (u16 *)&ColorRAM[data + (id * 16)][0];
+        COL_x80* adr = (COL_x80*)Get_ramcnt_address(key);
+        u16* src = (&adr[Player_Color[id]])->col;
+        u16* dst = (u16*)&ColorRAM[data + (id * 16)][0];
 
         // these unsigned constants are here intentionally, otherwise wouldn't match.
         for (i = 0; i < 64U; i++) {
             dst[i] = palConvSrcToRam(src[i]);
         }
 
-        dst = (u16 *)&ColorRAM[data + (id * 16) + 8][0];
+        dst = (u16*)&ColorRAM[data + (id * 16) + 8][0];
         for (i = 0; i < 64U; i++) {
             dst[i] = palConvSrcToRam(src[i]);
         }
@@ -340,14 +340,14 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
         break;
     }
     case 5: {
-        COL_x180 *adr = (COL_x180 *)Get_ramcnt_address(key);
-        u16 *src = (&adr[Player_Color[id]])->col[0];
-        u16 *dst = (u16 *)&ColorRAM[data + (id * 16)][0];
+        COL_x180* adr = (COL_x180*)Get_ramcnt_address(key);
+        u16* src = (&adr[Player_Color[id]])->col[0];
+        u16* dst = (u16*)&ColorRAM[data + (id * 16)][0];
         for (i = 0; i < 192U; i++) {
             dst[i] = palConvSrcToRam(src[i]);
         }
 
-        dst = (u16 *)&ColorRAM[data + (id * 16) + 8][0];
+        dst = (u16*)&ColorRAM[data + (id * 16) + 8][0];
         for (i = 0; i < 192U; i++) {
             dst[i] = palConvSrcToRam(src[i]);
         }
@@ -358,15 +358,15 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
         break;
     }
     case 6: {
-        COL_x100 *adr = (COL_x100 *)Get_ramcnt_address(key);
-        u16 *src = (&adr[Player_Color[id]])->col[0];
-        u16 *dst = (u16 *)&ColorRAM[data + (id * 16)][0];
+        COL_x100* adr = (COL_x100*)Get_ramcnt_address(key);
+        u16* src = (&adr[Player_Color[id]])->col[0];
+        u16* dst = (u16*)&ColorRAM[data + (id * 16)][0];
 
         for (i = 0; i < 128U; i++) {
             dst[i] = palConvSrcToRam(src[i]);
         }
 
-        dst = (u16 *)&ColorRAM[data + (id * 16) + 8][0];
+        dst = (u16*)&ColorRAM[data + (id * 16) + 8][0];
         for (i = 0; i < 128U; i++) {
             dst[i] = palConvSrcToRam(src[i]);
         }
@@ -376,21 +376,21 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
         break;
     }
     case 7: {
-        COL_x2800 *adrs = (COL_x2800 *)Get_ramcnt_address(key);
-        ldadrs = (u16 *)&ColorRAM[40];
-        tradrs = (u16 *)&ColorRAM[41];
+        COL_x2800* adrs = (COL_x2800*)Get_ramcnt_address(key);
+        ldadrs = (u16*)&ColorRAM[40];
+        tradrs = (u16*)&ColorRAM[41];
 
         for (i = 0; i < 16; i++) {
             ldadrs[i] = palConvSrcToRam(adrs->col[My_char[0]][Player_Color[0]][i]);
             tradrs[i] = palConvSrcToRam(adrs->col[My_char[1]][Player_Color[1]][i]);
         }
-        
+
         Push_ramcnt_key(key);
         palUpdateGhostCP3(40, 2);
         break;
     }
     case 8:
-        cseSendBd2SpuWithId((void *)Get_ramcnt_address(key), Get_size_data_ramcnt_key(key), 0, 0);
+        cseSendBd2SpuWithId((void*)Get_ramcnt_address(key), Get_size_data_ramcnt_key(key), 0, 0);
         while (!sndCheckVTransStatus(1)) {
             waitVsyncDummy();
         };
@@ -399,14 +399,14 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
         break;
 
     case 10:
-        cseSendBd2SpuWithId((void *)Get_ramcnt_address(key), Get_size_data_ramcnt_key(key), id + 1, data + 1);
+        cseSendBd2SpuWithId((void*)Get_ramcnt_address(key), Get_size_data_ramcnt_key(key), id + 1, data + 1);
         while (!sndCheckVTransStatus(1)) {
             waitVsyncDummy();
         };
 
         cseMemMapSetPhdAddr(id + 1, csePHDDataTable[data + 1]);
         cseTsbSetBankAddr(id + 1, cseTSBDataTable[data + 1]);
-        sdbd[id + 1] = (s8 *)cseTSBDataTable[data + 1];
+        sdbd[id + 1] = (s8*)cseTSBDataTable[data + 1];
         Push_ramcnt_key(key);
         break;
 
@@ -432,10 +432,10 @@ void push_color_trans_req(s16 from_col, s16 to_col) {
     palUpdateGhostDC();
 }
 
-void palCopyGhostDC(s32 ofs, s32 cnt, void *data) {
+void palCopyGhostDC(s32 ofs, s32 cnt, void* data) {
     s32 i;
-    u16 *srcAdrs = data;
-    u16 *dstAdrs = &colPalBuffDC[ofs];
+    u16* srcAdrs = data;
+    u16* dstAdrs = &colPalBuffDC[ofs];
 
     for (i = 0; i < cnt; i++) {
         *dstAdrs++ = *srcAdrs++;
@@ -466,7 +466,7 @@ void palCreateGhost() {
     s32 key;
     s32 size;
     s32 i;
-    u8 *adrs;
+    u8* adrs;
 
     palFormConv = 0;
     palFormSrc.rl = 5;
@@ -509,7 +509,7 @@ void palCreateGhost() {
     ppl.palettes = 0x1000;
     size = 0x2000;
     key = Pull_ramcnt_key(size, 2, 0, 1);
-    adrs = (u8 *)Get_ramcnt_address(key);
+    adrs = (u8*)Get_ramcnt_address(key);
 
     for (i = 0; i < size; i++) {
         adrs[i] = 0;
@@ -521,7 +521,7 @@ void palCreateGhost() {
     ppl.palettes = 2;
     size = 0x2000;
     key = Pull_ramcnt_key(size, 2, 0, 1);
-    adrs = (u8 *)Get_ramcnt_address(key);
+    adrs = (u8*)Get_ramcnt_address(key);
 
     for (i = 0; i < size; i++) {
         adrs[i] = 0;
@@ -531,19 +531,19 @@ void palCreateGhost() {
     Push_ramcnt_key(key);
 }
 
-Palette *palGetChunkGhostDC() {
+Palette* palGetChunkGhostDC() {
     return &col3rd_w.palDC;
 }
 
-Palette *palGetChunkGhostCP3() {
+Palette* palGetChunkGhostCP3() {
     return &col3rd_w.palCP3;
 }
 
 void palUpdateGhostDC() {
     plContext bits;
     s32 i;
-    u16 *srcAdrs;
-    u16 *dstAdrs;
+    u16* srcAdrs;
+    u16* dstAdrs;
 
     for (i = 0; i < col3rd_w.palDC.total; i++) {
         if (col3rd_w.upBits & (1 << i)) {
@@ -561,19 +561,19 @@ void palUpdateGhostDC() {
 void palUpdateGhostCP3(s32 pal, s32 nums) {
     plContext bits;
     s32 i;
-    u16 *srcAdrs;
-    u16 *dstAdrs;
+    u16* srcAdrs;
+    u16* dstAdrs;
 
     for (i = pal; i < (pal + nums); i++) {
         flLockPalette(NULL, col3rd_w.palCP3.handle[i], &bits, 2);
         dstAdrs = bits.ptr;
-        srcAdrs = (u16 *)&ColorRAM[i];
+        srcAdrs = (u16*)&ColorRAM[i];
         palConvRowTim2CI8Clut(srcAdrs, dstAdrs, 0x40);
         flUnlockPalette(col3rd_w.palCP3.handle[i]);
     }
 }
 
-void palConvRowTim2CI8Clut(u16 *src, u16 *dst, s32 size) {
+void palConvRowTim2CI8Clut(u16* src, u16* dst, s32 size) {
     s32 i;
     static u8 clut_tbl[32] = { 0, 1, 2,  3,  4,  5,  6,  7,  16, 17, 18, 19, 20, 21, 22, 23,
                                8, 9, 10, 11, 12, 13, 14, 15, 24, 25, 26, 27, 28, 29, 30, 31 };

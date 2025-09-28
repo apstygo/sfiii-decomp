@@ -68,7 +68,7 @@ u32 flAlphaRefValue;
 u32 flDebugFlag;
 FLPS2VIF1Control flPs2VIF1Control;
 s32 flPs2GsHandler;
-LPVram *flVramList;
+LPVram* flVramList;
 s32 flVramNum;
 s32 flPTNum;
 VRAMBlockHeader flVramStatic[3];
@@ -173,7 +173,7 @@ s32 flInitialize(s32 /* unused */, s32 /* unused */) {
 }
 
 s32 system_work_init() {
-    void *temp;
+    void* temp;
 
     flMemset(&flPs2State, 0, sizeof(FLPS2State));
     flPS2VramInit();
@@ -304,7 +304,7 @@ void flPS2VramFullClear() {
 #endif
 
     u32 handle;
-    u8 *lpBuff;
+    u8* lpBuff;
     u32 i;
     sceGsLoadImage Loadimage;
 
@@ -317,7 +317,7 @@ void flPS2VramFullClear() {
         sceGsSetDefLoadImage(&Loadimage, 0, 16, 0, 0, i * 64, 0x400, 0x40);
 
         FlushCache(WRITEBACK_DCACHE);
-        sceGsExecLoadImage(&Loadimage, (u32 *)lpBuff);
+        sceGsExecLoadImage(&Loadimage, (u32*)lpBuff);
         sceGsSyncPath(0, 0);
 
         i += 1;
@@ -327,9 +327,9 @@ void flPS2VramFullClear() {
 }
 
 void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mode, u32 dispw) {
-    FLPS2DB *db0;
-    FLPS2DB *db1;
-    FLPS2DrawStart *ds;
+    FLPS2DB* db0;
+    FLPS2DB* db1;
+    FLPS2DrawStart* ds;
     u32 qwc;
     u32 size;
     s32 width;
@@ -663,7 +663,7 @@ void flPS2InitRenderBuff(u32 fbdepth, u32 zbdepth, u32 inter_mode, u32 video_mod
 }
 
 void flPS2SwapDBuff(s32 dbi, s32 irq_type) {
-    FLPS2DB *db;
+    FLPS2DB* db;
     s32 disp_x;
     s32 disp_y;
 
@@ -747,8 +747,8 @@ void flPS2SwapDBuff(s32 dbi, s32 irq_type) {
 }
 
 void flPS2DrawPreparation() {
-    FLPS2DrawStart *ds;
-    u32 *dst;
+    FLPS2DrawStart* ds;
+    u32* dst;
 
     ds = &flPs2DrawStart;
 
@@ -770,15 +770,15 @@ void flPS2DrawPreparation() {
     ds->acr_fba_1.I64[0] = flPs2FBA;
     ds->acr_fba_2.I64[0] = flPs2FBA;
 
-    dst = (u32 *)flPS2GetSystemTmpBuff(sizeof(FLPS2DrawStart), 0x10);
+    dst = (u32*)flPS2GetSystemTmpBuff(sizeof(FLPS2DrawStart), 0x10);
     flPS2_Mem_move16_16A(ds, dst, sizeof(FLPS2DrawStart) / 16);
     flPS2DmaAddQueue2(0, (uintptr_t)dst & 0xFFFFFFF, (uintptr_t)dst, &flPs2VIF1Control);
 }
 
-s32 flLogOut(s8 *format, ...) {
-    s8 *va_ptr;
+s32 flLogOut(s8* format, ...) {
+    s8* va_ptr;
     s8 str[2048];
-    s8 *lp;
+    s8* lp;
     static s32 bflLogOutFirst = 1;
 
     va_list args;

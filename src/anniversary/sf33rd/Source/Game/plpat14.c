@@ -11,13 +11,13 @@ s8 stop_count[2];
 
 const s16 pl14_HYAKKI_dat[20] = { 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 7, 6, 6, 4, 6, 14, 15, 16, 17, 18 };
 
-void (*const pl14_exatt_table[18])(PLW *);
+void (*const pl14_exatt_table[18])(PLW*);
 
-void pl14_extra_attack(PLW *wk) {
+void pl14_extra_attack(PLW* wk) {
     pl14_exatt_table[wk->wu.routine_no[2] - 16](wk);
 }
 
-void Att_PL14_AT1(PLW *wk) {
+void Att_PL14_AT1(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -101,7 +101,7 @@ void Att_PL14_AT1(PLW *wk) {
     }
 }
 
-void Att_PL14_AT2(PLW *wk) {
+void Att_PL14_AT2(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -154,13 +154,13 @@ void Att_PL14_AT2(PLW *wk) {
     }
 }
 
-void Att_PL14_AT3(PLW *wk) {
+void Att_PL14_AT3(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
 #endif
 
-    PLW *twk = (PLW *)wk->wu.target_adrs;
+    PLW* twk = (PLW*)wk->wu.target_adrs;
 
     switch (wk->wu.routine_no[3]) {
     case 0:
@@ -267,7 +267,7 @@ void Att_PL14_AT3(PLW *wk) {
     }
 }
 
-void Att_PL14_TOKUSHUKOUDOU(PLW *wk) {
+void Att_PL14_TOKUSHUKOUDOU(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void grade_add_personal_action(s32 ix);
@@ -311,21 +311,21 @@ void Att_PL14_TOKUSHUKOUDOU(PLW *wk) {
     }
 }
 
-void (*const pl14_exatt_table[18])(PLW *) = { Att_HADOUKEN,
-                                              Att_SHOURYUUKEN,
-                                              Att_SENPUUKYAKU,
-                                              Att_KUUCHUUJINNCHUUWATARI,
-                                              Att_SHOURYUUREPPA,
-                                              Att_SLIDE_and_JUMP,
-                                              Att_KUUCHUUNICHIRINSHOU,
-                                              Att_PL14_AT1,
-                                              Att_CHOUCHUURENGEKI,
-                                              Att_PL14_AT2,
-                                              Att_HADOUKEN,
-                                              Att_PL14_AT3,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_PL14_TOKUSHUKOUDOU,
-                                              Att_DUMMY,
-                                              Att_METAMOR_WAIT,
-                                              Att_METAMOR_REBIRTH };
+void (*const pl14_exatt_table[18])(PLW*) = { Att_HADOUKEN,
+                                             Att_SHOURYUUKEN,
+                                             Att_SENPUUKYAKU,
+                                             Att_KUUCHUUJINNCHUUWATARI,
+                                             Att_SHOURYUUREPPA,
+                                             Att_SLIDE_and_JUMP,
+                                             Att_KUUCHUUNICHIRINSHOU,
+                                             Att_PL14_AT1,
+                                             Att_CHOUCHUURENGEKI,
+                                             Att_PL14_AT2,
+                                             Att_HADOUKEN,
+                                             Att_PL14_AT3,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_PL14_TOKUSHUKOUDOU,
+                                             Att_DUMMY,
+                                             Att_METAMOR_WAIT,
+                                             Att_METAMOR_REBIRTH };

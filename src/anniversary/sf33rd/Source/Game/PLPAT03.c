@@ -6,13 +6,13 @@
 #include "sf33rd/Source/Game/PLPATUNI.h"
 #include "sf33rd/Source/Game/PLS02.h"
 
-void (*const pl03_exatt_table[18])(PLW *);
+void (*const pl03_exatt_table[18])(PLW*);
 
-void pl03_extra_attack(PLW *wk) {
+void pl03_extra_attack(PLW* wk) {
     pl03_exatt_table[wk->wu.routine_no[2] - 16](wk);
 }
 
-void Att_PL03_TOKUSHUKOUDOU(PLW *wk) {
+void Att_PL03_TOKUSHUKOUDOU(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void grade_add_personal_action(s32 ix);
@@ -66,7 +66,7 @@ void Att_PL03_TOKUSHUKOUDOU(PLW *wk) {
     }
 }
 
-void (*const pl03_exatt_table[18])(PLW *) = {
+void (*const pl03_exatt_table[18])(PLW*) = {
     Att_HADOUKEN, Att_SHOURYUUKEN, Att_SENPUUKYAKU,        Att_HADOUKEN, Att_SLIDE_and_JUMP, Att_SLIDE_and_JUMP,
     Att_HADOUKEN, Att_DUMMY,       Att_SLIDE_and_JUMP,     Att_DUMMY,    Att_DUMMY,          Att_DUMMY,
     Att_DUMMY,    Att_DUMMY,       Att_PL03_TOKUSHUKOUDOU, Att_DUMMY,    Att_METAMOR_WAIT,   Att_METAMOR_REBIRTH

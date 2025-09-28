@@ -5,8 +5,8 @@
 
 #include <cri/ee/cri_xpt.h>
 
-Sint32 ADXB_CheckSpsd(void *);
-Sint32 ADXB_DecodeHeaderSpsd(ADXB, void *, Sint32);
+Sint32 ADXB_CheckSpsd(void*);
+Sint32 ADXB_DecodeHeaderSpsd(ADXB, void*, Sint32);
 void ADXB_ExecOneSpsd(ADXB adxb);
 
 #endif

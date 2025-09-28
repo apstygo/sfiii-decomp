@@ -4,18 +4,18 @@
 
 #include <stdbool.h>
 
-typedef void (*OperationFinalizer)(int *result);
+typedef void (*OperationFinalizer)(int* result);
 
 typedef struct GetInfoOperation {
-    int *type;
-    int *free;
-    int *format;
+    int* type;
+    int* free;
+    int* format;
 } GetInfoOperation;
 
 static GetInfoOperation get_info_operation = { 0 };
 static int registered_operation = 0;
 
-static void finalize_get_info(int *result) {
+static void finalize_get_info(int* result) {
     // *get_info_operation.type = sceMcTypePS2;
     // *get_info_operation.free = 0x1F03;
     // *get_info_operation.format = 1;
@@ -43,7 +43,7 @@ int sceMcInit(void) {
     return sceMcIniSucceed;
 }
 
-int sceMcSync(int mode, int *cmd, int *result) {
+int sceMcSync(int mode, int* cmd, int* result) {
     if (registered_operation > 0) {
         *cmd = registered_operation;
         finalizers[registered_operation](result);
@@ -54,7 +54,7 @@ int sceMcSync(int mode, int *cmd, int *result) {
     }
 }
 
-int sceMcGetInfo(int port, int slot, int *type, int *free, int *format) {
+int sceMcGetInfo(int port, int slot, int* type, int* free, int* format) {
     registered_operation = sceMcFuncNoCardInfo;
     get_info_operation.type = type;
     get_info_operation.free = free;
@@ -62,7 +62,7 @@ int sceMcGetInfo(int port, int slot, int *type, int *free, int *format) {
     return 0;
 }
 
-int sceMcOpen(int, int, const char *, int) {
+int sceMcOpen(int, int, const char*, int) {
     not_implemented(__func__);
 }
 
@@ -70,19 +70,19 @@ int sceMcClose(int) {
     not_implemented(__func__);
 }
 
-int sceMcRead(int, void *, int) {
+int sceMcRead(int, void*, int) {
     not_implemented(__func__);
 }
 
-int sceMcWrite(int, const void *, int) {
+int sceMcWrite(int, const void*, int) {
     not_implemented(__func__);
 }
 
-int sceMcMkdir(int, int, const char *) {
+int sceMcMkdir(int, int, const char*) {
     not_implemented(__func__);
 }
 
-int sceMcDelete(int, int, const char *) {
+int sceMcDelete(int, int, const char*) {
     not_implemented(__func__);
 }
 
@@ -94,6 +94,6 @@ int sceMcUnformat(int, int) {
     not_implemented(__func__);
 }
 
-int sceMcGetDir(int port, int slot, const char *name, unsigned int mode, int maxent, sceMcTblGetDir *table) {
+int sceMcGetDir(int port, int slot, const char* name, unsigned int mode, int maxent, sceMcTblGetDir* table) {
     not_implemented(__func__);
 }

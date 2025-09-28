@@ -9,15 +9,15 @@ u32 spmv_ng_save[2];
 
 const s16 pl17_0_00[12];
 
-void effect_L8_move(WORK_Other *ewk) {
-    PLW *mwk = (PLW *)ewk->my_master;
-    s16 *save_old_col_ptr = (s16 *)&ewk->wu.zu_flag;
+void effect_L8_move(WORK_Other* ewk) {
+    PLW* mwk = (PLW*)ewk->my_master;
+    s16* save_old_col_ptr = (s16*)&ewk->wu.zu_flag;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
         ewk->wu.routine_no[0] += 1;
-        ewk->wu.hit_adrs = (u32 *)pl17_0_00;
-        ewk->wu.step_xy_table = (s16 *)ColorRAM[(ewk->master_id == 1) * 16];
+        ewk->wu.hit_adrs = (u32*)pl17_0_00;
+        ewk->wu.step_xy_table = (s16*)ColorRAM[(ewk->master_id == 1) * 16];
         ewk->wu.move_xy_table = ewk->wu.step_xy_table + 512;
         save_old_color_data(save_old_col_ptr, ewk->wu.step_xy_table);
         check_new_color_data_L8(&ewk->wu);
@@ -48,12 +48,12 @@ void effect_L8_move(WORK_Other *ewk) {
     }
 }
 
-void check_new_color_data_L8(WORK *wk) {
-    get_new_color_data_L8(wk, (s16 *)wk->hit_adrs, wk->step_xy_table);
-    get_new_color_data_L8(wk, (s16 *)wk->hit_adrs, wk->move_xy_table);
+void check_new_color_data_L8(WORK* wk) {
+    get_new_color_data_L8(wk, (s16*)wk->hit_adrs, wk->step_xy_table);
+    get_new_color_data_L8(wk, (s16*)wk->hit_adrs, wk->move_xy_table);
 }
 
-void get_new_color_data_L8(WORK * /* unused */, s16 *trom, s16 *tram) {
+void get_new_color_data_L8(WORK* /* unused */, s16* trom, s16* tram) {
     s16 i;
     u16 col;
 
@@ -63,7 +63,7 @@ void get_new_color_data_L8(WORK * /* unused */, s16 *trom, s16 *tram) {
     }
 }
 
-void save_old_color_data(s16 *wram, s16 *tram) {
+void save_old_color_data(s16* wram, s16* tram) {
     s16 i;
 
     for (i = 0; i < 12; i++) {
@@ -71,7 +71,7 @@ void save_old_color_data(s16 *wram, s16 *tram) {
     }
 }
 
-void load_old_color_data(s16 *wram, s16 *tram) {
+void load_old_color_data(s16* wram, s16* tram) {
     s16 i;
 
     for (i = 0; i < 12; i++) {
@@ -79,8 +79,8 @@ void load_old_color_data(s16 *wram, s16 *tram) {
     }
 }
 
-s32 effect_L8_init(PLW *wk) {
-    WORK_Other *ewk;
+s32 effect_L8_init(PLW* wk) {
+    WORK_Other* ewk;
     s16 ix;
 
     if (wk->player_number != 16) {
@@ -91,11 +91,11 @@ s32 effect_L8_init(PLW *wk) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 218;
     ewk->wu.work_id = 16;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->master_id = wk->wu.id;
     ewk->master_work_id = wk->wu.work_id;
     ewk->master_player = wk->player_number;

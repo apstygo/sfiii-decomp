@@ -46,12 +46,12 @@ MPP mpp_w;
 void distributeScratchPadAddress();
 void MaskScreenEdge();
 void appCopyKeyData();
-u8 *mppMalloc(u32 size);
+u8* mppMalloc(u32 size);
 void njUserInit();
 s32 njUserMain();
 void cpLoopTask();
 void cpInitTask();
-void cpReadyTask(u16 num, void *func_adrs);
+void cpReadyTask(u16 num, void* func_adrs);
 void cpExitTask(u16 num);
 
 void AcrMain() {
@@ -246,13 +246,13 @@ u8 tpu_free_mem[0x2000];
 
 void distributeScratchPadAddress() {
 #if defined(TARGET_PS2)
-    dctex_linear = (s16 *)(SPR + 0x800);
-    texcash_melt_buffer = (u8 *)(SPR + 0x1000);
-    tpu_free = (TexturePoolUsed *)(SPR + 0x2000);
+    dctex_linear = (s16*)(SPR + 0x800);
+    texcash_melt_buffer = (u8*)(SPR + 0x1000);
+    tpu_free = (TexturePoolUsed*)(SPR + 0x2000);
 #else
-    dctex_linear = (s16 *)dctex_linear_mem;
-    texcash_melt_buffer = (u8 *)texcash_melt_buffer_mem;
-    tpu_free = (TexturePoolUsed *)tpu_free_mem;
+    dctex_linear = (s16*)dctex_linear_mem;
+    texcash_melt_buffer = (u8*)texcash_melt_buffer_mem;
+    tpu_free = (TexturePoolUsed*)tpu_free_mem;
 #endif
 }
 
@@ -307,7 +307,7 @@ void appCopyKeyData() {
     PLsw[1][0] = p2sw_buff;
 }
 
-u8 *mppMalloc(u32 size) {
+u8* mppMalloc(u32 size) {
     return flAllocMemory(size);
 }
 
@@ -430,7 +430,7 @@ s32 njUserMain() {
 }
 
 void cpLoopTask() {
-    struct _TASK *task_ptr = task;
+    struct _TASK* task_ptr = task;
 
     disp_ramcnt_free_area();
 
@@ -474,8 +474,8 @@ void cpInitTask() {
     memset(&task, 0, sizeof(task));
 }
 
-void cpReadyTask(u16 num, void *func_adrs) {
-    struct _TASK *task_ptr = task + num;
+void cpReadyTask(u16 num, void* func_adrs) {
+    struct _TASK* task_ptr = task + num;
 
     memset(task_ptr, 0, sizeof(struct _TASK));
 
@@ -484,7 +484,7 @@ void cpReadyTask(u16 num, void *func_adrs) {
 }
 
 void cpExitTask(u16 num) {
-    struct _TASK *task_ptr = task + num;
+    struct _TASK* task_ptr = task + num;
 
     task_ptr->condition = 0;
 

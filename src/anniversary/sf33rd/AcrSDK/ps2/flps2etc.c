@@ -21,11 +21,11 @@
 #include <stdio.h>
 #include <string.h>
 
-#if !defined(TARGET_PS2) && !defined (_WIN32)
+#if !defined(TARGET_PS2) && !defined(_WIN32)
 #include <ctype.h>
 
-s8 *strupr(s8 *s) {
-    s8 *p = s;
+s8* strupr(s8* s) {
+    s8* p = s;
 
     while (*p) {
         *p = toupper((u8)*p);
@@ -37,17 +37,17 @@ s8 *strupr(s8 *s) {
 #endif
 
 void flCompact();
-void flPS2ConvertAlpha(void *lpPtr, s32 width, s32 height);
-u32 flCreateTextureFromApx(s8 *apx_file, u32 flag);
-u32 flCreateTextureFromApx_mem(void *mem, u32 flag);
-u32 flCreateTextureFromTim2(s8 *tim2_file, u32 flag);
-u32 flCreateTextureFromTim2_mem(void *mem, u32 flag);
-u32 flCreateTextureFromBMP(s8 *bmp_file, u32 flag);
-u32 flCreateTextureFromBMP_mem(void *mem, u32 flag);
-u32 flCreateTextureFromPIC(s8 *pic_file, u32 flag);
-u32 flCreateTextureFromPIC_mem(void *mem, u32 flag);
+void flPS2ConvertAlpha(void* lpPtr, s32 width, s32 height);
+u32 flCreateTextureFromApx(s8* apx_file, u32 flag);
+u32 flCreateTextureFromApx_mem(void* mem, u32 flag);
+u32 flCreateTextureFromTim2(s8* tim2_file, u32 flag);
+u32 flCreateTextureFromTim2_mem(void* mem, u32 flag);
+u32 flCreateTextureFromBMP(s8* bmp_file, u32 flag);
+u32 flCreateTextureFromBMP_mem(void* mem, u32 flag);
+u32 flCreateTextureFromPIC(s8* pic_file, u32 flag);
+u32 flCreateTextureFromPIC_mem(void* mem, u32 flag);
 
-void flPS2IopModuleLoad(s8 *fname, s32 args, s8 *argp, s32 type) {
+void flPS2IopModuleLoad(s8* fname, s32 args, s8* argp, s32 type) {
     s32 lp0;
 
     if (type == 0) {
@@ -67,10 +67,10 @@ void flPS2IopModuleLoad(s8 *fname, s32 args, s8 *argp, s32 type) {
     printf("Can't load module %s", fname);
 }
 
-s32 flFileRead(s8 *filename, void *buf, s32 len) {
+s32 flFileRead(s8* filename, void* buf, s32 len) {
     s32 fd;
     s8 temp[2048];
-    s8 *p;
+    s8* p;
 
     strcpy(temp, "cdrom0:\\THIRD\\");
     p = strlen(temp) + temp;
@@ -93,10 +93,10 @@ s32 flFileRead(s8 *filename, void *buf, s32 len) {
     return 1;
 }
 
-s32 flFileWrite(s8 *filename, void *buf, s32 len) {
+s32 flFileWrite(s8* filename, void* buf, s32 len) {
     s32 fd;
     s8 temp[2048];
-    s8 *p;
+    s8* p;
 
     strcpy(temp, "cdrom0:\\THIRD\\");
     p = strlen(temp) + temp;
@@ -116,10 +116,10 @@ s32 flFileWrite(s8 *filename, void *buf, s32 len) {
     return 1;
 }
 
-s32 flFileAppend(s8 *filename, void *buf, ssize_t len) {
+s32 flFileAppend(s8* filename, void* buf, ssize_t len) {
     s32 fd;
     s8 temp[2048];
-    s8 *p;
+    s8* p;
 
     strcpy(temp, "cdrom0:\\THIRD\\");
     p = strlen(temp) + temp;
@@ -140,10 +140,10 @@ s32 flFileAppend(s8 *filename, void *buf, ssize_t len) {
     return 1;
 }
 
-s32 flFileLength(s8 *filename) {
+s32 flFileLength(s8* filename) {
     s32 fd;
     s8 temp[2048];
-    s8 *p;
+    s8* p;
     s32 length;
 
     strcpy(temp, "cdrom0:\\THIRD\\");
@@ -164,18 +164,18 @@ s32 flFileLength(s8 *filename) {
     return length;
 }
 
-void flMemset(void *dst, u32 pat, s32 size) {
+void flMemset(void* dst, u32 pat, s32 size) {
     s32 i;
-    u8 *now = dst;
+    u8* now = dst;
 
     for (i = 0; i < size; i++) {
         *now++ = pat;
     }
 }
 
-void flMemcpy(void *dst, void *src, s32 size) {
+void flMemcpy(void* dst, void* src, s32 size) {
     s32 i;
-    s8 *now[2];
+    s8* now[2];
 
     now[0] = dst;
     now[1] = src;
@@ -185,11 +185,11 @@ void flMemcpy(void *dst, void *src, s32 size) {
     }
 }
 
-void *flAllocMemory(s32 size) {
+void* flAllocMemory(s32 size) {
     return fmsAllocMemory(&flFMS, size, 0);
 }
 
-s32 flGetFrame(FMS_FRAME *frame) {
+s32 flGetFrame(FMS_FRAME* frame) {
     return fmsGetFrame(&flFMS, 0, frame);
 }
 
@@ -197,7 +197,7 @@ s32 flGetSpace() {
     return fmsCalcSpace(&flFMS);
 }
 
-void *flAllocMemoryS(s32 size) {
+void* flAllocMemoryS(s32 size) {
     return fmsAllocMemory(&flFMS, size, 1);
 }
 
@@ -268,7 +268,7 @@ void flPS2ReleaseSystemMemory(u32 handle) {
     mflRelease(handle);
 }
 
-void *flPS2GetSystemBuffAdrs(u32 handle) {
+void* flPS2GetSystemBuffAdrs(u32 handle) {
     return mflRetrieve(handle);
 }
 
@@ -327,8 +327,8 @@ uintptr_t flPS2GetSystemTmpBuff(s32 len, s32 align) {
     return now;
 }
 
-u32 flCreateTextureFromFile(s8 *file, u32 flag) {
-    s8 *tmp = file;
+u32 flCreateTextureFromFile(s8* file, u32 flag) {
+    s8* tmp = file;
 
     while (*tmp != 0) {
         tmp++;
@@ -363,9 +363,9 @@ u32 flCreateTextureFromFile(s8 *file, u32 flag) {
     return 0;
 }
 
-u32 flCreateTextureFromApx(s8 *apx_file, u32 flag) {
+u32 flCreateTextureFromApx(s8* apx_file, u32 flag) {
     s32 len = flFileLength(apx_file);
-    s8 *file_ptr = mflTemporaryUse(len);
+    s8* file_ptr = mflTemporaryUse(len);
 
     if (flFileRead(apx_file, file_ptr, len) == 0) {
         return 0;
@@ -374,16 +374,16 @@ u32 flCreateTextureFromApx(s8 *apx_file, u32 flag) {
     return flCreateTextureFromApx_mem(file_ptr, flag);
 }
 
-u32 flCreateTextureFromApx_mem(void *mem, u32 flag) {
-    u8 *dst;
-    u8 *src;
+u32 flCreateTextureFromApx_mem(void* mem, u32 flag) {
+    u8* dst;
+    u8* src;
     plContext context[7];
     plContext pal_context;
     plContext tmp_context;
     u32 th;
     u32 ph;
-    FLTexture *lpflTexture;
-    FLTexture *lpflPalette;
+    FLTexture* lpflTexture;
+    FLTexture* lpflPalette;
     s32 mip_num;
     s32 lp0;
     s32 dw;
@@ -487,9 +487,9 @@ u32 flCreateTextureFromApx_mem(void *mem, u32 flag) {
     return th | ph;
 }
 
-u32 flCreateTextureFromTim2(s8 *tim2_file, u32 flag) {
+u32 flCreateTextureFromTim2(s8* tim2_file, u32 flag) {
     s32 len = flFileLength(tim2_file);
-    s8 *file_ptr = mflTemporaryUse(len);
+    s8* file_ptr = mflTemporaryUse(len);
 
     if (flFileRead(tim2_file, file_ptr, len) == 0) {
         return 0;
@@ -498,15 +498,15 @@ u32 flCreateTextureFromTim2(s8 *tim2_file, u32 flag) {
     return flCreateTextureFromTim2_mem(file_ptr, flag);
 }
 
-u32 flCreateTextureFromTim2_mem(void *mem, u32 flag) {
-    u8 *dst;
-    u8 *src;
+u32 flCreateTextureFromTim2_mem(void* mem, u32 flag) {
+    u8* dst;
+    u8* src;
     plContext context[7];
     plContext pal_context;
     u32 th = 0;
     u32 ph = 0;
-    FLTexture *lpflTexture;
-    FLTexture *lpflPalette;
+    FLTexture* lpflTexture;
+    FLTexture* lpflPalette;
     s32 mip_num;
     s32 lp0;
     s32 dw;
@@ -600,16 +600,16 @@ u32 flCreateTextureFromTim2_mem(void *mem, u32 flag) {
     return th | ph;
 }
 
-void flPS2ConvertAlpha(void *lpPtr, s32 width, s32 height) {
+void flPS2ConvertAlpha(void* lpPtr, s32 width, s32 height) {
     s32 x;
     s32 y;
-    u8 *ptr = lpPtr;
+    u8* ptr = lpPtr;
     u8 alpha;
     u32 color;
 
     for (y = 0; y < height; y++) {
         for (x = 0; x < width; x++) {
-            color = ((u32 *)ptr)[0] & 0x00FFFFFF;
+            color = ((u32*)ptr)[0] & 0x00FFFFFF;
             alpha = ptr[3];
 
             if (alpha == 255) {
@@ -628,9 +628,9 @@ void flPS2ConvertAlpha(void *lpPtr, s32 width, s32 height) {
     }
 }
 
-u32 flCreateTextureFromBMP(s8 *bmp_file, u32 flag) {
+u32 flCreateTextureFromBMP(s8* bmp_file, u32 flag) {
     s32 len = flFileLength(bmp_file);
-    char *file_ptr = mflTemporaryUse(len);
+    char* file_ptr = mflTemporaryUse(len);
 
     if (flFileRead(bmp_file, file_ptr, len) == 0) {
         return 0;
@@ -639,15 +639,15 @@ u32 flCreateTextureFromBMP(s8 *bmp_file, u32 flag) {
     return flCreateTextureFromBMP_mem(file_ptr, flag);
 }
 
-u32 flCreateTextureFromBMP_mem(void *mem, u32 flag) {
+u32 flCreateTextureFromBMP_mem(void* mem, u32 flag) {
     s32 x;
     s32 y;
-    u8 *dst;
-    u8 *src;
-    u8 *keep;
+    u8* dst;
+    u8* src;
+    u8* keep;
     plContext context;
     u32 th = 0;
-    FLTexture *lpflTexture;
+    FLTexture* lpflTexture;
     u8 r;
     u8 g;
     u8 b;
@@ -689,9 +689,9 @@ u32 flCreateTextureFromBMP_mem(void *mem, u32 flag) {
     return th;
 }
 
-u32 flCreateTextureFromPIC(s8 *pic_file, u32 flag) {
+u32 flCreateTextureFromPIC(s8* pic_file, u32 flag) {
     s32 len = flFileLength(pic_file);
-    s8 *file_ptr = mflTemporaryUse(len);
+    s8* file_ptr = mflTemporaryUse(len);
 
     if (flFileRead(pic_file, file_ptr, len) == 0) {
         return 0;
@@ -700,15 +700,15 @@ u32 flCreateTextureFromPIC(s8 *pic_file, u32 flag) {
     return flCreateTextureFromPIC_mem(file_ptr, flag);
 }
 
-u32 flCreateTextureFromPIC_mem(void *mem, u32 flag) {
+u32 flCreateTextureFromPIC_mem(void* mem, u32 flag) {
     s32 x;
     s32 y;
-    u8 *lpdst;
-    u8 *dst;
-    u8 *lpsrc;
+    u8* lpdst;
+    u8* dst;
+    u8* lpsrc;
     plContext context;
     u32 th = 0;
-    FLTexture *lpflTexture;
+    FLTexture* lpflTexture;
 
     th = flPS2GetTextureHandle();
     lpflTexture = &flTexture[LO_16_BITS(th) - 1];

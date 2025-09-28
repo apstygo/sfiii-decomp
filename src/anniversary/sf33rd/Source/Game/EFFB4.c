@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/EFFB4.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
@@ -6,14 +7,13 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
 const s16 s_mark_tbl[32] = { 0, 1, 0, 1, 0, 3, 0, 0, 0, 2, 4, 0, 0, 1, 0, 2,
                              6, 3, 0, 2, 0, 0, 6, 3, 0, 4, 0, 0, 6, 0, 0, 4 };
 
-void effect_B4_move(WORK_Other *ewk) {
+void effect_B4_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -57,24 +57,24 @@ void effect_B4_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_B4_init(WORK_Other *oya) {
+s32 effect_B4_init(WORK_Other* oya) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 114;
     ewk->wu.work_id = 16;
     ewk->wu.cgromtype = 1;
-    ewk->my_master = (u32 *)oya;
+    ewk->my_master = (u32*)oya;
     ewk->master_id = 0;
     ewk->wu.my_col_mode = 0;
     ewk->wu.my_col_code = 0x20;

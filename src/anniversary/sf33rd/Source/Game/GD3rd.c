@@ -34,7 +34,7 @@ typedef struct {
     u8 kokey; // offset 0x3, size 0x1
 } LDREQ_TBL;
 
-typedef void (*LDREQ_Process_Func)(REQ *);
+typedef void (*LDREQ_Process_Func)(REQ*);
 
 u16 DskDrvErrBe;
 u16 DskDrvErrType;
@@ -42,7 +42,7 @@ u16 DskDrvErrRetry;
 PS2CDReadMode ps2CdReadMode;
 s16 plt_req[2]; // size: 0x4, address: 0x579084
 u8 ldreq_break;
-struct _adx_fs *adxf = NULL;
+struct _adx_fs* adxf = NULL;
 
 u8 sf3ptinfo[3352];
 REQ q_ldreq[16];      // size: 0x280, address: 0x5E1DD0
@@ -52,16 +52,16 @@ const u8 lpr_wrdata[3] = { 0x03, 0xC0, 0x3C }; // size: 0x3, address: 0x51FCF0
 const u8 lpc_seldat[2] = { 10, 11 };           // size: 0x2, address: 0x51FCF8
 const u8 lpt_seldat[4] = { 3, 4, 5, 0 };       // size: 0x4, address: 0x51FD00
 
-s32 Push_LDREQ_Queue(REQ *ldreq);
+s32 Push_LDREQ_Queue(REQ* ldreq);
 void Push_LDREQ_Queue_Metamor();
-void q_ldreq_error(REQ *curr);
+void q_ldreq_error(REQ* curr);
 void disp_ldreq_status();
 void Push_LDREQ_Queue_Union(s16 ix);
 s32 Check_LDREQ_Queue_Union(s16 ix);
 
 // forward decls
 const LDREQ_Process_Func ldreq_process[6];
-s8 *ldreq_process_name[];
+s8* ldreq_process_name[];
 const LDREQ_TBL ldreq_tbl[294];
 const s16 ldreq_ix[43][2];
 
@@ -148,7 +148,7 @@ void fsUpdateDiskDriveError() {
     }
 }
 
-s32 fsOpen(REQ *req) {
+s32 fsOpen(REQ* req) {
     if (req->fnum >= AFS_FILE_COUNT) {
         return 0;
     }
@@ -172,7 +172,7 @@ s32 fsOpen(REQ *req) {
     return 1;
 }
 
-void fsClose(REQ * /* unused */) {
+void fsClose(REQ* /* unused */) {
     ADXF_Close(adxf);
     adxf = NULL;
 }
@@ -189,7 +189,7 @@ u32 fsCalSectorSize(u32 size) {
     return (size + 2048 - 1) / 2048;
 }
 
-s32 fsCansel(REQ * /* unused */) {
+s32 fsCansel(REQ* /* unused */) {
     if (adxf != NULL && ADXF_GetStat(adxf) == ADXF_STAT_READING) {
         ADXF_StopNw(adxf);
     }
@@ -209,12 +209,12 @@ s32 fsCheckCommandExecuting() {
     return 0;
 }
 
-s32 fsRequestFileRead(REQ * /* unused */, u32 sec, void *buff) {
+s32 fsRequestFileRead(REQ* /* unused */, u32 sec, void* buff) {
     ADXF_ReadNw(adxf, sec, buff);
     return 1;
 }
 
-s32 fsCheckFileReaded(REQ * /* unused */) {
+s32 fsCheckFileReaded(REQ* /* unused */) {
     s32 rnum = ADXF_GetStat(adxf);
     fsUpdateDiskDriveError();
 
@@ -230,7 +230,7 @@ s32 fsCheckFileReaded(REQ * /* unused */) {
     return 1;
 }
 
-s32 fsFileReadSync(REQ *req, u32 sec, void *buff) {
+s32 fsFileReadSync(REQ* req, u32 sec, void* buff) {
     s32 rnum = fsRequestFileRead(req, sec, buff);
 
     if (rnum == 0) {
@@ -265,7 +265,7 @@ void waitVsyncDummy() {
 #endif
 }
 
-s32 load_it_use_any_key2(u16 fnum, void **adrs, s16 *key, u8 kokey, u8 group) {
+s32 load_it_use_any_key2(u16 fnum, void** adrs, s16* key, u8 kokey, u8 group) {
     u32 size;
     u32 err;
 
@@ -276,7 +276,7 @@ s32 load_it_use_any_key2(u16 fnum, void **adrs, s16 *key, u8 kokey, u8 group) {
 
     size = fsGetFileSize(fnum);
     *key = Pull_ramcnt_key(fsCalSectorSize(size) << 11, kokey, group, 0);
-    *adrs = (void *)Get_ramcnt_address(*key);
+    *adrs = (void*)Get_ramcnt_address(*key);
 
     err = load_it_use_this_key(fnum, *key);
 
@@ -290,7 +290,7 @@ s32 load_it_use_any_key2(u16 fnum, void **adrs, s16 *key, u8 kokey, u8 group) {
 
 s16 load_it_use_any_key(u16 fnum, u8 kokey, u8 group) {
     u32 err;
-    void *adrs;
+    void* adrs;
     s16 key;
 
     err = load_it_use_any_key2(fnum, &adrs, &key, kokey, group);
@@ -317,7 +317,7 @@ s32 load_it_use_this_key(u16 fnum, s16 key) {
 
         req.size = fsGetFileSize(req.fnum);
         req.sect = fsCalSectorSize(req.size);
-        err = fsFileReadSync(&req, req.sect, (void *)Get_ramcnt_address(key));
+        err = fsFileReadSync(&req, req.sect, (void*)Get_ramcnt_address(key));
         fsClose(&req);
         Set_size_data_ramcnt_key(key, req.size);
 
@@ -445,7 +445,7 @@ void Push_LDREQ_Queue_Direct(s16 ix, s16 id) {
     Push_LDREQ_Queue(&ldreq);
 }
 
-s32 Push_LDREQ_Queue(REQ *ldreq) {
+s32 Push_LDREQ_Queue(REQ* ldreq) {
     s16 i;
     u8 masknum;
 
@@ -475,7 +475,7 @@ s32 Push_LDREQ_Queue(REQ *ldreq) {
             break;
         }
 
-        *(u8 *)(&q_ldreq[i].result)[0] &= ~masknum;
+        *(u8*)(&q_ldreq[i].result)[0] &= ~masknum;
         return 1;
     }
 
@@ -589,7 +589,7 @@ s32 Check_LDREQ_Queue_Direct(s16 ix) {
     return 1;
 }
 
-void q_ldreq_error(REQ *curr) {
+void q_ldreq_error(REQ* curr) {
     curr->be = 0;
     flLogOut("Q_LDREQ_ERROR : ロード処理の指定に誤りがあります。\n");
 }
@@ -599,7 +599,7 @@ const LDREQ_Process_Func ldreq_process[6] = {
     q_ldreq_error, q_ldreq_texture_group, q_ldreq_color_data, q_ldreq_color_data, q_ldreq_color_data, q_ldreq_color_data
 };
 
-s8 *ldreq_process_name[] = {
+s8* ldreq_process_name[] = {
     // size: 0x18, address: 0x573AB0
     "EMP", "TEX", "COL", "SCR", "SND", "KNJ",
 };

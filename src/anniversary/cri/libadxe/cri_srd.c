@@ -16,9 +16,9 @@ typedef struct {
     /* 0x04 */ Sint32 unk4;
     /* 0x08 */ Sint32 unk8;
     /* 0x0C */ Sint32 unkC;
-    /* 0x10 */ void *unk10;
+    /* 0x10 */ void* unk10;
     /* 0x14 */ sceCdRMode unk14;
-    /* 0x18 */ void *unk18;
+    /* 0x18 */ void* unk18;
     /* 0x1C */ Sint32 unk1C;
     /* 0x20 */ Sint32 unk20;
     /* 0x24 */ Sint32 unk24;
@@ -27,10 +27,10 @@ typedef struct {
     /* 0x34 */ Sint32 unk34;
 } SRD_OBJ;
 
-typedef SRD_OBJ *SRD;
+typedef SRD_OBJ* SRD;
 
 SRD_OBJ srd_obj = { 0 };
-Char8 *volatile srd_build = "\nSRD/PS2EE Ver.2.18a Build:Sep 18 2003 10:00:14\n\0\0\0\0";
+Char8* volatile srd_build = "\nSRD/PS2EE Ver.2.18a Build:Sep 18 2003 10:00:14\n\0\0\0\0";
 Sint32 srd_enter_fg = 0;
 Sint32 srd_dvd_exec_locked = 0;
 Sint32 srd_hst_exec_locked = 0;
@@ -49,9 +49,9 @@ Sint32 srd_host_lock = 0;
 
 // forward decls
 void SRD_SetHistory(Sint32 arg0);
-Sint32 SRD_SceIoctl(Sint32 fd, Sint32 req, void *arg2);
+Sint32 SRD_SceIoctl(Sint32 fd, Sint32 req, void* arg2);
 Sint64 SRD_SceLseek(Sint32 fd, Sint64 offset, Sint32 whence);
-Sint32 SRD_SceRead(Sint32 fd, void *buf, Sint32 nbyte);
+Sint32 SRD_SceRead(Sint32 fd, void* buf, Sint32 nbyte);
 
 void srd_reset_obj() {
     srd_build;
@@ -100,7 +100,7 @@ void SRD_Destroy(SRD srd) {
     SVM_UnlockVar();
 }
 
-s32 SRD_ReqRdDvd(SRD srd, s32 arg1, s32 arg2, void *arg3, sceCdRMode *arg4) {
+s32 SRD_ReqRdDvd(SRD srd, s32 arg1, s32 arg2, void* arg3, sceCdRMode* arg4) {
     s32 err;
     s32 var_s4 = 0;
 
@@ -521,7 +521,7 @@ Sint64 SRD_SceLseek(Sint32 fd, Sint64 offset, Sint32 whence) {
     return ofst;
 }
 
-Sint32 SRD_SceIoctl(Sint32 fd, Sint32 req, void *arg2) {
+Sint32 SRD_SceIoctl(Sint32 fd, Sint32 req, void* arg2) {
     Sint32 err;
 
     srd_sw_lock();
@@ -535,7 +535,7 @@ Sint32 SRD_SceIoctl(Sint32 fd, Sint32 req, void *arg2) {
     return err;
 }
 
-Sint32 SRD_SceOpen(const Char8 *filename, Sint32 flag) {
+Sint32 SRD_SceOpen(const Char8* filename, Sint32 flag) {
     Sint32 err;
 
     srd_sw_lock();
@@ -563,7 +563,7 @@ Sint32 SRD_SceClose(Sint32 fd) {
     return err;
 }
 
-Sint32 SRD_SceRead(Sint32 fd, void *buf, Sint32 nbyte) {
+Sint32 SRD_SceRead(Sint32 fd, void* buf, Sint32 nbyte) {
     Sint32 err;
 
     srd_sw_lock();

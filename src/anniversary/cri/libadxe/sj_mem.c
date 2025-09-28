@@ -9,16 +9,16 @@
 typedef struct {
     SJ_OBJ sj;
     Sint32 used;
-    UUID *uuid;
+    UUID* uuid;
     Sint32 unkC;
     Sint32 unk10;
-    Sint8 *buf_ptr;
+    Sint8* buf_ptr;
     Sint32 bsize;
-    void (*err_func)(void *obj, Sint32 ecode);
-    void *err_obj;
+    void (*err_func)(void* obj, Sint32 ecode);
+    void* err_obj;
 } SJMEM_OBJ;
 
-typedef SJMEM_OBJ *SJMEM;
+typedef SJMEM_OBJ* SJMEM;
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) < (b) ? (b) : (a))
@@ -27,14 +27,14 @@ typedef SJMEM_OBJ *SJMEM;
 // forward decls
 void SJMEM_Reset(SJMEM sjmem);
 void SJMEM_Destroy(SJMEM sjmem);
-UUID *SJMEM_GetUuid(SJMEM sjmem);
+UUID* SJMEM_GetUuid(SJMEM sjmem);
 void SJMEM_Reset(SJMEM sjmem);
-void SJMEM_GetChunk(SJMEM sjmem, Sint32 id, Sint32 nbyte, SJCK *ck);
-void SJMEM_UngetChunk(SJMEM sjmem, Sint32 id, SJCK *ck);
-void SJMEM_PutChunk(SJMEM sjmem, Sint32 id, SJCK *ck);
+void SJMEM_GetChunk(SJMEM sjmem, Sint32 id, Sint32 nbyte, SJCK* ck);
+void SJMEM_UngetChunk(SJMEM sjmem, Sint32 id, SJCK* ck);
+void SJMEM_PutChunk(SJMEM sjmem, Sint32 id, SJCK* ck);
 Sint32 SJMEM_GetNumData(SJMEM sjmem, Sint32 id);
-Sint32 SJMEM_IsGetChunk(SJMEM sjmem, Sint32 id, Sint32 nbyte, Sint32 *rbyte);
-void SJMEM_EntryErrFunc(SJMEM sjmem, void (*func)(void *obj, Sint32 ecode), void *obj);
+Sint32 SJMEM_IsGetChunk(SJMEM sjmem, Sint32 id, Sint32 nbyte, Sint32* rbyte);
+void SJMEM_EntryErrFunc(SJMEM sjmem, void (*func)(void* obj, Sint32 ecode), void* obj);
 
 // data
 SJ_IF sjmem_vtbl = { .QueryInterface = NULL,
@@ -57,7 +57,7 @@ const UUID sjmem_uuid = {
     .Data1 = 0xDD9EEE41, .Data2 = 0x1679, .Data3 = 0x11D2, .Data4 = { 0x93, 0x6C, 0x00, 0x60, 0x08, 0x94, 0x48, 0xBC }
 };
 
-void SJMEM_Error(void *obj, Sint32 ecode) {
+void SJMEM_Error(void* obj, Sint32 ecode) {
     SJERR_CallErr("SJMEM Error");
 }
 
@@ -75,7 +75,7 @@ void SJMEM_Finish() {
     }
 }
 
-SJ SJMEM_Create(Sint8 *data, Sint32 bsize) {
+SJ SJMEM_Create(Sint8* data, Sint32 bsize) {
     SJMEM sjmem;
     Sint32 i;
 
@@ -108,11 +108,11 @@ void SJMEM_Destroy(SJMEM sjmem) {
     }
 }
 
-UUID *SJMEM_GetUuid(SJMEM sjmem) {
+UUID* SJMEM_GetUuid(SJMEM sjmem) {
     return sjmem->uuid;
 }
 
-void SJMEM_EntryErrFunc(SJMEM sjmem, void (*func)(void *obj, Sint32 ecode), void *obj) {
+void SJMEM_EntryErrFunc(SJMEM sjmem, void (*func)(void* obj, Sint32 ecode), void* obj) {
     sjmem->err_func = func;
     sjmem->err_obj = obj;
 }
@@ -134,7 +134,7 @@ Sint32 SJMEM_GetNumData(SJMEM sjmem, Sint32 id) {
     return 0;
 }
 
-void SJMEM_GetChunk(SJMEM sjmem, Sint32 id, Sint32 nbyte, SJCK *ck) {
+void SJMEM_GetChunk(SJMEM sjmem, Sint32 id, Sint32 nbyte, SJCK* ck) {
     Sint32 len;
 
     SJCRS_Lock();
@@ -161,7 +161,7 @@ void SJMEM_GetChunk(SJMEM sjmem, Sint32 id, Sint32 nbyte, SJCK *ck) {
     SJCRS_Unlock();
 }
 
-void SJMEM_PutChunk(SJMEM sjmem, Sint32 id, SJCK *ck) {
+void SJMEM_PutChunk(SJMEM sjmem, Sint32 id, SJCK* ck) {
     if ((ck->len <= 0) || (ck->data == NULL)) {
         return;
     }
@@ -184,7 +184,7 @@ void SJMEM_PutChunk(SJMEM sjmem, Sint32 id, SJCK *ck) {
     SJCRS_Unlock();
 }
 
-void SJMEM_UngetChunk(SJMEM sjmem, Sint32 id, SJCK *ck) {
+void SJMEM_UngetChunk(SJMEM sjmem, Sint32 id, SJCK* ck) {
     if ((ck->len <= 0) || (ck->data == NULL)) {
         return;
     }
@@ -216,7 +216,7 @@ void SJMEM_UngetChunk(SJMEM sjmem, Sint32 id, SJCK *ck) {
     SJCRS_Unlock();
 }
 
-Sint32 SJMEM_IsGetChunk(SJMEM sjmem, Sint32 id, Sint32 nbyte, Sint32 *rbyte) {
+Sint32 SJMEM_IsGetChunk(SJMEM sjmem, Sint32 id, Sint32 nbyte, Sint32* rbyte) {
     Sint32 unk;
 
     SJCRS_Lock();
@@ -238,7 +238,7 @@ Sint32 SJMEM_IsGetChunk(SJMEM sjmem, Sint32 id, Sint32 nbyte, Sint32 *rbyte) {
     return unk == nbyte;
 }
 
-Sint8 *SJMEM_GetBufPtr(SJMEM sjmem) {
+Sint8* SJMEM_GetBufPtr(SJMEM sjmem) {
     return sjmem->buf_ptr;
 }
 

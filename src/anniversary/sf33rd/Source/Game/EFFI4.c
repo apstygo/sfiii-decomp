@@ -1,17 +1,17 @@
 #include "sf33rd/Source/Game/EFFI4.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CALDIR.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/effJ6.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_I4_move(WORK_Other *ewk) {
+void effect_I4_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -51,7 +51,7 @@ void effect_I4_move(WORK_Other *ewk) {
     }
 }
 
-void effect_i4_hit_sub(WORK_Other *ewk) {
+void effect_i4_hit_sub(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -86,7 +86,7 @@ void effect_i4_hit_sub(WORK_Other *ewk) {
     }
 }
 
-void effi4_down_to_up(WORK_Other *ewk) {
+void effi4_down_to_up(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[3]) {
     case 0:
         char_move(&ewk->wu);
@@ -133,7 +133,7 @@ void effi4_down_to_up(WORK_Other *ewk) {
     }
 }
 
-void effi4_up_to_down(WORK_Other *ewk) {
+void effi4_up_to_down(WORK_Other* ewk) {
     char_move(&ewk->wu);
 
     if (ewk->wu.cg_type == 0xFF) {
@@ -147,14 +147,14 @@ s32 effect_I4_init() {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 184;
     ewk->wu.work_id = 16;

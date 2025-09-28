@@ -1,10 +1,10 @@
 #include "sf33rd/Source/Game/EffD8.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/Sel_Data.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/sel_pl.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
@@ -12,7 +12,7 @@
 
 // Forward decls
 
-void Setup_EffD8_Pos(WORK_Other *ewk, s16 /* unused */);
+void Setup_EffD8_Pos(WORK_Other* ewk, s16 /* unused */);
 s32 Setup_Face_Offset_X(s16 x);
 
 // Data
@@ -21,7 +21,7 @@ const u8 D8_Priority_Data[4] = { 55, 55, 52, 53 };
 
 // Funcs
 
-void effect_D8_move(WORK_Other *ewk) {
+void effect_D8_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
@@ -126,7 +126,7 @@ s32 effect_D8_init(s16 PL_id, s16 Type) {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 offset_x;
 
@@ -134,7 +134,7 @@ s32 effect_D8_init(s16 PL_id, s16 Type) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 0x8A;
     ewk->wu.work_id = 0x10;
@@ -155,7 +155,7 @@ s32 effect_D8_init(s16 PL_id, s16 Type) {
     return 0;
 }
 
-void Setup_EffD8_Pos(WORK_Other *ewk, s16 /* unused */) {
+void Setup_EffD8_Pos(WORK_Other* ewk, s16 /* unused */) {
     s16 xx = ID_of_Face[Cursor_Y[ewk->master_id]][Cursor_X[ewk->master_id]];
     ewk->wu.xyz[0].disp.pos = Face_Pos_Data[xx][0] + 512;
     ewk->wu.xyz[1].disp.pos = Face_Pos_Data[xx][1] + 0;

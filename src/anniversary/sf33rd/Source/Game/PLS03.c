@@ -15,9 +15,9 @@
 
 extern const s16 cmdshot_conv_tbl[32];
 
-u16 decode_wst_data(PLW *wk, u16 cmd, s16 cmd_ex);
+u16 decode_wst_data(PLW* wk, u16 cmd, s16 cmd_ex);
 
-void hissatsu_setup_union(PLW *wk, s16 rno) {
+void hissatsu_setup_union(PLW* wk, s16 rno) {
     wk->wu.routine_no[1] = 4;
     wk->wu.routine_no[2] = rno;
     wk->wu.routine_no[3] = 0;
@@ -36,8 +36,8 @@ s16 cmdixconv(s16 ix) {
     return cmdixconv_table[ix - 20];
 }
 
-s32 check_full_gauge_attack(PLW *wk, s8 always) {
-    u16 *conpane;
+s32 check_full_gauge_attack(PLW* wk, s8 always) {
+    u16* conpane;
     s16 j;
     u16 cusw;
     u16 exsw;
@@ -167,8 +167,8 @@ s32 check_full_gauge_attack(PLW *wk, s8 always) {
     return 0;
 }
 
-s32 check_full_gauge_attack2(PLW *wk, s8 always) {
-    u16 *conpane;
+s32 check_full_gauge_attack2(PLW* wk, s8 always) {
+    u16* conpane;
     s16 j;
     u16 cusw;
     u16 exsw;
@@ -298,7 +298,7 @@ s32 check_full_gauge_attack2(PLW *wk, s8 always) {
     return 0;
 }
 
-s16 check_super_arts_attack(PLW *wk) {
+s16 check_super_arts_attack(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_super_arts_status_dc(s32 ix);
 #endif
@@ -326,11 +326,11 @@ s16 check_super_arts_attack(PLW *wk) {
     return rnum;
 }
 
-s32 check_super_arts_attack_dc(PLW *wk) {
+s32 check_super_arts_attack_dc(PLW* wk) {
     s16 j;
     u16 cusw;
     u16 exsw;
-    u16 *conpane;
+    u16* conpane;
 
     if (wk->sa->ok != 1) {
         return 0;
@@ -451,7 +451,7 @@ s32 check_super_arts_attack_dc(PLW *wk) {
     return 0;
 }
 
-s32 execute_super_arts(PLW *wk) {
+s32 execute_super_arts(PLW* wk) {
     if (wk->cancel_timer == 0) {
         wk->permited_koa |= 1;
     }
@@ -507,7 +507,7 @@ s32 execute_super_arts(PLW *wk) {
     return 1;
 }
 
-s32 check_special_attack(PLW *wk) {
+s32 check_special_attack(PLW* wk) {
 #if defined(TARGET_PS2)
     s32 shell_live_check(PLW * wk, s32 wix);
     void grade_add_command_waza(s32 ix);
@@ -517,7 +517,7 @@ s32 check_special_attack(PLW *wk) {
     s16 j;
     u16 cusw;
     u16 exsw;
-    u16 *conpane;
+    u16* conpane;
 
     if (wk->cancel_timer == 0) {
         wk->permited_koa |= 2;
@@ -528,7 +528,7 @@ s32 check_special_attack(PLW *wk) {
     }
 
     if (((Bonus_Game_Flag == 0x14) && wk->bs2_on_car) || (wk->wu.xyz[1].disp.pos <= 0)) {
-        conpane = (u16 *)wk->cp;
+        conpane = (u16*)wk->cp;
 
         for (i = 28; i < 38; i++) {
             if ((wk->spmv_ng_flag2 & 0x400000) && chainex_check[wk->wu.id][i - 20]) {
@@ -609,7 +609,7 @@ s32 check_special_attack(PLW *wk) {
         return 0;
     }
 
-    conpane = (u16 *)wk->cp;
+    conpane = (u16*)wk->cp;
 
     for (i = 46; i < 56; i++) {
         if ((wk->spmv_ng_flag2 & 0x400000) && chainex_check[wk->wu.id][i - 20]) {
@@ -702,7 +702,7 @@ s32 check_special_attack(PLW *wk) {
     return 0;
 }
 
-void chainex_spat_cancel_kidou(WORK *wk) {
+void chainex_spat_cancel_kidou(WORK* wk) {
     MVXY curr;
 
     if (wk->old_rno[1] == 4 && wk->old_rno[2] > 15) {
@@ -714,7 +714,7 @@ void chainex_spat_cancel_kidou(WORK *wk) {
     }
 }
 
-s32 check_leap_attack(PLW *wk) {
+s32 check_leap_attack(PLW* wk) {
     if (wk->spmv_ng_flag2 & 0x10) {
         return 0;
     }
@@ -753,7 +753,7 @@ s32 check_leap_attack(PLW *wk) {
     return 1;
 }
 
-s32 check_nm_attack(PLW *wk) {
+s32 check_nm_attack(PLW* wk) {
     s16 kos;
     s16 koa;
 
@@ -872,7 +872,7 @@ s32 check_nm_attack(PLW *wk) {
     return 1;
 }
 
-s16 hikusugi_check(WORK *wk) {
+s16 hikusugi_check(WORK* wk) {
     s16 rnum = 0;
 
     if ((wk->mvxy.a[1].real.h < 0) && (wk->xyz[1].disp.pos < 16)) {
@@ -882,7 +882,7 @@ s16 hikusugi_check(WORK *wk) {
     return rnum;
 }
 
-s32 check_chouhatsu(PLW *wk) {
+s32 check_chouhatsu(PLW* wk) {
     if (wk->spmv_ng_flag & 1) {
         return 0;
     }
@@ -919,7 +919,7 @@ s32 check_chouhatsu(PLW *wk) {
     return 1;
 }
 
-s32 check_nagenuke_cmd(PLW *wk) {
+s32 check_nagenuke_cmd(PLW* wk) {
     if (wk->spmv_ng_flag2 & 0x400) {
         return 0;
     }
@@ -946,7 +946,7 @@ s32 check_nagenuke_cmd(PLW *wk) {
 const u8 nml_catch_h2_ok[2][20] = { { 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16, 16 },
                                     { 0, 0, 0, 0, 0, 0, 0, 17, 0, 17, 0, 0, 0, 0, 0, 17, 0, 0, 0, 0 } };
 
-s32 check_catch_attack(PLW *wk) {
+s32 check_catch_attack(PLW* wk) {
     s16 kos;
 
     if (pcon_dp_flag) {
@@ -994,7 +994,7 @@ s32 check_catch_attack(PLW *wk) {
     return 1;
 }
 
-void set_attack_routine_number(PLW *wk) {
+void set_attack_routine_number(PLW* wk) {
     wk->wu.routine_no[1] = 4;
     wk->wu.routine_no[2] = wk->as->r_no;
     wk->wu.routine_no[3] = 0;
@@ -1002,7 +1002,7 @@ void set_attack_routine_number(PLW *wk) {
 }
 
 u16 get_nearing_range(s16 pnum, s16 kos) {
-    const u16 *asstbl;
+    const u16* asstbl;
     u16 nrange = 0;
     u16 lwork;
 
@@ -1023,8 +1023,8 @@ u16 get_nearing_range(s16 pnum, s16 kos) {
     return nrange;
 }
 
-s32 waza_select(PLW *wk, s16 kos, s16 sf) {
-    const u16 *wst;
+s32 waza_select(PLW* wk, s16 kos, s16 sf) {
+    const u16* wst;
 
     switch (sf) {
     case 0:
@@ -1086,7 +1086,7 @@ s32 waza_select(PLW *wk, s16 kos, s16 sf) {
     return 0;
 }
 
-u16 decode_wst_data(PLW *wk, u16 cmd, s16 cmd_ex) {
+u16 decode_wst_data(PLW* wk, u16 cmd, s16 cmd_ex) {
     u16 lever;
     u16 rnum;
 
@@ -1179,18 +1179,18 @@ u16 decode_wst_data(PLW *wk, u16 cmd, s16 cmd_ex) {
     return rnum;
 }
 
-s16 get_em_body_range(WORK *wk) {
+s16 get_em_body_range(WORK* wk) {
 #if defined(TARGET_PS2)
     s16 get_sel_hosei_tbl_ix(s32 plnum);
 #endif
 
-    WORK *em;
-    s16 *dad;
+    WORK* em;
+    s16* dad;
     s16 res_hs;
 
     if (Bonus_Game_Flag == 20 && wk->operator != 0) {
-        em = (WORK *)((WORK *)wk->target_adrs)->my_effadrs;
-        dad = (s16 *)(em->hosei_adrs + (get_sel_hosei_tbl_ix(((WORK_Other *)em)->master_player) + 1));
+        em = (WORK*)((WORK*)wk->target_adrs)->my_effadrs;
+        dad = (s16*)(em->hosei_adrs + (get_sel_hosei_tbl_ix(((WORK_Other*)em)->master_player) + 1));
         res_hs = wk->xyz[0].disp.pos - (em->xyz[0].disp.pos + dad[0] + (dad[1] / 2));
 
         if (res_hs < 0) {
@@ -1202,7 +1202,7 @@ s16 get_em_body_range(WORK *wk) {
         return res_hs;
     }
 
-    em = (WORK *)wk->target_adrs;
+    em = (WORK*)wk->target_adrs;
     res_hs = (wk->xyz[0].disp.pos) - (em->xyz[0].disp.pos);
 
     if (res_hs < 0) {
@@ -1253,7 +1253,7 @@ s16 shot_data_refresh(s16 sw) {
 
 const s16 rc_shot_conv[16] = { 16, 32, 64, 112, 256, 512, 1024, 1792, 272, 544, 1088, 1904, 0, 0, 0, 0 };
 
-s16 renbanshot_conpaneshot(const s16 *dadr, s16 pow) {
+s16 renbanshot_conpaneshot(const s16* dadr, s16 pow) {
     return rc_shot_conv[dadr[pow] & 0xF];
 }
 
@@ -1264,7 +1264,7 @@ s16 datacmd_conpanecmd(s16 dat) {
 
 const u8 renda_status_table[4] = { 0, 20, 32, 0 };
 
-s32 check_renda_cancel(PLW *wk) {
+s32 check_renda_cancel(PLW* wk) {
     if (wk->wu.rl_flag != wk->wu.rl_waza) {
         return 0;
     }
@@ -1309,7 +1309,7 @@ const s16 _cnmc_z_lever_data[16][8] = { { -1, -1, -1, -1, -1, -1, -1, -1 }, { 4,
                                         { 1, 4, 5, 7, -1, -1, -1, -1 },     { 3, 5, 6, 9, -1, -1, -1, -1 },
                                         { 1, 4, 7, 3, 6, 9, -1, -1 },       { 1, 4, 7, 5, 3, 6, 9, -1 } };
 
-s32 check_meoshi_cancel(PLW *wk) {
+s32 check_meoshi_cancel(PLW* wk) {
     s16 i;
     s16 tdat;
     s16 wdat;

@@ -10,9 +10,9 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effm7_move(WORK_Other *ewk);
+void effm7_move(WORK_Other* ewk);
 
-void effect_M7_move(WORK_Other *ewk) {
+void effect_M7_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         if (!EXE_flag && !Game_pause) {
@@ -29,7 +29,7 @@ void effect_M7_move(WORK_Other *ewk) {
     }
 }
 
-void effm7_move(WORK_Other *ewk) {
+void effm7_move(WORK_Other* ewk) {
     s16 id_w;
 
     switch (ewk->wu.routine_no[1]) {
@@ -124,15 +124,15 @@ const s16 effm7_data_tbl[42] = {
     -64, 2,  1,  1, 17, 24, 96, -112, -8, -1, 1, 18, 8,  102, -224, 2,  1,  1, 17, 10, 106
 };
 
-s32 effect_M7_init(PLW *oya) {
+s32 effect_M7_init(PLW* oya) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 i;
-    const s16 *data_ptr = effm7_data_tbl;
+    const s16* data_ptr = effm7_data_tbl;
     s16 em_id = oya->wu.id ^ 1;
 
     for (i = 0; i < 6; i++) {
@@ -140,22 +140,22 @@ s32 effect_M7_init(PLW *oya) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 227;
         ewk->wu.work_id = 16;
         ewk->wu.cgromtype = 1;
         ewk->wu.disp_flag = 0;
-        ewk->my_master = (u32 *)oya;
+        ewk->my_master = (u32*)oya;
         ewk->master_id = oya->wu.id;
         ewk->wu.my_family = 2;
         ewk->wu.my_col_mode = 0x4200;
         ewk->wu.my_col_code = oya->wu.id ? 8 : 0;
         ewk->wu.xyz[0].disp.pos = *data_ptr++;
         ewk->wu.xyz[1].cal = plw[em_id].wu.xyz[1].cal;
-        ewk->wu.xyz[1].disp.pos += *(s16 *)data_ptr++;
+        ewk->wu.xyz[1].disp.pos += *(s16*)data_ptr++;
         ewk->wu.position_z = plw[em_id].wu.my_priority;
-        ewk->wu.position_z += *(s16 *)data_ptr++;
+        ewk->wu.position_z += *(s16*)data_ptr++;
         ewk->wu.my_priority = ewk->wu.position_z;
         ewk->wu.rl_flag = *data_ptr++;
         ewk->wu.kage_char = *data_ptr++;

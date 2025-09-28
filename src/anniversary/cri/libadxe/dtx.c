@@ -13,7 +13,7 @@
 #define DTX_MAX_OBJ 8
 
 // data
-Char8 *dtx_build = "\nDTX Ver.1.04 Build:Sep 18 2003 10:00:10\n";
+Char8* dtx_build = "\nDTX Ver.1.04 Build:Sep 18 2003 10:00:10\n";
 Sint32 dtx_rpc_id = 0x90000200;
 Sint32 dtx_proc_init_flag = 0;
 Sint32 dtx_send_sw = 1;
@@ -32,31 +32,31 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", dtx_rpc_func);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", dtx_svr_proc);
 
-void *dtx_create_rmt(Sint32 id, void *eewk, void *iopwk, Sint32 wklen) {
+void* dtx_create_rmt(Sint32 id, void* eewk, void* iopwk, Sint32 wklen) {
     dtx_rpc_snd_buf[0] = id;
     dtx_rpc_snd_buf[1] = eewk;
     dtx_rpc_snd_buf[2] = iopwk;
     dtx_rpc_snd_buf[3] = wklen;
     sceSifCallRpc(&dtx_cd, 2, 0, dtx_rpc_snd_buf, 4 * sizeof(intptr_t), dtx_rpc_rcv_buf, 1 * sizeof(intptr_t), 0, 0);
-    return (void *)dtx_rpc_rcv_buf[0];
+    return (void*)dtx_rpc_rcv_buf[0];
 }
 
-void dtx_destroy_rmt(void *arg0) {
+void dtx_destroy_rmt(void* arg0) {
     dtx_rpc_snd_buf[0] = arg0;
     sceSifCallRpc(&dtx_cd, 3, 0, dtx_rpc_snd_buf, 1 * sizeof(intptr_t), dtx_rpc_rcv_buf, 0, 0, 0);
 }
 
-void dtx_def_rcvcbf(void *arg0, void *arg1, Sint32 arg2) {
+void dtx_def_rcvcbf(void* arg0, void* arg1, Sint32 arg2) {
     static Sint32 cnt = 0;
     cnt += 1;
 }
 
-void dtx_def_sndcbf(void *arg0, void *arg1, Sint32 arg2) {
+void dtx_def_sndcbf(void* arg0, void* arg1, Sint32 arg2) {
     static Sint32 cnt = 0;
     Sint32 i;
 
     for (i = 0; i < arg2; i++) {
-        ((Sint8 *)arg1)[i] = -0x56;
+        ((Sint8*)arg1)[i] = -0x56;
     }
 
     sprintf(arg1, "Hello from EE (%d)", cnt);
@@ -67,7 +67,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", DTX_Open);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dtx", DTX_Close);
 
-DTX DTX_Create(Sint32 id, void *eewk, void *iopwk, Sint32 wklen) {
+DTX DTX_Create(Sint32 id, void* eewk, void* iopwk, Sint32 wklen) {
     DTX dtx;
 
     if ((uintptr_t)eewk & 0x3F) {
@@ -134,12 +134,12 @@ void DTX_Destroy(DTX dtx) {
     memset(dtx, 0, sizeof(DTX_OBJ));
 }
 
-void DTX_SetRcvCbf(DTX dtx, void (*func)(), void *object) {
+void DTX_SetRcvCbf(DTX dtx, void (*func)(), void* object) {
     dtx->rcvcbf = func;
     dtx->unk24 = object;
 }
 
-void DTX_SetSndCbf(DTX dtx, void (*func)(), void *object) {
+void DTX_SetSndCbf(DTX dtx, void (*func)(), void* object) {
     dtx->sndcbf = func;
     dtx->unk2C = object;
 }
@@ -216,7 +216,7 @@ void DTX_Finish() {
     }
 }
 
-intptr_t DTX_CallUrpc(Uint32 call_id, intptr_t *snd_buf, Sint32 snd_buf_len, intptr_t *rcv_buf, Sint32 rcv_buf_len) {
+intptr_t DTX_CallUrpc(Uint32 call_id, intptr_t* snd_buf, Sint32 snd_buf_len, intptr_t* rcv_buf, Sint32 rcv_buf_len) {
     Sint32 i;
 
     SVM_Lock();

@@ -31,7 +31,7 @@ s16 icon_fnum[3] = { 83, 84, 85 };
 s16 data_fnum[3] = { 87, -1, 88 };
 s16 font_fnum[3] = { 80, 81, 82 };
 
-s8 *pl_name[20] = {
+s8* pl_name[20] = {
     "GIL", "ALX", "RYU", "YUN", "DUD", "NCR", "HUG", "IBK", "ELE", "ORO",
     "YAN", "KEN", "SEN", "URN", "AKM", "CHN", "MAK", " Q ", "TWE", "REM",
 };
@@ -45,50 +45,50 @@ static u32 AutoMcSlot;
 static u32 LastMcSlot;
 
 // forward decls
-static void save_move_init(_save_work *save);
-static void save_move_sels(_save_work *save);
-static void save_move_self(_save_work *save);
-static void save_move_aload(_save_work *save);
-static void save_move_asave(_save_work *save);
-static void save_move_exit(_save_work *save);
-static s32 save_move_test(_save_work *save);
-static void save_sw_get(_save_work *save);
+static void save_move_init(_save_work* save);
+static void save_move_sels(_save_work* save);
+static void save_move_self(_save_work* save);
+static void save_move_aload(_save_work* save);
+static void save_move_asave(_save_work* save);
+static void save_move_exit(_save_work* save);
+static s32 save_move_test(_save_work* save);
+static void save_sw_get(_save_work* save);
 static void decide_se();
 static void cancel_se();
 static void select_se();
 static void nogood_se();
-static void last_slot_set(_save_work *save);
-static void auto_slot_set(_save_work *save);
-static void yes_no_set(_save_work *save, s32 def);
-static void self_order_get(_save_work *save);
-static void save_data_store(_save_work *save);
-static void save_data_store_system(_save_work *save);
-static void save_data_store_sysdir(_save_work *save);
-static void save_data_store_replay(_save_work *save);
-static s32 save_data_decode_system(_save_work *save, s32 mode);
-static s32 save_data_decode_sysdir(_save_work *save, s32 mode);
-static s32 save_data_decode_replay(_save_work *save, s32 mode);
-static void load_data_set_system(_save_work *save);
-static void load_data_set_sysdir(_save_work *save);
-static void load_data_set_replay(_save_work *save);
-static void load_data_set(_save_work *save);
-static void icon_tex_chg(u8 *src, u16 *dst, u32 size);
-static void encode_data(u16 *src, s32 size);
-static void decode_data(_save_work *save, u16 *src, s32 size);
-static void save_slot_trans(_save_work *save);
-static void save_file_trans(_save_work *save);
-static void save_msg_trans(_save_work *save);
-static void mc_msg_set(_save_work *save, s32 msg_no);
-static s32 push_any_key(_save_work *save);
+static void last_slot_set(_save_work* save);
+static void auto_slot_set(_save_work* save);
+static void yes_no_set(_save_work* save, s32 def);
+static void self_order_get(_save_work* save);
+static void save_data_store(_save_work* save);
+static void save_data_store_system(_save_work* save);
+static void save_data_store_sysdir(_save_work* save);
+static void save_data_store_replay(_save_work* save);
+static s32 save_data_decode_system(_save_work* save, s32 mode);
+static s32 save_data_decode_sysdir(_save_work* save, s32 mode);
+static s32 save_data_decode_replay(_save_work* save, s32 mode);
+static void load_data_set_system(_save_work* save);
+static void load_data_set_sysdir(_save_work* save);
+static void load_data_set_replay(_save_work* save);
+static void load_data_set(_save_work* save);
+static void icon_tex_chg(u8* src, u16* dst, u32 size);
+static void encode_data(u16* src, s32 size);
+static void decode_data(_save_work* save, u16* src, s32 size);
+static void save_slot_trans(_save_work* save);
+static void save_file_trans(_save_work* save);
+static void save_msg_trans(_save_work* save);
+static void mc_msg_set(_save_work* save, s32 msg_no);
+static s32 push_any_key(_save_work* save);
 static s32 decide_ck();
 static s32 cancel_ck();
-static s32 save_data_decode(_save_work *save, s32 mode);
-static s32 info_data_check(_save_work *save);
-static s32 yes_no_check(_save_work *save);
+static s32 save_data_decode(_save_work* save, s32 mode);
+static s32 info_data_check(_save_work* save);
+static s32 yes_no_check(_save_work* save);
 
-static void load_data(s32 fnum, void *adrs) {
+static void load_data(s32 fnum, void* adrs) {
     s32 nsct;
-    _save_work *save = &SaveWork;
+    _save_work* save = &SaveWork;
 
     save->adxf = ADXF_OpenAfs(0, fnum);
 
@@ -107,7 +107,7 @@ static void load_data(s32 fnum, void *adrs) {
 
 static s32 load_busy_ck() {
     s32 stat;
-    _save_work *save = &SaveWork;
+    _save_work* save = &SaveWork;
 
     if (save->adxf == NULL) {
         return 0;
@@ -128,7 +128,7 @@ static s32 load_busy_ck() {
 void SaveInit(s32 file_type, s32 save_mode) {
     u32 size;
     uintptr_t adrs;
-    _save_work *save = &SaveWork;
+    _save_work* save = &SaveWork;
 
     Forbid_Reset = 1;
 
@@ -152,7 +152,7 @@ void SaveInit(s32 file_type, s32 save_mode) {
     adrs = Get_ramcnt_address(save->ram_key);
     adrs = ((adrs + 0x40 - 1) / 0x40) * 0x40;
 
-    save->fnt_adrs = (u8 *)adrs;
+    save->fnt_adrs = (u8*)adrs;
     save->buf_adrs = save->fnt_adrs + 0xC0000;
     save->ico_adrs = save->buf_adrs + 0x10000;
     save->dat_adrs = save->ico_adrs + 0x10000;
@@ -164,7 +164,7 @@ void SaveInit(s32 file_type, s32 save_mode) {
     load_data(font_fnum[MsgLanguage], save->fnt_adrs);
 }
 
-typedef void (*save_move_func)(_save_work *);
+typedef void (*save_move_func)(_save_work*);
 
 s32 SaveMove() {
     static save_move_func save_move_jmp[7] = {
@@ -177,7 +177,7 @@ s32 SaveMove() {
         (save_move_func)&save_move_test // This one returns...
     };
 
-    _save_work *save = &SaveWork;
+    _save_work* save = &SaveWork;
 
     save_sw_get(save);
     save_move_jmp[save->r_no_0](save);
@@ -188,7 +188,7 @@ s32 SaveMove() {
     return save->return_code;
 }
 
-static void save_sw_get(_save_work *save) {
+static void save_sw_get(_save_work* save) {
     u16 i;
     u16 sw;
     u16 temp_a1;
@@ -218,7 +218,7 @@ static void save_sw_get(_save_work *save) {
     }
 }
 
-static void save_move_init(_save_work *save) {
+static void save_move_init(_save_work* save) {
     s32 knj_type;
     s32 fnum;
 
@@ -254,7 +254,7 @@ static void save_move_init(_save_work *save) {
         }
 
         save->r_no_1 += 1;
-        save->avail_size = McActAvailSet((s32 *)save->ico_adrs);
+        save->avail_size = McActAvailSet((s32*)save->ico_adrs);
 
         if (save->save_mode & 1) {
             fnum = data_fnum[save->file_type];
@@ -288,18 +288,18 @@ static void save_move_init(_save_work *save) {
     }
 }
 
-static void mc_msg_set(_save_work *save, s32 msg_no) {
+static void mc_msg_set(_save_work* save, s32 msg_no) {
     save->mc_msg_st = 0;
     save->mc_msg_no = msg_no;
 }
 
-static void sels_result_set(_save_work *save, s32 msg_no) {
+static void sels_result_set(_save_work* save, s32 msg_no) {
     save->r_no_1 = 8;
     save->r_no_2 = 0;
     mc_msg_set(save, msg_no);
 }
 
-static void sel_slot_init(_save_work *save) {
+static void sel_slot_init(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         save->r_no_2 += 1;
@@ -315,7 +315,7 @@ static void sel_slot_init(_save_work *save) {
     }
 }
 
-static void sel_slot_start(_save_work *save) {
+static void sel_slot_start(_save_work* save) {
     save->r_no_1 = 2;
     save->r_no_2 = 0;
     save->sel_slot_st = 0;
@@ -323,7 +323,7 @@ static void sel_slot_start(_save_work *save) {
     mc_msg_set(save, 2);
 }
 
-static void sel_slot_main(_save_work *save) {
+static void sel_slot_main(_save_work* save) {
     s32 val;
     s32 max;
 
@@ -381,7 +381,7 @@ static void sel_slot_main(_save_work *save) {
     }
 }
 
-static void sel_slot_check(_save_work *save) {
+static void sel_slot_check(_save_work* save) {
     s32 mode;
 
     switch (save->r_no_2) {
@@ -475,7 +475,7 @@ static void sel_slot_check(_save_work *save) {
     }
 }
 
-static void sel_slot_check2(_save_work *save) {
+static void sel_slot_check2(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         if (save->mc_msg_st) {
@@ -564,7 +564,7 @@ static void sel_slot_check2(_save_work *save) {
     }
 }
 
-static void sel_slot_yesno(_save_work *save) {
+static void sel_slot_yesno(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         if (save->mc_msg_st) {
@@ -598,7 +598,7 @@ static void sel_slot_yesno(_save_work *save) {
     }
 }
 
-static void sel_slot_format(_save_work *save) {
+static void sel_slot_format(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         save->r_no_2 += 1;
@@ -642,7 +642,7 @@ static void sel_slot_format(_save_work *save) {
     }
 }
 
-static void sel_slot_save(_save_work *save) {
+static void sel_slot_save(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         save->r_no_2 += 1;
@@ -682,7 +682,7 @@ static void sel_slot_save(_save_work *save) {
     }
 }
 
-static void sel_slot_result(_save_work *save) {
+static void sel_slot_result(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         if (save->mc_msg_st) {
@@ -735,7 +735,7 @@ static void sel_slot_result(_save_work *save) {
     }
 }
 
-static void sel_slot_exit(_save_work *save) {
+static void sel_slot_exit(_save_work* save) {
     if (save->mc_msg_st) {
         return;
     }
@@ -745,9 +745,9 @@ static void sel_slot_exit(_save_work *save) {
     save->sel_slot_st = -1;
 }
 
-typedef void (*sel_slot_func)(_save_work *);
+typedef void (*sel_slot_func)(_save_work*);
 
-static void save_move_sels(_save_work *save) {
+static void save_move_sels(_save_work* save) {
     static sel_slot_func sel_slot_jmp[] = {
         sel_slot_init,  sel_slot_start,  sel_slot_main, sel_slot_check,  sel_slot_check2,
         sel_slot_yesno, sel_slot_format, sel_slot_save, sel_slot_result, sel_slot_exit,
@@ -757,23 +757,23 @@ static void save_move_sels(_save_work *save) {
     save_slot_trans(save);
 }
 
-static void sels_return_set(_save_work *save) {
+static void sels_return_set(_save_work* save) {
     save->r_no_0 = 1;
     save->r_no_1 = 1;
     mc_msg_set(save, 0);
 }
 
-static void self_result_set(_save_work *save, s32 msg_no) {
+static void self_result_set(_save_work* save, s32 msg_no) {
     save->r_no_1 = 7;
     save->r_no_2 = 0;
     mc_msg_set(save, msg_no);
 }
 
-static void sel_file_init(_save_work *save) {
+static void sel_file_init(_save_work* save) {
     s32 i;
     s32 n;
-    _sub_info *info = save->info;
-    u8 *order = save->sel_file_order;
+    _sub_info* info = save->info;
+    u8* order = save->sel_file_order;
 
     save->r_no_1 = 1;
     save->sel_file_top = 0;
@@ -801,7 +801,7 @@ static void sel_file_init(_save_work *save) {
     }
 }
 
-static void sel_file_start(_save_work *save) {
+static void sel_file_start(_save_work* save) {
     s32 msg_no;
 
     save->r_no_1 = 2;
@@ -813,7 +813,7 @@ static void sel_file_start(_save_work *save) {
     mc_msg_set(save, msg_no);
 }
 
-static void sel_file_main(_save_work *save) {
+static void sel_file_main(_save_work* save) {
     u32 i;
     u32 val;
     s32 top;
@@ -962,7 +962,7 @@ static void sel_file_main(_save_work *save) {
     }
 }
 
-static void sel_file_load(_save_work *save) {
+static void sel_file_load(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         save->r_no_2 += 1;
@@ -1006,7 +1006,7 @@ static void sel_file_load(_save_work *save) {
     }
 }
 
-static void sel_file_check(_save_work *save) {
+static void sel_file_check(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         if (save->mc_msg_st) {
@@ -1058,7 +1058,7 @@ static void sel_file_check(_save_work *save) {
     }
 }
 
-static void sel_file_yesno(_save_work *save) {
+static void sel_file_yesno(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         if (save->mc_msg_st) {
@@ -1092,7 +1092,7 @@ static void sel_file_yesno(_save_work *save) {
     }
 }
 
-static void sel_file_save(_save_work *save) {
+static void sel_file_save(_save_work* save) {
     s32 top;
     s32 idx;
 
@@ -1157,7 +1157,7 @@ static void sel_file_save(_save_work *save) {
     }
 }
 
-static void sel_file_result(_save_work *save) {
+static void sel_file_result(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         if (save->mc_msg_st) {
@@ -1188,7 +1188,7 @@ static void sel_file_result(_save_work *save) {
     }
 }
 
-static void sel_file_exit(_save_work *save) {
+static void sel_file_exit(_save_work* save) {
     if (save->mc_msg_st) {
         return;
     }
@@ -1198,9 +1198,9 @@ static void sel_file_exit(_save_work *save) {
     save->sel_slot_st = -1;
 }
 
-typedef void (*sel_file_func)(_save_work *);
+typedef void (*sel_file_func)(_save_work*);
 
-static void save_move_self(_save_work *save) {
+static void save_move_self(_save_work* save) {
     static sel_file_func sel_file_jmp[] = {
         sel_file_init,  sel_file_start, sel_file_main,   sel_file_load, sel_file_check,
         sel_file_yesno, sel_file_save,  sel_file_result, sel_file_exit,
@@ -1210,11 +1210,11 @@ static void save_move_self(_save_work *save) {
     save_file_trans(save);
 }
 
-static u8 *aload_buf_adrs(_save_work *save) {
+static u8* aload_buf_adrs(_save_work* save) {
     return save->buf_adrs0 + (save->sel_slot_no << 15);
 }
 
-static void auto_load_init(_save_work *save) {
+static void auto_load_init(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         save->r_no_2 += 1;
@@ -1234,7 +1234,7 @@ static void auto_load_init(_save_work *save) {
     }
 }
 
-static void auto_load_load(_save_work *save) {
+static void auto_load_load(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         save->r_no_2 += 1;
@@ -1346,10 +1346,10 @@ static void auto_load_load(_save_work *save) {
     }
 }
 
-static void auto_load_set(_save_work *save) {
+static void auto_load_set(_save_work* save) {
     s32 i;
     s8 s[2][32];
-    memcard_date *md;
+    memcard_date* md;
 
     if (save->al_no_err == 1) {
         save->sel_slot_no = 0;
@@ -1373,7 +1373,7 @@ static void auto_load_set(_save_work *save) {
     mc_msg_set(save, 26);
 }
 
-static void auto_load_yesno(_save_work *save) {
+static void auto_load_yesno(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         if (save->mc_msg_st) {
@@ -1401,7 +1401,7 @@ static void auto_load_yesno(_save_work *save) {
     }
 }
 
-static void auto_load_result(_save_work *save) {
+static void auto_load_result(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         if (save->mc_msg_st) {
@@ -1440,7 +1440,7 @@ static void auto_load_result(_save_work *save) {
     }
 }
 
-static void auto_load_exit(_save_work *save) {
+static void auto_load_exit(_save_work* save) {
     if (save->mc_msg_st) {
         return;
     }
@@ -1449,9 +1449,9 @@ static void auto_load_exit(_save_work *save) {
     save->r_no_1 = 0;
 }
 
-typedef void (*auto_load_func)(_save_work *);
+typedef void (*auto_load_func)(_save_work*);
 
-static void save_move_aload(_save_work *save) {
+static void save_move_aload(_save_work* save) {
     static auto_load_func auto_load_jmp[] = {
         auto_load_init, auto_load_load, auto_load_set, auto_load_yesno, auto_load_result, auto_load_exit,
     };
@@ -1459,13 +1459,13 @@ static void save_move_aload(_save_work *save) {
     auto_load_jmp[save->r_no_1](save);
 }
 
-static void asave_result_set(_save_work *save, s32 msg_no) {
+static void asave_result_set(_save_work* save, s32 msg_no) {
     save->r_no_1 = 3;
     save->r_no_2 = 0;
     mc_msg_set(save, msg_no);
 }
 
-static void auto_save_init(_save_work *save) {
+static void auto_save_init(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         if (load_busy_ck()) {
@@ -1489,7 +1489,7 @@ static void auto_save_init(_save_work *save) {
     }
 }
 
-static void auto_save_load(_save_work *save) {
+static void auto_save_load(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         save->r_no_2 += 1;
@@ -1541,7 +1541,7 @@ static void auto_save_load(_save_work *save) {
     }
 }
 
-static void auto_save_save(_save_work *save) {
+static void auto_save_save(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         save->r_no_2 += 1;
@@ -1580,7 +1580,7 @@ static void auto_save_save(_save_work *save) {
     }
 }
 
-static void auto_save_result(_save_work *save) {
+static void auto_save_result(_save_work* save) {
     switch (save->r_no_2) {
     case 0:
         if (save->mc_msg_st) {
@@ -1610,7 +1610,7 @@ static void auto_save_result(_save_work *save) {
     }
 }
 
-static void auto_save_exit(_save_work *save) {
+static void auto_save_exit(_save_work* save) {
     if (save->mc_msg_st) {
         return;
     }
@@ -1619,9 +1619,9 @@ static void auto_save_exit(_save_work *save) {
     save->r_no_1 = 0;
 }
 
-typedef void (*auto_save_func)(_save_work *);
+typedef void (*auto_save_func)(_save_work*);
 
-static void save_move_asave(_save_work *save) {
+static void save_move_asave(_save_work* save) {
     static auto_save_func auto_save_jmp[] = {
         auto_save_init, auto_save_load, auto_save_save, auto_save_result, auto_save_exit,
     };
@@ -1629,7 +1629,7 @@ static void save_move_asave(_save_work *save) {
     auto_save_jmp[save->r_no_1](save);
 }
 
-static void save_move_exit(_save_work *save) {
+static void save_move_exit(_save_work* save) {
     switch (save->r_no_1) {
     case 0:
         if (save->ask_save_flag == 0) {
@@ -1689,7 +1689,7 @@ static void save_move_exit(_save_work *save) {
     }
 }
 
-static s32 save_move_test(_save_work *save) {
+static s32 save_move_test(_save_work* save) {
     s32 d0 = save->mc_msg_no;
     s32 d1 = 35;
 
@@ -1749,16 +1749,16 @@ static void nogood_se() {
     SE_selected();
 }
 
-static void last_slot_set(_save_work *save) {
+static void last_slot_set(_save_work* save) {
     save->sel_slot_old = LastMcSlot;
     LastMcSlot = save->sel_slot_no + 1;
 }
 
-static void auto_slot_set(_save_work *save) {
+static void auto_slot_set(_save_work* save) {
     AutoMcSlot = LastMcSlot;
 }
 
-static s32 push_any_key(_save_work *save) {
+static s32 push_any_key(_save_work* save) {
     switch (save->r_no_3) {
     case 0:
         if (save->mc_msg_st) {
@@ -1785,11 +1785,11 @@ static s32 push_any_key(_save_work *save) {
     return 1;
 }
 
-static void yes_no_set(_save_work *save, s32 def) {
+static void yes_no_set(_save_work* save, s32 def) {
     save->yes_no_flag = def;
 }
 
-static s32 yes_no_check(_save_work *save) {
+static s32 yes_no_check(_save_work* save) {
     switch (save->r_no_3) {
     case 0:
         if (decide_ck() != 0) {
@@ -1819,15 +1819,15 @@ static s32 yes_no_check(_save_work *save) {
     return 0;
 }
 
-static void self_order_get(_save_work *save) {
-    u8 *o;
+static void self_order_get(_save_work* save) {
+    u8* o;
     u8 tmp;
     u32 i;
     u32 j;
     u32 k;
     u32 n;
     u32 f;
-    memcard_date *md[2];
+    memcard_date* md[2];
     s8 s[2][16];
 
     n = save->sel_file_max;
@@ -1846,8 +1846,8 @@ static void self_order_get(_save_work *save) {
                     f = 1;
                 }
             } else {
-                md[0] = (struct memcard_date *)&save->info[o[i]];
-                md[1] = (struct memcard_date *)&save->info[o[j]];
+                md[0] = (struct memcard_date*)&save->info[o[i]];
+                md[1] = (struct memcard_date*)&save->info[o[j]];
 
                 for (k = 0; k < 2; k++) {
                     sprintf(s[k],
@@ -1874,9 +1874,9 @@ static void self_order_get(_save_work *save) {
     }
 }
 
-typedef void (*save_data_store_func)(_save_work *);
+typedef void (*save_data_store_func)(_save_work*);
 
-static void save_data_store(_save_work *save) {
+static void save_data_store(_save_work* save) {
     static auto_save_func save_data_store_jmp[] = { save_data_store_system,
                                                     save_data_store_sysdir,
                                                     save_data_store_replay };
@@ -1884,17 +1884,17 @@ static void save_data_store(_save_work *save) {
     save_data_store_jmp[save->file_type](save);
 }
 
-static void save_data_store_system(_save_work *save) {
-    u8 *src;
-    u16 *dst;
-    u32 *head;
+static void save_data_store_system(_save_work* save) {
+    u8* src;
+    u16* dst;
+    u32* head;
     s32 pltype;
-    _save_data *data = (_save_data *)save->buf_adrs;
+    _save_data* data = (_save_data*)save->buf_adrs;
 
     memset(data, 0, sizeof(_save_data));
     Save_Game_Data();
     memcpy(&data->save_w, &save_w[Present_Mode], sizeof(struct _SAVE_W));
-    encode_data((u16 *)data, sizeof(_save_data));
+    encode_data((u16*)data, sizeof(_save_data));
 
     pltype = mppGetFavoritePlayerNumber() - 1;
 
@@ -1906,32 +1906,32 @@ static void save_data_store_system(_save_work *save) {
         return;
     }
 
-    head = (u32 *)save->dat_adrs;
-    src = (u8 *)&save->dat_adrs[(&head[2])[pltype * 2]];
-    Meltw((u16 *)src, (u16 *)save->exp_adrs, (&head[3])[pltype * 2]);
+    head = (u32*)save->dat_adrs;
+    src = (u8*)&save->dat_adrs[(&head[2])[pltype * 2]];
+    Meltw((u16*)src, (u16*)save->exp_adrs, (&head[3])[pltype * 2]);
     icon_tex_chg(save->exp_adrs, dst, 0x4000);
 }
 
-static void save_data_store_sysdir(_save_work *save) {
-    _sdir_data *data = (_sdir_data *)save->buf_adrs;
+static void save_data_store_sysdir(_save_work* save) {
+    _sdir_data* data = (_sdir_data*)save->buf_adrs;
 
     memcpy(&data->sdir_w, &system_dir[Present_Mode], sizeof(SystemDir));
-    encode_data((u16 *)data, sizeof(*data));
+    encode_data((u16*)data, sizeof(*data));
 }
 
-static void save_data_store_replay(_save_work *save) {
+static void save_data_store_replay(_save_work* save) {
     s32 i;
-    u16 *dst;
-    u8 *src;
+    u16* dst;
+    u8* src;
     u8 val;
-    u32 *head;
+    u32* head;
     u32 pltype[2];
-    _replay_data *data = (_replay_data *)save->buf_adrs;
-    _sub_info *sub = (_sub_info *)&data[1];
-    _REPLAY_W *rw = &Replay_w;
-    struct _MINI_SAVE_W *msw = &rw->mini_save_w;
-    struct _SAVE_W *sw = &save_w[Present_Mode];
-    struct _REP_GAME_INFOR *rp = &Rep_Game_Infor[10];
+    _replay_data* data = (_replay_data*)save->buf_adrs;
+    _sub_info* sub = (_sub_info*)&data[1];
+    _REPLAY_W* rw = &Replay_w;
+    struct _MINI_SAVE_W* msw = &rw->mini_save_w;
+    struct _SAVE_W* sw = &save_w[Present_Mode];
+    struct _REP_GAME_INFOR* rp = &Rep_Game_Infor[10];
 
     for (i = 0; i < 2; i++) {
         pltype[i] = sub->player[i] = rp->player_infor[i].my_char;
@@ -1947,13 +1947,13 @@ static void save_data_store_replay(_save_work *save) {
 
     memcpy(&rw->system_dir, &system_dir[Present_Mode], sizeof(rw->system_dir));
     memcpy(&data->replay_w, rw, sizeof(data->replay_w));
-    encode_data((u16 *)data, sizeof(*data));
+    encode_data((u16*)data, sizeof(*data));
 
     if ((dst = McActIconTexAdrs(2, 0)) == NULL) {
         return;
     }
 
-    head = (u32 *)save->dat_adrs;
+    head = (u32*)save->dat_adrs;
 
     for (i = 0; i < 2; i++) {
         if ((val = pltype[i]) >= 20) {
@@ -1964,15 +1964,15 @@ static void save_data_store_replay(_save_work *save) {
             val += 20;
         }
 
-        src = (u8 *)&save->dat_adrs[(&head[2])[val * 2]];
-        Meltw((u16 *)src, (u16 *)save->exp_adrs, (&head[3])[val * 2]);
+        src = (u8*)&save->dat_adrs[(&head[2])[val * 2]];
+        Meltw((u16*)src, (u16*)save->exp_adrs, (&head[3])[val * 2]);
         icon_tex_chg(save->exp_adrs, &dst[i << 13], 0x2000);
     }
 }
 
-typedef s32 (*save_data_decode_func)(_save_work *, s32);
+typedef s32 (*save_data_decode_func)(_save_work*, s32);
 
-static s32 save_data_decode(_save_work *save, s32 mode) {
+static s32 save_data_decode(_save_work* save, s32 mode) {
     static save_data_decode_func save_data_decode_jmp[] = { save_data_decode_system,
                                                             save_data_decode_sysdir,
                                                             save_data_decode_replay };
@@ -1980,8 +1980,8 @@ static s32 save_data_decode(_save_work *save, s32 mode) {
     return save_data_decode_jmp[save->file_type](save, mode);
 }
 
-static s32 save_data_decode_system(_save_work *save, s32 mode) {
-    _save_data *data = (_save_data *)save->buf_adrs;
+static s32 save_data_decode_system(_save_work* save, s32 mode) {
+    _save_data* data = (_save_data*)save->buf_adrs;
 
     decode_data(save, &data->head.version, 0x218);
 
@@ -1997,22 +1997,10 @@ static s32 save_data_decode_system(_save_work *save, s32 mode) {
     return 0;
 }
 
-static s32 save_data_decode_sysdir(_save_work *save, s32 mode) {
-    _sdir_data *data = (_sdir_data *)save->buf_adrs;
+static s32 save_data_decode_sysdir(_save_work* save, s32 mode) {
+    _sdir_data* data = (_sdir_data*)save->buf_adrs;
 
-    decode_data(save, (u16 *)data, sizeof(*data));
-
-    if ((save->mc_ver_err != 0) || (save->mc_sum_err != 0)) {
-        return -1;
-    }
-
-    return 0;
-}
-
-static s32 save_data_decode_replay(_save_work *save, s32 mode) {
-    _replay_data *data = (_replay_data *)save->buf_adrs;
-
-    decode_data(save, (u16 *)data, sizeof(*data));
+    decode_data(save, (u16*)data, sizeof(*data));
 
     if ((save->mc_ver_err != 0) || (save->mc_sum_err != 0)) {
         return -1;
@@ -2021,9 +2009,21 @@ static s32 save_data_decode_replay(_save_work *save, s32 mode) {
     return 0;
 }
 
-typedef void (*load_data_set_func)(_save_work *);
+static s32 save_data_decode_replay(_save_work* save, s32 mode) {
+    _replay_data* data = (_replay_data*)save->buf_adrs;
 
-static void load_data_set(_save_work *save) {
+    decode_data(save, (u16*)data, sizeof(*data));
+
+    if ((save->mc_ver_err != 0) || (save->mc_sum_err != 0)) {
+        return -1;
+    }
+
+    return 0;
+}
+
+typedef void (*load_data_set_func)(_save_work*);
+
+static void load_data_set(_save_work* save) {
     static load_data_set_func load_data_set_jmp[] = { load_data_set_system,
                                                       load_data_set_sysdir,
                                                       load_data_set_replay };
@@ -2031,11 +2031,11 @@ static void load_data_set(_save_work *save) {
     load_data_set_jmp[save->file_type](save);
 }
 
-static void load_data_set_system(_save_work *save) {
+static void load_data_set_system(_save_work* save) {
     s32 i;
     s32 page;
-    _save_data *data = (_save_data *)save->buf_adrs;
-    struct _SAVE_W *sw = &save_w[Present_Mode];
+    _save_data* data = (_save_data*)save->buf_adrs;
+    struct _SAVE_W* sw = &save_w[Present_Mode];
 
     *sw = data->save_w;
 
@@ -2084,11 +2084,11 @@ static void load_data_set_system(_save_work *save) {
     }
 }
 
-static void load_data_set_sysdir(_save_work *save) {
+static void load_data_set_sysdir(_save_work* save) {
     s32 i;
     s32 page;
-    _sdir_data *data = (_sdir_data *)save->buf_adrs;
-    SystemDir *sw = &system_dir[Present_Mode];
+    _sdir_data* data = (_sdir_data*)save->buf_adrs;
+    SystemDir* sw = &system_dir[Present_Mode];
 
     memcpy(sw, &data->sdir_w, sizeof(*sw));
 
@@ -2105,16 +2105,16 @@ static void load_data_set_sysdir(_save_work *save) {
     }
 }
 
-static void load_data_set_replay(_save_work *save) {
-    _replay_data *data = (_replay_data *)save->buf_adrs;
+static void load_data_set_replay(_save_work* save) {
+    _replay_data* data = (_replay_data*)save->buf_adrs;
 
     memcpy(&Replay_w, &data->replay_w, sizeof(Replay_w));
 }
 
-static s32 info_data_check(_save_work *save) {
+static s32 info_data_check(_save_work* save) {
     s32 i;
-    _sub_info *info = &save->info[save->cnt_0];
-    memcard_date *md = &info->date;
+    _sub_info* info = &save->info[save->cnt_0];
+    memcard_date* md = &info->date;
 
     if (md->year > 9999) {
         return 1;
@@ -2157,24 +2157,24 @@ static s32 info_data_check(_save_work *save) {
     return 0;
 }
 
-static void icon_tex_chg(u8 *src, u16 *dst, u32 size) {
+static void icon_tex_chg(u8* src, u16* dst, u32 size) {
     u32 align;
-    TIM2_FILEHEADER *fh;
-    TIM2_PICTUREHEADER *ph;
+    TIM2_FILEHEADER* fh;
+    TIM2_PICTUREHEADER* ph;
 
-    fh = (TIM2_FILEHEADER *)src;
+    fh = (TIM2_FILEHEADER*)src;
     align = (fh->FormatId) ? 128 : 16;
-    ph = (TIM2_PICTUREHEADER *)(src + align);
-    src = (u8 *)ph;
+    ph = (TIM2_PICTUREHEADER*)(src + align);
+    src = (u8*)ph;
     src = src + ph->HeaderSize;
 
     memcpy(dst, src, size * 2);
 }
 
-static void encode_data(u16 *src, s32 size) {
+static void encode_data(u16* src, s32 size) {
     s32 i;
     u16 magic;
-    u16 *sum;
+    u16* sum;
 
     size -= 8;
     magic = random_32_com();
@@ -2197,7 +2197,7 @@ static void encode_data(u16 *src, s32 size) {
     }
 }
 
-static void decode_data(_save_work *save, u16 *src, s32 size) {
+static void decode_data(_save_work* save, u16* src, s32 size) {
     s32 i;
     u16 ver;
     u16 magic;
@@ -2228,7 +2228,7 @@ static void decode_data(_save_work *save, u16 *src, s32 size) {
     save->mc_sum_err = (sum != sum0) ? 1 : 0;
 }
 
-static void save_slot_trans(_save_work *save) {
+static void save_slot_trans(_save_work* save) {
     s32 i;
     s32 no;
     s32 len;
@@ -2238,7 +2238,7 @@ static void save_slot_trans(_save_work *save) {
     u32 col[2];
     u32 alp[2];
     static s32 x_tbl[2] = { 110, 274 };
-    s8 **tbl = GetMemCardMsg(1);
+    s8** tbl = GetMemCardMsg(1);
 
     sy = MsgLanguage == 0 ? 16 : 20;
     sx = sy * flWidth / 640;
@@ -2270,9 +2270,9 @@ static void save_slot_trans(_save_work *save) {
     }
 }
 
-static void save_file_trans(_save_work *save) {
-    static s8 *week_str[] = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
-    s8 **tbl0 = GetMemCardMsg(1);
+static void save_file_trans(_save_work* save) {
+    static s8* week_str[] = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+    s8** tbl0 = GetMemCardMsg(1);
     s32 xs;
     s32 ys;
     s32 tx;
@@ -2284,8 +2284,8 @@ static void save_file_trans(_save_work *save) {
     u32 val;
     u32 col;
     u32 alp;
-    _sub_info *info;
-    memcard_date *md;
+    _sub_info* info;
+    memcard_date* md;
 
     xs = (flWidth * 22) / 640;
     ys = 22;
@@ -2378,7 +2378,7 @@ static void save_file_trans(_save_work *save) {
     }
 }
 
-static void save_msg_trans(_save_work *save) {
+static void save_msg_trans(_save_work* save) {
     s32 xs;
     s32 ys;
     s32 len;
@@ -2387,11 +2387,11 @@ static void save_msg_trans(_save_work *save) {
     s32 x;
     s32 y;
     s32 r_flag;
-    s8 **tbl0;
-    s8 **tbl;
-    s8 *msg;
-    s8 *p;
-    s8 *q;
+    s8** tbl0;
+    s8** tbl;
+    s8* msg;
+    s8* p;
+    s8* q;
     s8 buf[80];
     s8 tmp[80];
     s8 tmp2[32];

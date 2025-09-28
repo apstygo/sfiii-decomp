@@ -7,12 +7,12 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void EFF61_WAIT(WORK_Other_CONN *ewk);
-void EFF61_SLIDE_IN(WORK_Other_CONN *ewk);
-void EFF61_SLIDE_OUT(WORK_Other_CONN * /* unused */);
-void EFF61_SUDDENLY(WORK_Other_CONN *ewk);
+void EFF61_WAIT(WORK_Other_CONN* ewk);
+void EFF61_SLIDE_IN(WORK_Other_CONN* ewk);
+void EFF61_SLIDE_OUT(WORK_Other_CONN* /* unused */);
+void EFF61_SUDDENLY(WORK_Other_CONN* ewk);
 
-const s8 *Menu_Letter_Data[66] = { "ARCADE",
+const s8* Menu_Letter_Data[66] = { "ARCADE",
                                    "VERSUS",
                                    "TRAINING",
                                    "SYSTEM DIRECTION",
@@ -81,8 +81,8 @@ const s8 *Menu_Letter_Data[66] = { "ARCADE",
 
 void (*const EFF61_Jmp_Tbl[4])() = { EFF61_WAIT, EFF61_SLIDE_IN, EFF61_SLIDE_OUT, EFF61_SUDDENLY };
 
-void effect_61_move(WORK_Other_CONN *ewk) {
-    if (Check_Die_61((WORK_Other *)ewk)) {
+void effect_61_move(WORK_Other_CONN* ewk) {
+    if (Check_Die_61((WORK_Other*)ewk)) {
         push_effect_work(&ewk->wu);
         return;
     }
@@ -127,13 +127,13 @@ void effect_61_move(WORK_Other_CONN *ewk) {
     sort_push_request3(&ewk->wu);
 }
 
-void EFF61_WAIT(WORK_Other_CONN *ewk) {
+void EFF61_WAIT(WORK_Other_CONN* ewk) {
     if ((ewk->wu.routine_no[0] = Order[ewk->wu.dir_old])) {
         ewk->wu.routine_no[1] = 0;
     }
 }
 
-void EFF61_SLIDE_IN(WORK_Other_CONN *ewk) {
+void EFF61_SLIDE_IN(WORK_Other_CONN* ewk) {
     if (Order[ewk->wu.dir_old] != 1) {
         ewk->wu.routine_no[0] = Order[ewk->wu.dir_old];
         ewk->wu.routine_no[1] = 0;
@@ -177,9 +177,9 @@ void EFF61_SLIDE_IN(WORK_Other_CONN *ewk) {
     }
 }
 
-void EFF61_SLIDE_OUT(WORK_Other_CONN * /* unused */) {}
+void EFF61_SLIDE_OUT(WORK_Other_CONN* /* unused */) {}
 
-void EFF61_SUDDENLY(WORK_Other_CONN *ewk) {
+void EFF61_SUDDENLY(WORK_Other_CONN* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         if (--Order_Timer[ewk->wu.dir_old]) {
@@ -207,7 +207,7 @@ void EFF61_SUDDENLY(WORK_Other_CONN *ewk) {
     }
 }
 
-s32 Check_Die_61(WORK_Other *ewk) {
+s32 Check_Die_61(WORK_Other* ewk) {
     return Menu_Suicide[ewk->master_player];
 }
 
@@ -217,17 +217,17 @@ s32 effect_61_init(s16 master, u8 dir_old, s16 sync_bg, s16 master_player, s16 c
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other_CONN *ewk;
+    WORK_Other_CONN* ewk;
     s16 ix;
     u16 x;
     s16 offset_x;
-    const u8 *ptr;
+    const u8* ptr;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk = (WORK_Other_CONN*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 61;
     ewk->wu.work_id = 16;
@@ -246,7 +246,7 @@ s32 effect_61_init(s16 master, u8 dir_old, s16 sync_bg, s16 master_player, s16 c
         offset_x = 14;
     }
 
-    ptr = (u8 *)Menu_Letter_Data[char_ix];
+    ptr = (u8*)Menu_Letter_Data[char_ix];
     ix = 0;
     x = 0;
 

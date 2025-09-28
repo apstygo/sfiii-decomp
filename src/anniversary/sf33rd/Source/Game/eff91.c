@@ -1,10 +1,10 @@
 #include "sf33rd/Source/Game/eff91.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
@@ -12,7 +12,7 @@
 const s16 EFF91_Pos_Data[2][3][2] = { { { -88, 95 }, { -94, 71 }, { -88, 47 } },
                                       { { 104, 95 }, { 98, 71 }, { 104, 47 } } };
 
-void effect_91_move(WORK_Other *ewk) {
+void effect_91_move(WORK_Other* ewk) {
     if (Menu_Suicide[ewk->master_player]) {
         push_effect_work(&ewk->wu);
         return;
@@ -48,14 +48,14 @@ s32 effect_91_init(s16 master_id, s16 type, s16 target_bg, s16 char_ix, s16 char
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.disp_flag = 1;
     ewk->wu.id = 91;

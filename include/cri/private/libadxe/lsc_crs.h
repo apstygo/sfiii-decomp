@@ -3,7 +3,7 @@
 
 #include <cri/cri_xpts.h>
 
-void LSC_LockCrs(Sint32 *);
-void LSC_UnlockCrs(Sint32 *);
+void LSC_LockCrs(Sint32*);
+void LSC_UnlockCrs(Sint32*);
 
 #endif

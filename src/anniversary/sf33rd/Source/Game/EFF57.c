@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/EFF57.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFF58.h"
@@ -6,14 +7,13 @@
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/sc_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
 void (*const EFF57_Jmp_Tbl[6])();
 
-void effect_57_move(WORK_Other *ewk) {
+void effect_57_move(WORK_Other* ewk) {
     if (ewk->wu.routine_no[0] != Order[ewk->wu.dir_old]) {
         ewk->wu.routine_no[0] = Order[ewk->wu.dir_old];
         ewk->wu.routine_no[1] = 0;
@@ -36,13 +36,13 @@ void effect_57_move(WORK_Other *ewk) {
     sort_push_request4(&ewk->wu);
 }
 
-void EFF57_WAIT(WORK_Other *ewk) {
+void EFF57_WAIT(WORK_Other* ewk) {
     if ((ewk->wu.routine_no[0] = Order[ewk->wu.dir_old])) {
         ewk->wu.routine_no[1] = 0;
     }
 }
 
-void EFF57_SLIDE_IN(WORK_Other *ewk) {
+void EFF57_SLIDE_IN(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -98,7 +98,7 @@ void EFF57_SLIDE_IN(WORK_Other *ewk) {
     }
 }
 
-void EFF57_CHAR_CHANGE(WORK_Other *ewk) {
+void EFF57_CHAR_CHANGE(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -111,7 +111,7 @@ void EFF57_CHAR_CHANGE(WORK_Other *ewk) {
     }
 }
 
-void EFF57_WALL(WORK_Other *ewk) {
+void EFF57_WALL(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -138,7 +138,7 @@ void EFF57_WALL(WORK_Other *ewk) {
     }
 }
 
-void EFF57_SUDDENLY(WORK_Other *ewk) {
+void EFF57_SUDDENLY(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -162,7 +162,7 @@ void EFF57_SUDDENLY(WORK_Other *ewk) {
     set_char_move_init2(&ewk->wu, 0, ewk->wu.char_index, ewk->wu.dir_step + 1, 0);
 }
 
-void EFF57_KILL(WORK_Other *ewk) {
+void EFF57_KILL(WORK_Other* ewk) {
     if (--Order_Timer[ewk->wu.dir_old] == 0) {
         push_effect_work(&ewk->wu);
     }
@@ -173,14 +173,14 @@ s32 effect_57_init(s16 dir_old, s16 ID, s16 Target_BG, s16 char_ix, s16 option) 
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 57;
     ewk->wu.work_id = 16;

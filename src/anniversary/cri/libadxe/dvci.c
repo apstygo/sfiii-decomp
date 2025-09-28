@@ -17,25 +17,25 @@
 
 // forward decls
 void dvCiExecServer();
-void dvCiEntryErrFunc(void (*func)(void *, const Char8 *, void *), void *obj);
-Sint32 dvCiGetFileSize(const Char8 *fname);
-DVG_CI dvCiOpen(Char8 *fname, void *arg1, Sint32 rw);
+void dvCiEntryErrFunc(void (*func)(void*, const Char8*, void*), void* obj);
+Sint32 dvCiGetFileSize(const Char8* fname);
+DVG_CI dvCiOpen(Char8* fname, void* arg1, Sint32 rw);
 void dvCiClose(DVG_CI handl);
 Sint32 dvCiSeek(DVG_CI handl, Sint32 offset, Sint32 whence);
 Sint32 dvCiTell(DVG_CI handl);
-Sint32 dvCiReqRd(DVG_CI handl, Sint32 nsct, void *buf);
+Sint32 dvCiReqRd(DVG_CI handl, Sint32 nsct, void* buf);
 void dvCiStopTr(DVG_CI handl);
 Sint32 dvCiGetStat(DVG_CI handl);
 Sint32 dvCiGetSctLen();
 Sint32 dvCiGetNumTr(DVG_CI handl);
-Sint32 dvCiIsExistFile(const Char8 *fname);
+Sint32 dvCiIsExistFile(const Char8* fname);
 Sint32 dvCiOptFn1(DVG_CI handl, Sint32 arg1, Sint32 arg2, Sint32 arg3);
 void dvCiExecHndl(DVG_CI dvg_ci);
 
 // data
-Char8 *volatile dvg_ci_build = "\nDVCI/PS2EE Ver.2.64 Build:Sep 18 2003 10:00:10\n";
-void (*dvg_ci_err_func)(void *, const Char8 *, void *) = NULL;
-void *dvg_ci_err_obj = NULL;
+Char8* volatile dvg_ci_build = "\nDVCI/PS2EE Ver.2.64 Build:Sep 18 2003 10:00:10\n";
+void (*dvg_ci_err_func)(void*, const Char8*, void*) = NULL;
+void* dvg_ci_err_obj = NULL;
 Sint32 dvg_ci_dvd_layer = 0;
 Sint32 dvci_execserver_enter_flg = 0;
 
@@ -69,19 +69,19 @@ CVFSDevice dvg_ci_vtbl = { dvCiExecServer,
 DVG_CI_OBJ dvg_ci_obj[DVG_CI_MAX_OBJ] = { 0 };
 Char8 dvg_ci_fname[297] = { 0 };
 
-CVFSDevice *dvCiGetInterface() {
+CVFSDevice* dvCiGetInterface() {
     dvg_ci_build;
     dvCiSetRootDir(NULL);
     return &dvg_ci_vtbl;
 }
 
-void dvci_call_errfn(void *obj, const Char8 *msg) {
+void dvci_call_errfn(void* obj, const Char8* msg) {
     if (dvg_ci_err_func != NULL) {
         dvg_ci_err_func(dvg_ci_err_obj, msg, obj);
     }
 }
 
-Sint32 dvCiCdSearchFile(sceCdlFILE *fp, const Char8 *fname) {
+Sint32 dvCiCdSearchFile(sceCdlFILE* fp, const Char8* fname) {
     Sint32 err;
 
     SRD_SetHistory(0x8000);
@@ -153,12 +153,12 @@ void dvCiExecServer() {
     dvci_execserver_enter_flg = 0;
 }
 
-void dvCiEntryErrFunc(void (*func)(void *, const Char8 *, void *), void *obj) {
+void dvCiEntryErrFunc(void (*func)(void*, const Char8*, void*), void* obj) {
     dvg_ci_err_func = func;
     dvg_ci_err_obj = obj;
 }
 
-void dvci_to_large_to_yen(Char8 *path) {
+void dvci_to_large_to_yen(Char8* path) {
     size_t len = strlen(path);
     Sint32 i;
 
@@ -173,7 +173,7 @@ void dvci_to_large_to_yen(Char8 *path) {
     }
 }
 
-Sint32 dvCiIsExistFile(const Char8 *fname) {
+Sint32 dvCiIsExistFile(const Char8* fname) {
     sceCdlFILE fp;
     Sint32 err;
 
@@ -200,7 +200,7 @@ Sint32 dvCiIsExistFile(const Char8 *fname) {
     return 1;
 }
 
-Sint32 dvCiGetFileSize(const Char8 *fname) {
+Sint32 dvCiGetFileSize(const Char8* fname) {
     sceCdlFILE fp;
 
     if (fname == NULL) {
@@ -247,7 +247,7 @@ void dvci_free(DVG_CI dvg_ci) {
     memset(dvg_ci, 0, sizeof(DVG_CI_OBJ));
 }
 
-DVG_CI dvCiOpen(Char8 *fname, void *arg1, Sint32 rw) {
+DVG_CI dvCiOpen(Char8* fname, void* arg1, Sint32 rw) {
     DVG_CI dvg_ci;
     Sint32 fstate;
 
@@ -348,7 +348,7 @@ Sint32 dvCiTell(DVG_CI handl) {
     return handl->unkC;
 }
 
-Sint32 dvCiReqRd(DVG_CI handl, Sint32 nsct, void *buf) {
+Sint32 dvCiReqRd(DVG_CI handl, Sint32 nsct, void* buf) {
     if (handl == NULL) {
         dvci_call_errfn(handl, "E0092912:handl is null.");
         return NULL;
@@ -483,7 +483,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci", dvCiSetDvdLayer);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci", dvCiGetDvdLayer);
 
-Sint32 dvci_getfilesize32(const Char8 *fname) {
+Sint32 dvci_getfilesize32(const Char8* fname) {
     sceCdlFILE fp;
 
     dvci_get_fstate(fname, &fp);

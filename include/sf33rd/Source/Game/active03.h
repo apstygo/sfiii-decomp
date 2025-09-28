@@ -4,6 +4,6 @@
 #include "structs.h"
 #include "types.h"
 
-void Computer03(PLW *wk);
+void Computer03(PLW* wk);
 
 #endif

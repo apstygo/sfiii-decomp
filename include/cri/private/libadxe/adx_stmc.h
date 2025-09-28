@@ -12,7 +12,7 @@ ADXSTM ADXSTM_Create(SJ, Sint32);
 Sint32 ADXSTM_GetFileSct(ADXSTM stm);
 void ADXSTM_OpenCvfs(ADXSTM stm);
 Sint32 ADXSTM_GetStat(ADXSTM stm);
-void ADXSTM_BindFile(ADXSTM stm, const Char8 *fname, void *dir, Sint32 arg3, Sint32 arg4);
+void ADXSTM_BindFile(ADXSTM stm, const Char8* fname, void* dir, Sint32 arg3, Sint32 arg4);
 void ADXSTM_ReleaseFile(ADXSTM stm);
 void ADXSTM_SetSj(ADXSTM stm, SJ sj);
 Sint32 ADXSTM_Start(ADXSTM stm);
@@ -26,10 +26,10 @@ void ADXSTM_SetPause(ADXSTM stm, Sint8 sw);
 Sint32 ADXSTM_Seek(ADXSTM stm, Sint32 offset);
 Sint32 ADXSTM_Start2(ADXSTM stm, Sint32 arg1);
 Sint32 ADXSTM_Tell(ADXSTM stm);
-void ADXSTM_EntryEosFunc(ADXSTM stm, void (*func)(void *), void *context);
+void ADXSTM_EntryEosFunc(ADXSTM stm, void (*func)(void*), void* context);
 void ADXSTM_ReleaseFileNw(ADXSTM stm);
 Sint32 ADXSTM_GetFileLen(ADXSTM stm);
 Sint32 ADXSTM_SetBufSize(ADXSTM stm, Sint32 arg1, Sint32 arg2);
-void ADXSTM_BindFileNw(ADXSTM stm, const Char8 *fname, void *dir, Sint32 arg3, Sint32 file_sct);
+void ADXSTM_BindFileNw(ADXSTM stm, const Char8* fname, void* dir, Sint32 arg3, Sint32 file_sct);
 
 #endif

@@ -7,8 +7,8 @@
 
 const I3_Data i3_data[6] = { { 3, 2, 0 }, { 1, 1, 0 }, { 2, 0, 0 }, { 2, 0, 0 }, { 2, 0, 0 }, { 2, 0, 0 } };
 
-void effect_I3_move(WORK_Other *ewk) {
-    WORK *mwk = (WORK *)ewk->my_master;
+void effect_I3_move(WORK_Other* ewk) {
+    WORK* mwk = (WORK*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -60,19 +60,19 @@ void effect_I3_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_I3_init(WORK *wk, u8 tix) {
-    WORK_Other *ewk;
+s32 effect_I3_init(WORK* wk, u8 tix) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 183;
     ewk->wu.work_id = 16;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->wu.type = tix;
     ewk->wu.cg_type = wk->cg_type;
     ewk->wu.hit_stop = wk->hit_stop;

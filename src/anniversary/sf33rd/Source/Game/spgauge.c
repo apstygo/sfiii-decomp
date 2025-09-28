@@ -10,8 +10,8 @@
 
 typedef struct {
     // total size: 0x34
-    const u16 *spgtbl_ptr;  // offset 0x0, size 0x4
-    const u16 *spgptbl_ptr; // offset 0x4, size 0x4
+    const u16* spgtbl_ptr;  // offset 0x0, size 0x4
+    const u16* spgptbl_ptr; // offset 0x4, size 0x4
     s16 current_spg;        // offset 0x8, size 0x2
     s16 old_spg;            // offset 0xA, size 0x2
     s16 spgcol_number;      // offset 0xC, size 0x2
@@ -70,8 +70,8 @@ const u16 sa_color_data2_tbl[3][2] = { { 13, 141 }, { 12, 140 }, { 13, 141 } };
 
 const u16 sagauge_colchg_tbl[4][2] = { { 17, 145 }, { 18, 146 }, { 19, 147 }, { 18, 146 } };
 
-const u16 *spgauge_puttbl[2] = { spgauge_tbl, spgauge_tbl };
-const u16 *spgauge_postbl[2] = { spg1p_npos_tbl, spg2p_npos_tbl };
+const u16* spgauge_puttbl[2] = { spgauge_tbl, spgauge_tbl };
+const u16* spgauge_postbl[2] = { spg1p_npos_tbl, spg2p_npos_tbl };
 
 void spgauge_control(s8 Spg_Num);
 void wipe_check();
@@ -919,7 +919,7 @@ void sa_moji_trans(s8 Stpl_Num, s8 Kind, s8 OnOff) {
 void sa_gauge_trans(s8 pl_kind) {
     s8 i;
     s16 len;
-    const u16 *sa_char_ptr;
+    const u16* sa_char_ptr;
 
     spg_work = 0;
     spg_number = 0;

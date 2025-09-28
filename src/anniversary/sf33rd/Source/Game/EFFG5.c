@@ -25,7 +25,7 @@ const s16 ase_delta_hosei[4][6] = { { -88, -96, -112, -80, -128, -88 },
                                     { -88, -96, -112, -80, -128, -88 },
                                     { -88, -96, -112, -80, -128, -88 } };
 
-void effect_G5_move(WORK_Other *ewk) {
+void effect_G5_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -83,15 +83,15 @@ void effect_G5_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_G5_init(WORK *wk, s16 dr, s16 sp, s16 dl) {
-    WORK_Other *ewk;
+s32 effect_G5_init(WORK* wk, s16 dr, s16 sp, s16 dl) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 165;
     ewk->wu.work_id = 16;
@@ -106,7 +106,7 @@ s32 effect_G5_init(WORK *wk, s16 dr, s16 sp, s16 dl) {
     return 0;
 }
 
-s32 setup_ase_extra(WORK *wk, u8 num) {
+s32 setup_ase_extra(WORK* wk, u8 num) {
 #if defined(TARGET_PS2)
     s32 effect_G5_init(WORK * wk, s32 dr, s32 sp, s32 dl);
 #endif

@@ -8,7 +8,7 @@ u8 dspwhPack(u8 xdsp, u8 ydsp) {
     return rnum;
 }
 
-void dspwhUnpack(u8 src, u8 *xdsp, u8 *ydsp) {
+void dspwhUnpack(u8 src, u8* xdsp, u8* ydsp) {
     *xdsp = 100 - ((src >> 4) & 0xF);
     *ydsp = 100 - (src & 0xF);
 }

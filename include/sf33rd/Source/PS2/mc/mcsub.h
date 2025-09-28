@@ -6,15 +6,15 @@
 typedef struct _file {
     // total size: 0x10
     s32 flag;      // offset 0x0, size 0x4
-    s8 *name;      // offset 0x4, size 0x4
+    s8* name;      // offset 0x4, size 0x4
     intptr_t bufs; // offset 0x8, size 0x4
     s32 size;      // offset 0xC, size 0x4
 } _file;
 
 typedef struct _memcard_file {
     // total size: 0x74
-    s8 *title1;           // offset 0x0, size 0x4
-    s8 *title2;           // offset 0x4, size 0x4
+    s8* title1;           // offset 0x0, size 0x4
+    s8* title2;           // offset 0x4, size 0x4
     struct _file file[6]; // offset 0x8, size 0x60
     s32 fnum_flag;        // offset 0x68, size 0x4
     s32 copy_flag;        // offset 0x6C, size 0x4
@@ -48,10 +48,10 @@ typedef struct memcard_work {
     s32 mode;        // offset 0xC4, size 0x4
     s32 copy;        // offset 0xC8, size 0x4
     s32 act_no;      // offset 0xCC, size 0x4
-    void *bufs;      // offset 0xD0, size 0x4
+    void* bufs;      // offset 0xD0, size 0x4
     s32 file_type;   // offset 0xD4, size 0x4
     s32 file_no;     // offset 0xD8, size 0x4
-    void *icon;      // offset 0xDC, size 0x4
+    void* icon;      // offset 0xDC, size 0x4
     s32 exe_flag;    // offset 0xE0, size 0x4
 } memcard_work;
 
@@ -67,21 +67,21 @@ typedef struct memcard_date {
 } memcard_date;
 
 void MemcardInit();
-void *McActIconTexAdrs(s32 file_type, s32 num);
-s32 McActAvailSet(s32 *ico);
+void* McActIconTexAdrs(s32 file_type, s32 num);
+s32 McActAvailSet(s32* ico);
 s32 McActResult();
 void McActCheckSet();
 void McActMain();
 void McActInit(s32 file_type, s32 file_no);
-void McActSave0Set(s32 port, void *bufs, s32 mode);
-void McActExistSet(s32 port, void *bufs);
+void McActSave0Set(s32 port, void* bufs, s32 mode);
+void McActExistSet(s32 port, void* bufs);
 s32 McActConChk(s32 port);
 void McActFormatSet(s32 port);
-void McActSaveSet(s32 port, void *bufs);
+void McActSaveSet(s32 port, void* bufs);
 void McActNewClr();
-void McActLoadSet(s32 port, void *bufs);
-void McActLastDate(memcard_date *date);
+void McActLoadSet(s32 port, void* bufs);
+void McActLastDate(memcard_date* date);
 s32 McActNewChk(s32 port);
-void McActZenNum(s32 num, s8 *buf, s32 mode, s32 max);
+void McActZenNum(s32 num, s8* buf, s32 mode, s32 max);
 
 #endif

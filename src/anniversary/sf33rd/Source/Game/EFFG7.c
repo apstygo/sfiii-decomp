@@ -8,7 +8,7 @@
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 
-void effect_G7_move(WORK_Other *ewk) {
+void effect_G7_move(WORK_Other* ewk) {
     if (ewk->wu.old_rno[0] < end_w.r_no_2) {
         ewk->wu.routine_no[0] = 99;
     }
@@ -43,14 +43,14 @@ s32 effect_G7_init(s32 /* unused */, s32 /* unused */) {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.id = 167;
     ewk->wu.be_flag = 1;
     ewk->wu.work_id = 16;

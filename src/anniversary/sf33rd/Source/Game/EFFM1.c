@@ -12,9 +12,9 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effm1_move(WORK_Other *ewk);
+void effm1_move(WORK_Other* ewk);
 
-void effect_M1_move(WORK_Other *ewk) {
+void effect_M1_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         ewk->wu.routine_no[0]++;
@@ -45,8 +45,8 @@ void effect_M1_move(WORK_Other *ewk) {
     }
 }
 
-void effm1_move(WORK_Other *ewk) {
-    WORK *oya_ptr = (WORK *)ewk->my_master;
+void effm1_move(WORK_Other* ewk) {
+    WORK* oya_ptr = (WORK*)ewk->my_master;
 
     switch (ewk->wu.routine_no[1]) {
     case 0:
@@ -92,19 +92,19 @@ void effm1_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_M1_init(WORK *wk) {
+s32 effect_M1_init(WORK* wk) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 221;
     ewk->wu.work_id = 16;
@@ -113,7 +113,7 @@ s32 effect_M1_init(WORK *wk) {
     ewk->wu.my_col_mode = wk->my_col_mode;
     ewk->wu.my_col_code = wk->my_col_code + 1;
     ewk->wu.my_family = wk->my_family;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->wu.rl_flag = wk->rl_flag;
     ewk->wu.xyz[0].disp.pos = wk->xyz[0].disp.pos;
     ewk->wu.xyz[0].disp.pos += wk->rl_flag ? -64 : 64;

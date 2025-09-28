@@ -38,7 +38,7 @@ typedef struct {
     /* 0x3A */ Sint16 unk3A;
 } ADXPD_OBJ;
 
-typedef ADXPD_OBJ *ADXPD;
+typedef ADXPD_OBJ* ADXPD;
 
 // ADXB
 
@@ -52,7 +52,7 @@ typedef struct {             // offset in ADXB
     /* 0x08 */ Sint32 unk8;  // 0x50
     /* 0x0C */ Sint32 unkC;  // 0x54
     /* 0x10 */ Sint32 unk10; // 0x58
-    /* 0x14 */ void *unk14;  // 0x5C
+    /* 0x14 */ void* unk14;  // 0x5C
     /* 0x18 */ Sint32 unk18; // 0x60
     /* 0x1C */ Sint32 unk1C; // 0x64
     /* 0x20 */ Sint32 unk20; // 0x68
@@ -82,14 +82,14 @@ typedef struct {
     /* 0x30 */ Sint32 unk30;
     /* 0x34 */ Sint32 unk34;
     /* 0x38 */ Sint32 unk38;
-    /* 0x3C */ void *unk3C;
+    /* 0x3C */ void* unk3C;
     /* 0x40 */ Sint32 unk40;
     /* 0x44 */ Sint32 unk44;
     /* 0x48 */ ADXB_UNK unk48;
     /* 0x74 */ Sint32 unk74;
-    /* 0x78 */ void *(*get_wr)(void *, ptrdiff_t *, Sint32 *, Sint32 *);
-    /* 0x7C */ void *object;
-    /* 0x80 */ void (*add_wr)(void *, Sint32, Sint32);
+    /* 0x78 */ void* (*get_wr)(void*, ptrdiff_t*, Sint32*, Sint32*);
+    /* 0x7C */ void* object;
+    /* 0x80 */ void (*add_wr)(void*, Sint32, Sint32);
     /* 0x84 */ Sint32 unk84;
     /* 0x88 */ Sint32 unk88;
     /* 0x8C */ Sint32 unk8C;
@@ -117,7 +117,7 @@ typedef struct {
     /* 0xE8 */ char padE8[8];
 } ADXB_OBJ;
 
-typedef ADXB_OBJ *ADXB;
+typedef ADXB_OBJ* ADXB;
 
 // ADXSJD
 
@@ -148,7 +148,7 @@ typedef struct {
     Sint32 lnkflg;
 } ADXSJD_OBJ;
 
-typedef ADXSJD_OBJ *ADXSJD;
+typedef ADXSJD_OBJ* ADXSJD;
 
 #define ADXSJD_DEFINED
 
@@ -167,7 +167,7 @@ typedef struct {
     /* 0x2C */ Sint32 unk2C;
 } ADXAMP_OBJ; /* size = 0x30 */
 
-typedef ADXAMP_OBJ *ADXAMP;
+typedef ADXAMP_OBJ* ADXAMP;
 
 // SJX
 
@@ -182,7 +182,7 @@ typedef struct {
     Sint8 unk0;
     Sint8 id;
     Sint16 unk2;
-    SJX_UNK_0 *unk4;
+    SJX_UNK_0* unk4;
     SJCK chunk;
 } SJX_UNK_1;
 
@@ -199,25 +199,25 @@ typedef struct {
     Sint8 unk1;
     Sint16 unk2;
     SJ sj;
-    void *unk8;
+    void* unk8;
     Sint32 unkC;
-    SJX_UNK_0 *unk10;
+    SJX_UNK_0* unk10;
 } SJX_OBJ;
 
-typedef SJX_OBJ *SJX;
+typedef SJX_OBJ* SJX;
 
 // PS2PSJ
 
 typedef struct {
     Sint8 used;
     char pad1[3];
-    void *unk4;
+    void* unk4;
     SJ unk8;
     SJX unkC;
     SJCK chunk;
 } PS2PSJ_OBJ;
 
-typedef PS2PSJ_OBJ *PS2PSJ;
+typedef PS2PSJ_OBJ* PS2PSJ;
 
 // DTR
 
@@ -237,7 +237,7 @@ typedef struct {
     /* 0x3C */ Sint32 unk3C;
 } DTR_OBJ;
 
-typedef DTR_OBJ *DTR;
+typedef DTR_OBJ* DTR;
 
 // ADXRNA
 
@@ -270,14 +270,14 @@ typedef struct {
     char pad60[4];
 } ADXRNA_OBJ;
 
-typedef ADXRNA_OBJ *ADXRNA;
+typedef ADXRNA_OBJ* ADXRNA;
 
 #define ADXRNA_DEFINED
 
 // DTX
 
-typedef void (*RcvCbf)(void *, void *, Sint32);
-typedef void (*SndCbf)(void *, void *, Sint32);
+typedef void (*RcvCbf)(void*, void*, Sint32);
+typedef void (*SndCbf)(void*, void*, Sint32);
 
 typedef struct {
     // total size: 0x44
@@ -285,12 +285,12 @@ typedef struct {
     Sint8 unk1;
     Sint8 unk2;
     Sint8 unk3;
-    void *unk4;
+    void* unk4;
     Sint32 unk8;
-    void *unkC;
+    void* unkC;
     Sint32 unk10;
-    Sint32 *unk14;
-    void *unk18;
+    Sint32* unk14;
+    void* unk18;
     Sint32 unk1C;
     RcvCbf rcvcbf;
     Sint32 unk24;
@@ -300,7 +300,7 @@ typedef struct {
     Sint32 unk40;
 } DTX_OBJ;
 
-typedef DTX_OBJ *DTX;
+typedef DTX_OBJ* DTX;
 
 // ADXSTM
 
@@ -310,7 +310,7 @@ typedef struct {
     Sint8 read_flg;
     Sint8 unk3;
     SJ sj;
-    void *cvfs;
+    void* cvfs;
     Sint32 unkC; // some offset
     Sint32 file_len;
     Sint32 file_sct;
@@ -321,8 +321,8 @@ typedef struct {
     Sint32 req_rd_size;
     Sint32 eos;
     Uint32 unk34;
-    void (*eos_callback)(void *);
-    void *eos_callback_context;
+    void (*eos_callback)(void*);
+    void* eos_callback_context;
     Sint32 unk40;
     Sint8 pause;
     Sint8 unk45;
@@ -331,13 +331,13 @@ typedef struct {
     Sint8 unk48;
     Sint8 unk49;
     char pad4A[6];
-    const Char8 *fname;
-    void *dir;
+    const Char8* fname;
+    void* dir;
     Sint32 cur_ofst;
     Uint32 unk5C;
 } ADXSTM_OBJ;
 
-typedef ADXSTM_OBJ *ADXSTM;
+typedef ADXSTM_OBJ* ADXSTM;
 
 #define ADXSTM_DEFINED
 
@@ -348,9 +348,9 @@ typedef ADXSTM_OBJ *ADXSTM;
 
 typedef struct {
     Sint32 id;
-    const Char8 *fname;
+    const Char8* fname;
     Sint32 unk8;
-    void *dir;
+    void* dir;
     Sint32 unk10;
     Sint32 unk14;
     Sint32 stat;
@@ -378,11 +378,11 @@ typedef struct {
     LSC_STM stm[LSC_MAX_STM];
 } LSC_OBJ;
 
-typedef LSC_OBJ *LSC;
+typedef LSC_OBJ* LSC;
 
 // SRD
 
-typedef void *SRD;
+typedef void* SRD;
 
 // cvfs
 
@@ -391,14 +391,14 @@ typedef struct {
     /* 0x04 */ void (*EntryErrFunc)();
     /* 0x08 */ Sint32 (*GetFileSize)();
     /* 0x0C */ void (*unkC)();
-    /* 0x10 */ void *(*Open)(Char8 *device_name, void *, Sint32);
-    /* 0x14 */ void (*Close)(void *fd);
-    /* 0x18 */ Sint32 (*Seek)(void *fd, Sint32 offset, Sint32 whence);
-    /* 0x1C */ Sint32 (*Tell)(void *fd);
-    /* 0x20 */ Sint32 (*ReqRd)(void *fd, Sint32 len, void *buf);
+    /* 0x10 */ void* (*Open)(Char8* device_name, void*, Sint32);
+    /* 0x14 */ void (*Close)(void* fd);
+    /* 0x18 */ Sint32 (*Seek)(void* fd, Sint32 offset, Sint32 whence);
+    /* 0x1C */ Sint32 (*Tell)(void* fd);
+    /* 0x20 */ Sint32 (*ReqRd)(void* fd, Sint32 len, void* buf);
     /* 0x24 */ void (*unk24)();
     /* 0x28 */ void (*StopTr)();
-    /* 0x2C */ Sint32 (*GetStat)(void *fd);
+    /* 0x2C */ Sint32 (*GetStat)(void* fd);
     /* 0x30 */ void (*GetSctLen)();
     /* 0x34 */ void (*unk34)();
     /* 0x38 */ void (*GetNumTr)();
@@ -416,8 +416,8 @@ typedef struct {
 } CVFSDevice;
 
 typedef struct {
-    CVFSDevice *device;
-    void *fd;
+    CVFSDevice* device;
+    void* fd;
 } CVFSHandle;
 
 // DVG_CI
@@ -434,13 +434,13 @@ typedef struct {
     /* 0x0C */ Sint32 unkC;
     /* 0x10 */ Sint32 unk10;
     /* 0x14 */ Sint32 unk14;
-    /* 0x18 */ void *unk18;
+    /* 0x18 */ void* unk18;
     /* 0x1C */ SRD srd;
     /* 0x20 */ sceCdlFILE unk20;
     /* 0x44 */ sceCdRMode cdrmode;
 } DVG_CI_OBJ; /* total size: 0x48 */
 
-typedef DVG_CI_OBJ *DVG_CI;
+typedef DVG_CI_OBJ* DVG_CI;
 
 typedef struct {
     Uint32 lsn;

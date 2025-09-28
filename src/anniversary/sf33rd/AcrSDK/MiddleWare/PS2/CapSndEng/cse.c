@@ -11,7 +11,7 @@
 static CSE_SYSWORK cseSysWork __attribute__((aligned(16))); // size: 0x48, address: 0x57B260
 
 #if defined(TARGET_PS2)
-void __assert(const s8 *file, s32 line, const s8 *expr);
+void __assert(const s8* file, s32 line, const s8* expr);
 #define assert(e) (__assert("cse.c", 0, "0"))
 #else
 #include <assert.h>
@@ -78,7 +78,7 @@ s32 cseCheckVTransStatus(u32 vtrans_check_type) {
 #endif
 
     CSE_RPCQUEUE_RESULT param;
-    CSE_VTRANS_RESULT *pResult;
+    CSE_VTRANS_RESULT* pResult;
     u32 numReqInQueue;
     s32 result;
 
@@ -131,7 +131,7 @@ s32 cseCheckVTransStatus(u32 vtrans_check_type) {
     return result;
 }
 
-s32 cseSendBd2SpuWithId(void *ee_addr, u32 size, u32 bank, u32 id) {
+s32 cseSendBd2SpuWithId(void* ee_addr, u32 size, u32 bank, u32 id) {
     CSE_SPUID_PARAM param = {};
     bank &= 0xF;
 

@@ -10,7 +10,7 @@
 
 #include <string.h>
 
-Char8 *volatile lsc_build = "\nLSC/PS2EE Ver.2.14 Build:Sep 18 2003 10:00:13\n";
+Char8* volatile lsc_build = "\nLSC/PS2EE Ver.2.14 Build:Sep 18 2003 10:00:13\n";
 Char8 lsc_obj_mark[] = "MARK:lsc_obj";
 Sint32 lsc_init_cnt = 0;
 LSC_OBJ lsc_obj[LSC_MAX_OBJ] = { 0 };

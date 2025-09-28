@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 // sdata
-static void *msg_table_ptr[2] = { MessageTableJPN, MessageTableENG };
+static void* msg_table_ptr[2] = { MessageTableJPN, MessageTableENG };
 
 static u32 str_col_tbl[8] = { 0x00000000, 0x00000080, 0x00008000, 0x00008080,
                               0x00800000, 0x00800080, 0x00808000, 0x00808080 };
@@ -16,25 +16,25 @@ static u32 str_col_tbl[8] = { 0x00000000, 0x00000080, 0x00008000, 0x00008080,
 s32 MsgLanguage;
 
 // forward decls
-static const s8 *str_tag_get(const s8 *src, s8 *dst);
-static const s8 *str_str_get(const s8 *src, s8 *dst);
-static void str_tag_check(const s8 *tag);
+static const s8* str_tag_get(const s8* src, s8* dst);
+static const s8* str_str_get(const s8* src, s8* dst);
+static void str_tag_check(const s8* tag);
 
-s8 **GetMemCardMsg(s32 msg_no) {
-    void **tbl = msg_table_ptr[MsgLanguage];
-    void **msg = *tbl;
+s8** GetMemCardMsg(s32 msg_no) {
+    void** tbl = msg_table_ptr[MsgLanguage];
+    void** msg = *tbl;
 
     return msg[msg_no];
 }
 
-s32 FormStrDisp(s32 x, s32 y, const s8 *str, s32 len) {
+s32 FormStrDisp(s32 x, s32 y, const s8* str, s32 len) {
     u8 c;
     s32 ctr = 0;
     s32 i;
     s32 ret;
-    const s8 *p;
+    const s8* p;
     s8 tmp[128];
-    s8 *q;
+    s8* q;
     s8 tmp2[4];
 
     (void)i;
@@ -78,10 +78,10 @@ s32 FormStrDisp(s32 x, s32 y, const s8 *str, s32 len) {
     return 0;
 }
 
-static const s8 *str_tag_get(const s8 *src, s8 *dst) {
+static const s8* str_tag_get(const s8* src, s8* dst) {
     u8 c;
-    const s8 *src0;
-    s8 *dst0;
+    const s8* src0;
+    s8* dst0;
 
     if (*src != '<') {
         return NULL;
@@ -109,7 +109,7 @@ static const s8 *str_tag_get(const s8 *src, s8 *dst) {
     return src;
 }
 
-static const s8 *str_str_get(const s8 *src, s8 *dst) {
+static const s8* str_str_get(const s8* src, s8* dst) {
     u8 c;
     s32 i;
     s32 ret;
@@ -130,9 +130,9 @@ static const s8 *str_str_get(const s8 *src, s8 *dst) {
     return src;
 }
 
-static void str_tag_check(const s8 *tag) {
+static void str_tag_check(const s8* tag) {
     u8 c;
-    const s8 *tag0 = tag;
+    const s8* tag0 = tag;
 
     switch ((c = *tag++)) {
     default:

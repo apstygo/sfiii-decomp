@@ -41,9 +41,9 @@ s16 time_check[4];
 u8 time_check_ix;
 
 // forward decls
-extern s8 *cpu_data[];
+extern s8* cpu_data[];
 
-void Debug_Task(struct _TASK *task_ptr) {
+void Debug_Task(struct _TASK* task_ptr) {
     void (*Main_Jmp_Tbl[3])() = { Debug_Init, Debug_1st, Debug_2nd };
 
     Main_Jmp_Tbl[(task_ptr->r_no[0])](task_ptr);
@@ -60,15 +60,15 @@ void Debug_Task(struct _TASK *task_ptr) {
     Disp_Random();
 }
 
-void Debug_Init(struct _TASK *task_ptr) {
-    u8 *ptr;
+void Debug_Init(struct _TASK* task_ptr) {
+    u8* ptr;
     u16 ix;
-    u8 *assignement_var;
+    u8* assignement_var;
 
     task_ptr->r_no[0] += 1;
     Debug_Index = 0;
     Debug_Pause = 0;
-    ptr = (u8 *)NAKAI_debug_data;
+    ptr = (u8*)NAKAI_debug_data;
     Debug_Index = NAKAI_debug_data[72];
 
     for (ix = 0; ix < 72; assignement_var = ptr++) {
@@ -81,8 +81,8 @@ void Debug_Init(struct _TASK *task_ptr) {
     }
 }
 
-void Debug_1st(struct _TASK *task_ptr) {
-    struct _TASK *ptr;
+void Debug_1st(struct _TASK* task_ptr) {
+    struct _TASK* ptr;
     u16 sw;
 
     if (0) {
@@ -94,7 +94,7 @@ void Debug_1st(struct _TASK *task_ptr) {
     return;
 }
 
-void Debug_2nd(struct _TASK *task_ptr) {
+void Debug_2nd(struct _TASK* task_ptr) {
 #if defined(TARGET_PS2)
     void Debug_Menu_Disp(s16, s16);
 #endif
@@ -107,7 +107,7 @@ void Debug_2nd(struct _TASK *task_ptr) {
     offset_y[2] = 2;
     flPrintColor(-256);
     flPrintL(1, 1, "[DEBUG MODE]");
-    flPrintL(14, 1, (s8 *)debug_name_data[Debug_ID]);
+    flPrintL(14, 1, (s8*)debug_name_data[Debug_ID]);
 
     if ((sw = Debug_Menu_Shot())) {
         if (sw == 256) {
@@ -415,11 +415,11 @@ void Check_Check_Screen() {
     }
 }
 
-void Disp_Lever(u16 * /* unused */, u32 /* unused */, u32 /* unused */) {
+void Disp_Lever(u16* /* unused */, u32 /* unused */, u32 /* unused */) {
     // do nothing
 }
 
-void Check_Pos_OBJ(WORK_Other *ewk) {
+void Check_Pos_OBJ(WORK_Other* ewk) {
     if (Debug_w[0x46]) {
         if (p4sw_0 & 1) {
             ewk->wu.xyz[1].disp.pos += 3;
@@ -449,7 +449,7 @@ void Check_Pos_OBJ(WORK_Other *ewk) {
     }
 }
 
-void Check_Pos_OBJ2(WORK_Other *ewk) {
+void Check_Pos_OBJ2(WORK_Other* ewk) {
     if (Debug_w[0x46]) {
         if (p4sw_0 & 1) {
             ewk->wu.position_y += 3;
@@ -539,7 +539,7 @@ void Disp_Rec_Time(s16 PL_id, u32 time) {
     }
 }
 
-void Disp_Mode(PLW *wk) {
+void Disp_Mode(PLW* wk) {
     s16 x;
     s16 offset_y = 0;
 
@@ -599,4 +599,4 @@ void Disp_Random() {
 }
 
 // sdata
-s8 *cpu_data[16] = { "", "FR", "AC", "BF", "FW", "BP", "PS", "GD", "SH", "SG", "DM", "FL", "FP", "CT", "WL", "CH" };
+s8* cpu_data[16] = { "", "FR", "AC", "BF", "FW", "BP", "PS", "GD", "SH", "SG", "DM", "FL", "FP", "CT", "WL", "CH" };

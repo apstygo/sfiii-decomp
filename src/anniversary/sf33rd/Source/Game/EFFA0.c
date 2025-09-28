@@ -9,9 +9,9 @@
 
 const s16 Pos_Data_A0[4][3] = { { -52, 148, 69 }, { 140, 148, 69 }, { -52, 131, 69 }, { 140, 131, 69 } };
 
-void Setup_A0_Sub(WORK_Other_CONN *ewk, s16 old_rno, s16 zero);
+void Setup_A0_Sub(WORK_Other_CONN* ewk, s16 old_rno, s16 zero);
 
-void effect_A0_move(WORK_Other_CONN *ewk) {
+void effect_A0_move(WORK_Other_CONN* ewk) {
     if (Menu_Suicide[ewk->master_player]) {
         push_effect_work(&ewk->wu);
         return;
@@ -25,14 +25,14 @@ s32 effect_A0_init(s16 type, u16 disp_target, s16 pos_index, s16 old_rno, s16 ze
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other_CONN *ewk;
+    WORK_Other_CONN* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk = (WORK_Other_CONN*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.disp_flag = 1;
     ewk->wu.id = 100;
@@ -51,7 +51,7 @@ s32 effect_A0_init(s16 type, u16 disp_target, s16 pos_index, s16 old_rno, s16 ze
     return 0;
 }
 
-void Setup_A0_Sub(WORK_Other_CONN *ewk, s16 old_rno, s16 zero) {
+void Setup_A0_Sub(WORK_Other_CONN* ewk, s16 old_rno, s16 zero) {
     ewk->num_of_conn = old_rno;
     ewk->conn[0].nx = 0;
     ewk->conn[0].ny = 0;

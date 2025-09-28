@@ -10,17 +10,17 @@
 
 // These should go in their own headers
 
-Sint32 LSC_GetNumStm(void *);
-void LSC_SetFlowLimit(void *, Sint32);
-void LSC_Start(void *);
-void LSC_SetLpFlg(void *, Sint32);
-void LSC_ResetEntry(void *);
+Sint32 LSC_GetNumStm(void*);
+void LSC_SetFlowLimit(void*, Sint32);
+void LSC_Start(void*);
+void LSC_SetLpFlg(void*, Sint32);
+void LSC_ResetEntry(void*);
 
 void ADXT_StopWithoutLsc();
-void adxt_start_sj(ADXT, SJ_OBJ *);
+void adxt_start_sj(ADXT, SJ_OBJ*);
 
-void ADXT_EntryFname(ADXT adxt, Char8 *fname) {
-    void *lsc = adxt->lsc;
+void ADXT_EntryFname(ADXT adxt, Char8* fname) {
+    void* lsc = adxt->lsc;
 
     if (adxt == NULL) {
         ADXERR_CallErrFunc1("E02080848 ADXT_EntryFname: parameter error");
@@ -34,11 +34,11 @@ void ADXT_EntryFname(ADXT adxt, Char8 *fname) {
 
 void ADXT_EntryAfs(ADXT adxt, Sint32 patid, Sint32 fid) {
     Char8 error[16];
-    void *dir;
+    void* dir;
     Sint32 ofst;
     Sint32 fnsct;
 
-    void *lsc = adxt->lsc;
+    void* lsc = adxt->lsc;
 
     if (adxt == NULL) {
         ADXERR_CallErrFunc1("E02080855 ADXT_EntryAfs: parameter error");
@@ -56,7 +56,7 @@ void ADXT_EntryAfs(ADXT adxt, Sint32 patid, Sint32 fid) {
 
 void ADXT_StartSeamless(ADXT adxt) {
     SJ sj;
-    void *lsc = adxt->lsc;
+    void* lsc = adxt->lsc;
 
     if (adxt == NULL) {
         ADXERR_CallErrFunc1("E02080850 ADXT_StartSeamless: parameter error");
@@ -84,8 +84,8 @@ void ADXT_SetSeamlessLp(ADXT adxt, Sint32 flg) {
     LSC_SetLpFlg(adxt->lsc, flg);
 }
 
-void ADXT_StartFnameLp(ADX_TALK *adxt, Char8 *fname) {
-    void *lsc;
+void ADXT_StartFnameLp(ADX_TALK* adxt, Char8* fname) {
+    void* lsc;
 
     if (adxt == NULL || fname == NULL) {
         ADXERR_CallErrFunc1("E02080852 ADXT_StartFnameLp: parameter error");

@@ -5,8 +5,8 @@
 
 #include <cri/ee/cri_xpt.h>
 
-Sint32 ADXB_CheckAu(void *);
-Sint32 ADXB_DecodeHeaderAu(ADXB, void *, Sint32);
+Sint32 ADXB_CheckAu(void*);
+Sint32 ADXB_DecodeHeaderAu(ADXB, void*, Sint32);
 void ADXB_ExecOneAu(ADXB adxb);
 
 #endif

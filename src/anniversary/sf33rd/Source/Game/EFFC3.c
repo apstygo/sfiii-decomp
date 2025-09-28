@@ -14,11 +14,11 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void bs2_display_C3(WORK *wk);
-void set_display_car_parts(WORK_Other *wk);
-void clear_parts_hit_data(WORK *wk);
-void effC3_main_process(WORK_Other *ewk);
-s32 get_efffC3_nsc(WORK *wk, WORK *c2wk);
+void bs2_display_C3(WORK* wk);
+void set_display_car_parts(WORK_Other* wk);
+void clear_parts_hit_data(WORK* wk);
+void effC3_main_process(WORK_Other* ewk);
+s32 get_efffC3_nsc(WORK* wk, WORK* c2wk);
 
 const u16 effC3_nsc[6] = { 0x7E1A, 0x7E1A, 0x7E1A, 0x7E1A, 0x7E1A, 0x7E1A };
 
@@ -1031,7 +1031,7 @@ const u16 car_parts[7][8][18][2] = { { { { 0x7D10, 0x0000 },
                                          { 0x7A3E, 0x0000 },
                                          { 0x7A3F, 0x0000 } } } };
 
-void effect_C3_move(WORK_Other *ewk) {
+void effect_C3_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     s16 c3_hit_disp_check(u32 ix);
 #endif
@@ -1099,7 +1099,7 @@ void effect_C3_move(WORK_Other *ewk) {
             break;
 
         case 10:
-            switch (get_efffC3_nsc(&ewk->wu, (WORK *)ewk->wu.my_effadrs)) {
+            switch (get_efffC3_nsc(&ewk->wu, (WORK*)ewk->wu.my_effadrs)) {
             case 0:
                 ewk->wu.disp_flag = 0;
                 break;
@@ -1126,7 +1126,7 @@ void effect_C3_move(WORK_Other *ewk) {
     }
 }
 
-void bs2_display_C3(WORK *wk) {
+void bs2_display_C3(WORK* wk) {
     wk->position_x = wk->xyz[0].disp.pos + wk->next_x;
     wk->position_y = wk->xyz[1].disp.pos + wk->next_y;
     wk->next_y = 0;
@@ -1134,8 +1134,8 @@ void bs2_display_C3(WORK *wk) {
     sort_push_request(wk);
 }
 
-void set_display_car_parts(WORK_Other *wk) {
-    const u16 *adrs;
+void set_display_car_parts(WORK_Other* wk) {
+    const u16* adrs;
 
     bs2_get_parts_break(&wk->wu);
     adrs = car_parts[wk->wu.type - 1][wk->wu.scr_mv_y][wk->wu.scr_mv_x - 1];
@@ -1143,7 +1143,7 @@ void set_display_car_parts(WORK_Other *wk) {
     wk->wu.h_bod = wk->wu.body_adrs + (wk->wu.cg_hit_ix = adrs[1]);
 }
 
-void clear_parts_hit_data(WORK *wk) {
+void clear_parts_hit_data(WORK* wk) {
     wk->cg_ja = wk->hit_ix_table[0];
     wk->h_bod = &wk->body_adrs[wk->cg_ja.boix];
     wk->h_cat = &wk->catch_adrs[wk->cg_ja.caix];
@@ -1153,7 +1153,7 @@ void clear_parts_hit_data(WORK *wk) {
     wk->h_han = &wk->hand_adrs[wk->cg_ja.bhix + wk->cg_ja.haix];
 }
 
-void effC3_main_process(WORK_Other *ewk) {
+void effC3_main_process(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -1204,7 +1204,7 @@ void effC3_main_process(WORK_Other *ewk) {
     get_shizumi_guai(&ewk->wu);
 }
 
-s32 get_efffC3_nsc(WORK *wk, WORK *c2wk) {
+s32 get_efffC3_nsc(WORK* wk, WORK* c2wk) {
     u16 num = c2wk->cg_number - 0x7DAA;
 
     wk->position_x = c2wk->position_x;
@@ -1223,22 +1223,22 @@ s32 get_efffC3_nsc(WORK *wk, WORK *c2wk) {
     return 0;
 }
 
-s32 effect_C3_init(WORK_Other *wk, s16 data) {
-    WORK_Other *ewk;
+s32 effect_C3_init(WORK_Other* wk, s16 data) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(1)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 123;
     ewk->wu.type = data;
     ewk->wu.my_mts = 5;
-    ewk->my_master = (u32 *)wk->my_master;
+    ewk->my_master = (u32*)wk->my_master;
     ewk->wu.target_adrs = wk->wu.target_adrs;
-    ewk->wu.my_effadrs = (u32 *)wk;
+    ewk->wu.my_effadrs = (u32*)wk;
     ewk->master_player = wk->master_player;
     ewk->master_id = wk->master_id;
     ewk->master_work_id = wk->master_work_id;

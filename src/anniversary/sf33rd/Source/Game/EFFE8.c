@@ -6,13 +6,13 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effe8_zanzou_process(WORK_Other *ewk, PLW *mwk);
-void effE8_trans(WORK_Other *ewk, PLW *mwk);
+void effe8_zanzou_process(WORK_Other* ewk, PLW* mwk);
+void effE8_trans(WORK_Other* ewk, PLW* mwk);
 
-void effect_E8_move(WORK_Other *ewk) {
-    PLW *mwk = (PLW *)ewk->my_master;
-    WORK_Other *cwk = (WORK_Other *)ewk->wu.target_adrs;
-    WORK *mtwk;
+void effect_E8_move(WORK_Other* ewk) {
+    PLW* mwk = (PLW*)ewk->my_master;
+    WORK_Other* cwk = (WORK_Other*)ewk->wu.target_adrs;
+    WORK* mtwk;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -69,7 +69,7 @@ void effect_E8_move(WORK_Other *ewk) {
 
     case 2:
         if (*pcon_rno != 2) {
-            mtwk = (WORK *)mwk->wu.target_adrs;
+            mtwk = (WORK*)mwk->wu.target_adrs;
 
             if (mtwk->routine_no[0] == 4 && mtwk->routine_no[1] == 1 && mtwk->routine_no[3] < 2) {
                 break;
@@ -85,7 +85,7 @@ void effect_E8_move(WORK_Other *ewk) {
     }
 }
 
-void effe8_zanzou_process(WORK_Other *ewk, PLW *mwk) {
+void effe8_zanzou_process(WORK_Other* ewk, PLW* mwk) {
     if (ewk->wu.old_rno[5]) {
         if (ewk->wu.type == 0) {
             ewk->wu.position_x = mwk->wu.position_x;
@@ -132,7 +132,7 @@ void effe8_zanzou_process(WORK_Other *ewk, PLW *mwk) {
     }
 }
 
-void effE8_trans(WORK_Other *ewk, PLW *mwk) {
+void effE8_trans(WORK_Other* ewk, PLW* mwk) {
     if (ewk->wu.old_rno[3] == 0) {
         return;
     }
@@ -145,15 +145,15 @@ void effE8_trans(WORK_Other *ewk, PLW *mwk) {
     }
 }
 
-s32 effect_E8_init(WORK_Other *ek, PLW *mk, s16 data) {
-    WORK_Other *ewk;
+s32 effect_E8_init(WORK_Other* ek, PLW* mk, s16 data) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.disp_flag = ek->wu.disp_flag;
     ewk->wu.id = 148;

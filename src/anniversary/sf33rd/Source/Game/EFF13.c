@@ -18,12 +18,12 @@
 #include "sf33rd/Source/Game/bg_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void tama_display(WORK *wk);
-void set_tengu_init_pos(WORK *ewk, WORK *mwk);
-void set_tengu_my_home(WORK *ewk, WORK *mwk);
-s32 check_tengu_attack(WORK *ewk, WORK *mwk, TAMA *twk);
-void make_speed_xy_att(WORK *ewk, WORK *mwk, s16 tm, u8 xsw, u8 ysw);
-void make_speed_xy_back(WORK *ewk, WORK *mwk, TAMA *twk);
+void tama_display(WORK* wk);
+void set_tengu_init_pos(WORK* ewk, WORK* mwk);
+void set_tengu_my_home(WORK* ewk, WORK* mwk);
+s32 check_tengu_attack(WORK* ewk, WORK* mwk, TAMA* twk);
+void make_speed_xy_att(WORK* ewk, WORK* mwk, s16 tm, u8 xsw, u8 ysw);
+void make_speed_xy_back(WORK* ewk, WORK* mwk, TAMA* twk);
 
 const s16 kotp_07_dm_vital[4];
 const TAMA tama_data[243];
@@ -34,15 +34,15 @@ const s16 homing_empos_hos[1][20][2];
 const s16 enemy_pos_hos[1][20][2];
 const s16 X_F_L_A_T_pos_hos[1][20][2];
 
-void effect_13_move(WORK_Other *ewk) {
+void effect_13_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
     s32 erase_my_shell_ix(WORK * wk, s32 ix);
 #endif
 
-    TAMA *tama = (TAMA *)ewk->wu.my_effadrs;
-    PLW *mwk;
-    PLW *emwk;
+    TAMA* tama = (TAMA*)ewk->wu.my_effadrs;
+    PLW* mwk;
+    PLW* emwk;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -85,12 +85,12 @@ void effect_13_move(WORK_Other *ewk) {
         }
 
         if (tama->kind_of_tama == 2) {
-            set_tengu_init_pos(&ewk->wu, (WORK *)ewk->my_master);
+            set_tengu_init_pos(&ewk->wu, (WORK*)ewk->my_master);
             ewk->wu.disp_flag = 0;
-            ewk->wu.dir_old = ((PLW *)ewk->my_master)->sa->id_arts;
+            ewk->wu.dir_old = ((PLW*)ewk->my_master)->sa->id_arts;
             set_char_move_init2(&ewk->wu, 0, tama->chix, random_16() & 7, 0);
         } else if (tama->kind_of_tama == 0xF) {
-            mwk = (PLW *)ewk->my_master;
+            mwk = (PLW*)ewk->my_master;
 
             if (tama->data01) {
                 ewk->wu.mvxy.a[0].sp = mwk->wu.mvxy.a[0].sp;
@@ -99,7 +99,7 @@ void effect_13_move(WORK_Other *ewk) {
                 ewk->wu.mvxy.d[1].sp = mwk->wu.mvxy.d[1].sp;
                 ewk->wu.mvxy.kop[1] = 0;
             } else {
-                emwk = (PLW *)mwk->wu.target_adrs;
+                emwk = (PLW*)mwk->wu.target_adrs;
                 ewk->wu.xyz[0].disp.pos = tama->hos_x;
                 ewk->wu.xyz[0].disp.pos += emwk->wu.xyz[0].disp.pos;
                 ewk->wu.xyz[0].disp.pos += X_F_L_A_T_pos_hos[0][emwk->player_number][0];
@@ -137,7 +137,7 @@ void effect_13_move(WORK_Other *ewk) {
         }
 
         if (tama->kind_of_tama == 10) {
-            ewk->wu.rl_flag = ((WORK *)ewk->my_master)->rl_waza;
+            ewk->wu.rl_flag = ((WORK*)ewk->my_master)->rl_waza;
         }
 
         tama_display(&ewk->wu);
@@ -170,7 +170,7 @@ void effect_13_move(WORK_Other *ewk) {
         break;
 
     case 2:
-        erase_my_shell_ix((WORK *)ewk->my_master, ewk->wu.myself);
+        erase_my_shell_ix((WORK*)ewk->my_master, ewk->wu.myself);
         ewk->wu.routine_no[0] = 3;
         break;
 
@@ -181,14 +181,14 @@ void effect_13_move(WORK_Other *ewk) {
     }
 }
 
-void tama_display(WORK *wk) {
-    set_quake((PLW *)wk);
+void tama_display(WORK* wk) {
+    set_quake((PLW*)wk);
     wk->position_x = wk->xyz[0].disp.pos + wk->next_x;
     wk->position_y = wk->xyz[1].disp.pos;
     sort_push_request(wk);
 }
 
-s32 screen_x_range_check(WORK *wk) {
+s32 screen_x_range_check(WORK* wk) {
     s16 scpx = get_center_position();
     s16 scpxr = scpx + 256;
     s16 scpxl = scpx - 256;
@@ -208,7 +208,7 @@ s32 screen_x_range_check(WORK *wk) {
     return 0;
 }
 
-s32 screen_range_check(WORK *wk) {
+s32 screen_range_check(WORK* wk) {
     s16 scpx = get_center_position();
     s16 scpxr = scpx + 256;
     s16 scpxl = scpx - 256;
@@ -238,7 +238,7 @@ s32 screen_range_check(WORK *wk) {
     return 0;
 }
 
-s32 tama15_screen_check(WORK *wk) {
+s32 tama15_screen_check(WORK* wk) {
     s16 scpx = get_center_position();
     s16 scpxr = scpx + 512;
     s16 scpxl = scpx - 512;
@@ -276,7 +276,7 @@ s32 tama15_screen_check(WORK *wk) {
     return 0;
 }
 
-void set_tengu_init_pos(WORK *ewk, WORK *mwk) {
+void set_tengu_init_pos(WORK* ewk, WORK* mwk) {
     s16 scp = get_center_position();
 
     if (mwk->rl_flag) {
@@ -289,7 +289,7 @@ void set_tengu_init_pos(WORK *ewk, WORK *mwk) {
     ewk->xyz[1].disp.pos = ewk->direction;
 }
 
-void kotp_00000(WORK_Other *ewk, TAMA *twk) {
+void kotp_00000(WORK_Other* ewk, TAMA* twk) {
 #if defined(TARGET_PS2)
     s32 effect_96_init(WORK * wk, u32 chix, s32 dspf, s32 /* unused */);
 #endif
@@ -410,7 +410,7 @@ void kotp_00000(WORK_Other *ewk, TAMA *twk) {
     }
 }
 
-void kotp_01000(WORK_Other *ewk, TAMA *twk) {
+void kotp_01000(WORK_Other* ewk, TAMA* twk) {
     if (ewk->wu.hf.hit_flag) {
         ewk->wu.routine_no[1] = 1;
     }
@@ -467,8 +467,8 @@ void kotp_01000(WORK_Other *ewk, TAMA *twk) {
     }
 }
 
-void kotp_02000(WORK_Other *ewk, TAMA *twk) {
-    PLW *mwk = (PLW *)ewk->my_master;
+void kotp_02000(WORK_Other* ewk, TAMA* twk) {
+    PLW* mwk = (PLW*)ewk->my_master;
 
     if (ewk->wu.hf.hit_flag) {
         ewk->wu.routine_no[1] = 1;
@@ -590,7 +590,7 @@ void kotp_02000(WORK_Other *ewk, TAMA *twk) {
         break;
     }
 }
-void set_tengu_my_home(WORK *ewk, WORK *mwk) {
+void set_tengu_my_home(WORK* ewk, WORK* mwk) {
     if (mwk->pat_status < 32) {
         ewk->dmcal_m = mwk->xyz[0].disp.pos + ewk->old_pos[0];
         ewk->dmcal_d = mwk->xyz[1].disp.pos + ewk->old_pos[1];
@@ -602,7 +602,7 @@ void set_tengu_my_home(WORK *ewk, WORK *mwk) {
     ewk->dir_step = cal_move_quantity2(ewk->xyz[0].disp.pos, ewk->xyz[1].disp.pos, ewk->dmcal_m, ewk->dmcal_d);
 }
 
-s32 check_tengu_attack(WORK *ewk, WORK *mwk, TAMA *twk) {
+s32 check_tengu_attack(WORK* ewk, WORK* mwk, TAMA* twk) {
 #if defined(TARGET_PS2)
     void make_speed_xy_att(WORK * ewk, WORK * mwk, s32 tm, u8 xsw, u8 ysw);
 #endif
@@ -615,7 +615,7 @@ s32 check_tengu_attack(WORK *ewk, WORK *mwk, TAMA *twk) {
     ewk->att_hit_ok = 1;
     ewk->rl_flag = mwk->rl_flag;
     ewk->dir_timer = twk->life_time;
-    grade_add_att_renew((WORK_Other *)ewk);
+    grade_add_att_renew((WORK_Other*)ewk);
 
     if (mwk->xyz[1].disp.pos > 0) {
         make_speed_xy_att(ewk, mwk, ewk->dir_timer, 2, 0);
@@ -626,7 +626,7 @@ s32 check_tengu_attack(WORK *ewk, WORK *mwk, TAMA *twk) {
     return 1;
 }
 
-void make_speed_xy_att(WORK *ewk, WORK *mwk, s16 tm, u8 xsw, u8 ysw) {
+void make_speed_xy_att(WORK* ewk, WORK* mwk, s16 tm, u8 xsw, u8 ysw) {
     s16 ax;
     s16 ay;
 
@@ -634,7 +634,7 @@ void make_speed_xy_att(WORK *ewk, WORK *mwk, s16 tm, u8 xsw, u8 ysw) {
     cal_all_speed_data(ewk, tm, ax, ay, xsw, ysw);
 }
 
-void make_speed_xy_back(WORK *ewk, WORK *mwk, TAMA *twk) {
+void make_speed_xy_back(WORK* ewk, WORK* mwk, TAMA* twk) {
     s16 bx;
     s16 by;
 
@@ -651,7 +651,7 @@ void make_speed_xy_back(WORK *ewk, WORK *mwk, TAMA *twk) {
     cal_initial_speed(ewk, ewk->dir_timer, bx, by);
 }
 
-void kotp_03000(WORK_Other *ewk, TAMA *twk) {
+void kotp_03000(WORK_Other* ewk, TAMA* twk) {
     if (ewk->wu.hf.hit_flag) {
         ewk->wu.routine_no[1] = 1;
     }
@@ -750,12 +750,12 @@ void kotp_03000(WORK_Other *ewk, TAMA *twk) {
     }
 }
 
-void kotp_04000(WORK_Other *ewk, TAMA * /* unused */) {
+void kotp_04000(WORK_Other* ewk, TAMA* /* unused */) {
     ewk->wu.disp_flag = 0;
     ewk->wu.routine_no[0] = 2;
 }
 
-void kotp_05000(WORK_Other *ewk, TAMA *twk) {
+void kotp_05000(WORK_Other* ewk, TAMA* twk) {
 #if defined(TARGET_PS2)
     s32 effect_96_init(WORK * wk, u32 chix, s32 dspf, s32 /* unused */);
 #endif
@@ -862,20 +862,20 @@ void kotp_05000(WORK_Other *ewk, TAMA *twk) {
     }
 }
 
-void kotp_06000(WORK_Other *ewk, TAMA *twk) {
+void kotp_06000(WORK_Other* ewk, TAMA* twk) {
 #if defined(TARGET_PS2)
     s32 effect_96_init(WORK * wk, u32 chix, s32 dspf, s32 /* unused */);
 #endif
 
-    PLW *mwk;
-    PLW *emwk;
+    PLW* mwk;
+    PLW* emwk;
     s16 dir;
     s16 emdir;
-    s16 *target_x;
-    s16 *target_y;
+    s16* target_x;
+    s16* target_y;
 
-    mwk = (PLW *)ewk->my_master;
-    emwk = (PLW *)mwk->wu.target_adrs;
+    mwk = (PLW*)ewk->my_master;
+    emwk = (PLW*)mwk->wu.target_adrs;
     target_x = &ewk->wu.E3_work_index;
     target_y = &ewk->wu.E4_work_index;
 
@@ -1014,16 +1014,16 @@ void kotp_06000(WORK_Other *ewk, TAMA *twk) {
     }
 }
 
-void kotp_07000(WORK_Other *ewk, TAMA *twk) {
+void kotp_07000(WORK_Other* ewk, TAMA* twk) {
 #if defined(TARGET_PS2)
     void setup_mvxy_data(WORK * wk, u32 ix);
     s32 effect_96_init(WORK * wk, u32 chix, s32 dspf, s32 /* unused */);
 #endif
 
-    WORK *awk;
+    WORK* awk;
     s16 dsst;
-    PLW *mwk;
-    PLW *emwk;
+    PLW* mwk;
+    PLW* emwk;
     s16 tama_x;
 
     if (ewk->wu.hf.hit_flag) {
@@ -1049,8 +1049,8 @@ void kotp_07000(WORK_Other *ewk, TAMA *twk) {
             setup_mvxy_data(&ewk->wu, ewk->wu.mvxy.index);
             ewk->wu.mvxy.index++;
             ewk->wu.cg_type = 0;
-            mwk = (PLW *)ewk->my_master;
-            emwk = (PLW *)mwk->wu.target_adrs;
+            mwk = (PLW*)ewk->my_master;
+            emwk = (PLW*)mwk->wu.target_adrs;
             tama_x = ewk->wu.xyz[0].disp.pos;
 
             if (tama_x > emwk->wu.xyz[0].disp.pos) {
@@ -1072,7 +1072,7 @@ void kotp_07000(WORK_Other *ewk, TAMA *twk) {
 
     case 1:
         if (ewk->wu.hf.hit_flag == 0) {
-            awk = (WORK *)ewk->wu.dmg_adrs;
+            awk = (WORK*)ewk->wu.dmg_adrs;
 
             if (awk->work_id == 1) {
                 dsst = 3;
@@ -1151,7 +1151,7 @@ void kotp_07000(WORK_Other *ewk, TAMA *twk) {
     }
 }
 
-void kotp_08000(WORK_Other *ewk, TAMA *twk) {
+void kotp_08000(WORK_Other* ewk, TAMA* twk) {
 #if defined(TARGET_PS2)
     s32 effect_96_init(WORK * wk, u32 chix, s32 dspf, s32 /* unused */);
 #endif
@@ -1263,7 +1263,7 @@ void kotp_08000(WORK_Other *ewk, TAMA *twk) {
     }
 }
 
-void kotp_09000(WORK_Other *ewk, TAMA *twk) {
+void kotp_09000(WORK_Other* ewk, TAMA* twk) {
 #if defined(TARGET_PS2)
     s32 effect_96_init(WORK * wk, u32 chix, s32 dspf, s32 /* unused */);
 #endif
@@ -1383,7 +1383,7 @@ void kotp_09000(WORK_Other *ewk, TAMA *twk) {
     }
 }
 
-void kotp_10000(WORK_Other *ewk, TAMA *twk) {
+void kotp_10000(WORK_Other* ewk, TAMA* twk) {
     char_move(&ewk->wu);
 
     if (ewk->wu.cg_type == 0xFF) {
@@ -1392,8 +1392,8 @@ void kotp_10000(WORK_Other *ewk, TAMA *twk) {
     }
 }
 
-void kotp_11000(WORK_Other *ewk, TAMA *twk) {
-    PLW *mwk = (PLW *)ewk->my_master;
+void kotp_11000(WORK_Other* ewk, TAMA* twk) {
+    PLW* mwk = (PLW*)ewk->my_master;
 
     switch (ewk->wu.routine_no[1]) {
     case 0:
@@ -1440,7 +1440,7 @@ void kotp_11000(WORK_Other *ewk, TAMA *twk) {
     ewk->wu.position_z = ewk->wu.next_z;
 }
 
-void kotp_12000(WORK_Other *ewk, TAMA *twk) {
+void kotp_12000(WORK_Other* ewk, TAMA* twk) {
 #if defined(TARGET_PS2)
     s32 effect_96_init(WORK * wk, u32 chix, s32 dspf, s32 /* unused */);
 #endif
@@ -1567,16 +1567,16 @@ void kotp_12000(WORK_Other *ewk, TAMA *twk) {
     }
 }
 
-void kotp_13000(WORK_Other *ewk, TAMA *twk) {
-    PLW *mwk;
-    PLW *emwk;
+void kotp_13000(WORK_Other* ewk, TAMA* twk) {
+    PLW* mwk;
+    PLW* emwk;
     s16 ipos_x;
 
     if (ewk->wu.hf.hit_flag) {
         ewk->wu.routine_no[1] = 1;
     }
 
-    mwk = (PLW *)ewk->my_master;
+    mwk = (PLW*)ewk->my_master;
 
     if (mwk->wu.routine_no[1] != 4) {
         ewk->wu.routine_no[0] = 2;
@@ -1596,8 +1596,8 @@ void kotp_13000(WORK_Other *ewk, TAMA *twk) {
             ewk->wu.routine_no[3]++;
 
             if (twk->data00) {
-                mwk = (PLW *)ewk->my_master;
-                emwk = (PLW *)mwk->wu.target_adrs;
+                mwk = (PLW*)ewk->my_master;
+                emwk = (PLW*)mwk->wu.target_adrs;
                 ipos_x = enemy_pos_hos[0][emwk->player_number][0];
                 ewk->wu.xyz[0].disp.pos =
                     emwk->wu.rl_flag ? emwk->wu.xyz[0].disp.pos + ipos_x : emwk->wu.xyz[0].disp.pos - ipos_x;
@@ -1652,11 +1652,11 @@ void kotp_13000(WORK_Other *ewk, TAMA *twk) {
     }
 }
 
-void kotp_14000(WORK_Other *ewk, TAMA * /* unused */) {
+void kotp_14000(WORK_Other* ewk, TAMA* /* unused */) {
     char_move(&ewk->wu);
 
     if (ewk->wu.hf.hit_flag) {
-        ((WORK *)ewk->my_master)->hf.hit_flag = ewk->wu.hf.hit_flag;
+        ((WORK*)ewk->my_master)->hf.hit_flag = ewk->wu.hf.hit_flag;
         ewk->wu.hf.hit_flag = 0;
     }
 
@@ -1666,7 +1666,7 @@ void kotp_14000(WORK_Other *ewk, TAMA * /* unused */) {
     }
 }
 
-void kotp_15000(WORK_Other *ewk, TAMA *twk) {
+void kotp_15000(WORK_Other* ewk, TAMA* twk) {
     if (ewk->wu.hf.hit_flag) {
         ewk->wu.routine_no[1] = 1;
     }
@@ -1716,7 +1716,7 @@ void kotp_15000(WORK_Other *ewk, TAMA *twk) {
 
         ewk->wu.hf.hit_flag = 0;
         ewk->wu.hit_quake = 0;
-        pp_pulpara_hit((WORK *)ewk->my_master);
+        pp_pulpara_hit((WORK*)ewk->my_master);
         break;
 
     case 2:
@@ -1741,7 +1741,7 @@ void kotp_15000(WORK_Other *ewk, TAMA *twk) {
     }
 }
 
-void kotp_16000(WORK_Other *ewk, TAMA *twk) {
+void kotp_16000(WORK_Other* ewk, TAMA* twk) {
 #if defined(TARGET_PS2)
     s32 effect_96_init(WORK * wk, u32 chix, s32 dspf, s32 /* unused */);
 #endif
@@ -1865,22 +1865,22 @@ void kotp_16000(WORK_Other *ewk, TAMA *twk) {
     }
 }
 
-s32 effect_13_init(WORK *wk, u8 data) {
+s32 effect_13_init(WORK* wk, u8 data) {
 #if defined(TARGET_PS2)
     void write_my_shell_ix(WORK * wk, s32 ix);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     write_my_shell_ix(wk, ix);
 
-    if (wk->work_id == 1 && wk->rl_flag == 1 && ((PLW *)wk)->player_number == 0) {
+    if (wk->work_id == 1 && wk->rl_flag == 1 && ((PLW*)wk)->player_number == 0) {
         data++;
     }
 
@@ -1895,28 +1895,28 @@ s32 effect_13_init(WORK *wk, u8 data) {
     ewk->wu.old_rno[7] = wk->my_col_code;
     ewk->wu.weight_level = wk->weight_level;
     ewk->wu.rl_waza = Round_num;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
 
     if (wk->work_id == 1) {
-        ewk->master_player = ((PLW *)wk)->player_number;
+        ewk->master_player = ((PLW*)wk)->player_number;
         ewk->master_id = wk->id;
         ewk->master_work_id = wk->work_id;
-        ewk->wu.olc_work_ix[0] = ((PLW *)wk)->tk_dageki;
-        ewk->wu.olc_work_ix[1] = ((PLW *)wk)->tk_nage;
-        ewk->wu.olc_work_ix[2] = ((PLW *)wk)->tk_kizetsu;
+        ewk->wu.olc_work_ix[0] = ((PLW*)wk)->tk_dageki;
+        ewk->wu.olc_work_ix[1] = ((PLW*)wk)->tk_nage;
+        ewk->wu.olc_work_ix[2] = ((PLW*)wk)->tk_kizetsu;
         ewk->wu.olc_work_ix[3] = wk->routine_no[1];
     } else {
-        ewk->master_player = ((WORK_Other *)wk)->master_player;
-        ewk->master_id = ((WORK_Other *)wk)->master_id;
-        ewk->master_work_id = ((WORK_Other *)wk)->master_work_id;
+        ewk->master_player = ((WORK_Other*)wk)->master_player;
+        ewk->master_id = ((WORK_Other*)wk)->master_id;
+        ewk->master_work_id = ((WORK_Other*)wk)->master_work_id;
     }
 
     ewk->wu.xyz[0] = wk->xyz[0];
     ewk->wu.xyz[1] = wk->xyz[1];
-    ewk->wu.my_effadrs = (u32 *)&tama_data[data];
+    ewk->wu.my_effadrs = (u32*)&tama_data[data];
 
     if (wk->work_id == 1) {
-        ewk->wu.floor = ((PLW *)wk)->metamorphose;
+        ewk->wu.floor = ((PLW*)wk)->metamorphose;
     }
 
     return 0;

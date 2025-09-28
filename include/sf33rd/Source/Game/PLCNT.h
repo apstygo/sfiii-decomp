@@ -55,24 +55,24 @@ extern ComboType remake_power[2];
 extern PLW plw[2]; // size: 0x8D8, address: 0x5E4D20
 extern ZanzouTableEntry zanzou_table[2][48];
 
-extern const s16 **kizetsu_timer_table[];
+extern const s16** kizetsu_timer_table[];
 
 void Player_control();
 void reqPlayerDraw();
 void erase_extra_plef_work();
-void set_base_data_metamorphose(PLW *wk, s16 dmid);
-void set_player_shadow(PLW *wk);
+void set_base_data_metamorphose(PLW* wk, s16 dmid);
+void set_player_shadow(PLW* wk);
 void clear_chainex_check(s16 ix);
 void set_kizetsu_status(s16 ix);
-void clear_kizetsu_point(PLW *wk);
+void clear_kizetsu_point(PLW* wk);
 void set_super_arts_status(s16 ix);
-void clear_super_arts_point(PLW *wk);
+void clear_super_arts_point(PLW* wk);
 s16 check_combo_end(s16 ix);
-void set_quake(PLW *wk);
-void add_next_position(PLW *wk);
+void set_quake(PLW* wk);
+void add_next_position(PLW* wk);
 void store_player_after_image_data();
 void setup_base_and_other_data();
-s32 check_sa_type_rebirth(PLW *wk);
+s32 check_sa_type_rebirth(PLW* wk);
 void pli_0002();
 void set_super_arts_status_dc(s16 ix);
 

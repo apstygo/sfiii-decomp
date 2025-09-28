@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/EFF68.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CALDIR.h"
 #include "sf33rd/Source/Game/CHARSET.h"
@@ -6,12 +7,11 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_68_move(WORK_Other *ewk) {
+void effect_68_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -133,17 +133,17 @@ s32 effect_68_init() {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 i;
-    const s16 *data_ptr = eff68_data_tbl;
+    const s16* data_ptr = eff68_data_tbl;
 
     for (i = 0; i < 3; i++) {
         if ((ix = pull_effect_work(4)) == -1) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 68;
         ewk->wu.work_id = 16;

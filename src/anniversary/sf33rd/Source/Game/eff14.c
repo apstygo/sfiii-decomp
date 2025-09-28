@@ -6,7 +6,7 @@
 #include "sf33rd/Source/Game/eff08.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_14_move(WORK_Other *ewk) {
+void effect_14_move(WORK_Other* ewk) {
     if (Suicide[5] & 0x80) {
         push_effect_work(&ewk->wu);
         return;
@@ -45,14 +45,14 @@ void effect_14_move(WORK_Other *ewk) {
 }
 
 s32 effect_14_init(s16 id, s16 x, s16 y, s16 atr) {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 14;
     ewk->wu.work_id = 16;
@@ -61,6 +61,6 @@ s32 effect_14_init(s16 id, s16 x, s16 y, s16 atr) {
     ewk->wu.position_y = y;
     ewk->wu.my_col_code = atr;
     Disp_Bonus_Contents = 0;
-    effect_14_move((WORK_Other *)ewk);
+    effect_14_move((WORK_Other*)ewk);
     return 0;
 }

@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/eff35.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFF58.h"
@@ -7,18 +8,17 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void eff35_0000(WORK_Other *ewk);
-void eff35_0001(WORK_Other *ewk);
-void eff35_0002(WORK_Other *ewk);
-void eff35_0003(WORK_Other *ewk);
-void eff35_0004(WORK_Other *ewk);
-void eff35_0005(WORK_Other *ewk);
-void eff35_0006(WORK_Other *ewk);
+void eff35_0000(WORK_Other* ewk);
+void eff35_0001(WORK_Other* ewk);
+void eff35_0002(WORK_Other* ewk);
+void eff35_0003(WORK_Other* ewk);
+void eff35_0004(WORK_Other* ewk);
+void eff35_0005(WORK_Other* ewk);
+void eff35_0006(WORK_Other* ewk);
 
 const s16 eff35_data_tbl[12][7] = {
     { 608, 0, 28, 1, 1, 0, 60 },  { 432, 0, 28, 1, 2, 0, 60 },  { 848, 20, 81, 1, 3, 3, 60 },
@@ -31,14 +31,14 @@ const s16 eff35_03_b[4] = { 180, 120, 240, 60 };
 
 const s16 eff35_03_s[4] = { 190, 130, 220, 60 };
 
-void effect_35_move(WORK_Other *ewk) {
-    void (*eff35_jp[7])(WORK_Other *) = { eff35_0000, eff35_0001, eff35_0002, eff35_0003,
-                                          eff35_0004, eff35_0005, eff35_0006 };
+void effect_35_move(WORK_Other* ewk) {
+    void (*eff35_jp[7])(WORK_Other*) = { eff35_0000, eff35_0001, eff35_0002, eff35_0003,
+                                         eff35_0004, eff35_0005, eff35_0006 };
 
     eff35_jp[ewk->wu.routine_no[0]](ewk);
 }
 
-void eff35_0000(WORK_Other *ewk) {
+void eff35_0000(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -66,7 +66,7 @@ void eff35_0000(WORK_Other *ewk) {
     }
 }
 
-void eff35_0001(WORK_Other *ewk) {
+void eff35_0001(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -151,7 +151,7 @@ void eff35_0001(WORK_Other *ewk) {
     }
 }
 
-void eff35_0002(WORK_Other *ewk) {
+void eff35_0002(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -201,7 +201,7 @@ void eff35_0002(WORK_Other *ewk) {
     }
 }
 
-void eff35_0003(WORK_Other *ewk) {
+void eff35_0003(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -286,7 +286,7 @@ void eff35_0003(WORK_Other *ewk) {
     }
 }
 
-void eff35_0004(WORK_Other *ewk) {
+void eff35_0004(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -345,7 +345,7 @@ void eff35_0004(WORK_Other *ewk) {
     }
 }
 
-void eff35_0005(WORK_Other *ewk) {
+void eff35_0005(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -397,7 +397,7 @@ void eff35_0005(WORK_Other *ewk) {
     }
 }
 
-void eff35_0006(WORK_Other *ewk) {
+void eff35_0006(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -455,16 +455,16 @@ s32 effect_35_init(s16 wait_timer, s16 c_type) {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
-    const s16 *data_ptr;
+    const s16* data_ptr;
     u8 char_num;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.id = 35;
 
     switch (c_type) {

@@ -42,7 +42,7 @@ void TexRelease_OP() {
     purge_texcash_work(9);
 }
 
-void put_chr2(OPTW *optw) {
+void put_chr2(OPTW* optw) {
     Vertex tex[4];
 
     if (No_Trans) {
@@ -57,7 +57,7 @@ void put_chr2(OPTW *optw) {
     ppgWriteQuadUseTrans(tex, optw->col.full, NULL, optw->g_no, -1, optw->hv, 300);
 }
 
-void opbg_trans(OPBW *opbw, s16 x, s16 y) {
+void opbg_trans(OPBW* opbw, s16 x, s16 y) {
     OPTW optw;
     s16 i;
     s16 i0;
@@ -96,6 +96,6 @@ void opbg_trans(OPBW *opbw, s16 x, s16 y) {
 }
 
 void COLOR_COPYn(s16 dst, s16 colcd, s16 n) {
-    s16 *colram = (s16 *)ColorRAM;
+    s16* colram = (s16*)ColorRAM;
     njSetPaletteData(dst * 16, n * 16, &colram[colcd * 16]);
 }

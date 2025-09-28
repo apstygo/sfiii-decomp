@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-extern s8 *vu1_debug_str[];
+extern s8* vu1_debug_str[];
 
 #endif

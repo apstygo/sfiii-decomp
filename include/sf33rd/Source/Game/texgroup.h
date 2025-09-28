@@ -7,7 +7,7 @@
 extern TEX_GRP_LD texgrplds[100]; // size: 0x4B0, address: 0x6B49D0
 extern const TexGroupData texgrpdat[100];
 
-void q_ldreq_texture_group(REQ *curr);
+void q_ldreq_texture_group(REQ* curr);
 void Init_texgrplds_work();
 void checkSelObjFileLoaded();
 s32 load_any_texture_patnum(u16 patnum, u8 kokey, u8 _unused);

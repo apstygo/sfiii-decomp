@@ -4,8 +4,8 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_L0_move(WORK_Other *ewk) {
-    PLW *mwk = (PLW *)ewk->my_master;
+void effect_L0_move(WORK_Other* ewk) {
+    PLW* mwk = (PLW*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -63,16 +63,16 @@ void effect_L0_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_L0_init(WORK *wk, s16 data) {
-    WORK_Other *ewk;
+s32 effect_L0_init(WORK* wk, s16 data) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
-    ewk->my_master = (u32 *)wk;
+    ewk = (WORK_Other*)frw[ix];
+    ewk->my_master = (u32*)wk;
     ewk->wu.be_flag = 1;
     ewk->wu.id = 210;
     ewk->wu.dir_timer = data;

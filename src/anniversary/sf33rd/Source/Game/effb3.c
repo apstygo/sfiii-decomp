@@ -1,10 +1,10 @@
 #include "sf33rd/Source/Game/effb3.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SE.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/effb2.h"
 #include "sf33rd/Source/Game/effb9.h"
 #include "sf33rd/Source/Game/ta_sub.h"
@@ -13,20 +13,20 @@
 
 // sbss
 
-WORK_Other *oya_adrs = NULL;
+WORK_Other* oya_adrs = NULL;
 
 // Forward decls
 
-void round_move_init(WORK_Other *ewk);
-void round_move(WORK_Other *ewk);
-void fight_move(WORK_Other *ewk);
-void fight_col_move(WORK_Other *ewk);
-void fight_vanish(WORK_Other *ewk);
+void round_move_init(WORK_Other* ewk);
+void round_move(WORK_Other* ewk);
+void fight_move(WORK_Other* ewk);
+void fight_col_move(WORK_Other* ewk);
+void fight_vanish(WORK_Other* ewk);
 
 // Funcs
 
-void effect_B3_move(WORK_Other *ewk) {
-    oya_adrs = (WORK_Other *)ewk->my_master;
+void effect_B3_move(WORK_Other* ewk) {
+    oya_adrs = (WORK_Other*)ewk->my_master;
 
     if (ewk->wu.old_rno[1] != oya_adrs->wu.routine_no[0]) {
         ewk->wu.routine_no[1] = 0;
@@ -76,7 +76,7 @@ void effect_B3_move(WORK_Other *ewk) {
     }
 }
 
-void round_move_init(WORK_Other *ewk) {
+void round_move_init(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         ewk->wu.routine_no[1] += 1;
@@ -93,7 +93,7 @@ void round_move_init(WORK_Other *ewk) {
     }
 }
 
-void round_move(WORK_Other *ewk) {
+void round_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         ewk->wu.routine_no[1] += 1;
@@ -121,7 +121,7 @@ void round_move(WORK_Other *ewk) {
     }
 }
 
-void fight_move(WORK_Other *ewk) {
+void fight_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         ewk->wu.routine_no[1] += 1;
@@ -141,12 +141,12 @@ void fight_move(WORK_Other *ewk) {
     }
 }
 
-void fight_col_move(WORK_Other *ewk) {
+void fight_col_move(WORK_Other* ewk) {
     ewk->wu.extra_col = oya_adrs->wu.extra_col;
     disp_pos_trans_entry5(ewk);
 }
 
-void fight_vanish(WORK_Other *ewk) {
+void fight_vanish(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         ewk->wu.routine_no[1] += 1;
@@ -173,23 +173,23 @@ void fight_vanish(WORK_Other *ewk) {
     }
 }
 
-s32 effect_B3_init(WORK_Other *oya) {
+s32 effect_B3_init(WORK_Other* oya) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 0x71;
     ewk->wu.work_id = 0x10;
-    ewk->my_master = (u32 *)oya;
+    ewk->my_master = (u32*)oya;
     ewk->wu.my_family = 4;
     ewk->wu.my_col_code = 0x52;
     ewk->wu.my_priority = ewk->wu.position_z = 10;

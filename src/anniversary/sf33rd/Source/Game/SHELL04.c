@@ -3,13 +3,13 @@
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void (*const Shell04_Tbl[12])(PLW *);
+void (*const Shell04_Tbl[12])(PLW*);
 
-void Shell04(PLW *wk) {
+void Shell04(PLW* wk) {
     Shell04_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
 }
 
-void Shell04_0000(PLW *wk) {
+void Shell04_0000(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     default:
         End_Pattern(wk);
@@ -17,7 +17,7 @@ void Shell04_0000(PLW *wk) {
     }
 }
 
-void Shell04_0001(PLW *wk) {
+void Shell04_0001(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SHELL_Term(wk, 1, 2, 1, -1, -1);
@@ -33,7 +33,7 @@ void Shell04_0001(PLW *wk) {
     }
 }
 
-void Shell04_0002(PLW *wk) {
+void Shell04_0002(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SHELL_Term(wk, 0, 2, 1, -1, -1);
@@ -49,7 +49,7 @@ void Shell04_0002(PLW *wk) {
     }
 }
 
-void Shell04_0003(PLW *wk) {
+void Shell04_0003(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SHELL_Term(wk, 0, 2, 1, -1, -1);
@@ -73,7 +73,7 @@ void Shell04_0003(PLW *wk) {
     }
 }
 
-void Shell04_0004(PLW *wk) {
+void Shell04_0004(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SHELL_Term(wk, 0, 2, 1, -1, -1);
@@ -93,7 +93,7 @@ void Shell04_0004(PLW *wk) {
     }
 }
 
-void Shell04_0005(PLW *wk) {
+void Shell04_0005(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SHELL_Term(wk, 0, 2, 1, -1, -1);
@@ -113,7 +113,7 @@ void Shell04_0005(PLW *wk) {
     }
 }
 
-void Shell04_0006(PLW *wk) {
+void Shell04_0006(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SHELL_Term(wk, 1, 2, 1, -1, -1);
@@ -129,7 +129,7 @@ void Shell04_0006(PLW *wk) {
     }
 }
 
-void Shell04_0007(PLW *wk) {
+void Shell04_0007(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SHELL_Term(wk, 3, 2, 1, -1, -1);
@@ -145,7 +145,7 @@ void Shell04_0007(PLW *wk) {
     }
 }
 
-void Shell04_0008(PLW *wk) {
+void Shell04_0008(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SHELL_Term(wk, 0, 2, 1, -1, -1);
@@ -165,7 +165,7 @@ void Shell04_0008(PLW *wk) {
     }
 }
 
-void Shell04_0009(PLW *wk) {
+void Shell04_0009(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Lever_Off(wk);
@@ -185,7 +185,7 @@ void Shell04_0009(PLW *wk) {
     }
 }
 
-void Shell04_0010(PLW *wk) {
+void Shell04_0010(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     default:
         End_Pattern(wk);
@@ -193,7 +193,7 @@ void Shell04_0010(PLW *wk) {
     }
 }
 
-void Shell04_0011(PLW *wk) {
+void Shell04_0011(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SHELL_Term(wk, 3, 2, 1, -1, -1);
@@ -209,6 +209,6 @@ void Shell04_0011(PLW *wk) {
     }
 }
 
-void (*const Shell04_Tbl[12])(PLW *) = { Shell04_0000, Shell04_0001, Shell04_0002, Shell04_0003,
-                                         Shell04_0004, Shell04_0005, Shell04_0006, Shell04_0007,
-                                         Shell04_0008, Shell04_0009, Shell04_0010, Shell04_0011 };
+void (*const Shell04_Tbl[12])(PLW*) = { Shell04_0000, Shell04_0001, Shell04_0002, Shell04_0003,
+                                        Shell04_0004, Shell04_0005, Shell04_0006, Shell04_0007,
+                                        Shell04_0008, Shell04_0009, Shell04_0010, Shell04_0011 };

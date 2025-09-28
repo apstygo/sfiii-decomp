@@ -1,16 +1,16 @@
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
 const s16 eff07_data_tbl[2][3] = { { 4, 742, 28 }, { 5, 806, 28 } };
 
-void effect_07_move(WORK_Other *ewk) {
+void effect_07_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -46,17 +46,17 @@ s32 effect_07_init() {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 i;
-    const s16 *data_ptr = &eff07_data_tbl[0][0];
+    const s16* data_ptr = &eff07_data_tbl[0][0];
 
     for (i = 0; i < 2; i++) {
         if ((ix = pull_effect_work(4)) == -1) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 7;
         ewk->wu.work_id = 16;
@@ -68,7 +68,7 @@ s32 effect_07_init() {
         ewk->wu.my_mts = 7;
         ewk->wu.my_trans_mode = get_my_trans_mode(ewk->wu.my_mts);
         ewk->wu.my_priority = ewk->wu.position_z = 98;
-        ewk->wu.char_table[1] = (u32 *)ewk;
+        ewk->wu.char_table[1] = (u32*)ewk;
         ewk->wu.char_table[0] = _usa_char_table;
         ewk->wu.type = i;
         ewk->wu.char_index = *data_ptr++;

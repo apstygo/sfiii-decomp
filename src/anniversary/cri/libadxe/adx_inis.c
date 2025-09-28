@@ -19,7 +19,7 @@
 #include <string.h>
 
 // data
-Char8 *volatile adxt_build = "\nADXT/PS2EE Ver.9.00 Build:Sep 18 2003 10:00:00\n";
+Char8* volatile adxt_build = "\nADXT/PS2EE Ver.9.00 Build:Sep 18 2003 10:00:00\n";
 Char8 adxt_obj_mark[16] = { 'M', 'A', 'R', 'K', ':', 'a', 'd', 'x', 't', '_', 'o', 'b', 'j' };
 Sint32 adxt_init_cnt = 0;
 Sint32 adxt_svr_id = 0;
@@ -30,18 +30,18 @@ Sint32 volatile adxt_vsync_cnt = 0;
 ADX_TALK adxt_obj[ADXT_MAX_OBJ] = { 0 };
 
 // forward decls
-Sint32 adxt_exec_tsvr(void *object);
-Sint32 adxt_exec_fssvr(void *object);
+Sint32 adxt_exec_tsvr(void* object);
+Sint32 adxt_exec_fssvr(void* object);
 
 void ADXT_ConfigVsyncSvr(Sint32 flag) {
     adxt_vsync_svr_flag = flag;
 }
 
-void adxini_rnaerr_cbfn(void *object, Char8 *msg) {
+void adxini_rnaerr_cbfn(void* object, Char8* msg) {
     ADXERR_CallErrFunc1(msg);
 }
 
-void adxini_lscerr_cbfn(void *object, Char8 *msg) {
+void adxini_lscerr_cbfn(void* object, Char8* msg) {
     ADXERR_CallErrFunc1(msg);
 }
 
@@ -50,26 +50,26 @@ void ADXT_VsyncProc() {
     ADXT_ExecServer();
 }
 
-Sint32 adxt_exec_main_thrd(void *object) {
+Sint32 adxt_exec_main_thrd(void* object) {
     LSC_ExecServer();
     return 0;
 }
 
-Sint32 adxt_exec_main_nothrd(void *object) {
+Sint32 adxt_exec_main_nothrd(void* object) {
     adxt_exec_tsvr(NULL);
     adxt_exec_fssvr(NULL);
     adxt_exec_main_thrd(NULL);
     return 0;
 }
 
-Sint32 adxt_exec_tsvr(void *object) {
+Sint32 adxt_exec_tsvr(void* object) {
 #if !defined(SOUND_DISABLED)
     ADXT_ExecServer();
 #endif
     return 0;
 }
 
-Sint32 adxt_exec_fssvr(void *object) {
+Sint32 adxt_exec_fssvr(void* object) {
     ADXT_ExecFsSvr();
     return 0;
 }

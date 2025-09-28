@@ -38,7 +38,7 @@
  * Macros for Error code
  */
 #define SCECdErFAIL                                                                                                    \
-    -1                      /* sceCdGetError()関数の                                                                   \
+    -1                      /* sceCdGetError()関数の                                                                \
                                             発行に失敗した      */
 #define SCECdErNO 0x00      /* No Error                         */
 #define SCECdErEOM 0x32     /* 再生中に最外周に達した	    */
@@ -143,7 +143,7 @@
 #define SCECdFuncPause 7
 #define SCECdFuncBreak 8
 
-typedef void (*CdlCB)(u_char, u_char *);
+typedef void (*CdlCB)(u_char, u_char*);
 
 /*
  *	CD and DVD Read Mode
@@ -241,20 +241,20 @@ typedef struct {
 extern "C" {
 #endif
 
-sceCdlLOCCD *sceCdIntToPos(int i, sceCdlLOCCD *p);
-int sceCdPosToInt(sceCdlLOCCD *p);
-int sceCdSearchFile(sceCdlFILE *fp, const char *name);
-int sceCdLayerSearchFile(sceCdlFILE *fp, const char *name, int layer);
-int sceCdRead(u_int lbn, u_int sectors, void *buf, sceCdRMode *mode);
-int sceCdReadIOPm(u_int lbn, u_int sectors, void *buf, sceCdRMode *mode);
-int sceCdReadChain(u_int *read_tag, sceCdRMode *mode);
-int *sceCdCallback(void (*func)(int));
-int *sceCdPOffCallback(void (*func)(void *), void *addr);
-int sceCdTrayReq(int param, u_int *traychk);
+sceCdlLOCCD* sceCdIntToPos(int i, sceCdlLOCCD* p);
+int sceCdPosToInt(sceCdlLOCCD* p);
+int sceCdSearchFile(sceCdlFILE* fp, const char* name);
+int sceCdLayerSearchFile(sceCdlFILE* fp, const char* name, int layer);
+int sceCdRead(u_int lbn, u_int sectors, void* buf, sceCdRMode* mode);
+int sceCdReadIOPm(u_int lbn, u_int sectors, void* buf, sceCdRMode* mode);
+int sceCdReadChain(u_int* read_tag, sceCdRMode* mode);
+int* sceCdCallback(void (*func)(int));
+int* sceCdPOffCallback(void (*func)(void*), void* addr);
+int sceCdTrayReq(int param, u_int* traychk);
 u_int sceCdGetReadPos(void);
 int sceCdSync(int mode);
 int sceCdInit(int init_mode);
-int sceCdInitEeCB(int cb_prio, void *stack_addr, int stack_size);
+int sceCdInitEeCB(int cb_prio, void* stack_addr, int stack_size);
 int sceCdDiskReady(int mode);
 int sceCdGetError(void);
 int sceCdGetDiskType(void);
@@ -263,39 +263,39 @@ int sceCdGetDiskType2(void);
 int sceCdStatus(void);
 int sceCdBreak(void);
 
-int sceCdGetToc(u_char *toc);
+int sceCdGetToc(u_char* toc);
 int sceCdSeek(u_int lbn);
 int sceCdStandby(void);
 int sceCdStop(void);
 int sceCdPause(void);
 
 int sceCdStInit(u_int bufmax, u_int bankmax, u_int iop_bufaddr);
-int sceCdStStart(u_int lbn, sceCdRMode *mode);
+int sceCdStStart(u_int lbn, sceCdRMode* mode);
 int sceCdStSeek(u_int lbn);
 int sceCdStSeekF(u_int lbn);
 int sceCdStStop(void);
-int sceCdStRead(u_int size, u_int *buf, u_int mode, u_int *err);
+int sceCdStRead(u_int size, u_int* buf, u_int mode, u_int* err);
 int sceCdStPause(void);
 int sceCdStResume(void);
 int sceCdStStat(void);
-int sceCdReadClock(sceCdCLOCK *rtc);
+int sceCdReadClock(sceCdCLOCK* rtc);
 int sceCdMmode(int media);
 int sceCdChangeThreadPriority(int prio);
-int sceCdPowerOff(int *stat);
+int sceCdPowerOff(int* stat);
 u_int sceCdSetEEReadMode(u_int mode);
-int sceCdReadDvdDualInfo(int *on_dual, u_int *layer1_start);
+int sceCdReadDvdDualInfo(int* on_dual, u_int* layer1_start);
 
-void *sceCdGetErxEntries(void);
-int sceCdDriveCheckForErxLoading(int *rdy, u_int *dtype);
+void* sceCdGetErxEntries(void);
+int sceCdDriveCheckForErxLoading(int* rdy, u_int* dtype);
 
-int sceCdReadCDDA(u_int lbn, u_int sectors, void *buf, sceCdRMode *mode);
-int sceCdCtrlADout(int param, int *stat);
+int sceCdReadCDDA(u_int lbn, u_int sectors, void* buf, sceCdRMode* mode);
+int sceCdCtrlADout(int param, int* stat);
 int sceCddaStInit(u_int bufmax, u_int bankmax, u_int iop_bufaddr, int datapattern);
-int sceCddaStStart(u_int lbn, sceCdRMode *mode);
+int sceCddaStStart(u_int lbn, sceCdRMode* mode);
 int sceCddaStSeek(u_int lbn);
 int sceCddaStSeekF(u_int lbn);
 int sceCddaStStop(void);
-int sceCddaStRead(u_int size, u_int *buf, u_int mode, u_int *err);
+int sceCddaStRead(u_int size, u_int* buf, u_int mode, u_int* err);
 int sceCddaStStat(void);
 
 #if defined(_LANGUAGE_C_PLUS_PLUS) || defined(__cplusplus) || defined(c_plusplus)

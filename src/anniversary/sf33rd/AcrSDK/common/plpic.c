@@ -15,18 +15,18 @@ typedef struct {
 } plPICHeader;
 
 #define U32_AT(_ptr, _offset)                                                                                          \
-    (((u8 *)_ptr)[_offset] << 0x18 | ((u8 *)_ptr)[_offset + 1] << 0x10 | ((u8 *)_ptr)[_offset + 2] << 0x8 |            \
-     (u32)((u8 *)_ptr)[_offset + 3])
-#define U16_AT(_ptr, _offset) (((u8 *)_ptr)[_offset] << 0x8 | ((u8 *)_ptr)[_offset + 1])
-#define AS_U32(_var) (*((u32 *)(&_var)))
+    (((u8*)_ptr)[_offset] << 0x18 | ((u8*)_ptr)[_offset + 1] << 0x10 | ((u8*)_ptr)[_offset + 2] << 0x8 |               \
+     (u32)((u8*)_ptr)[_offset + 3])
+#define U16_AT(_ptr, _offset) (((u8*)_ptr)[_offset] << 0x8 | ((u8*)_ptr)[_offset + 1])
+#define AS_U32(_var) (*((u32*)(&_var)))
 
-s32 plPICSetContextFromImage(plContext *dst, void *lpbas) {
+s32 plPICSetContextFromImage(plContext* dst, void* lpbas) {
     plPICHeader hed;
-    plPICHeader *lphed;
-    u8 *lpsrc;
+    plPICHeader* lphed;
+    u8* lpsrc;
     u32 chn[2];
 
-    lphed = (plPICHeader *)lpbas;
+    lphed = (plPICHeader*)lpbas;
 
     hed.magic = U32_AT(lphed, 0);
     hed.id = U32_AT(lphed, 0x58);
@@ -52,7 +52,7 @@ s32 plPICSetContextFromImage(plContext *dst, void *lpbas) {
         return 0;
     }
 
-    lpsrc = (u8 *)lphed + 0x68;
+    lpsrc = (u8*)lphed + 0x68;
     chn[0] = U32_AT(lpsrc, 0);
     lpsrc += 4;
 
@@ -97,13 +97,13 @@ s32 plPICSetContextFromImage(plContext *dst, void *lpbas) {
     return 1;
 }
 
-u8 *plPICGetPixelAddressFromImage(void *lpbas) {
+u8* plPICGetPixelAddressFromImage(void* lpbas) {
     plPICHeader hed;
-    plPICHeader *lphed;
-    u8 *lpsrc;
+    plPICHeader* lphed;
+    u8* lpsrc;
     u32 chn[2];
 
-    lphed = (plPICHeader *)lpbas;
+    lphed = (plPICHeader*)lpbas;
 
     hed.magic = U32_AT(lphed, 0);
     hed.id = U32_AT(lphed, 0x58);
@@ -129,7 +129,7 @@ u8 *plPICGetPixelAddressFromImage(void *lpbas) {
         return 0;
     }
 
-    lpsrc = (u8 *)lphed + 0x68;
+    lpsrc = (u8*)lphed + 0x68;
     chn[0] = U32_AT(lpsrc, 0);
     lpsrc += 4;
 

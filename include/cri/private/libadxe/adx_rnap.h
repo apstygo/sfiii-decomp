@@ -7,9 +7,9 @@
 
 void ADXRNA_Init();
 void ADXRNA_Finish();
-ADXRNA ADXRNA_Create(SJ *, Sint32);
+ADXRNA ADXRNA_Create(SJ*, Sint32);
 void ADXRNA_Destroy(ADXRNA rna);
-void ADXRNA_EntryErrFunc(void (*)(void *, Char8 *), void *);
+void ADXRNA_EntryErrFunc(void (*)(void*, Char8*), void*);
 Sint32 ADXRNA_GetNumData(ADXRNA);
 void ADXRNA_SetOutVol(ADXRNA, Sint32);
 void ADXRNA_SetPlaySw(ADXRNA, Sint32);

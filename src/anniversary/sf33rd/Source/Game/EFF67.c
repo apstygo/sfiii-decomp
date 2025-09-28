@@ -1,12 +1,12 @@
 #include "sf33rd/Source/Game/EFF67.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/texcash.h"
 
-void effect_67_move(WORK_Other_CONN *ewk) {
+void effect_67_move(WORK_Other_CONN* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -161,14 +161,14 @@ s32 effect_67_init(s16 id, s16 X, s16 Y, s16 time0, s16 Char_Index, s16 Priority
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other_CONN *ewk;
+    WORK_Other_CONN* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk = (WORK_Other_CONN*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 67;
     ewk->wu.work_id = 16;

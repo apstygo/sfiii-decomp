@@ -1,19 +1,19 @@
 #include "sf33rd/Source/Game/EFF15.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void eff15_kemuri(WORK_Other *ewk);
-void eff15_koishi(WORK_Other *ewk);
+void eff15_kemuri(WORK_Other* ewk);
+void eff15_koishi(WORK_Other* ewk);
 
-void effect_15_move(WORK_Other *ewk) {
+void effect_15_move(WORK_Other* ewk) {
     if (ewk->wu.type) {
         eff15_koishi(ewk);
     } else {
@@ -21,19 +21,19 @@ void effect_15_move(WORK_Other *ewk) {
     }
 }
 
-void eff15_kemuri(WORK_Other *ewk) {
-    WORK *oya_ptr;
+void eff15_kemuri(WORK_Other* ewk) {
+    WORK* oya_ptr;
 
     (void)ewk;
     (void)oya_ptr;
 }
 
-void eff15_koishi(WORK_Other *ewk) {
+void eff15_koishi(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    WORK *oya_ptr = (WORK *)ewk->my_master;
+    WORK* oya_ptr = (WORK*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -100,19 +100,19 @@ void eff15_koishi(WORK_Other *ewk) {
     }
 }
 
-s32 effect_15_init(WORK *wk, u8 data) {
+s32 effect_15_init(WORK* wk, u8 data) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 0xF;
     ewk->master_id = wk->id;
@@ -121,7 +121,7 @@ s32 effect_15_init(WORK *wk, u8 data) {
     ewk->wu.my_col_mode = 0x4200;
     ewk->wu.my_col_code = 0x2020;
     ewk->wu.my_family = wk->my_family;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->wu.rl_flag = 0;
     ewk->wu.xyz[0].disp.pos = 629;
     ewk->wu.xyz[1].disp.pos = 340;

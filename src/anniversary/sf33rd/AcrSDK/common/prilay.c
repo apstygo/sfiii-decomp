@@ -10,29 +10,29 @@
 #endif
 
 s8 plReportMessage[2048];
-void *(*plmalloc)(s32);
-void (*plfree)(void *);
+void* (*plmalloc)(s32);
+void (*plfree)(void*);
 
-s32 plReport(s8 *format, ...) {
-    s8 *va_ptr;
+s32 plReport(s8* format, ...) {
+    s8* va_ptr;
     va_list args;
     va_start(args, format);
     vsprintf(plReportMessage, format, args);
     return 1;
 }
 
-void plMemset(void *dst, u32 pat, s32 size) {
+void plMemset(void* dst, u32 pat, s32 size) {
     s32 i;
-    s8 *now = dst;
+    s8* now = dst;
 
     for (i = 0; i < size; i++) {
         *(now++) = pat;
     }
 }
 
-void plMemmove(void *dst, void *src, s32 size) {
+void plMemmove(void* dst, void* src, s32 size) {
     s32 i;
-    s8 *now[2];
+    s8* now[2];
 
     now[0] = dst;
     now[1] = src;
@@ -53,24 +53,24 @@ void plMemmove(void *dst, void *src, s32 size) {
     }
 }
 
-void *plCalcAddress(s32 x, s32 y, plContext *lpcontext) {
+void* plCalcAddress(s32 x, s32 y, plContext* lpcontext) {
     if ((x < 0) || (y < 0) || (x >= lpcontext->width) || (y >= lpcontext->height)) {
         return NULL;
     }
 
     if (lpcontext->bitdepth == 0) {
         if (lpcontext->desc & 0x40) {
-            return (s8 *)lpcontext->ptr + (lpcontext->pitch * y) + x;
+            return (s8*)lpcontext->ptr + (lpcontext->pitch * y) + x;
         }
 
-        return (s8 *)lpcontext->ptr + (lpcontext->pitch * y) + x / 2;
+        return (s8*)lpcontext->ptr + (lpcontext->pitch * y) + x / 2;
     }
 
-    return (s8 *)lpcontext->ptr + (lpcontext->pitch * y) + (x * lpcontext->bitdepth);
+    return (s8*)lpcontext->ptr + (lpcontext->pitch * y) + (x * lpcontext->bitdepth);
 }
 
-s32 plDrawPixel(plContext *dst, Pixel *ptr) {
-    u8 *lp;
+s32 plDrawPixel(plContext* dst, Pixel* ptr) {
+    u8* lp;
     s32 r;
     s32 g;
     s32 b;
@@ -88,11 +88,11 @@ s32 plDrawPixel(plContext *dst, Pixel *ptr) {
     if (dst->desc & 4) {
         switch (dst->bitdepth) {
         case 4:
-            ((u32 *)lp)[0] = ptr->c;
+            ((u32*)lp)[0] = ptr->c;
             break;
 
         case 2:
-            ((u16 *)lp)[0] = ptr->c;
+            ((u16*)lp)[0] = ptr->c;
             break;
 
         case 1:
@@ -138,7 +138,7 @@ s32 plDrawPixel(plContext *dst, Pixel *ptr) {
 
         switch (dst->bitdepth) {
         case 2:
-            ((u16 *)lp)[0] = color;
+            ((u16*)lp)[0] = color;
             break;
 
         case 3:
@@ -148,7 +148,7 @@ s32 plDrawPixel(plContext *dst, Pixel *ptr) {
             break;
 
         case 4:
-            ((u32 *)lp)[0] = color;
+            ((u32*)lp)[0] = color;
             break;
         }
     }
@@ -156,7 +156,7 @@ s32 plDrawPixel(plContext *dst, Pixel *ptr) {
     return 1;
 }
 
-s32 plDrawPixel_3(plContext *dst, s32 x, s32 y, u32 color) {
+s32 plDrawPixel_3(plContext* dst, s32 x, s32 y, u32 color) {
     Pixel pixel;
     pixel.x = x;
     pixel.y = y;
@@ -164,8 +164,8 @@ s32 plDrawPixel_3(plContext *dst, s32 x, s32 y, u32 color) {
     return plDrawPixel(dst, &pixel);
 }
 
-u32 plGetColor(s32 x, s32 y, plContext *lpcontext) {
-    u8 *lp;
+u32 plGetColor(s32 x, s32 y, plContext* lpcontext) {
+    u8* lp;
     u32 color;
     s32 r;
     s32 g;
@@ -200,11 +200,11 @@ u32 plGetColor(s32 x, s32 y, plContext *lpcontext) {
             break;
 
         case 2:
-            color = ((u16 *)lp)[0];
+            color = ((u16*)lp)[0];
             break;
 
         case 4:
-            color = ((u32 *)lp)[0];
+            color = ((u32*)lp)[0];
             break;
         }
 
@@ -213,7 +213,7 @@ u32 plGetColor(s32 x, s32 y, plContext *lpcontext) {
 
     switch (lpcontext->bitdepth) {
     case 2:
-        color = ((u16 *)lp)[0];
+        color = ((u16*)lp)[0];
         break;
 
     case 3:
@@ -221,7 +221,7 @@ u32 plGetColor(s32 x, s32 y, plContext *lpcontext) {
         break;
 
     case 4:
-        color = ((u32 *)lp)[0];
+        color = ((u32*)lp)[0];
         break;
     }
 
@@ -252,7 +252,7 @@ u32 plGetColor(s32 x, s32 y, plContext *lpcontext) {
     return a << 24 | r << 16 | g << 8 | b;
 }
 
-s32 plConvertContext(plContext *dst, plContext *src) {
+s32 plConvertContext(plContext* dst, plContext* src) {
     s32 x;
     s32 y;
     u32 color;

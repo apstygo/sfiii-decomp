@@ -546,7 +546,7 @@ DATA_SECTION AS D_00471DF4[16] = {
     { .r_no = 33, .char_ix = 29, .data_ix = 34 }, { .r_no = 33, .char_ix = 29, .data_ix = 34 }
 };
 
-DATA_SECTION AS *_assadr_lv_9900[20][4] = { { D_00470D74, D_00470E04, D_00471CD4, D_00471CD4 },
+DATA_SECTION AS* _assadr_lv_9900[20][4] = { { D_00470D74, D_00470E04, D_00471CD4, D_00471CD4 },
                                             { D_00470E64, D_00470EAC, D_00471CD4, D_00471CD4 },
                                             { D_00470F3C, D_00470F84, D_00471CD4, D_00471CD4 },
                                             { D_00470FE4, D_0047102C, D_00471CEC, D_00471CEC },
@@ -565,7 +565,7 @@ DATA_SECTION AS *_assadr_lv_9900[20][4] = { { D_00470D74, D_00470E04, D_00471CD4
                                             { D_00471A34, D_00471A7C, D_00471DC4, D_00471DC4 },
                                             { D_00471ADC, D_00471B24, D_00471DDC, D_00471DDC },
                                             { D_00471BB4, D_00471BE4, D_00471DDC, D_00471DF4 },
-                                            { D_00471C2C, D_00471C74, (AS *)_assadr_lv_9900, (AS *)_assadr_lv_9900 } };
+                                            { D_00471C2C, D_00471C74, (AS*)_assadr_lv_9900, (AS*)_assadr_lv_9900 } };
 
 u16 _asstbl_lv_0000[20][6][2] = {
     { { 0, 0x40 }, { 0x4008, 0 }, { 0, 0x40 }, { 0, 0x40 }, { 0x8004, 0x40 }, { 0, 0x40 } },

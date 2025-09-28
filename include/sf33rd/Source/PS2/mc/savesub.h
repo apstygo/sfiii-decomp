@@ -43,13 +43,13 @@ typedef struct _save_work {
     u8 ask_save_flag;                 // offset 0x23, size 0x1
     u8 auto_save_old;                 // offset 0x24, size 0x1
     s32 ram_key;                      // offset 0x28, size 0x4
-    u8 *fnt_adrs;                     // offset 0x2C, size 0x4
-    u8 *buf_adrs;                     // offset 0x30, size 0x4
-    u8 *buf_adrs0;                    // offset 0x34, size 0x4
-    u8 *ico_adrs;                     // offset 0x38, size 0x4
-    u8 *dat_adrs;                     // offset 0x3C, size 0x4
-    u8 *exp_adrs;                     // offset 0x40, size 0x4
-    struct _adx_fs *adxf;             // offset 0x44, size 0x4
+    u8* fnt_adrs;                     // offset 0x2C, size 0x4
+    u8* buf_adrs;                     // offset 0x30, size 0x4
+    u8* buf_adrs0;                    // offset 0x34, size 0x4
+    u8* ico_adrs;                     // offset 0x38, size 0x4
+    u8* dat_adrs;                     // offset 0x3C, size 0x4
+    u8* exp_adrs;                     // offset 0x40, size 0x4
+    struct _adx_fs* adxf;             // offset 0x44, size 0x4
     s32 avail_size;                   // offset 0x48, size 0x4
     s8 sel_slot_no;                   // offset 0x4C, size 0x1
     s8 sel_slot_max;                  // offset 0x4D, size 0x1

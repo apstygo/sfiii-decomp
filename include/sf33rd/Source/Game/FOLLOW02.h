@@ -4,6 +4,6 @@
 #include "structs.h"
 #include "types.h"
 
-void Follow02(PLW *wk);
+void Follow02(PLW* wk);
 
 #endif

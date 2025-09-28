@@ -14,62 +14,62 @@
 #include "sf33rd/Source/Game/win_pl.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void Player_normal(PLW *wk);
-void setup_normal_process_flags(PLW *wk);
-void Normal_00000(PLW *wk);
-void Normal_01000(PLW *wk);
-void Normal_02000(PLW *wk);
-void Normal_03000(PLW *wk);
-void Normal_04000(PLW *wk);
-void Normal_05000(PLW *wk);
-void nm_05_0000(PLW *wk);
-void nm_05_0100(PLW *wk);
-void Normal_06000(PLW *wk);
-void nm_06_0000(PLW *wk);
-void nm_06_0100(PLW *wk);
-void nm_06_0200(PLW *wk);
-void Normal_07000(PLW *wk);
-void Normal_08000(PLW *wk);
-void Normal_09000(PLW *wk);
-void Normal_10000(PLW *wk);
-void Normal_16000(PLW *wk);
-void Normal_17000(PLW *wk);
-void Normal_18000(PLW *wk);
-void Normal_18000_init_unit(PLW *wk, u8 ps);
-void Normal_27000(PLW *wk);
-void Normal_31000(PLW *wk);
-void Normal_35000(PLW *wk);
-void Normal_36000(PLW *wk);
-void Normal_37000(PLW *wk);
-void Normal_38000(PLW *wk);
-void Normal_39000(PLW *wk);
-void Normal_40000(PLW *wk);
-void Normal_41000(PLW *wk);
-void Normal_42000(PLW *wk);
-void Normal_47000(PLW *wk);
-void Normal_48000(PLW *wk);
-void Normal_50000(PLW *wk);
-void Normal_51000(PLW *wk);
-void Normal_52000(PLW *wk);
-void Normal_53000(PLW *wk);
-void Normal_54000(PLW *wk);
-void Normal_55000(PLW *wk);
-void make_nm55_init_sp(PLW *wk);
-void Normal_56000(PLW *wk);
-void nm56_char_select(PLW *wk);
-void Normal_57000(PLW *wk);
-void Normal_58000(PLW *wk);
-void nm57_dir_select(PLW *wk);
+void Player_normal(PLW* wk);
+void setup_normal_process_flags(PLW* wk);
+void Normal_00000(PLW* wk);
+void Normal_01000(PLW* wk);
+void Normal_02000(PLW* wk);
+void Normal_03000(PLW* wk);
+void Normal_04000(PLW* wk);
+void Normal_05000(PLW* wk);
+void nm_05_0000(PLW* wk);
+void nm_05_0100(PLW* wk);
+void Normal_06000(PLW* wk);
+void nm_06_0000(PLW* wk);
+void nm_06_0100(PLW* wk);
+void nm_06_0200(PLW* wk);
+void Normal_07000(PLW* wk);
+void Normal_08000(PLW* wk);
+void Normal_09000(PLW* wk);
+void Normal_10000(PLW* wk);
+void Normal_16000(PLW* wk);
+void Normal_17000(PLW* wk);
+void Normal_18000(PLW* wk);
+void Normal_18000_init_unit(PLW* wk, u8 ps);
+void Normal_27000(PLW* wk);
+void Normal_31000(PLW* wk);
+void Normal_35000(PLW* wk);
+void Normal_36000(PLW* wk);
+void Normal_37000(PLW* wk);
+void Normal_38000(PLW* wk);
+void Normal_39000(PLW* wk);
+void Normal_40000(PLW* wk);
+void Normal_41000(PLW* wk);
+void Normal_42000(PLW* wk);
+void Normal_47000(PLW* wk);
+void Normal_48000(PLW* wk);
+void Normal_50000(PLW* wk);
+void Normal_51000(PLW* wk);
+void Normal_52000(PLW* wk);
+void Normal_53000(PLW* wk);
+void Normal_54000(PLW* wk);
+void Normal_55000(PLW* wk);
+void make_nm55_init_sp(PLW* wk);
+void Normal_56000(PLW* wk);
+void nm56_char_select(PLW* wk);
+void Normal_57000(PLW* wk);
+void Normal_58000(PLW* wk);
+void nm57_dir_select(PLW* wk);
 
 const s16 nmPB_data[5][3];
 const s16 nmCE_data[4][3];
 const u16 jpdat_tbl[9][2];
 
-void (*const plpnm_lv_00[59])(PLW *wk);
-void (*const normal_05[])(PLW *wk);
-void (*const normal_06[])(PLW *wk);
+void (*const plpnm_lv_00[59])(PLW* wk);
+void (*const normal_05[])(PLW* wk);
+void (*const normal_06[])(PLW* wk);
 
-void Player_normal(PLW *wk) {
+void Player_normal(PLW* wk) {
 #if defined(TARGET_PS2)
     void clear_chainex_check(s32 ix);
 #endif
@@ -80,13 +80,13 @@ void Player_normal(PLW *wk) {
         clear_chainex_check(wk->wu.id);
     }
 
-    check_my_tk_power_off(wk, (PLW *)wk->wu.target_adrs);
-    check_em_tk_power_off(wk, (PLW *)wk->wu.target_adrs);
+    check_my_tk_power_off(wk, (PLW*)wk->wu.target_adrs);
+    check_em_tk_power_off(wk, (PLW*)wk->wu.target_adrs);
     pp_pulpara_remake_nm_move(wk);
     plpnm_lv_00[wk->wu.routine_no[2]](wk);
 
     if (wk->wu.cg_prio) {
-        wk->wu.next_z = ((WORK *)wk->wu.target_adrs)->my_priority;
+        wk->wu.next_z = ((WORK*)wk->wu.target_adrs)->my_priority;
 
         if (wk->wu.cg_prio == 1) {
             wk->wu.next_z++;
@@ -97,7 +97,7 @@ void Player_normal(PLW *wk) {
     }
 }
 
-void setup_normal_process_flags(PLW *wk) {
+void setup_normal_process_flags(PLW* wk) {
     wk->wu.next_z = wk->wu.my_priority;
     wk->running_f = 0;
     wk->py->flag = 0;
@@ -131,11 +131,11 @@ void setup_normal_process_flags(PLW *wk) {
     wk->wu.swallow_no_effect = 0;
 }
 
-void Normal_00000(PLW *wk) {
+void Normal_00000(PLW* wk) {
     appear_player(wk);
 }
 
-void Normal_01000(PLW *wk) {
+void Normal_01000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority + 1;
     }
@@ -152,7 +152,7 @@ void Normal_01000(PLW *wk) {
     }
 }
 
-void Normal_02000(PLW *wk) {
+void Normal_02000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority + 1;
     }
@@ -170,7 +170,7 @@ void Normal_02000(PLW *wk) {
     }
 }
 
-void Normal_03000(PLW *wk) {
+void Normal_03000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority - 1;
     }
@@ -193,7 +193,7 @@ void Normal_03000(PLW *wk) {
     }
 }
 
-void Normal_04000(PLW *wk) {
+void Normal_04000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority + 1;
     }
@@ -214,7 +214,7 @@ void Normal_04000(PLW *wk) {
     }
 }
 
-void Normal_05000(PLW *wk) {
+void Normal_05000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority - 1;
     }
@@ -225,7 +225,7 @@ void Normal_05000(PLW *wk) {
     jumping_guard_type_check(wk);
 }
 
-void nm_05_0000(PLW *wk) {
+void nm_05_0000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -254,7 +254,7 @@ void nm_05_0000(PLW *wk) {
     }
 }
 
-void nm_05_0100(PLW *wk) {
+void nm_05_0100(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -302,7 +302,7 @@ void nm_05_0100(PLW *wk) {
     }
 }
 
-void Normal_06000(PLW *wk) {
+void Normal_06000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority + 1;
     }
@@ -313,7 +313,7 @@ void Normal_06000(PLW *wk) {
     jumping_guard_type_check(wk);
 }
 
-void nm_06_0000(PLW *wk) {
+void nm_06_0000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -327,7 +327,7 @@ void nm_06_0000(PLW *wk) {
     }
 }
 
-void nm_06_0100(PLW *wk) {
+void nm_06_0100(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -356,7 +356,7 @@ void nm_06_0100(PLW *wk) {
     }
 }
 
-void nm_06_0200(PLW *wk) {
+void nm_06_0200(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -404,7 +404,7 @@ void nm_06_0200(PLW *wk) {
     }
 }
 
-void Normal_07000(PLW *wk) {
+void Normal_07000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority - 1;
     }
@@ -421,7 +421,7 @@ void Normal_07000(PLW *wk) {
     }
 }
 
-void Normal_08000(PLW *wk) {
+void Normal_08000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority - 1;
     }
@@ -438,7 +438,7 @@ void Normal_08000(PLW *wk) {
     }
 }
 
-void Normal_09000(PLW *wk) {
+void Normal_09000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority - 1;
     }
@@ -455,7 +455,7 @@ void Normal_09000(PLW *wk) {
     }
 }
 
-void Normal_10000(PLW *wk) {
+void Normal_10000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority - 1;
     }
@@ -473,7 +473,7 @@ void Normal_10000(PLW *wk) {
     }
 }
 
-void Normal_16000(PLW *wk) {
+void Normal_16000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority + 1;
     }
@@ -493,7 +493,7 @@ void Normal_16000(PLW *wk) {
     }
 }
 
-void Normal_17000(PLW *wk) {
+void Normal_17000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority + 1;
     }
@@ -513,7 +513,7 @@ void Normal_17000(PLW *wk) {
     }
 }
 
-void Normal_18000(PLW *wk) {
+void Normal_18000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -545,7 +545,7 @@ void Normal_18000(PLW *wk) {
     jumping_guard_type_check(wk);
 }
 
-void Normal_18000_init_unit(PLW *wk, u8 ps) {
+void Normal_18000_init_unit(PLW* wk, u8 ps) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -562,7 +562,7 @@ void Normal_18000_init_unit(PLW *wk, u8 ps) {
     add_mvxy_speed(&wk->wu);
 }
 
-void Normal_27000(PLW *wk) {
+void Normal_27000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -583,12 +583,12 @@ void Normal_27000(PLW *wk) {
     }
 }
 
-void Normal_31000(PLW *wk) {
+void Normal_31000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    if (((WORK *)wk->wu.target_adrs)->cg_prio != 2) {
+    if (((WORK*)wk->wu.target_adrs)->cg_prio != 2) {
         wk->wu.next_z = 32;
     }
 
@@ -622,7 +622,7 @@ void Normal_31000(PLW *wk) {
     }
 }
 
-void Normal_35000(PLW *wk) {
+void Normal_35000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority - 1;
     }
@@ -658,7 +658,7 @@ void Normal_35000(PLW *wk) {
         /* fallthrough */
 
     case 2:
-        if (((WORK *)wk->wu.target_adrs)->cg_prio != 2) {
+        if (((WORK*)wk->wu.target_adrs)->cg_prio != 2) {
             wk->wu.next_z = 32;
         }
 
@@ -671,7 +671,7 @@ void Normal_35000(PLW *wk) {
     }
 }
 
-void Normal_36000(PLW *wk) {
+void Normal_36000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority + 1;
     }
@@ -679,7 +679,7 @@ void Normal_36000(PLW *wk) {
     char_move(&wk->wu);
 }
 
-void Normal_37000(PLW *wk) {
+void Normal_37000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority + 1;
     }
@@ -687,7 +687,7 @@ void Normal_37000(PLW *wk) {
     char_move(&wk->wu);
 }
 
-void Normal_38000(PLW *wk) {
+void Normal_38000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority + 1;
     }
@@ -706,7 +706,7 @@ void Normal_38000(PLW *wk) {
     jumping_guard_type_check(wk);
 }
 
-void Normal_39000(PLW *wk) {
+void Normal_39000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority - 1;
     }
@@ -720,7 +720,7 @@ void Normal_39000(PLW *wk) {
     set_char_move_init(&wk->wu, 0, 23);
 }
 
-void Normal_40000(PLW *wk) {
+void Normal_40000(PLW* wk) {
     wk->wu.next_z = 38;
 
     if ((Mode_Type == 3) || (Mode_Type == 4)) {
@@ -741,7 +741,7 @@ void Normal_40000(PLW *wk) {
     win_player(wk);
 }
 
-void Normal_41000(PLW *wk) {
+void Normal_41000(PLW* wk) {
     wk->wu.next_z = 34;
 
     if ((Mode_Type == 3) || (Mode_Type == 4)) {
@@ -762,16 +762,16 @@ void Normal_41000(PLW *wk) {
     lose_player(wk);
 }
 
-void Normal_42000(PLW *wk) {
+void Normal_42000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
     s32 effect_G6_init(WORK * wk, u32 dat);
 #endif
 
-    const s16 *dadr = nmPB_data[wk->wu.routine_no[2] - 42];
+    const s16* dadr = nmPB_data[wk->wu.routine_no[2] - 42];
 
-    if (((WORK *)wk->wu.target_adrs)->cg_prio != 2) {
+    if (((WORK*)wk->wu.target_adrs)->cg_prio != 2) {
         wk->wu.next_z = 32;
     }
 
@@ -833,7 +833,7 @@ void Normal_42000(PLW *wk) {
     }
 }
 
-void Normal_47000(PLW *wk) {
+void Normal_47000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -841,9 +841,9 @@ void Normal_47000(PLW *wk) {
     void grade_add_grap_def(s32 ix);
 #endif
 
-    const s16 *datix = nmCE_data[wk->wu.routine_no[2] - 47];
+    const s16* datix = nmCE_data[wk->wu.routine_no[2] - 47];
 
-    if (((WORK *)wk->wu.target_adrs)->cg_prio != 2) {
+    if (((WORK*)wk->wu.target_adrs)->cg_prio != 2) {
         wk->wu.next_z = 32;
     }
 
@@ -903,7 +903,7 @@ void Normal_47000(PLW *wk) {
     }
 }
 
-void Normal_48000(PLW *wk) {
+void Normal_48000(PLW* wk) {
 #if defined(TARGET_PS2)
     s32 effect_G6_init(WORK * wk, u32 dat);
 #endif
@@ -951,7 +951,7 @@ void Normal_48000(PLW *wk) {
     }
 }
 
-void Normal_50000(PLW *wk) {
+void Normal_50000(PLW* wk) {
     wk->guard_flag = 3;
 
     switch (wk->wu.routine_no[3]) {
@@ -994,14 +994,14 @@ void Normal_50000(PLW *wk) {
     }
 }
 
-void Normal_51000(PLW *wk) {
+void Normal_51000(PLW* wk) {
     if (wk->wu.routine_no[3] == 0) {
         wk->wu.routine_no[3]++;
         set_char_move_init(&wk->wu, 0, 12);
     }
 }
 
-void Normal_52000(PLW *wk) {
+void Normal_52000(PLW* wk) {
 #if defined(TARGET_PS2)
     void remake_sankaku_tobi_mvxy(WORK * wk, u32 kabe);
 #endif
@@ -1036,7 +1036,7 @@ void Normal_52000(PLW *wk) {
     }
 }
 
-void Normal_53000(PLW *wk) {
+void Normal_53000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -1083,7 +1083,7 @@ void Normal_53000(PLW *wk) {
     }
 }
 
-void Normal_54000(PLW *wk) {
+void Normal_54000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority + 1;
     }
@@ -1102,7 +1102,7 @@ void Normal_54000(PLW *wk) {
             wk->wu.routine_no[2] = 18;
             wk->wu.routine_no[3] = 0;
 
-            if (wk->wu.rl_flag != check_work_position(&wk->wu, (WORK *)wk->wu.target_adrs)) {
+            if (wk->wu.rl_flag != check_work_position(&wk->wu, (WORK*)wk->wu.target_adrs)) {
                 wk->wu.routine_no[2] = 20;
             }
         }
@@ -1111,7 +1111,7 @@ void Normal_54000(PLW *wk) {
     }
 }
 
-void Normal_55000(PLW *wk) {
+void Normal_55000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority + 1;
     }
@@ -1138,14 +1138,14 @@ void Normal_55000(PLW *wk) {
     }
 }
 
-void make_nm55_init_sp(PLW *wk) {
+void make_nm55_init_sp(PLW* wk) {
 #if defined(TARGET_PS2)
     s16 get_sel_hosei_tbl_ix(s32 plnum);
     s16 check_work_position_bonus(WORK * hm, s32 tx);
 #endif
 
-    WORK *efw;
-    s16 *dad;
+    WORK* efw;
+    s16* dad;
     s16 ix;
     s16 isp;
 
@@ -1157,7 +1157,7 @@ void make_nm55_init_sp(PLW *wk) {
     }
 
     wk->wu.mvxy.a[0].real.h = isp;
-    efw = (WORK *)((WORK *)wk->wu.target_adrs)->my_effadrs;
+    efw = (WORK*)((WORK*)wk->wu.target_adrs)->my_effadrs;
     ix = get_sel_hosei_tbl_ix(wk->player_number) + 1;
     dad = efw->hosei_adrs[ix].hos_box;
 
@@ -1173,7 +1173,7 @@ void make_nm55_init_sp(PLW *wk) {
     }
 }
 
-void Normal_56000(PLW *wk) {
+void Normal_56000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority + 1;
     }
@@ -1198,18 +1198,18 @@ void Normal_56000(PLW *wk) {
     }
 }
 
-void nm56_char_select(PLW *wk) {
+void nm56_char_select(PLW* wk) {
 #if defined(TARGET_PS2)
     s16 get_sel_hosei_tbl_ix(s32 plnum);
     s16 check_work_position_bonus(WORK * hm, s32 tx);
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    WORK *efw;
-    s16 *dad;
+    WORK* efw;
+    s16* dad;
     s16 ix;
 
-    efw = (WORK *)wk->wu.target_adrs[203];
+    efw = (WORK*)wk->wu.target_adrs[203];
     ix = get_sel_hosei_tbl_ix(wk->player_number) + 1;
     dad = efw->hosei_adrs[ix].hos_box;
     setup_mvxy_data(&wk->wu, 17);
@@ -1230,7 +1230,7 @@ void nm56_char_select(PLW *wk) {
     set_char_move_init(&wk->wu, 0, ix);
 }
 
-void Normal_57000(PLW *wk) {
+void Normal_57000(PLW* wk) {
 #if defined(TARGET_PS2)
     s32 effect_G6_init(WORK * wk, u32 dat);
 #endif
@@ -1271,19 +1271,19 @@ void Normal_57000(PLW *wk) {
     }
 }
 
-void nm57_dir_select(PLW *wk) {
+void nm57_dir_select(PLW* wk) {
 #if defined(TARGET_PS2)
     s16 get_sel_hosei_tbl_ix(s32 plnum);
     s16 check_work_position_bonus(WORK * hm, s32 tx);
 #endif
 
-    WORK *efw;
-    s16 *dad;
+    WORK* efw;
+    s16* dad;
     s16 ix;
 
-    efw = (WORK *)wk->wu.target_adrs[203];
+    efw = (WORK*)wk->wu.target_adrs[203];
     ix = get_sel_hosei_tbl_ix(wk->player_number) + 1;
-    dad = (s16 *)efw->hosei_adrs[ix].hos_box;
+    dad = (s16*)efw->hosei_adrs[ix].hos_box;
     wk->wu.rl_flag = 1;
 
     if (check_work_position_bonus(&wk->wu, dad[0] + (dad[1] / 2) + efw->xyz[0].disp.pos)) {
@@ -1291,7 +1291,7 @@ void nm57_dir_select(PLW *wk) {
     }
 }
 
-void Normal_58000(PLW *wk) {
+void Normal_58000(PLW* wk) {
     if (wk->the_same_players) {
         wk->wu.next_z = wk->wu.my_priority + 1;
     }
@@ -1316,7 +1316,7 @@ void Normal_58000(PLW *wk) {
 const s16 nmPB_data[5][3] = { { 38, 23, 1 }, { 39, 23, 1 }, { 40, 24, 1 }, { 41, 25, 0 }, { 42, 25, 0 } };
 const s16 nmCE_data[4][3] = { { 43, 26, 1 }, { 44, 27, 1 }, { 45, 28, 0 }, { 46, 29, 0 } };
 
-void (*const plpnm_lv_00[59])(PLW *wk) = {
+void (*const plpnm_lv_00[59])(PLW* wk) = {
     Normal_00000, Normal_01000, Normal_02000, Normal_03000, Normal_04000, Normal_05000, Normal_06000, Normal_07000,
     Normal_08000, Normal_09000, Normal_10000, Normal_03000, Normal_04000, Normal_03000, Normal_03000, Normal_03000,
     Normal_16000, Normal_17000, Normal_18000, Normal_18000, Normal_18000, Normal_18000, Normal_18000, Normal_18000,
@@ -1327,12 +1327,12 @@ void (*const plpnm_lv_00[59])(PLW *wk) = {
     Normal_56000, Normal_57000, Normal_58000
 };
 
-void (*const normal_05[])(PLW *wk) = { nm_05_0000, nm_05_0000, nm_05_0100, nm_05_0000, nm_05_0000,
+void (*const normal_05[])(PLW* wk) = { nm_05_0000, nm_05_0000, nm_05_0100, nm_05_0000, nm_05_0000,
                                        nm_05_0000, nm_05_0000, nm_05_0000, nm_05_0100, nm_05_0000,
                                        nm_05_0000, nm_05_0100, nm_05_0100, nm_05_0000, nm_05_0100,
                                        nm_05_0000, nm_05_0100, nm_05_0000, nm_05_0000, nm_05_0000 };
 
-void (*const normal_06[])(PLW *wk) = { nm_06_0100, nm_06_0100, nm_06_0200, nm_06_0000, nm_06_0100,
+void (*const normal_06[])(PLW* wk) = { nm_06_0100, nm_06_0100, nm_06_0200, nm_06_0000, nm_06_0100,
                                        nm_06_0100, nm_06_0100, nm_06_0100, nm_06_0000, nm_06_0100,
                                        nm_06_0000, nm_06_0200, nm_06_0200, nm_06_0100, nm_06_0200,
                                        nm_06_0000, nm_06_0200, nm_06_0100, nm_06_0100, nm_06_0100 };

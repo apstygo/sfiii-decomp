@@ -15,17 +15,17 @@
 #include "sf33rd/Source/Game/meta_col.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void player_mvbs_0000(PLW *wk);
-void player_mvbs_1000(PLW *wk);
-void plmv_b_1010(PLW *wk);
-void plmv_b_1020(PLW *wk, s16 step);
-void player_mvbs_2000(PLW *wk);
-void player_mvbs_3000(PLW *wk);
-void player_mvbs_4000(PLW *wk);
+void player_mvbs_0000(PLW* wk);
+void player_mvbs_1000(PLW* wk);
+void plmv_b_1010(PLW* wk);
+void plmv_b_1020(PLW* wk, s16 step);
+void player_mvbs_2000(PLW* wk);
+void player_mvbs_3000(PLW* wk);
+void player_mvbs_4000(PLW* wk);
 
-void (*const plmain_b_lv_00[5])(PLW *wk);
+void (*const plmain_b_lv_00[5])(PLW* wk);
 
-void Player_move_bonus(PLW *wk, u16 lv_data) {
+void Player_move_bonus(PLW* wk, u16 lv_data) {
 #if defined(TARGET_PS2)
     u16 check_illegal_lever_data(u32 data);
 #endif
@@ -87,7 +87,7 @@ void Player_move_bonus(PLW *wk, u16 lv_data) {
     plmain_b_lv_00[wk->wu.routine_no[0]](wk);
 }
 
-void player_mvbs_0000(PLW *wk) {
+void player_mvbs_0000(PLW* wk) {
 #if defined(TARGET_PS2)
     void setup_vitality(WORK * wk, s32 pno);
     void metamor_color_restore(s32 wkid);
@@ -145,7 +145,7 @@ void player_mvbs_0000(PLW *wk) {
     }
 }
 
-void player_mvbs_1000(PLW *wk) {
+void player_mvbs_1000(PLW* wk) {
     switch (appear_type) {
     case 0:
         plmv_b_1010(wk);
@@ -184,7 +184,7 @@ void player_mvbs_1000(PLW *wk) {
     Player_normal(wk);
 }
 
-void plmv_b_1010(PLW *wk) {
+void plmv_b_1010(PLW* wk) {
     wk->wu.routine_no[0] = 3;
 
     if (Bonus_Game_Flag != 20 || wk->wu.operator) {
@@ -195,7 +195,7 @@ void plmv_b_1010(PLW *wk) {
     }
 }
 
-void plmv_b_1020(PLW *wk, s16 step) {
+void plmv_b_1020(PLW* wk, s16 step) {
     if (wk->wu.id) {
         wk->wu.rl_flag = 0;
         wk->wu.xyz[0].disp.pos = step + get_center_position();
@@ -208,7 +208,7 @@ void plmv_b_1020(PLW *wk, s16 step) {
     wk->wu.xyz[1].disp.pos = 0;
 }
 
-void player_mvbs_2000(PLW *wk) {
+void player_mvbs_2000(PLW* wk) {
     if (Bonus_Game_Flag != 20 || wk->wu.operator) {
         if (wk->wu.routine_no[2] == 1) {
             wk->wu.routine_no[0] = 3;
@@ -223,11 +223,11 @@ void player_mvbs_2000(PLW *wk) {
     Player_normal(wk);
 }
 
-void player_mvbs_3000(PLW *wk) {
+void player_mvbs_3000(PLW* wk) {
     Player_normal(wk);
 }
 
-void player_mvbs_4000(PLW *wk) {
+void player_mvbs_4000(PLW* wk) {
     wk->permited_koa = 0;
     check_extra_jump_timer(wk);
 
@@ -260,6 +260,6 @@ void player_mvbs_4000(PLW *wk) {
     about_gauge_process(wk);
 }
 
-void (*const plmain_b_lv_00[5])(PLW *wk) = {
+void (*const plmain_b_lv_00[5])(PLW* wk) = {
     player_mvbs_0000, player_mvbs_1000, player_mvbs_2000, player_mvbs_3000, player_mvbs_4000
 };

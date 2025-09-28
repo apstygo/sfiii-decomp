@@ -1,10 +1,10 @@
 #include "sf33rd/Source/Game/EFF48.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CALDIR.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/OPENING.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/eff36.h"
 #include "sf33rd/Source/Game/op_sub.h"
@@ -12,19 +12,19 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "structs.h"
 
-typedef const s16 *ConstShortArray;
+typedef const s16* ConstShortArray;
 extern ConstShortArray eff48_adrs_tbl[];
 extern const s16 eff48_num_tbl[22];
 
-void eff48_0000(WORK_Other *);
-void eff48_1000(WORK_Other *);
+void eff48_0000(WORK_Other*);
+void eff48_1000(WORK_Other*);
 
-void effect_48_move(WORK_Other *ewk) {
-    void (*eff48_jp[3])(WORK_Other *) = { eff48_0000, eff48_1000, eff48_0000 };
+void effect_48_move(WORK_Other* ewk) {
+    void (*eff48_jp[3])(WORK_Other*) = { eff48_0000, eff48_1000, eff48_0000 };
     eff48_jp[ewk->wu.routine_no[0]](ewk);
 }
 
-void eff48_0000(WORK_Other *ewk) {
+void eff48_0000(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -55,7 +55,7 @@ void eff48_0000(WORK_Other *ewk) {
     }
 }
 
-void eff48_1000(WORK_Other *ewk) {
+void eff48_1000(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -122,10 +122,10 @@ s32 effect_48_init(s16 type) {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 i;
-    const s16 *data_ptr;
+    const s16* data_ptr;
 
     if (Debug_w[0x30] & 8) {
         return 0;
@@ -138,7 +138,7 @@ s32 effect_48_init(s16 type) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 0x30;
         ewk->wu.work_id = 0x10;

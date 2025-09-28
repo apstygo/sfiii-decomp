@@ -1,25 +1,25 @@
 #include "sf33rd/Source/Game/effJ6.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFF27.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_j6_hit_sub(WORK_Other *ewk);
+void effect_j6_hit_sub(WORK_Other* ewk);
 
-void effect_J6_move(WORK_Other *ewk) {
-    WORK_Other *oya_ptr;
+void effect_J6_move(WORK_Other* ewk) {
+    WORK_Other* oya_ptr;
 
     if (obr_no_disp_check()) {
         return;
     }
 
-    oya_ptr = (WORK_Other *)ewk->my_master;
+    oya_ptr = (WORK_Other*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -67,27 +67,27 @@ void effect_J6_move(WORK_Other *ewk) {
     }
 }
 
-void effect_j6_hit_sub(WORK_Other *ewk) {
+void effect_j6_hit_sub(WORK_Other* ewk) {
     if (eff_hit_check(ewk, 0)) {
         ewk->wu.routine_no[0]++;
         effect_27_init(ewk, 1);
     }
 }
 
-s32 effect_J6_init(WORK_Other *oya) {
+s32 effect_J6_init(WORK_Other* oya) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
-    ewk->my_master = (u32 *)oya;
+    ewk = (WORK_Other*)frw[ix];
+    ewk->my_master = (u32*)oya;
     ewk->wu.be_flag = 1;
     ewk->wu.id = 196;
     ewk->wu.work_id = 16;

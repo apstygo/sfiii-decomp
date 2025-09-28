@@ -21,7 +21,7 @@ Sint32 adx_decode_output_mono_flag = 0;
 #define PI 3.14159265f
 #define PI_2 (PI * 2)
 
-void ADX_GetCoefficient(Sint32 highpass_frequency, Sint32 sample_rate, Sint16 *coef1_ptr, Sint16 *coef2_ptr) {
+void ADX_GetCoefficient(Sint32 highpass_frequency, Sint32 sample_rate, Sint16* coef1_ptr, Sint16* coef2_ptr) {
     f32 f21;
     f32 f20;
     f32 r;
@@ -40,9 +40,9 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_dcd", ADX_ScanInfoCode
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_dcd", D_0055A1F0);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_dcd", ADX_IsAdxFmt);
 
-Sint32 ADX_DecodeInfo(ADXHeader *hdr, Sint32 arg1, Sint16 *audio_offset, Sint8 *encoding_type, Sint8 *sample_bitdepth,
-                      Sint8 *block_size, Sint8 *channel_count, Sint32 *sample_rate, Sint32 *total_samples,
-                      Sint32 *samples_per_block) {
+Sint32 ADX_DecodeInfo(ADXHeader* hdr, Sint32 arg1, Sint16* audio_offset, Sint8* encoding_type, Sint8* sample_bitdepth,
+                      Sint8* block_size, Sint8* channel_count, Sint32* sample_rate, Sint32* total_samples,
+                      Sint32* samples_per_block) {
     if (arg1 < 16) {
         return -1;
     }
@@ -70,7 +70,7 @@ Sint32 ADX_DecodeInfo(ADXHeader *hdr, Sint32 arg1, Sint16 *audio_offset, Sint8 *
     return 0;
 }
 
-Sint32 ADX_DecodeInfoExADPCM2(ADXHeader *hdr, Sint32 arg1, Sint16 *high_pass_frequency) {
+Sint32 ADX_DecodeInfoExADPCM2(ADXHeader* hdr, Sint32 arg1, Sint16* high_pass_frequency) {
     Uint32 magic;
 
     if (arg1 < 0x12) {
@@ -90,7 +90,7 @@ Sint32 ADX_DecodeInfoExADPCM2(ADXHeader *hdr, Sint32 arg1, Sint16 *high_pass_fre
     return 0;
 }
 
-Sint32 ADX_DecodeInfoExVer(ADXHeader *hdr, Sint32 arg1, Sint8 *version, Sint8 *flags) {
+Sint32 ADX_DecodeInfoExVer(ADXHeader* hdr, Sint32 arg1, Sint8* version, Sint8* flags) {
     if (arg1 < 0x14) {
         return -1;
     }
@@ -109,7 +109,7 @@ Sint32 ADX_DecodeInfoExVer(ADXHeader *hdr, Sint32 arg1, Sint8 *version, Sint8 *f
     return 0;
 }
 
-Sint32 ADX_DecodeInfoExIdly(ADXHeader *hdr, Sint32 arg1, Sint16 *arg2, Sint16 *arg3) {
+Sint32 ADX_DecodeInfoExIdly(ADXHeader* hdr, Sint32 arg1, Sint16* arg2, Sint16* arg3) {
     Uint8 version;
     Sint8 flags;
     Uint32 magic;
@@ -145,13 +145,13 @@ Sint32 ADX_DecodeInfoExIdly(ADXHeader *hdr, Sint32 arg1, Sint16 *arg2, Sint16 *a
     return 0;
 }
 
-Sint32 ADX_DecodeInfoExLoop(Uint8 *hdr, Sint32 arg1, Sint32 *arg2, Sint16 *arg3, Sint16 *arg4, Sint32 *arg5,
-                            Sint32 *arg6, Sint32 *arg7, Sint32 *arg8) {
+Sint32 ADX_DecodeInfoExLoop(Uint8* hdr, Sint32 arg1, Sint32* arg2, Sint16* arg3, Sint16* arg4, Sint32* arg5,
+                            Sint32* arg6, Sint32* arg7, Sint32* arg8) {
     Uint8 version;
     Sint8 flags;
     Sint32 err;
     Uint32 magic;
-    Uint16 *p;
+    Uint16* p;
 
     Sint32 temp_t5;
     Sint32 temp_a2;
@@ -173,19 +173,19 @@ Sint32 ADX_DecodeInfoExLoop(Uint8 *hdr, Sint32 arg1, Sint32 *arg2, Sint16 *arg3,
         return -1;
     }
 
-    if (BSWAP_U16(((Uint16 *)hdr)[0]) != 0x8000) {
+    if (BSWAP_U16(((Uint16*)hdr)[0]) != 0x8000) {
         return -2;
     }
 
-    if (BSWAP_S16(((Sint16 *)hdr)[1]) < (temp_a2 - 4)) {
+    if (BSWAP_S16(((Sint16*)hdr)[1]) < (temp_a2 - 4)) {
         return -1;
     }
 
     temp_t5 = (version != 4) ? 0x14 : 0x20;
 
-    *arg2 = BSWAP_S16(((Sint16 *)(hdr + temp_t5))[0]);
+    *arg2 = BSWAP_S16(((Sint16*)(hdr + temp_t5))[0]);
     temp_t5 += 2;
-    *arg3 = BSWAP_S16(((Sint16 *)(hdr + temp_t5))[0]);
+    *arg3 = BSWAP_S16(((Sint16*)(hdr + temp_t5))[0]);
     temp_t5 += 2;
 
     if (*arg3 != 1) {
@@ -194,24 +194,24 @@ Sint32 ADX_DecodeInfoExLoop(Uint8 *hdr, Sint32 arg1, Sint32 *arg2, Sint16 *arg3,
 
     temp_t5 += 2;
 
-    *arg4 = BSWAP_S16(((Sint16 *)(hdr + temp_t5))[0]);
+    *arg4 = BSWAP_S16(((Sint16*)(hdr + temp_t5))[0]);
     temp_t5 += 2;
 
-    *arg5 = BSWAP_S32(((Sint32 *)(hdr + temp_t5))[0]);
+    *arg5 = BSWAP_S32(((Sint32*)(hdr + temp_t5))[0]);
     temp_t5 += 4;
 
-    *arg6 = BSWAP_S32(((Sint32 *)(hdr + temp_t5))[0]);
+    *arg6 = BSWAP_S32(((Sint32*)(hdr + temp_t5))[0]);
     temp_t5 += 4;
 
-    *arg7 = BSWAP_S32(((Sint32 *)(hdr + temp_t5))[0]);
+    *arg7 = BSWAP_S32(((Sint32*)(hdr + temp_t5))[0]);
     temp_t5 += 4;
 
-    *arg8 = BSWAP_S32(((Sint32 *)(hdr + temp_t5))[0]);
+    *arg8 = BSWAP_S32(((Sint32*)(hdr + temp_t5))[0]);
 
     return 0;
 }
 
-Sint32 ADX_DecodeInfoAinf(Uint8 *hdr, Sint32 arg1, Sint32 *arg2, ADX_UNK *arg3, Sint16 *arg4, Sint16 *arg5) {
+Sint32 ADX_DecodeInfoAinf(Uint8* hdr, Sint32 arg1, Sint32* arg2, ADX_UNK* arg3, Sint16* arg4, Sint16* arg5) {
     Uint8 version;
     Sint8 flags;
     Sint32 temp_a2;
@@ -236,11 +236,11 @@ Sint32 ADX_DecodeInfoAinf(Uint8 *hdr, Sint32 arg1, Sint32 *arg2, ADX_UNK *arg3, 
         return -1;
     }
 
-    if (BSWAP_U16(((Uint16 *)hdr)[0]) != 0x8000) {
+    if (BSWAP_U16(((Uint16*)hdr)[0]) != 0x8000) {
         return -2;
     }
 
-    if (BSWAP_S16(((Sint16 *)hdr)[1]) < (temp_a2 - 4)) {
+    if (BSWAP_S16(((Sint16*)hdr)[1]) < (temp_a2 - 4)) {
         return -1;
     }
 
@@ -255,19 +255,19 @@ Sint32 ADX_DecodeInfoAinf(Uint8 *hdr, Sint32 arg1, Sint32 *arg2, ADX_UNK *arg3, 
         return -2;
     }
 
-    *arg2 = BSWAP_S32(((Sint32 *)(hdr + temp_t1))[0]);
+    *arg2 = BSWAP_S32(((Sint32*)(hdr + temp_t1))[0]);
     temp_t1 += 4;
 
     memcpy(arg3, hdr + temp_t1, sizeof(ADX_UNK));
     temp_t1 += sizeof(ADX_UNK);
 
-    *arg4 = BSWAP_S16(((Sint16 *)(hdr + temp_t1))[0]);
+    *arg4 = BSWAP_S16(((Sint16*)(hdr + temp_t1))[0]);
     temp_t1 += 4;
 
-    arg5[0] = BSWAP_S16(((Sint16 *)(hdr + temp_t1))[0]);
+    arg5[0] = BSWAP_S16(((Sint16*)(hdr + temp_t1))[0]);
     temp_t1 += 2;
 
-    arg5[1] = BSWAP_S16(((Sint16 *)(hdr + temp_t1))[0]);
+    arg5[1] = BSWAP_S16(((Sint16*)(hdr + temp_t1))[0]);
     temp_t1 += 2;
 
     return 0;

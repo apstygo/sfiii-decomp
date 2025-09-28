@@ -7,9 +7,9 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_G3_move(WORK_Other *ewk) {
-    WORK_Other *mwk;
-    PLW *pwk = (PLW *)ewk->wu.target_adrs;
+void effect_G3_move(WORK_Other* ewk) {
+    WORK_Other* mwk;
+    PLW* pwk = (PLW*)ewk->wu.target_adrs;
     s16 adjust;
 
     switch (ewk->wu.routine_no[0]) {
@@ -32,7 +32,7 @@ void effect_G3_move(WORK_Other *ewk) {
         }
 
         if (!ewk->wu.routine_no[1]) {
-            mwk = (WORK_Other *)ewk->my_master;
+            mwk = (WORK_Other*)ewk->my_master;
 
             if (mwk->wu.dead_f) {
                 ewk->wu.routine_no[0] = 3;
@@ -75,16 +75,16 @@ void effect_G3_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_G3_init(WORK *wk, u8 data) {
-    WORK_Other *ewk;
-    WORK_Other *ewk2;
+s32 effect_G3_init(WORK* wk, u8 data) {
+    WORK_Other* ewk;
+    WORK_Other* ewk2;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.type = data;
     ewk->wu.id = 163;
@@ -92,10 +92,10 @@ s32 effect_G3_init(WORK *wk, u8 data) {
     ewk->wu.my_mts = 14;
     ewk->wu.my_family = wk->my_family;
     ewk->wu.cgromtype = 1;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->master_work_id = wk->work_id;
     ewk->master_id = wk->id;
-    ewk2 = (WORK_Other *)wk;
+    ewk2 = (WORK_Other*)wk;
     ewk->wu.target_adrs = ewk2->my_master;
     ewk->wu.rl_flag = data;
     *ewk->wu.char_table = _effD4_char_table;

@@ -4,7 +4,7 @@
 #include "structs.h"
 #include "types.h"
 
-void effect_C3_move(WORK_Other *ewk);
-s32 effect_C3_init(WORK_Other *wk, s16 data);
+void effect_C3_move(WORK_Other* ewk);
+s32 effect_C3_init(WORK_Other* wk, s16 data);
 
 #endif

@@ -20,7 +20,7 @@
 #define PS2RNA_MAX_VOICE 32
 
 // data
-Char8 *volatile ps2rna_build = "\nPS2RNA Ver 1.22 Build:Sep 18 2003 10:00:13\n";
+Char8* volatile ps2rna_build = "\nPS2RNA Ver 1.22 Build:Sep 18 2003 10:00:13\n";
 
 Sint32 ps2rna_dbtbl[1000] = {
     256, 253, 250, 247, 244, 241, 238, 236, 233, 230, 228, 225, 222, 220, 217, 215, 212, 210, 208, 205, 203, 201, 198,
@@ -72,11 +72,11 @@ Sint32 ps2rna_dbtbl[1000] = {
 Sint32 ps2rna_max_voice = 0;
 Sint32 ps2psj_iop_wksize = 0;
 Sint32 ps2rna_setupvoice_flag = 0;
-void *ps2psj_iop_work0 = NULL;
-void *ps2psj_iop_work = NULL;
+void* ps2psj_iop_work0 = NULL;
+void* ps2psj_iop_work = NULL;
 Sint8 ps2psj_alloc_flag = 0;
 Sint32 ps2rna_psm_wksize = 0;
-void *ps2rna_psm_wk0 = NULL;
+void* ps2rna_psm_wk0 = NULL;
 uintptr_t ps2rna_psm_wk = 0;
 Sint32 ps2rna_psm_max_voice = 0;
 Sint32 ps2rna_max_nste = 0;
@@ -85,9 +85,9 @@ Sint32 ps2rna_dolby_flg = 0;
 Sint32 ps2rna_ee_allpause = 0;
 Sint32 ps2rna_iop_allpause = 0;
 Sint32 ps2rna_init_cnt = 0;
-void *ps2rna_eewk = NULL;
-void *ps2rna_iopwk0 = NULL;
-void *ps2rna_iopwk = NULL;
+void* ps2rna_eewk = NULL;
+void* ps2rna_iopwk0 = NULL;
+void* ps2rna_iopwk = NULL;
 PS2PSJ_OBJ ps2psj_obj[PS2PSJ_MAX_OBJ] = { 0 };
 Sint8 ps2psj_sjuni_eewk[PS2PSJ_MAX_OBJ][256] = { 0 };
 Sint8 ps2psj_sjiop_wk[0x80] = { 0 };
@@ -128,7 +128,7 @@ void PS2RNA_SetupVoice(Sint32 nste, Sint32 nmono) {
 }
 
 void ps2rna_init_psj() {
-    Sint8 *wk;
+    Sint8* wk;
     Sint32 i;
     Sint32 j;
     PS2PSJ psj;
@@ -250,7 +250,7 @@ void ps2rna_release_psj(PS2PSJ psj) {
     psj->used = 0;
 };
 
-void ps2rna_rcvcbf(Sint32 arg0, Sint32 *arg1, Sint32 len) {
+void ps2rna_rcvcbf(Sint32 arg0, Sint32* arg1, Sint32 len) {
     Sint32 i;
     Sint32 ticks;
 
@@ -367,7 +367,7 @@ void PS2RNA_Finish() {
     }
 }
 
-ADXRNA PS2RNA_Create(SJ *sjo, Sint32 maxnch) {
+ADXRNA PS2RNA_Create(SJ* sjo, Sint32 maxnch) {
     intptr_t snd_buf[4];
     intptr_t rcv_buf[1];
     PS2PSJ psj;

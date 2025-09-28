@@ -4,7 +4,7 @@
 #include "structs.h"
 #include "types.h"
 
-void effect_I7_move(WORK_Other *ewk);
-s32 effect_I7_init(PLW *wk, u8 data);
+void effect_I7_move(WORK_Other* ewk);
+s32 effect_I7_init(PLW* wk, u8 data);
 
 #endif

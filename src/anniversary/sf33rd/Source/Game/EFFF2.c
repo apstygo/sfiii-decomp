@@ -1,9 +1,9 @@
 #include "sf33rd/Source/Game/EFFF2.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/PLS02.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/end_data.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
@@ -17,7 +17,7 @@ const s32 efff2_sp_tbl1[10][2] = { { -0xC000, 0 }, { -0x1800, 0 }, { 0x2000, 0 }
 
 const s16 efff2_timer_tbl[16] = { 60, 0, 40, 90, 20, 10, 8, 130, 1, 34, 50, 70, 6, 80, 22, 100 };
 
-void effect_F2_move(WORK_Other *ewk) {
+void effect_F2_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -89,17 +89,17 @@ s32 effect_F2_init() {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 i;
-    const s16 *data_ptr = &efff2_data_tbl1[0][0];
+    const s16* data_ptr = &efff2_data_tbl1[0][0];
 
     for (i = 0; i < 10; i++) {
         if ((ix = pull_effect_work(4)) == -1) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.id = 152;
         ewk->wu.be_flag = 1;
         ewk->wu.work_id = 0x10;
@@ -107,7 +107,7 @@ s32 effect_F2_init() {
         ewk->wu.type = i;
         ewk->wu.old_rno[0] = end_w.r_no_2;
         ewk->wu.my_col_mode = 0x4200;
-        ewk->wu.char_table[0] = (u32 *)_end_char_table;
+        ewk->wu.char_table[0] = (u32*)_end_char_table;
         ewk->wu.my_col_code = 0x12C;
         ewk->wu.my_family = *data_ptr++;
         ewk->wu.old_rno[6] = 0;

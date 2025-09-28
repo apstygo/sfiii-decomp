@@ -33,7 +33,7 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", D_0055D280);
 extern Char8 D_0055D280[];
 #endif
 
-void dvci_conv_fname(const Char8 *fname, Char8 *path) {
+void dvci_conv_fname(const Char8* fname, Char8* path) {
     Char8 first_char;
 
     strcpy(path, dvg_ci_root_dir);
@@ -79,7 +79,7 @@ Sint32 dvci_charicmp(Char8 a, Char8 b) {
     }
 }
 
-Sint32 dvci_stricmp(const Char8 *a, const Char8 *b) {
+Sint32 dvci_stricmp(const Char8* a, const Char8* b) {
     strlen_t len_a = strlen(a);
     Sint32 i;
 
@@ -97,11 +97,11 @@ Sint32 dvci_stricmp(const Char8 *a, const Char8 *b) {
 }
 
 #if defined(TARGET_PS2)
-Sint32 analysis_flist_003DC6A0(Sint8 *, Sint8 *, Sint32, Sint32, Sint32);
+Sint32 analysis_flist_003DC6A0(Sint8*, Sint8*, Sint32, Sint32, Sint32);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", analysis_flist_003DC6A0);
 #else
 // This is a kludge, not a decompilation
-Sint32 analysis_flist_003DC6A0(Sint8 *fcbuf, Sint8 *filelist_buf, Sint32 arg2, Sint32 arg3, Sint32 arg4) {
+Sint32 analysis_flist_003DC6A0(Sint8* fcbuf, Sint8* filelist_buf, Sint32 arg2, Sint32 arg3, Sint32 arg4) {
     strcpy(fcbuf + 0x140, "SF33RD.AFS");
     dvg_flist_tbl.unk0 = (uintptr_t)fcbuf;
     dvg_flist_tbl.unk4 = 1;
@@ -111,7 +111,7 @@ Sint32 analysis_flist_003DC6A0(Sint8 *fcbuf, Sint8 *filelist_buf, Sint32 arg2, S
 }
 #endif
 
-Sint32 load_flist(Char8 *flist, Sint8 *buf) {
+Sint32 load_flist(Char8* flist, Sint8* buf) {
     sceCdlFILE fp;
     sceCdRMode cd_rmode;
     Char8 flist_prefix[5];
@@ -168,13 +168,13 @@ Sint32 load_flist(Char8 *flist, Sint8 *buf) {
     return 1;
 }
 
-Sint32 search_fstate(Sint8 *arg0, Sint32 arg1) {
+Sint32 search_fstate(Sint8* arg0, Sint32 arg1) {
     sceCdlFILE fp;
     Sint32 numf = 0;
     Sint32 numf_not_found = 0;
     Sint32 i;
-    Char8 *fname;
-    DVG_FLIST_SUB *flist_sub = arg0;
+    Char8* fname;
+    DVG_FLIST_SUB* flist_sub = arg0;
 
     for (i = 0; i < arg1; i++) {
         fname = arg0 + ((dvg_flist_tbl.unk8 * 8) + ((dvg_flist_tbl.unkC + 1) * i));
@@ -226,12 +226,12 @@ Sint32 search_fstate(Sint8 *arg0, Sint32 arg1) {
     return numf;
 }
 
-void get_fp_from_fname(sceCdlFILE *fp, const Char8 *fname, uintptr_t arg2, Sint32 arg3) {
-    DVG_FLIST_SUB *flist_sub = (DVG_FLIST_SUB *)arg2;
+void get_fp_from_fname(sceCdlFILE* fp, const Char8* fname, uintptr_t arg2, Sint32 arg3) {
+    DVG_FLIST_SUB* flist_sub = (DVG_FLIST_SUB*)arg2;
     Sint32 i;
 
     for (i = 0; i < arg3; i++) {
-        if (dvci_stricmp(fname, (Char8 *)arg2 + ((dvg_flist_tbl.unk8 * 8) + ((dvg_flist_tbl.unkC + 1) * i))) == 0) {
+        if (dvci_stricmp(fname, (Char8*)arg2 + ((dvg_flist_tbl.unk8 * 8) + ((dvg_flist_tbl.unkC + 1) * i))) == 0) {
             fp->lsn = flist_sub[i].lsn;
             fp->size = flist_sub[i].size;
             return;
@@ -246,7 +246,7 @@ void dvci_init_flist() {
     memset(&dvg_flist_tbl, 0, sizeof(DVG_FLIST_TBL));
 }
 
-Sint32 dvci_get_fstate(const Char8 *fname, sceCdlFILE *fp) {
+Sint32 dvci_get_fstate(const Char8* fname, sceCdlFILE* fp) {
     if (strcmp("DVD-ROM", fname) == 0) {
         fp->lsn = 0;
         fp->size = -1;
@@ -277,7 +277,7 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", D_0055D370);
 extern Char8 D_0055D370[];
 #endif
 
-Sint32 dvCiLoadFcache(Char8 *flist, Sint8 *fcbuf, Sint32 fcsize, Sint32 maxflen) {
+Sint32 dvCiLoadFcache(Char8* flist, Sint8* fcbuf, Sint32 fcsize, Sint32 maxflen) {
     Uint32 temp_lo;
     Sint32 temp;
 
@@ -349,7 +349,7 @@ void dvCiSetRdMode(Sint32 trycount, Sint32 spindlctrl, Sint32 datapattern, Sint3
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvCiSetRootDir);
 #else
-void dvCiSetRootDir(const Char8 *dir) {
+void dvCiSetRootDir(const Char8* dir) {
     Char8 last_char;
 
     if (dir == NULL) {

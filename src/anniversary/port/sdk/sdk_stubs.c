@@ -50,7 +50,7 @@ int sceCdMmode(int media) {
 static const char flist_path[] = "\\THIRD\\0FLIST.DIR;1";
 static const char afs_path[] = "\\THIRD\\SF33RD.AFS;1";
 
-int sceCdRead(u_int lsn, u_int sectors, void *buf, sceCdRMode *mode) {
+int sceCdRead(u_int lsn, u_int sectors, void* buf, sceCdRMode* mode) {
     if (lsn == -1) {
         // No need to actually read a file or write to the buffer
         // because we are handling flist read and we don't
@@ -74,7 +74,7 @@ int sceCdSync(int mode) {
     return 0;
 }
 
-int sceCdLayerSearchFile(sceCdlFILE *fp, const char *name, int layer) {
+int sceCdLayerSearchFile(sceCdlFILE* fp, const char* name, int layer) {
     if (strncmp(name, flist_path, strlen(flist_path)) == 0) {
         fp->size = 12;
         fp->lsn = -1; // Set a wacky lsn on purpose to recognize it in sceCdRead
@@ -90,11 +90,11 @@ int sceCdLayerSearchFile(sceCdlFILE *fp, const char *name, int layer) {
 
 // sifdev
 
-static bool starts_with(const char *prefix, const char *str) {
+static bool starts_with(const char* prefix, const char* str) {
     return strncmp(prefix, str, strlen(prefix)) == 0;
 }
 
-static void convert_filename(char *dest, const char *src) {
+static void convert_filename(char* dest, const char* src) {
     const char device_name[] = "cdrom0:";
 
     if (starts_with(device_name, src)) {
@@ -123,7 +123,7 @@ static void convert_filename(char *dest, const char *src) {
     }
 }
 
-int sceOpen(const char *filename, int flag, ...) {
+int sceOpen(const char* filename, int flag, ...) {
     // Convert SCE flags to Unix flags
     int _flag = 0;
 
@@ -166,11 +166,11 @@ int sceClose(int fd) {
     return close(fd);
 }
 
-int sceRead(int fd, void *buf, int nbyte) {
+int sceRead(int fd, void* buf, int nbyte) {
     return read(fd, buf, nbyte);
 }
 
-int sceWrite(int fd, const void *buf, int nbyte) {
+int sceWrite(int fd, const void* buf, int nbyte) {
     return write(fd, buf, nbyte);
 }
 
@@ -186,11 +186,11 @@ int sceFsReset(void) {
     not_implemented(__func__);
 }
 
-int sceIoctl(int fd, int req, void *) {
+int sceIoctl(int fd, int req, void*) {
     not_implemented(__func__);
 }
 
-void *sceSifAllocIopHeap(unsigned int) {
+void* sceSifAllocIopHeap(unsigned int) {
     not_implemented(__func__);
 }
 
@@ -198,15 +198,15 @@ int sceSifInitIopHeap(void) {
     not_implemented(__func__);
 }
 
-int sceSifFreeIopHeap(void *) {
+int sceSifFreeIopHeap(void*) {
     not_implemented(__func__);
 }
 
-int sceSifLoadModule(const char *filename, int args, const char *argp) {
+int sceSifLoadModule(const char* filename, int args, const char* argp) {
     not_implemented(__func__);
 }
 
-int sceSifRebootIop(const char *img) {
+int sceSifRebootIop(const char* img) {
     not_implemented(__func__);
 }
 
@@ -220,15 +220,15 @@ void sceSifInitRpc(unsigned int mode) {
     not_implemented(__func__);
 }
 
-int sceSifBindRpc(sceSifClientData *, unsigned int, unsigned int) {
+int sceSifBindRpc(sceSifClientData*, unsigned int, unsigned int) {
     not_implemented(__func__);
 }
 
-int sceSifCallRpc(sceSifClientData *, unsigned int, unsigned int, void *, int, void *, int, sceSifEndFunc, void *) {
+int sceSifCallRpc(sceSifClientData*, unsigned int, unsigned int, void*, int, void*, int, sceSifEndFunc, void*) {
     not_implemented(__func__);
 }
 
-int sceSifCheckStatRpc(sceSifRpcData *) {
+int sceSifCheckStatRpc(sceSifRpcData*) {
     not_implemented(__func__);
 }
 
@@ -238,13 +238,13 @@ int sceSifDmaStat(unsigned int id) {
     not_implemented(__func__);
 }
 
-unsigned int sceSifSetDma(sceSifDmaData *sdd, int len) {
+unsigned int sceSifSetDma(sceSifDmaData* sdd, int len) {
     not_implemented(__func__);
 }
 
 // libdma
 
-sceDmaChan *sceDmaGetChan(int id) {
+sceDmaChan* sceDmaGetChan(int id) {
     not_implemented(__func__);
 }
 
@@ -252,18 +252,18 @@ int sceDmaReset(int mode) {
     not_implemented(__func__);
 }
 
-void sceDmaSend(sceDmaChan *d, void *tag) {
+void sceDmaSend(sceDmaChan* d, void* tag) {
     // printf("[SDK] sceDmaSend(d: %X, tag: %X)\n", d, tag);
 }
 
-int sceDmaSync(sceDmaChan *d, int mode, int timeout) {
+int sceDmaSync(sceDmaChan* d, int mode, int timeout) {
     // printf("[SDK] sceDmaSync(d: %X, mode: %d, timeout: %d)\n", d, mode, timeout);
     return 0;
 }
 
 // libgraph
 
-int sceGsExecLoadImage(sceGsLoadImage *lp, unsigned int *srcaddr) {
+int sceGsExecLoadImage(sceGsLoadImage* lp, unsigned int* srcaddr) {
     not_implemented(__func__);
 }
 
@@ -275,7 +275,7 @@ void sceGsResetPath() {
     not_implemented(__func__);
 }
 
-int sceGsSetDefLoadImage(sceGsLoadImage *lp, short dbp, short dbw, short dpsm, short x, short y, short w, short h) {
+int sceGsSetDefLoadImage(sceGsLoadImage* lp, short dbp, short dbw, short dpsm, short x, short y, short w, short h) {
     not_implemented(__func__);
 }
 
@@ -287,13 +287,13 @@ int sceGsSyncV(int mode) {
     fatal_error("sceGsSyncV should never be called in ports");
 }
 
-int *sceGsSyncVCallback(int (*func)(int)) {
+int* sceGsSyncVCallback(int (*func)(int)) {
     return NULL;
 }
 
 // eekernel
 
-void scePrintf(const char *fmt, ...) {
+void scePrintf(const char* fmt, ...) {
     va_list args;
     va_start(args, fmt);
 
@@ -337,11 +337,11 @@ void iFlushCache(int operation) {
     // printf("[SDK] iFlushCache called (operation: %d)\n", operation);
 }
 
-void InvalidDCache(void *begin, void *end) {
+void InvalidDCache(void* begin, void* end) {
     // printf("[SDK] InvalidDCache called (begin: %0X, end: %0X)\n", begin, end);
 }
 
-void SyncDCache(void *, void *) {
+void SyncDCache(void*, void*) {
     not_implemented(__func__);
 }
 
@@ -391,13 +391,13 @@ void ExitHandler() {
 
 // libdma
 
-void sceDmaRecvN(sceDmaChan *d, void *addr, int size) {
+void sceDmaRecvN(sceDmaChan* d, void* addr, int size) {
     not_implemented(__func__);
 }
 
 // eekernel
 
-void LoadExecPS2(const char *filename, int num_args, char *args[]) __attribute__((noreturn)) {
+void LoadExecPS2(const char* filename, int num_args, char* args[]) __attribute__((noreturn)) {
     not_implemented(__func__);
 }
 

@@ -5,11 +5,11 @@
 
 void (*const Passive14_Tbl[253])();
 
-void Passive14(PLW *wk) {
+void Passive14(PLW* wk) {
     Passive14_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
 }
 
-void Passive14_0000(PLW *wk) {
+void Passive14_0000(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 0xD, M_Lv[wk->wu.id]);
@@ -21,7 +21,7 @@ void Passive14_0000(PLW *wk) {
     }
 }
 
-void Passive14_0001(PLW *wk) {
+void Passive14_0001(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Lever_Off(wk);
@@ -37,7 +37,7 @@ void Passive14_0001(PLW *wk) {
     }
 }
 
-void Passive14_0002(PLW *wk) {
+void Passive14_0002(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -57,7 +57,7 @@ void Passive14_0002(PLW *wk) {
     }
 }
 
-void Passive14_0003(PLW *wk) {
+void Passive14_0003(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -77,7 +77,7 @@ void Passive14_0003(PLW *wk) {
     }
 }
 
-void Passive14_0004(PLW *wk) {
+void Passive14_0004(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -97,7 +97,7 @@ void Passive14_0004(PLW *wk) {
     }
 }
 
-void Passive14_0005(PLW *wk) {
+void Passive14_0005(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x10, 2);
@@ -117,7 +117,7 @@ void Passive14_0005(PLW *wk) {
     }
 }
 
-void Passive14_0006(PLW *wk) {
+void Passive14_0006(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x10, 2);
@@ -137,7 +137,7 @@ void Passive14_0006(PLW *wk) {
     }
 }
 
-void Passive14_0007(PLW *wk) {
+void Passive14_0007(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -157,7 +157,7 @@ void Passive14_0007(PLW *wk) {
     }
 }
 
-void Passive14_0008(PLW *wk) {
+void Passive14_0008(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -173,7 +173,7 @@ void Passive14_0008(PLW *wk) {
     }
 }
 
-void Passive14_0009(PLW *wk) {
+void Passive14_0009(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -197,7 +197,7 @@ void Passive14_0009(PLW *wk) {
     }
 }
 
-void Passive14_0010(PLW *wk) {
+void Passive14_0010(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x3F, 2);
@@ -225,7 +225,7 @@ void Passive14_0010(PLW *wk) {
     }
 }
 
-void Passive14_0011(PLW *wk) {
+void Passive14_0011(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -261,7 +261,7 @@ void Passive14_0011(PLW *wk) {
     }
 }
 
-void Passive14_0012(PLW *wk) {
+void Passive14_0012(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -281,7 +281,7 @@ void Passive14_0012(PLW *wk) {
     }
 }
 
-void Passive14_0013(PLW *wk) {
+void Passive14_0013(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7F00, 6, 6, 0x7C);
@@ -297,7 +297,7 @@ void Passive14_0013(PLW *wk) {
     }
 }
 
-void Passive14_0014(PLW *wk) {
+void Passive14_0014(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FC8, 6, 6, 0x7C);
@@ -313,7 +313,7 @@ void Passive14_0014(PLW *wk) {
     }
 }
 
-void Passive14_0015(PLW *wk) {
+void Passive14_0015(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x7F, 2);
@@ -333,7 +333,7 @@ void Passive14_0015(PLW *wk) {
     }
 }
 
-void Passive14_0016(PLW *wk) {
+void Passive14_0016(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -377,7 +377,7 @@ void Passive14_0016(PLW *wk) {
     }
 }
 
-void Passive14_0017(PLW *wk) {
+void Passive14_0017(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -409,7 +409,7 @@ void Passive14_0017(PLW *wk) {
     }
 }
 
-void Passive14_0018(PLW *wk) {
+void Passive14_0018(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -433,7 +433,7 @@ void Passive14_0018(PLW *wk) {
     }
 }
 
-void Passive14_0019(PLW *wk) {
+void Passive14_0019(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -457,7 +457,7 @@ void Passive14_0019(PLW *wk) {
     }
 }
 
-void Passive14_0020(PLW *wk) {
+void Passive14_0020(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x7F, 2);
@@ -477,7 +477,7 @@ void Passive14_0020(PLW *wk) {
     }
 }
 
-void Passive14_0021(PLW *wk) {
+void Passive14_0021(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 3);
@@ -497,7 +497,7 @@ void Passive14_0021(PLW *wk) {
     }
 }
 
-void Passive14_0022(PLW *wk) {
+void Passive14_0022(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FB0, 6, 6, 0x7C);
@@ -513,7 +513,7 @@ void Passive14_0022(PLW *wk) {
     }
 }
 
-void Passive14_0023(PLW *wk) {
+void Passive14_0023(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Pierce_On(wk);
@@ -533,7 +533,7 @@ void Passive14_0023(PLW *wk) {
     }
 }
 
-void Passive14_0024(PLW *wk) {
+void Passive14_0024(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -561,7 +561,7 @@ void Passive14_0024(PLW *wk) {
     }
 }
 
-void Passive14_0025(PLW *wk) {
+void Passive14_0025(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -585,7 +585,7 @@ void Passive14_0025(PLW *wk) {
     }
 }
 
-void Passive14_0026(PLW *wk) {
+void Passive14_0026(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -609,7 +609,7 @@ void Passive14_0026(PLW *wk) {
     }
 }
 
-void Passive14_0027(PLW *wk) {
+void Passive14_0027(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -633,7 +633,7 @@ void Passive14_0027(PLW *wk) {
     }
 }
 
-void Passive14_0028(PLW *wk) {
+void Passive14_0028(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -669,7 +669,7 @@ void Passive14_0028(PLW *wk) {
     }
 }
 
-void Passive14_0029(PLW *wk) {
+void Passive14_0029(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -705,7 +705,7 @@ void Passive14_0029(PLW *wk) {
     }
 }
 
-void Passive14_0030(PLW *wk) {
+void Passive14_0030(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -745,7 +745,7 @@ void Passive14_0030(PLW *wk) {
     }
 }
 
-void Passive14_0031(PLW *wk) {
+void Passive14_0031(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -773,7 +773,7 @@ void Passive14_0031(PLW *wk) {
     }
 }
 
-void Passive14_0032(PLW *wk) {
+void Passive14_0032(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -797,7 +797,7 @@ void Passive14_0032(PLW *wk) {
     }
 }
 
-void Passive14_0033(PLW *wk) {
+void Passive14_0033(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -825,7 +825,7 @@ void Passive14_0033(PLW *wk) {
     }
 }
 
-void Passive14_0034(PLW *wk) {
+void Passive14_0034(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -857,7 +857,7 @@ void Passive14_0034(PLW *wk) {
     }
 }
 
-void Passive14_0035(PLW *wk) {
+void Passive14_0035(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -905,7 +905,7 @@ void Passive14_0035(PLW *wk) {
     }
 }
 
-void Passive14_0036(PLW *wk) {
+void Passive14_0036(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SA_Term(wk, 0xFFFF, 0x30, 0x31, 0x7F);
@@ -921,7 +921,7 @@ void Passive14_0036(PLW *wk) {
     }
 }
 
-void Passive14_0037(PLW *wk) {
+void Passive14_0037(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7FA0, -0x7FA0, 6, 6, 0x35);
@@ -941,7 +941,7 @@ void Passive14_0037(PLW *wk) {
     }
 }
 
-void Passive14_0038(PLW *wk) {
+void Passive14_0038(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SA_Term(wk, 0xFFFF, 0x30, 0x31, 0x7F);
@@ -957,7 +957,7 @@ void Passive14_0038(PLW *wk) {
     }
 }
 
-void Passive14_0039(PLW *wk) {
+void Passive14_0039(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FB0, 6, 6, 0x35);
@@ -977,7 +977,7 @@ void Passive14_0039(PLW *wk) {
     }
 }
 
-void Passive14_0040(PLW *wk) {
+void Passive14_0040(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait(wk, 3);
@@ -997,7 +997,7 @@ void Passive14_0040(PLW *wk) {
     }
 }
 
-void Passive14_0041(PLW *wk) {
+void Passive14_0041(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -1021,7 +1021,7 @@ void Passive14_0041(PLW *wk) {
     }
 }
 
-void Passive14_0042(PLW *wk) {
+void Passive14_0042(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 1, -1, -1);
@@ -1037,7 +1037,7 @@ void Passive14_0042(PLW *wk) {
     }
 }
 
-void Passive14_0043(PLW *wk) {
+void Passive14_0043(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7FA0, 0x38, 8, 0x200, 2, -0x7FA0, -1, 0x200);
@@ -1049,7 +1049,7 @@ void Passive14_0043(PLW *wk) {
     }
 }
 
-void Passive14_0044(PLW *wk) {
+void Passive14_0044(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7FA0, 0x38, 8, 0x400, 2, -0x7FA0, -1, 0x400);
@@ -1061,7 +1061,7 @@ void Passive14_0044(PLW *wk) {
     }
 }
 
-void Passive14_0045(PLW *wk) {
+void Passive14_0045(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Pierce_On(wk);
@@ -1085,7 +1085,7 @@ void Passive14_0045(PLW *wk) {
     }
 }
 
-void Passive14_0046(PLW *wk) {
+void Passive14_0046(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x7F, 2);
@@ -1117,7 +1117,7 @@ void Passive14_0046(PLW *wk) {
     }
 }
 
-void Passive14_0047(PLW *wk) {
+void Passive14_0047(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -1149,7 +1149,7 @@ void Passive14_0047(PLW *wk) {
     }
 }
 
-void Passive14_0048(PLW *wk) {
+void Passive14_0048(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7F80, 0x20, 8, 0x400, 1, -0x7F80, -1, 0x400);
@@ -1161,7 +1161,7 @@ void Passive14_0048(PLW *wk) {
     }
 }
 
-void Passive14_0049(PLW *wk) {
+void Passive14_0049(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7FB0, -0x7FB0, 6, 6, -1);
@@ -1177,7 +1177,7 @@ void Passive14_0049(PLW *wk) {
     }
 }
 
-void Passive14_0050(PLW *wk) {
+void Passive14_0050(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7FC0, -0x7FF0, 6, 1, -1);
@@ -1193,7 +1193,7 @@ void Passive14_0050(PLW *wk) {
     }
 }
 
-void Passive14_0051(PLW *wk) {
+void Passive14_0051(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7FB0, -0x7FC0, 0, 1, -1);
@@ -1213,7 +1213,7 @@ void Passive14_0051(PLW *wk) {
     }
 }
 
-void Passive14_0052(PLW *wk) {
+void Passive14_0052(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -1229,7 +1229,7 @@ void Passive14_0052(PLW *wk) {
     }
 }
 
-void Passive14_0053(PLW *wk) {
+void Passive14_0053(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Forced_Guard(wk, 0);
@@ -1241,7 +1241,7 @@ void Passive14_0053(PLW *wk) {
     }
 }
 
-void Passive14_0054(PLW *wk) {
+void Passive14_0054(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 0, -1);
@@ -1253,7 +1253,7 @@ void Passive14_0054(PLW *wk) {
     }
 }
 
-void Passive14_0055(PLW *wk) {
+void Passive14_0055(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 3, -1);
@@ -1265,7 +1265,7 @@ void Passive14_0055(PLW *wk) {
     }
 }
 
-void Passive14_0056(PLW *wk) {
+void Passive14_0056(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 0, -1);
@@ -1281,7 +1281,7 @@ void Passive14_0056(PLW *wk) {
     }
 }
 
-void Passive14_0057(PLW *wk) {
+void Passive14_0057(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 0, -1);
@@ -1297,7 +1297,7 @@ void Passive14_0057(PLW *wk) {
     }
 }
 
-void Passive14_0058(PLW *wk) {
+void Passive14_0058(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 3, -1);
@@ -1313,7 +1313,7 @@ void Passive14_0058(PLW *wk) {
     }
 }
 
-void Passive14_0059(PLW *wk) {
+void Passive14_0059(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 3, -1);
@@ -1329,7 +1329,7 @@ void Passive14_0059(PLW *wk) {
     }
 }
 
-void Passive14_0060(PLW *wk) {
+void Passive14_0060(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Keep_Away(wk, 0xBF, 0);
@@ -1345,7 +1345,7 @@ void Passive14_0060(PLW *wk) {
     }
 }
 
-void Passive14_0061(PLW *wk) {
+void Passive14_0061(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Keep_Away(wk, 0xBF, 0);
@@ -1361,7 +1361,7 @@ void Passive14_0061(PLW *wk) {
     }
 }
 
-void Passive14_0062(PLW *wk) {
+void Passive14_0062(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Keep_Away(wk, 0xBF, 0);
@@ -1381,7 +1381,7 @@ void Passive14_0062(PLW *wk) {
     }
 }
 
-void Passive14_0063(PLW *wk) {
+void Passive14_0063(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         ETC_Term(wk, 4, 6, 0x37);
@@ -1401,7 +1401,7 @@ void Passive14_0063(PLW *wk) {
     }
 }
 
-void Passive14_0064(PLW *wk) {
+void Passive14_0064(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Keep_Away(wk, 0x7F, 0);
@@ -1417,7 +1417,7 @@ void Passive14_0064(PLW *wk) {
     }
 }
 
-void Passive14_0065(PLW *wk) {
+void Passive14_0065(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Keep_Away(wk, 0x7F, 0);
@@ -1433,7 +1433,7 @@ void Passive14_0065(PLW *wk) {
     }
 }
 
-void Passive14_0066(PLW *wk) {
+void Passive14_0066(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Keep_Away(wk, 0x7F, 0);
@@ -1453,7 +1453,7 @@ void Passive14_0066(PLW *wk) {
     }
 }
 
-void Passive14_0067(PLW *wk) {
+void Passive14_0067(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 3, -1);
@@ -1469,7 +1469,7 @@ void Passive14_0067(PLW *wk) {
     }
 }
 
-void Passive14_0068(PLW *wk) {
+void Passive14_0068(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 0, 0);
@@ -1493,7 +1493,7 @@ void Passive14_0068(PLW *wk) {
     }
 }
 
-void Passive14_0069(PLW *wk) {
+void Passive14_0069(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 0, 0);
@@ -1513,7 +1513,7 @@ void Passive14_0069(PLW *wk) {
     }
 }
 
-void Passive14_0070(PLW *wk) {
+void Passive14_0070(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 0, 0);
@@ -1533,7 +1533,7 @@ void Passive14_0070(PLW *wk) {
     }
 }
 
-void Passive14_0071(PLW *wk) {
+void Passive14_0071(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x7F, 2);
@@ -1553,7 +1553,7 @@ void Passive14_0071(PLW *wk) {
     }
 }
 
-void Passive14_0072(PLW *wk) {
+void Passive14_0072(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x7F, 2);
@@ -1573,7 +1573,7 @@ void Passive14_0072(PLW *wk) {
     }
 }
 
-void Passive14_0073(PLW *wk) {
+void Passive14_0073(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 0, 0);
@@ -1593,7 +1593,7 @@ void Passive14_0073(PLW *wk) {
     }
 }
 
-void Passive14_0074(PLW *wk) {
+void Passive14_0074(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 0, 0);
@@ -1613,7 +1613,7 @@ void Passive14_0074(PLW *wk) {
     }
 }
 
-void Passive14_0075(PLW *wk) {
+void Passive14_0075(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 0, 0);
@@ -1633,7 +1633,7 @@ void Passive14_0075(PLW *wk) {
     }
 }
 
-void Passive14_0076(PLW *wk) {
+void Passive14_0076(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 0, 0);
@@ -1653,7 +1653,7 @@ void Passive14_0076(PLW *wk) {
     }
 }
 
-void Passive14_0077(PLW *wk) {
+void Passive14_0077(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 0, 0);
@@ -1677,7 +1677,7 @@ void Passive14_0077(PLW *wk) {
     }
 }
 
-void Passive14_0078(PLW *wk) {
+void Passive14_0078(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         ETC_Term(wk, 4, 6, 0x37);
@@ -1697,7 +1697,7 @@ void Passive14_0078(PLW *wk) {
     }
 }
 
-void Passive14_0079(PLW *wk) {
+void Passive14_0079(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -1709,7 +1709,7 @@ void Passive14_0079(PLW *wk) {
     }
 }
 
-void Passive14_0080(PLW *wk) {
+void Passive14_0080(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -1725,7 +1725,7 @@ void Passive14_0080(PLW *wk) {
     }
 }
 
-void Passive14_0081(PLW *wk) {
+void Passive14_0081(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x300, 6, 0xE3);
@@ -1753,7 +1753,7 @@ void Passive14_0081(PLW *wk) {
     }
 }
 
-void Passive14_0082(PLW *wk) {
+void Passive14_0082(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x80, 6, 0xE3);
@@ -1781,7 +1781,7 @@ void Passive14_0082(PLW *wk) {
     }
 }
 
-void Passive14_0083(PLW *wk) {
+void Passive14_0083(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x200, 6, 0xE4);
@@ -1809,7 +1809,7 @@ void Passive14_0083(PLW *wk) {
     }
 }
 
-void Passive14_0084(PLW *wk) {
+void Passive14_0084(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x100, 6, 0xE4);
@@ -1837,7 +1837,7 @@ void Passive14_0084(PLW *wk) {
     }
 }
 
-void Passive14_0085(PLW *wk) {
+void Passive14_0085(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 0xB, 0x202);
@@ -1861,7 +1861,7 @@ void Passive14_0085(PLW *wk) {
     }
 }
 
-void Passive14_0086(PLW *wk) {
+void Passive14_0086(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 9, 0x202);
@@ -1877,7 +1877,7 @@ void Passive14_0086(PLW *wk) {
     }
 }
 
-void Passive14_0087(PLW *wk) {
+void Passive14_0087(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 0xB, 0x102);
@@ -1893,7 +1893,7 @@ void Passive14_0087(PLW *wk) {
     }
 }
 
-void Passive14_0088(PLW *wk) {
+void Passive14_0088(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 0xB, 0x102);
@@ -1909,7 +1909,7 @@ void Passive14_0088(PLW *wk) {
     }
 }
 
-void Passive14_0089(PLW *wk) {
+void Passive14_0089(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 0xB, 0x102);
@@ -1925,7 +1925,7 @@ void Passive14_0089(PLW *wk) {
     }
 }
 
-void Passive14_0090(PLW *wk) {
+void Passive14_0090(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 0xB, 0x202);
@@ -1941,7 +1941,7 @@ void Passive14_0090(PLW *wk) {
     }
 }
 
-void Passive14_0091(PLW *wk) {
+void Passive14_0091(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 0xC, 0x202);
@@ -1961,7 +1961,7 @@ void Passive14_0091(PLW *wk) {
     }
 }
 
-void Passive14_0092(PLW *wk) {
+void Passive14_0092(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 0xC, 0x202);
@@ -1981,7 +1981,7 @@ void Passive14_0092(PLW *wk) {
     }
 }
 
-void Passive14_0093(PLW *wk) {
+void Passive14_0093(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 0xC, 0x202);
@@ -2001,7 +2001,7 @@ void Passive14_0093(PLW *wk) {
     }
 }
 
-void Passive14_0094(PLW *wk) {
+void Passive14_0094(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 9, 0x220);
@@ -2025,7 +2025,7 @@ void Passive14_0094(PLW *wk) {
     }
 }
 
-void Passive14_0095(PLW *wk) {
+void Passive14_0095(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 9, 0x220);
@@ -2053,7 +2053,7 @@ void Passive14_0095(PLW *wk) {
     }
 }
 
-void Passive14_0096(PLW *wk) {
+void Passive14_0096(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 9, 0x220);
@@ -2081,7 +2081,7 @@ void Passive14_0096(PLW *wk) {
     }
 }
 
-void Passive14_0097(PLW *wk) {
+void Passive14_0097(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Keep_Away(wk, 0xBF, 1);
@@ -2097,7 +2097,7 @@ void Passive14_0097(PLW *wk) {
     }
 }
 
-void Passive14_0098(PLW *wk) {
+void Passive14_0098(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 9, 0x200);
@@ -2113,7 +2113,7 @@ void Passive14_0098(PLW *wk) {
     }
 }
 
-void Passive14_0099(PLW *wk) {
+void Passive14_0099(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 9, 0x200);
@@ -2129,7 +2129,7 @@ void Passive14_0099(PLW *wk) {
     }
 }
 
-void Passive14_0100(PLW *wk) {
+void Passive14_0100(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 9, 0x102);
@@ -2145,7 +2145,7 @@ void Passive14_0100(PLW *wk) {
     }
 }
 
-void Passive14_0101(PLW *wk) {
+void Passive14_0101(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 9, 0x102);
@@ -2165,7 +2165,7 @@ void Passive14_0101(PLW *wk) {
     }
 }
 
-void Passive14_0102(PLW *wk) {
+void Passive14_0102(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 9, 0x102);
@@ -2185,7 +2185,7 @@ void Passive14_0102(PLW *wk) {
     }
 }
 
-void Passive14_0103(PLW *wk) {
+void Passive14_0103(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 9, 0x102);
@@ -2205,7 +2205,7 @@ void Passive14_0103(PLW *wk) {
     }
 }
 
-void Passive14_0104(PLW *wk) {
+void Passive14_0104(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 9, 0x102);
@@ -2233,7 +2233,7 @@ void Passive14_0104(PLW *wk) {
     }
 }
 
-void Passive14_0105(PLW *wk) {
+void Passive14_0105(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 1, -1, -1);
@@ -2249,7 +2249,7 @@ void Passive14_0105(PLW *wk) {
     }
 }
 
-void Passive14_0106(PLW *wk) {
+void Passive14_0106(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 1, -1, -1);
@@ -2265,7 +2265,7 @@ void Passive14_0106(PLW *wk) {
     }
 }
 
-void Passive14_0107(PLW *wk) {
+void Passive14_0107(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait(wk, 0);
@@ -2277,7 +2277,7 @@ void Passive14_0107(PLW *wk) {
     }
 }
 
-void Passive14_0108(PLW *wk) {
+void Passive14_0108(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -2293,7 +2293,7 @@ void Passive14_0108(PLW *wk) {
     }
 }
 
-void Passive14_0109(PLW *wk) {
+void Passive14_0109(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -2309,7 +2309,7 @@ void Passive14_0109(PLW *wk) {
     }
 }
 
-void Passive14_0110(PLW *wk) {
+void Passive14_0110(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -2325,7 +2325,7 @@ void Passive14_0110(PLW *wk) {
     }
 }
 
-void Passive14_0111(PLW *wk) {
+void Passive14_0111(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -2341,7 +2341,7 @@ void Passive14_0111(PLW *wk) {
     }
 }
 
-void Passive14_0112(PLW *wk) {
+void Passive14_0112(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -2361,7 +2361,7 @@ void Passive14_0112(PLW *wk) {
     }
 }
 
-void Passive14_0113(PLW *wk) {
+void Passive14_0113(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Command_Attack_Term(wk, 8, 0x2E, 8, -1, -1, 0x20, 2, -0x7F80, -1, 0x400);
@@ -2373,7 +2373,7 @@ void Passive14_0113(PLW *wk) {
     }
 }
 
-void Passive14_0114(PLW *wk) {
+void Passive14_0114(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Command_Attack_Term(wk, 8, 0x2E, 9, -1, -1, 0x20, 2, -0x7F80, -1, 0x400);
@@ -2385,7 +2385,7 @@ void Passive14_0114(PLW *wk) {
     }
 }
 
-void Passive14_0115(PLW *wk) {
+void Passive14_0115(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Command_Attack_Term(wk, 8, 0x2E, 0xA, -1, -1, 0x20, 2, -0x7F80, -1, 0x400);
@@ -2397,7 +2397,7 @@ void Passive14_0115(PLW *wk) {
     }
 }
 
-void Passive14_0116(PLW *wk) {
+void Passive14_0116(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Command_Attack_Term(wk, 8, 0x2E, 8, -1, -1, 0x20, 0, -0x7F80, -1, 0x400);
@@ -2409,7 +2409,7 @@ void Passive14_0116(PLW *wk) {
     }
 }
 
-void Passive14_0117(PLW *wk) {
+void Passive14_0117(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Command_Attack_Term(wk, 8, 0x2E, 9, -1, -1, 0x20, 0, -0x7F80, -1, 0x400);
@@ -2421,7 +2421,7 @@ void Passive14_0117(PLW *wk) {
     }
 }
 
-void Passive14_0118(PLW *wk) {
+void Passive14_0118(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Command_Attack_Term(wk, 8, 0x2E, 0xA, -1, -1, 0x20, 0, -0x7F80, -1, 0x400);
@@ -2433,7 +2433,7 @@ void Passive14_0118(PLW *wk) {
     }
 }
 
-void Passive14_0119(PLW *wk) {
+void Passive14_0119(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Command_Attack_Term(wk, 8, 0x2E, 8, -1, -1, 0x20, 1, -0x7F80, -1, 0x400);
@@ -2445,7 +2445,7 @@ void Passive14_0119(PLW *wk) {
     }
 }
 
-void Passive14_0120(PLW *wk) {
+void Passive14_0120(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Command_Attack_Term(wk, 8, 0x2E, 9, -1, -1, 0x20, 1, -0x7F80, -1, 0x400);
@@ -2457,7 +2457,7 @@ void Passive14_0120(PLW *wk) {
     }
 }
 
-void Passive14_0121(PLW *wk) {
+void Passive14_0121(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Command_Attack_Term(wk, 8, 0x2E, 0xA, -1, -1, 0x20, 1, -0x7F80, -1, 0x400);
@@ -2469,7 +2469,7 @@ void Passive14_0121(PLW *wk) {
     }
 }
 
-void Passive14_0122(PLW *wk) {
+void Passive14_0122(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Com_Random_Select(wk, 6, 0x71, 0x71, 0x72, 0x73, 2);
@@ -2481,7 +2481,7 @@ void Passive14_0122(PLW *wk) {
     }
 }
 
-void Passive14_0123(PLW *wk) {
+void Passive14_0123(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Com_Random_Select(wk, 6, 0x74, 0x74, 0x75, 0x76, 2);
@@ -2493,7 +2493,7 @@ void Passive14_0123(PLW *wk) {
     }
 }
 
-void Passive14_0124(PLW *wk) {
+void Passive14_0124(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Com_Random_Select(wk, 6, 0x77, 0x77, 0x78, 0x79, 2);
@@ -2505,7 +2505,7 @@ void Passive14_0124(PLW *wk) {
     }
 }
 
-void Passive14_0125(PLW *wk) {
+void Passive14_0125(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FF8, 6, 6, 1);
@@ -2521,7 +2521,7 @@ void Passive14_0125(PLW *wk) {
     }
 }
 
-void Passive14_0126(PLW *wk) {
+void Passive14_0126(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FF8, 6, 6, 1);
@@ -2537,7 +2537,7 @@ void Passive14_0126(PLW *wk) {
     }
 }
 
-void Passive14_0127(PLW *wk) {
+void Passive14_0127(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -2553,7 +2553,7 @@ void Passive14_0127(PLW *wk) {
     }
 }
 
-void Passive14_0128(PLW *wk) {
+void Passive14_0128(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x47, 2);
@@ -2569,7 +2569,7 @@ void Passive14_0128(PLW *wk) {
     }
 }
 
-void Passive14_0129(PLW *wk) {
+void Passive14_0129(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x10, 2);
@@ -2585,7 +2585,7 @@ void Passive14_0129(PLW *wk) {
     }
 }
 
-void Passive14_0130(PLW *wk) {
+void Passive14_0130(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x10, 2);
@@ -2601,7 +2601,7 @@ void Passive14_0130(PLW *wk) {
     }
 }
 
-void Passive14_0131(PLW *wk) {
+void Passive14_0131(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Com_Random_Select(wk, 6, 0x81, 0x81, 0x82, 0x82, 0);
@@ -2613,7 +2613,7 @@ void Passive14_0131(PLW *wk) {
     }
 }
 
-void Passive14_0132(PLW *wk) {
+void Passive14_0132(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1F, 8, -1);
@@ -2625,7 +2625,7 @@ void Passive14_0132(PLW *wk) {
     }
 }
 
-void Passive14_0133(PLW *wk) {
+void Passive14_0133(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1F, 9, -1);
@@ -2637,7 +2637,7 @@ void Passive14_0133(PLW *wk) {
     }
 }
 
-void Passive14_0134(PLW *wk) {
+void Passive14_0134(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1F, 10, -1);
@@ -2649,7 +2649,7 @@ void Passive14_0134(PLW *wk) {
     }
 }
 
-void Passive14_0135(PLW *wk) {
+void Passive14_0135(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x21, 8, -1);
@@ -2661,7 +2661,7 @@ void Passive14_0135(PLW *wk) {
     }
 }
 
-void Passive14_0136(PLW *wk) {
+void Passive14_0136(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x21, 9, -1);
@@ -2673,7 +2673,7 @@ void Passive14_0136(PLW *wk) {
     }
 }
 
-void Passive14_0137(PLW *wk) {
+void Passive14_0137(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x21, 10, -1);
@@ -2685,7 +2685,7 @@ void Passive14_0137(PLW *wk) {
     }
 }
 
-void Passive14_0138(PLW *wk) {
+void Passive14_0138(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Com_Random_Select(wk, 6, 0x84, 0x84, 0x85, 0x86, 2);
@@ -2697,7 +2697,7 @@ void Passive14_0138(PLW *wk) {
     }
 }
 
-void Passive14_0139(PLW *wk) {
+void Passive14_0139(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Com_Random_Select(wk, 6, 0x87, 0x87, 0x88, 0x89, 2);
@@ -2709,7 +2709,7 @@ void Passive14_0139(PLW *wk) {
     }
 }
 
-void Passive14_0140(PLW *wk) {
+void Passive14_0140(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         J_Command_Attack(wk, 9, 0x20, 8, -1);
@@ -2725,7 +2725,7 @@ void Passive14_0140(PLW *wk) {
     }
 }
 
-void Passive14_0141(PLW *wk) {
+void Passive14_0141(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         J_Command_Attack(wk, 9, 0x20, 9, -1);
@@ -2741,7 +2741,7 @@ void Passive14_0141(PLW *wk) {
     }
 }
 
-void Passive14_0142(PLW *wk) {
+void Passive14_0142(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         J_Command_Attack(wk, 9, 0x20, 10, -1);
@@ -2757,7 +2757,7 @@ void Passive14_0142(PLW *wk) {
     }
 }
 
-void Passive14_0143(PLW *wk) {
+void Passive14_0143(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FF8, 6, 6, 1);
@@ -2773,7 +2773,7 @@ void Passive14_0143(PLW *wk) {
     }
 }
 
-void Passive14_0144(PLW *wk) {
+void Passive14_0144(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         J_Command_Attack(wk, 8, 0x1E, 8, -1);
@@ -2785,7 +2785,7 @@ void Passive14_0144(PLW *wk) {
     }
 }
 
-void Passive14_0145(PLW *wk) {
+void Passive14_0145(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         J_Command_Attack(wk, 8, 0x1E, 8, -1);
@@ -2801,7 +2801,7 @@ void Passive14_0145(PLW *wk) {
     }
 }
 
-void Passive14_0146(PLW *wk) {
+void Passive14_0146(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Command_Attack_Term(wk, 0xC, 0x2E, 8, -1, -1, 0x34, 0, -1, -1, 0xFFFF);
@@ -2817,7 +2817,7 @@ void Passive14_0146(PLW *wk) {
     }
 }
 
-void Passive14_0147(PLW *wk) {
+void Passive14_0147(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Check_SA_Full(wk, 6, 0x76);
@@ -2865,7 +2865,7 @@ void Passive14_0147(PLW *wk) {
     }
 }
 
-void Passive14_0148(PLW *wk) {
+void Passive14_0148(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Check_SA(wk, 6, 0x76);
@@ -2881,7 +2881,7 @@ void Passive14_0148(PLW *wk) {
     }
 }
 
-void Passive14_0149(PLW *wk) {
+void Passive14_0149(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Com_Random_Select(wk, 6, 0x92, 0x92, 0x93, 0x94, 2);
@@ -2893,7 +2893,7 @@ void Passive14_0149(PLW *wk) {
     }
 }
 
-void Passive14_0150(PLW *wk) {
+void Passive14_0150(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 9, 0x220);
@@ -2909,7 +2909,7 @@ void Passive14_0150(PLW *wk) {
     }
 }
 
-void Passive14_0151(PLW *wk) {
+void Passive14_0151(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, 8, 0x49, 0xB, 0x202, 0, -0x7F80, -1, 0x400);
@@ -2937,7 +2937,7 @@ void Passive14_0151(PLW *wk) {
     }
 }
 
-void Passive14_0152(PLW *wk) {
+void Passive14_0152(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Turn_Over_On(wk);
@@ -2969,7 +2969,7 @@ void Passive14_0152(PLW *wk) {
     }
 }
 
-void Passive14_0153(PLW *wk) {
+void Passive14_0153(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Lever_Attack(wk, 8, 0, 0x20);
@@ -2981,7 +2981,7 @@ void Passive14_0153(PLW *wk) {
     }
 }
 
-void Passive14_0154(PLW *wk) {
+void Passive14_0154(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FF8, 6, 6, 1);
@@ -2997,7 +2997,7 @@ void Passive14_0154(PLW *wk) {
     }
 }
 
-void Passive14_0155(PLW *wk) {
+void Passive14_0155(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 3);
@@ -3021,7 +3021,7 @@ void Passive14_0155(PLW *wk) {
     }
 }
 
-void Passive14_0156(PLW *wk) {
+void Passive14_0156(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 3);
@@ -3053,7 +3053,7 @@ void Passive14_0156(PLW *wk) {
     }
 }
 
-void Passive14_0157(PLW *wk) {
+void Passive14_0157(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 2);
@@ -3077,7 +3077,7 @@ void Passive14_0157(PLW *wk) {
     }
 }
 
-void Passive14_0158(PLW *wk) {
+void Passive14_0158(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 2);
@@ -3113,7 +3113,7 @@ void Passive14_0158(PLW *wk) {
     }
 }
 
-void Passive14_0159(PLW *wk) {
+void Passive14_0159(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 0xB, 0x400, 0, -0x7F80, -1, 0x400);
@@ -3133,55 +3133,7 @@ void Passive14_0159(PLW *wk) {
     }
 }
 
-void Passive14_0160(PLW *wk) {
-    switch (CP_Index[wk->wu.id][0]) {
-    case 0:
-        Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 0xB, 0x400, 0, -0x7F80, -1, 0x400);
-        break;
-
-    case 1:
-        Normal_Attack(wk, 0xC, 0x202);
-        break;
-
-    case 2:
-        Command_Attack(wk, 0xC, 0x1F, 10, -1);
-        break;
-
-    case 3:
-        Wait(wk, 1);
-        break;
-
-    case 4:
-        SA_Term(wk, 0x2F, 0x30, 0x31, 0x7F);
-        break;
-
-    default:
-        End_Pattern(wk);
-        break;
-    }
-}
-
-void Passive14_0161(PLW *wk) {
-    switch (CP_Index[wk->wu.id][0]) {
-    case 0:
-        Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 0xB, 0x400, 0, -0x7F80, -1, 0x400);
-        break;
-
-    case 1:
-        Normal_Attack(wk, 0xC, 0x202);
-        break;
-
-    case 2:
-        Command_Attack(wk, 0xC, 0x1F, 10, -1);
-        break;
-
-    default:
-        End_Pattern(wk);
-        break;
-    }
-}
-
-void Passive14_0162(PLW *wk) {
+void Passive14_0160(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 0xB, 0x400, 0, -0x7F80, -1, 0x400);
@@ -3209,7 +3161,55 @@ void Passive14_0162(PLW *wk) {
     }
 }
 
-void Passive14_0163(PLW *wk) {
+void Passive14_0161(PLW* wk) {
+    switch (CP_Index[wk->wu.id][0]) {
+    case 0:
+        Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 0xB, 0x400, 0, -0x7F80, -1, 0x400);
+        break;
+
+    case 1:
+        Normal_Attack(wk, 0xC, 0x202);
+        break;
+
+    case 2:
+        Command_Attack(wk, 0xC, 0x1F, 10, -1);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
+
+void Passive14_0162(PLW* wk) {
+    switch (CP_Index[wk->wu.id][0]) {
+    case 0:
+        Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 0xB, 0x400, 0, -0x7F80, -1, 0x400);
+        break;
+
+    case 1:
+        Normal_Attack(wk, 0xC, 0x202);
+        break;
+
+    case 2:
+        Command_Attack(wk, 0xC, 0x1F, 10, -1);
+        break;
+
+    case 3:
+        Wait(wk, 1);
+        break;
+
+    case 4:
+        SA_Term(wk, 0x2F, 0x30, 0x31, 0x7F);
+        break;
+
+    default:
+        End_Pattern(wk);
+        break;
+    }
+}
+
+void Passive14_0163(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 1, -1, -1);
@@ -3221,7 +3221,7 @@ void Passive14_0163(PLW *wk) {
     }
 }
 
-void Passive14_0164(PLW *wk) {
+void Passive14_0164(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 1, -1, -1);
@@ -3245,7 +3245,7 @@ void Passive14_0164(PLW *wk) {
     }
 }
 
-void Passive14_0165(PLW *wk) {
+void Passive14_0165(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 2);
@@ -3269,7 +3269,7 @@ void Passive14_0165(PLW *wk) {
     }
 }
 
-void Passive14_0166(PLW *wk) {
+void Passive14_0166(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -3285,7 +3285,7 @@ void Passive14_0166(PLW *wk) {
     }
 }
 
-void Passive14_0167(PLW *wk) {
+void Passive14_0167(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 2);
@@ -3313,7 +3313,7 @@ void Passive14_0167(PLW *wk) {
     }
 }
 
-void Passive14_0168(PLW *wk) {
+void Passive14_0168(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 2);
@@ -3349,7 +3349,7 @@ void Passive14_0168(PLW *wk) {
     }
 }
 
-void Passive14_0169(PLW *wk) {
+void Passive14_0169(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 2);
@@ -3377,7 +3377,7 @@ void Passive14_0169(PLW *wk) {
     }
 }
 
-void Passive14_0170(PLW *wk) {
+void Passive14_0170(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 2);
@@ -3409,7 +3409,7 @@ void Passive14_0170(PLW *wk) {
     }
 }
 
-void Passive14_0171(PLW *wk) {
+void Passive14_0171(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 2);
@@ -3437,7 +3437,7 @@ void Passive14_0171(PLW *wk) {
     }
 }
 
-void Passive14_0172(PLW *wk) {
+void Passive14_0172(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 9, 0x400, 0, -0x7F80, -1, 0x400);
@@ -3461,7 +3461,7 @@ void Passive14_0172(PLW *wk) {
     }
 }
 
-void Passive14_0173(PLW *wk) {
+void Passive14_0173(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 9, 0x400, 0, -0x7F80, -1, 0x400);
@@ -3493,7 +3493,7 @@ void Passive14_0173(PLW *wk) {
     }
 }
 
-void Passive14_0174(PLW *wk) {
+void Passive14_0174(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 9, 0x400, 0, -0x7F80, -1, 0x400);
@@ -3517,7 +3517,7 @@ void Passive14_0174(PLW *wk) {
     }
 }
 
-void Passive14_0175(PLW *wk) {
+void Passive14_0175(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Turn_Over_On(wk);
@@ -3545,7 +3545,7 @@ void Passive14_0175(PLW *wk) {
     }
 }
 
-void Passive14_0176(PLW *wk) {
+void Passive14_0176(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 9, 0x400, 0, -0x7F80, -1, 0x400);
@@ -3569,7 +3569,7 @@ void Passive14_0176(PLW *wk) {
     }
 }
 
-void Passive14_0177(PLW *wk) {
+void Passive14_0177(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Com_Random_Select(wk, 2, 0x3F, 0x40, 0x41, 0x42, 0);
@@ -3581,7 +3581,7 @@ void Passive14_0177(PLW *wk) {
     }
 }
 
-void Passive14_0178(PLW *wk) {
+void Passive14_0178(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 9, 0x400, 0, -0x7F80, -1, 0x400);
@@ -3605,7 +3605,7 @@ void Passive14_0178(PLW *wk) {
     }
 }
 
-void Passive14_0179(PLW *wk) {
+void Passive14_0179(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 9, 0x400, 0, -0x7F80, -1, 0x400);
@@ -3637,7 +3637,7 @@ void Passive14_0179(PLW *wk) {
     }
 }
 
-void Passive14_0180(PLW *wk) {
+void Passive14_0180(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 9, 0x400, 0, -0x7F80, -1, 0x400);
@@ -3661,7 +3661,7 @@ void Passive14_0180(PLW *wk) {
     }
 }
 
-void Passive14_0181(PLW *wk) {
+void Passive14_0181(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Turn_Over_On(wk);
@@ -3689,7 +3689,7 @@ void Passive14_0181(PLW *wk) {
     }
 }
 
-void Passive14_0182(PLW *wk) {
+void Passive14_0182(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 9, 0x400, 0, -0x7F80, -1, 0x400);
@@ -3713,7 +3713,7 @@ void Passive14_0182(PLW *wk) {
     }
 }
 
-void Passive14_0183(PLW *wk) {
+void Passive14_0183(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Turn_Over_On(wk);
@@ -3741,7 +3741,7 @@ void Passive14_0183(PLW *wk) {
     }
 }
 
-void Passive14_0184(PLW *wk) {
+void Passive14_0184(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 3);
@@ -3765,7 +3765,7 @@ void Passive14_0184(PLW *wk) {
     }
 }
 
-void Passive14_0185(PLW *wk) {
+void Passive14_0185(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 9, 0x400, 0, -0x7F80, -1, 0x400);
@@ -3793,7 +3793,7 @@ void Passive14_0185(PLW *wk) {
     }
 }
 
-void Passive14_0186(PLW *wk) {
+void Passive14_0186(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 3);
@@ -3809,7 +3809,7 @@ void Passive14_0186(PLW *wk) {
     }
 }
 
-void Passive14_0187(PLW *wk) {
+void Passive14_0187(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 9, 0x400, 0, -0x7F80, -1, 0x400);
@@ -3829,7 +3829,7 @@ void Passive14_0187(PLW *wk) {
     }
 }
 
-void Passive14_0188(PLW *wk) {
+void Passive14_0188(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 9, 0x400, 0, -0x7F80, -1, 0x400);
@@ -3853,7 +3853,7 @@ void Passive14_0188(PLW *wk) {
     }
 }
 
-void Passive14_0189(PLW *wk) {
+void Passive14_0189(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7FA8, -0x7FC8, 9, 0x400, 0, -0x7F80, -1, 0x400);
@@ -3877,7 +3877,7 @@ void Passive14_0189(PLW *wk) {
     }
 }
 
-void Passive14_0190(PLW *wk) {
+void Passive14_0190(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 3);
@@ -3893,7 +3893,7 @@ void Passive14_0190(PLW *wk) {
     }
 }
 
-void Passive14_0191(PLW *wk) {
+void Passive14_0191(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Turn_Over_On(wk);
@@ -3921,7 +3921,7 @@ void Passive14_0191(PLW *wk) {
     }
 }
 
-void Passive14_0192(PLW *wk) {
+void Passive14_0192(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Turn_Over_On(wk);
@@ -3957,7 +3957,7 @@ void Passive14_0192(PLW *wk) {
     }
 }
 
-void Passive14_0193(PLW *wk) {
+void Passive14_0193(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 3);
@@ -3973,7 +3973,7 @@ void Passive14_0193(PLW *wk) {
     }
 }
 
-void Passive14_0194(PLW *wk) {
+void Passive14_0194(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Com_Random_Select(wk, 6, 0xB2, 0xB3, 0xB4, 0xB6, 0);
@@ -3985,7 +3985,7 @@ void Passive14_0194(PLW *wk) {
     }
 }
 
-void Passive14_0195(PLW *wk) {
+void Passive14_0195(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Com_Random_Select(wk, 6, 0xB9, 0xBB, 0xBC, 0xBD, 0);
@@ -3997,7 +3997,7 @@ void Passive14_0195(PLW *wk) {
     }
 }
 
-void Passive14_0196(PLW *wk) {
+void Passive14_0196(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Com_Random_Select(wk, 6, 0xB5, 0xB7, 0xBF, 0xC0, 0);
@@ -4009,7 +4009,7 @@ void Passive14_0196(PLW *wk) {
     }
 }
 
-void Passive14_0197(PLW *wk) {
+void Passive14_0197(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -4053,7 +4053,7 @@ void Passive14_0197(PLW *wk) {
     }
 }
 
-void Passive14_0198(PLW *wk) {
+void Passive14_0198(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x400);
@@ -4065,7 +4065,7 @@ void Passive14_0198(PLW *wk) {
     }
 }
 
-void Passive14_0199(PLW *wk) {
+void Passive14_0199(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Attack_Complete(wk, 1, 1);
@@ -4089,7 +4089,7 @@ void Passive14_0199(PLW *wk) {
     }
 }
 
-void Passive14_0200(PLW *wk) {
+void Passive14_0200(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Turn_Over_On(wk);
@@ -4109,7 +4109,7 @@ void Passive14_0200(PLW *wk) {
     }
 }
 
-void Passive14_0201(PLW *wk) {
+void Passive14_0201(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Turn_Over_On(wk);
@@ -4129,7 +4129,7 @@ void Passive14_0201(PLW *wk) {
     }
 }
 
-void Passive14_0202(PLW *wk) {
+void Passive14_0202(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Turn_Over_On(wk);
@@ -4149,7 +4149,7 @@ void Passive14_0202(PLW *wk) {
     }
 }
 
-void Passive14_0203(PLW *wk) {
+void Passive14_0203(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Turn_Over_On(wk);
@@ -4169,7 +4169,7 @@ void Passive14_0203(PLW *wk) {
     }
 }
 
-void Passive14_0204(PLW *wk) {
+void Passive14_0204(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -4185,7 +4185,7 @@ void Passive14_0204(PLW *wk) {
     }
 }
 
-void Passive14_0205(PLW *wk) {
+void Passive14_0205(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -4201,7 +4201,7 @@ void Passive14_0205(PLW *wk) {
     }
 }
 
-void Passive14_0206(PLW *wk) {
+void Passive14_0206(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -4217,7 +4217,7 @@ void Passive14_0206(PLW *wk) {
     }
 }
 
-void Passive14_0207(PLW *wk) {
+void Passive14_0207(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -4233,7 +4233,7 @@ void Passive14_0207(PLW *wk) {
     }
 }
 
-void Passive14_0208(PLW *wk) {
+void Passive14_0208(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xB5, 3);
@@ -4253,7 +4253,7 @@ void Passive14_0208(PLW *wk) {
     }
 }
 
-void Passive14_0209(PLW *wk) {
+void Passive14_0209(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 3);
@@ -4273,7 +4273,7 @@ void Passive14_0209(PLW *wk) {
     }
 }
 
-void Passive14_0210(PLW *wk) {
+void Passive14_0210(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xAD, 3);
@@ -4293,7 +4293,7 @@ void Passive14_0210(PLW *wk) {
     }
 }
 
-void Passive14_0211(PLW *wk) {
+void Passive14_0211(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 3);
@@ -4313,7 +4313,7 @@ void Passive14_0211(PLW *wk) {
     }
 }
 
-void Passive14_0212(PLW *wk) {
+void Passive14_0212(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SA_Term(wk, 0x32, 0xFFFF, 0xFFFF, 0xBF);
@@ -4329,7 +4329,7 @@ void Passive14_0212(PLW *wk) {
     }
 }
 
-void Passive14_0213(PLW *wk) {
+void Passive14_0213(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FF8, 6, 6, 1);
@@ -4345,7 +4345,7 @@ void Passive14_0213(PLW *wk) {
     }
 }
 
-void Passive14_0214(PLW *wk) {
+void Passive14_0214(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FF8, 6, 6, 1);
@@ -4361,7 +4361,7 @@ void Passive14_0214(PLW *wk) {
     }
 }
 
-void Passive14_0215(PLW *wk) {
+void Passive14_0215(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FF8, 6, 6, 1);
@@ -4377,7 +4377,7 @@ void Passive14_0215(PLW *wk) {
     }
 }
 
-void Passive14_0216(PLW *wk) {
+void Passive14_0216(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FF8, 6, 6, 1);
@@ -4393,7 +4393,7 @@ void Passive14_0216(PLW *wk) {
     }
 }
 
-void Passive14_0217(PLW *wk) {
+void Passive14_0217(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 1, -1, -1);
@@ -4417,7 +4417,7 @@ void Passive14_0217(PLW *wk) {
     }
 }
 
-void Passive14_0218(PLW *wk) {
+void Passive14_0218(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 1, -1, -1);
@@ -4441,7 +4441,7 @@ void Passive14_0218(PLW *wk) {
     }
 }
 
-void Passive14_0219(PLW *wk) {
+void Passive14_0219(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 1, -1, -1);
@@ -4465,7 +4465,7 @@ void Passive14_0219(PLW *wk) {
     }
 }
 
-void Passive14_0220(PLW *wk) {
+void Passive14_0220(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 1, -1, -1);
@@ -4489,7 +4489,7 @@ void Passive14_0220(PLW *wk) {
     }
 }
 
-void Passive14_0221(PLW *wk) {
+void Passive14_0221(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x300, 6, 0xE1);
@@ -4517,7 +4517,7 @@ void Passive14_0221(PLW *wk) {
     }
 }
 
-void Passive14_0222(PLW *wk) {
+void Passive14_0222(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x80, 6, 0xE1);
@@ -4545,7 +4545,7 @@ void Passive14_0222(PLW *wk) {
     }
 }
 
-void Passive14_0223(PLW *wk) {
+void Passive14_0223(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x200, 6, 0xE2);
@@ -4573,7 +4573,7 @@ void Passive14_0223(PLW *wk) {
     }
 }
 
-void Passive14_0224(PLW *wk) {
+void Passive14_0224(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x100, 6, 0xE2);
@@ -4601,7 +4601,7 @@ void Passive14_0224(PLW *wk) {
     }
 }
 
-void Passive14_0225(PLW *wk) {
+void Passive14_0225(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1C, 10, -1);
@@ -4625,7 +4625,7 @@ void Passive14_0225(PLW *wk) {
     }
 }
 
-void Passive14_0226(PLW *wk) {
+void Passive14_0226(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1C, 8, -1);
@@ -4649,7 +4649,7 @@ void Passive14_0226(PLW *wk) {
     }
 }
 
-void Passive14_0227(PLW *wk) {
+void Passive14_0227(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1C, 10, -1);
@@ -4673,7 +4673,7 @@ void Passive14_0227(PLW *wk) {
     }
 }
 
-void Passive14_0228(PLW *wk) {
+void Passive14_0228(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1C, 8, -1);
@@ -4697,7 +4697,7 @@ void Passive14_0228(PLW *wk) {
     }
 }
 
-void Passive14_0229(PLW *wk) {
+void Passive14_0229(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x22, 8, -1);
@@ -4721,7 +4721,7 @@ void Passive14_0229(PLW *wk) {
     }
 }
 
-void Passive14_0230(PLW *wk) {
+void Passive14_0230(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FF8, 6, 6, 1);
@@ -4761,7 +4761,7 @@ void Passive14_0230(PLW *wk) {
     }
 }
 
-void Passive14_0231(PLW *wk) {
+void Passive14_0231(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0, -1, -1);
@@ -4801,7 +4801,7 @@ void Passive14_0231(PLW *wk) {
     }
 }
 
-void Passive14_0232(PLW *wk) {
+void Passive14_0232(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 3);
@@ -4817,7 +4817,7 @@ void Passive14_0232(PLW *wk) {
     }
 }
 
-void Passive14_0233(PLW *wk) {
+void Passive14_0233(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 2);
@@ -4833,7 +4833,7 @@ void Passive14_0233(PLW *wk) {
     }
 }
 
-void Passive14_0234(PLW *wk) {
+void Passive14_0234(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Attack_Complete(wk, 1, 1);
@@ -4857,7 +4857,7 @@ void Passive14_0234(PLW *wk) {
     }
 }
 
-void Passive14_0235(PLW *wk) {
+void Passive14_0235(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7F80, -1, 6, 6, 1);
@@ -4877,7 +4877,7 @@ void Passive14_0235(PLW *wk) {
     }
 }
 
-void Passive14_0236(PLW *wk) {
+void Passive14_0236(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7F68, -1, 6, 6, 1);
@@ -4908,7 +4908,7 @@ void Passive14_0236(PLW *wk) {
     }
 }
 
-void Passive14_0237(PLW *wk) {
+void Passive14_0237(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7F80, -1, 6, 6, 1);
@@ -4924,7 +4924,7 @@ void Passive14_0237(PLW *wk) {
     }
 }
 
-void Passive14_0238(PLW *wk) {
+void Passive14_0238(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 9, 0x10);
@@ -4944,7 +4944,7 @@ void Passive14_0238(PLW *wk) {
     }
 }
 
-void Passive14_0239(PLW *wk) {
+void Passive14_0239(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump(wk, 0);
@@ -4956,7 +4956,7 @@ void Passive14_0239(PLW *wk) {
     }
 }
 
-void Passive14_0240(PLW *wk) {
+void Passive14_0240(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 3, 0);
@@ -4972,7 +4972,7 @@ void Passive14_0240(PLW *wk) {
     }
 }
 
-void Passive14_0241(PLW *wk) {
+void Passive14_0241(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x57, 3);
@@ -5000,7 +5000,7 @@ void Passive14_0241(PLW *wk) {
     }
 }
 
-void Passive14_0242(PLW *wk) {
+void Passive14_0242(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 3, 0);
@@ -5024,7 +5024,7 @@ void Passive14_0242(PLW *wk) {
     }
 }
 
-void Passive14_0243(PLW *wk) {
+void Passive14_0243(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Com_Random_Select(wk, 2, 0x26, 0x27, 0x28, 0x29, 0);
@@ -5036,7 +5036,7 @@ void Passive14_0243(PLW *wk) {
     }
 }
 
-void Passive14_0244(PLW *wk) {
+void Passive14_0244(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x57, 3);
@@ -5064,7 +5064,7 @@ void Passive14_0244(PLW *wk) {
     }
 }
 
-void Passive14_0245(PLW *wk) {
+void Passive14_0245(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x57, 3);
@@ -5092,7 +5092,7 @@ void Passive14_0245(PLW *wk) {
     }
 }
 
-void Passive14_0246(PLW *wk) {
+void Passive14_0246(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x57, 3);
@@ -5120,7 +5120,7 @@ void Passive14_0246(PLW *wk) {
     }
 }
 
-void Passive14_0247(PLW *wk) {
+void Passive14_0247(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x57, 3);
@@ -5148,7 +5148,7 @@ void Passive14_0247(PLW *wk) {
     }
 }
 
-void Passive14_0248(PLW *wk) {
+void Passive14_0248(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Com_Random_Select(wk, 2, 0x89, 0x8A, 0x8B, 0x8C, 0);
@@ -5160,7 +5160,7 @@ void Passive14_0248(PLW *wk) {
     }
 }
 
-void Passive14_0249(PLW *wk) {
+void Passive14_0249(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 0xC, 0x402);
@@ -5176,7 +5176,7 @@ void Passive14_0249(PLW *wk) {
     }
 }
 
-void Passive14_0250(PLW *wk) {
+void Passive14_0250(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Com_Random_Select(wk, 6, 0x77, 0x77, 0x78, 0x79, 2);
@@ -5188,7 +5188,7 @@ void Passive14_0250(PLW *wk) {
     }
 }
 
-void Passive14_0251(PLW *wk) {
+void Passive14_0251(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x8019, 0xA, -1);
@@ -5204,7 +5204,7 @@ void Passive14_0251(PLW *wk) {
     }
 }
 
-void Passive14_0252(PLW *wk) {
+void Passive14_0252(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Check_SA_Full(wk, 6, 0x7C);
@@ -5224,7 +5224,7 @@ void Passive14_0252(PLW *wk) {
     }
 }
 
-void (*const Passive14_Tbl[253])(PLW *) = {
+void (*const Passive14_Tbl[253])(PLW*) = {
     Passive14_0000, Passive14_0001, Passive14_0002, Passive14_0003, Passive14_0004, Passive14_0005, Passive14_0006,
     Passive14_0007, Passive14_0008, Passive14_0009, Passive14_0010, Passive14_0011, Passive14_0012, Passive14_0013,
     Passive14_0014, Passive14_0015, Passive14_0016, Passive14_0017, Passive14_0018, Passive14_0019, Passive14_0020,

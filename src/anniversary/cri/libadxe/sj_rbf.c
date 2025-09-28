@@ -9,23 +9,23 @@
 typedef struct {
     SJ_OBJ sj;                                 // 0x00
     Sint32 used;                               // 0x04
-    UUID *uuid;                                // 0x08
+    UUID* uuid;                                // 0x08
     Sint32 unkC;                               // 0x0C
     Sint32 unk10;                              // 0x10
     Sint32 unk14;                              // 0x14
     Sint32 unk18;                              // 0x18
-    Sint8 *buf;                                // 0x1C
+    Sint8* buf;                                // 0x1C
     Sint32 bsize;                              // 0x20
     Sint32 xsize;                              // 0x24
     Sint32 unk28;                              // 0x28
     Sint32 unk2C;                              // 0x2C
     Sint32 unk30;                              // 0x30
     Sint32 unk34;                              // 0x34
-    void (*err_func)(void *obj, Sint32 ecode); // 0x38
-    void *err_obj;                             // 0x3C
+    void (*err_func)(void* obj, Sint32 ecode); // 0x38
+    void* err_obj;                             // 0x3C
 } SJRBF_OBJ;
 
-typedef SJRBF_OBJ *SJRBF;
+typedef SJRBF_OBJ* SJRBF;
 
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #define MAX(a, b) ((a) < (b) ? (b) : (a))
@@ -35,17 +35,17 @@ typedef SJRBF_OBJ *SJRBF;
 // forward decls
 void SJRBF_Reset(SJRBF sjrbf);
 void SJRBF_Destroy(SJRBF sjrbf);
-UUID *SJRBF_GetUuid(SJRBF sjrbf);
+UUID* SJRBF_GetUuid(SJRBF sjrbf);
 void SJRBF_Reset(SJRBF sjrbf);
-void SJRBF_GetChunk(SJRBF sjrbf, Sint32 id, Sint32 nbyte, SJCK *ck);
-void SJRBF_UngetChunk(SJRBF sjrbf, Sint32 id, SJCK *ck);
-void SJRBF_PutChunk(SJRBF sjrbf, Sint32 id, SJCK *ck);
+void SJRBF_GetChunk(SJRBF sjrbf, Sint32 id, Sint32 nbyte, SJCK* ck);
+void SJRBF_UngetChunk(SJRBF sjrbf, Sint32 id, SJCK* ck);
+void SJRBF_PutChunk(SJRBF sjrbf, Sint32 id, SJCK* ck);
 Sint32 SJRBF_GetNumData(SJRBF sjrbf, Sint32 id);
-Sint32 SJRBF_IsGetChunk(SJRBF sjrbf, Sint32 id, Sint32 nbyte, Sint32 *rbyte);
-void SJRBF_EntryErrFunc(SJRBF sjrbf, void (*func)(void *obj, Sint32 ecode), void *obj);
+Sint32 SJRBF_IsGetChunk(SJRBF sjrbf, Sint32 id, Sint32 nbyte, Sint32* rbyte);
+void SJRBF_EntryErrFunc(SJRBF sjrbf, void (*func)(void* obj, Sint32 ecode), void* obj);
 
 // data
-Char8 *volatile sj_build = "\nSJ/PS2EE Ver.6.18 Build:Sep 18 2003 09:59:52\n";
+Char8* volatile sj_build = "\nSJ/PS2EE Ver.6.18 Build:Sep 18 2003 09:59:52\n";
 
 SJ_IF sjrbf_vtbl = { .QueryInterface = NULL,
                      .AddRef = NULL,
@@ -67,7 +67,7 @@ const UUID sjrbf_uuid = {
     .Data1 = 0x3B9A9E81, .Data2 = 0x0DBB, .Data3 = 0x11D2, .Data4 = { 0xA6, 0xBF, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 }
 };
 
-void SJRBF_Error(void *obj, Sint32 ecode) {
+void SJRBF_Error(void* obj, Sint32 ecode) {
     SJERR_CallErr("SJRBF Error");
 }
 
@@ -94,7 +94,7 @@ void SJRBF_Finish() {
     SJCRS_Unlock();
 }
 
-SJ SJRBF_Create(Sint8 *buf, Sint32 bsize, Sint32 xsize) {
+SJ SJRBF_Create(Sint8* buf, Sint32 bsize, Sint32 xsize) {
     SJRBF sjrbf;
     Sint32 i;
 
@@ -136,11 +136,11 @@ void SJRBF_Destroy(SJRBF sjrbf) {
     SJCRS_Unlock();
 }
 
-UUID *SJRBF_GetUuid(SJRBF sjrbf) {
+UUID* SJRBF_GetUuid(SJRBF sjrbf) {
     return sjrbf->uuid;
 }
 
-void SJRBF_EntryErrFunc(SJRBF sjrbf, void (*func)(void *obj, Sint32 ecode), void *obj) {
+void SJRBF_EntryErrFunc(SJRBF sjrbf, void (*func)(void* obj, Sint32 ecode), void* obj) {
     sjrbf->err_func = func;
     sjrbf->err_obj = obj;
 }
@@ -172,7 +172,7 @@ Sint32 SJRBF_GetNumData(SJRBF sjrbf, Sint32 id) {
     }
 }
 
-void SJRBF_GetChunk(SJRBF sjrbf, Sint32 id, Sint32 nbyte, SJCK *ck) {
+void SJRBF_GetChunk(SJRBF sjrbf, Sint32 id, Sint32 nbyte, SJCK* ck) {
     SJCRS_Lock();
 
     if (id == 0) {
@@ -199,7 +199,7 @@ void SJRBF_GetChunk(SJRBF sjrbf, Sint32 id, Sint32 nbyte, SJCK *ck) {
     SJCRS_Unlock();
 }
 
-void SJRBF_PutChunk(SJRBF sjrbf, Sint32 id, SJCK *ck) {
+void SJRBF_PutChunk(SJRBF sjrbf, Sint32 id, SJCK* ck) {
     ptrdiff_t temp_a2_4;
     ptrdiff_t temp_a3;
 
@@ -240,7 +240,7 @@ void SJRBF_PutChunk(SJRBF sjrbf, Sint32 id, SJCK *ck) {
     SJCRS_Unlock();
 }
 
-void SJRBF_UngetChunk(SJRBF sjrbf, Sint32 id, SJCK *ck) {
+void SJRBF_UngetChunk(SJRBF sjrbf, Sint32 id, SJCK* ck) {
     Sint32 a;
     Sint32 b;
 
@@ -290,7 +290,7 @@ void SJRBF_UngetChunk(SJRBF sjrbf, Sint32 id, SJCK *ck) {
     SJCRS_Unlock();
 }
 
-Sint32 SJRBF_IsGetChunk(SJRBF sjrbf, Sint32 id, Sint32 nbyte, Sint32 *rbyte) {
+Sint32 SJRBF_IsGetChunk(SJRBF sjrbf, Sint32 id, Sint32 nbyte, Sint32* rbyte) {
     Sint32 unk;
 
     SJCRS_Lock();
@@ -314,7 +314,7 @@ Sint32 SJRBF_IsGetChunk(SJRBF sjrbf, Sint32 id, Sint32 nbyte, Sint32 *rbyte) {
     return unk == nbyte;
 }
 
-void *SJRBF_GetBufPtr(SJ sj) {
+void* SJRBF_GetBufPtr(SJ sj) {
     SJRBF sjrbf = (SJRBF)sj;
     return sjrbf->buf;
 };

@@ -15,23 +15,23 @@ typedef struct {
     u32 Reserved[2]; // offset 0x18, size 0x8
 } APXFileHeader;
 
-static APXFileHeader *GetAPXFileHeader(void *lpbas);
-static u8 *GetAPXPixelMipmapAdrs(void *lpbas, s32 index);
-static u8 *GetAPXPaletteAdrs(void *lpbas, s32 index);
+static APXFileHeader* GetAPXFileHeader(void* lpbas);
+static u8* GetAPXPixelMipmapAdrs(void* lpbas, s32 index);
+static u8* GetAPXPaletteAdrs(void* lpbas, s32 index);
 
-s32 plAPXGetMipmapTextureNum(void *lpbas) {
-    APXFileHeader *lpApxFileHeader = GetAPXFileHeader(lpbas);
+s32 plAPXGetMipmapTextureNum(void* lpbas) {
+    APXFileHeader* lpApxFileHeader = GetAPXFileHeader(lpbas);
     return lpApxFileHeader->MipmapNum;
 }
 
-s32 plAPXGetPaletteNum(void *lpbas) {
-    APXFileHeader *lpApxFileHeader = GetAPXFileHeader(lpbas);
+s32 plAPXGetPaletteNum(void* lpbas) {
+    APXFileHeader* lpApxFileHeader = GetAPXFileHeader(lpbas);
     return lpApxFileHeader->ClutNum;
 }
 
-s32 plAPXSetContextFromImage(plContext *dst, void *lpbas) {
+s32 plAPXSetContextFromImage(plContext* dst, void* lpbas) {
     s32 mipmap_num = plAPXGetMipmapTextureNum(lpbas);
-    APXFileHeader *lpApxFileHeader = GetAPXFileHeader(lpbas);
+    APXFileHeader* lpApxFileHeader = GetAPXFileHeader(lpbas);
     s32 dw = lpApxFileHeader->PixelWidth;
     s32 dh = lpApxFileHeader->PixelHeight;
     s32 lp0;
@@ -144,9 +144,9 @@ s32 plAPXSetContextFromImage(plContext *dst, void *lpbas) {
     return 1;
 }
 
-s32 plAPXSetPaletteContextFromImage(plContext *dst, void *lpbas) {
+s32 plAPXSetPaletteContextFromImage(plContext* dst, void* lpbas) {
     s32 pal_num;
-    APXFileHeader *lpApxFileHeader;
+    APXFileHeader* lpApxFileHeader;
     s32 lp0;
 
     pal_num = plAPXGetPaletteNum(lpbas);
@@ -238,25 +238,25 @@ s32 plAPXSetPaletteContextFromImage(plContext *dst, void *lpbas) {
     return 1;
 }
 
-u8 *plAPXGetPixelAddressFromImage(void *lpbas, s32 Mipmap) {
+u8* plAPXGetPixelAddressFromImage(void* lpbas, s32 Mipmap) {
     return GetAPXPixelMipmapAdrs(lpbas, Mipmap);
 }
 
-u8 *plAPXGetPaletteAddressFromImage(void *lpbas, s32 index) {
+u8* plAPXGetPaletteAddressFromImage(void* lpbas, s32 index) {
     return GetAPXPaletteAdrs(lpbas, index);
 }
 
-static APXFileHeader *GetAPXFileHeader(void *lpbas) {
-    return (APXFileHeader *)lpbas;
+static APXFileHeader* GetAPXFileHeader(void* lpbas) {
+    return (APXFileHeader*)lpbas;
 }
 
-static u8 *GetAPXPixelMipmapAdrs(void *lpbas, s32 index) {
-    APXFileHeader *lpApxFileHeader;
+static u8* GetAPXPixelMipmapAdrs(void* lpbas, s32 index) {
+    APXFileHeader* lpApxFileHeader;
     s32 mipmap_num;
     s32 lp0;
     s32 dw;
     s32 dh;
-    u8 *pixel_ptr;
+    u8* pixel_ptr;
 
     mipmap_num = plAPXGetMipmapTextureNum(lpbas);
 
@@ -265,7 +265,7 @@ static u8 *GetAPXPixelMipmapAdrs(void *lpbas, s32 index) {
     }
 
     lpApxFileHeader = GetAPXFileHeader(lpbas);
-    pixel_ptr = (u8 *)(lpApxFileHeader + 1);
+    pixel_ptr = (u8*)(lpApxFileHeader + 1);
     dw = lpApxFileHeader->PixelWidth;
     dh = lpApxFileHeader->PixelHeight;
 
@@ -299,9 +299,9 @@ static u8 *GetAPXPixelMipmapAdrs(void *lpbas, s32 index) {
     return pixel_ptr;
 }
 
-static u8 *GetAPXPaletteAdrs(void *lpbas, s32 index) {
-    APXFileHeader *lpApxFileHeader;
-    u8 *pixel_ptr;
+static u8* GetAPXPaletteAdrs(void* lpbas, s32 index) {
+    APXFileHeader* lpApxFileHeader;
+    u8* pixel_ptr;
     s32 lp0;
     s32 pal_form;
 

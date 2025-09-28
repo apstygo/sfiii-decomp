@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/EFF66.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFF57.h"
@@ -6,18 +7,17 @@
 #include "sf33rd/Source/Game/Sel_Data.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void EFF66_WAIT(WORK_Other *ewk);
-void EFF66_SUSPEND(WORK_Other *ewk);
-void EFF66_SLIDE_IN(WORK_Other *ewk);
-void EFF66_BOWAN(WORK_Other *ewk);
-void EFF66_FLASH(WORK_Other *ewk);
-void EFF66_SUDDENLY(WORK_Other *ewk);
-void Setup_Pos_66(WORK_Other *ewk);
+void EFF66_WAIT(WORK_Other* ewk);
+void EFF66_SUSPEND(WORK_Other* ewk);
+void EFF66_SLIDE_IN(WORK_Other* ewk);
+void EFF66_BOWAN(WORK_Other* ewk);
+void EFF66_FLASH(WORK_Other* ewk);
+void EFF66_SUDDENLY(WORK_Other* ewk);
+void Setup_Pos_66(WORK_Other* ewk);
 
 const u8 Flash_Data_66[14] = { 0, 128, 255, 128, 0, 128, 255, 128, 0, 128, 255, 128, 0, 128 };
 
@@ -31,7 +31,7 @@ const s16 EFF66_Half_OBJ_Data[15][7] = {
 
 void (*const EFF66_Jmp_Tbl[7])();
 
-void effect_66_move(WORK_Other *ewk) {
+void effect_66_move(WORK_Other* ewk) {
     if (Menu_Suicide[ewk->master_player]) {
         push_effect_work(&ewk->wu);
         return;
@@ -67,13 +67,13 @@ void effect_66_move(WORK_Other *ewk) {
     }
 }
 
-void EFF66_WAIT(WORK_Other *ewk) {
+void EFF66_WAIT(WORK_Other* ewk) {
     if ((ewk->wu.routine_no[0] = Order[ewk->wu.dir_old])) {
         ewk->wu.routine_no[1] = 0;
     }
 }
 
-void EFF66_SUSPEND(WORK_Other *ewk) {
+void EFF66_SUSPEND(WORK_Other* ewk) {
     ewk->wu.disp_flag = 0;
 
     if ((ewk->wu.routine_no[0] = Order[ewk->wu.dir_old])) {
@@ -81,7 +81,7 @@ void EFF66_SUSPEND(WORK_Other *ewk) {
     }
 }
 
-void EFF66_SLIDE_IN(WORK_Other *ewk) {
+void EFF66_SLIDE_IN(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -128,7 +128,7 @@ void EFF66_SLIDE_IN(WORK_Other *ewk) {
     }
 }
 
-void EFF66_BOWAN(WORK_Other *ewk) {
+void EFF66_BOWAN(WORK_Other* ewk) {
     if (ewk->wu.routine_no[0] != Order[ewk->wu.dir_old]) {
         ewk->wu.routine_no[0] = Order[ewk->wu.dir_old];
         ewk->wu.routine_no[1] = 0;
@@ -162,7 +162,7 @@ void EFF66_BOWAN(WORK_Other *ewk) {
     }
 }
 
-void EFF66_FLASH(WORK_Other *ewk) {
+void EFF66_FLASH(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         Setup_Pos_66(ewk);
@@ -188,7 +188,7 @@ void EFF66_FLASH(WORK_Other *ewk) {
     }
 }
 
-void EFF66_SUDDENLY(WORK_Other *ewk) {
+void EFF66_SUDDENLY(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         Setup_Pos_66(ewk);
@@ -201,7 +201,7 @@ void EFF66_SUDDENLY(WORK_Other *ewk) {
     }
 }
 
-void Setup_Pos_66(WORK_Other *ewk) {
+void Setup_Pos_66(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -243,7 +243,7 @@ s32 effect_66_init(s16 order_index, s16 id, s16 master_player, s16 target_bg, s1
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 cg_type;
 
@@ -251,7 +251,7 @@ s32 effect_66_init(s16 order_index, s16 id, s16 master_player, s16 target_bg, s1
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 66;
     ewk->wu.work_id = 16;

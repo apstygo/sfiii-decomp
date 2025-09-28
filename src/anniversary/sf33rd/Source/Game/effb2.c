@@ -23,12 +23,12 @@ s16 rf_b2_flag = 0;
 
 // Forward decls
 
-s32 b3_Break_Into_check(WORK_Other *ewk);
-s32 fight_col_chg_sub(WORK_Other *ewk);
+s32 b3_Break_Into_check(WORK_Other* ewk);
+s32 fight_col_chg_sub(WORK_Other* ewk);
 
 // Funcs
 
-void effect_B2_move(WORK_Other *ewk) {
+void effect_B2_move(WORK_Other* ewk) {
     s16 work;
 
     b3_Break_Into_check(ewk);
@@ -160,7 +160,7 @@ void effect_B2_move(WORK_Other *ewk) {
     }
 }
 
-s32 b3_Break_Into_check(WORK_Other *ewk) {
+s32 b3_Break_Into_check(WORK_Other* ewk) {
     if (Break_Into) {
         ewk->wu.routine_no[0] = 99;
         return 1;
@@ -169,7 +169,7 @@ s32 b3_Break_Into_check(WORK_Other *ewk) {
     }
 }
 
-s32 fight_col_chg_sub(WORK_Other *ewk) {
+s32 fight_col_chg_sub(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         ewk->wu.routine_no[1] += 1;
@@ -215,14 +215,14 @@ s32 fight_col_chg_sub(WORK_Other *ewk) {
 }
 
 s32 effect_B2_init() {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 0x70;
     ewk->wu.work_id = 0x10;

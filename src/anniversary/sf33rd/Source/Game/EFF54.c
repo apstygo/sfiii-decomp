@@ -1,20 +1,20 @@
 #include "sf33rd/Source/Game/EFF54.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 
 const s16 eff29_data_tbl[8] = { 687, 128, 82, 7, 415, 152, 79, 8 };
 
-void effect_54_move(WORK_Other *ewk) {
+void effect_54_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    WORK_Other *oya = (WORK_Other *)ewk->my_master;
+    WORK_Other* oya = (WORK_Other*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -29,28 +29,28 @@ void effect_54_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_54_init(WORK_Other *oya) {
+s32 effect_54_init(WORK_Other* oya) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 i;
-    const s16 *data_ptr = eff29_data_tbl;
+    const s16* data_ptr = eff29_data_tbl;
 
     for (i = 0; i < 2; i++) {
         if ((ix = pull_effect_work(4)) == -1) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 54;
         ewk->wu.work_id = 16;
         ewk->wu.cgromtype = 1;
         ewk->wu.rl_flag = 0;
-        ewk->my_master = (u32 *)oya;
+        ewk->my_master = (u32*)oya;
         ewk->wu.my_col_mode = 0x4200;
         ewk->wu.type = i;
         ewk->wu.dead_f = 0;

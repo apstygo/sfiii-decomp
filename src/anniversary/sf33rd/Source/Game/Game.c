@@ -56,8 +56,8 @@
 #include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
 
-void Wait_Auto_Load(struct _TASK * /* unused */);
-void Loop_Demo(struct _TASK * /* unused */);
+void Wait_Auto_Load(struct _TASK* /* unused */);
+void Loop_Demo(struct _TASK* /* unused */);
 void Game();
 void Game00();
 void Game01();
@@ -98,11 +98,11 @@ s16 Ck_Coin();
 void Loop_Demo_Sub();
 void Before_Select_Sub();
 
-void Game_Task(struct _TASK *task_ptr) {
+void Game_Task(struct _TASK* task_ptr) {
     s16 ix;
     s16 ff;
 
-    void (*Main_Jmp_Tbl[3])(struct _TASK *) = { Wait_Auto_Load, Loop_Demo, Game };
+    void (*Main_Jmp_Tbl[3])(struct _TASK*) = { Wait_Auto_Load, Loop_Demo, Game };
 
     init_color_trans_req();
     ff = Process_Counter;
@@ -1540,7 +1540,7 @@ void Game11() {
     BG_move();
 }
 
-void Loop_Demo(struct _TASK * /* unused */) {
+void Loop_Demo(struct _TASK* /* unused */) {
     if (Ck_Coin()) {
         Next_Title_Sub();
         return;
@@ -1844,7 +1844,7 @@ void Before_Select_Sub() {
     }
 }
 
-void Wait_Auto_Load(struct _TASK * /* unused */) {
+void Wait_Auto_Load(struct _TASK* /* unused */) {
     Basic_Sub();
     BG_Draw_System();
     bg_pos_hosei_sub2(0);

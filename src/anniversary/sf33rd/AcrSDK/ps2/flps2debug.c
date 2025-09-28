@@ -73,11 +73,11 @@ void flPS2DebugStrClear() {
 }
 
 void flPS2DebugStrDisp() {
-    RenderBuffer *buff_ptr;
-    u64 *work_ptr;
-    u64 *keep_ptr;
-    u64 *buff_end_ptr;
-    u64 *giftag_keep_ptr;
+    RenderBuffer* buff_ptr;
+    u64* work_ptr;
+    u64* keep_ptr;
+    u64* buff_end_ptr;
+    u64* giftag_keep_ptr;
     u32 code;
     u32 disp_ctr;
     ptrdiff_t length;
@@ -102,9 +102,9 @@ void flPS2DebugStrDisp() {
     colold = 0;
     flReloadTexture(1, &flhDebugStr);
     flPS2SendRenderState_TEX1(0x10000, 1);
-    work_ptr = (u64 *)((flPs2State.SystemTmpBuffNow + 0xF) & ~0xF);
+    work_ptr = (u64*)((flPs2State.SystemTmpBuffNow + 0xF) & ~0xF);
     keep_ptr = work_ptr;
-    buff_end_ptr = (u64 *)flPs2State.SystemTmpBuffEndAdrs;
+    buff_end_ptr = (u64*)flPs2State.SystemTmpBuffEndAdrs;
     length = buff_end_ptr - work_ptr;
 
     if (length >= 16) {
@@ -188,22 +188,22 @@ void flPS2DebugStrDisp() {
         work_ptr = keep_ptr;
 
         *work_ptr = length + 0x6FFFFFFF;
-        ((u32 *)work_ptr)[0] |= 0x80000000;
-        ((u32 *)work_ptr)[2] = 0x13000000;
-        ((u32 *)work_ptr)[3] = (u32)((length - 1) | 0x51000000);
+        ((u32*)work_ptr)[0] |= 0x80000000;
+        ((u32*)work_ptr)[2] = 0x13000000;
+        ((u32*)work_ptr)[3] = (u32)((length - 1) | 0x51000000);
         flPS2DmaAddQueue2(0, ((uintptr_t)keep_ptr & 0xFFFFFFF) | 0x40000000, (uintptr_t)keep_ptr, &flPs2VIF1Control);
     }
 
     flPS2DebugStrClear();
 }
 
-s32 flPrintL(s32 posi_x, s32 posi_y, const s8 *format, ...) {
-    s8 *va_ptr;
+s32 flPrintL(s32 posi_x, s32 posi_y, const s8* format, ...) {
+    s8* va_ptr;
     s8 code;
     s8 str[512];
     strlen_t len;
     s32 i;
-    RenderBuffer *buff_ptr;
+    RenderBuffer* buff_ptr;
 
     va_list args;
 
@@ -370,7 +370,7 @@ static void flPS2DrawProbar() {
     u32 work;
     s16 x;
     s16 y;
-    u64 *data_ptr;
+    u64* data_ptr;
     u32 i;
     u32 keep_y;
     u32 col;
@@ -403,8 +403,8 @@ static void flPS2DrawProbar() {
                                        0x0,
                                        0x0 };
 
-    data_ptr = (u64 *)SPR;
-    flPS2_Mem_move16_16A(&DrawProbar_data, (void *)SPR, 9);
+    data_ptr = (u64*)SPR;
+    flPS2_Mem_move16_16A(&DrawProbar_data, (void*)SPR, 9);
     *(data_ptr + 6) = SCE_GS_SET_SCISSOR_2(0, flWidth - 1, 0, flHeight - 1);
     work = (flDebugTrueTime[3] * 2) / (flPs2State.FrameCount + 1);
     x = flPS2ConvScreenX(0);
@@ -424,13 +424,13 @@ static void flPS2DrawProbar() {
     y = flPS2ConvScreenY(work);
     *(data_ptr + 16) =
         SCE_GS_SET_XYZ2((flPs2State.D2dOffsetX + x) * 16, (flPs2State.D2dOffsetY + y) * 16, (u32)flPs2State.ZBuffMax);
-    flPS2psAddQueue((QWORD *)data_ptr);
+    flPS2psAddQueue((QWORD*)data_ptr);
 
     if (!flLoadCheckCtr) {
         return;
     }
 
-    flPS2_Mem_move16_16A(&LoadProbar_data, (void *)SPR, 4);
+    flPS2_Mem_move16_16A(&LoadProbar_data, (void*)SPR, 4);
     i = 0;
     keep_y = 0;
 
@@ -446,7 +446,7 @@ static void flPS2DrawProbar() {
         y = flPS2ConvScreenY(keep_y);
         *(data_ptr + 7) = SCE_GS_SET_XYZ2(
             (flPs2State.D2dOffsetX + x) * 16, (flPs2State.D2dOffsetY + y) * 16, (u32)flPs2State.ZBuffMax);
-        flPS2psAddQueue((QWORD *)data_ptr);
+        flPS2psAddQueue((QWORD*)data_ptr);
         i += 1;
     } while (i < (u32)flLoadCheckCtr);
 }
@@ -461,7 +461,7 @@ void flPS2LoadCheckFlush() {
     }
 }
 
-void flPS2SystemError(s32 error_level, s8 *format, ...) {
+void flPS2SystemError(s32 error_level, s8* format, ...) {
     va_list args;
     s8 str[512];
     strlen_t len;

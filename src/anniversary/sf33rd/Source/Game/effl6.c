@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/effl6.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CALDIR.h"
 #include "sf33rd/Source/Game/CHARSET.h"
@@ -7,16 +8,15 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effl6_flont(WORK_Other *ewk);
-void effl6_back(WORK_Other *ewk);
+void effl6_flont(WORK_Other* ewk);
+void effl6_back(WORK_Other* ewk);
 
-void effect_L6_move(WORK_Other *ewk) {
-    WORK *oya_ptr = (WORK *)ewk->my_master;
+void effect_L6_move(WORK_Other* ewk) {
+    WORK* oya_ptr = (WORK*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -38,7 +38,7 @@ void effect_L6_move(WORK_Other *ewk) {
     }
 }
 
-void effl6_flont(WORK_Other *ewk) {
+void effl6_flont(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -84,7 +84,7 @@ void effl6_flont(WORK_Other *ewk) {
     }
 }
 
-void effl6_back(WORK_Other *ewk) {
+void effl6_back(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -130,19 +130,19 @@ void effl6_back(WORK_Other *ewk) {
     }
 }
 
-s32 effect_L6_init(WORK *wk, u8 typel6) {
+s32 effect_L6_init(WORK* wk, u8 typel6) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
     s16 ix;
-    WORK_Other *ewk;
+    WORK_Other* ewk;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 216;
     ewk->wu.work_id = 16;
@@ -152,7 +152,7 @@ s32 effect_L6_init(WORK *wk, u8 typel6) {
     ewk->wu.my_col_mode = wk->my_col_mode;
     ewk->wu.my_col_code = wk->my_col_code + 1;
     ewk->wu.my_family = wk->my_family;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->wu.xyz[1].disp.pos = wk->xyz[1].disp.pos - 12;
     ewk->wu.my_priority = 28;
     ewk->wu.position_z = 28;

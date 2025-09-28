@@ -11,15 +11,15 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effm8_move_app(WORK_Other *ewk);
-void don_run_sub_m8(WORK_Other *ewk);
-void effm8_move_win(WORK_Other *ewk);
+void effm8_move_app(WORK_Other* ewk);
+void don_run_sub_m8(WORK_Other* ewk);
+void effm8_move_win(WORK_Other* ewk);
 
 const s8 effm8_random_tbl[16] = { 0, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1 };
 
 const s16 effm8_timer_tbl[4] = { 24, 56, 72, 112 };
 
-void effect_M8_move(WORK_Other *ewk) {
+void effect_M8_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         if (!EXE_flag && !Game_pause) {
@@ -40,7 +40,7 @@ void effect_M8_move(WORK_Other *ewk) {
     }
 }
 
-void effm8_move_app(WORK_Other *ewk) {
+void effm8_move_app(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -78,7 +78,7 @@ void effm8_move_app(WORK_Other *ewk) {
     }
 }
 
-void don_run_sub_m8(WORK_Other *ewk) {
+void don_run_sub_m8(WORK_Other* ewk) {
     char_move(&ewk->wu);
     add_x_sub(ewk);
 
@@ -89,7 +89,7 @@ void don_run_sub_m8(WORK_Other *ewk) {
     }
 }
 
-void effm8_move_win(WORK_Other *ewk) {
+void effm8_move_win(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -112,12 +112,12 @@ void effm8_move_win(WORK_Other *ewk) {
     }
 }
 
-s32 effect_M8_init(WORK *oya, u8 data) {
+s32 effect_M8_init(WORK* oya, u8 data) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 i;
     s16 work;
@@ -134,13 +134,13 @@ s32 effect_M8_init(WORK *oya, u8 data) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[(ix)];
+        ewk = (WORK_Other*)frw[(ix)];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 228;
         ewk->wu.work_id = 16;
         ewk->wu.cgromtype = 1;
         ewk->wu.disp_flag = 0;
-        ewk->my_master = (u32 *)oya;
+        ewk->my_master = (u32*)oya;
         ewk->master_id = oya->id;
         ewk->wu.type = 1;
         ewk->wu.my_family = 2;
@@ -179,13 +179,13 @@ s32 effect_M8_init(WORK *oya, u8 data) {
                 return -1;
             }
 
-            ewk = (WORK_Other *)frw[(ix)];
+            ewk = (WORK_Other*)frw[(ix)];
             ewk->wu.be_flag = 1;
             ewk->wu.id = 228;
             ewk->wu.work_id = 16;
             ewk->wu.cgromtype = 1;
             ewk->wu.disp_flag = 0;
-            ewk->my_master = (u32 *)oya;
+            ewk->my_master = (u32*)oya;
             ewk->master_id = oya->id;
             ewk->wu.type = 1;
             ewk->wu.my_family = 2;
@@ -224,13 +224,13 @@ s32 effect_M8_init(WORK *oya, u8 data) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[(ix)];
+        ewk = (WORK_Other*)frw[(ix)];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 228;
         ewk->wu.work_id = 16;
         ewk->wu.cgromtype = 1;
         ewk->wu.disp_flag = 0;
-        ewk->my_master = (u32 *)oya;
+        ewk->my_master = (u32*)oya;
         ewk->master_id = oya->id;
         ewk->wu.type = 0;
         ewk->wu.my_family = 2;

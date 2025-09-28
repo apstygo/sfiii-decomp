@@ -7,13 +7,13 @@
 #include "sf33rd/Source/Game/PLS01.h"
 #include "sf33rd/Source/Game/PLS02.h"
 
-void (*const pl07_exatt_table[18])(PLW *);
+void (*const pl07_exatt_table[18])(PLW*);
 
-void pl07_extra_attack(PLW *wk) {
+void pl07_extra_attack(PLW* wk) {
     pl07_exatt_table[wk->wu.routine_no[2] - 16](wk);
 }
 
-void Att_PL07_SA2(PLW *wk) {
+void Att_PL07_SA2(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -56,7 +56,7 @@ void Att_PL07_SA2(PLW *wk) {
     }
 }
 
-void Att_PL07_AT1(PLW *wk) {
+void Att_PL07_AT1(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -117,7 +117,7 @@ void Att_PL07_AT1(PLW *wk) {
     }
 }
 
-void Att_PL07_AT2(PLW *wk) {
+void Att_PL07_AT2(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -160,7 +160,7 @@ void Att_PL07_AT2(PLW *wk) {
     }
 }
 
-void Att_PL07_AT3(PLW *wk) {
+void Att_PL07_AT3(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -190,7 +190,7 @@ void Att_PL07_AT3(PLW *wk) {
     }
 }
 
-void Att_PL07_SA3(PLW *wk) {
+void Att_PL07_SA3(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -226,7 +226,7 @@ void Att_PL07_SA3(PLW *wk) {
     }
 }
 
-void Att_PL07_TOKUSHUKOUDOU(PLW *wk) {
+void Att_PL07_TOKUSHUKOUDOU(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -300,7 +300,7 @@ void Att_PL07_TOKUSHUKOUDOU(PLW *wk) {
     }
 }
 
-void (*const pl07_exatt_table[18])(PLW *) = {
+void (*const pl07_exatt_table[18])(PLW*) = {
     Att_SHOURYUUKEN, Att_PL07_AT1, Att_CHOUCHUURENGEKI,    Att_SLIDE_and_JUMP, Att_CHOUCHUURENGEKI, Att_PL07_SA2,
     Att_PL07_AT2,    Att_PL07_AT3, Att_PL07_SA3,           Att_SLIDE_and_JUMP, Att_HOMING_JUMP,     Att_DUMMY,
     Att_DUMMY,       Att_DUMMY,    Att_PL07_TOKUSHUKOUDOU, Att_DUMMY,          Att_METAMOR_WAIT,    Att_METAMOR_REBIRTH

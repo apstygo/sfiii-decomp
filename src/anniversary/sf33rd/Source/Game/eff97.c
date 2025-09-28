@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/eff97.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
@@ -6,12 +7,11 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_97_move(WORK_Other *ewk) {
+void effect_97_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         ewk->wu.routine_no[0]++;
@@ -87,24 +87,24 @@ void effect_97_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_97_init(PLW *oya) {
+s32 effect_97_init(PLW* oya) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 97;
     ewk->wu.work_id = 16;
     ewk->wu.cgromtype = 1;
-    ewk->my_master = (u32 *)oya;
+    ewk->my_master = (u32*)oya;
     ewk->master_id = oya->wu.id;
     ewk->wu.my_col_mode = 0x4200;
     ewk->wu.my_col_code = oya->wu.my_col_code;

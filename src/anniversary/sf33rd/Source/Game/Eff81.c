@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/Eff81.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
@@ -6,11 +7,10 @@
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_data.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_81_move(WORK_Other *ewk) {
+void effect_81_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -77,14 +77,14 @@ s32 effect_81_init(s16 Time) {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 81;
     ewk->wu.work_id = 16;
@@ -92,7 +92,7 @@ s32 effect_81_init(s16 Time) {
     ewk->wu.my_family = 2;
     ewk->wu.char_index = 16;
     ewk->wu.dir_step = 7;
-    ewk->wu.char_table[0] = (u32 *)_sel_pl_char_table;
+    ewk->wu.char_table[0] = (u32*)_sel_pl_char_table;
     ewk->wu.dir_timer = Time;
     ewk->wu.position_z = 8;
     Appear_Q = 1;

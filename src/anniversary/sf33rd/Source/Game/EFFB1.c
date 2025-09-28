@@ -21,11 +21,11 @@ const CONN bbbs_blocking[20] = { { -172, -12, 0, 32484 }, { -154, -12, 0, 32484 
                                  { -82, 4, 0, 32484 },    { -172, 20, 0, 32484 },  { -154, 20, 0, 32484 },
                                  { -136, 20, 0, 32484 },  { -172, 36, 0, 32484 } };
 
-void effB1_trans(WORK *ewk);
-void effB1_mark_change(WORK_Other_CONN *ewk);
-void effB1_mark_exchange(WORK_Other_CONN *ewk);
+void effB1_trans(WORK* ewk);
+void effB1_mark_change(WORK_Other_CONN* ewk);
+void effB1_mark_exchange(WORK_Other_CONN* ewk);
 
-void effect_B1_move(WORK_Other_CONN *ewk) {
+void effect_B1_move(WORK_Other_CONN* ewk) {
     s16 i;
 
     switch (ewk->wu.routine_no[0]) {
@@ -133,13 +133,13 @@ void effect_B1_move(WORK_Other_CONN *ewk) {
     }
 }
 
-void effB1_trans(WORK *ewk) {
+void effB1_trans(WORK* ewk) {
     ewk->position_x = bg_w.bgw[2].wxy[0].disp.pos;
     ewk->position_y = bg_w.bgw[2].wxy[1].disp.pos;
     sort_push_request3(ewk);
 }
 
-void effB1_mark_change(WORK_Other_CONN *ewk) {
+void effB1_mark_change(WORK_Other_CONN* ewk) {
     s16 i;
 
     for (i = 0; i < Bonus_Game_result; i++) {
@@ -163,7 +163,7 @@ void effB1_mark_change(WORK_Other_CONN *ewk) {
     }
 }
 
-void effB1_mark_exchange(WORK_Other_CONN *ewk) {
+void effB1_mark_exchange(WORK_Other_CONN* ewk) {
     s16 i;
 
     for (i = 0; i < ewk->wu.direction; i++) {
@@ -195,8 +195,8 @@ void effB1_mark_exchange(WORK_Other_CONN *ewk) {
     }
 }
 
-s32 effect_B1_init(PLW *wk, s32 flag) {
-    WORK_Other_CONN *ewk;
+s32 effect_B1_init(PLW* wk, s32 flag) {
+    WORK_Other_CONN* ewk;
     s16 ix;
     s16 i;
 
@@ -204,7 +204,7 @@ s32 effect_B1_init(PLW *wk, s32 flag) {
         return -1;
     }
 
-    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk = (WORK_Other_CONN*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 111;
     ewk->wu.work_id = 16;

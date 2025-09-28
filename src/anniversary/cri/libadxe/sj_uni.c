@@ -7,7 +7,7 @@
 #include <string.h>
 
 typedef struct SJUNI_CK {
-    struct SJUNI_CK *next;
+    struct SJUNI_CK* next;
     Sint32 unk4;
     SJCK ck;
 } SJUNI_CK;
@@ -16,30 +16,30 @@ typedef struct {
     SJ_OBJ sj;
     Sint8 used;
     Sint8 mode;
-    UUID *uuid;
-    SJUNI_CK *work;
+    UUID* uuid;
+    SJUNI_CK* work;
     Sint32 chunk_count;
-    SJUNI_CK *chain_pool;
-    SJUNI_CK *unk18[4];
-    void (*err_func)(void *obj, Sint32 ecode);
-    void *err_obj;
+    SJUNI_CK* chain_pool;
+    SJUNI_CK* unk18[4];
+    void (*err_func)(void* obj, Sint32 ecode);
+    void* err_obj;
 } SJUNI_OBJ;
 
-typedef SJUNI_OBJ *SJUNI;
+typedef SJUNI_OBJ* SJUNI;
 
 #define SJUNI_MAX_OBJ 64
 
 // forward decls
 void SJUNI_Reset(SJUNI sjuni);
 void SJUNI_Destroy(SJUNI sjuni);
-UUID *SJUNI_GetUuid(SJUNI sjuni);
+UUID* SJUNI_GetUuid(SJUNI sjuni);
 void SJUNI_Reset(SJUNI sjuni);
-void SJUNI_GetChunk(SJUNI sjuni, Sint32 id, Sint32 nbyte, SJCK *ck);
-void SJUNI_UngetChunk(SJUNI sjuni, Sint32 id, SJCK *ck);
-void SJUNI_PutChunk(SJUNI sjuni, Sint32 id, SJCK *ck);
+void SJUNI_GetChunk(SJUNI sjuni, Sint32 id, Sint32 nbyte, SJCK* ck);
+void SJUNI_UngetChunk(SJUNI sjuni, Sint32 id, SJCK* ck);
+void SJUNI_PutChunk(SJUNI sjuni, Sint32 id, SJCK* ck);
 Sint32 SJUNI_GetNumData(SJUNI sjuni, Sint32 id);
-Sint32 SJUNI_IsGetChunk(SJUNI sjuni, Sint32 id, Sint32 nbyte, Sint32 *rbyte);
-void SJUNI_EntryErrFunc(SJUNI sjuni, void (*func)(void *obj, Sint32 ecode), void *obj);
+Sint32 SJUNI_IsGetChunk(SJUNI sjuni, Sint32 id, Sint32 nbyte, Sint32* rbyte);
+void SJUNI_EntryErrFunc(SJUNI sjuni, void (*func)(void* obj, Sint32 ecode), void* obj);
 
 // data
 SJ_IF sjuni_vtbl = { .QueryInterface = NULL,
@@ -62,7 +62,7 @@ const UUID sjuni_uuid = {
     .Data1 = 0x2E534FA3, .Data2 = 0xAF97, .Data3 = 0x11D2, .Data4 = { 0xA5, 0x27, 0x00, 0x60, 0x08, 0x94, 0x48, 0xBC }
 };
 
-void SJUNI_Error(void *obj, Sint32 ecode) {
+void SJUNI_Error(void* obj, Sint32 ecode) {
     SJERR_CallErr("SJUNI Error");
 }
 
@@ -80,7 +80,7 @@ void SJUNI_Finish() {
     }
 }
 
-SJ SJUNI_Create(Sint32 mode, Sint8 *work, Sint32 wksize) {
+SJ SJUNI_Create(Sint32 mode, Sint8* work, Sint32 wksize) {
     SJUNI sjuni;
     Sint32 i;
 
@@ -99,7 +99,7 @@ SJ SJUNI_Create(Sint32 mode, Sint8 *work, Sint32 wksize) {
     sjuni->sj.vtbl = &sjuni_vtbl;
     sjuni->mode = mode;
     sjuni->uuid = &sjuni_uuid;
-    sjuni->work = (SJUNI_CK *)work;
+    sjuni->work = (SJUNI_CK*)work;
     sjuni->chunk_count = wksize / 16; // 16 is the size of SJUNI_CK
     sjuni->err_func = SJUNI_Error;
     sjuni->err_obj = sjuni;
@@ -114,18 +114,18 @@ void SJUNI_Destroy(SJUNI sjuni) {
     }
 }
 
-UUID *SJUNI_GetUuid(SJUNI sjuni) {
+UUID* SJUNI_GetUuid(SJUNI sjuni) {
     return sjuni->uuid;
 }
 
-void SJUNI_EntryErrFunc(SJUNI sjuni, void (*func)(void *obj, Sint32 ecode), void *obj) {
+void SJUNI_EntryErrFunc(SJUNI sjuni, void (*func)(void* obj, Sint32 ecode), void* obj) {
     sjuni->err_func = func;
     sjuni->err_obj = obj;
 }
 
 void SJUNI_Reset(SJUNI sjuni) {
     Sint32 i;
-    SJUNI_CK *work = sjuni->work;
+    SJUNI_CK* work = sjuni->work;
 
     sjuni->chain_pool = work;
 
@@ -145,7 +145,7 @@ void SJUNI_Reset(SJUNI sjuni) {
 }
 
 Sint32 SJUNI_GetNumData(SJUNI sjuni, Sint32 id) {
-    SJUNI_CK *chunk;
+    SJUNI_CK* chunk;
     Sint32 num_data;
 
     if ((Uint32)id >= 4) {
@@ -167,10 +167,10 @@ Sint32 SJUNI_GetNumData(SJUNI sjuni, Sint32 id) {
     return num_data;
 }
 
-void SJUNI_GetChunk(SJUNI sjuni, Sint32 id, Sint32 nbyte, SJCK *ck) {
+void SJUNI_GetChunk(SJUNI sjuni, Sint32 id, Sint32 nbyte, SJCK* ck) {
     SJCK sjck0;
     SJCK sjck1;
-    SJUNI_CK *cur;
+    SJUNI_CK* cur;
 
     if ((Uint32)id >= 4) {
         if (sjuni->err_func != NULL) {
@@ -209,10 +209,10 @@ void SJUNI_GetChunk(SJUNI sjuni, Sint32 id, Sint32 nbyte, SJCK *ck) {
     SJCRS_Unlock();
 }
 
-void SJUNI_PutChunk(SJUNI sjuni, Sint32 id, SJCK *ck) {
-    SJUNI_CK *last;
-    SJUNI_CK *cur;
-    SJUNI_CK **next_of_last;
+void SJUNI_PutChunk(SJUNI sjuni, Sint32 id, SJCK* ck) {
+    SJUNI_CK* last;
+    SJUNI_CK* cur;
+    SJUNI_CK** next_of_last;
 
     if ((Uint32)id >= 4) {
         if (sjuni->err_func != NULL) {
@@ -257,8 +257,8 @@ void SJUNI_PutChunk(SJUNI sjuni, Sint32 id, SJCK *ck) {
     SJCRS_Unlock();
 }
 
-void SJUNI_UngetChunk(SJUNI sjuni, Sint32 id, SJCK *ck) {
-    SJUNI_CK *temp;
+void SJUNI_UngetChunk(SJUNI sjuni, Sint32 id, SJCK* ck) {
+    SJUNI_CK* temp;
 
     if ((Uint32)id >= 4) {
         if (sjuni->err_func != NULL) {
@@ -297,7 +297,7 @@ void SJUNI_UngetChunk(SJUNI sjuni, Sint32 id, SJCK *ck) {
     SJCRS_Unlock();
 }
 
-Sint32 SJUNI_IsGetChunk(SJUNI sjuni, Sint32 id, Sint32 nbyte, Sint32 *rbyte) {
+Sint32 SJUNI_IsGetChunk(SJUNI sjuni, Sint32 id, Sint32 nbyte, Sint32* rbyte) {
     SJCK ck;
 
     *rbyte = 0;
@@ -330,7 +330,7 @@ Sint32 SJUNI_IsGetChunk(SJUNI sjuni, Sint32 id, Sint32 nbyte, Sint32 *rbyte) {
 
 Sint32 SJUNI_GetNumChunk(SJ sj, Sint32 id) {
     SJUNI sjuni = (SJUNI)sj;
-    SJUNI_CK *chunk = sjuni->unk18[id];
+    SJUNI_CK* chunk = sjuni->unk18[id];
     Sint32 num_chunk = 0;
 
     while (chunk != NULL) {
@@ -343,7 +343,7 @@ Sint32 SJUNI_GetNumChunk(SJ sj, Sint32 id) {
 
 Sint32 SJUNI_GetNumChainPool(SJ sj) {
     SJUNI sjuni = (SJUNI)sj;
-    SJUNI_CK *chunk = sjuni->chain_pool;
+    SJUNI_CK* chunk = sjuni->chain_pool;
     Sint32 num_chain_pool = 0;
 
     while (chunk != NULL) {

@@ -14,9 +14,9 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effD5_main_process(WORK_Other *ewk);
-void cal_speeds(WORK_Other *ewk, PLW * /* unused */, PLW *twk);
-s32 my_rose_live_check(PLW *wk);
+void effD5_main_process(WORK_Other* ewk);
+void cal_speeds(WORK_Other* ewk, PLW* /* unused */, PLW* twk);
+s32 my_rose_live_check(PLW* wk);
 
 const s16 dm_sp_sel_tbl[4][2] = { { 0, 14 }, { 1, 16 }, { 2, 18 }, { 3, 20 } };
 
@@ -24,7 +24,7 @@ const s16 range_time_table[16] = { 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 5
 
 const s16 range_isp_table[16] = { 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5 };
 
-void effect_D5_move(WORK_Other *ewk) {
+void effect_D5_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         ewk->wu.routine_no[0]++;
@@ -38,7 +38,7 @@ void effect_D5_move(WORK_Other *ewk) {
         ewk->wu.kage_flag = 1;
         ewk->wu.kage_prio = 71;
         ewk->wu.kage_char = 0;
-        cal_speeds(ewk, (PLW *)ewk->my_master, (PLW *)ewk->wu.target_adrs);
+        cal_speeds(ewk, (PLW*)ewk->my_master, (PLW*)ewk->wu.target_adrs);
         add_mvxy_speed(&ewk->wu);
         set_char_move_init(&ewk->wu, 0, 0x7C);
         sort_push_request(&ewk->wu);
@@ -87,7 +87,7 @@ void effect_D5_move(WORK_Other *ewk) {
     }
 }
 
-void effD5_main_process(WORK_Other *ewk) {
+void effD5_main_process(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     s16 cal_attdir_flip(s32 dir);
     void setup_hana_extra(WORK * wk, s32 num, s32 acc);
@@ -186,7 +186,7 @@ void effD5_main_process(WORK_Other *ewk) {
     }
 }
 
-void cal_speeds(WORK_Other *ewk, PLW * /* unused */, PLW *twk) {
+void cal_speeds(WORK_Other* ewk, PLW* /* unused */, PLW* twk) {
     s16 tx = twk->wu.position_x;
     s16 rix = 0;
 
@@ -219,11 +219,11 @@ void cal_speeds(WORK_Other *ewk, PLW * /* unused */, PLW *twk) {
     }
 }
 
-s32 effect_D5_init(WORK *wk, s32 /* unused */) {
-    WORK_Other *ewk;
+s32 effect_D5_init(WORK* wk, s32 /* unused */) {
+    WORK_Other* ewk;
     s16 ix;
 
-    if (my_rose_live_check((PLW *)wk) != 0) {
+    if (my_rose_live_check((PLW*)wk) != 0) {
         return -1;
     }
 
@@ -231,14 +231,14 @@ s32 effect_D5_init(WORK *wk, s32 /* unused */) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 135;
     ewk->wu.work_id = 2;
     ewk->wu.my_mts = 14;
     ewk->wu.rl_flag = wk->rl_flag;
     ewk->wu.dm_vital = wk->my_col_code + 6;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->wu.target_adrs = wk->target_adrs;
     ewk->master_work_id = wk->work_id;
     ewk->master_id = wk->id;
@@ -255,8 +255,8 @@ s32 effect_D5_init(WORK *wk, s32 /* unused */) {
     return 0;
 }
 
-s32 my_rose_live_check(PLW *wk) {
-    WORK_Other *twk;
+s32 my_rose_live_check(PLW* wk) {
+    WORK_Other* twk;
     s16 ix;
 
     if (wk->player_number != My_char[wk->wu.id]) {
@@ -267,7 +267,7 @@ s32 my_rose_live_check(PLW *wk) {
         return 0;
     }
 
-    twk = (WORK_Other *)frw[ix];
+    twk = (WORK_Other*)frw[ix];
 
     if (twk->master_id == wk->wu.id) {
         return 1;
@@ -277,7 +277,7 @@ s32 my_rose_live_check(PLW *wk) {
         return 0;
     }
 
-    twk = (WORK_Other *)frw[ix];
+    twk = (WORK_Other*)frw[ix];
 
     if (twk->master_id == wk->wu.id) {
         return 1;

@@ -21,7 +21,7 @@ const GillEffData gill_eff_data[54] = {
     { -16, 140, -2, 110 }, { -16, 140, -2, 111 }, { -40, 144, -2, 110 }, { -40, 144, -2, 111 }
 };
 
-void effect_G4_move(WORK_Other *ewk) {
+void effect_G4_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -72,15 +72,15 @@ void effect_G4_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_G4_init(WORK *wk, u8 data) {
-    WORK_Other *ewk;
+s32 effect_G4_init(WORK* wk, u8 data) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 164;
     ewk->wu.work_id = 16;
@@ -100,7 +100,7 @@ s32 effect_G4_init(WORK *wk, u8 data) {
         ewk->wu.type++;
     }
 
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->master_work_id = wk->work_id;
     ewk->master_id = wk->id;
     ewk->wu.xyz[0].disp.pos = wk->position_x;

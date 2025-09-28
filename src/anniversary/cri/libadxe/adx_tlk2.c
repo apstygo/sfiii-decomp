@@ -11,7 +11,7 @@
 
 void ADXT_StartAfs(ADXT adxt, Sint32 patid, Sint32 fid) {
     Char8 error[16];
-    void *dir;
+    void* dir;
     Sint32 ofst;
     Sint32 fnsct;
 
@@ -44,7 +44,7 @@ void ADXT_StartAfs(ADXT adxt, Sint32 patid, Sint32 fid) {
     ADXT_SetLnkSw(adxt, 0);
 }
 
-void ADXT_StartFname(ADXT adxt, Char8 *fname) {
+void ADXT_StartFname(ADXT adxt, Char8* fname) {
     if ((adxt == NULL) || (fname == NULL)) {
         ADXERR_CallErrFunc1("E02080807 ADXT_StartFname: parameter error");
         return;
@@ -62,11 +62,11 @@ void ADXT_StartFname(ADXT adxt, Char8 *fname) {
     ADXT_SetLnkSw(adxt, 0);
 }
 
-void ADXT_StartMem(ADXT adxt, void *adxdat) {
+void ADXT_StartMem(ADXT adxt, void* adxdat) {
     ADXT_StartMem2(adxt, adxdat, 0x40000000);
 }
 
-void ADXT_StartMem2(ADXT adxt, void *adxdat, Sint32 datlen) {
+void ADXT_StartMem2(ADXT adxt, void* adxdat, Sint32 datlen) {
     SJ sj;
 
     if ((adxt == NULL) || (adxdat == NULL) || (datlen < 0)) {
@@ -77,7 +77,7 @@ void ADXT_StartMem2(ADXT adxt, void *adxdat, Sint32 datlen) {
     ADXT_Stop(adxt);
     ADXCRS_Lock();
 
-    sj = SJMEM_Create((Sint8 *)adxdat, datlen);
+    sj = SJMEM_Create((Sint8*)adxdat, datlen);
 
     if (sj == NULL) {
         ADXCRS_Unlock();

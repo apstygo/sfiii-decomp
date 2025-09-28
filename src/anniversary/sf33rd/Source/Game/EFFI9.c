@@ -5,17 +5,17 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void push_image_buff(WORK_Other *wk, ImageBuff *image_buff);
-void init_image_buff(WORK_Other *wk, ImageBuff *image_buff);
+void push_image_buff(WORK_Other* wk, ImageBuff* image_buff);
+void init_image_buff(WORK_Other* wk, ImageBuff* image_buff);
 
-void effect_I9_move(WORK_Other *ewk) {
+void effect_I9_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     s32 effect_J0_init(WORK_Other * ek, WORK_Other * mk, s32 data);
 #endif
 
-    WORK *sub_w = (WORK *)ewk->wu.target_adrs;
-    ImageBuff *image_buff = (ImageBuff *)sub_w + 9;
-    WORK_Other *mwk = (WORK_Other *)ewk->my_master;
+    WORK* sub_w = (WORK*)ewk->wu.target_adrs;
+    ImageBuff* image_buff = (ImageBuff*)sub_w + 9;
+    WORK_Other* mwk = (WORK_Other*)ewk->my_master;
     s16 i;
 
     switch (ewk->wu.routine_no[0]) {
@@ -61,7 +61,7 @@ void effect_I9_move(WORK_Other *ewk) {
     }
 }
 
-void push_image_buff(WORK_Other *wk, ImageBuff *image_buff) {
+void push_image_buff(WORK_Other* wk, ImageBuff* image_buff) {
     s16 i;
 
     for (i = 16; i > 0; i--) {
@@ -72,7 +72,7 @@ void push_image_buff(WORK_Other *wk, ImageBuff *image_buff) {
     image_buff->pos_y = wk->wu.position_y;
 }
 
-void init_image_buff(WORK_Other *wk, ImageBuff *image_buff) {
+void init_image_buff(WORK_Other* wk, ImageBuff* image_buff) {
     s16 i;
 
     for (i = 16; i >= 0; i--) {
@@ -81,17 +81,17 @@ void init_image_buff(WORK_Other *wk, ImageBuff *image_buff) {
     }
 }
 
-s32 effect_I9_init(WORK_Other *wk, s16 total, s16 interval, s16 life) {
-    WORK_Other *ewk;
+s32 effect_I9_init(WORK_Other* wk, s16 total, s16 interval, s16 life) {
+    WORK_Other* ewk;
     s16 ix;
     s16 ix2;
-    WORK *sub_w;
+    WORK* sub_w;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 189;
     ewk->wu.work_id = 16;
@@ -101,7 +101,7 @@ s32 effect_I9_init(WORK_Other *wk, s16 total, s16 interval, s16 life) {
     ewk->wu.my_col_code = wk->wu.my_col_code;
     ewk->wu.extra_col = wk->wu.current_colcd;
     ewk->wu.cg_number = wk->wu.cg_number;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->master_work_id = wk->wu.work_id;
     ewk->master_id = wk->wu.id;
     ewk->master_player = wk->master_player;
@@ -115,7 +115,7 @@ s32 effect_I9_init(WORK_Other *wk, s16 total, s16 interval, s16 life) {
         return -1;
     }
 
-    sub_w = (WORK *)frw[ix2];
-    ewk->wu.target_adrs = (u32 *)sub_w;
+    sub_w = (WORK*)frw[ix2];
+    ewk->wu.target_adrs = (u32*)sub_w;
     return 0;
 }

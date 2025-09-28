@@ -11,7 +11,7 @@
 
 const s16 eff53_vanish_time[8] = { 480, 600, 900, 1440, 480, 1080, 1500, 600 };
 
-void effect_53_move(WORK_Other *ewk) {
+void effect_53_move(WORK_Other* ewk) {
     s16 work;
 
     if (obr_no_disp_check()) {
@@ -70,14 +70,14 @@ void effect_53_move(WORK_Other *ewk) {
 }
 
 s32 effect_53_init() {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 53;
     ewk->wu.work_id = 16;

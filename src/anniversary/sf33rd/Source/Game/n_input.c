@@ -30,18 +30,18 @@ void (*Name_Jmp_scs[8])() = { Name_Scs_Input_init, Name_Scs_Input_comm, Name_Inp
 
 // sbss
 NAME_WK name_wk[2];
-NAME_WK *name_ptr;
+NAME_WK* name_ptr;
 s16 Name_Input_f;
 s16 naming_cnt[2];
 s16 n_disp_flag;
 s16 Name_00[2];
 s16 name_limit_timer[2];
 u8 ne_flash_flag;
-const u8 *ne_pointer;
+const u8* ne_pointer;
 u8 ne_col;
 u8 ne_timer;
 SC_NAME_WK sc_name_wk[2][4];
-SC_NAME_WK *nsc_ptr;
+SC_NAME_WK* nsc_ptr;
 RANK_NAME_W rank_name_w[2];
 
 const s16 slang_tbl[17][3] = { { 0, 7, 14 },  { 18, 4, 23 },  { 7, 8, 21 },   { 5, 20, 2 },  { 5, 20, 10 },
@@ -293,7 +293,7 @@ s32 auto_n_check(u16 chk_lvr, s16 index, u16 sw_data, u16 sw_up_w) {
 }
 
 s32 name_slang_check() {
-    const s16 *slang_ptr = &slang_tbl[0][0];
+    const s16* slang_ptr = &slang_tbl[0][0];
     s16 i;
     s16 j;
     s16 slang_cnt;
@@ -355,7 +355,7 @@ void ranking_state_check() {
 }
 
 void ranking_name_entry() {
-    RANK_NAME_W *ptr = &rank_name_w[name_ptr->id];
+    RANK_NAME_W* ptr = &rank_name_w[name_ptr->id];
 
     ptr->code[0] = name_code_tbl[name_ptr->code[0]];
     ptr->code[1] = name_code_tbl[name_ptr->code[1]];

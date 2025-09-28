@@ -142,8 +142,8 @@ const s16 grade_t_table[32][2] = { { 0, 20 },       { 75, 20 },     { 150, 20 },
 void grade_check_work_1st_init(s16 ix, s16 ix2) {
     s16 i;
 
-    work_init_zero((s32 *)&judge_item[ix][ix2], sizeof(GradeData));
-    work_init_zero((s32 *)&judge_final[ix][ix2], sizeof(GradeFinalData));
+    work_init_zero((s32*)&judge_item[ix][ix2], sizeof(GradeData));
+    work_init_zero((s32*)&judge_final[ix][ix2], sizeof(GradeFinalData));
 
     for (i = 0; i < 16; i++) {
         judge_final[ix][ix2].vs_cpu_result[i] = -1;
@@ -237,14 +237,14 @@ void grade_makeup_final_parameter(s16 ix, s16 pt) {
 }
 
 void renew_judge_final_work(s16 ix, s16 pt) {
-    u32 *frsd;
+    u32* frsd;
     s16 i;
 
     judge_final[ix][pt].all_clear = 0;
     judge_final[ix][pt].keizoku = 0;
     judge_final[ix][pt].sp_point = 0;
     judge_final[ix][pt].fr_ix = 0;
-    frsd = (u32 *)judge_final[ix][pt].fr_sort_data;
+    frsd = (u32*)judge_final[ix][pt].fr_sort_data;
 
     for (i = 0; i < 16; i++) {
         *frsd++ = 0;
@@ -352,7 +352,7 @@ void makeup_spp_frdat(s16 ix, s16 pt) {
     s16 i;
     s16 j;
     s16 k;
-    u8 *dmw;
+    u8* dmw;
 
     dmw = *judge_final[ix][pt].fr_sort_data;
 
@@ -940,15 +940,15 @@ s16 get_ex_point_total(s16 ix, s16 wf) {
     return point;
 }
 
-void grade_add_clean_hits(WORK_Other *wk) {
-    WORK *mwk;
+void grade_add_clean_hits(WORK_Other* wk) {
+    WORK* mwk;
     s16 ix;
 
     if (pcon_rno[0] != 0) {
         ix = wk->wu.id;
 
         if (wk->wu.work_id != 1) {
-            mwk = (WORK *)(wk->my_master);
+            mwk = (WORK*)(wk->my_master);
 
             if (mwk->work_id != 1) {
                 return;
@@ -959,15 +959,15 @@ void grade_add_clean_hits(WORK_Other *wk) {
     }
 }
 
-void grade_add_att_renew(WORK_Other *wk) {
-    WORK *mwk;
+void grade_add_att_renew(WORK_Other* wk) {
+    WORK* mwk;
     s16 ix;
 
     if (pcon_rno[0] != 0) {
         ix = wk->wu.id;
 
         if (wk->wu.work_id != 1) {
-            mwk = (WORK *)(wk->my_master);
+            mwk = (WORK*)(wk->my_master);
 
             if (mwk->work_id != 1) {
                 return;
@@ -1022,7 +1022,7 @@ void grade_add_quick_stand(s16 ix) {
     }
 }
 
-void grade_add_nml_nage(WORK *wk) {
+void grade_add_nml_nage(WORK* wk) {
 #if defined(TARGET_PS2)
     s32 check_normal_attack(u16 waza);
 #endif
@@ -1074,7 +1074,7 @@ void grade_store_vitality(s16 ix) {
     judge_item[ix][Play_Type].vitality = plw[ix].wu.vital_new;
 }
 
-void grade_add_blocking(PLW *wk) {
+void grade_add_blocking(PLW* wk) {
     s16 ix = wk->wu.id;
 
     switch (wk->kind_of_blocking) {
@@ -1256,7 +1256,7 @@ s16 get_grade_ix(s16 pts) {
     return i;
 }
 
-void check_guard_miss(WORK *as, PLW *ds, s8 gddir) {
+void check_guard_miss(WORK* as, PLW* ds, s8 gddir) {
     if (ds->rp->total) {
         return;
     }

@@ -7,13 +7,13 @@
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void (*const pl18_exatt_table[18])(PLW *);
+void (*const pl18_exatt_table[18])(PLW*);
 
-void pl18_extra_attack(PLW *wk) {
+void pl18_extra_attack(PLW* wk) {
     pl18_exatt_table[wk->wu.routine_no[2] - 16](wk);
 }
 
-void Att_PL18_NINGENBAKUDAN(PLW *wk) {
+void Att_PL18_NINGENBAKUDAN(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -41,7 +41,7 @@ void Att_PL18_NINGENBAKUDAN(PLW *wk) {
             if (Bonus_Game_Flag == 20) {
                 wk->wu.dm_rl = (wk->wu.rl_flag + 1) & 1;
             } else {
-                wk->wu.dm_rl = ((PLW *)wk->wu.target_adrs)->wu.rl_flag;
+                wk->wu.dm_rl = ((PLW*)wk->wu.target_adrs)->wu.rl_flag;
             }
 
             wk->wu.dm_attlv = wk->wu.att.level;
@@ -75,7 +75,7 @@ void Att_PL18_NINGENBAKUDAN(PLW *wk) {
     }
 }
 
-void Att_PL18_TOKUSHUKOUDOU(PLW *wk) {
+void Att_PL18_TOKUSHUKOUDOU(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void grade_add_personal_action(s32 ix);
@@ -122,21 +122,21 @@ void Att_PL18_TOKUSHUKOUDOU(PLW *wk) {
     }
 }
 
-void (*const pl18_exatt_table[18])(PLW *) = { Att_SLIDE_and_JUMP,
-                                              Att_SLIDE_and_JUMP,
-                                              Att_HADOUKEN2,
-                                              Att_HADOUKEN2,
-                                              Att_SLIDE_and_JUMP,
-                                              Att_HADOUKEN2,
-                                              Att_HADOUKEN,
-                                              Att_PL18_NINGENBAKUDAN,
-                                              Att_HADOUKEN,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_PL18_TOKUSHUKOUDOU,
-                                              Att_DUMMY,
-                                              Att_METAMOR_WAIT,
-                                              Att_METAMOR_REBIRTH };
+void (*const pl18_exatt_table[18])(PLW*) = { Att_SLIDE_and_JUMP,
+                                             Att_SLIDE_and_JUMP,
+                                             Att_HADOUKEN2,
+                                             Att_HADOUKEN2,
+                                             Att_SLIDE_and_JUMP,
+                                             Att_HADOUKEN2,
+                                             Att_HADOUKEN,
+                                             Att_PL18_NINGENBAKUDAN,
+                                             Att_HADOUKEN,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_PL18_TOKUSHUKOUDOU,
+                                             Att_DUMMY,
+                                             Att_METAMOR_WAIT,
+                                             Att_METAMOR_REBIRTH };

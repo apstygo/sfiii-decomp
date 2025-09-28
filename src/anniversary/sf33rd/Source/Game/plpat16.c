@@ -6,13 +6,13 @@
 #include "sf33rd/Source/Game/PLPATUNI.h"
 #include "sf33rd/Source/Game/PLS02.h"
 
-void (*const pl16_exatt_table[18])(PLW *);
+void (*const pl16_exatt_table[18])(PLW*);
 
-void pl16_extra_attack(PLW *wk) {
+void pl16_extra_attack(PLW* wk) {
     pl16_exatt_table[wk->wu.routine_no[2] - 16](wk);
 }
 
-void Att_PL16_TOKUSHUKOUDOU(PLW *wk) {
+void Att_PL16_TOKUSHUKOUDOU(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void grade_add_personal_action(s32 ix);
@@ -75,9 +75,9 @@ void Att_PL16_TOKUSHUKOUDOU(PLW *wk) {
     }
 }
 
-void (*const pl16_exatt_table[18])(PLW *) = { Att_SENPUUKYAKU,    Att_HADOUKEN2,      Att_HADOUKEN,
-                                              Att_HADOUKEN,       Att_SLIDE_and_JUMP, Att_SLIDE_and_JUMP,
-                                              Att_SLIDE_and_JUMP, Att_DUMMY,          Att_DUMMY,
-                                              Att_DUMMY,          Att_DUMMY,          Att_DUMMY,
-                                              Att_DUMMY,          Att_DUMMY,          Att_PL16_TOKUSHUKOUDOU,
-                                              Att_DUMMY,          Att_METAMOR_WAIT,   Att_METAMOR_REBIRTH };
+void (*const pl16_exatt_table[18])(PLW*) = { Att_SENPUUKYAKU,    Att_HADOUKEN2,      Att_HADOUKEN,
+                                             Att_HADOUKEN,       Att_SLIDE_and_JUMP, Att_SLIDE_and_JUMP,
+                                             Att_SLIDE_and_JUMP, Att_DUMMY,          Att_DUMMY,
+                                             Att_DUMMY,          Att_DUMMY,          Att_DUMMY,
+                                             Att_DUMMY,          Att_DUMMY,          Att_PL16_TOKUSHUKOUDOU,
+                                             Att_DUMMY,          Att_METAMOR_WAIT,   Att_METAMOR_REBIRTH };

@@ -77,25 +77,25 @@ s32 flPS2InitRenderState() {
 
 s32 flSetRenderState(enum _FLSETRENDERSTATE func, u32 value) {
     u32 work, th;
-    FL_RenderViewport *viewport;
+    FL_RenderViewport* viewport;
 
     if ((func >= FLRENDER_WORLD0) && (func < FLRENDER_MATERIAL0)) {
         if (value != 0) {
-            flMATRIX[func - FLRENDER_WORLD0] = *(MTX *)value;
+            flMATRIX[func - FLRENDER_WORLD0] = *(MTX*)value;
         }
 
         return 1;
     }
 
     if ((func >= FLRENDER_MATERIAL0) && (func < FLRENDER_LIGHT0)) {
-        flMATERIAL[func - FLRENDER_MATERIAL0] = *(FLMaterial *)value;
+        flMATERIAL[func - FLRENDER_MATERIAL0] = *(FLMaterial*)value;
 
         return 1;
     }
 
     if ((func >= FLRENDER_LIGHT0) && (func < FLRENDER_SHADER)) {
-        flLIGHT[func - FLRENDER_LIGHT0] = *(FLLight *)value;
-        flvecNormalize((Vec3 *)&flLIGHT[func - FLRENDER_LIGHT0].direction);
+        flLIGHT[func - FLRENDER_LIGHT0] = *(FLLight*)value;
+        flvecNormalize((Vec3*)&flLIGHT[func - FLRENDER_LIGHT0].direction);
         flLIGHT[func - FLRENDER_LIGHT0].diffuse.a = 0.0f;
         flLIGHT[func - FLRENDER_LIGHT0].specular.a = 0.0f;
         flPS2ATTENUATION1[func - FLRENDER_LIGHT0] = 1.0f / flLIGHT[func - FLRENDER_LIGHT0].Attenuation1;
@@ -265,11 +265,11 @@ s32 flSetRenderState(enum _FLSETRENDERSTATE func, u32 value) {
         break;
 
     case FLRENDER_FOGSTART:
-        flFogStart = *(f32 *)&value;
+        flFogStart = *(f32*)&value;
         break;
 
     case FLRENDER_FOGEND:
-        flFogEnd = *(f32 *)&value;
+        flFogEnd = *(f32*)&value;
         break;
 
     case FLRENDER_FOGENABLE:
@@ -300,23 +300,23 @@ s32 flSetRenderState(enum _FLSETRENDERSTATE func, u32 value) {
         break;
 
     case FLRENDER_VIEW:
-        flMATRIX[0x21] = *(MTX *)value;
+        flMATRIX[0x21] = *(MTX*)value;
         break;
 
     case FLRENDER_PROJ:
-        flMATRIX[0x20] = *(MTX *)value;
+        flMATRIX[0x20] = *(MTX*)value;
         flmatMul(&flPS2VIEWPROJ, &flMATRIX[0x20], &flMATRIX[0x22]);
         flmatMul(&flACRVIEWPROJ, &flMATRIX[0x20], &flACRVIEWPORT);
         break;
 
     case FLRENDER_VIEWPORT:
-        viewport = (FL_RenderViewport *)value;
+        viewport = (FL_RenderViewport*)value;
         flmatrMakeViewport(
             0x22, viewport->x, viewport->y, viewport->width, viewport->height, viewport->min_z, viewport->max_z);
         break;
 
     case FLRENDER_UVSCRMATRIX:
-        flMATRIX[0x23] = *(MTX *)value;
+        flMATRIX[0x23] = *(MTX*)value;
         break;
 
     case FLRENDER_SHADER:
@@ -521,7 +521,7 @@ s32 flPS2SendRenderState_SCISSOR(s32 dx, s32 dy, s32 dw, s32 dh, u32 flag) {
     s32 dy2;
     u32 qwc;
     uintptr_t keep_ptr;
-    QWORD *lpWork;
+    QWORD* lpWork;
 
     if (dx < 0) {
         dx = 0;
@@ -542,10 +542,10 @@ s32 flPS2SendRenderState_SCISSOR(s32 dx, s32 dy, s32 dw, s32 dh, u32 flag) {
 
     dy2 = (dy + dh) - 1;
     if (flag != 2) {
-        lpWork = (QWORD *)flPS2GetSystemTmpBuff(0x30, 0x10);
+        lpWork = (QWORD*)flPS2GetSystemTmpBuff(0x30, 0x10);
         qwc = 2;
     } else {
-        lpWork = (QWORD *)flPS2GetSystemTmpBuff(0x40, 0x10);
+        lpWork = (QWORD*)flPS2GetSystemTmpBuff(0x40, 0x10);
         qwc = 3;
     }
 
@@ -615,7 +615,7 @@ s32 flPS2SendRenderState_ZBUF(u32 render_state, u32 flag) {
     s32 psm;
     s32 zmsk;
     u_long zbuf;
-    QWORD *lpWork;
+    QWORD* lpWork;
 
     if ((render_state & 0x8000) == 0x8000) {
         zmsk = 0;
@@ -628,10 +628,10 @@ s32 flPS2SendRenderState_ZBUF(u32 render_state, u32 flag) {
     zbuf = SCE_GS_SET_ZBUF(zbp, psm, zmsk);
 
     if (flag != 2) {
-        lpWork = (QWORD *)flPS2GetSystemTmpBuff(0x30, 0x10);
+        lpWork = (QWORD*)flPS2GetSystemTmpBuff(0x30, 0x10);
         qwc = 2;
     } else {
-        lpWork = (QWORD *)flPS2GetSystemTmpBuff(0x40, 0x10);
+        lpWork = (QWORD*)flPS2GetSystemTmpBuff(0x40, 0x10);
         qwc = 3;
     }
 
@@ -673,7 +673,7 @@ s32 flPS2SendRenderState_ZBUF(u32 render_state, u32 flag) {
 s32 flPS2SendRenderState_TEST(u32 render_state, u32 flag) {
     u32 qwc;
     uintptr_t keep_ptr;
-    QWORD *lpWork;
+    QWORD* lpWork;
     u_long test;
     s32 ate;
     s32 atst;
@@ -765,10 +765,10 @@ s32 flPS2SendRenderState_TEST(u32 render_state, u32 flag) {
     test = SCE_GS_SET_TEST(ate, atst, aref, afail, date, datm, zte, ztst);
 
     if (flag != 2) {
-        lpWork = (QWORD *)flPS2GetSystemTmpBuff(0x30, 0x10);
+        lpWork = (QWORD*)flPS2GetSystemTmpBuff(0x30, 0x10);
         qwc = 2;
     } else {
-        lpWork = (QWORD *)flPS2GetSystemTmpBuff(0x40, 0x10);
+        lpWork = (QWORD*)flPS2GetSystemTmpBuff(0x40, 0x10);
         qwc = 3;
     }
 
@@ -820,14 +820,14 @@ s32 flPS2SendRenderState_ALPHA(u32 render_state, u32 flag) {
     u32 qwc;
     uintptr_t keep_ptr;
     u_long alpha;
-    QWORD *lpWork;
+    QWORD* lpWork;
     u32 blend_ope;
 
     if (flag != 2) {
-        lpWork = (QWORD *)flPS2GetSystemTmpBuff(0x30, 0x10);
+        lpWork = (QWORD*)flPS2GetSystemTmpBuff(0x30, 0x10);
         qwc = 2;
     } else {
-        lpWork = (QWORD *)flPS2GetSystemTmpBuff(0x40, 0x10);
+        lpWork = (QWORD*)flPS2GetSystemTmpBuff(0x40, 0x10);
         qwc = 3;
     }
 
@@ -1201,9 +1201,9 @@ s32 flPS2SendRenderState_ALPHA(u32 render_state, u32 flag) {
 s32 flPS2SendRenderState_FOGCOL(u32 fogcol) {
     u32 qwc;
     uintptr_t keep_ptr;
-    QWORD *lpWork;
+    QWORD* lpWork;
 
-    lpWork = (QWORD *)flPS2GetSystemTmpBuff(0x30, 0x10);
+    lpWork = (QWORD*)flPS2GetSystemTmpBuff(0x30, 0x10);
     qwc = 2;
     keep_ptr = (uintptr_t)lpWork;
 
@@ -1226,9 +1226,9 @@ s32 flPS2SendRenderState_FOGCOL(u32 fogcol) {
 s32 flPS2SendRenderState_TEX1(u32 render_state, u32 flag) {
     u32 qwc;
     uintptr_t keep_ptr;
-    QWORD *lpWork;
+    QWORD* lpWork;
 
-    lpWork = (QWORD *)flPS2GetSystemTmpBuff(0x30, 0x10);
+    lpWork = (QWORD*)flPS2GetSystemTmpBuff(0x30, 0x10);
     qwc = 2;
     keep_ptr = (uintptr_t)lpWork;
 
@@ -1276,14 +1276,14 @@ s32 flPS2SendTextureRegister(u32 th) {
         return 0;
     }
 
-    flPS2psAddQueue((QWORD *)psTexture_data);
+    flPS2psAddQueue((QWORD*)psTexture_data);
     return 1;
 }
 
-s32 flPS2SetTextureRegister(u32 th, u64 *texA, u64 *tex1, u64 *tex0, u64 *clamp, u64 *miptbp1, u64 *miptbp2,
+s32 flPS2SetTextureRegister(u32 th, u64* texA, u64* tex1, u64* tex0, u64* clamp, u64* miptbp1, u64* miptbp2,
                             u32 render_ope) {
-    FLTexture *lpflTexture;
-    FLTexture *lpflPalette;
+    FLTexture* lpflTexture;
+    FLTexture* lpflPalette;
     s16 dbw;
     s32 lp0;
     s32 dw;

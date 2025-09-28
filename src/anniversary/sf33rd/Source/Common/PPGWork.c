@@ -193,7 +193,7 @@ void ppgPurgeFromVRAM(s32 type) {
     }
 }
 
-void ppgPurgeTextureFromVRAM(Texture *tex) {
+void ppgPurgeTextureFromVRAM(Texture* tex) {
     s32 i;
     s32 th;
 
@@ -205,7 +205,7 @@ void ppgPurgeTextureFromVRAM(Texture *tex) {
     }
 }
 
-void ppgPurgePaletteFromVRAM(Palette *pal) {
+void ppgPurgePaletteFromVRAM(Palette* pal) {
     s32 i;
     s32 ph;
 

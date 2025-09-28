@@ -15,12 +15,12 @@ static u32 flPs2StoreImageSize;
 static uintptr_t flPs2StoreImageAdrs;
 
 static __int128 vif1_fifo = (__int128)0x06000000;
-static u32 *dma_chcr_adrs[10] = { (u32 *)0x10008000, (u32 *)0x10009000, (u32 *)0x1000A000, (u32 *)0x1000B000,
-                                  (u32 *)0x1000B400, (u32 *)0x1000C000, (u32 *)0x1000C400, (u32 *)0x1000C800,
-                                  (u32 *)0x1000D000, (u32 *)0x1000D400 };
+static u32* dma_chcr_adrs[10] = { (u32*)0x10008000, (u32*)0x10009000, (u32*)0x1000A000, (u32*)0x1000B000,
+                                  (u32*)0x1000B400, (u32*)0x1000C000, (u32*)0x1000C400, (u32*)0x1000C800,
+                                  (u32*)0x1000D000, (u32*)0x1000D400 };
 
 uintptr_t flPS2DmaAddCntTag(uintptr_t tag, s32 qwc, s32 irq, s32 /*unused*/) {
-    QWORD *wk_ptr = (QWORD *)tag;
+    QWORD* wk_ptr = (QWORD*)tag;
     wk_ptr->UI128 = 0;
     wk_ptr->UI32[0] = qwc + 0x10000000;
 
@@ -32,7 +32,7 @@ uintptr_t flPS2DmaAddCntTag(uintptr_t tag, s32 qwc, s32 irq, s32 /*unused*/) {
 }
 
 uintptr_t flPS2DmaAddRefTag(uintptr_t tag, s32 qwc, uintptr_t data_adrs, s32 irq, s32 /*unused*/) {
-    QWORD *wk_ptr = (QWORD *)tag;
+    QWORD* wk_ptr = (QWORD*)tag;
     uintptr_t addr = data_adrs & 0xFFFFFFF;
     u32 spr_flag = 0;
 
@@ -52,7 +52,7 @@ uintptr_t flPS2DmaAddRefTag(uintptr_t tag, s32 qwc, uintptr_t data_adrs, s32 irq
 }
 
 uintptr_t flPS2DmaAddRefeTag(uintptr_t tag, s32 qwc, uintptr_t data_adrs, s32 irq, s32 /*unused*/) {
-    QWORD *wk_ptr = (QWORD *)tag;
+    QWORD* wk_ptr = (QWORD*)tag;
     uintptr_t addr = data_adrs & 0xFFFFFFF;
     u32 spr_flag = 0;
 
@@ -72,7 +72,7 @@ uintptr_t flPS2DmaAddRefeTag(uintptr_t tag, s32 qwc, uintptr_t data_adrs, s32 ir
 }
 
 uintptr_t flPS2DmaAddEndTag(uintptr_t tag, s32 qwc, s32 irq, s32 /*unused*/) {
-    QWORD *wk_ptr = (QWORD *)tag;
+    QWORD* wk_ptr = (QWORD*)tag;
 
     wk_ptr->UI128 = 0;
     wk_ptr->UI32[0] = qwc + 0x70000000;
@@ -85,7 +85,7 @@ uintptr_t flPS2DmaAddEndTag(uintptr_t tag, s32 qwc, s32 irq, s32 /*unused*/) {
 }
 
 uintptr_t flPS2VIF1CodeAddDirectHL(uintptr_t tag, s32 qwc) {
-    QWORD *pkt = (QWORD *)tag;
+    QWORD* pkt = (QWORD*)tag;
 
     pkt->UI32[0] = 0;
     pkt->UI32[1] = 0;
@@ -117,12 +117,12 @@ u32 flPS2VIF1CalcEndLoadImageSize(s32 /*unused*/) {
 
 uintptr_t flPS2VIF1MakeLoadImage(uintptr_t buff_ptr, u32 irq, uintptr_t data_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm,
                                  s16 x, s16 y, s16 w, s16 h) {
-    u_long *work_ptr;
+    u_long* work_ptr;
     u32 lp0;
     u32 count;
     u32 trans_size;
     s16 wk_h;
-    FLPS2LoadImageData *load_image;
+    FLPS2LoadImageData* load_image;
     uintptr_t last_tag;
 
     last_tag = 0;
@@ -160,7 +160,7 @@ uintptr_t flPS2VIF1MakeLoadImage(uintptr_t buff_ptr, u32 irq, uintptr_t data_ptr
         dbw = 1;
     }
 
-    work_ptr = (u_long *)buff_ptr;
+    work_ptr = (u_long*)buff_ptr;
 
     for (lp0 = 0; lp0 < count; lp0++) {
         switch (dpsm) {
@@ -183,7 +183,7 @@ uintptr_t flPS2VIF1MakeLoadImage(uintptr_t buff_ptr, u32 irq, uintptr_t data_ptr
             break;
         }
 
-        load_image = (FLPS2LoadImageData *)work_ptr;
+        load_image = (FLPS2LoadImageData*)work_ptr;
         flPS2DmaAddCntTag((uintptr_t)load_image, 6, 0, 0);
         load_image->dmatag.data.UI32[2] = 0x13000000;
         load_image->dmatag.data.UI32[3] = 0x51000006;
@@ -218,7 +218,7 @@ uintptr_t flPS2VIF1MakeLoadImage(uintptr_t buff_ptr, u32 irq, uintptr_t data_ptr
 
             load_image->dmatag1.data.UI32[2] = 0;
             load_image->dmatag1.data.UI32[3] = 0x51000000 | 0x7000;
-            work_ptr = (u_long *)load_image + 0x10;
+            work_ptr = (u_long*)load_image + 0x10;
             data_ptr += trans_size;
             y += wk_h;
 
@@ -234,7 +234,7 @@ uintptr_t flPS2VIF1MakeLoadImage(uintptr_t buff_ptr, u32 irq, uintptr_t data_ptr
 }
 
 void flPS2VIF1MakeEndLoadImage(uintptr_t buff_ptr, u32 irq) {
-    FLPS2LoadEndData *load_end = (FLPS2LoadEndData *)buff_ptr;
+    FLPS2LoadEndData* load_end = (FLPS2LoadEndData*)buff_ptr;
     flPS2DmaAddEndTag((uintptr_t)load_end, 3, irq, 0);
     flPS2VIF1CodeAddDirectHL((uintptr_t)load_end + 0x10, 2);
 
@@ -246,12 +246,12 @@ void flPS2VIF1MakeEndLoadImage(uintptr_t buff_ptr, u32 irq) {
 }
 
 void flPS2StoreImageB(uintptr_t load_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, s16 x, s16 y, s16 w, s16 h) {
-    sceDmaChan *dma_channel;
+    sceDmaChan* dma_channel;
     u32 lp0;
     u32 count;
     u32 trans_size;
     s16 wk_h;
-    FLPS2StoreImageData *store_image;
+    FLPS2StoreImageData* store_image;
 
     flPS2DmaWait();
     count = size / 0x70000;
@@ -311,7 +311,7 @@ void flPS2StoreImageB(uintptr_t load_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, 
             break;
         }
 
-        store_image = (FLPS2StoreImageData *)flPS2GetSystemTmpBuff(0x90, 0x10);
+        store_image = (FLPS2StoreImageData*)flPS2GetSystemTmpBuff(0x90, 0x10);
         flPS2DmaAddEndTag((uintptr_t)store_image, 7, 0, 0);
         store_image->dmatag.data.UI32[2] = 0;
         store_image->dmatag.data.UI32[3] = 0;
@@ -350,7 +350,7 @@ void flPS2StoreImageB(uintptr_t load_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, 
         dma_channel->chcr.TTE = 0;
         dma_channel->chcr.TIE = 0;
         FlushCache(WRITEBACK_DCACHE);
-        sceDmaSend(dma_channel, (u32 *)store_image);
+        sceDmaSend(dma_channel, (u32*)store_image);
         sceGsSyncPath(0, 0);
 
         while (flPs2StoreImageSize != 0) {
@@ -374,7 +374,7 @@ void flPS2StoreImageB(uintptr_t load_ptr, u32 size, s16 dbp, s16 dbw, s16 dpsm, 
 }
 
 static s32 IntGsStoreImageHandler() {
-    sceDmaChan *dma_channel;
+    sceDmaChan* dma_channel;
 
     if (flPs2StoreImageSize != 0) {
         dma_channel = flPs2State.DmaChan[1];
@@ -383,7 +383,7 @@ static s32 IntGsStoreImageHandler() {
         iDisableIntc(0);
         dma_channel->chcr.TTE = 1;
         dma_channel->chcr.TIE = 0;
-        sceDmaRecvN(dma_channel, (u32 *)flPs2StoreImageAdrs, flPs2StoreImageSize);
+        sceDmaRecvN(dma_channel, (u32*)flPs2StoreImageAdrs, flPs2StoreImageSize);
         flPs2StoreImageAdrs = 0;
         flPs2StoreImageSize = 0;
     }
@@ -392,7 +392,7 @@ static s32 IntGsStoreImageHandler() {
     return 0;
 }
 
-void flPS2DmaInitControl(FLPS2VIF1Control *dma_ptr, u32 queue_size, void *handler) {
+void flPS2DmaInitControl(FLPS2VIF1Control* dma_ptr, u32 queue_size, void* handler) {
     s32 lp0;
     dma_ptr->queue_size = queue_size;
 
@@ -409,17 +409,17 @@ void flPS2DmaInitControl(FLPS2VIF1Control *dma_ptr, u32 queue_size, void *handle
     flPs2GsHandler = AddIntcHandler(0, &IntGsStoreImageHandler, 0);
 }
 
-s32 flPS2DmaAddQueue2(s32 type, uintptr_t data_adrs, uintptr_t endtag_adrs, FLPS2VIF1Control *dma_ptr) {
+s32 flPS2DmaAddQueue2(s32 type, uintptr_t data_adrs, uintptr_t endtag_adrs, FLPS2VIF1Control* dma_ptr) {
 #if !defined(TARGET_PS2)
     // Return early because we don't need to handle DMA stuff on non-PS2 systems
     return 0;
 #endif
 
     u32 dma_chcr;
-    sceDmaChan *dma_channel;
-    uintptr_t *dma_queue;
+    sceDmaChan* dma_channel;
+    uintptr_t* dma_queue;
     s32 dma_index;
-    uintptr_t *old_tag;
+    uintptr_t* old_tag;
     u32 qwc;
 
     flDebugAQNum += 1;
@@ -435,7 +435,7 @@ s32 flPS2DmaAddQueue2(s32 type, uintptr_t data_adrs, uintptr_t endtag_adrs, FLPS
         dma_index = flPs2State.SystemIndex;
 
         if (dma_ptr->queue_ctr[dma_index] <= dma_ptr->queue_size - 1) {
-            dma_queue = (uintptr_t *)flPS2GetSystemBuffAdrs(dma_ptr->dma_queue_handle[dma_index]);
+            dma_queue = (uintptr_t*)flPS2GetSystemBuffAdrs(dma_ptr->dma_queue_handle[dma_index]);
             dma_ptr->queue_ctr[dma_index] += 1;
             dma_queue[dma_ptr->queue_ptr0[dma_index]++] = data_adrs;
 
@@ -449,7 +449,7 @@ s32 flPS2DmaAddQueue2(s32 type, uintptr_t data_adrs, uintptr_t endtag_adrs, FLPS
             return 0;
         }
     } else if (dma_ptr->old_queue_data && dma_ptr->old_endtag) {
-        old_tag = (uintptr_t *)dma_ptr->old_endtag;
+        old_tag = (uintptr_t*)dma_ptr->old_endtag;
 
         switch ((dma_ptr->old_queue_data & 0xF0000000) >> 0x1C) {
         default:
@@ -504,13 +504,13 @@ s32 flPS2DmaAddQueue2(s32 type, uintptr_t data_adrs, uintptr_t endtag_adrs, FLPS
 }
 
 s32 flPS2DmaInterrupt(s32 ch) {
-    FLPS2VIF1Control *dma_ptr;
+    FLPS2VIF1Control* dma_ptr;
     u32 dma_adrs;
     u32 dma_chcr;
     u32 type;
-    u32 *dma_queue;
+    u32* dma_queue;
     s32 dma_index;
-    FLPS2StoreImageData *store_image;
+    FLPS2StoreImageData* store_image;
 
     dma_ptr = &flPs2VIF1Control;
 
@@ -529,7 +529,7 @@ s32 flPS2DmaInterrupt(s32 ch) {
             block_11:
                 flDebugDINum += 1;
                 dma_index = flPs2State.SystemIndex ^ 1;
-                dma_queue = (u32 *)flPS2GetSystemBuffAdrs(dma_ptr->dma_queue_handle[dma_index]);
+                dma_queue = (u32*)flPS2GetSystemBuffAdrs(dma_ptr->dma_queue_handle[dma_index]);
                 dma_ptr->queue_ctr[dma_index] -= 1;
                 dma_adrs = dma_queue[dma_ptr->queue_ptr1[dma_index]++];
 
@@ -565,11 +565,11 @@ s32 flPS2DmaInterrupt(s32 ch) {
                         case 5:
                             flPs2State.DmaChan[dma_ptr->channel_id]->chcr.TTE = 1;
                             flPs2State.DmaChan[dma_ptr->channel_id]->chcr.TIE = 1;
-                            sceDmaSend(flPs2State.DmaChan[dma_ptr->channel_id], (u32 *)dma_adrs);
+                            sceDmaSend(flPs2State.DmaChan[dma_ptr->channel_id], (u32*)dma_adrs);
                             break;
 
                         case 2:
-                            store_image = (FLPS2StoreImageData *)dma_adrs;
+                            store_image = (FLPS2StoreImageData*)dma_adrs;
                             flPs2StoreImageAdrs = store_image->data.I32[0];
                             flPs2StoreImageSize = store_image->data.I32[1];
                             *GS_CSR = 2;
@@ -579,7 +579,7 @@ s32 flPS2DmaInterrupt(s32 ch) {
                             dma_ptr->dma_normal_mode_status |= 1;
                             flPs2State.DmaChan[dma_ptr->channel_id]->chcr.TTE = 0;
                             flPs2State.DmaChan[dma_ptr->channel_id]->chcr.TIE = 0;
-                            sceDmaSend(flPs2State.DmaChan[dma_ptr->channel_id], (u32 *)dma_adrs);
+                            sceDmaSend(flPs2State.DmaChan[dma_ptr->channel_id], (u32*)dma_adrs);
                             break;
                         }
                     }
@@ -595,14 +595,14 @@ s32 flPS2DmaInterrupt(s32 ch) {
 }
 
 void flPS2DmaSend() {
-    FLPS2VIF1Control *dma_ptr;
-    u32 *dma_queue;
+    FLPS2VIF1Control* dma_ptr;
+    u32* dma_queue;
     u32 data_adrs;
     u32 type;
     s32 dma_index;
     u32 dma_chcr;
-    sceDmaChan *dma_channel;
-    FLPS2StoreImageData *store_image;
+    sceDmaChan* dma_channel;
+    FLPS2StoreImageData* store_image;
 
     dma_ptr = &flPs2VIF1Control;
     dma_index = flPs2State.SystemIndex;
@@ -613,7 +613,7 @@ void flPS2DmaSend() {
     if (dma_ptr->queue_ctr[dma_index] != 0) {
         dma_chcr = *dma_chcr_adrs[dma_ptr->channel_id];
         dma_channel = flPs2State.DmaChan[dma_ptr->channel_id];
-        dma_queue = (u32 *)flPS2GetSystemBuffAdrs(dma_ptr->dma_queue_handle[dma_index]);
+        dma_queue = (u32*)flPS2GetSystemBuffAdrs(dma_ptr->dma_queue_handle[dma_index]);
         data_adrs = dma_queue[dma_ptr->queue_ptr1[dma_index]];
         dma_ptr->now_adrs = data_adrs;
         type = ((data_adrs & 0xF0000000)) >> 0x1C;
@@ -628,11 +628,11 @@ void flPS2DmaSend() {
             dma_channel->chcr.TTE = 1;
             dma_channel->chcr.TIE = 1;
             FlushCache(WRITEBACK_DCACHE);
-            sceDmaSend(dma_channel, (u32 *)data_adrs);
+            sceDmaSend(dma_channel, (u32*)data_adrs);
             break;
 
         case 2:
-            store_image = (FLPS2StoreImageData *)data_adrs;
+            store_image = (FLPS2StoreImageData*)data_adrs;
             flPs2StoreImageAdrs = store_image->data.UI32[0];
             flPs2StoreImageSize = store_image->data.UI32[1];
             *GS_CSR = 2;
@@ -643,7 +643,7 @@ void flPS2DmaSend() {
             dma_channel->chcr.TTE = 0;
             dma_channel->chcr.TIE = 0;
             FlushCache(WRITEBACK_DCACHE);
-            sceDmaSend(dma_channel, (u32 *)data_adrs);
+            sceDmaSend(dma_channel, (u32*)data_adrs);
             break;
         }
     }
@@ -664,7 +664,7 @@ s32 flPS2DmaWait() {
 
 s32 flPS2DmaTerminate() {
     s32 dma_index;
-    FLPS2VIF1Control *dma_ptr = &flPs2VIF1Control;
+    FLPS2VIF1Control* dma_ptr = &flPs2VIF1Control;
 
     if ((dma_ptr->queue_ctr[0] == 0) && (dma_ptr->queue_ctr[1] == 0)) {
         return 0;

@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/EFF42.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
@@ -6,20 +7,19 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void EFF42_SUDDENLY(WORK_Other *ewk);
-void EFF42_SLIDE_IN(WORK_Other *ewk);
-void EFF42_SLIDE_OUT(WORK_Other *ewk);
-void EFF42_KILL(WORK_Other *ewk);
-void EFF42_MOVE(WORK_Other *ewk);
-void Setup_Char_Index(WORK_Other *ewk);
+void EFF42_SUDDENLY(WORK_Other* ewk);
+void EFF42_SLIDE_IN(WORK_Other* ewk);
+void EFF42_SLIDE_OUT(WORK_Other* ewk);
+void EFF42_KILL(WORK_Other* ewk);
+void EFF42_MOVE(WORK_Other* ewk);
+void Setup_Char_Index(WORK_Other* ewk);
 
 void (*const EFF42_Jmp_Tbl[5])();
 
-void effect_42_move(WORK_Other *ewk) {
+void effect_42_move(WORK_Other* ewk) {
     EFF42_Jmp_Tbl[Order[ewk->wu.dir_old]](ewk);
 
     if (ewk->wu.be_flag != 0) {
@@ -29,7 +29,7 @@ void effect_42_move(WORK_Other *ewk) {
     }
 }
 
-void EFF42_SUDDENLY(WORK_Other *ewk) {
+void EFF42_SUDDENLY(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -66,7 +66,7 @@ void EFF42_SUDDENLY(WORK_Other *ewk) {
     }
 }
 
-void EFF42_SLIDE_IN(WORK_Other *ewk) {
+void EFF42_SLIDE_IN(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -121,7 +121,7 @@ void EFF42_SLIDE_IN(WORK_Other *ewk) {
     }
 }
 
-void EFF42_SLIDE_OUT(WORK_Other *ewk) {
+void EFF42_SLIDE_OUT(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[6]) {
     case 0:
         if (--Order_Timer[ewk->wu.dir_old] != 0) {
@@ -157,7 +157,7 @@ void EFF42_SLIDE_OUT(WORK_Other *ewk) {
     }
 }
 
-void EFF42_KILL(WORK_Other *ewk) {
+void EFF42_KILL(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         if (--Order_Timer[ewk->wu.dir_old] == 0) {
@@ -174,7 +174,7 @@ void EFF42_KILL(WORK_Other *ewk) {
     }
 }
 
-void EFF42_MOVE(WORK_Other *ewk) {
+void EFF42_MOVE(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -199,7 +199,7 @@ void EFF42_MOVE(WORK_Other *ewk) {
     }
 }
 
-void Setup_Char_Index(WORK_Other *ewk) {
+void Setup_Char_Index(WORK_Other* ewk) {
     s16 xx = Select_Timer & (s8)ewk->wu.routine_no[7];
 
     xx &= 0xFF;
@@ -220,7 +220,7 @@ s32 effect_42_init(s16 type) {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if (Present_Mode == 4 || Present_Mode == 5) {
@@ -231,7 +231,7 @@ s32 effect_42_init(s16 type) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 42;
     ewk->wu.work_id = 16;

@@ -76,8 +76,6 @@ const DEBUG_STR_DAT debug_string_data[72] = { { .max = 255, .name = "SLOW" },
                                               { .max = 255, .name = "NAKAGAWA EXPERIMENT" } };
 
 // sbss
-u8 *debug_name_data[5] = { (u8 *)"For NAKAI 600",
-                           (u8 *)"For GENTLEMAN",
-                           (u8 *)"For NAKAGAWA JIKKEN",
-                           (u8 *)"For Oh!Ya!",
-                           (u8 *)"For IBARAKI UNCLE" };
+u8* debug_name_data[5] = {
+    (u8*)"For NAKAI 600", (u8*)"For GENTLEMAN", (u8*)"For NAKAGAWA JIKKEN", (u8*)"For Oh!Ya!", (u8*)"For IBARAKI UNCLE"
+};

@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/effM0.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
@@ -7,26 +8,25 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void animal_init(WORK_Other *ewk);
-void animal_control(WORK_Other *ewk);
-void animal_0000(WORK_Other *ewk);
-void animal_0001(WORK_Other *ewk);
-void animal_0002(WORK_Other *ewk);
-void animal_0004(WORK_Other *ewk);
-void animal_0005(WORK_Other *ewk);
-void mouse_run_set(WORK_Other *ewk);
-void mouse_stand_set(WORK_Other *ewk);
-void cat_run_set(WORK_Other *ewk);
-void don_run_set(WORK_Other *ewk);
+void animal_init(WORK_Other* ewk);
+void animal_control(WORK_Other* ewk);
+void animal_0000(WORK_Other* ewk);
+void animal_0001(WORK_Other* ewk);
+void animal_0002(WORK_Other* ewk);
+void animal_0004(WORK_Other* ewk);
+void animal_0005(WORK_Other* ewk);
+void mouse_run_set(WORK_Other* ewk);
+void mouse_stand_set(WORK_Other* ewk);
+void cat_run_set(WORK_Other* ewk);
+void don_run_set(WORK_Other* ewk);
 
 const s16 animal_0005_tbl[16] = { 40, 50, 160, 70, 80, 100, 30, 200, 340, 10, 110, 18, 40, 60, 30, 150 };
 
-void effect_M0_move(WORK_Other *ewk) {
+void effect_M0_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         ewk->wu.routine_no[0]++;
@@ -52,7 +52,7 @@ void effect_M0_move(WORK_Other *ewk) {
     }
 }
 
-void animal_init(WORK_Other *ewk) {
+void animal_init(WORK_Other* ewk) {
     s16 work_l = bg_w.bgw[1].wxy[0].disp.pos - bg_w.pos_offset;
     s16 work_r = bg_w.bgw[1].wxy[0].disp.pos + bg_w.pos_offset;
 
@@ -119,13 +119,13 @@ void animal_init(WORK_Other *ewk) {
     }
 }
 
-void animal_control(WORK_Other *ewk) {
-    void (*animal_jp[7])(WORK_Other *ewk) = { animal_0000, animal_0001, animal_0002, animal_0001,
+void animal_control(WORK_Other* ewk) {
+    void (*animal_jp[7])(WORK_Other* ewk) = { animal_0000, animal_0001, animal_0002, animal_0001,
                                               animal_0004, animal_0005, animal_0000 };
     animal_jp[ewk->wu.type](ewk);
 }
 
-void animal_0000(WORK_Other *ewk) {
+void animal_0000(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         ewk->wu.routine_no[1]++;
@@ -172,7 +172,7 @@ void animal_0000(WORK_Other *ewk) {
     }
 }
 
-void animal_0001(WORK_Other *ewk) {
+void animal_0001(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         ewk->wu.routine_no[1]++;
@@ -205,7 +205,7 @@ void animal_0001(WORK_Other *ewk) {
     }
 }
 
-void animal_0002(WORK_Other *ewk) {
+void animal_0002(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         ewk->wu.routine_no[1]++;
@@ -240,7 +240,7 @@ void animal_0002(WORK_Other *ewk) {
     }
 }
 
-void animal_0004(WORK_Other *ewk) {
+void animal_0004(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         ewk->wu.routine_no[1]++;
@@ -290,7 +290,7 @@ void animal_0004(WORK_Other *ewk) {
     }
 }
 
-void animal_0005(WORK_Other *ewk) {
+void animal_0005(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         ewk->wu.routine_no[1]++;
@@ -348,7 +348,7 @@ void animal_0005(WORK_Other *ewk) {
     }
 }
 
-void mouse_run_set(WORK_Other *ewk) {
+void mouse_run_set(WORK_Other* ewk) {
     set_char_move_init(&ewk->wu, 0, 25);
 
     if (ewk->wu.rl_flag) {
@@ -360,13 +360,13 @@ void mouse_run_set(WORK_Other *ewk) {
     ewk->wu.mvxy.d[0].sp = 0;
 }
 
-void mouse_stand_set(WORK_Other *ewk) {
+void mouse_stand_set(WORK_Other* ewk) {
     set_char_move_init(&ewk->wu, 0, 18);
     ewk->wu.mvxy.a[0].sp = 0;
     ewk->wu.mvxy.d[0].sp = 0;
 }
 
-void cat_run_set(WORK_Other *ewk) {
+void cat_run_set(WORK_Other* ewk) {
     set_char_move_init(&ewk->wu, 0, 26);
 
     if (ewk->wu.rl_flag) {
@@ -378,7 +378,7 @@ void cat_run_set(WORK_Other *ewk) {
     ewk->wu.mvxy.d[0].sp = 0;
 }
 
-void cat_run_set2(WORK_Other *ewk) {
+void cat_run_set2(WORK_Other* ewk) {
     set_char_move_init(&ewk->wu, 0, 26);
 
     if (ewk->wu.rl_flag) {
@@ -390,7 +390,7 @@ void cat_run_set2(WORK_Other *ewk) {
     ewk->wu.mvxy.d[0].sp = 0;
 }
 
-void cat_walk_set(WORK_Other *ewk) {
+void cat_walk_set(WORK_Other* ewk) {
     set_char_move_init(&ewk->wu, 0, 27);
 
     if (ewk->wu.rl_flag) {
@@ -402,7 +402,7 @@ void cat_walk_set(WORK_Other *ewk) {
     ewk->wu.mvxy.d[0].sp = 0;
 }
 
-void don_run_set(WORK_Other *ewk) {
+void don_run_set(WORK_Other* ewk) {
     set_char_move_init(&ewk->wu, 0, 52);
 
     if (ewk->wu.rl_flag) {
@@ -419,14 +419,14 @@ s32 effect_M0_init(u8 pl_rl, u8 animal_type) {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 220;
     ewk->wu.work_id = 16;

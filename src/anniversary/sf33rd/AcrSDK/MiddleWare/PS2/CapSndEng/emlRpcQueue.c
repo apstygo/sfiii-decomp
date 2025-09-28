@@ -22,7 +22,7 @@ s32 mlRpcQueueInit() {
     return 0;
 }
 
-s32 mlRpcQueueSetData(u32 type, void *data, u32 size) {
+s32 mlRpcQueueSetData(u32 type, void* data, u32 size) {
     if (num == RPCQUEUE_MAX) {
         scePrintf("[EE]");
         scePrintf("(ERR)");
@@ -45,26 +45,26 @@ s32 mlRpcQueueSetData(u32 type, void *data, u32 size) {
 }
 
 u32 mlRpcQueueSend() {
-    CSE_RPCQUEUE_RESULT *pResult;
+    CSE_RPCQUEUE_RESULT* pResult;
     s32 result;
     u32 num_loop;
 
     for (num_loop = num; num_loop != 0; num_loop--) {
-        pResult = (CSE_RPCQUEUE_RESULT *)flSifRpcSend(RpcQueue[ixEnd].Type, RpcQueue[ixEnd].Data, RpcQueue[ixEnd].Size);
-        
+        pResult = (CSE_RPCQUEUE_RESULT*)flSifRpcSend(RpcQueue[ixEnd].Type, RpcQueue[ixEnd].Data, RpcQueue[ixEnd].Size);
+
         if (pResult->result >= 0) {
             num--;
-            
+
             if (RpcQueue[ixEnd].Type == 3) {
                 numVTransReq--;
             }
-            
+
         } else {
             result = mlRpcQueueSetData(RpcQueue[ixEnd].Type, RpcQueue[ixEnd].Data, RpcQueue[ixEnd].Size);
-            
+
             if (result >= 0) {
                 num--;
-                
+
                 if (RpcQueue[ixEnd].Type == 3) {
                     numVTransReq--;
                 }
@@ -72,7 +72,6 @@ u32 mlRpcQueueSend() {
             } else {
                 ixTop = (ixTop + 1) % RPCQUEUE_MAX;
             }
-            
         }
         ixEnd = (ixEnd + 1) % RPCQUEUE_MAX;
     }

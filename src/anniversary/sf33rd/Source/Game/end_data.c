@@ -679,7 +679,7 @@ const u16 gouki_nosekae_map2[128] = {
     0x5AA0, 0x5550, 0x5550, 0x000A, 0x000A, 0x02A9, 0x0A95, 0x0555, 0x0555, 0x0555, 0x0555
 };
 
-const u16 *ending_map_tbl[21][3] = { { ending000_map, NULL, NULL },
+const u16* ending_map_tbl[21][3] = { { ending000_map, NULL, NULL },
                                      { ending010_map, NULL, NULL },
                                      { ending020_map, ending021_map, NULL },
                                      { ending030_map, NULL, NULL },

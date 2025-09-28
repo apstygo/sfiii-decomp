@@ -7,7 +7,7 @@
 #include "sf33rd/Source/Game/bg_data.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_J4_move(WORK_Other *ewk) {
+void effect_J4_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         ewk->wu.routine_no[0]++;
@@ -66,14 +66,14 @@ void effect_J4_move(WORK_Other *ewk) {
 }
 
 s32 effect_J4_init(u8 data2) {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(5)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 194;
     ewk->wu.dir_timer = data2;

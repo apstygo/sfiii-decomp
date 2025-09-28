@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/EFF38.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CALDIR.h"
 #include "sf33rd/Source/Game/CHARSET.h"
@@ -9,28 +10,27 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void EFF38_WAIT(WORK_Other *ewk);
-void EFF38_SUDDENLY(WORK_Other *ewk);
-void EFF38_SLIDE_IN(WORK_Other *ewk);
-void Exit_Slide_in_38(WORK_Other *ewk);
-void EFF38_SLIDE_OUT(WORK_Other *ewk);
-void EFF38_KILL(WORK_Other *ewk);
-void EFF38_SHIFT(WORK_Other *ewk);
-s32 Shift_38(WORK_Other *ewk);
-s32 Move_X_Sub_38(WORK_Other *ewk);
-s32 Move_Y_Sub_38(WORK_Other *ewk, s16 Target_Y);
-void EFF38_MOVE(WORK_Other *ewk);
+void EFF38_WAIT(WORK_Other* ewk);
+void EFF38_SUDDENLY(WORK_Other* ewk);
+void EFF38_SLIDE_IN(WORK_Other* ewk);
+void Exit_Slide_in_38(WORK_Other* ewk);
+void EFF38_SLIDE_OUT(WORK_Other* ewk);
+void EFF38_KILL(WORK_Other* ewk);
+void EFF38_SHIFT(WORK_Other* ewk);
+s32 Shift_38(WORK_Other* ewk);
+s32 Move_X_Sub_38(WORK_Other* ewk);
+s32 Move_Y_Sub_38(WORK_Other* ewk, s16 Target_Y);
+void EFF38_MOVE(WORK_Other* ewk);
 
 const s16 EFF38_Base_XY[2][2][2] = { { { -64, 16 }, { -128, 32 } }, { { 64, 16 }, { 128, -32 } } };
 
 void (*const EFF38_Jmp_Tbl[7])() = { EFF38_WAIT,  EFF38_SLIDE_IN, EFF38_SLIDE_OUT, EFF38_SUDDENLY,
                                      EFF38_SHIFT, EFF38_MOVE,     EFF38_KILL };
 
-void effect_38_move(WORK_Other *ewk) {
+void effect_38_move(WORK_Other* ewk) {
     EFF38_Jmp_Tbl[ewk->wu.routine_no[0]](ewk);
 
     if (ewk->wu.be_flag != 0) {
@@ -40,14 +40,14 @@ void effect_38_move(WORK_Other *ewk) {
     }
 }
 
-void EFF38_WAIT(WORK_Other *ewk) {
+void EFF38_WAIT(WORK_Other* ewk) {
     if ((ewk->wu.routine_no[0] = Order[ewk->wu.dir_old])) {
         ewk->wu.routine_no[1] = 0;
         ewk->wu.routine_no[6] = 0;
     }
 }
 
-void EFF38_SUDDENLY(WORK_Other *ewk) {
+void EFF38_SUDDENLY(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -61,7 +61,7 @@ void EFF38_SUDDENLY(WORK_Other *ewk) {
     }
 }
 
-void EFF38_SLIDE_IN(WORK_Other *ewk) {
+void EFF38_SLIDE_IN(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -107,7 +107,7 @@ void EFF38_SLIDE_IN(WORK_Other *ewk) {
     }
 }
 
-void Exit_Slide_in_38(WORK_Other *ewk) {
+void Exit_Slide_in_38(WORK_Other* ewk) {
     ewk->wu.xyz[0].disp.pos = ewk->wu.hit_quake;
 
     if (--Select_Start[ewk->master_id] < 0) {
@@ -132,7 +132,7 @@ void Exit_Slide_in_38(WORK_Other *ewk) {
     Order[ewk->wu.dir_old] = 0;
 }
 
-void EFF38_SLIDE_OUT(WORK_Other *ewk) {
+void EFF38_SLIDE_OUT(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[6]) {
     case 0:
         if (--Order_Timer[ewk->wu.dir_old] == 0) {
@@ -166,7 +166,7 @@ void EFF38_SLIDE_OUT(WORK_Other *ewk) {
     }
 }
 
-void EFF38_KILL(WORK_Other *ewk) {
+void EFF38_KILL(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         if (--Order_Timer[ewk->wu.dir_old] == 0) {
@@ -182,7 +182,7 @@ void EFF38_KILL(WORK_Other *ewk) {
     }
 }
 
-void EFF38_SHIFT(WORK_Other *ewk) {
+void EFF38_SHIFT(WORK_Other* ewk) {
     u16 cut = Cut_Cut_Sub(3);
 
     switch (ewk->wu.routine_no[1]) {
@@ -231,7 +231,7 @@ void EFF38_SHIFT(WORK_Other *ewk) {
     }
 }
 
-s32 Shift_38(WORK_Other *ewk) {
+s32 Shift_38(WORK_Other* ewk) {
     s16 ix;
     s16 loop;
 
@@ -253,7 +253,7 @@ s32 Shift_38(WORK_Other *ewk) {
     return 0;
 }
 
-s32 Move_X_Sub_38(WORK_Other *ewk) {
+s32 Move_X_Sub_38(WORK_Other* ewk) {
     ewk->wu.xyz[0].cal += ewk->wu.mvxy.a[0].sp;
     ewk->wu.mvxy.a[0].sp += ewk->wu.mvxy.d[0].sp;
 
@@ -278,7 +278,7 @@ s32 Move_X_Sub_38(WORK_Other *ewk) {
     return 0;
 }
 
-s32 Move_Y_Sub_38(WORK_Other *ewk, s16 Target_Y) {
+s32 Move_Y_Sub_38(WORK_Other* ewk, s16 Target_Y) {
     ewk->wu.xyz[1].cal += ewk->wu.mvxy.a[1].sp;
     ewk->wu.mvxy.a[1].sp += ewk->wu.mvxy.d[1].sp;
 
@@ -299,7 +299,7 @@ s32 Move_Y_Sub_38(WORK_Other *ewk, s16 Target_Y) {
     return 0;
 }
 
-void EFF38_MOVE(WORK_Other *ewk) {
+void EFF38_MOVE(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -354,14 +354,14 @@ s32 effect_38_init(s16 PL_id, s16 dir_old, s16 Your_Char, s16 Play_Status, s16 T
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 38;
     ewk->wu.work_id = 16;

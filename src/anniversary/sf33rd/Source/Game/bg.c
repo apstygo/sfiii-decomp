@@ -37,7 +37,7 @@ s8 yang_timer;
 u8 ending_flag;
 BackgroundParameters end_prm[8];
 u8 gouki_end_gbix[16];
-const u32 *rw3col_ptr;
+const u32* rw3col_ptr;
 u8 bg_disp_off;
 s32 bgPalCodeOffset[8];
 
@@ -46,8 +46,8 @@ BG bg_w;
 RW_DATA rw_dat[20];
 
 static void bgRWWorkUpdate();
-static void bgDrawOneScreen(s32 bgnum, s32 gixbase, s32 *xx, s32 *yy, s32 /* unused */, s32 ofsPal,
-                            PPGDataList *curDataList);
+static void bgDrawOneScreen(s32 bgnum, s32 gixbase, s32* xx, s32* yy, s32 /* unused */, s32 ofsPal,
+                            PPGDataList* curDataList);
 static void bgDrawOneChip(s32 x, s32 y, s32 xs, s32 ys, s32 gbix, u32 vtxCol, s32 ofsPal);
 static void bgAkebonoDraw();
 static void ppgCalScrPosition(s32 x, s32 y, s32 xs, s32 ys);
@@ -71,9 +71,9 @@ void Bg_TexInit() {
 void Bg_Kakikae_Set() {
     u8 i;
 #if defined(TARGET_PS2)
-    const u32 *rwtbl_ptr;
+    const u32* rwtbl_ptr;
 #else
-    const bgrw_data_tbl_elem *rwtbl_ptr;
+    const bgrw_data_tbl_elem* rwtbl_ptr;
 #endif
     s8 rw;
 
@@ -82,14 +82,14 @@ void Bg_Kakikae_Set() {
         tokusyu_stage = 1;
         stage_flash = 0;
         stage_ftimer = 0;
-        rw_dat->rwd_ptr = rw_dat->brw_ptr = (s16 *)rw30;
+        rw_dat->rwd_ptr = rw_dat->brw_ptr = (s16*)rw30;
         rw_dat->rw_cnt = 2;
 
         for (i = 0; i < 13; i++) {
             rw_gbix[i] = stage03rw_data_tbl[i];
         }
 
-        rw3col_ptr = (u32 *)rw30col;
+        rw3col_ptr = (u32*)rw30col;
 
         for (i = 0; i < 4; i++) {
             rw = bgrw_on[bg_w.stage][i];
@@ -98,7 +98,7 @@ void Bg_Kakikae_Set() {
             rwtbl_ptr = bgrw_data_tbl[rw];
             rw_dat[i + 1].bg_num = *rwtbl_ptr++;
             rw_dat[i + 1].rwgbix = *rwtbl_ptr++;
-            rw_dat[i + 1].rwd_ptr = rw_dat[i + 1].brw_ptr = (s16 *)rwtbl_ptr[0];
+            rw_dat[i + 1].rwd_ptr = rw_dat[i + 1].brw_ptr = (s16*)rwtbl_ptr[0];
 #else
             rwtbl_ptr = &bgrw_data_tbl[rw];
             rw_dat[i + 1].bg_num = rwtbl_ptr->bg_num;
@@ -122,7 +122,7 @@ void Bg_Kakikae_Set() {
         tokusyu_stage = 3;
         stage_flash = 0;
         stage_ftimer = 2;
-        rw_dat->rwd_ptr = rw_dat->brw_ptr = (s16 *)rw190;
+        rw_dat->rwd_ptr = rw_dat->brw_ptr = (s16*)rw190;
         rw_dat->rw_cnt = 2;
 
         for (i = 0; i < 4; i++) {
@@ -135,7 +135,7 @@ void Bg_Kakikae_Set() {
         rwtbl_ptr = bgrw_data_tbl[rw];
         rw_dat[1].bg_num = *rwtbl_ptr++;
         rw_dat[1].rwgbix = *rwtbl_ptr++;
-        rw_dat[1].rwd_ptr = rw_dat[1].brw_ptr = (s16 *)rwtbl_ptr[0];
+        rw_dat[1].rwd_ptr = rw_dat[1].brw_ptr = (s16*)rwtbl_ptr[0];
 #else
         rwtbl_ptr = &bgrw_data_tbl[rw];
         rw_dat[1].bg_num = rwtbl_ptr->bg_num;
@@ -174,7 +174,7 @@ void Bg_Kakikae_Set() {
             rw_dat[i].bg_num = *rwtbl_ptr++;
             rw_bg_flag[rw_dat[i].bg_num] = 1;
             rw_dat[i].rwgbix = *rwtbl_ptr++;
-            rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
+            rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16*)rwtbl_ptr[0];
 #else
             rwtbl_ptr = &bgrw_data_tbl[rw];
             rw_dat[i].bg_num = rwtbl_ptr->bg_num;
@@ -193,7 +193,7 @@ void Bg_Kakikae_Set() {
 
 void Ed_Kakikae_Set(s16 type) {
     u8 i;
-    const u32 *rwtbl_ptr;
+    const u32* rwtbl_ptr;
     s8 rw;
 
     rw_num = 0;
@@ -207,7 +207,7 @@ void Ed_Kakikae_Set(s16 type) {
         for (i = 0; i < 20; i++) {
             rwtbl_ptr = &gedrw_data_tbl[i][0];
             rw_dat[i].rwgbix = *rwtbl_ptr++;
-            rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
+            rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16*)rwtbl_ptr[0];
         }
 
         break;
@@ -216,7 +216,7 @@ void Ed_Kakikae_Set(s16 type) {
         for (i = 0; i < 16; i++) {
             rwtbl_ptr = &cedrw_data_tbl[i][0];
             rw_dat[i].rwgbix = *rwtbl_ptr++;
-            rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
+            rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16*)rwtbl_ptr[0];
         }
 
         break;
@@ -231,7 +231,7 @@ void Ed_Kakikae_Set(s16 type) {
                 rw_dat[i].bg_num = *rwtbl_ptr++;
                 rw_bg_flag[rw_dat[i].bg_num] = 1;
                 rw_dat[i].rwgbix = *rwtbl_ptr++;
-                rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16 *)rwtbl_ptr[0];
+                rw_dat[i].rwd_ptr = rw_dat[i].brw_ptr = (s16*)rwtbl_ptr[0];
                 rw_dat[i].rw_cnt = *rw_dat[i].rwd_ptr++;
                 rw_dat[i].gbix = *rw_dat[i].rwd_ptr++;
             }
@@ -266,7 +266,7 @@ void Bg_Texture_Load_EX() {
     void Bg_On_R(u32 s_prm);
 #endif
 
-    void *loadAdrs;
+    void* loadAdrs;
     u32 loadSize;
     u32 tgbix;
     u32 prio;
@@ -279,7 +279,7 @@ void Bg_Texture_Load_EX() {
     u8 x;
     u8 shift;
     u8 stg;
-    u8 *akeAdrs;
+    u8* akeAdrs;
     s32 akeSize;
     s16 akeKey;
 
@@ -317,7 +317,7 @@ void Bg_Texture_Load_EX() {
     }
 
     key1 = Search_ramcnt_type(0x12);
-    loadAdrs = (void *)Get_ramcnt_address(key1);
+    loadAdrs = (void*)Get_ramcnt_address(key1);
     loadSize = Get_size_data_ramcnt_key(key1);
     pmask = 0xFF000000;
     shift = 0x18;
@@ -377,7 +377,7 @@ void Bg_Texture_Load_EX() {
     if (bg_w.stage != 20 && bg_w.stage != 21) {
         akeKey = Search_ramcnt_type(0x1F);
         akeSize = Get_size_data_ramcnt_key(akeKey);
-        akeAdrs = (u8 *)Get_ramcnt_address(akeKey);
+        akeAdrs = (u8*)Get_ramcnt_address(akeKey);
         ppgSetupCurrentDataList(&ppgAkeList);
         ppgSetupPalChunk(NULL, akeAdrs, akeSize, 0, 0, 1);
         ppgSetupTexChunk_1st(NULL, akeAdrs, akeSize, 0, 3, 0, 0);
@@ -396,7 +396,7 @@ void Bg_Texture_Load2(u8 type) {
     void Bg_On_R(u32 s_prm);
 #endif
 
-    void *loadAdrs;
+    void* loadAdrs;
     u32 loadSize;
     s16 key;
     u32 tgbix;
@@ -435,7 +435,7 @@ void Bg_Texture_Load2(u8 type) {
     }
 
     loadSize = Get_size_data_ramcnt_key(key);
-    loadAdrs = (void *)Get_ramcnt_address(key);
+    loadAdrs = (void*)Get_ramcnt_address(key);
     ppgSetupTexChunk_1st(0, loadAdrs, loadSize, 0x84, 0x20, 0, 0);
     pmask = 0xFF000000;
     shift = 24;
@@ -463,7 +463,7 @@ void Bg_Texture_Load_Ending(s16 type) {
     void Ed_Kakikae_Set(s32 type);
 #endif
 
-    void *loadAdrs;
+    void* loadAdrs;
     u32 loadSize;
     u16 accnum;
     u32 tgbix[2];
@@ -584,7 +584,7 @@ void Bg_Texture_Load_Ending(s16 type) {
 }
 
 void scr_trans(u8 bgnm) {
-    PPGDataList *curDataList;
+    PPGDataList* curDataList;
     Vec3 point[2];
     s32 xx[2];
     s32 yy[2];
@@ -1107,7 +1107,7 @@ void bgRWWorkUpdate() {
     }
 }
 
-void bgDrawOneScreen(s32 bgnum, s32 gixbase, s32 *xx, s32 *yy, s32 /* unused */, s32 ofsPal, PPGDataList *curDataList) {
+void bgDrawOneScreen(s32 bgnum, s32 gixbase, s32* xx, s32* yy, s32 /* unused */, s32 ofsPal, PPGDataList* curDataList) {
     s32 i, x, y, gbix;
 
     for (y = yy[0]; y < yy[1]; y += 128) {

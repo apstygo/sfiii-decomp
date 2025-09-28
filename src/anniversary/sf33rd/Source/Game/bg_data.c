@@ -7,7 +7,7 @@
 s16 base_y_pos;
 s16 bg_stop;
 s8 bg_app_stop;
-BGW *bgw_ptr;
+BGW* bgw_ptr;
 Ideal_W ideal_w;
 s8 demo_car_flag[2];
 s16 chase_x;
@@ -24,7 +24,7 @@ s16 ls_cnt1;
 u16 zoom_add;
 s16 scrn_adgjust_x;
 s16 scrn_adgjust_y;
-const u16 *scr_bcm[4];
+const u16* scr_bcm[4];
 u8 nosekae;
 u8 g_kakikae[2];
 u8 g_number[2];
@@ -573,7 +573,7 @@ const s8 quake_y_tbl[130] = { 0,  -1,  1,  -2,  2,  -2,  2,  -3,  3,  -3,  3,  -
                               15, -15, 15, -15, 15, -15, 15, -15, 15, -15 };
 
 // data
-const u16 *bg_map_tbl[22][3] = { { stage000_map, stage001_map, NULL },
+const u16* bg_map_tbl[22][3] = { { stage000_map, stage001_map, NULL },
                                  { stage010_map, NULL, NULL },
                                  { stage020_map, stage021_map, stage022_map },
                                  { stage030_map, stage031_map, NULL },
@@ -597,7 +597,7 @@ const u16 *bg_map_tbl[22][3] = { { stage000_map, stage001_map, NULL },
                                  { bonus020_map, NULL, NULL } };
 
 // sdata
-const u16 *bg_map_tbl2[7] = { win_lose_map, rank_map, select_map, win_lose_map, win_lose_map, win_lose_map, rank_map };
+const u16* bg_map_tbl2[7] = { win_lose_map, rank_map, select_map, win_lose_map, win_lose_map, win_lose_map, rank_map };
 
 s32 etcBgPalCnvTable[7] = { 0, 43, 0, 33, -13, 37, 44 };
 

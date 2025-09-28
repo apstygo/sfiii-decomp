@@ -15,7 +15,7 @@ Sint32 htg_ci_dbg_out_lv = 0;
 Char8 htg_ci_root_dir[257] = { 0 };
 Char8 htg_ci_head_name[33] = { 0 };
 
-Sint32 htci_is_inc_colon(const Char8 *str) {
+Sint32 htci_is_inc_colon(const Char8* str) {
     size_t len;
     Sint32 i;
 
@@ -34,7 +34,7 @@ Sint32 htci_is_inc_colon(const Char8 *str) {
     return 0;
 }
 
-Sint32 htci_is_bgn_host(const Char8 *str) {
+Sint32 htci_is_bgn_host(const Char8* str) {
     Char8 copy[6];
 
     memset(copy, 0, 6);
@@ -50,7 +50,7 @@ extern Char8 D_0055D760[];
 asm(".section .text");
 #endif
 
-void htci_conv_fname(const Char8 *flist, Char8 *fname) {
+void htci_conv_fname(const Char8* flist, Char8* fname) {
     strlen_t len;
     Sint32 i;
     Char8 root_dir_last_char;
@@ -93,7 +93,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/htci_sub", htci_stricmp);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/htci_sub", analysis_flist_003DE328);
 
-Sint32 htci_load_flist(const Char8 *flist, Sint8 *buf) {
+Sint32 htci_load_flist(const Char8* flist, Sint8* buf) {
     Char8 fname[256];
     Sint32 fd;
     Sint32 read_err;

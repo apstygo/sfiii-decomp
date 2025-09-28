@@ -66,74 +66,74 @@
 #include "sf33rd/Source/Game/pass19.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void Main_Program(PLW *wk);
+void Main_Program(PLW* wk);
 
-static u16 CPU_Sub(PLW *wk);
-static s32 Check_Counter_Attack(PLW *wk);
-static s16 Check_Hamari(PLW *wk);
-static s32 Check_No12_Shell_Guard(PLW *wk, WORK_Other *tmw);
-static s32 Ck_Exit_Guard(PLW *wk, WORK *em);
-static s32 Ck_Exit_Guard_Sub(PLW *wk, WORK *em);
+static u16 CPU_Sub(PLW* wk);
+static s32 Check_Counter_Attack(PLW* wk);
+static s16 Check_Hamari(PLW* wk);
+static s32 Check_No12_Shell_Guard(PLW* wk, WORK_Other* tmw);
+static s32 Ck_Exit_Guard(PLW* wk, WORK* em);
+static s32 Ck_Exit_Guard_Sub(PLW* wk, WORK* em);
 
-void Com_Initialize(PLW *wk);
-void Com_Free(PLW *wk);
-void Com_Active(PLW *wk);
-void Com_Before_Follow(PLW *wk);
-void Com_Follow(PLW *wk);
-void Com_Before_Passive(PLW *wk);
-void Com_Passive(PLW *wk);
-void Com_Guard(PLW *wk);
-void Com_VS_Shell(PLW *wk);
-void Com_Guard_VS_Shell(PLW *wk);
-void Com_Damage(PLW *wk);
-void Com_Float(PLW *wk);
-void Com_Flip(PLW *wk);
-void Com_Caught(PLW *wk);
-void Com_Wait_Lie(PLW *wk);
-void Com_Catch(PLW *wk);
+void Com_Initialize(PLW* wk);
+void Com_Free(PLW* wk);
+void Com_Active(PLW* wk);
+void Com_Before_Follow(PLW* wk);
+void Com_Follow(PLW* wk);
+void Com_Before_Passive(PLW* wk);
+void Com_Passive(PLW* wk);
+void Com_Guard(PLW* wk);
+void Com_VS_Shell(PLW* wk);
+void Com_Guard_VS_Shell(PLW* wk);
+void Com_Damage(PLW* wk);
+void Com_Float(PLW* wk);
+void Com_Flip(PLW* wk);
+void Com_Caught(PLW* wk);
+void Com_Wait_Lie(PLW* wk);
+void Com_Catch(PLW* wk);
 
-void Damage_1st(PLW *wk);
-void Damage_2nd(PLW *wk);
-void Damage_3rd(PLW * /* unused */);
-void Damage_4th(PLW * /* unused */);
-void Damage_5th(PLW *wk);
-void Damage_6th(PLW *wk);
-void Damage_7th(PLW *wk);
-void Damage_8th(PLW *wk);
+void Damage_1st(PLW* wk);
+void Damage_2nd(PLW* wk);
+void Damage_3rd(PLW* /* unused */);
+void Damage_4th(PLW* /* unused */);
+void Damage_5th(PLW* wk);
+void Damage_6th(PLW* wk);
+void Damage_7th(PLW* wk);
+void Damage_8th(PLW* wk);
 
-void Exit_Damage_Sub(PLW *wk);
-static s32 Check_Damage(PLW *wk);
+void Exit_Damage_Sub(PLW* wk);
+static s32 Check_Damage(PLW* wk);
 
-void Float_2nd(PLW *wk);
-void Float_3rd(PLW *wk);
-void Float_4th(PLW *wk);
+void Float_2nd(PLW* wk);
+void Float_3rd(PLW* wk);
+void Float_4th(PLW* wk);
 
-void Flip_Zero(PLW *wk);
-void Flip_1st(PLW *wk);
-void Flip_2nd(PLW *wk);
-void Flip_3rd(PLW *wk);
-void Flip_4th(PLW *wk);
+void Flip_Zero(PLW* wk);
+void Flip_1st(PLW* wk);
+void Flip_2nd(PLW* wk);
+void Flip_3rd(PLW* wk);
+void Flip_4th(PLW* wk);
 
-static s32 Check_Shell_Flip(PLW *wk);
-s32 Check_Flip(PLW *wk);
-static s32 Check_Flip_Attack(PLW *wk);
-static s16 Decide_Exit_Catch(PLW *wk);
-s32 Com_Rapid_Sub(PLW *wk, s16 Shot, u8 *dir_step);
-static s32 Check_Caught(PLW *wk);
-s32 Command_Attack_SP(PLW *wk, s8 Pl_Number, s16 Tech_Number, s16 Power_Level);
-void Next_Be_Float(PLW *wk);
-void Clear_Com_Flag(PLW *wk);
-void Check_At_Count(PLW *wk);
-void Shift_Resume_Lv(PLW *wk);
-void Check_Store_Lv(PLW *wk);
-void Store_LR_Sub(PLW *wk);
-void Setup_Bullet_Counter(PLW *wk);
-void Pattern_Insurance(PLW *wk, s16 Kind_Of_Insurance, s16 Forced_Number);
+static s32 Check_Shell_Flip(PLW* wk);
+s32 Check_Flip(PLW* wk);
+static s32 Check_Flip_Attack(PLW* wk);
+static s16 Decide_Exit_Catch(PLW* wk);
+s32 Com_Rapid_Sub(PLW* wk, s16 Shot, u8* dir_step);
+static s32 Check_Caught(PLW* wk);
+s32 Command_Attack_SP(PLW* wk, s8 Pl_Number, s16 Tech_Number, s16 Power_Level);
+void Next_Be_Float(PLW* wk);
+void Clear_Com_Flag(PLW* wk);
+void Check_At_Count(PLW* wk);
+void Shift_Resume_Lv(PLW* wk);
+void Check_Store_Lv(PLW* wk);
+void Store_LR_Sub(PLW* wk);
+void Setup_Bullet_Counter(PLW* wk);
+void Pattern_Insurance(PLW* wk, s16 Kind_Of_Insurance, s16 Forced_Number);
 
 const u16 Correct_Lv_Data[16] = { 0, 1, 2, 2, 4, 5, 6, 5, 8, 9, 10, 9, 8, 5, 10, 0 };
 
-u16 cpu_algorithm(PLW *wk) {
-    WORK *em = (WORK *)wk->wu.target_adrs;
+u16 cpu_algorithm(PLW* wk) {
+    WORK* em = (WORK*)wk->wu.target_adrs;
     u16 sw = CPU_Sub(wk);
 
     if (Play_Mode == 1 && Replay_Status[wk->wu.id] != 99) {
@@ -161,12 +161,12 @@ u16 cpu_algorithm(PLW *wk) {
     return sw;
 }
 
-static u16 CPU_Sub(PLW *wk) {
+static u16 CPU_Sub(PLW* wk) {
 #if defined(TARGET_PS2)
     u16 check_illegal_lever_data(u32 data);
 #endif
 
-    WORK *em = (WORK *)wk->wu.target_adrs;
+    WORK* em = (WORK*)wk->wu.target_adrs;
 
     if (Allow_a_battle_f == 0 || pcon_dp_flag == 1) {
         return 0;
@@ -190,11 +190,11 @@ static u16 CPU_Sub(PLW *wk) {
     return Lever_Buff[wk->wu.id];
 }
 
-void Main_Program(PLW *wk) {
-    void (*Com_Jmp_Tbl[16])(PLW *) = { Com_Initialize, Com_Free,           Com_Active,   Com_Before_Follow,
-                                       Com_Follow,     Com_Before_Passive, Com_Passive,  Com_Guard,
-                                       Com_VS_Shell,   Com_Guard_VS_Shell, Com_Damage,   Com_Float,
-                                       Com_Flip,       Com_Caught,         Com_Wait_Lie, Com_Catch };
+void Main_Program(PLW* wk) {
+    void (*Com_Jmp_Tbl[16])(PLW*) = { Com_Initialize, Com_Free,           Com_Active,   Com_Before_Follow,
+                                      Com_Follow,     Com_Before_Passive, Com_Passive,  Com_Guard,
+                                      Com_VS_Shell,   Com_Guard_VS_Shell, Com_Damage,   Com_Float,
+                                      Com_Flip,       Com_Caught,         Com_Wait_Lie, Com_Catch };
 
     Ck_Distance(wk);
     Area_Number[wk->wu.id] = Ck_Area(wk);
@@ -208,8 +208,8 @@ void Main_Program(PLW *wk) {
     }
 }
 
-void Com_Initialize(PLW *wk) {
-    const s16 *xx;
+void Com_Initialize(PLW* wk) {
+    const s16* xx;
     s16 i;
 
     time_check_ix = 0;
@@ -259,7 +259,7 @@ void Com_Initialize(PLW *wk) {
     }
 }
 
-void Com_Free(PLW *wk) {
+void Com_Free(PLW* wk) {
     s16 xx;
 
     Lever_Buff[wk->wu.id] = Lever_LR[wk->wu.id];
@@ -293,7 +293,7 @@ void Com_Free(PLW *wk) {
     Select_Active(wk);
 }
 
-void Com_Before_Follow(PLW *wk) {
+void Com_Before_Follow(PLW* wk) {
     Lever_Buff[wk->wu.id] = Lever_LR[wk->wu.id];
 
     if (Check_Damage(wk)) {
@@ -328,7 +328,7 @@ void Com_Before_Follow(PLW *wk) {
     Clear_Com_Flag(wk);
 }
 
-void Com_Before_Passive(PLW *wk) {
+void Com_Before_Passive(PLW* wk) {
     Lever_Buff[wk->wu.id] = Lever_LR[wk->wu.id];
 
     if (Check_Damage(wk)) {
@@ -363,8 +363,8 @@ void Com_Before_Passive(PLW *wk) {
     CP_Index[wk->wu.id][3] = 0;
 }
 
-void Com_Guard(PLW *wk) {
-    WORK *em;
+void Com_Guard(PLW* wk) {
+    WORK* em;
     u16 xx;
 
     if (Check_Damage(wk)) {
@@ -384,7 +384,7 @@ void Com_Guard(PLW *wk) {
         return;
     }
 
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
     xx = Hit_Range_Data[em->hit_range];
     xx += Com_Width_Data[wk->wu.id];
 
@@ -412,15 +412,15 @@ void Com_Guard(PLW *wk) {
     }
 }
 
-static s32 Check_Counter_Attack(PLW *wk) {
+static s32 Check_Counter_Attack(PLW* wk) {
     s16 xx;
-    WORK *em;
+    WORK* em;
 
     if (Area_Number[wk->wu.id] >= 3) {
         return 0;
     }
 
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
     xx = Type_of_Attack[wk->wu.id] & 0xF8;
 
     if (xx == 8) {
@@ -446,7 +446,7 @@ static s32 Check_Counter_Attack(PLW *wk) {
     return Check_Hamari(wk);
 }
 
-static s16 Check_Hamari(PLW *wk) {
+static s16 Check_Hamari(PLW* wk) {
     u8 tech;
     s16 Rnd;
     s16 limit;
@@ -460,7 +460,7 @@ static s16 Check_Hamari(PLW *wk) {
     Rnd = random_32_com() & 1;
     limit = Rnd + 3;
 
-    if (((PLW *)wk->wu.target_adrs)->player_number == 4 && tech == 3) {
+    if (((PLW*)wk->wu.target_adrs)->player_number == 4 && tech == 3) {
         limit--;
     } else if (tech != 0 && tech != 1) {
         return 0;
@@ -475,9 +475,9 @@ static s16 Check_Hamari(PLW *wk) {
     return VS_Tech[wk->wu.id] = 32;
 }
 
-void Com_Guard_VS_Shell(PLW *wk) {
-    WORK_Other *tmw;
-    WORK *em = (WORK *)wk->wu.target_adrs;
+void Com_Guard_VS_Shell(PLW* wk) {
+    WORK_Other* tmw;
+    WORK* em = (WORK*)wk->wu.target_adrs;
 
     if (Check_Caught(wk)) {
         return;
@@ -487,7 +487,7 @@ void Com_Guard_VS_Shell(PLW *wk) {
         return;
     }
 
-    tmw = (WORK_Other *)Shell_Address[wk->wu.id];
+    tmw = (WORK_Other*)Shell_Address[wk->wu.id];
 
     Check_Guard_Type(wk, &tmw->wu);
 
@@ -515,7 +515,7 @@ void Com_Guard_VS_Shell(PLW *wk) {
     Timer_00[wk->wu.id]--;
 }
 
-static s32 Check_No12_Shell_Guard(PLW *wk, WORK_Other *tmw) {
+static s32 Check_No12_Shell_Guard(PLW* wk, WORK_Other* tmw) {
     s16 pos_x;
 
     if (wk->wu.rl_flag) {
@@ -535,7 +535,7 @@ static s32 Check_No12_Shell_Guard(PLW *wk, WORK_Other *tmw) {
     return 0;
 }
 
-void Check_Guard_Type(PLW *wk, WORK *em) {
+void Check_Guard_Type(PLW* wk, WORK* em) {
     Lever_Buff[wk->wu.id] = Setup_Guard_Lever(wk, 1);
 
     switch (Guard_Type[wk->wu.id]) {
@@ -560,7 +560,7 @@ void Check_Guard_Type(PLW *wk, WORK *em) {
     }
 }
 
-static s32 Ck_Exit_Guard(PLW *wk, WORK *em) {
+static s32 Ck_Exit_Guard(PLW* wk, WORK* em) {
     s16 Lv;
 
     if (--Timer_00[wk->wu.id]) {
@@ -600,7 +600,7 @@ static s32 Ck_Exit_Guard(PLW *wk, WORK *em) {
     return 0;
 }
 
-static s32 Ck_Exit_Guard_Sub(PLW *wk, WORK *em) {
+static s32 Ck_Exit_Guard_Sub(PLW* wk, WORK* em) {
     if (Attack_Flag[wk->wu.id] == 0) {
         return 0;
     }
@@ -629,11 +629,11 @@ static s32 Ck_Exit_Guard_Sub(PLW *wk, WORK *em) {
     return 1;
 }
 
-void Com_Active(PLW *wk) {
-    void (*Char_Jmp_Tbl[20])(PLW *) = { Computer00, Computer01, Computer02, Computer03, Computer04,
-                                        Computer05, Computer06, Computer07, Computer08, Computer09,
-                                        Computer10, Computer11, Computer12, Computer13, Computer14,
-                                        Computer15, Computer16, Computer17, Computer18, Computer19 };
+void Com_Active(PLW* wk) {
+    void (*Char_Jmp_Tbl[20])(PLW*) = { Computer00, Computer01, Computer02, Computer03, Computer04,
+                                       Computer05, Computer06, Computer07, Computer08, Computer09,
+                                       Computer10, Computer11, Computer12, Computer13, Computer14,
+                                       Computer15, Computer16, Computer17, Computer18, Computer19 };
 
     if (Check_Damage(wk)) {
         return;
@@ -651,10 +651,10 @@ void Com_Active(PLW *wk) {
     Char_Jmp_Tbl[wk->player_number](wk);
 }
 
-void Com_Follow(PLW *wk) {
-    void (*Follow_Jmp_Tbl[20])(PLW *) = { Follow02, Follow02, Follow02, Follow02, Follow02, Follow02, Follow02,
-                                          Follow02, Follow02, Follow02, Follow02, Follow02, Follow02, Follow02,
-                                          Follow02, Follow02, Follow02, Follow02, Follow02, Follow02 };
+void Com_Follow(PLW* wk) {
+    void (*Follow_Jmp_Tbl[20])(PLW*) = { Follow02, Follow02, Follow02, Follow02, Follow02, Follow02, Follow02,
+                                         Follow02, Follow02, Follow02, Follow02, Follow02, Follow02, Follow02,
+                                         Follow02, Follow02, Follow02, Follow02, Follow02, Follow02 };
 
     if (Check_Damage(wk)) {
         return;
@@ -672,10 +672,10 @@ void Com_Follow(PLW *wk) {
     Follow_Jmp_Tbl[wk->player_number](wk);
 }
 
-void Com_Passive(PLW *wk) {
-    void (*Passive_Jmp_Tbl[20])(PLW *) = { Passive00, Passive01, Passive02, Passive03, Passive04, Passive05, Passive06,
-                                           Passive07, Passive08, Passive09, Passive10, Passive11, Passive12, Passive13,
-                                           Passive14, Passive15, Passive16, Passive17, Passive18, Passive19 };
+void Com_Passive(PLW* wk) {
+    void (*Passive_Jmp_Tbl[20])(PLW*) = { Passive00, Passive01, Passive02, Passive03, Passive04, Passive05, Passive06,
+                                          Passive07, Passive08, Passive09, Passive10, Passive11, Passive12, Passive13,
+                                          Passive14, Passive15, Passive16, Passive17, Passive18, Passive19 };
 
     if (Check_Damage(wk)) {
         return;
@@ -693,10 +693,10 @@ void Com_Passive(PLW *wk) {
     Passive_Jmp_Tbl[wk->player_number](wk);
 }
 
-void Com_VS_Shell(PLW *wk) {
-    void (*VS_Shell_Jmp_Tbl[20])(PLW *) = { Shell00, Shell01, Shell11, Shell03, Shell04, Shell05, Shell03,
-                                            Shell07, Shell03, Shell03, Shell03, Shell11, Shell12, Shell13,
-                                            Shell14, Shell11, Shell11, Shell11, Shell11, Shell11 };
+void Com_VS_Shell(PLW* wk) {
+    void (*VS_Shell_Jmp_Tbl[20])(PLW*) = { Shell00, Shell01, Shell11, Shell03, Shell04, Shell05, Shell03,
+                                           Shell07, Shell03, Shell03, Shell03, Shell11, Shell12, Shell13,
+                                           Shell14, Shell11, Shell11, Shell11, Shell11, Shell11 };
 
     if (Check_Damage(wk)) {
         return;
@@ -714,9 +714,9 @@ void Com_VS_Shell(PLW *wk) {
     VS_Shell_Jmp_Tbl[wk->player_number](wk);
 }
 
-void Com_Damage(PLW *wk) {
-    void (*Damage_Jmp_Tbl[10])(PLW *) = { Damage_1st, Damage_2nd, Damage_3rd, Damage_4th, Damage_5th,
-                                          Damage_6th, Damage_7th, Damage_7th, Damage_7th, Damage_8th };
+void Com_Damage(PLW* wk) {
+    void (*Damage_Jmp_Tbl[10])(PLW*) = { Damage_1st, Damage_2nd, Damage_3rd, Damage_4th, Damage_5th,
+                                         Damage_6th, Damage_7th, Damage_7th, Damage_7th, Damage_8th };
 
     if (Check_Caught(wk)) {
         return;
@@ -729,11 +729,11 @@ void Com_Damage(PLW *wk) {
     Damage_Jmp_Tbl[CP_No[wk->wu.id][1]](wk);
 }
 
-void Damage_1st(PLW *wk) {
+void Damage_1st(PLW* wk) {
     u8 Lv;
     u8 Rnd;
     u8 xx;
-    WORK *em;
+    WORK* em;
 
     Lever_Buff[wk->wu.id] = Setup_Guard_Lever(wk, 1);
     Lever_Buff[wk->wu.id] |= 2;
@@ -797,7 +797,7 @@ void Damage_1st(PLW *wk) {
 #else
             // TODO: Check if this behavior is consistent with final release of the Anniversary Collection PS2 build (If
             // not implement whatever change was made)
-            CP_No[wk->wu.id][1] = *(((u8 *)Get_Up_Action_Check_Data[wk->player_number][CP_No[wk->wu.id][1]]) + 5);
+            CP_No[wk->wu.id][1] = *(((u8*)Get_Up_Action_Check_Data[wk->player_number][CP_No[wk->wu.id][1]]) + 5);
 #endif
         }
 
@@ -818,7 +818,7 @@ void Damage_1st(PLW *wk) {
         Rnd = random_16_com();
         Lv += CC_Value[0];
         Lv = emLevelRemake(Lv, 11, 1);
-        em = (WORK *)wk->wu.target_adrs;
+        em = (WORK*)wk->wu.target_adrs;
 
         if (EM_Rank != 0) {
             Guard_Type[wk->wu.id] = Guard_Data[17][Lv][Rnd];
@@ -831,8 +831,8 @@ void Damage_1st(PLW *wk) {
     }
 }
 
-void Damage_2nd(PLW *wk) {
-    WORK *em = (WORK *)wk->wu.target_adrs;
+void Damage_2nd(PLW* wk) {
+    WORK* em = (WORK*)wk->wu.target_adrs;
 
     Check_Guard_Type(wk, em);
 
@@ -851,11 +851,11 @@ void Damage_2nd(PLW *wk) {
     }
 }
 
-void Damage_3rd(PLW * /* unused */) {}
+void Damage_3rd(PLW* /* unused */) {}
 
-void Damage_4th(PLW * /* unused */) {}
+void Damage_4th(PLW* /* unused */) {}
 
-void Damage_5th(PLW *wk) {
+void Damage_5th(PLW* wk) {
     if (wk->wu.routine_no[3] == 0) {
         CP_No[wk->wu.id][1] = 0;
         CP_No[wk->wu.id][2] = 0;
@@ -892,7 +892,7 @@ void Damage_5th(PLW *wk) {
     }
 }
 
-void Damage_6th(PLW *wk) {
+void Damage_6th(PLW* wk) {
     u8 Lv;
     u8 Rnd;
 
@@ -923,7 +923,7 @@ void Damage_6th(PLW *wk) {
 #if defined(TARGET_PS2)
                 CP_No[wk->wu.id][1] = Get_Up_Action_Check_Data[wk->player_number][CP_No[wk->wu.id][1]][5];
 #else
-                CP_No[wk->wu.id][1] = *(((u8 *)Get_Up_Action_Check_Data[wk->player_number][CP_No[wk->wu.id][1]]) + 5);
+                CP_No[wk->wu.id][1] = *(((u8*)Get_Up_Action_Check_Data[wk->player_number][CP_No[wk->wu.id][1]]) + 5);
 #endif
             }
 
@@ -975,8 +975,8 @@ void Damage_6th(PLW *wk) {
     }
 }
 
-void Damage_7th(PLW *wk) {
-    WORK *em;
+void Damage_7th(PLW* wk) {
+    WORK* em;
 
     switch (CP_No[wk->wu.id][2]) {
     case 0:
@@ -1004,7 +1004,7 @@ void Damage_7th(PLW *wk) {
         break;
 
     default:
-        em = (WORK *)wk->wu.target_adrs;
+        em = (WORK*)wk->wu.target_adrs;
         Check_Guard_Type(wk, em);
 
         if (wk->wu.cg_type != 0x40 && wk->wu.routine_no[1] != 0) {
@@ -1028,7 +1028,7 @@ void Damage_7th(PLW *wk) {
     }
 }
 
-void Damage_8th(PLW *wk) {
+void Damage_8th(PLW* wk) {
     s16 Rnd;
     s16 Lv;
 
@@ -1063,7 +1063,7 @@ void Damage_8th(PLW *wk) {
     }
 }
 
-void Exit_Damage_Sub(PLW *wk) {
+void Exit_Damage_Sub(PLW* wk) {
     Clear_Com_Flag(wk);
 
     if (Check_Passive(wk)) {
@@ -1073,7 +1073,7 @@ void Exit_Damage_Sub(PLW *wk) {
     Next_Be_Free(wk);
 }
 
-static s32 Check_Damage(PLW *wk) {
+static s32 Check_Damage(PLW* wk) {
     if (Counter_Attack[wk->wu.id] & 2) {
         return 0;
     }
@@ -1093,8 +1093,8 @@ static s32 Check_Damage(PLW *wk) {
     return 0;
 }
 
-void Com_Float(PLW *wk) {
-    void (*Float_Jmp_Tbl[4])(PLW *) = { Damage_2nd, Float_2nd, Float_3rd, Float_4th };
+void Com_Float(PLW* wk) {
+    void (*Float_Jmp_Tbl[4])(PLW*) = { Damage_2nd, Float_2nd, Float_3rd, Float_4th };
 
     if (Check_Caught(wk)) {
         return;
@@ -1107,7 +1107,7 @@ void Com_Float(PLW *wk) {
     Float_Jmp_Tbl[CP_No[wk->wu.id][1]](wk);
 }
 
-void Float_2nd(PLW *wk) {
+void Float_2nd(PLW* wk) {
     switch (CP_No[wk->wu.id][2]) {
     case 0:
         CP_No[wk->wu.id][2]++;
@@ -1125,7 +1125,7 @@ void Float_2nd(PLW *wk) {
     }
 }
 
-void Float_3rd(PLW *wk) {
+void Float_3rd(PLW* wk) {
     if (wk->wu.routine_no[1] != 1) {
         Next_Be_Free(wk);
     }
@@ -1149,7 +1149,7 @@ void Float_3rd(PLW *wk) {
     }
 }
 
-void Float_4th(PLW *wk) {
+void Float_4th(PLW* wk) {
     if (wk->wu.routine_no[1] != 1) {
         Next_Be_Free(wk);
     }
@@ -1173,8 +1173,8 @@ void Float_4th(PLW *wk) {
     }
 }
 
-void Com_Flip(PLW *wk) {
-    void (*Flip_Jmp_Tbl[5])(PLW *) = { Flip_Zero, Flip_1st, Flip_2nd, Flip_3rd, Flip_4th };
+void Com_Flip(PLW* wk) {
+    void (*Flip_Jmp_Tbl[5])(PLW*) = { Flip_Zero, Flip_1st, Flip_2nd, Flip_3rd, Flip_4th };
 
     if (Check_Damage(wk)) {
         return;
@@ -1187,8 +1187,8 @@ void Com_Flip(PLW *wk) {
     Flip_Jmp_Tbl[CP_No[wk->wu.id][1]](wk);
 }
 
-void Flip_Zero(PLW *wk) {
-    WORK *em = (WORK *)wk->wu.target_adrs;
+void Flip_Zero(PLW* wk) {
+    WORK* em = (WORK*)wk->wu.target_adrs;
 
     switch (CP_No[wk->wu.id][2]) {
     case 0:
@@ -1219,8 +1219,8 @@ void Flip_Zero(PLW *wk) {
     }
 }
 
-s32 Check_Flip_GO(PLW *wk, s16 xx) {
-    WORK *em = (WORK *)wk->wu.target_adrs;
+s32 Check_Flip_GO(PLW* wk, s16 xx) {
+    WORK* em = (WORK*)wk->wu.target_adrs;
 
     if (em->att_hit_ok || xx) {
         if (em->pat_status == 0x21 || em->pat_status == 0x20) {
@@ -1242,20 +1242,20 @@ s32 Check_Flip_GO(PLW *wk, s16 xx) {
     return 0;
 }
 
-void Flip_1st(PLW *wk) {
+void Flip_1st(PLW* wk) {
     if (wk->wu.xyz[1].disp.pos <= 0) {
         Exit_Damage_Sub(wk);
     }
 }
 
-void Flip_2nd(PLW *wk) {
-    PLW *em;
+void Flip_2nd(PLW* wk) {
+    PLW* em;
 
     if (PL_Damage_Data[wk->wu.routine_no[2]] != 0) {
         return;
     }
 
-    em = (PLW *)wk->wu.target_adrs;
+    em = (PLW*)wk->wu.target_adrs;
     wk->player_number << 0;
 
     if (Check_Flip_Attack(wk) != 0) {
@@ -1267,7 +1267,7 @@ void Flip_2nd(PLW *wk) {
     }
 }
 
-void Flip_3rd(PLW *wk) {
+void Flip_3rd(PLW* wk) {
     s16 next_disposal;
 
     if (PL_Damage_Data[wk->wu.routine_no[2]] == 0) {
@@ -1299,7 +1299,7 @@ void Flip_3rd(PLW *wk) {
         dash_flag_clear(wk->wu.id);
         Lever_Buff[wk->wu.id] = Setup_Guard_Lever(wk, 1);
 
-        if (((WORK *)wk->wu.dmg_adrs)->att.guard & 0x10) {
+        if (((WORK*)wk->wu.dmg_adrs)->att.guard & 0x10) {
             break;
         }
 
@@ -1313,7 +1313,7 @@ void Flip_3rd(PLW *wk) {
     }
 }
 
-void Flip_4th(PLW *wk) {
+void Flip_4th(PLW* wk) {
     if (--Timer_00[wk->wu.id] != 0) {
         return;
     }
@@ -1329,11 +1329,11 @@ void Flip_4th(PLW *wk) {
     Timer_00[wk->wu.id] = 9;
 }
 
-s32 SetShellFlipLever(PLW *wk) {
-    WORK *tmw;
+s32 SetShellFlipLever(PLW* wk) {
+    WORK* tmw;
 
     Lever_Buff[wk->wu.id] = 0;
-    tmw = (WORK *)Shell_Address[wk->wu.id];
+    tmw = (WORK*)Shell_Address[wk->wu.id];
 
     if (tmw == NULL) {
         return 0;
@@ -1356,8 +1356,8 @@ s32 SetShellFlipLever(PLW *wk) {
     return 1;
 }
 
-static s32 Check_Shell_Flip(PLW *wk) {
-    WORK *shell;
+static s32 Check_Shell_Flip(PLW* wk) {
+    WORK* shell;
     s32 Rnd;
     s32 Lv;
     s32 xx;
@@ -1370,7 +1370,7 @@ static s32 Check_Shell_Flip(PLW *wk) {
         return 0;
     }
 
-    shell = (WORK *)wk->wu.dmg_adrs;
+    shell = (WORK*)wk->wu.dmg_adrs;
 
     if (shell == NULL) {
         res = 1;
@@ -1394,8 +1394,8 @@ static s32 Check_Shell_Flip(PLW *wk) {
         }
 
         res = 1;
-        shell = (WORK *)Shell_Address[wk->wu.id];
-        wk->wu.dmg_adrs = (u32 *)shell;
+        shell = (WORK*)Shell_Address[wk->wu.id];
+        wk->wu.dmg_adrs = (u32*)shell;
     }
 
     Rnd = random_32_com();
@@ -1422,7 +1422,7 @@ static s32 Check_Shell_Flip(PLW *wk) {
     return 0;
 }
 
-s32 Check_Flip(PLW *wk) {
+s32 Check_Flip(PLW* wk) {
     if (Flip_Flag[wk->wu.id]) {
         return 0;
     }
@@ -1457,7 +1457,7 @@ s32 Check_Flip(PLW *wk) {
     return 1;
 }
 
-static s32 Check_Flip_Attack(PLW *wk) {
+static s32 Check_Flip_Attack(PLW* wk) {
     s16 Lv = Setup_Lv08(0);
     s16 Rnd;
     s16 xx;
@@ -1484,10 +1484,10 @@ static s32 Check_Flip_Attack(PLW *wk) {
     return 1;
 }
 
-void Com_Caught(PLW *wk) {
+void Com_Caught(PLW* wk) {
     s16 Rnd;
     s16 Lv;
-    WORK *em = (WORK *)wk->wu.target_adrs;
+    WORK* em = (WORK*)wk->wu.target_adrs;
 
     switch (CP_No[wk->wu.id][1]) {
     case 0:
@@ -1530,7 +1530,7 @@ void Com_Caught(PLW *wk) {
     }
 }
 
-static s16 Decide_Exit_Catch(PLW *wk) {
+static s16 Decide_Exit_Catch(PLW* wk) {
     s16 Rnd;
     s16 xx;
     s16 Lv = Setup_Lv18(save_w[Present_Mode].Difficulty + 0);
@@ -1553,7 +1553,7 @@ static s16 Decide_Exit_Catch(PLW *wk) {
 
 const u8 Rapid_Lever_Data[2] = { 8, 4 };
 
-s32 Com_Rapid_Sub(PLW *wk, s16 Shot, u8 *dir_step) {
+s32 Com_Rapid_Sub(PLW* wk, s16 Shot, u8* dir_step) {
     u16 xx;
 
     if (--Timer_00[wk->wu.id] == 0) {
@@ -1568,7 +1568,7 @@ s32 Com_Rapid_Sub(PLW *wk, s16 Shot, u8 *dir_step) {
     return 0;
 }
 
-static s32 Check_Caught(PLW *wk) {
+static s32 Check_Caught(PLW* wk) {
     if (wk->wu.routine_no[1] == 3) {
         CP_No[wk->wu.id][0] = 13;
         CP_No[wk->wu.id][1] = 0;
@@ -1581,8 +1581,8 @@ static s32 Check_Caught(PLW *wk) {
     return 0;
 }
 
-void Com_Catch(PLW *wk) {
-    WORK *em;
+void Com_Catch(PLW* wk) {
+    WORK* em;
     s16 Rnd;
     s16 Lv;
 
@@ -1601,7 +1601,7 @@ void Com_Catch(PLW *wk) {
         break;
 
     case 1:
-        em = (WORK *)wk->wu.target_adrs;
+        em = (WORK*)wk->wu.target_adrs;
 
         if (wk->wu.routine_no[1] != 2 || em->routine_no[1] != 3) {
             Next_Be_Free(wk);
@@ -1613,7 +1613,7 @@ void Com_Catch(PLW *wk) {
     }
 }
 
-void Be_Catch(PLW *wk) {
+void Be_Catch(PLW* wk) {
     CP_No[wk->wu.id][0] = 15;
     CP_No[wk->wu.id][1] = 0;
     CP_No[wk->wu.id][2] = 0;
@@ -1621,8 +1621,8 @@ void Be_Catch(PLW *wk) {
     Clear_Com_Flag(wk);
 }
 
-void Com_Wait_Lie(PLW *wk) {
-    WORK *em = (WORK *)wk->wu.target_adrs;
+void Com_Wait_Lie(PLW* wk) {
+    WORK* em = (WORK*)wk->wu.target_adrs;
 
     if (Check_Blow_Off(wk, em, 0)) {
         return;
@@ -1631,7 +1631,7 @@ void Com_Wait_Lie(PLW *wk) {
     Exit_Damage_Sub(wk);
 }
 
-s32 Command_Attack_SP(PLW *wk, s8 Pl_Number, s16 Tech_Number, s16 Power_Level) {
+s32 Command_Attack_SP(PLW* wk, s8 Pl_Number, s16 Tech_Number, s16 Power_Level) {
     switch (CP_Index[wk->wu.id][1]) {
     case 0:
         CP_Index[wk->wu.id][1]++;
@@ -1687,7 +1687,7 @@ s32 Command_Attack_SP(PLW *wk, s8 Pl_Number, s16 Tech_Number, s16 Power_Level) {
     return 0;
 }
 
-void Next_Be_Free(PLW *wk) {
+void Next_Be_Free(PLW* wk) {
     CP_No[wk->wu.id][0] = 1;
     CP_No[wk->wu.id][1] = 0;
     CP_No[wk->wu.id][2] = 0;
@@ -1695,7 +1695,7 @@ void Next_Be_Free(PLW *wk) {
     Lever_Buff[wk->wu.id] = Lever_LR[wk->wu.id];
 }
 
-void Next_Be_Float(PLW *wk) {
+void Next_Be_Float(PLW* wk) {
     s16 Rnd;
     s16 Lv;
 
@@ -1708,7 +1708,7 @@ void Next_Be_Float(PLW *wk) {
     CP_No[wk->wu.id][1] = Float_Attack_Data[emLevelRemake(Lv, 4, 0)][Rnd];
 }
 
-void Clear_Com_Flag(PLW *wk) {
+void Clear_Com_Flag(PLW* wk) {
     Passive_Flag[wk->wu.id] = 0;
     Flip_Flag[wk->wu.id] = 0;
     Counter_Attack[wk->wu.id] = 0;
@@ -1729,8 +1729,8 @@ void Clear_Com_Flag(PLW *wk) {
     Last_Eftype[wk->wu.id] = 0;
 }
 
-void Check_At_Count(PLW *wk) {
-    WORK *em = (WORK *)wk->wu.target_adrs;
+void Check_At_Count(PLW* wk) {
+    WORK* em = (WORK*)wk->wu.target_adrs;
     s16 ix;
 
     if (Attack_Count_No0[wk->wu.id] == 0) {
@@ -1758,7 +1758,7 @@ void Check_At_Count(PLW *wk) {
     }
 }
 
-void Shift_Resume_Lv(PLW *wk) {
+void Shift_Resume_Lv(PLW* wk) {
     s16 xx;
 
     for (xx = 18; xx >= 0; xx--) {
@@ -1768,7 +1768,7 @@ void Shift_Resume_Lv(PLW *wk) {
     Resume_Lever[wk->wu.id][0] = Lever_Buff[wk->wu.id];
 }
 
-void Check_Store_Lv(PLW *wk) {
+void Check_Store_Lv(PLW* wk) {
     s16 xx = Lever_Buff[wk->wu.id] & 0xF;
 
     switch (xx) {
@@ -1795,7 +1795,7 @@ void Check_Store_Lv(PLW *wk) {
     }
 }
 
-void Store_LR_Sub(PLW *wk) {
+void Store_LR_Sub(PLW* wk) {
     if (wk->wu.rl_waza) {
         if (Lever_Buff[wk->wu.id] & 8) {
             Lever_Store[wk->wu.id][1]++;
@@ -1819,7 +1819,7 @@ void Store_LR_Sub(PLW *wk) {
     }
 }
 
-void Setup_Bullet_Counter(PLW *wk) {
+void Setup_Bullet_Counter(PLW* wk) {
     Bullet_Counter[wk->wu.id] = 3;
     Bullet_Counter[wk->wu.id] += random_32_com() & 1;
 }
@@ -1831,7 +1831,7 @@ const u8 Pattern_Insurance_Data[20][4] = {
     { 68, 163, 13, 3 }, { 69, 166, 13, 3 }, { 82, 181, 13, 3 }, { 108, 203, 13, 3 }, { 78, 175, 13, 3 }
 };
 
-void Pattern_Insurance(PLW *wk, s16 Kind_Of_Insurance, s16 Forced_Number) {
+void Pattern_Insurance(PLW* wk, s16 Kind_Of_Insurance, s16 Forced_Number) {
     if (Pattern_Insurance_Data[wk->player_number][Kind_Of_Insurance] < Pattern_Index[wk->wu.id]) {
         Pattern_Index[wk->wu.id] = Forced_Number;
     }

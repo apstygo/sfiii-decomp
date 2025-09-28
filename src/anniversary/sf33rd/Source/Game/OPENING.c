@@ -32,7 +32,7 @@
 #include "port/sdl/sdl_app.h"
 #endif
 
-typedef const f32 *ro_f32_ptr;
+typedef const f32* ro_f32_ptr;
 
 #if defined(TARGET_PS2)
 static const f32 title00[25] = { 0.0009765625f, 0.001953125f, 0.7509765625f, 0.751953125f, -192.0f, -96.0f, 384.0f,
@@ -63,7 +63,7 @@ s16 title_tex_flag;
 s16 music_scene;
 s16 music_time;
 s16 op_plmove_timer;
-OPBW *opw_ptr;
+OPBW* opw_ptr;
 s16 op_end_flag;
 s16 op_demo_index;
 s16 op_sound_status;
@@ -120,7 +120,7 @@ s16 opening_demo() {
 }
 
 void TITLE_Init() {
-    void *loadAdrs;
+    void* loadAdrs;
     u32 loadSize;
     s16 key;
 
@@ -204,7 +204,7 @@ s16 TITLE_Move(u16 type) {
 }
 
 void OPBG_Init() {
-    void *loadAdrs;
+    void* loadAdrs;
     size_t loadSize;
     s16 i;
     s16 key;
@@ -221,7 +221,7 @@ void OPBG_Init() {
     }
 
     loadSize = Get_size_data_ramcnt_key(key);
-    loadAdrs = (void *)Get_ramcnt_address(key);
+    loadAdrs = (void*)Get_ramcnt_address(key);
     ppgSetupTexChunk_1st(NULL, loadAdrs, loadSize, 602, 91, 0, 0);
 
     for (i = 0; i < ppgOpnBgTex.textures; i++) {
@@ -345,7 +345,7 @@ s16 oh_tsr_ck(s32 blk_no) {
     return 0;
 }
 
-void oh_reload_tex(OPBW *opbw, s32 blk_no, s16 mapx, s16 mapy) {
+void oh_reload_tex(OPBW* opbw, s32 blk_no, s16 mapx, s16 mapy) {
     if (!oh_tsr_ck(blk_no) && (opbw->map[mapx][mapy].g_no != (blk_no + 0x259))) {
         if (opbw->map[mapx][mapy].g_no && !oh_tsr_ck(opbw->map[mapx][mapy].g_no - 0x259)) {
             ppgReleaseTextureHandle(&ppgOpnBgTex, opbw->map[mapx][mapy].g_no);
@@ -355,7 +355,7 @@ void oh_reload_tex(OPBW *opbw, s32 blk_no, s16 mapx, s16 mapy) {
     }
 }
 
-void oh_bg_blk_w(OPBW *opbw, s32 blk_no, s16 mapx, s16 mapy, s32 trans) {
+void oh_bg_blk_w(OPBW* opbw, s32 blk_no, s16 mapx, s16 mapy, s32 trans) {
     oh_reload_tex(opbw, blk_no, mapx, mapy);
     opbw->map[mapx][mapy].g_no = blk_no + 0x259;
     opbw->map[mapx][mapy].hv = 0;
@@ -364,7 +364,7 @@ void oh_bg_blk_w(OPBW *opbw, s32 blk_no, s16 mapx, s16 mapy, s32 trans) {
     opbw->map[mapx][mapy].col.full = 0xFFFFFFFF;
 }
 
-void oh_bg_blk_wh(OPBW *opbw, s32 blk_no, s16 mapx, s16 mapy, s32 trans) {
+void oh_bg_blk_wh(OPBW* opbw, s32 blk_no, s16 mapx, s16 mapy, s32 trans) {
     oh_reload_tex(opbw, blk_no, mapx, mapy);
     opbw->map[mapx][mapy].g_no = blk_no + 0x259;
     opbw->map[mapx][mapy].hv = 1;
@@ -373,7 +373,7 @@ void oh_bg_blk_wh(OPBW *opbw, s32 blk_no, s16 mapx, s16 mapy, s32 trans) {
     opbw->map[mapx][mapy].col.full = 0xFFFFFFFF;
 }
 
-void oh_bg_blk_wv(OPBW *opbw, s32 blk_no, s16 mapx, s16 mapy, s32 trans) {
+void oh_bg_blk_wv(OPBW* opbw, s32 blk_no, s16 mapx, s16 mapy, s32 trans) {
     oh_reload_tex(opbw, blk_no, mapx, mapy);
     opbw->map[mapx][mapy].g_no = blk_no + 0x259;
     opbw->map[mapx][mapy].hv = 2;
@@ -382,7 +382,7 @@ void oh_bg_blk_wv(OPBW *opbw, s32 blk_no, s16 mapx, s16 mapy, s32 trans) {
     opbw->map[mapx][mapy].col.full = 0xFFFFFFFF;
 }
 
-void oh_bg_blk_whv(OPBW *opbw, s32 blk_no, s16 mapx, s16 mapy, s32 trans) {
+void oh_bg_blk_whv(OPBW* opbw, s32 blk_no, s16 mapx, s16 mapy, s32 trans) {
     oh_reload_tex(opbw, blk_no, mapx, mapy);
     opbw->map[mapx][mapy].g_no = blk_no + 0x259;
     opbw->map[mapx][mapy].hv = 3;

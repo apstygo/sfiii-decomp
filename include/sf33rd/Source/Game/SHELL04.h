@@ -4,6 +4,6 @@
 #include "structs.h"
 #include "types.h"
 
-void Shell04(PLW *wk);
+void Shell04(PLW* wk);
 
 #endif

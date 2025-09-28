@@ -14,16 +14,16 @@
 #include "sf33rd/Source/Game/cmd_data.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-s32 kabe_check3(PLW *wk);
-u8 get_lever_dir(PLW *wk);
+s32 kabe_check3(PLW* wk);
+u8 get_lever_dir(PLW* wk);
 
-void (*const pl19_exatt_table[18])(PLW *);
+void (*const pl19_exatt_table[18])(PLW*);
 
-void pl19_extra_attack(PLW *wk) {
+void pl19_extra_attack(PLW* wk) {
     pl19_exatt_table[wk->wu.routine_no[2] - 16](wk);
 }
 
-void Att_METAMORPHOSE(PLW *wk) {
+void Att_METAMORPHOSE(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -66,13 +66,13 @@ const s16 dra_em_tall[20][2] = { { 24, 16 }, { 28, 16 }, { 16, 16 }, { 16, 16 },
                                  { 18, 16 }, { 28, 16 }, { 25, 16 }, { 16, 16 }, { 16, 16 }, { 16, 16 }, { 24, 16 },
                                  { 16, 16 }, { 16, 16 }, { 16, 16 }, { 24, 16 }, { 20, 16 }, { 20, 16 } };
 
-void Att_SA__D_R_A(PLW *wk) {
+void Att_SA__D_R_A(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
 #endif
 
-    PLW *emwk;
+    PLW* emwk;
 
     switch (wk->wu.routine_no[3]) {
     case 0:
@@ -134,7 +134,7 @@ void Att_SA__D_R_A(PLW *wk) {
             wk->wu.routine_no[3]++;
             setup_mvxy_data(&wk->wu, wk->wu.mvxy.index);
             wk->wu.mvxy.index++;
-            emwk = (PLW *)wk->wu.target_adrs;
+            emwk = (PLW*)wk->wu.target_adrs;
             wk->wu.xyz[0].disp.pos = emwk->wu.xyz[0].disp.pos;
             wk->wu.xyz[1].disp.pos = emwk->wu.xyz[1].disp.pos + -224;
 
@@ -180,13 +180,13 @@ void Att_SA__D_R_A(PLW *wk) {
     }
 }
 
-void Att_EX__D_R_A(PLW *wk) {
+void Att_EX__D_R_A(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
 #endif
 
-    PLW *twk;
+    PLW* twk;
     s16 ex;
     s16 ey;
 
@@ -196,7 +196,7 @@ void Att_EX__D_R_A(PLW *wk) {
         wk->wu.rl_flag = wk->wu.rl_waza;
         set_char_move_init(&wk->wu, 5, wk->as->char_ix);
         setup_mvxy_data(&wk->wu, wk->as->r_no);
-        twk = (PLW *)wk->wu.target_adrs;
+        twk = (PLW*)wk->wu.target_adrs;
 
         if (wk->wu.rl_flag) {
             ex = twk->wu.position_x - dra_em_tall[twk->player_number][0];
@@ -271,7 +271,7 @@ void Att_EX__D_R_A(PLW *wk) {
     }
 }
 
-void Att_KUUCHUUHISSATU(PLW *wk) {
+void Att_KUUCHUUHISSATU(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -334,7 +334,7 @@ void Att_KUUCHUUHISSATU(PLW *wk) {
     }
 }
 
-void Att_AIRDASH(PLW *wk) {
+void Att_AIRDASH(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -425,7 +425,7 @@ void Att_AIRDASH(PLW *wk) {
     }
 }
 
-s32 kabe_check3(PLW *wk) {
+s32 kabe_check3(PLW* wk) {
     if (get_lever_dir(wk) != 1) {
         return 0;
     }
@@ -437,7 +437,7 @@ s32 kabe_check3(PLW *wk) {
     return (wk->wu.rl_flag + wk->micchaku_flag == 2);
 }
 
-void Att_pl19_TOKUSHUKOUDOU(PLW *wk) {
+void Att_pl19_TOKUSHUKOUDOU(PLW* wk) {
 #if defined(TARGET_PS2)
     void grade_add_personal_action(s32 ix);
 #endif
@@ -486,7 +486,7 @@ void Att_pl19_TOKUSHUKOUDOU(PLW *wk) {
     }
 }
 
-void Att_AIR_A_X_E(PLW *wk) {
+void Att_AIR_A_X_E(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -546,7 +546,7 @@ void Att_AIR_A_X_E(PLW *wk) {
     }
 }
 
-u8 get_lever_dir(PLW *wk) {
+u8 get_lever_dir(PLW* wk) {
     u8 num;
 
     if (wk->wu.work_id == 1) {
@@ -556,13 +556,13 @@ u8 get_lever_dir(PLW *wk) {
             num = 0;
         }
     } else {
-        num = wcp[((WORK_Other *)wk)->master_id & 1].lever_dir;
+        num = wcp[((WORK_Other*)wk)->master_id & 1].lever_dir;
     }
 
     return num;
 }
 
-void (*const pl19_exatt_table[18])(PLW *) = {
+void (*const pl19_exatt_table[18])(PLW*) = {
     Att_HADOUKEN,     Att_AIRDASH,   Att_KUUCHUUHISSATU,     Att_HADOUKEN,       Att_HADOUKEN,       Att_EX__D_R_A,
     Att_METAMORPHOSE, Att_AIR_A_X_E, Att_HADOUKEN,           Att_JINNCHUUWATARI, Att_SLIDE_and_JUMP, Att_SA__D_R_A,
     Att_DUMMY,        Att_DUMMY,     Att_pl19_TOKUSHUKOUDOU, Att_DUMMY,          Att_METAMOR_WAIT,   Att_METAMOR_REBIRTH

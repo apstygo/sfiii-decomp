@@ -10,19 +10,19 @@
 
 #include <string.h>
 
-Char8 *sjx_build = "\nSJX Ver 1.05 Build:Sep 18 2003 09:59:53\n";
+Char8* sjx_build = "\nSJX Ver 1.05 Build:Sep 18 2003 09:59:53\n";
 Sint32 sjx_init_cnt = 0;
-void *sjx_eewk = NULL;
-void *sjx_iopwk0 = NULL;
-void *sjx_iopwk = NULL;
+void* sjx_eewk = NULL;
+void* sjx_iopwk0 = NULL;
+void* sjx_iopwk = NULL;
 SJX_OBJ sjx_obj[SJX_MAX_OBJ] = { 0 };
 DTX sjx_dtx = NULL;
 Sint32 sjx_wklen = 0;
 Sint8 sjx_ee_work[0x8D0] = { 0 };
 
-void sjx_rcvcbf(void *obj, void *arg1, Sint32 arg2) {
-    SJX_UNK_2 *head = arg1;
-    SJX_UNK_1 *cur;
+void sjx_rcvcbf(void* obj, void* arg1, Sint32 arg2) {
+    SJX_UNK_2* head = arg1;
+    SJX_UNK_1* cur;
     Sint32 count;
     Sint32 i;
 
@@ -44,14 +44,14 @@ void sjx_rcvcbf(void *obj, void *arg1, Sint32 arg2) {
     SJCRS_Unlock();
 }
 
-void sjx_sndcbf(void *object, void *arg1, Sint32 arg2) {
+void sjx_sndcbf(void* object, void* arg1, Sint32 arg2) {
     SJCK chunk;
     SJX sjx;
     Sint32 j;
     Sint32 i;
-    SJX_UNK_2 *head = arg1;
-    SJX_UNK_1 *items = head->items;
-    SJX_UNK_1 *item;
+    SJX_UNK_2* head = arg1;
+    SJX_UNK_1* items = head->items;
+    SJX_UNK_1* item;
 
     j = 0;
 
@@ -102,7 +102,7 @@ void SJX_Init() {
         memset(sjx_ee_work, 0, sizeof(sjx_ee_work));
         DTX_Init();
         sjx_wklen = 0x880;
-        sjx_eewk = (void *)(((uintptr_t)sjx_ee_work + 0x40) & ~0x3F);
+        sjx_eewk = (void*)(((uintptr_t)sjx_ee_work + 0x40) & ~0x3F);
 
         if (sjx_iopwk0 == NULL) {
             sjx_iopwk0 = sceSifAllocIopHeap(0x8D0);
@@ -113,7 +113,7 @@ void SJX_Init() {
             }
         }
 
-        sjx_iopwk = (void *)(((uintptr_t)sjx_iopwk0 + 0x40) & ~0x3F);
+        sjx_iopwk = (void*)(((uintptr_t)sjx_iopwk0 + 0x40) & ~0x3F);
         sjx_dtx = DTX_Create(0, sjx_eewk, sjx_iopwk, sjx_wklen);
 
         if (sjx_dtx == NULL) {
@@ -143,7 +143,7 @@ void SJX_Finish() {
     }
 }
 
-SJX SJX_Create(SJ sj, void *arg1, Sint32 arg2) {
+SJX SJX_Create(SJ sj, void* arg1, Sint32 arg2) {
     uintptr_t rpc_buf[4];
     SJX sjx;
     Sint32 i;

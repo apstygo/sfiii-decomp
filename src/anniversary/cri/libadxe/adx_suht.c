@@ -8,7 +8,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_suht", adxps2_err_host
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_suht", ADXPS2_SetupHostFs);
 #else
-void ADXPS2_SetupHostFs(ADXPS2_SPRM_HOST *sprmh) {
+void ADXPS2_SetupHostFs(ADXPS2_SPRM_HOST* sprmh) {
     not_implemented(__func__);
 }
 #endif
@@ -16,7 +16,7 @@ void ADXPS2_SetupHostFs(ADXPS2_SPRM_HOST *sprmh) {
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_suht", ADXPS2_LoadFcacheHost);
 #else
-Sint32 ADXPS2_LoadFcacheHost(ADXPS2_FCPRM *fcprm) {
+Sint32 ADXPS2_LoadFcacheHost(ADXPS2_FCPRM* fcprm) {
     not_implemented(__func__);
 }
 #endif

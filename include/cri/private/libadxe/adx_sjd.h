@@ -9,7 +9,7 @@
 
 void ADXSJD_Init();
 void ADXSJD_Finish();
-ADXSJD ADXSJD_Create(SJ, Sint32, SJ *);
+ADXSJD ADXSJD_Create(SJ, Sint32, SJ*);
 void ADXSJD_Destroy(ADXSJD sjd);
 void ADXSJD_Start(ADXSJD);
 void ADXSJD_Stop(ADXSJD);

@@ -11,9 +11,9 @@
 #include <cri/cri_adxt.h>
 #include <cri/ee/adx_ps2.h>
 
-static s8 *reboot_param[2] = { "reboot_menu", "0" };
+static s8* reboot_param[2] = { "reboot_menu", "0" };
 
-void Reboot_Program(s8 *args) {
+void Reboot_Program(s8* args) {
     flFlip(0);
     flFlip(0);
     flFlip(0);

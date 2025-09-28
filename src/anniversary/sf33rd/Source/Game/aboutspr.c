@@ -46,14 +46,14 @@ void Init_load_on_memory_data() {
 }
 
 s32 setup_GILL_exsa_obj() {
-    WORK *ewk;
+    WORK* ewk;
     s16 i;
     s16 ix;
 
     if ((ix = pull_effect_work(5)) == -1) {
         return -1;
     }
-    ewk = (WORK *)frw[ix];
+    ewk = (WORK*)frw[ix];
     ewk->disp_flag = 1;
     ewk->my_mts = 6;
     ewk->my_col_code = 2;
@@ -94,7 +94,7 @@ void reset_dma_group(u16 num) {
     purge_texture_group_of_this(num);
 }
 
-void set_judge_area_sprite(WORK_Other_JUDGE *wk, s16 bsy) {
+void set_judge_area_sprite(WORK_Other_JUDGE* wk, s16 bsy) {
     PAL_CURSOR_COL oricol;
     s16 i;
     s16 mf;
@@ -168,7 +168,7 @@ void draw_hit_judge_line(f64 arg0, f64 arg1, f64 arg2, f64 arg3, u32 col, u32 at
     njDrawPolygon2D(&line, 4, PrioBase[1], attr);
 }
 
-s32 set_conn_sprite(WORK_Other_CONN *wk, s16 bsy) {
+s32 set_conn_sprite(WORK_Other_CONN* wk, s16 bsy) {
     s16 i;
 
     if (wk->num_of_conn == 0) {
@@ -198,9 +198,9 @@ s32 set_conn_sprite(WORK_Other_CONN *wk, s16 bsy) {
     return 2;
 }
 
-void all_cgps_put_back(WORK *wk) {}
+void all_cgps_put_back(WORK* wk) {}
 
-void Mtrans_use_trans_mode(WORK *wk, s16 bsy) {
+void Mtrans_use_trans_mode(WORK* wk, s16 bsy) {
     if (mts_ok[wk->my_mts].be == 0) {
         // A display request was received before MTS initialization. MTS number: %d\n
         // Original text: "ＭＴＳの初期化前に表示要求が入りました。ＭＴＳ番号：%d\n"
@@ -267,35 +267,35 @@ void Mtrans_use_trans_mode(WORK *wk, s16 bsy) {
     }
 }
 
-s16 exchange_current_colcd(WORK *wk) {
+s16 exchange_current_colcd(WORK* wk) {
 #if defined(TARGET_PS2)
     void push_color_trans_req(s32 from_col, s32 to_col);
 #endif
-    WORK *mwk;
+    WORK* mwk;
     s16 col;
 
-    col = ((WORK_Other *)wk)->wu.current_colcd;
-    switch (((WORK_Other *)wk)->wu.work_id) {
+    col = ((WORK_Other*)wk)->wu.current_colcd;
+    switch (((WORK_Other*)wk)->wu.work_id) {
     case 0x1:
-        col = ((WORK_Other *)wk)->wu.id * 8;
-        push_color_trans_req(((WORK_Other *)wk)->wu.current_colcd, col);
+        col = ((WORK_Other*)wk)->wu.id * 8;
+        push_color_trans_req(((WORK_Other*)wk)->wu.current_colcd, col);
         break;
     case 0x8:
     case 0x10:
-        mwk = (WORK *)((WORK_Other *)wk)->my_master;
-        if ((((WORK_Other *)wk)->wu.id == 0x93) || (((WORK_Other *)wk)->wu.id == 0x94)) {
+        mwk = (WORK*)((WORK_Other*)wk)->my_master;
+        if ((((WORK_Other*)wk)->wu.id == 0x93) || (((WORK_Other*)wk)->wu.id == 0x94)) {
             col = mwk->id * 8 + 4;
         }
         break;
     case 0x20:
-        mwk = (WORK *)((WORK_Other *)wk)->my_master;
-        if ((((WORK_Other *)wk)->wu.my_col_code) == (mwk->my_col_code)) {
+        mwk = (WORK*)((WORK_Other*)wk)->my_master;
+        if ((((WORK_Other*)wk)->wu.my_col_code) == (mwk->my_col_code)) {
             col = mwk->id * 8;
         }
         break;
     case 0x40:
-        mwk = (WORK *)((WORK_Other *)wk)->my_master;
-        if ((((WORK_Other *)wk)->wu.my_col_code) == (mwk->my_col_code)) {
+        mwk = (WORK*)((WORK_Other*)wk)->my_master;
+        if ((((WORK_Other*)wk)->wu.my_col_code) == (mwk->my_col_code)) {
             col = ((mwk->id * 8) + 1);
         }
         break;
@@ -303,7 +303,7 @@ s16 exchange_current_colcd(WORK *wk) {
     return col;
 }
 
-s32 sort_push_request(WORK *wk) {
+s32 sort_push_request(WORK* wk) {
 #if defined(TARGET_PS2)
     void shadow_setup(WORK * wk, s32 bsy);
     void Mtrans_use_trans_mode(WORK * wk, s32 bsy);
@@ -319,7 +319,7 @@ s32 sort_push_request(WORK *wk) {
         wk->current_colcd |= 8;
     }
 
-    if ((wk->work_id == 0x20) && (wk->my_col_code == ((WORK *)((WORK_Other *)wk)->my_master)->my_col_code) &&
+    if ((wk->work_id == 0x20) && (wk->my_col_code == ((WORK*)((WORK_Other*)wk)->my_master)->my_col_code) &&
         ((wk->rl_flag + wk->cg_flip) & 1)) {
         wk->current_colcd |= 8;
     }
@@ -349,18 +349,18 @@ s32 sort_push_request(WORK *wk) {
     return 2;
 }
 
-s32 sort_push_request2(WORK_Other *wk) {
+s32 sort_push_request2(WORK_Other* wk) {
 #if defined(TARGET_PS2)
     void set_judge_area_sprite(WORK_Other_JUDGE * wk, s32 bsy);
 #endif
     if (wk->wu.disp_flag == 0) {
         return 1;
     }
-    set_judge_area_sprite((WORK_Other_JUDGE *)wk, base_y_pos);
+    set_judge_area_sprite((WORK_Other_JUDGE*)wk, base_y_pos);
     return 2;
 }
 
-s32 sort_push_request3(WORK *wk) {
+s32 sort_push_request3(WORK* wk) {
 #if defined(TARGET_PS2)
     s32 set_conn_sprite(WORK_Other_CONN * wk, s32 bsy);
 #endif
@@ -380,13 +380,13 @@ s32 sort_push_request3(WORK *wk) {
     if ((wk->disp_flag == 2) && (wk->blink_timing + Game_timer & 1)) {
         return 1;
     }
-    if (set_conn_sprite((WORK_Other_CONN *)wk, base_y_pos) == 1) {
+    if (set_conn_sprite((WORK_Other_CONN*)wk, base_y_pos) == 1) {
         return 1;
     }
     return 2;
 }
 
-s32 sort_push_request4(WORK *wk) {
+s32 sort_push_request4(WORK* wk) {
 
     if (wk->my_mts == 0) {
         return 0;
@@ -431,7 +431,7 @@ s32 sort_push_request4(WORK *wk) {
     return 2;
 }
 
-s32 sort_push_request8(WORK *wk) {
+s32 sort_push_request8(WORK* wk) {
     if (wk->cg_number >= 0x748F) {
         wk->my_mts = 2;
     } else {
@@ -443,7 +443,7 @@ s32 sort_push_request8(WORK *wk) {
     return sort_push_request(wk);
 }
 
-s32 sort_push_requestA(WORK *wk) {
+s32 sort_push_requestA(WORK* wk) {
 #if defined(TARGET_PS2)
     void draw_box(f64 arg0, f64 arg1, f64 arg2, f64 arg3, u32 col, u32 attr, s32 prio);
 #endif
@@ -520,7 +520,7 @@ s32 sort_push_requestA(WORK *wk) {
     return 2;
 }
 
-s32 sort_push_requestB(WORK *wk) {
+s32 sort_push_requestB(WORK* wk) {
 #if defined(TARGET_PS2)
     void draw_box(f64 arg0, f64 arg1, f64 arg2, f64 arg3, u32 col, u32 attr, s32 prio);
 #endif
@@ -597,13 +597,13 @@ s32 sort_push_requestB(WORK *wk) {
     return 2;
 }
 
-void shadow_setup(WORK *wk, s16 bsy) {
+void shadow_setup(WORK* wk, s16 bsy) {
     f32 base_y = (f32)bsy;
 
     njdp2d_sort(&base_y, (f32)PrioBase[wk->kage_prio], (uintptr_t)wk, 1);
 }
 
-void shadow_drawing(WORK *wk, s16 bsy) {
+void shadow_drawing(WORK* wk, s16 bsy) {
 #if defined(TARGET_PS2)
     s8 get_kage_width(s32 cpy);
     void Mtrans_use_trans_mode(WORK * wk, s32 bsy);

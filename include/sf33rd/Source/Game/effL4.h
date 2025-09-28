@@ -6,7 +6,7 @@
 
 extern const s16 effl4_data_tbl[24];
 
-void effect_L4_move(WORK_Other *ewk);
+void effect_L4_move(WORK_Other* ewk);
 s32 effect_L4_init();
 
 #endif

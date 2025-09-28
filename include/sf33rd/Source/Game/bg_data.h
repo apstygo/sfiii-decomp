@@ -7,7 +7,7 @@
 typedef struct {
     u32 bg_num;
     u32 rwgbix;
-    const s16 *rw_ptr;
+    const s16* rw_ptr;
 } bgrw_data_tbl_elem;
 
 extern const u8 use_scr[22];
@@ -91,8 +91,8 @@ extern const s8 bg_index_tbl[22][3];
 extern const s32 bg_pos_tbl2[7][3][2];
 extern const s8 quake_x_tbl[130];
 extern const s8 quake_y_tbl[130];
-extern const u16 *bg_map_tbl[][3];
-extern const u16 *bg_map_tbl2[];
+extern const u16* bg_map_tbl[][3];
+extern const u16* bg_map_tbl2[];
 
 extern s16 y_sitei_pos;
 extern u8 y_sitei_flag;
@@ -101,7 +101,7 @@ extern u8 c_kakikae;
 extern u8 g_number[2];
 extern u8 g_kakikae[2];
 extern u8 nosekae;
-extern const u16 *scr_bcm[4];
+extern const u16* scr_bcm[4];
 extern s16 scrn_adgjust_y;
 extern s16 scrn_adgjust_x;
 extern u16 zoom_add;
@@ -118,7 +118,7 @@ extern s16 chase_y;
 extern s16 chase_x;
 extern s8 demo_car_flag[2];
 extern Ideal_W ideal_w;
-extern BGW *bgw_ptr;
+extern BGW* bgw_ptr;
 extern s8 bg_app_stop;
 extern s16 bg_stop;
 extern s16 base_y_pos;

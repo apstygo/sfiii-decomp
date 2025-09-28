@@ -5,6 +5,6 @@
 #include "types.h"
 
 s32 effect_48_init(s16 type);
-void effect_48_move(WORK_Other *ewk);
+void effect_48_move(WORK_Other* ewk);
 
 #endif

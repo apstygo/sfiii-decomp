@@ -1,20 +1,20 @@
 #include "sf33rd/Source/Game/effi6.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 
 // Forward decls
 
-void effi6_line_move(WORK_Other *ewk);
+void effi6_line_move(WORK_Other* ewk);
 
 // Funcs
 
-void effect_I6_move(WORK_Other *ewk) {
-    WORK_Other *oya_ptr = (WORK_Other *)ewk->my_master;
+void effect_I6_move(WORK_Other* ewk) {
+    WORK_Other* oya_ptr = (WORK_Other*)ewk->my_master;
 
     switch (oya_ptr->wu.routine_no[0]) {
     case 2:
@@ -39,8 +39,8 @@ void effect_I6_move(WORK_Other *ewk) {
     }
 }
 
-void effi6_line_move(WORK_Other *ewk) {
-    WORK_Other *oya_ptr = (WORK_Other *)ewk->my_master;
+void effi6_line_move(WORK_Other* ewk) {
+    WORK_Other* oya_ptr = (WORK_Other*)ewk->my_master;
 
     switch (ewk->wu.routine_no[1]) {
     case 0:
@@ -57,30 +57,30 @@ void effi6_line_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_I6_init(WORK_Other *oya) {
+s32 effect_I6_init(WORK_Other* oya) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 0xBA;
     ewk->wu.work_id = 0x10;
     ewk->wu.cgromtype = 1;
-    ewk->my_master = (u32 *)oya;
+    ewk->my_master = (u32*)oya;
     ewk->wu.my_family = 4;
     ewk->wu.my_col_code = 0x52;
     ewk->wu.my_priority = ewk->wu.position_z = 10;
     ewk->wu.my_mts = 0xE;
     ewk->wu.my_trans_mode = get_my_trans_mode(ewk->wu.my_mts);
-    *ewk->wu.char_table = (u32 *)_etc_char_table;
+    *ewk->wu.char_table = (u32*)_etc_char_table;
     ewk->wu.xyz[0].disp.pos = bg_w.bgw[ewk->wu.my_family - 1].position_x + bg_w.pos_offset;
     ewk->wu.position_x = ewk->wu.xyz[0].disp.pos;
     ewk->wu.xyz[1].disp.pos = 0x90;

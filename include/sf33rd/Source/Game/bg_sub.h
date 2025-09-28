@@ -28,8 +28,8 @@ void bg_base_y_move_check();
 void bg_x_move_check();
 void bg_y_move_check();
 void zoom_ud_check();
-void suzi_offset_set(WORK_Other *ewk);
-void suzi_sync_pos_set(WORK_Other *ewk);
+void suzi_offset_set(WORK_Other* ewk);
+void suzi_sync_pos_set(WORK_Other* ewk);
 void Bg_Family_Set();
 void Bg_Family_Set_appoint(s32 num_of_bg);
 void Bg_Family_Set_2();
@@ -47,9 +47,9 @@ void bg_move_common();
 void bg_initialize();
 void akebono_initialize();
 void bg_etc_write(s16 type);
-s32 Ck_Range_Out_S(WORK_Other *ewk, s16 BG_No, s16 R);
+s32 Ck_Range_Out_S(WORK_Other* ewk, s16 BG_No, s16 R);
 
 static s16 remake_x_mvstep(s16 mvstep);
-static s32 suzi_offset_set_sub(WORK_Other *ewk);
+static s32 suzi_offset_set_sub(WORK_Other* ewk);
 
 #endif // BG_SUB_H

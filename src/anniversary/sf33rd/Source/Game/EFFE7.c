@@ -7,10 +7,10 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effe7_get_zanzou_data(WORK_Other *ewk);
+void effe7_get_zanzou_data(WORK_Other* ewk);
 
-void effect_E7_move(WORK_Other *ewk) {
-    PLW *mwk = (PLW *)ewk->my_master;
+void effect_E7_move(WORK_Other* ewk) {
+    PLW* mwk = (PLW*)ewk->my_master;
     s16 pricol;
 
     switch (ewk->wu.routine_no[0]) {
@@ -90,7 +90,7 @@ void effect_E7_move(WORK_Other *ewk) {
     }
 }
 
-void effe7_get_zanzou_data(WORK_Other *ewk) {
+void effe7_get_zanzou_data(WORK_Other* ewk) {
     ewk->wu.position_x = zanzou_table[ewk->master_id]->pos_x;
     ewk->wu.position_y = zanzou_table[ewk->master_id]->pos_y;
     ewk->wu.position_z = zanzou_table[ewk->master_id]->pos_z;
@@ -99,15 +99,15 @@ void effe7_get_zanzou_data(WORK_Other *ewk) {
     ewk->wu.cg_flip = zanzou_table[ewk->master_id]->cg_flp;
 }
 
-s32 effect_E7_init(WORK_Other *ek, PLW *mk) {
-    WORK_Other *ewk;
+s32 effect_E7_init(WORK_Other* ek, PLW* mk) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.disp_flag = ek->wu.disp_flag;
     ewk->wu.id = 147;

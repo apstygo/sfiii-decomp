@@ -139,15 +139,15 @@ const s16 thunder_set_pos_SKB[20][4] = { { 2, 5, 1, 23 }, { 2, 5, 1, 23 }, { 2, 
                                          { 2, 5, 1, 23 }, { 2, 5, 1, 23 }, { 2, 5, 1, 23 }, { 2, 5, 1, 23 },
                                          { 2, 5, 1, 23 }, { 2, 5, 1, 23 }, { 2, 5, 1, 23 }, { 2, 5, 1, 23 } };
 
-void effE2_sort_push(WORK *ewk, WORK *mwk);
-void effe2_erase_or_die(WORK *wk);
+void effE2_sort_push(WORK* ewk, WORK* mwk);
+void effe2_erase_or_die(WORK* wk);
 
-void effect_E2_move(WORK_Other *ewk) {
+void effect_E2_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    PLW *mwk = (PLW *)ewk->my_master;
+    PLW* mwk = (PLW*)ewk->my_master;
 
     ewk->wu.hit_stop = mwk->wu.hit_stop;
 
@@ -245,7 +245,7 @@ void effect_E2_move(WORK_Other *ewk) {
     }
 }
 
-void effE2_sort_push(WORK *ewk, WORK *mwk) {
+void effE2_sort_push(WORK* ewk, WORK* mwk) {
     if (ewk->rl_flag) {
         ewk->position_x = mwk->xyz[0].disp.pos + ewk->old_pos[0];
     } else {
@@ -260,7 +260,7 @@ void effE2_sort_push(WORK *ewk, WORK *mwk) {
     sort_push_request8(ewk);
 }
 
-void effe2_erase_or_die(WORK *wk) {
+void effe2_erase_or_die(WORK* wk) {
     if (wk->cg_wca_ix != 0) {
         wk->routine_no[1] = 1;
         char_move_wca(wk);
@@ -271,9 +271,9 @@ void effe2_erase_or_die(WORK *wk) {
     }
 }
 
-s32 effect_E2_init(PLW *wk, const s16 *data, s16 color_code, u8 ff) {
-    WORK_Other *ewk;
-    s16 *bxt;
+s32 effect_E2_init(PLW* wk, const s16* data, s16 color_code, u8 ff) {
+    WORK_Other* ewk;
+    s16* bxt;
     s16 ix;
 
     if (data[3] == 0) {
@@ -290,7 +290,7 @@ s32 effect_E2_init(PLW *wk, const s16 *data, s16 color_code, u8 ff) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 142;
     ewk->wu.work_id = 16;
@@ -307,8 +307,8 @@ s32 effect_E2_init(PLW *wk, const s16 *data, s16 color_code, u8 ff) {
     ewk->wu.blink_timing = wk->wu.blink_timing;
     ewk->wu.old_pos[2] = -1;
     ewk->wu.char_index = data[3];
-    ewk->my_master = (u32 *)wk;
-    ewk->wu.target_adrs = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
+    ewk->wu.target_adrs = (u32*)wk;
     ewk->master_id = wk->wu.id;
     ewk->master_work_id = wk->wu.work_id;
     ewk->master_player = wk->player_number;
@@ -334,7 +334,7 @@ s32 effect_E2_init(PLW *wk, const s16 *data, s16 color_code, u8 ff) {
     return 0;
 }
 
-s32 setup_accessories(PLW *wk, u8 data) {
+s32 setup_accessories(PLW* wk, u8 data) {
     s16 i;
 
     if (wk->wu.work_id != 1) {

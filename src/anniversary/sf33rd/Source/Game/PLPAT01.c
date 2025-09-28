@@ -8,23 +8,23 @@
 #include "sf33rd/Source/Game/PLS01.h"
 #include "sf33rd/Source/Game/PLS02.h"
 
-void (*const pl01_exatt_table[18])(PLW *);
+void (*const pl01_exatt_table[18])(PLW*);
 
 const s16 pl01_ddt_dat[20][2] = { { 46, 11 }, { 32, 12 }, { 28, 13 }, { 16, 14 }, { 36, 15 }, { 16, 16 }, { 60, 17 },
                                   { 20, 18 }, { 24, 19 }, { 12, 20 }, { 16, 14 }, { 28, 13 }, { 28, 13 }, { 46, 11 },
                                   { 28, 13 }, { 24, 21 }, { 18, 22 }, { 52, 23 }, { 18, 16 }, { 38, 24 } };
 
-void pl01_extra_attack(PLW *wk) {
+void pl01_extra_attack(PLW* wk) {
     pl01_exatt_table[wk->wu.routine_no[2] - 16](wk);
 }
 
-void Att_PL01_DDT(PLW *wk) {
+void Att_PL01_DDT(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
 #endif
 
-    PLW *twk = (PLW *)wk->wu.target_adrs;
+    PLW* twk = (PLW*)wk->wu.target_adrs;
 
     switch (wk->wu.routine_no[3]) {
     case 0:
@@ -65,7 +65,7 @@ void Att_PL01_DDT(PLW *wk) {
     }
 }
 
-void Att_PL01_TOKUSHUKOUDOU(PLW *wk) {
+void Att_PL01_TOKUSHUKOUDOU(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void grade_add_personal_action(s32 ix);
@@ -119,9 +119,9 @@ void Att_PL01_TOKUSHUKOUDOU(PLW *wk) {
     }
 }
 
-void (*const pl01_exatt_table[18])(PLW *) = { Att_CHOUCHUURENGEKI, Att_SHOURYUUKEN,     Att_HADOUKEN,
-                                              Att_HADOUKEN2,       Att_CHOUCHUURENGEKI, Att_SENPUUKYAKU2,
-                                              Att_SENPUUKYAKU,     Att_NM_OKIAGARI,     Att_PL01_DDT,
-                                              Att_HOMING_JUMP,     Att_SLIDE_and_JUMP,  Att_DUMMY,
-                                              Att_DUMMY,           Att_DUMMY,           Att_PL01_TOKUSHUKOUDOU,
-                                              Att_DUMMY,           Att_METAMOR_WAIT,    Att_METAMOR_REBIRTH };
+void (*const pl01_exatt_table[18])(PLW*) = { Att_CHOUCHUURENGEKI, Att_SHOURYUUKEN,     Att_HADOUKEN,
+                                             Att_HADOUKEN2,       Att_CHOUCHUURENGEKI, Att_SENPUUKYAKU2,
+                                             Att_SENPUUKYAKU,     Att_NM_OKIAGARI,     Att_PL01_DDT,
+                                             Att_HOMING_JUMP,     Att_SLIDE_and_JUMP,  Att_DUMMY,
+                                             Att_DUMMY,           Att_DUMMY,           Att_PL01_TOKUSHUKOUDOU,
+                                             Att_DUMMY,           Att_METAMOR_WAIT,    Att_METAMOR_REBIRTH };

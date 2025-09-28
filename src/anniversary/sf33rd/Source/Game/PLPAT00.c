@@ -16,7 +16,7 @@
 
 s16 get_life_add_point(u8 num, s16 ori_add);
 
-void (*const pl00_exatt_table[18])(PLW *);
+void (*const pl00_exatt_table[18])(PLW*);
 
 const s16 mnd_em_tall[21][2] = { { 28, 56 }, { 24, 44 }, { 24, 40 }, { 20, 32 }, { 24, 48 }, { 24, 40 }, { 28, 60 },
                                  { 16, 44 }, { 32, 32 }, { 28, 24 }, { 20, 32 }, { 24, 40 }, { 24, 40 }, { 28, 56 },
@@ -24,17 +24,17 @@ const s16 mnd_em_tall[21][2] = { { 28, 56 }, { 24, 44 }, { 24, 40 }, { 20, 32 },
 
 const s16 glap_table[5] = { 1, 2, 3, 4, 0 };
 
-void pl00_extra_attack(PLW *wk) {
+void pl00_extra_attack(PLW* wk) {
     pl00_exatt_table[wk->wu.routine_no[2] - 16](wk);
 }
 
-void Att_MOONSALT_KNEE_DROP(PLW *wk) {
+void Att_MOONSALT_KNEE_DROP(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
 #endif
 
-    PLW *twk;
+    PLW* twk;
     s16 ex;
     s16 ey;
 
@@ -44,7 +44,7 @@ void Att_MOONSALT_KNEE_DROP(PLW *wk) {
         wk->wu.rl_flag = wk->wu.rl_waza;
         set_char_move_init(&wk->wu, 5, wk->as->char_ix);
         setup_mvxy_data(&wk->wu, wk->as->data_ix);
-        twk = (PLW *)wk->wu.target_adrs;
+        twk = (PLW*)wk->wu.target_adrs;
 
         if (wk->wu.rl_flag) {
             ex = twk->wu.position_x - mnd_em_tall[twk->player_number][0];
@@ -84,7 +84,7 @@ void Att_MOONSALT_KNEE_DROP(PLW *wk) {
     }
 }
 
-void Att_RESURRECTION(PLW *wk) {
+void Att_RESURRECTION(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s16 get_life_add_point(u32 num, s32 ori_add);
@@ -148,7 +148,7 @@ s16 get_life_add_point(u8 num, s16 ori_add) {
     return add_pts;
 }
 
-void Att_PL00_TOKUSHUKOUDOU(PLW *wk) {
+void Att_PL00_TOKUSHUKOUDOU(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void grade_add_personal_action(s32 ix);
@@ -201,7 +201,7 @@ void Att_PL00_TOKUSHUKOUDOU(PLW *wk) {
     }
 }
 
-void Att_JYOUKA(PLW *wk) {
+void Att_JYOUKA(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void Bg_Y_Sitei(u8 on_off, s32 pos);
@@ -326,21 +326,21 @@ void Att_JYOUKA(PLW *wk) {
     }
 }
 
-void (*const pl00_exatt_table[18])(PLW *) = { Att_HADOUKEN,
-                                              Att_MOONSALT_KNEE_DROP,
-                                              Att_SLIDE_and_JUMP,
-                                              Att_SENPUUKYAKU,
-                                              Att_HADOUKEN,
-                                              Att_RESURRECTION,
-                                              Att_JYOUKA,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_PL00_TOKUSHUKOUDOU,
-                                              Att_DUMMY,
-                                              Att_METAMOR_WAIT,
-                                              Att_METAMOR_REBIRTH };
+void (*const pl00_exatt_table[18])(PLW*) = { Att_HADOUKEN,
+                                             Att_MOONSALT_KNEE_DROP,
+                                             Att_SLIDE_and_JUMP,
+                                             Att_SENPUUKYAKU,
+                                             Att_HADOUKEN,
+                                             Att_RESURRECTION,
+                                             Att_JYOUKA,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_PL00_TOKUSHUKOUDOU,
+                                             Att_DUMMY,
+                                             Att_METAMOR_WAIT,
+                                             Att_METAMOR_REBIRTH };

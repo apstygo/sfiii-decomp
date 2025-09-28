@@ -10,8 +10,8 @@ void effect_at_vs_effect_dm(s16 ix2, s16 ix) {
     s32 effect_02_init(WORK * wk, s32 dmgp, s32 mkst, s32 dmrl);
 #endif
 
-    WORK_Other *as = (WORK_Other *)q_hit_push[ix2];
-    WORK_Other *ds = (WORK_Other *)q_hit_push[ix];
+    WORK_Other* as = (WORK_Other*)q_hit_push[ix2];
+    WORK_Other* ds = (WORK_Other*)q_hit_push[ix];
 
     ds->wu.dm_rl = as->wu.rl_flag;
     as->wu.dm_rl = ds->wu.rl_flag;
@@ -51,7 +51,7 @@ void effect_at_vs_effect_dm(s16 ix2, s16 ix) {
             break;
         }
     } else if (ds->wu.id == 122 || ds->wu.id == 123) {
-        cal_damage_vitality((PLW *)as, (PLW *)ds);
+        cal_damage_vitality((PLW*)as, (PLW*)ds);
         as->wu.dm_vital = 256;
     } else {
         ds->wu.dm_vital = 256;

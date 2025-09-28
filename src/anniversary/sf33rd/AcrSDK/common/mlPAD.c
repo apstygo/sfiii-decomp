@@ -18,17 +18,17 @@ const u8 fllever_depth_flip_data[4][4] = {
     { 0x01, 0x00, 0x03, 0x02 },
 };
 
-FLPAD *flpad_adr[2];
+FLPAD* flpad_adr[2];
 FLPAD_CONFIG flpad_config[2];
 u8 NumOfValidPads;
 
 FLPAD flpad_root[2];
 FLPAD flpad_conf[2];
 
-void flpad_ram_clear(u32 *adrs_int, s32 xx) {
+void flpad_ram_clear(u32* adrs_int, s32 xx) {
     s32 i;
     s32 surr;
-    s8 *adrs_char;
+    s8* adrs_char;
 
     surr = xx % 4U;
     xx /= 4;
@@ -38,7 +38,7 @@ void flpad_ram_clear(u32 *adrs_int, s32 xx) {
     }
 
     if (surr != 0) {
-        adrs_char = (s8 *)adrs_int;
+        adrs_char = (s8*)adrs_int;
 
         for (i = 0; i < surr; i++) {
             *(adrs_char++) = 0;
@@ -67,11 +67,11 @@ void flPADDestroy() {
 }
 
 void flPADWorkClear() {
-    flpad_ram_clear((u32 *)flpad_root, sizeof(flpad_root));
-    flpad_ram_clear((u32 *)flpad_conf, sizeof(flpad_conf));
+    flpad_ram_clear((u32*)flpad_root, sizeof(flpad_root));
+    flpad_ram_clear((u32*)flpad_conf, sizeof(flpad_conf));
 }
 
-void flPADConfigSet(const FLPAD_CONFIG *adrs, s32 padnum) {
+void flPADConfigSet(const FLPAD_CONFIG* adrs, s32 padnum) {
     flpad_config[padnum] = *adrs;
 
     flPADConfigSetACRtoXX(
@@ -107,7 +107,7 @@ void flPADGetALL() {
 }
 
 void flPADACRConf() {
-    u8 *csh;
+    u8* csh;
     u32 conf_data;
     u32 conf_data2;
     u32 st0;
@@ -214,7 +214,7 @@ void flPADACRConf() {
     }
 }
 
-void padconf_setup_depth(u8 *deps, u8 num, u32 iodat) {
+void padconf_setup_depth(u8* deps, u8 num, u32 iodat) {
     s32 i;
 
     for (i = 0; i < 0x10; i++) {
@@ -232,7 +232,7 @@ void padconf_setup_depth(u8 *deps, u8 num, u32 iodat) {
 
 f64 atan2(f64, f64);
 
-void flupdate_pad_stick_dir(PAD_STICK *st) {
+void flupdate_pad_stick_dir(PAD_STICK* st) {
     f32 radian;
 
     if ((st->y | st->x) == 0) {
@@ -248,7 +248,7 @@ void flupdate_pad_stick_dir(PAD_STICK *st) {
     st->rad = radian;
 }
 
-void flupdate_pad_button_data(FLPAD *pad, u32 data) {
+void flupdate_pad_button_data(FLPAD* pad, u32 data) {
     pad->sw_old = pad->sw;
     pad->sw = data;
     pad->sw_new = pad->sw & (pad->sw_old ^ pad->sw);
@@ -256,7 +256,7 @@ void flupdate_pad_button_data(FLPAD *pad, u32 data) {
     pad->sw_chg = pad->sw_new | pad->sw_off;
 }
 
-void flupdate_pad_on_cnt(FLPAD *pad) {
+void flupdate_pad_on_cnt(FLPAD* pad) {
     s16 i;
 
     for (i = 0; i < 0x18; i++) {
@@ -270,7 +270,7 @@ void flupdate_pad_on_cnt(FLPAD *pad) {
     }
 }
 
-void flPADSetRepeatSw(FLPAD *pad, u32 IOdata, u8 ctr, u8 times) {
+void flPADSetRepeatSw(FLPAD* pad, u32 IOdata, u8 ctr, u8 times) {
     s32 i;
     u8 cmpctr;
 

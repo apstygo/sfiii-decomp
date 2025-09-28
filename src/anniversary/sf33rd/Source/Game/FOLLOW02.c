@@ -3,13 +3,13 @@
 #include "sf33rd/Source/Game/Com_Sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void (*const Follow02_Tbl[4])(PLW *);
+void (*const Follow02_Tbl[4])(PLW*);
 
-void Follow02(PLW *wk) {
+void Follow02(PLW* wk) {
     Follow02_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
 }
 
-void Follow02_0000(PLW *wk) {
+void Follow02_0000(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x10);
@@ -29,7 +29,7 @@ void Follow02_0000(PLW *wk) {
     }
 }
 
-void Follow02_0001(PLW *wk) {
+void Follow02_0001(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x20);
@@ -45,7 +45,7 @@ void Follow02_0001(PLW *wk) {
     }
 }
 
-void Follow02_0002(PLW *wk) {
+void Follow02_0002(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x10);
@@ -65,7 +65,7 @@ void Follow02_0002(PLW *wk) {
     }
 }
 
-void Follow02_0003(PLW *wk) {
+void Follow02_0003(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x20);
@@ -81,7 +81,7 @@ void Follow02_0003(PLW *wk) {
     }
 }
 
-void (*const Follow02_Tbl[4])(PLW *) = {
+void (*const Follow02_Tbl[4])(PLW*) = {
     Follow02_0000,
     Follow02_0001,
     Follow02_0002,

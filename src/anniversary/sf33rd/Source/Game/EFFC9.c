@@ -22,9 +22,9 @@ const u16 ag_cc_table[8];
 const s16 app_pos_hosei[3][3];
 const s16 judge_gals_kage_tbl[8][4];
 const u8 ag_sel_table[22][4][4];
-u32 *ag_char_table[];
+u32* ag_char_table[];
 
-void effect_C9_move(WORK_Other *ewk) {
+void effect_C9_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     s32 effect_37_init(WORK * wk, u32 gal, u32 ohen);
 #endif
@@ -161,15 +161,15 @@ void effect_C9_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_C9_init(PLW *arg0, u8 data) {
-    WORK_Other *ewk;
+s32 effect_C9_init(PLW* arg0, u8 data) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 129;
     ewk->wu.work_id = 16;
@@ -213,7 +213,7 @@ void setup_EJG_index() {
     }
 }
 
-u32 *ag_char_table[] = { _ag_00_char_table, _ag_01_char_table, _ag_02_char_table, _ag_03_char_table,
+u32* ag_char_table[] = { _ag_00_char_table, _ag_01_char_table, _ag_02_char_table, _ag_03_char_table,
                          _ag_04_char_table, _ag_05_char_table, _ag_06_char_table, _ag_07_char_table };
 
 const s32 efy_data[6] = { 40, -368, -851968, 32768, 229376, -24576 };

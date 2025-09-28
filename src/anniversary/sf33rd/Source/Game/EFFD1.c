@@ -10,9 +10,9 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void fall_data_set(WORK_Other *ewk);
+void fall_data_set(WORK_Other* ewk);
 
-void effect_D1_move(WORK_Other *ewk) {
+void effect_D1_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -95,8 +95,8 @@ void effect_D1_move(WORK_Other *ewk) {
     }
 }
 
-void fall_data_set(WORK_Other *ewk) {
-    WORK_Other *oya_ef = (WORK_Other *)ewk->my_master;
+void fall_data_set(WORK_Other* ewk) {
+    WORK_Other* oya_ef = (WORK_Other*)ewk->my_master;
     s16 pos_work;
     s16 id_work;
 
@@ -134,25 +134,25 @@ void fall_data_set(WORK_Other *ewk) {
     cal_all_speed_data(&ewk->wu, ewk->wu.old_rno[0], ewk->wu.old_rno[1], ewk->wu.old_rno[2], 2, 1);
 }
 
-s32 effect_D1_init(WORK_Other *oya, s32 /* unused */) {
+s32 effect_D1_init(WORK_Other* oya, s32 /* unused */) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 131;
     ewk->wu.work_id = 16;
     ewk->wu.cgromtype = 1;
     ewk->wu.disp_flag = 0;
-    ewk->my_master = (u32 *)oya;
+    ewk->my_master = (u32*)oya;
     ewk->wu.my_family = 2;
     ewk->wu.char_index = 17;
     ewk->master_id = oya->master_id;

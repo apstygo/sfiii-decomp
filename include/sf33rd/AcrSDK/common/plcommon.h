@@ -25,7 +25,7 @@ typedef struct {
     s32 width;               // offset 0x4, size 0x4
     s32 height;              // offset 0x8, size 0x4
     s32 pitch;               // offset 0xC, size 0x4
-    void *ptr;               // offset 0x10, size 0x4
+    void* ptr;               // offset 0x10, size 0x4
     s32 bitdepth;            // offset 0x14, size 0x4
     PixelFormat pixelformat; // offset 0x18, size 0x30
 } plContext;
@@ -53,7 +53,7 @@ typedef struct {
     s8 vram_on_flag;    // offset 0x35, size 0x1
     s8 dma_type;        // offset 0x36, size 0x1
     u8 lock_flag;       // offset 0x37, size 0x1
-    void *wkVram;       // offset 0x38, size 0x4
+    void* wkVram;       // offset 0x38, size 0x4
 } FLTexture;
 
 #endif

@@ -53,8 +53,8 @@ typedef struct {
     unsigned int mode;
 } sceSifDmaData;
 
-extern unsigned int sceSifSetDma(sceSifDmaData *sdd, int len);
-extern unsigned int isceSifSetDma(sceSifDmaData *sdd, int len);
+extern unsigned int sceSifSetDma(sceSifDmaData* sdd, int len);
+extern unsigned int isceSifSetDma(sceSifDmaData* sdd, int len);
 extern int sceSifDmaStat(unsigned int id);
 extern int isceSifDmaStat(unsigned int id);
 

@@ -4,10 +4,10 @@
 #include "structs.h"
 #include "types.h"
 
-void waza_check(PLW *pl);
-void key_thru(PLW *pl);
-void cmd_data_set(PLW * /* unused */, s16 i);
-void cmd_init(PLW *pl);
+void waza_check(PLW* pl);
+void key_thru(PLW* pl);
+void cmd_data_set(PLW* /* unused */, s16 i);
+void cmd_init(PLW* pl);
 void cmd_move();
 void check_init();
 void check_next();
@@ -45,9 +45,9 @@ void sw_pick_up();
 void dash_flag_clear(s16 pl_id);
 void hi_jump_flag_clear(s16 pl_id);
 void waza_flag_clear_only_1(s16 pl_id, s16 wznum);
-void waza_compel_init(s16 pl_id, s16 num, intptr_t *adrs);
-void waza_compel_all_init(PLW *pl);
-void waza_compel_all_init2(PLW *pl);
+void waza_compel_init(s16 pl_id, s16 num, intptr_t* adrs);
+void waza_compel_all_init(PLW* pl);
+void waza_compel_all_init2(PLW* pl);
 u16 processed_lvbt(u16 lv_data);
 
 #endif

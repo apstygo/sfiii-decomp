@@ -35,7 +35,7 @@ const s32 eff24_quake_speed_x_tbl[4][8] = { { 0x1200, 0x1200, 0x1400, 0x1400, 0x
 
 const s16 dog24_x_data[8] = { 0, 0, 0, 6, 10, 16, 32, 40 };
 
-void effect_24_move(WORK_Other *ewk) {
+void effect_24_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -67,7 +67,7 @@ void effect_24_move(WORK_Other *ewk) {
     }
 }
 
-void eff24_quake_sub(WORK_Other *ewk) {
+void eff24_quake_sub(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         if (bg_w.quake_y_index > 0) {
@@ -153,7 +153,7 @@ void eff24_quake_sub(WORK_Other *ewk) {
     }
 }
 
-void dog24_data_set(WORK_Other *ewk) {
+void dog24_data_set(WORK_Other* ewk) {
     s16 work;
 
     ewk->wu.old_rno[5] = 40;
@@ -167,7 +167,7 @@ void dog24_data_set(WORK_Other *ewk) {
     cal_all_speed_data(&ewk->wu, ewk->wu.old_rno[5], work, ewk->wu.xyz[1].disp.pos, 2, 0);
 }
 
-void eff24_sp_data_set(WORK_Other *ewk) {
+void eff24_sp_data_set(WORK_Other* ewk) {
     s16 work;
 
     if (ewk->wu.old_rno[0]) {
@@ -216,17 +216,17 @@ s32 effect_24_init(s32 /* unused */) {
 s32 effect_24_init() {
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 i;
-    const s16 *data_ptr = eff24_data_tbl;
+    const s16* data_ptr = eff24_data_tbl;
 
     for (i = 0; i < 8; i++) {
         if ((ix = pull_effect_work(4)) == -1) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 24;
         ewk->wu.type = i;

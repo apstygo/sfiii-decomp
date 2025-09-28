@@ -18,7 +18,7 @@
 const s16 ake_timer_tbl[13];
 const u32 ake_color[13];
 
-void effect_D3_move(WORK_Other *ewk) {
+void effect_D3_move(WORK_Other* ewk) {
     if (ewk->wu.type == 0) {
         akebono_finish(ewk);
     } else {
@@ -26,7 +26,7 @@ void effect_D3_move(WORK_Other *ewk) {
     }
 }
 
-void akebono_finish(WORK_Other *ewk) {
+void akebono_finish(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void Bg_Off_R(u32 s_prm);
     void Bg_On_R(u32 s_prm);
@@ -133,7 +133,7 @@ void akebono_finish(WORK_Other *ewk) {
     }
 }
 
-void syungoku_finish(WORK_Other *ewk) {
+void syungoku_finish(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void Bg_On_R(u32 s_prm);
     void Bg_Off_R(u32 s_prm);
@@ -229,14 +229,14 @@ void syungoku_finish(WORK_Other *ewk) {
 }
 
 s32 effect_D3_init(u8 ake_type) {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.id = 133;
     ewk->wu.be_flag = 1;
     ewk->wu.work_id = 16;

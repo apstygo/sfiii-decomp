@@ -1,11 +1,11 @@
 #include "sf33rd/Source/Game/Eff59.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
@@ -19,16 +19,16 @@ const s16 EFF59_ID05_Data[24][4] = {
     { 0, 0, 0, 0 },        { 0, 0, 0, 0 },        { 0, 0, 0, 0 },        { -72, 144, -40, 16 }
 };
 
-void EFF59_Trans(WORK_Other *ewk);
-void Check_Under_Name(WORK_Other *ewk);
-s32 Check_Break_Into_59(WORK_Other *ewk);
+void EFF59_Trans(WORK_Other* ewk);
+void Check_Under_Name(WORK_Other* ewk);
+s32 Check_Break_Into_59(WORK_Other* ewk);
 
-void effect_59_move(WORK_Other *ewk) {
+void effect_59_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
 
-    WORK_Other *mwk = (WORK_Other *)ewk->my_master;
+    WORK_Other* mwk = (WORK_Other*)ewk->my_master;
 
     if (mwk->wu.be_flag == 0) {
         ewk->wu.disp_flag = 0;
@@ -87,7 +87,7 @@ void effect_59_move(WORK_Other *ewk) {
     EFF59_Trans(ewk);
 }
 
-void EFF59_Trans(WORK_Other *ewk) {
+void EFF59_Trans(WORK_Other* ewk) {
     if (ewk->wu.dm_vital == 4 || ewk->wu.dm_vital == 5) {
         sort_push_requestA(&ewk->wu);
     } else {
@@ -95,14 +95,14 @@ void EFF59_Trans(WORK_Other *ewk) {
     }
 }
 
-void Check_Under_Name(WORK_Other *ewk) {
-    WORK_Other *mwk;
+void Check_Under_Name(WORK_Other* ewk) {
+    WORK_Other* mwk;
 
     if (ewk->wu.dm_vital != 5) {
         return;
     }
 
-    mwk = (WORK_Other *)ewk->my_master;
+    mwk = (WORK_Other*)ewk->my_master;
 
     if (ewk->wu.dir_step != mwk->wu.dir_step) {
         ewk->wu.dir_step = mwk->wu.dir_step;
@@ -113,26 +113,26 @@ void Check_Under_Name(WORK_Other *ewk) {
     }
 }
 
-s32 effect_59_init(WORK_Other *mwk, s16 Synchro_BG, s16 ID, s16 direction) {
+s32 effect_59_init(WORK_Other* mwk, s16 Synchro_BG, s16 ID, s16 direction) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 59;
     ewk->wu.work_id = 16;
     ewk->wu.my_col_code = 0x2000;
     ewk->wu.my_family = Synchro_BG;
     *ewk->wu.char_table = _sel_pl_char_table;
-    ewk->my_master = (u32 *)mwk;
+    ewk->my_master = (u32*)mwk;
     ewk->wu.char_index = 19;
     ewk->wu.dir_step = ID;
     ewk->wu.dm_vital = ID;
@@ -172,7 +172,7 @@ s32 effect_59_init(WORK_Other *mwk, s16 Synchro_BG, s16 ID, s16 direction) {
     return 0;
 }
 
-s32 Check_Break_Into_59(WORK_Other *ewk) {
+s32 Check_Break_Into_59(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif

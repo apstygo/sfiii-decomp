@@ -11,8 +11,8 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void disp_effK2(WORK *wk, WORK *mk, DADD *hk);
-void set_next_next_y(WORK *wk, u8 flag);
+void disp_effK2(WORK* wk, WORK* mk, DADD* hk);
+void set_next_next_y(WORK* wk, u8 flag);
 
 const DADD hahen_dummy[1] = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
 
@@ -223,13 +223,13 @@ const s16 k2_kidou[83][4] = {
 
 void (*const effK2_main_process[9])();
 
-void effect_K2_move(WORK_Other *ewk) {
+void effect_K2_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    DADD *hahen = (DADD *)ewk->wu.target_adrs;
-    WORK *mwk = (WORK *)ewk->my_master;
+    DADD* hahen = (DADD*)ewk->wu.target_adrs;
+    WORK* mwk = (WORK*)ewk->my_master;
 
     if (ewk->wu.dir_old == 0 && (mwk->id != ewk->master_work_id || mwk->dir_old != 0)) {
         ewk->wu.dir_old = 1;
@@ -261,7 +261,7 @@ void effect_K2_move(WORK_Other *ewk) {
         set_char_move_init(&ewk->wu, 0, (hahen->cix));
 
         if (hahen->cix == 0x78) {
-            setup_demojump((PLW *)ewk->wu.hit_adrs, 1);
+            setup_demojump((PLW*)ewk->wu.hit_adrs, 1);
         }
 
         disp_effK2(&ewk->wu, mwk, hahen);
@@ -291,7 +291,7 @@ void effect_K2_move(WORK_Other *ewk) {
     }
 }
 
-void disp_effK2(WORK *wk, WORK *mk, DADD *hk) {
+void disp_effK2(WORK* wk, WORK* mk, DADD* hk) {
     s16 flag;
     s16 hz;
 
@@ -327,7 +327,7 @@ void disp_effK2(WORK *wk, WORK *mk, DADD *hk) {
     sort_push_request(wk);
 }
 
-void effK2_parts_move_type_0(WORK_Other *ewk, DADD *) {
+void effK2_parts_move_type_0(WORK_Other* ewk, DADD*) {
     switch (ewk->wu.routine_no[2]) {
     case 0:
         char_move(&ewk->wu);
@@ -347,7 +347,7 @@ void effK2_parts_move_type_0(WORK_Other *ewk, DADD *) {
     }
 }
 
-void effK2_parts_move_type_1(WORK_Other *ewk, DADD *hahen) {
+void effK2_parts_move_type_1(WORK_Other* ewk, DADD* hahen) {
 #if defined(TARGET_PS2)
     void set_next_next_y(WORK * wk, u32 flag);
 #endif
@@ -436,7 +436,7 @@ void effK2_parts_move_type_1(WORK_Other *ewk, DADD *hahen) {
     }
 }
 
-void effK2_parts_move_type_2(WORK_Other *ewk, DADD * /* unused */) {
+void effK2_parts_move_type_2(WORK_Other* ewk, DADD* /* unused */) {
     switch (ewk->wu.routine_no[2]) {
     case 0:
         char_move(&ewk->wu);
@@ -457,7 +457,7 @@ void effK2_parts_move_type_2(WORK_Other *ewk, DADD * /* unused */) {
     }
 }
 
-void effK2_parts_move_type_3(WORK_Other *ewk, DADD *hahen) {
+void effK2_parts_move_type_3(WORK_Other* ewk, DADD* hahen) {
     switch (ewk->wu.routine_no[2]) {
     case 0:
         char_move(&ewk->wu);
@@ -489,7 +489,7 @@ void effK2_parts_move_type_3(WORK_Other *ewk, DADD *hahen) {
     }
 }
 
-void effK2_parts_move_type_4(WORK_Other *ewk, DADD *arg1) {
+void effK2_parts_move_type_4(WORK_Other* ewk, DADD* arg1) {
     switch (ewk->wu.routine_no[2]) {
     case 0:
         char_move(&ewk->wu);
@@ -514,7 +514,7 @@ void effK2_parts_move_type_4(WORK_Other *ewk, DADD *arg1) {
     }
 }
 
-void effK2_parts_move_type_5(WORK_Other *ewk, DADD *arg1) {
+void effK2_parts_move_type_5(WORK_Other* ewk, DADD* arg1) {
     char_move(&ewk->wu);
 
     if (ewk->wu.dir_old) {
@@ -524,7 +524,7 @@ void effK2_parts_move_type_5(WORK_Other *ewk, DADD *arg1) {
     }
 }
 
-void effK2_parts_move_type_6(WORK_Other *ewk, DADD *arg1) {
+void effK2_parts_move_type_6(WORK_Other* ewk, DADD* arg1) {
     switch (ewk->wu.routine_no[2]) {
     case 0:
         ewk->wu.kage_prio = (random_16() & 7) + 28;
@@ -552,7 +552,7 @@ void effK2_parts_move_type_6(WORK_Other *ewk, DADD *arg1) {
     }
 }
 
-void effK2_parts_move_type_7(WORK_Other *ewk, DADD *arg1) {
+void effK2_parts_move_type_7(WORK_Other* ewk, DADD* arg1) {
     switch (ewk->wu.routine_no[2]) {
     case 0:
         char_move(&ewk->wu);
@@ -566,7 +566,7 @@ void effK2_parts_move_type_7(WORK_Other *ewk, DADD *arg1) {
     }
 }
 
-void effK2_parts_move_type_8(WORK_Other *ewk, DADD *hahen) {
+void effK2_parts_move_type_8(WORK_Other* ewk, DADD* hahen) {
 #if defined(TARGET_PS2)
     void set_next_next_y(WORK * wk, u32 flag);
 #endif
@@ -659,7 +659,7 @@ void effK2_parts_move_type_8(WORK_Other *ewk, DADD *hahen) {
     }
 }
 
-void set_next_next_y(WORK *wk, u8 flag) {
+void set_next_next_y(WORK* wk, u8 flag) {
     if (flag) {
         wk->next_y -= (random_16() & 4) + 2;
     } else {
@@ -667,15 +667,15 @@ void set_next_next_y(WORK *wk, u8 flag) {
     }
 }
 
-s32 effect_K2_init(WORK_Other *wk, u32 *dad) {
-    WORK_Other *ewk;
+s32 effect_K2_init(WORK_Other* wk, u32* dad) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(1)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 202;
     ewk->wu.work_id = 16;
@@ -692,7 +692,7 @@ s32 effect_K2_init(WORK_Other *wk, u32 *dad) {
     ewk->master_id = wk->master_id;
     ewk->master_work_id = wk->wu.id;
     ewk->wu.dir_old = 0;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->wu.target_adrs = dad;
     ewk->wu.hit_adrs = wk->wu.target_adrs;
     ewk->wu.xyz[0].disp.pos = 448;
@@ -702,8 +702,8 @@ s32 effect_K2_init(WORK_Other *wk, u32 *dad) {
     return 0;
 }
 
-void setup_effK2(WORK *wk) {
-    const DADD *dhead;
+void setup_effK2(WORK* wk) {
+    const DADD* dhead;
     s16 i;
     s16 num;
 
@@ -714,12 +714,12 @@ void setup_effK2(WORK *wk) {
     dhead = hahen_data[wk->vital_old][wk->type].dadd;
 
     for (i = 0; i < num; i++) {
-        effect_K2_init((WORK_Other *)wk, (u32 *)&dhead[i]);
+        effect_K2_init((WORK_Other*)wk, (u32*)&dhead[i]);
     }
 }
 
-void setup_effK2_sync_bomb(WORK *wk) {
-    const DADD *dhead;
+void setup_effK2_sync_bomb(WORK* wk) {
+    const DADD* dhead;
     s16 i;
     s16 j;
     s16 num;
@@ -733,21 +733,21 @@ void setup_effK2_sync_bomb(WORK *wk) {
 
         for (i = 0; i < num; i++) {
             if (dhead[i].bomb == 0) {
-                effect_K2_init((WORK_Other *)wk, (u32 *)&dhead[i]);
+                effect_K2_init((WORK_Other*)wk, (u32*)&dhead[i]);
             }
         }
     }
 }
 
-void illegal_setup_effK2(WORK *wk, s16 ix) {
-    const DADD *dhead;
+void illegal_setup_effK2(WORK* wk, s16 ix) {
+    const DADD* dhead;
     s16 i;
     s16 num = ill_hahen_data[ix].kosuu;
 
     dhead = ill_hahen_data[ix].dadd;
 
     for (i = 0; i < num; i++) {
-        effect_K2_init((WORK_Other *)wk, (u32 *)&dhead[i]);
+        effect_K2_init((WORK_Other*)wk, (u32*)&dhead[i]);
     }
 }
 

@@ -42,7 +42,7 @@ void appear_work_clear() {
     bg_app_stop = 0;
 }
 
-s32 home_visitor_check(PLW *wk) {
+s32 home_visitor_check(PLW* wk) {
     s8 hv_type;
     s16 pl_num;
 
@@ -65,7 +65,7 @@ s32 home_visitor_check(PLW *wk) {
     return hv_type;
 }
 
-void appear_data_set(PLW *wk, APPEAR_DATA *dtbl) {
+void appear_data_set(PLW* wk, APPEAR_DATA* dtbl) {
     if (wk->wu.id) {
         wk->wu.xyz[0].disp.pos = bg_w.bgw[1].pos_x_work - dtbl->hx;
         wk->wu.xyz[1].disp.pos = dtbl->hy;
@@ -84,8 +84,8 @@ void appear_data_set(PLW *wk, APPEAR_DATA *dtbl) {
     }
 }
 
-void appear_data_init_set(PLW *wk) {
-    APPEAR_DATA *dtbl;
+void appear_data_init_set(PLW* wk) {
+    APPEAR_DATA* dtbl;
     s8 ap_work;
     s16 id_work;
 
@@ -101,14 +101,14 @@ void appear_data_init_set(PLW *wk) {
         ap_work = app_type_tbl[wk->player_number][plw[id_work].player_number][bg_w.stage];
     }
 
-    dtbl = (APPEAR_DATA *)&appear_data[ap_work];
+    dtbl = (APPEAR_DATA*)&appear_data[ap_work];
 
     appear_data_set(wk, dtbl);
 }
 
-void appear_player(PLW *wk) {
+void appear_player(PLW* wk) {
     void (*appear_jmp_tbl[42])(
-        PLW *wk) = { Appear_00000, Appear_01000, Appear_01000, Appear_03000, Appear_04000, Appear_05000, Appear_06000,
+        PLW* wk) = { Appear_00000, Appear_01000, Appear_01000, Appear_03000, Appear_04000, Appear_05000, Appear_06000,
                      Appear_07000, Appear_08000, Appear_09000, Appear_10000, Appear_11000, Appear_12000, Appear_13000,
                      Appear_14000, Appear_15000, Appear_16000, Appear_17000, Appear_18000, Appear_19000, Appear_20000,
                      Appear_21000, Appear_22000, Appear_23000, Appear_24000, Appear_25000, Appear_26000, Appear_06000,
@@ -117,13 +117,13 @@ void appear_player(PLW *wk) {
     appear_jmp_tbl[(short)wk->wu.routine_no[4]](wk);
 }
 
-void Appear_00000(PLW *wk) {
+void Appear_00000(PLW* wk) {
     Appear_end++;
     wk->wu.routine_no[2] = 1;
     wk->wu.routine_no[3] = 0;
 }
 
-void Appear_01000(PLW *wk) {
+void Appear_01000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -187,7 +187,7 @@ void Appear_01000(PLW *wk) {
     }
 }
 
-void Appear_03000(PLW *wk) {
+void Appear_03000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -210,7 +210,7 @@ void Appear_03000(PLW *wk) {
     }
 }
 
-void Appear_04000(PLW *wk) {
+void Appear_04000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -255,8 +255,8 @@ void Appear_04000(PLW *wk) {
             return;
         }
 
-        add_x_sub((WORK_Other *)wk);
-        add_y_sub((WORK_Other *)wk);
+        add_x_sub((WORK_Other*)wk);
+        add_y_sub((WORK_Other*)wk);
         break;
 
     case 3:
@@ -272,7 +272,7 @@ void Appear_04000(PLW *wk) {
     }
 }
 
-void Appear_05000(PLW *wk) {
+void Appear_05000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -314,7 +314,7 @@ void Appear_05000(PLW *wk) {
             return;
         }
 
-        add_x_sub((WORK_Other *)&wk->wu);
+        add_x_sub((WORK_Other*)&wk->wu);
         break;
 
     case 3:
@@ -341,7 +341,7 @@ void Appear_05000(PLW *wk) {
     }
 }
 
-void Appear_06000(PLW *wk) {
+void Appear_06000(PLW* wk) {
     s16 work;
 
     switch (wk->wu.routine_no[3]) {
@@ -398,8 +398,8 @@ void Appear_06000(PLW *wk) {
             set_char_move_init(&wk->wu, 9, 0x10);
             Appear_end++;
         } else {
-            add_x_sub((WORK_Other *)&wk->wu);
-            add_y_sub((WORK_Other *)&wk->wu);
+            add_x_sub((WORK_Other*)&wk->wu);
+            add_y_sub((WORK_Other*)&wk->wu);
         }
         break;
 
@@ -452,7 +452,7 @@ const APPEAR_DATA appear_data[] = {
     { -88, 0, -88, 0, 1, 3, 17 },
 };
 
-void Appear_07000(PLW *wk) {
+void Appear_07000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.disp_flag = 1;
@@ -503,7 +503,7 @@ void Appear_07000(PLW *wk) {
         case 2:
         case 3:
             char_move(&wk->wu);
-            add_y_sub((WORK_Other *)wk);
+            add_y_sub((WORK_Other*)wk);
             if (wk->wu.xyz[1].disp.pos < 0) {
                 wk->wu.xyz[1].disp.pos = wk->wu.position_y = 0;
                 wk->wu.xyz[1].disp.low = 0;
@@ -540,7 +540,7 @@ void Appear_07000(PLW *wk) {
     wk->wu.position_y = wk->wu.xyz[1].disp.pos;
 }
 
-void Appear_08000(PLW *wk) {
+void Appear_08000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -553,7 +553,7 @@ void Appear_08000(PLW *wk) {
             break;
         }
 
-        appear_data_set(wk, (APPEAR_DATA *)appear_data);
+        appear_data_set(wk, (APPEAR_DATA*)appear_data);
         wk->wu.routine_no[4] = 2;
         break;
 
@@ -567,7 +567,7 @@ void Appear_08000(PLW *wk) {
     }
 }
 
-s32 sean_appear_check(PLW *wk, s16 id) {
+s32 sean_appear_check(PLW* wk, s16 id) {
     if (plw[id].player_number == 12 && bg_w.stage == 12) {
         return 1;
     }
@@ -575,7 +575,7 @@ s32 sean_appear_check(PLW *wk, s16 id) {
     return 0;
 }
 
-void Appear_09000(PLW *wk) {
+void Appear_09000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -611,7 +611,7 @@ void Appear_09000(PLW *wk) {
 
     case 3:
         char_move(&wk->wu);
-        add_y_sub((WORK_Other *)&wk->wu);
+        add_y_sub((WORK_Other*)&wk->wu);
 
         if (wk->wu.xyz[1].disp.pos <= 0) {
             wk->wu.routine_no[3]++;
@@ -635,7 +635,7 @@ void Appear_09000(PLW *wk) {
     }
 }
 
-void Appear_10000(PLW *wk) {
+void Appear_10000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -652,7 +652,7 @@ void Appear_10000(PLW *wk) {
 
     case 1:
         char_move(&wk->wu);
-        add_x_sub((WORK_Other *)&wk->wu);
+        add_x_sub((WORK_Other*)&wk->wu);
 
         if (wk->wu.id) {
             if (!(wk->wu.xyz[0].disp.pos <= bg_w.bgw[1].pos_x_work + 0x58)) {
@@ -676,7 +676,7 @@ void Appear_10000(PLW *wk) {
     }
 }
 
-void Appear_11000(PLW *wk) {
+void Appear_11000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -701,7 +701,7 @@ void Appear_11000(PLW *wk) {
     }
 }
 
-void Appear_12000(PLW *wk) {
+void Appear_12000(PLW* wk) {
     s16 work;
 
     switch (wk->wu.routine_no[3]) {
@@ -735,8 +735,8 @@ void Appear_12000(PLW *wk) {
             return;
         }
 
-        add_x_sub((WORK_Other *)&wk->wu);
-        add_y_sub((WORK_Other *)&wk->wu);
+        add_x_sub((WORK_Other*)&wk->wu);
+        add_y_sub((WORK_Other*)&wk->wu);
         return;
 
     case 2:
@@ -750,7 +750,7 @@ void Appear_12000(PLW *wk) {
     }
 }
 
-void Appear_13000(PLW *wk) {
+void Appear_13000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -767,7 +767,7 @@ void Appear_13000(PLW *wk) {
 
     case 2:
         char_move(&wk->wu);
-        add_y_sub((WORK_Other *)&wk->wu);
+        add_y_sub((WORK_Other*)&wk->wu);
 
         if (wk->wu.xyz[1].disp.pos < 0) {
             wk->wu.routine_no[3]++;
@@ -791,7 +791,7 @@ void Appear_13000(PLW *wk) {
     }
 }
 
-void Appear_14000(PLW *wk) {
+void Appear_14000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -840,7 +840,7 @@ void Appear_14000(PLW *wk) {
     }
 }
 
-void Appear_15000(PLW *wk) {
+void Appear_15000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -873,7 +873,7 @@ void Appear_15000(PLW *wk) {
     }
 }
 
-void Appear_16000(PLW *wk) {
+void Appear_16000(PLW* wk) {
     s16 id_w;
 
     id_w = wk->wu.id ^ 1;
@@ -935,14 +935,14 @@ s16 gill_appear_check() {
     return 0;
 }
 
-void Appear_17000(PLW *wk) {
+void Appear_17000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
         wk->wu.disp_flag = 1;
 
         if (Gill_Appear_Flag) {
-            appear_data_set(wk, (APPEAR_DATA *)appear_data);
+            appear_data_set(wk, (APPEAR_DATA*)appear_data);
             Appear_00000(wk);
             return;
         }
@@ -990,7 +990,7 @@ void Appear_17000(PLW *wk) {
     }
 }
 
-void Appear_18000(PLW *wk) {
+void Appear_18000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -1068,8 +1068,8 @@ void Appear_18000(PLW *wk) {
             return;
         }
 
-        add_x_sub((WORK_Other *)&wk->wu);
-        add_y_sub((WORK_Other *)&wk->wu);
+        add_x_sub((WORK_Other*)&wk->wu);
+        add_y_sub((WORK_Other*)&wk->wu);
         return;
 
     case 3:
@@ -1086,7 +1086,7 @@ void Appear_18000(PLW *wk) {
     return;
 }
 
-void Appear_19000(PLW *wk) {
+void Appear_19000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -1153,8 +1153,8 @@ void Appear_19000(PLW *wk) {
             return;
         }
 
-        add_x_sub((WORK_Other *)&wk->wu);
-        add_y_sub((WORK_Other *)&wk->wu);
+        add_x_sub((WORK_Other*)&wk->wu);
+        add_y_sub((WORK_Other*)&wk->wu);
         break;
 
     case 3:
@@ -1170,7 +1170,7 @@ void Appear_19000(PLW *wk) {
     }
 }
 
-void Appear_20000(PLW *wk) {
+void Appear_20000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -1190,7 +1190,7 @@ void Appear_20000(PLW *wk) {
     }
 }
 
-void Appear_21000(PLW *wk) {
+void Appear_21000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -1203,7 +1203,7 @@ void Appear_21000(PLW *wk) {
         work = random_16();
         work &= 7;
         if (work == 6 || work == 7) {
-            appear_data_set(wk, (APPEAR_DATA *)appear_data + 24);
+            appear_data_set(wk, (APPEAR_DATA*)appear_data + 24);
             set_char_move_init(&wk->wu, 9, 0xE);
         } else {
             set_char_move_init(&wk->wu, 9, work + 8);
@@ -1221,7 +1221,7 @@ void Appear_21000(PLW *wk) {
     }
 }
 
-void Appear_22000(PLW *wk) {
+void Appear_22000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -1248,7 +1248,7 @@ void Appear_22000(PLW *wk) {
     }
 }
 
-void Appear_23000(PLW *wk) {
+void Appear_23000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -1285,7 +1285,7 @@ void Appear_23000(PLW *wk) {
     }
 }
 
-void Appear_24000(PLW *wk) {
+void Appear_24000(PLW* wk) {
     if (!wk->wu.operator) {
         if (wk->wu.id) {
             wk->wu.xyz[0].disp.pos = bg_w.bgw[1].pos_x_work + 0xA8;
@@ -1298,7 +1298,7 @@ void Appear_24000(PLW *wk) {
     wk->wu.routine_no[3] = 0;
 }
 
-void Appear_25000(PLW *wk) {
+void Appear_25000(PLW* wk) {
     if (!wk->wu.operator) {
         wk->wu.xyz[0].disp.pos = bg_w.bgw[1].pos_x_work;
     }
@@ -1309,7 +1309,7 @@ void Appear_25000(PLW *wk) {
 
 const s16 smoke_check[] = { 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0 };
 
-void Appear_26000(PLW *wk) {
+void Appear_26000(PLW* wk) {
     // s32 effect_86_init(s16 type86);
 
     switch (wk->wu.routine_no[3]) {
@@ -1341,8 +1341,8 @@ void Appear_26000(PLW *wk) {
     case 2:
         char_move(&wk->wu);
         appear_work[wk->wu.id]--;
-        add_x_sub((WORK_Other *)wk);
-        add_y_sub((WORK_Other *)wk);
+        add_x_sub((WORK_Other*)wk);
+        add_y_sub((WORK_Other*)wk);
 
         if (wk->wu.xyz[1].disp.pos < 0x41) {
             wk->wu.routine_no[3]++;
@@ -1375,8 +1375,8 @@ void Appear_26000(PLW *wk) {
             set_char_move_init2(&wk->wu, 9, 0x10, 3, 0);
             wk->wu.xyz[1].cal = 0;
         } else {
-            add_x_sub((WORK_Other *)wk);
-            add_y_sub((WORK_Other *)wk);
+            add_x_sub((WORK_Other*)wk);
+            add_y_sub((WORK_Other*)wk);
         }
 
         break;
@@ -1404,7 +1404,7 @@ void Appear_26000(PLW *wk) {
     }
 }
 
-void Appear_28000(PLW *wk) {
+void Appear_28000(PLW* wk) {
     s16 id_w = wk->wu.id ^ 1;
 
     switch (wk->wu.routine_no[3]) {
@@ -1464,7 +1464,7 @@ void Appear_28000(PLW *wk) {
     }
 }
 
-void Appear_29000(PLW *wk) {
+void Appear_29000(PLW* wk) {
     s16 work;
 
     switch (wk->wu.routine_no[3]) {
@@ -1538,7 +1538,7 @@ void Appear_29000(PLW *wk) {
 
     case 2:
         char_move(&wk->wu);
-        add_x_sub((WORK_Other *)&wk->wu);
+        add_x_sub((WORK_Other*)&wk->wu);
 
         if (wk->wu.id) {
             if (!(wk->wu.xyz[0].disp.pos <= (bg_w.bgw[1].pos_x_work + 0x58))) {
@@ -1571,8 +1571,8 @@ void Appear_29000(PLW *wk) {
             set_char_move_init2(&wk->wu, 9, 0xb, 5, 0);
             wk->wu.xyz[1].disp.pos = 0;
         } else {
-            add_x_sub((WORK_Other *)&wk->wu);
-            add_y_sub((WORK_Other *)&wk->wu);
+            add_x_sub((WORK_Other*)&wk->wu);
+            add_y_sub((WORK_Other*)&wk->wu);
         }
 
         break;
@@ -1590,7 +1590,7 @@ void Appear_29000(PLW *wk) {
     }
 }
 
-void animal_decide(PLW *wk) {
+void animal_decide(PLW* wk) {
 #if defined(TARGET_PS2)
     s32 effect_M0_init(u8 pl_rl, u8 animal_type);
 #endif
@@ -1618,7 +1618,7 @@ void animal_decide(PLW *wk) {
     return;
 }
 
-void don_appear_check(PLW *wk) {
+void don_appear_check(PLW* wk) {
 #if defined(TARGET_PS2)
     s32 effect_M0_init(u8 pl_rl, u8 animal_type);
 #endif
@@ -1629,7 +1629,7 @@ void don_appear_check(PLW *wk) {
     }
 }
 
-void Appear_30000(PLW *wk) {
+void Appear_30000(PLW* wk) {
     s16 work;
 
     switch (wk->wu.routine_no[3]) {
@@ -1639,7 +1639,7 @@ void Appear_30000(PLW *wk) {
         bg_app_stop = 1;
         work = random_16();
         work &= 3;
-        appear_data_set(wk, (APPEAR_DATA *)appear_data + 24);
+        appear_data_set(wk, (APPEAR_DATA*)appear_data + 24);
         set_char_move_init(&wk->wu, 9, 0xE);
         break;
 
@@ -1653,14 +1653,14 @@ void Appear_30000(PLW *wk) {
     }
 }
 
-void Appear_31000(PLW *wk) {
+void Appear_31000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
         wk->wu.disp_flag = 1;
 
         if (Appear_flag[wk->wu.id]) {
-            appear_data_set(wk, (APPEAR_DATA *)appear_data);
+            appear_data_set(wk, (APPEAR_DATA*)appear_data);
             Appear_00000(wk);
         } else {
             set_char_move_init(&wk->wu, 9, 8);
@@ -1682,7 +1682,7 @@ void Appear_31000(PLW *wk) {
     }
 }
 
-void Appear_32000(PLW *wk) {
+void Appear_32000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -1708,7 +1708,7 @@ void Appear_32000(PLW *wk) {
     }
 }
 
-void Appear_33000(PLW *wk) {
+void Appear_33000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -1738,8 +1738,8 @@ void Appear_33000(PLW *wk) {
             return;
         }
 
-        add_x_sub((WORK_Other *)wk);
-        add_y_sub((WORK_Other *)wk);
+        add_x_sub((WORK_Other*)wk);
+        add_y_sub((WORK_Other*)wk);
         break;
 
     case 2:
@@ -1753,7 +1753,7 @@ void Appear_33000(PLW *wk) {
     }
 }
 
-void Appear_34000(PLW *wk) {
+void Appear_34000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -1788,7 +1788,7 @@ void Appear_34000(PLW *wk) {
     }
 }
 
-void Appear_36000(PLW *wk) {
+void Appear_36000(PLW* wk) {
     s16 id_w = wk->wu.id ^ 1;
 
     switch (wk->wu.routine_no[3]) {
@@ -1838,7 +1838,7 @@ void Appear_36000(PLW *wk) {
             set_char_move_init2(&wk->wu, 9, 0x11, 0x0A, 0);
             wk->wu.next_z = wk->wu.my_priority;
         } else {
-            add_x_sub((WORK_Other *)wk);
+            add_x_sub((WORK_Other*)wk);
         }
 
         break;
@@ -1858,7 +1858,7 @@ void Appear_36000(PLW *wk) {
 
 const u8 animal_decide_tbl[] = { 0, 1, 2, 3, 4, 5, 0, 2, 0, 1, 2, 3, 4, 5, 0, 0 };
 
-void Appear_37000(PLW *wk) {
+void Appear_37000(PLW* wk) {
     s16 id_w = wk->wu.id ^ 1;
 
     switch (wk->wu.routine_no[3]) {
@@ -1941,14 +1941,14 @@ void Appear_37000(PLW *wk) {
             wk->wu.routine_no[3] = 0;
             Appear_end++;
         } else {
-            add_x_sub((WORK_Other *)&wk->wu);
+            add_x_sub((WORK_Other*)&wk->wu);
         }
 
         break;
     }
 }
 
-void Appear_38000(PLW *wk) {
+void Appear_38000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -1974,14 +1974,14 @@ void Appear_38000(PLW *wk) {
     }
 }
 
-void Appear_39000(PLW *wk) {
+void Appear_39000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
         wk->wu.disp_flag = 1;
 
         if (Gill_Appear_Flag) {
-            appear_data_set(wk, (APPEAR_DATA *)appear_data);
+            appear_data_set(wk, (APPEAR_DATA*)appear_data);
             Appear_00000(wk);
             return;
         }
@@ -2028,7 +2028,7 @@ void Appear_39000(PLW *wk) {
     }
 }
 
-void Appear_41000(PLW *wk) {
+void Appear_41000(PLW* wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
@@ -2053,7 +2053,7 @@ void Appear_41000(PLW *wk) {
     }
 }
 
-void gouki_appear(PLW *wk) {
+void gouki_appear(PLW* wk) {
     if (!wk->wu.cmwk[0]) {
         char_move(&wk->wu);
         return;

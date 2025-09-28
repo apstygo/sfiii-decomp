@@ -12,16 +12,16 @@
 #include "sf33rd/Source/Game/effl8.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void set_kabe_move_spd(WORK *wk, s16 tm);
-s32 kabe_check(WORK *wk);
+void set_kabe_move_spd(WORK* wk, s16 tm);
+s32 kabe_check(WORK* wk);
 
-void (*const pl17_exatt_table[18])(PLW *);
+void (*const pl17_exatt_table[18])(PLW*);
 
-void pl17_extra_attack(PLW *wk) {
+void pl17_extra_attack(PLW* wk) {
     pl17_exatt_table[wk->wu.routine_no[2] - 16](wk);
 }
 
-void Att_PL17_AT1(PLW *wk) {
+void Att_PL17_AT1(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -177,7 +177,7 @@ void Att_PL17_AT1(PLW *wk) {
     }
 }
 
-void set_kabe_move_spd(WORK *wk, s16 tm) {
+void set_kabe_move_spd(WORK* wk, s16 tm) {
     s16 tar_pos;
 
     tar_pos = get_center_position();
@@ -198,7 +198,7 @@ void set_kabe_move_spd(WORK *wk, s16 tm) {
     wk->mvxy.kop[0] = 1;
 }
 
-s32 kabe_check(WORK *wk) {
+s32 kabe_check(WORK* wk) {
     s16 tar_pos;
 
     if (wk->xyz[1].disp.pos < 85) {
@@ -228,7 +228,7 @@ s32 kabe_check(WORK *wk) {
     return 0;
 }
 
-void Att_PL17_AT2(PLW *wk) {
+void Att_PL17_AT2(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -253,7 +253,7 @@ void Att_PL17_AT2(PLW *wk) {
     }
 }
 
-void Att_PL17_TOKUSHUKOUDOU(PLW *wk) {
+void Att_PL17_TOKUSHUKOUDOU(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void grade_add_personal_action(s32 ix);
@@ -318,7 +318,7 @@ void Att_PL17_TOKUSHUKOUDOU(PLW *wk) {
     }
 }
 
-void (*const pl17_exatt_table[18])(PLW *) = {
+void (*const pl17_exatt_table[18])(PLW*) = {
     Att_CHOUCHUURENGEKI, Att_PL17_AT1,     Att_HADOUKEN2,      Att_PL17_AT2, Att_KUUCHUUJINNCHUUWATARI,
     Att_DUMMY,           Att_DUMMY,        Att_DUMMY,          Att_DUMMY,    Att_DUMMY,
     Att_DUMMY,           Att_DUMMY,        Att_DUMMY,          Att_DUMMY,    Att_PL17_TOKUSHUKOUDOU,

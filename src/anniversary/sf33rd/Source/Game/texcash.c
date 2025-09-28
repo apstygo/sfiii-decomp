@@ -24,7 +24,7 @@ typedef struct {
 } MTSBase;
 
 // sdata
-s8 *texcash_name[29] = { "    16x16 (tm)  32x32 (tm) GIX      (mn.nw)",
+s8* texcash_name[29] = { "    16x16 (tm)  32x32 (tm) GIX      (mn.nw)",
                          "QA",
                          "HT",
                          "1P",
@@ -55,8 +55,8 @@ s8 *texcash_name[29] = { "    16x16 (tm)  32x32 (tm) GIX      (mn.nw)",
                          "--.--" };
 
 // sbss
-u8 *texcash_melt_buffer;
-TexturePoolUsed *tpu_free;
+u8* texcash_melt_buffer;
+TexturePoolUsed* tpu_free;
 s16 mts_ob_curr_stage;
 
 // forward decls
@@ -129,7 +129,7 @@ void disp_texcash_free_area() {
 }
 
 void search_texcash_free_area(s16 ix) {
-    PatternState *mc;
+    PatternState* mc;
     s16 i;
     s16 num = 0;
 
@@ -187,10 +187,10 @@ void init_texcash_before_process() {
 }
 
 void init_texcash_2nd(s16 ix) {
-    PatternState *mc;
-    PatternCollection *cp;
-    TexturePoolFree *tf;
-    TexturePoolUsed *tu;
+    PatternState* mc;
+    PatternCollection* cp;
+    TexturePoolFree* tf;
+    TexturePoolUsed* tu;
     s16 i;
 
     tf = mts[ix].tpf;
@@ -238,7 +238,7 @@ void texture_cash_update() {
 #if defined(TARGET_PS2)
     void search_texcash_free_area(s32 ix);
 #endif
-    PatternState *mc;
+    PatternState* mc;
     s16 i;
     s16 num;
 
@@ -274,7 +274,7 @@ void texture_cash_update() {
     disp_texcash_free_area();
 }
 
-void update_with_tpu_free(PatternState *mc16, PatternState *mc32) {
+void update_with_tpu_free(PatternState* mc16, PatternState* mc32) {
     s16 i;
 
     for (i = 0; i < tpu_free->x16; i++) {
@@ -324,7 +324,7 @@ void make_texcash_work(s16 ix) {
 #endif
 
     size_t memreq;
-    u8 *adrs;
+    u8* adrs;
     // For some reason page16 is reused later as a pointer.
     // That's why it's uintptr_t and not u32 like page32.
     // I guess the devs were too lazy to make another var or something.
@@ -365,27 +365,27 @@ void make_texcash_work(s16 ix) {
             memreq = (mts[ix].mltnum16 * 8) + (mts[ix].mltnum32 * 8) + sizeof(PatternCollection) +
                      sizeof(TexturePoolFree) + sizeof(TexturePoolUsed);
             mts_ok[ix].key0 = Pull_ramcnt_key(memreq, mts_base[ix].type, 0, 0);
-            adrs = (u8 *)Get_ramcnt_address(mts_ok[ix].key0);
-            mts[ix].mltcsh16 = (PatternState *)adrs;
+            adrs = (u8*)Get_ramcnt_address(mts_ok[ix].key0);
+            mts[ix].mltcsh16 = (PatternState*)adrs;
             adrs += mts[ix].mltnum16 * 8;
-            mts[ix].mltcsh32 = (PatternState *)adrs;
+            mts[ix].mltcsh32 = (PatternState*)adrs;
             adrs += mts[ix].mltnum32 * 8;
-            mts[ix].cpat = (PatternCollection *)adrs;
+            mts[ix].cpat = (PatternCollection*)adrs;
             adrs += sizeof(PatternCollection);
-            mts[ix].tpf = (TexturePoolFree *)adrs;
+            mts[ix].tpf = (TexturePoolFree*)adrs;
             adrs += sizeof(TexturePoolFree);
-            mts[ix].tpu = (TexturePoolUsed *)adrs;
-            work_init_zero((s32 *)mts[ix].cpat, sizeof(PatternCollection));
-            work_init_zero((s32 *)mts[ix].tpf, sizeof(TexturePoolFree));
-            work_init_zero((s32 *)mts[ix].tpu, sizeof(TexturePoolUsed));
+            mts[ix].tpu = (TexturePoolUsed*)adrs;
+            work_init_zero((s32*)mts[ix].cpat, sizeof(PatternCollection));
+            work_init_zero((s32*)mts[ix].tpf, sizeof(TexturePoolFree));
+            work_init_zero((s32*)mts[ix].tpu, sizeof(TexturePoolUsed));
             init_texcash_2nd(ix);
         } else {
             memreq = mts[ix].mltnum16 * 8 + mts[ix].mltnum32 * 8;
             mts_ok[ix].key0 = Pull_ramcnt_key(memreq, mts_base[ix].type, 0, 0);
-            adrs = (u8 *)Get_ramcnt_address(mts_ok[ix].key0);
-            mts[ix].mltcsh16 = (PatternState *)adrs;
+            adrs = (u8*)Get_ramcnt_address(mts_ok[ix].key0);
+            mts[ix].mltcsh16 = (PatternState*)adrs;
             adrs += mts[ix].mltnum16 * 8;
-            mts[ix].mltcsh32 = (PatternState *)adrs;
+            mts[ix].mltcsh32 = (PatternState*)adrs;
         }
 
         mts[ix].mltbuf = texcash_melt_buffer;
@@ -394,7 +394,7 @@ void make_texcash_work(s16 ix) {
         mts_ok[ix].key1 = Pull_ramcnt_key(memreq, mts_base[ix].type, 0, 0);
         mts[ix].attribute = mts_base[ix].attribute;
         page16 = Get_ramcnt_address(mts_ok[ix].key1);
-        mlt_obj_trans_init(&mts[ix], mts_base[ix].mode, (u8 *)page16);
+        mlt_obj_trans_init(&mts[ix], mts_base[ix].mode, (u8*)page16);
 
         if (mts[ix].ext) {
             init_texcash_2nd(ix);
@@ -438,9 +438,9 @@ void clear_texcash_work(s16 ix) {
         }
 
         if (mts[ix].ext) {
-            work_init_zero((s32 *)mts[ix].cpat, sizeof(PatternCollection));
-            work_init_zero((s32 *)mts[ix].tpf, sizeof(TexturePoolFree));
-            work_init_zero((s32 *)mts[ix].tpu, sizeof(TexturePoolUsed));
+            work_init_zero((s32*)mts[ix].cpat, sizeof(PatternCollection));
+            work_init_zero((s32*)mts[ix].tpf, sizeof(TexturePoolFree));
+            work_init_zero((s32*)mts[ix].tpu, sizeof(TexturePoolUsed));
             init_texcash_2nd(ix);
         }
 

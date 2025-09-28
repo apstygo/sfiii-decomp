@@ -14,11 +14,11 @@ Char8 volatile adxps2_rt_ver3 = '1';
 Char8 volatile adxps2_rt_ver4 = '0';
 Char8 volatile adxps2_rt_ver5[29] = " Build:Sep 18 2003 10:00:02\n";
 
-void adxps2_err_dvd(void *obj, const Char8 *fmt) {
+void adxps2_err_dvd(void* obj, const Char8* fmt) {
     ADXERR_CallErrFunc1(fmt);
 }
 
-void ADXPS2_SetupDvdFs(ADXPS2_SPRM_DVD *sprmd) {
+void ADXPS2_SetupDvdFs(ADXPS2_SPRM_DVD* sprmd) {
     adxps2_rt_ver0;
     adxps2_rt_ver1;
     adxps2_rt_ver2;
@@ -39,7 +39,7 @@ void ADXPS2_SetupDvdFs(ADXPS2_SPRM_DVD *sprmd) {
     }
 }
 
-Sint32 ADXPS2_LoadFcacheDvd(ADXPS2_FCPRM *fcprm) {
+Sint32 ADXPS2_LoadFcacheDvd(ADXPS2_FCPRM* fcprm) {
     Sint32 ret = 0;
 
     if (fcprm != NULL) {

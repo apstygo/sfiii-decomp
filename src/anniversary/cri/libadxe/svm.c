@@ -13,18 +13,18 @@
 #endif
 
 typedef struct {
-    void (*func)(void *);
-    void *object;
+    void (*func)(void*);
+    void* object;
 } SVMLockCallback;
 
 typedef struct {
-    void (*func)(void *, Char8 *);
-    void *object;
+    void (*func)(void*, Char8*);
+    void* object;
 } SVMErrorCallback;
 
 typedef struct {
-    Sint32 (*func)(void *);
-    void *object;
+    Sint32 (*func)(void*);
+    void* object;
 } SVMSVRCallback;
 
 typedef struct {
@@ -33,7 +33,7 @@ typedef struct {
 } SVM_UNK;
 
 // data
-Char8 *svm_build = "\nSVM/PS2EE Ver.1.51 Build:Sep 18 2003 09:59:52\n";
+Char8* svm_build = "\nSVM/PS2EE Ver.1.51 Build:Sep 18 2003 09:59:52\n";
 volatile Sint32 svm_init_level = 0;
 volatile Sint32 svm_lock_level = 0;
 volatile Sint32 svm_locking_type = 0;
@@ -131,7 +131,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_UnlockEtc);
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_GetLockType);
 
-void SVM_CallErr(const Char8 *format, ...) {
+void SVM_CallErr(const Char8* format, ...) {
     va_list args;
 
     memset(svmerr_msg, 0, sizeof(svmerr_msg));
@@ -143,7 +143,7 @@ void SVM_CallErr(const Char8 *format, ...) {
     }
 }
 
-void SVM_CallErr1(const Char8 *msg) {
+void SVM_CallErr1(const Char8* msg) {
     strncpy(svmerr_msg, msg, sizeof(svmerr_msg) - 1);
 
     if (svm_error_callback.func != NULL) {
@@ -158,9 +158,9 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_ItoA);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/svm", D_0055E808);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_ItoA2);
 
-Sint32 SVM_SetCbSvr(Sint32 index, Sint32 (*func)(void *), void *object) {
+Sint32 SVM_SetCbSvr(Sint32 index, Sint32 (*func)(void*), void* object) {
     Sint32 i;
-    SVMSVRCallback *callback;
+    SVMSVRCallback* callback;
 
     SVM_Lock();
 
@@ -193,8 +193,8 @@ void SVM_DelCbSvr(Sint32 group, Sint32 id) {
     SVM_Unlock();
 }
 
-void SVM_SetCbSvrId(Sint32 svtype, Sint32 id, Sint32 (*func)(void *), void *object) {
-    SVMSVRCallback *callback;
+void SVM_SetCbSvrId(Sint32 svtype, Sint32 id, Sint32 (*func)(void*), void* object) {
+    SVMSVRCallback* callback;
 
     if ((Uint32)id >= 6) {
         SVM_CallErr1("1071201:SVM_SetCbSvrId:illegal id");
@@ -225,25 +225,25 @@ void SVM_SetCbBdr(Sint32 arg0, void (*arg1)(), Sint32 arg2) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_GotoSvrBorder);
 
-void SVM_SetCbErr(void (*func)(void *, Char8 *), void *object) {
+void SVM_SetCbErr(void (*func)(void*, Char8*), void* object) {
     SVM_Lock();
     svm_error_callback.func = func;
     svm_error_callback.object = object;
     SVM_Unlock();
 }
 
-void SVM_SetCbLock(void (*func)(void *), void *object) {
+void SVM_SetCbLock(void (*func)(void*), void* object) {
     svm_lock_callback.func = func;
     svm_lock_callback.object = object;
 }
 
-void SVM_SetCbUnlock(void (*func)(void *), void *object) {
+void SVM_SetCbUnlock(void (*func)(void*), void* object) {
     svm_unlock_callback.func = func;
     svm_unlock_callback.object = object;
 }
 
 Sint32 SVM_ExecSvrFunc(Sint32 svtype) {
-    SVMSVRCallback *callback;
+    SVMSVRCallback* callback;
     Sint32 i;
     Sint32 func_result;
     Sint32 result = 0;
@@ -295,7 +295,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/svm", SVM_GetExecCount);
 
 void svm_reset_variable() {
     Sint32 i;
-    Sint32 *exec_cnt_ptr;
+    Sint32* exec_cnt_ptr;
 
     memset(svm_svr_exec_flag, 0, sizeof(svm_svr_exec_flag));
     memset(&svm_lock_callback, 0, sizeof(SVMLockCallback));
@@ -327,7 +327,7 @@ void SVM_Finish() {
     }
 }
 
-Sint32 SVM_TestAndSet(Sint32 *mem) {
+Sint32 SVM_TestAndSet(Sint32* mem) {
     Sint32 temp;
     Sint32 result;
 

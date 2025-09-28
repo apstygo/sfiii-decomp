@@ -8,24 +8,24 @@
 #include <stdio.h>
 #include <string.h>
 
-typedef void (*act_jmp_ptr)(memcard_work *);
+typedef void (*act_jmp_ptr)(memcard_work*);
 
 // forward decls
-static void mc_act_stop(memcard_work *mw);
-static void mc_act_return(memcard_work *mw);
-static void mc_act_check(memcard_work *mw);
-static void mc_act_exist(memcard_work *mw);
-static void mc_act_load(memcard_work *mw);
-static void mc_act_save0(memcard_work *mw);
-static void mc_act_save(memcard_work *mw);
-static void mc_act_format(memcard_work *mw);
-static void mc_act_unformat(memcard_work *mw);
-static void mc_act_delete(memcard_work *mw);
-static void mc_act_remove(memcard_work *mw);
-static void mc_act_list(memcard_work *mw);
+static void mc_act_stop(memcard_work* mw);
+static void mc_act_return(memcard_work* mw);
+static void mc_act_check(memcard_work* mw);
+static void mc_act_exist(memcard_work* mw);
+static void mc_act_load(memcard_work* mw);
+static void mc_act_save0(memcard_work* mw);
+static void mc_act_save(memcard_work* mw);
+static void mc_act_format(memcard_work* mw);
+static void mc_act_unformat(memcard_work* mw);
+static void mc_act_delete(memcard_work* mw);
+static void mc_act_remove(memcard_work* mw);
+static void mc_act_list(memcard_work* mw);
 
-static void day_of_week(memcard_date *md);
-static void mc_icon_sys_set(memcard_work *mw);
+static void day_of_week(memcard_date* md);
+static void mc_icon_sys_set(memcard_work* mw);
 
 static _memcard_file mc_file_game = {
     "ＳＦ３　３ｒｄ　ＳＴＲＩＫＥ",
@@ -75,7 +75,7 @@ static _memcard_file mc_file_replay = {
     0x7FFFFFFF,
 };
 
-static _memcard_file *mc_file_tbl[3] = { &mc_file_game, &mc_file_sysdir, &mc_file_replay };
+static _memcard_file* mc_file_tbl[3] = { &mc_file_game, &mc_file_sysdir, &mc_file_replay };
 
 static act_jmp_ptr mc_act_jmp[11] = { mc_act_stop,   mc_act_check,  mc_act_exist,  mc_act_load,
                                       mc_act_save0,  mc_act_save,   mc_act_format, mc_act_unformat,
@@ -90,7 +90,7 @@ s8 mc_path[64];
 
 void MemcardInit() {
     s32 ret;
-    memcard_work *mw = &MemcardWork;
+    memcard_work* mw = &MemcardWork;
 
     memset(mw, 0, sizeof(MemcardWork));
     mw->max_port = 2;
@@ -101,7 +101,7 @@ void MemcardInit() {
     } while (ret < 0);
 }
 
-static s32 mc_sync(memcard_work *mw) {
+static s32 mc_sync(memcard_work* mw) {
     s32 ret;
 
     mw->cmds = 0;
@@ -111,7 +111,7 @@ static s32 mc_sync(memcard_work *mw) {
     return (ret == 0) ? -1 : 0;
 }
 
-static s32 mc_check_card(memcard_work *mw) {
+static s32 mc_check_card(memcard_work* mw) {
     s32 s_stat;
 
     switch (mw->r_no_1) {
@@ -200,7 +200,7 @@ static s32 mc_check_card(memcard_work *mw) {
     return -1;
 }
 
-s32 mc_check_file(memcard_work *mw) {
+s32 mc_check_file(memcard_work* mw) {
     switch (mw->r_no_1) {
     case 0:
         if (mc_sync(mw) < 0) {
@@ -245,7 +245,7 @@ s32 mc_check_file(memcard_work *mw) {
     return -1;
 }
 
-static s32 mc_read_file(memcard_work *mw) {
+static s32 mc_read_file(memcard_work* mw) {
     switch (mw->r_no_1) {
     case 0:
         if (mc_sync(mw) < 0) {
@@ -313,7 +313,7 @@ static s32 mc_read_file(memcard_work *mw) {
     return -1;
 }
 
-static s32 mc_mkdir(memcard_work *mw) {
+static s32 mc_mkdir(memcard_work* mw) {
     switch (mw->r_no_1) {
     case 0:
         if (mc_sync(mw) < 0) {
@@ -345,7 +345,7 @@ static s32 mc_mkdir(memcard_work *mw) {
     return -1;
 }
 
-static s32 mc_create_file(memcard_work *mw) {
+static s32 mc_create_file(memcard_work* mw) {
     switch (mw->r_no_1) {
     case 0:
         if (mc_sync(mw) < 0) {
@@ -393,7 +393,7 @@ static s32 mc_create_file(memcard_work *mw) {
     return -1;
 }
 
-static s32 mc_write_file(memcard_work *mw) {
+static s32 mc_write_file(memcard_work* mw) {
     switch (mw->r_no_1) {
     case 0:
         if (mc_sync(mw) < 0) {
@@ -461,7 +461,7 @@ static s32 mc_write_file(memcard_work *mw) {
     return -1;
 }
 
-static s32 mc_delete_file(memcard_work *mw) {
+static s32 mc_delete_file(memcard_work* mw) {
     switch (mw->r_no_1) {
     case 0:
         if (mc_sync(mw) < 0) {
@@ -489,7 +489,7 @@ static s32 mc_delete_file(memcard_work *mw) {
     return -1;
 }
 
-static s32 mc_format(memcard_work *mw) {
+static s32 mc_format(memcard_work* mw) {
     switch (mw->r_no_1) {
     case 0:
         if (mc_sync(mw) < 0) {
@@ -517,7 +517,7 @@ static s32 mc_format(memcard_work *mw) {
     return -1;
 }
 
-static s32 mc_unformat(memcard_work *mw) {
+static s32 mc_unformat(memcard_work* mw) {
     switch (mw->r_no_1) {
     case 0:
         if (mc_sync(mw) < 0) {
@@ -545,7 +545,7 @@ static s32 mc_unformat(memcard_work *mw) {
     return -1;
 }
 
-static s32 mc_delete_dir(memcard_work *mw) {
+static s32 mc_delete_dir(memcard_work* mw) {
     switch (mw->r_no_1) {
     case 0:
         if (mc_sync(mw) < 0) {
@@ -632,7 +632,7 @@ static s32 mc_delete_dir(memcard_work *mw) {
     return -1;
 }
 
-static s32 mc_get_dir(memcard_work *mw) {
+static s32 mc_get_dir(memcard_work* mw) {
     switch (mw->r_no_1) {
     case 0:
         if (mc_sync(mw) < 0) {
@@ -669,8 +669,8 @@ static s32 mc_get_dir(memcard_work *mw) {
 
 void McActInit(s32 file_type, s32 file_no) {
     s8 tmp[4];
-    memcard_work *mw = &MemcardWork;
-    _memcard_file *mf = mc_file_tbl[file_type];
+    memcard_work* mw = &MemcardWork;
+    _memcard_file* mf = mc_file_tbl[file_type];
 
     mw->r_no_0 = 0;
     mw->r_no_1 = 0;
@@ -687,7 +687,7 @@ void McActInit(s32 file_type, s32 file_no) {
 }
 
 void McActMain() {
-    memcard_work *mw = &MemcardWork;
+    memcard_work* mw = &MemcardWork;
 
     ADXM_Lock();
     mc_act_jmp[mw->act_no](mw);
@@ -695,24 +695,24 @@ void McActMain() {
 }
 
 void McActStopSet() {
-    memcard_work *mw = &MemcardWork;
+    memcard_work* mw = &MemcardWork;
 
     mw->act_no = 0;
     mw->exe_flag = 0;
 }
 
-static void mc_act_stop(memcard_work *mw) {
+static void mc_act_stop(memcard_work* mw) {
     // do nothing
 }
 
-static void mc_act_return(memcard_work *mw) {
+static void mc_act_return(memcard_work* mw) {
     if (mw->result != -1) {
         McActStopSet();
     }
 }
 
 void McActCheckSet() {
-    memcard_work *mw = &MemcardWork;
+    memcard_work* mw = &MemcardWork;
 
     mw->act_no = 1;
     mw->result = -1;
@@ -721,7 +721,7 @@ void McActCheckSet() {
     mw->port = 0;
 }
 
-static void mc_act_check(memcard_work *mw) {
+static void mc_act_check(memcard_work* mw) {
     if (mc_check_card(mw) < 0) {
         return;
     }
@@ -731,9 +731,9 @@ static void mc_act_check(memcard_work *mw) {
     }
 }
 
-void McActExistSet(s32 port, void *bufs) {
-    memcard_work *mw = &MemcardWork;
-    _memcard_file *mf = mc_file_tbl[mw->file_type];
+void McActExistSet(s32 port, void* bufs) {
+    memcard_work* mw = &MemcardWork;
+    _memcard_file* mf = mc_file_tbl[mw->file_type];
 
     mw->act_no = 2;
     mw->result = -1;
@@ -753,8 +753,8 @@ void McActExistSet(s32 port, void *bufs) {
     }
 }
 
-static void mc_act_exist(memcard_work *mw) {
-    memcard_date *md;
+static void mc_act_exist(memcard_work* mw) {
+    memcard_date* md;
 
     switch (mw->r_no_0) {
     case 0:
@@ -778,7 +778,7 @@ static void mc_act_exist(memcard_work *mw) {
     case 1:
         switch (mc_check_file(mw)) {
         case 0:
-            md = (memcard_date *)&mc_dir._Modify;
+            md = (memcard_date*)&mc_dir._Modify;
             day_of_week(md);
 
             if (mw->mode == 0) {
@@ -855,9 +855,9 @@ static void mc_act_exist(memcard_work *mw) {
     mc_act_return(mw);
 }
 
-void McActLoadSet(s32 port, void *bufs) {
-    memcard_work *mw = &MemcardWork;
-    _memcard_file *mf = mc_file_tbl[mw->file_type];
+void McActLoadSet(s32 port, void* bufs) {
+    memcard_work* mw = &MemcardWork;
+    _memcard_file* mf = mc_file_tbl[mw->file_type];
 
     mw->act_no = 3;
     mw->result = -1;
@@ -869,7 +869,7 @@ void McActLoadSet(s32 port, void *bufs) {
     mw->size = mf->file[4].size;
 }
 
-static void mc_act_load(memcard_work *mw) {
+static void mc_act_load(memcard_work* mw) {
     switch (mw->r_no_0) {
     case 0:
         switch (mc_check_card(mw)) {
@@ -932,9 +932,9 @@ static void mc_act_load(memcard_work *mw) {
     mc_act_return(mw);
 }
 
-void McActSave0Set(s32 port, void *bufs, s32 mode) {
-    memcard_work *mw = &MemcardWork;
-    _memcard_file *mf = mc_file_tbl[mw->file_type];
+void McActSave0Set(s32 port, void* bufs, s32 mode) {
+    memcard_work* mw = &MemcardWork;
+    _memcard_file* mf = mc_file_tbl[mw->file_type];
 
     mw->act_no = 4;
     mw->result = -1;
@@ -948,8 +948,8 @@ void McActSave0Set(s32 port, void *bufs, s32 mode) {
     memset(bufs, 0, mw->size);
 }
 
-static void mc_act_save0(memcard_work *mw) {
-    _memcard_file *mf = mc_file_tbl[mw->file_type];
+static void mc_act_save0(memcard_work* mw) {
+    _memcard_file* mf = mc_file_tbl[mw->file_type];
 
     switch (mw->r_no_0) {
     case 0:
@@ -1050,9 +1050,9 @@ static void mc_act_save0(memcard_work *mw) {
     mc_act_return(mw);
 }
 
-void McActSaveSet(s32 port, void *bufs) {
-    memcard_work *mw = &MemcardWork;
-    _memcard_file *mf = mc_file_tbl[mw->file_type];
+void McActSaveSet(s32 port, void* bufs) {
+    memcard_work* mw = &MemcardWork;
+    _memcard_file* mf = mc_file_tbl[mw->file_type];
 
     mw->act_no = 5;
     mw->result = -1;
@@ -1067,8 +1067,8 @@ void McActSaveSet(s32 port, void *bufs) {
     mw->exe_flag = 1;
 }
 
-static void mc_act_save(memcard_work *mw) {
-    _memcard_file *mf = mc_file_tbl[mw->file_type];
+static void mc_act_save(memcard_work* mw) {
+    _memcard_file* mf = mc_file_tbl[mw->file_type];
 
     switch (mw->r_no_0) {
     case 0:
@@ -1121,7 +1121,7 @@ static void mc_act_save(memcard_work *mw) {
             strcat(mw->path, mf->file[mw->cnt_0].name);
         }
 
-        mw->bufs = (void *)mf->file[mw->cnt_0].bufs;
+        mw->bufs = (void*)mf->file[mw->cnt_0].bufs;
         mw->size = mf->file[mw->cnt_0].size;
         mw->r_no_0 += 1;
 
@@ -1209,7 +1209,7 @@ static void mc_act_save(memcard_work *mw) {
 }
 
 void McActFormatSet(s32 port) {
-    memcard_work *mw = &MemcardWork;
+    memcard_work* mw = &MemcardWork;
 
     mw->act_no = 6;
     mw->result = -1;
@@ -1219,7 +1219,7 @@ void McActFormatSet(s32 port) {
     mw->exe_flag = 1;
 }
 
-static void mc_act_format(memcard_work *mw) {
+static void mc_act_format(memcard_work* mw) {
     switch (mw->r_no_0) {
     case 0:
         switch (mc_format(mw)) {
@@ -1238,7 +1238,7 @@ static void mc_act_format(memcard_work *mw) {
     mc_act_return(mw);
 }
 
-static void mc_act_unformat(memcard_work *mw) {
+static void mc_act_unformat(memcard_work* mw) {
     switch (mw->r_no_0) {
     case 0:
         switch (mc_unformat(mw)) {
@@ -1257,7 +1257,7 @@ static void mc_act_unformat(memcard_work *mw) {
     mc_act_return(mw);
 }
 
-static void mc_act_delete(memcard_work *mw) {
+static void mc_act_delete(memcard_work* mw) {
     switch (mw->r_no_0) {
     case 0:
         switch (mc_check_card(mw)) {
@@ -1320,7 +1320,7 @@ static void mc_act_delete(memcard_work *mw) {
     mc_act_return(mw);
 }
 
-static void mc_act_remove(memcard_work *mw) {
+static void mc_act_remove(memcard_work* mw) {
     switch (mw->r_no_0) {
     case 0:
         switch (mc_delete_dir(mw)) {
@@ -1339,7 +1339,7 @@ static void mc_act_remove(memcard_work *mw) {
     mc_act_return(mw);
 }
 
-static void mc_act_list(memcard_work *mw) {
+static void mc_act_list(memcard_work* mw) {
     switch (mw->r_no_0) {
     case 0:
         switch (mc_check_card(mw)) {
@@ -1399,13 +1399,13 @@ s32 McActNewChk(s32 port) {
     return MemcardWork.new & (1 << port);
 }
 
-s32 McActAvailSet(s32 *ico) {
+s32 McActAvailSet(s32* ico) {
     intptr_t top;
     s32 i;
     s32 n;
     s32 cluster;
-    memcard_work *mw = &MemcardWork;
-    _memcard_file *mf = mc_file_tbl[mw->file_type];
+    memcard_work* mw = &MemcardWork;
+    _memcard_file* mf = mc_file_tbl[mw->file_type];
 
     if (ico != NULL) {
         top = (intptr_t)ico;
@@ -1446,15 +1446,15 @@ s32 McActAvailSet(s32 *ico) {
     return cluster;
 }
 
-void McActLastDate(memcard_date *date) {
-    memcard_date *md;
+void McActLastDate(memcard_date* date) {
+    memcard_date* md;
 
-    md = (memcard_date *)&mc_dir._Modify;
+    md = (memcard_date*)&mc_dir._Modify;
     day_of_week(md);
     memcpy(date, md, sizeof(memcard_date));
 }
 
-void McActZenNum(s32 num, s8 *buf, s32 mode, s32 max) {
+void McActZenNum(s32 num, s8* buf, s32 mode, s32 max) {
     s32 i;
     s32 d0;
     s32 d1;
@@ -1494,16 +1494,16 @@ void McActZenNum(s32 num, s8 *buf, s32 mode, s32 max) {
     *buf = 0;
 }
 
-void *McActIconTexAdrs(s32 file_type, s32 num) {
-    u32 *data;
+void* McActIconTexAdrs(s32 file_type, s32 num) {
+    u32* data;
     u32 nbsp;
     u32 attrib;
     u32 nbvtx;
     u32 nbksp;
     u32 nbkf;
-    _memcard_file *mf = mc_file_tbl[file_type];
+    _memcard_file* mf = mc_file_tbl[file_type];
 
-    data = (u32 *)mf->file[num + 1].bufs;
+    data = (u32*)mf->file[num + 1].bufs;
     data++;
     nbsp = *data++;
     attrib = *data++;
@@ -1535,7 +1535,7 @@ void *McActIconTexAdrs(s32 file_type, s32 num) {
     return data;
 }
 
-static void day_of_week(memcard_date *md) {
+static void day_of_week(memcard_date* md) {
     s32 y;
     s32 m;
 
@@ -1550,25 +1550,25 @@ static void day_of_week(memcard_date *md) {
     md->dayofweek = (md->day + ((y / 400) + ((y + y / 4) - (y / 100)) + ((m * 13 + 8) / 5))) % 7;
 }
 
-static void mc_icon_sys_set(memcard_work *mw) {
+static void mc_icon_sys_set(memcard_work* mw) {
     s8 tmp[8];
-    sceMcIconSys *isys;
-    _memcard_file *mf = mc_file_tbl[mw->file_type];
+    sceMcIconSys* isys;
+    _memcard_file* mf = mc_file_tbl[mw->file_type];
 
     if (mf->file[0].flag == 0) {
         return;
     }
 
-    isys = (sceMcIconSys *)mf->file[0].bufs;
+    isys = (sceMcIconSys*)mf->file[0].bufs;
     isys->OffsLF = strlen(mf->title1);
-    sprintf((s8 *)isys->TitleName, "%s%s", mf->title1, mf->title2);
+    sprintf((s8*)isys->TitleName, "%s%s", mf->title1, mf->title2);
 
     if (mf->fnum_flag & 2) {
         McActZenNum(mw->file_no, tmp, 1, 2);
-        strcat((s8 *)isys->TitleName, tmp);
+        strcat((s8*)isys->TitleName, tmp);
     }
 
-    strcpy((s8 *)isys->FnameView, mf->file[1].name);
-    strcpy((s8 *)isys->FnameCopy, mf->file[2].name);
-    strcpy((s8 *)isys->FnameDel, mf->file[3].name);
+    strcpy((s8*)isys->FnameView, mf->file[1].name);
+    strcpy((s8*)isys->FnameCopy, mf->file[2].name);
+    strcpy((s8*)isys->FnameDel, mf->file[3].name);
 }

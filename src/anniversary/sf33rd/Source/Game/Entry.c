@@ -20,7 +20,7 @@
 
 u8 letter_stack[40];
 u8 letter_counter;
-u8 *letter_ptr;
+u8* letter_ptr;
 
 const u8 Coin_Message_Data[7][2] = { { 5, 30 }, { 2, 27 }, { 7, 32 }, { 17, 37 }, { 6, 31 }, { 5, 42 }, { 0, 0 } };
 
@@ -82,7 +82,7 @@ void Break_Into_09(s16 PL_id);
 void Break_Into_10(s16 PL_id);
 void Continue_Score_Sub(s16 PL_id);
 
-void Entry_Task(struct _TASK * /* unused */) {
+void Entry_Task(struct _TASK* /* unused */) {
     s16 ix;
     s16 ff;
 

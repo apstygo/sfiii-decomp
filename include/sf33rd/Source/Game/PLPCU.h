@@ -4,6 +4,6 @@
 #include "structs.h"
 #include "types.h"
 
-void Player_caught(PLW *wk);
+void Player_caught(PLW* wk);
 
 #endif

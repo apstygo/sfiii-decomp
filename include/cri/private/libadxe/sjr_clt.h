@@ -4,8 +4,8 @@
 #include <cri/cri_xpts.h>
 
 void SJRMT_Init();
-void *SJUNI_CreateRmt(Sint32, Sint8 *, Sint32);
-void SJRMT_Destroy(void *);
+void* SJUNI_CreateRmt(Sint32, Sint8*, Sint32);
+void SJRMT_Destroy(void*);
 void SJRMT_Finish();
 
 #endif

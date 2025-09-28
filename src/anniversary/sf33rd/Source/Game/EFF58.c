@@ -10,11 +10,11 @@
 #include "sf33rd/Source/Game/sc_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-s32 SF33rd_Logo(WORK_Other *ewk);
-void EFF58_Type_01(WORK_Other *ewk);
-void Fade_In_58_Sub(WORK_Other *ewk);
+s32 SF33rd_Logo(WORK_Other* ewk);
+void EFF58_Type_01(WORK_Other* ewk);
+void Fade_In_58_Sub(WORK_Other* ewk);
 
-void effect_58_move(WORK_Other *ewk) {
+void effect_58_move(WORK_Other* ewk) {
     s16 xx;
 
     switch (ewk->wu.routine_no[0]) {
@@ -202,14 +202,14 @@ void effect_58_move(WORK_Other *ewk) {
 }
 
 s32 effect_58_init(s16 id, s16 time0, s16 option) {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 58;
     ewk->wu.work_id = 16;
@@ -220,7 +220,7 @@ s32 effect_58_init(s16 id, s16 time0, s16 option) {
     return 0;
 }
 
-s32 SF33rd_Logo(WORK_Other *ewk) {
+s32 SF33rd_Logo(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[2]) {
     case 0:
         ewk->wu.routine_no[2]++;
@@ -270,7 +270,7 @@ s32 SF33rd_Logo(WORK_Other *ewk) {
     return ewk->wu.direction;
 }
 
-void EFF58_Type_01(WORK_Other *ewk) {
+void EFF58_Type_01(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[2]) {
     case 0:
         Switch_Screen(1);
@@ -291,7 +291,7 @@ void EFF58_Type_01(WORK_Other *ewk) {
     }
 }
 
-void Fade_In_58_Sub(WORK_Other *ewk) {
+void Fade_In_58_Sub(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[2]) {
     case 0:
         ewk->wu.routine_no[2]++;

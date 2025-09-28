@@ -10,5 +10,5 @@ ColumnLimit: 120
 AllowShortBlocksOnASingleLine: Empty
 AllowShortFunctionsOnASingleLine: Empty
 DerivePointerAlignment: false
-# PointerAlignmentStyle: Left
+PointerAlignment: Left
 InsertNewlineAtEOF: true

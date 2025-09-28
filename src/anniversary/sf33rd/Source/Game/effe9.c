@@ -7,7 +7,7 @@
 #include "sf33rd/Source/Game/end_data.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_E9_move(WORK_Other *ewk) {
+void effect_E9_move(WORK_Other* ewk) {
     PAL_CURSOR ita;
     PAL_CURSOR_P ita_p[4];
     PAL_CURSOR_P ita_pos[4];
@@ -54,7 +54,7 @@ void effect_E9_move(WORK_Other *ewk) {
             ita_pos[1] = ita_p[3];
             ita_pos[2] = ita_p[1];
             ita_pos[3] = ita_p[2];
-            njDrawPolygon2D((PAL_CURSOR *)&ita.p, 4, prio, 0x60);
+            njDrawPolygon2D((PAL_CURSOR*)&ita.p, 4, prio, 0x60);
         }
 
         break;
@@ -85,7 +85,7 @@ void effect_E9_move(WORK_Other *ewk) {
             ita_pos[1] = ita_p[3];
             ita_pos[2] = ita_p[1];
             ita_pos[3] = ita_p[2];
-            njDrawPolygon2D((PAL_CURSOR *)&ita.p, 4, prio, 0x60);
+            njDrawPolygon2D((PAL_CURSOR*)&ita.p, 4, prio, 0x60);
             break;
         }
 
@@ -105,7 +105,7 @@ void effect_E9_move(WORK_Other *ewk) {
             ita_pos[1] = ita_p[3];
             ita_pos[2] = ita_p[1];
             ita_pos[3] = ita_p[2];
-            njDrawPolygon2D((PAL_CURSOR *)&ita.p, 4, prio, 0x60);
+            njDrawPolygon2D((PAL_CURSOR*)&ita.p, 4, prio, 0x60);
         }
 
         break;
@@ -117,7 +117,7 @@ void effect_E9_move(WORK_Other *ewk) {
 }
 
 s32 effect_E9_init() {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 i;
 
@@ -126,7 +126,7 @@ s32 effect_E9_init() {
         if ((ix = pull_effect_work(4)) == -1) {
             return -1;
         }
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.id = 149;
         ewk->wu.be_flag = 1;
         ewk->wu.type = i;

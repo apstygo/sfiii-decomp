@@ -58,8 +58,8 @@ typedef struct {
 static s32 FilterMode;
 static s32 CP3toPS2DrawFlag;
 
-void ps2QuadTexture(VecUnk *ptr, u32 num);
-void ps2QuadSolid(VecUnk *ptr, u32 num);
+void ps2QuadTexture(VecUnk* ptr, u32 num);
+void ps2QuadSolid(VecUnk* ptr, u32 num);
 
 void ps2SeqsRenderQuadInit_A() {
     // Do nothing
@@ -69,14 +69,14 @@ void ps2SeqsRenderQuadInit_B() {
     // Do nothing
 }
 
-void ps2SeqsRenderQuad_Ax(Sprite2 *spr) {
+void ps2SeqsRenderQuad_Ax(Sprite2* spr) {
 #if !defined(TARGET_PS2)
     SDLGameRenderer_DrawSprite2(spr);
 #else
     u32 data_ptr;
     u32 col;
     u64 rgbaq;
-    u64 *p;
+    u64* p;
     s32 x;
     s32 y;
     s32 z;
@@ -86,11 +86,11 @@ void ps2SeqsRenderQuad_Ax(Sprite2 *spr) {
     u8 cB;
 
     data_ptr = flPS2GetSystemTmpBuff(80, 16);
-    p = (u64 *)data_ptr;
+    p = (u64*)data_ptr;
 
     *p++ = 0x80000000 | DMAend | 4;
-    *((u32 *)p)++ = SCE_VIF1_SET_NOP(0);
-    *((u32 *)p)++ = SCE_VIF1_SET_DIRECTHL(4, 0);
+    *((u32*)p)++ = SCE_VIF1_SET_NOP(0);
+    *((u32*)p)++ = SCE_VIF1_SET_DIRECTHL(4, 0);
 
     *p++ = SCE_GIF_SET_TAG(1, 1, 0, 0, SCE_GIF_REGLIST, 6);
     *p++ = SCE_GS_PRIM | SCE_GS_RGBAQ << 4 | SCE_GS_ST << 8 | SCE_GS_XYZ2 << 12 | SCE_GS_ST << 16 | SCE_GS_XYZ2 << 20;
@@ -114,13 +114,13 @@ void ps2SeqsRenderQuad_Ax(Sprite2 *spr) {
                            /* frag */ 0);
     *p++ = rgbaq;
 
-    *p++ = SCE_GS_SET_ST(((_Sprite2 *)spr)->t[0].s, ((_Sprite2 *)spr)->t[0].t);
+    *p++ = SCE_GS_SET_ST(((_Sprite2*)spr)->t[0].s, ((_Sprite2*)spr)->t[0].t);
 
     x = spr->v[0].x + 0.5f;
     y = spr->v[0].y + 0.5f;
     *p++ = SCE_GS_SET_XYZ((flPs2State.D2dOffsetX + x) << 4, (flPs2State.D2dOffsetY + y) << 4, (u32)z);
 
-    *p++ = SCE_GS_SET_ST(((_Sprite2 *)spr)->t[1].s, ((_Sprite2 *)spr)->t[1].t);
+    *p++ = SCE_GS_SET_ST(((_Sprite2*)spr)->t[1].s, ((_Sprite2*)spr)->t[1].t);
 
     x = spr->v[1].x + 0.5f;
     y = spr->v[1].y + 0.5f;
@@ -130,13 +130,13 @@ void ps2SeqsRenderQuad_Ax(Sprite2 *spr) {
 #endif
 }
 
-void ps2SeqsRenderQuad_A2(Sprite *spr, u32 col) {
+void ps2SeqsRenderQuad_A2(Sprite* spr, u32 col) {
 #if !defined(TARGET_PS2)
     SDLGameRenderer_DrawSprite(spr, col);
 #else
     u32 data_ptr;
     u64 rgbaq;
-    u64 *p;
+    u64* p;
     s32 x;
     s32 y;
     s32 z;
@@ -146,11 +146,11 @@ void ps2SeqsRenderQuad_A2(Sprite *spr, u32 col) {
     u8 cB;
 
     data_ptr = flPS2GetSystemTmpBuff(0x50, 0x10);
-    p = (u64 *)data_ptr;
+    p = (u64*)data_ptr;
 
     *p++ = 0x80000000 | DMAend | 4;
-    *((u32 *)p)++ = SCE_VIF1_SET_NOP(0);
-    *((u32 *)p)++ = SCE_VIF1_SET_DIRECTHL(4, 0);
+    *((u32*)p)++ = SCE_VIF1_SET_NOP(0);
+    *((u32*)p)++ = SCE_VIF1_SET_DIRECTHL(4, 0);
 
     *p++ = SCE_GIF_SET_TAG(1, SCE_GS_TRUE, SCE_GS_FALSE, 0, SCE_GIF_REGLIST, 6);
     *p++ = SCE_GS_PRIM | SCE_GS_RGBAQ << 4 | SCE_GS_ST << 8 | SCE_GS_XYZ2 << 12 | SCE_GS_ST << 16 | SCE_GS_XYZ2 << 20;
@@ -175,13 +175,13 @@ void ps2SeqsRenderQuad_A2(Sprite *spr, u32 col) {
 
     *p++ = rgbaq;
 
-    *p++ = SCE_GS_SET_ST(((_Sprite *)spr)->t[0].s, ((_Sprite *)spr)->t[0].t);
+    *p++ = SCE_GS_SET_ST(((_Sprite*)spr)->t[0].s, ((_Sprite*)spr)->t[0].t);
 
     x = spr->v[0].x + 0.5f;
     y = spr->v[0].y + 0.5f;
     *p++ = SCE_GS_SET_XYZ((flPs2State.D2dOffsetX + x) << 4, (flPs2State.D2dOffsetY + y) << 4, (u32)z);
 
-    *p++ = SCE_GS_SET_ST(((_Sprite *)spr)->t[3].s, ((_Sprite *)spr)->t[3].t);
+    *p++ = SCE_GS_SET_ST(((_Sprite*)spr)->t[3].s, ((_Sprite*)spr)->t[3].t);
 
     x = spr->v[3].x + 0.5f;
     y = spr->v[3].y + 0.5f;
@@ -191,12 +191,12 @@ void ps2SeqsRenderQuad_A2(Sprite *spr, u32 col) {
 #endif
 }
 
-void ps2SeqsRenderQuad_A(Sprite *spr, u32 col) {
+void ps2SeqsRenderQuad_A(Sprite* spr, u32 col) {
     VecUnk vptr[4];
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        ((_VecUnk *)vptr)[i].vec.vec3 = spr->v[i];
+        ((_VecUnk*)vptr)[i].vec.vec3 = spr->v[i];
         vptr[i].vec.w = 1.0f;
         vptr[i].c = col;
         vptr[i].t = spr->t[i];
@@ -205,7 +205,7 @@ void ps2SeqsRenderQuad_A(Sprite *spr, u32 col) {
     ps2QuadTexture(vptr, 4);
 }
 
-void ps2QuadTexture(VecUnk *ptr, u32 num) {
+void ps2QuadTexture(VecUnk* ptr, u32 num) {
 #if !defined(TARGET_PS2)
     SDLGameRenderer_DrawTexturedQuad(ptr);
     return;
@@ -214,8 +214,8 @@ void ps2QuadTexture(VecUnk *ptr, u32 num) {
     u32 qwc;
     u32 work;
     uintptr_t data_ptr;
-    QWORD *dma_data;
-    u64 *vtx_data;
+    QWORD* dma_data;
+    u64* vtx_data;
     s32 x;
     s32 y;
     s32 z;
@@ -230,7 +230,7 @@ void ps2QuadTexture(VecUnk *ptr, u32 num) {
     work = (work + 1) >> 1;
     qwc += work;
     data_ptr = flPS2GetSystemTmpBuff(qwc * 16, 16);
-    dma_data = (QWORD *)data_ptr;
+    dma_data = (QWORD*)data_ptr;
 
     dma_data->UI64[0] = qwc + 0xEFFFFFFF;
     dma_data->UI32[2] = 0x13000000;
@@ -257,7 +257,7 @@ void ps2QuadTexture(VecUnk *ptr, u32 num) {
     dma_data->UI64[1] = SCE_GS_RGBAQ | SCE_GS_ST << 4 | SCE_GS_XYZ2 << 8;
 
     dma_data++;
-    vtx_data = (u64 *)dma_data;
+    vtx_data = (u64*)dma_data;
     col = flPS2ConvColor(ptr->c, 0);
     cA = (col >> 24) & 0xFF;
     cR = (col >> 16) & 0xFF;
@@ -279,12 +279,12 @@ void ps2QuadTexture(VecUnk *ptr, u32 num) {
     flPS2DmaAddQueue2(0, (data_ptr & 0xFFFFFFF) | 0x40000000, data_ptr, &flPs2VIF1Control);
 }
 
-void ps2SeqsRenderQuad_B(Quad *spr, u32 col) {
+void ps2SeqsRenderQuad_B(Quad* spr, u32 col) {
     VecUnk vptr[4];
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        ((_VecUnk *)vptr)[i].vec.vec3 = spr->v[i];
+        ((_VecUnk*)vptr)[i].vec.vec3 = spr->v[i];
         vptr[i].vec.w = 1.0f;
         vptr[i].c = col;
     }
@@ -292,15 +292,15 @@ void ps2SeqsRenderQuad_B(Quad *spr, u32 col) {
     ps2QuadSolid(vptr, 4);
 }
 
-void ps2QuadSolid(VecUnk *ptr, u32 num) {
+void ps2QuadSolid(VecUnk* ptr, u32 num) {
 #if !defined(TARGET_PS2)
     SDLGameRenderer_DrawSolidQuad(ptr);
 #else
     u32 qwc;
     u32 work;
     u32 data_ptr;
-    QWORD *dma_data;
-    u64 *vtx_data;
+    QWORD* dma_data;
+    u64* vtx_data;
     f32 x;
     f32 y;
     f32 z;
@@ -315,7 +315,7 @@ void ps2QuadSolid(VecUnk *ptr, u32 num) {
     work = (work + 1) >> 1;
     qwc += work;
     data_ptr = flPS2GetSystemTmpBuff(qwc * 0x10, 0x10);
-    dma_data = (QWORD *)data_ptr;
+    dma_data = (QWORD*)data_ptr;
 
     dma_data->UI64[0] = qwc + 0xEFFFFFFF;
     dma_data->UI32[2] = 0x13000000;
@@ -342,7 +342,7 @@ void ps2QuadSolid(VecUnk *ptr, u32 num) {
     dma_data->UI64[1] = SCE_GS_RGBAQ | SCE_GS_XYZ2 << 4;
 
     dma_data++;
-    vtx_data = (u64 *)dma_data;
+    vtx_data = (u64*)dma_data;
     col = flPS2ConvColor(ptr->c, 1);
     cA = (col >> 24) & 0xFF;
     cR = (col >> 16) & 0xFF;
@@ -413,7 +413,7 @@ void CP3toPS2Draw() {
     s32 dbw;
     u32 top;
     u32 qwc;
-    u32 *p;
+    u32* p;
 
     FilterMode = sys_w.screen_mode;
 
@@ -434,27 +434,27 @@ void CP3toPS2Draw() {
 
     qwc = 20;
     top = flPS2GetSystemTmpBuff((qwc + 1) * 16, 16);
-    p = (u32 *)top;
+    p = (u32*)top;
 
     *p++ = qwc | 0x70000000 | 0x80000000;
     *p++ = 0;
     *p++ = 0;
     *p++ = qwc | 0x51000000;
 
-    *((u64 *)p)++ = SCE_GIF_SET_TAG(6, 0, 0, 0, SCE_GIF_PACKED, 1);
-    *((u64 *)p)++ = SCE_GIF_PACKED_AD;
-    *((u64 *)p)++ = 0;
-    *((u64 *)p)++ = SCE_GS_TEXFLUSH;
-    *((u64 *)p)++ = SCE_GS_SET_BITBLTBUF(sbp, sbw, psm, dbp, dbw, psm);
-    *((u64 *)p)++ = SCE_GS_BITBLTBUF;
-    *((u64 *)p)++ = SCE_GS_SET_TRXPOS(0, 0, 0, 0, 0);
-    *((u64 *)p)++ = SCE_GS_TRXPOS;
-    *((u64 *)p)++ = SCE_GS_SET_TRXREG(bw, bh);
-    *((u64 *)p)++ = SCE_GS_TRXREG;
-    *((u64 *)p)++ = SCE_GS_SET_TRXDIR(2);
-    *((u64 *)p)++ = SCE_GS_TRXDIR;
-    *((u64 *)p)++ = SCE_GS_SET_TEST_1(1, 0, 0, 1, 0, 0, 1, 1);
-    *((u64 *)p)++ = SCE_GS_TEST_1;
+    *((u64*)p)++ = SCE_GIF_SET_TAG(6, 0, 0, 0, SCE_GIF_PACKED, 1);
+    *((u64*)p)++ = SCE_GIF_PACKED_AD;
+    *((u64*)p)++ = 0;
+    *((u64*)p)++ = SCE_GS_TEXFLUSH;
+    *((u64*)p)++ = SCE_GS_SET_BITBLTBUF(sbp, sbw, psm, dbp, dbw, psm);
+    *((u64*)p)++ = SCE_GS_BITBLTBUF;
+    *((u64*)p)++ = SCE_GS_SET_TRXPOS(0, 0, 0, 0, 0);
+    *((u64*)p)++ = SCE_GS_TRXPOS;
+    *((u64*)p)++ = SCE_GS_SET_TRXREG(bw, bh);
+    *((u64*)p)++ = SCE_GS_TRXREG;
+    *((u64*)p)++ = SCE_GS_SET_TRXDIR(2);
+    *((u64*)p)++ = SCE_GS_TRXDIR;
+    *((u64*)p)++ = SCE_GS_SET_TEST_1(1, 0, 0, 1, 0, 0, 1, 1);
+    *((u64*)p)++ = SCE_GS_TEST_1;
 
     ofx = ((4096 - fw) / 2) << 4;
     ofy = ((4096 - fh) / 2) << 4;
@@ -463,22 +463,22 @@ void CP3toPS2Draw() {
     x1 = ofx + (fw << 4);
     y1 = ofy + (fh << 4);
 
-    *((u64 *)p)++ = SCE_GIF_SET_TAG(1, 0, 0, 0, SCE_GIF_REGLIST, 4);
-    *((u64 *)p)++ = SCE_GS_PRIM | SCE_GS_RGBAQ << 4 | SCE_GS_XYZ2 << 8 | SCE_GS_XYZ2 << 12;
+    *((u64*)p)++ = SCE_GIF_SET_TAG(1, 0, 0, 0, SCE_GIF_REGLIST, 4);
+    *((u64*)p)++ = SCE_GS_PRIM | SCE_GS_RGBAQ << 4 | SCE_GS_XYZ2 << 8 | SCE_GS_XYZ2 << 12;
 
-    *((u64 *)p)++ = SCE_GS_SET_PRIM(SCE_GS_PRIM_SPRITE,
-                                    /* Gourand */ 0,
-                                    /* Textured */ 0,
-                                    /* fog */ 0,
-                                    /* Alpha blend */ 0,
-                                    /* AA */ 0,
-                                    /* UV */ 0,
-                                    /* ctx2 */ 0,
-                                    /* frag */ 0);
+    *((u64*)p)++ = SCE_GS_SET_PRIM(SCE_GS_PRIM_SPRITE,
+                                   /* Gourand */ 0,
+                                   /* Textured */ 0,
+                                   /* fog */ 0,
+                                   /* Alpha blend */ 0,
+                                   /* AA */ 0,
+                                   /* UV */ 0,
+                                   /* ctx2 */ 0,
+                                   /* frag */ 0);
 
-    *((u64 *)p)++ = SCE_GS_SET_RGBAQ(0, 0, 0, 0, 0);
-    *((u64 *)p)++ = SCE_GS_SET_XYZ(x0, y0, 0);
-    *((u64 *)p)++ = SCE_GS_SET_XYZ(x1, y1, 0);
+    *((u64*)p)++ = SCE_GS_SET_RGBAQ(0, 0, 0, 0, 0);
+    *((u64*)p)++ = SCE_GS_SET_XYZ(x0, y0, 0);
+    *((u64*)p)++ = SCE_GS_SET_XYZ(x1, y1, 0);
 
     ew = fw * Disp_Size_H / 100;
     eh = fh * Disp_Size_V / 100;
@@ -498,38 +498,38 @@ void CP3toPS2Draw() {
     v1 = (ys * 16) + 8;
     m = FilterMode;
 
-    *((u64 *)p)++ = SCE_GIF_SET_TAG(5, 0, 0, 0, SCE_GIF_PACKED, 1);
-    *((u64 *)p)++ = SCE_GIF_PACKED_AD;
-    *((u64 *)p)++ = 0;
-    *((u64 *)p)++ = SCE_GS_TEXFLUSH;
-    *((u64 *)p)++ = SCE_GS_SET_TEX0_1(dbp, dbw, psm, tw, th, 0, 0, 0, 0, 0, 0, 0);
-    *((u64 *)p)++ = SCE_GS_TEX0_1;
-    *((u64 *)p)++ = SCE_GS_SET_TEX1_1(0, 0, m, m, 0, 0, 0);
-    *((u64 *)p)++ = SCE_GS_TEX1_1;
-    *((u64 *)p)++ = SCE_GS_SET_TEXA(0x80, 0, 0x80);
-    *((u64 *)p)++ = SCE_GS_TEXA;
-    *((u64 *)p)++ = SCE_GS_SET_CLAMP_1(10, 0, 0, bw - 1, 0, bh - 1);
-    *((u64 *)p)++ = SCE_GS_CLAMP_1;
+    *((u64*)p)++ = SCE_GIF_SET_TAG(5, 0, 0, 0, SCE_GIF_PACKED, 1);
+    *((u64*)p)++ = SCE_GIF_PACKED_AD;
+    *((u64*)p)++ = 0;
+    *((u64*)p)++ = SCE_GS_TEXFLUSH;
+    *((u64*)p)++ = SCE_GS_SET_TEX0_1(dbp, dbw, psm, tw, th, 0, 0, 0, 0, 0, 0, 0);
+    *((u64*)p)++ = SCE_GS_TEX0_1;
+    *((u64*)p)++ = SCE_GS_SET_TEX1_1(0, 0, m, m, 0, 0, 0);
+    *((u64*)p)++ = SCE_GS_TEX1_1;
+    *((u64*)p)++ = SCE_GS_SET_TEXA(0x80, 0, 0x80);
+    *((u64*)p)++ = SCE_GS_TEXA;
+    *((u64*)p)++ = SCE_GS_SET_CLAMP_1(10, 0, 0, bw - 1, 0, bh - 1);
+    *((u64*)p)++ = SCE_GS_CLAMP_1;
 
-    *((u64 *)p)++ = SCE_GIF_SET_TAG(1, 1, 0, 0, SCE_GIF_REGLIST, 6);
-    *((u64 *)p)++ =
+    *((u64*)p)++ = SCE_GIF_SET_TAG(1, 1, 0, 0, SCE_GIF_REGLIST, 6);
+    *((u64*)p)++ =
         SCE_GS_PRIM | SCE_GS_RGBAQ << 4 | SCE_GS_UV << 8 | SCE_GS_XYZ2 << 12 | SCE_GS_UV << 16 | SCE_GS_XYZ2 << 20;
 
-    *((u64 *)p)++ = SCE_GS_SET_PRIM(SCE_GS_PRIM_SPRITE,
-                                    /* Gourand */ 0,
-                                    /* Textured */ 1,
-                                    /* fog */ 0,
-                                    /* Alpha blend */ 1,
-                                    /* AA */ 0,
-                                    /* UV */ 1,
-                                    /* ctx2 */ 0,
-                                    /* frag */ 0);
+    *((u64*)p)++ = SCE_GS_SET_PRIM(SCE_GS_PRIM_SPRITE,
+                                   /* Gourand */ 0,
+                                   /* Textured */ 1,
+                                   /* fog */ 0,
+                                   /* Alpha blend */ 1,
+                                   /* AA */ 0,
+                                   /* UV */ 1,
+                                   /* ctx2 */ 0,
+                                   /* frag */ 0);
 
-    *((u64 *)p)++ = SCE_GS_SET_RGBAQ(0x80, 0x80, 0x80, 0x80, 0);
-    *((u64 *)p)++ = SCE_GS_SET_UV(u0, v0);
-    *((u64 *)p)++ = SCE_GS_SET_XYZ2(x0, y0, 0);
-    *((u64 *)p)++ = SCE_GS_SET_UV(u1, v1);
-    *((u64 *)p)++ = SCE_GS_SET_XYZ2(x1, y1, 0);
+    *((u64*)p)++ = SCE_GS_SET_RGBAQ(0x80, 0x80, 0x80, 0x80, 0);
+    *((u64*)p)++ = SCE_GS_SET_UV(u0, v0);
+    *((u64*)p)++ = SCE_GS_SET_XYZ2(x0, y0, 0);
+    *((u64*)p)++ = SCE_GS_SET_UV(u1, v1);
+    *((u64*)p)++ = SCE_GS_SET_XYZ2(x1, y1, 0);
 
     flPS2DmaAddQueue2(0, (top & 0xFFFFFFF) | 0x40000000, top, &flPs2VIF1Control);
 #endif

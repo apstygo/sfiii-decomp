@@ -23,12 +23,12 @@ const s8 eff94_2000_1_tbl[16] = { 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1
 
 const s16 eff94_3000_tbl[4][3] = { { 328, 304, 0 }, { 288, 240, 1 }, { 280, 320, 0 }, { 352, 264, 1 } };
 
-void effect_94_move(WORK_Other *ewk) {
+void effect_94_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    void (*const eff94_move_jp[5])(WORK_Other *) = {
+    void (*const eff94_move_jp[5])(WORK_Other*) = {
         eff94_0000, eff94_1000, eff94_2000, eff94_3000, eff94_4000,
     };
 
@@ -59,7 +59,7 @@ void effect_94_move(WORK_Other *ewk) {
     }
 }
 
-void eff94_0000(WORK_Other *ewk) {
+void eff94_0000(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -89,7 +89,7 @@ void eff94_0000(WORK_Other *ewk) {
     }
 }
 
-void eff94_1000(WORK_Other *ewk) {
+void eff94_1000(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -152,13 +152,13 @@ void eff94_1000(WORK_Other *ewk) {
     }
 }
 
-void eff94_2000(WORK_Other *ewk) {
+void eff94_2000(WORK_Other* ewk) {
     void (*const eff94_2000_jp[5])(
-        WORK_Other *) = { eff94_2000_0, eff94_2000_1, eff94_2000_2, eff94_2000_3, eff94_2000_4 };
+        WORK_Other*) = { eff94_2000_0, eff94_2000_1, eff94_2000_2, eff94_2000_3, eff94_2000_4 };
     eff94_2000_jp[ewk->wu.routine_no[2]](ewk);
 }
 
-void eff94_2000_0(WORK_Other *ewk) {
+void eff94_2000_0(WORK_Other* ewk) {
     ewk->wu.disp_flag = 0;
 
     if (bg_w.quake_y_index > 3) {
@@ -173,7 +173,7 @@ void eff94_2000_0(WORK_Other *ewk) {
     }
 }
 
-void eff94_2000_1(WORK_Other *ewk) {
+void eff94_2000_1(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -204,7 +204,7 @@ void eff94_2000_1(WORK_Other *ewk) {
     ewk->wu.mvxy.d[1].sp = -0x6000;
 }
 
-void eff94_2000_2(WORK_Other *ewk) {
+void eff94_2000_2(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -218,7 +218,7 @@ void eff94_2000_2(WORK_Other *ewk) {
     }
 }
 
-void eff94_2000_3(WORK_Other *ewk) {
+void eff94_2000_3(WORK_Other* ewk) {
     char_move(&ewk->wu);
 
     if ((ewk->wu.xyz[0].disp.pos <= bg_w.bgw[1].l_limit2 - bg_w.pos_offset) ||
@@ -229,7 +229,7 @@ void eff94_2000_3(WORK_Other *ewk) {
     }
 }
 
-void eff94_2000_4(WORK_Other *ewk) {
+void eff94_2000_4(WORK_Other* ewk) {
     ewk->wu.dir_timer--;
 
     if (ewk->wu.dir_timer <= 0) {
@@ -237,12 +237,12 @@ void eff94_2000_4(WORK_Other *ewk) {
     }
 }
 
-void eff94_3000(WORK_Other *ewk) {
-    void (*const eff94_2000_jp[4])(WORK_Other *) = { eff94_3000_0, eff94_2000_2, eff94_2000_3, eff94_3000_4 };
+void eff94_3000(WORK_Other* ewk) {
+    void (*const eff94_2000_jp[4])(WORK_Other*) = { eff94_3000_0, eff94_2000_2, eff94_2000_3, eff94_3000_4 };
     eff94_2000_jp[ewk->wu.routine_no[2]](ewk);
 }
 
-void eff94_3000_0(WORK_Other *ewk) {
+void eff94_3000_0(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -261,11 +261,11 @@ void eff94_3000_0(WORK_Other *ewk) {
     ewk->wu.mvxy.d[1].sp = -0x6000;
 }
 
-void eff94_3000_4(WORK_Other *ewk) {
+void eff94_3000_4(WORK_Other* ewk) {
     ewk->wu.routine_no[0] = 99;
 }
 
-void eff94_4000(WORK_Other *ewk) {
+void eff94_4000(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -305,15 +305,15 @@ s32 effect_94_init(u8 type94) {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
-    const s16 *data_ptr = eff94_data_tbl[type94];
+    const s16* data_ptr = eff94_data_tbl[type94];
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 94;
     ewk->wu.work_id = 16;

@@ -3,16 +3,16 @@
 #include "sf33rd/AcrSDK/common/prilay.h"
 
 #define BMP_MAGIC 0x4D42
-#define U16_AT(_ptr, _offset) (((u16 *)_ptr)[_offset])
+#define U16_AT(_ptr, _offset) (((u16*)_ptr)[_offset])
 
-s32 plBMPSetContextFromImage(plContext *dst, void *bmp) {
-    u8 *lpsrc;
-    u8 *lp;
+s32 plBMPSetContextFromImage(plContext* dst, void* bmp) {
+    u8* lpsrc;
+    u8* lp;
     s32 i;
 
     (void)i;
 
-    lp = (u8 *)bmp;
+    lp = (u8*)bmp;
     i = U16_AT(lp, 0);
 
     if (i != BMP_MAGIC) {
@@ -24,7 +24,7 @@ s32 plBMPSetContextFromImage(plContext *dst, void *bmp) {
     i = U16_AT(lp, 0);
     i |= U16_AT(lp, 1) << 0x10;
 
-    lpsrc = (u8 *)bmp + i;
+    lpsrc = (u8*)bmp + i;
 
     lp += 8;
     i = U16_AT(lp, 0);
@@ -65,12 +65,12 @@ s32 plBMPSetContextFromImage(plContext *dst, void *bmp) {
     return 1;
 }
 
-u8 *plBMPGetPixelAddressFromImage(void *bmp) {
-    u8 *lpsrc;
-    u8 *lp;
+u8* plBMPGetPixelAddressFromImage(void* bmp) {
+    u8* lpsrc;
+    u8* lp;
     s32 i;
 
-    lp = (u8 *)bmp;
+    lp = (u8*)bmp;
     i = U16_AT(lp, 0);
 
     if (i != 0x4D42) {
@@ -82,7 +82,7 @@ u8 *plBMPGetPixelAddressFromImage(void *bmp) {
     i = U16_AT(lp, 0);
     i |= U16_AT(lp, 1) << 0x10;
 
-    lpsrc = (u8 *)bmp + i;
+    lpsrc = (u8*)bmp + i;
 
     return lpsrc;
 }

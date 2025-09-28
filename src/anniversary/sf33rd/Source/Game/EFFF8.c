@@ -4,15 +4,15 @@
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
-#include "sf33rd/Source/Game/workuser.h"
 #include "sf33rd/Source/Game/aboutspr.h"
+#include "sf33rd/Source/Game/workuser.h"
 
 // forward declaration
 
 const s16 paring_b_mark_data[3][20][2];
 
-void effect_F8_move(WORK_Other *ewk) {
-    WORK *mwk = (WORK *)ewk->my_master;
+void effect_F8_move(WORK_Other* ewk) {
+    WORK* mwk = (WORK*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -25,25 +25,25 @@ void effect_F8_move(WORK_Other *ewk) {
         } else {
             ewk->wu.position_x = mwk->position_x - paring_b_mark_data[ewk->wu.direction][ewk->master_player][0];
         }
-        
+
         ewk->wu.position_y = mwk->position_y + paring_b_mark_data[ewk->wu.direction][ewk->master_player][1];
         if (ewk->wu.position_z == ewk->wu.xyz[2].disp.pos) {
             ewk->wu.position_z = ewk->wu.next_z;
         } else {
             ewk->wu.position_z = ewk->wu.xyz[2].disp.pos;
         }
-        
+
         set_char_move_init(&ewk->wu, 0, 3);
         sort_push_request(&ewk->wu);
         return;
-        
+
     case 1:
         if ((ewk->wu.dead_f == 1) || (Suicide[0] != 0)) {
             ewk->wu.disp_flag = 0;
             ewk->wu.routine_no[0] += 1;
             return;
         }
-        
+
         if ((EXE_flag == 0) && (Game_pause == 0)) {
             char_move(&ewk->wu);
             if (ewk->wu.cg_type == 0xFF) {
@@ -52,29 +52,29 @@ void effect_F8_move(WORK_Other *ewk) {
                 return;
             }
         }
-        
+
         sort_push_request(&ewk->wu);
         return;
-        
+
     case 2:
         ewk->wu.routine_no[0] = 3;
         return;
-        
+
     default:
         push_effect_work(&ewk->wu);
         return;
     }
 }
 
-s32 effect_F8_init(PLW *wk, u8 data) {
-    WORK_Other *ewk;
+s32 effect_F8_init(PLW* wk, u8 data) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(2)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 158;
     ewk->wu.work_id = 64;
@@ -84,7 +84,7 @@ s32 effect_F8_init(PLW *wk, u8 data) {
     ewk->wu.my_col_mode = 0x4200;
     ewk->wu.my_col_code = 0x2020;
     ewk->wu.my_family = wk->wu.my_family;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->master_id = wk->wu.id;
     ewk->master_work_id = wk->wu.work_id;
     ewk->master_player = wk->player_number;

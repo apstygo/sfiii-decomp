@@ -1,9 +1,9 @@
 #include "port/float_clamp.h"
 
-#include <stdio.h>
+#include <float.h> // For FLT_MAX
+#include <math.h>  // For isnan()
 #include <stdint.h>
-#include <float.h>  // For FLT_MAX
-#include <math.h>   // For isnan()
+#include <stdio.h>
 
 uint64_t float_to_uint64_clamped(float f) {
     if (isnan(f) || f <= 0.0f)

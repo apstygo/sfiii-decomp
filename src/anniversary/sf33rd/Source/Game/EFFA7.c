@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/EFFA7.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFF02.h"
@@ -9,17 +10,16 @@
 #include "sf33rd/Source/Game/Se_Data.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_A7_move(WORK_Other *ewk) {
+void effect_A7_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void pp_screen_quake(s32 ix);
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    const HMDT *tad;
-    const EXPLEM *edt;
+    const HMDT* tad;
+    const EXPLEM* edt;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -51,17 +51,17 @@ void effect_A7_move(WORK_Other *ewk) {
         }
 
         if (tad->status & 0x40) {
-            if (((WORK *)ewk->wu.target_adrs)->work_id == 1) {
-                ewk->wu.dir_timer = ((PLW *)ewk->wu.target_adrs)->player_number;
+            if (((WORK*)ewk->wu.target_adrs)->work_id == 1) {
+                ewk->wu.dir_timer = ((PLW*)ewk->wu.target_adrs)->player_number;
             } else {
-                ewk->wu.dir_timer = ((WORK_Other *)ewk->wu.target_adrs)->master_player;
+                ewk->wu.dir_timer = ((WORK_Other*)ewk->wu.target_adrs)->master_player;
             }
         }
 
         if (tad->col) {
             ewk->wu.my_col_code = hcct[tad->col];
         } else if (tad->status & 0x80) {
-            ewk->wu.my_col_code = ((WORK *)ewk->wu.target_adrs)->my_col_code + 1;
+            ewk->wu.my_col_code = ((WORK*)ewk->wu.target_adrs)->my_col_code + 1;
         }
 
         if (tad->se) {
@@ -79,12 +79,12 @@ void effect_A7_move(WORK_Other *ewk) {
             }
 
             if (ewk->wu.rl_flag) {
-                ewk->wu.xyz[0].disp.pos -= *(s16 *)&edt->hx;
+                ewk->wu.xyz[0].disp.pos -= *(s16*)&edt->hx;
             } else {
-                ewk->wu.xyz[0].disp.pos += *(s16 *)&edt->hx;
+                ewk->wu.xyz[0].disp.pos += *(s16*)&edt->hx;
             }
 
-            ewk->wu.xyz[1].disp.pos += *(s16 *)&edt->hy;
+            ewk->wu.xyz[1].disp.pos += *(s16*)&edt->hy;
         }
 
         if (tad->status & 2) {
@@ -167,9 +167,9 @@ void effect_A7_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_A7_init(PLW *wk) {
-    WORK_Other *ewk;
-    PLW *twk;
+s32 effect_A7_init(PLW* wk) {
+    WORK_Other* ewk;
+    PLW* twk;
     s16 ix;
 
     if (wk->wu.work_id != 1) {
@@ -180,8 +180,8 @@ s32 effect_A7_init(PLW *wk) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
-    twk = (PLW *)wk->wu.target_adrs;
+    ewk = (WORK_Other*)frw[ix];
+    twk = (PLW*)wk->wu.target_adrs;
     ewk->wu.be_flag = 1;
     ewk->wu.id = 107;
     ewk->wu.work_id = 64;
@@ -194,10 +194,10 @@ s32 effect_A7_init(PLW *wk) {
     ewk->wu.xyz[0].disp.pos = ewk->wu.position_x = wk->wu.xyz[0].disp.pos;
     ewk->wu.xyz[1].disp.pos = ewk->wu.position_y = wk->wu.xyz[1].disp.pos;
     ewk->wu.xyz[2].disp.pos = 26;
-    ewk->my_master = (u32 *)wk->wu.target_adrs;
+    ewk->my_master = (u32*)wk->wu.target_adrs;
     ewk->master_id = twk->wu.id;
     ewk->master_work_id = twk->wu.work_id;
-    ewk->wu.target_adrs = (u32 *)wk;
+    ewk->wu.target_adrs = (u32*)wk;
     ewk->wu.my_col_code = twk->wu.my_col_code + 1;
     ewk->master_player = ewk->wu.dir_timer = twk->player_number;
     ewk->wu.blink_timing = ewk->master_id;

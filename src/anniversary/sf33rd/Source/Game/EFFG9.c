@@ -10,7 +10,7 @@
 
 const s16 g9_pos_hos[16] = { 0, 1, -1, 2, -2, 0, 3, -3, 1, -1, 2, -2, 4, 3, 0, 3 };
 
-void effect_G9_move(WORK_Other *ewk) {
+void effect_G9_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -72,15 +72,15 @@ void effect_G9_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_G9_init(WORK *wk) {
-    WORK_Other *ewk;
+s32 effect_G9_init(WORK* wk) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.type = wk->disp_flag;
     ewk->wu.id = 0xA9;

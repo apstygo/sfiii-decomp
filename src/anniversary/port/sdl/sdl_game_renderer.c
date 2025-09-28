@@ -14,20 +14,20 @@
 #define RENDER_TASK_MAX 1024
 
 typedef struct RenderTask {
-    SDL_Texture *texture;
+    SDL_Texture* texture;
     SDL_Vertex vertices[4];
     float z;
 } RenderTask;
 
-SDL_Texture *cps3_canvas = NULL;
+SDL_Texture* cps3_canvas = NULL;
 
 static const int cps3_width = 384;
 static const int cps3_height = 224;
 
-static SDL_Renderer *_renderer = NULL;
-static SDL_Surface *surfaces[FL_TEXTURE_MAX] = { NULL };
-static SDL_Palette *palettes[FL_PALETTE_MAX] = { NULL };
-static SDL_Texture *textures[FL_PALETTE_MAX] = { NULL };
+static SDL_Renderer* _renderer = NULL;
+static SDL_Surface* surfaces[FL_TEXTURE_MAX] = { NULL };
+static SDL_Palette* palettes[FL_PALETTE_MAX] = { NULL };
+static SDL_Texture* textures[FL_PALETTE_MAX] = { NULL };
 static int texture_count = 0;
 static RenderTask render_tasks[RENDER_TASK_MAX] = { 0 };
 static int render_task_count = 0;
@@ -39,15 +39,15 @@ static bool dump_textures = false;
 
 static int texture_index = 0;
 
-static void save_texture(const SDL_Surface *surface, const SDL_Palette *palette) {
+static void save_texture(const SDL_Surface* surface, const SDL_Palette* palette) {
     char filename[128];
     sprintf(filename, "textures/%d.tga", texture_index);
 
-    const Uint8 *pixels = surface->pixels;
+    const Uint8* pixels = surface->pixels;
     const int width = surface->w;
     const int height = surface->h;
 
-    FILE *f = fopen(filename, "wb");
+    FILE* f = fopen(filename, "wb");
 
     if (!f) {
         return;
@@ -82,7 +82,7 @@ static void save_texture(const SDL_Surface *surface, const SDL_Palette *palette)
             break;
         }
 
-        const SDL_Color *color = &palette->colors[index];
+        const SDL_Color* color = &palette->colors[index];
         const Uint8 bgr[] = { color->b, color->g, color->r, color->a };
         fwrite(bgr, 1, 4, f);
     }
@@ -93,12 +93,12 @@ static void save_texture(const SDL_Surface *surface, const SDL_Palette *palette)
 
 // Textures
 
-static void push_texture(SDL_Texture *texture) {
+static void push_texture(SDL_Texture* texture) {
     textures[texture_count] = texture;
     texture_count += 1;
 }
 
-static SDL_Texture *get_texture() {
+static SDL_Texture* get_texture() {
     if (texture_count == 0) {
         fatal_error("No textures to get");
     }
@@ -115,7 +115,7 @@ static void destroy_textures() {
     texture_count = 0;
 }
 
-static void push_render_task(RenderTask *task) {
+static void push_render_task(RenderTask* task) {
     memcpy(&render_tasks[render_task_count], task, sizeof(RenderTask));
     render_task_count += 1;
 }
@@ -125,7 +125,7 @@ static void clear_render_tasks() {
     render_task_count = 0;
 }
 
-static int compare_render_tasks(const RenderTask *a, const RenderTask *b) {
+static int compare_render_tasks(const RenderTask* a, const RenderTask* b) {
     if (a->z < b->z) {
         return -1;
     } else if (a->z > b->z) {
@@ -139,14 +139,14 @@ static int compare_render_tasks(const RenderTask *a, const RenderTask *b) {
 
 #define clut_shuf(x) (((x) & ~0x18) | ((((x) & 0x08) << 1) | (((x) & 0x10) >> 1)))
 
-static void read_rgba32_color(Uint32 pixel, SDL_Color *color) {
+static void read_rgba32_color(Uint32 pixel, SDL_Color* color) {
     color->r = pixel & 0xFF;
     color->g = (pixel >> 8) & 0xFF;
     color->b = (pixel >> 16) & 0xFF;
     color->a = (pixel >> 24) & 0xFF;
 }
 
-static void read_rgba32_fcolor(Uint32 pixel, SDL_FColor *fcolor) {
+static void read_rgba32_fcolor(Uint32 pixel, SDL_FColor* fcolor) {
     SDL_Color color;
 
     read_rgba32_color(pixel, &color);
@@ -156,23 +156,23 @@ static void read_rgba32_fcolor(Uint32 pixel, SDL_FColor *fcolor) {
     fcolor->a = (float)color.a / 255;
 }
 
-static void read_rgba16_color(Uint16 pixel, SDL_Color *color) {
+static void read_rgba16_color(Uint16 pixel, SDL_Color* color) {
     color->r = (pixel & 0x1F) * 255 / 31;
     color->g = ((pixel >> 5) & 0x1F) * 255 / 31;
     color->b = ((pixel >> 10) & 0x1F) * 255 / 31;
     color->a = (pixel & 0x8000) ? 255 : 0;
 }
 
-static void read_color(void *pixels, int index, size_t color_size, SDL_Color *color) {
+static void read_color(void* pixels, int index, size_t color_size, SDL_Color* color) {
     switch (color_size) {
     case 2: {
-        const Uint16 *rgba16_colors = (Uint16 *)pixels;
+        const Uint16* rgba16_colors = (Uint16*)pixels;
         read_rgba16_color(rgba16_colors[index], color);
         break;
     }
 
     case 4: {
-        const Uint32 *rgba32_colors = (Uint32 *)pixels;
+        const Uint32* rgba32_colors = (Uint32*)pixels;
         read_rgba32_color(rgba32_colors[index], color);
         break;
     }
@@ -181,7 +181,7 @@ static void read_color(void *pixels, int index, size_t color_size, SDL_Color *co
 
 #define LERP_FLOAT(a, b, x) ((a) * (1 - (x)) + (b) * (x))
 
-static void lerp_fcolors(SDL_FColor *dest, const SDL_FColor *a, const SDL_FColor *b, float x) {
+static void lerp_fcolors(SDL_FColor* dest, const SDL_FColor* a, const SDL_FColor* b, float x) {
     dest->r = LERP_FLOAT(a->r, b->r, x);
     dest->g = LERP_FLOAT(a->g, b->g, x);
     dest->b = LERP_FLOAT(a->b, b->b, x);
@@ -190,7 +190,7 @@ static void lerp_fcolors(SDL_FColor *dest, const SDL_FColor *a, const SDL_FColor
 
 // Lifecycle
 
-void SDLGameRenderer_Init(SDL_Renderer *renderer) {
+void SDLGameRenderer_Init(SDL_Renderer* renderer) {
     _renderer = renderer;
     cps3_canvas =
         SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, cps3_width, cps3_height);
@@ -219,7 +219,7 @@ void SDLGameRenderer_RenderFrame() {
     qsort(render_tasks, render_task_count, sizeof(RenderTask), compare_render_tasks);
 
     for (int i = 0; i < render_task_count; i++) {
-        const RenderTask *task = &render_tasks[i];
+        const RenderTask* task = &render_tasks[i];
         const int indices[] = { 0, 1, 2, 1, 2, 3 };
         SDL_RenderGeometry(_renderer, task->texture, task->vertices, 4, indices, 6);
     }
@@ -230,7 +230,7 @@ void SDLGameRenderer_RenderFrame() {
         SDL_FColor border_color;
 
         for (int i = 0; i < render_task_count; i++) {
-            const RenderTask *task = &render_tasks[i];
+            const RenderTask* task = &render_tasks[i];
             const float x0 = task->vertices[0].position.x;
             const float y0 = task->vertices[0].position.y;
             const float x1 = task->vertices[3].position.x;
@@ -253,8 +253,8 @@ void SDLGameRenderer_EndFrame() {
 
 void SDLGameRenderer_CreateTexture(unsigned int th) {
     const int texture_index = LO_16_BITS(th) - 1;
-    const FLTexture *fl_texture = &flTexture[texture_index];
-    const void *pixels = flPS2GetSystemBuffAdrs(fl_texture->mem_handle);
+    const FLTexture* fl_texture = &flTexture[texture_index];
+    const void* pixels = flPS2GetSystemBuffAdrs(fl_texture->mem_handle);
     SDL_PixelFormat pixel_format = SDL_PIXELFORMAT_UNKNOWN;
     int pitch = 0;
 
@@ -283,7 +283,7 @@ void SDLGameRenderer_CreateTexture(unsigned int th) {
         break;
     }
 
-    const SDL_Surface *surface =
+    const SDL_Surface* surface =
         SDL_CreateSurfaceFrom(fl_texture->width, fl_texture->height, pixel_format, pixels, pitch);
     surfaces[texture_index] = surface;
 }
@@ -297,8 +297,8 @@ void SDLGameRenderer_DestroyTexture(unsigned int texture_handle) {
 
 void SDLGameRenderer_CreatePalette(unsigned int ph) {
     const int palette_index = HI_16_BITS(ph) - 1;
-    const FLTexture *fl_palette = &flPalette[palette_index];
-    const void *pixels = flPS2GetSystemBuffAdrs(fl_palette->mem_handle);
+    const FLTexture* fl_palette = &flPalette[palette_index];
+    const void* pixels = flPS2GetSystemBuffAdrs(fl_palette->mem_handle);
     const int color_count = fl_palette->width * fl_palette->height;
     SDL_Color colors[256];
     size_t color_size = 0;
@@ -342,7 +342,7 @@ void SDLGameRenderer_CreatePalette(unsigned int ph) {
         break;
     }
 
-    SDL_Palette *palette = SDL_CreatePalette(color_count);
+    SDL_Palette* palette = SDL_CreatePalette(color_count);
     SDL_SetPaletteColors(palette, colors, 0, color_count);
     palettes[palette_index] = palette;
 }
@@ -356,9 +356,9 @@ void SDLGameRenderer_DestroyPalette(unsigned int palette_handle) {
 
 void SDLGameRenderer_SetTexture(unsigned int th) {
     const int texture_handle = LO_16_BITS(th);
-    const SDL_Surface *surface = surfaces[texture_handle - 1];
+    const SDL_Surface* surface = surfaces[texture_handle - 1];
     const int palette_handle = HI_16_BITS(th);
-    const SDL_Palette *palette = palette_handle != 0 ? palettes[palette_handle - 1] : NULL;
+    const SDL_Palette* palette = palette_handle != 0 ? palettes[palette_handle - 1] : NULL;
 
     if (dump_textures) {
         save_texture(surface, palette);
@@ -368,7 +368,7 @@ void SDLGameRenderer_SetTexture(unsigned int th) {
         SDL_SetSurfacePalette(surface, palette);
     }
 
-    const SDL_Texture *texture = SDL_CreateTextureFromSurface(_renderer, surface);
+    const SDL_Texture* texture = SDL_CreateTextureFromSurface(_renderer, surface);
     SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
     SDL_SetTextureBlendMode(texture, SDL_BLENDMODE_BLEND);
     push_texture(texture);
@@ -379,7 +379,7 @@ void SDLGameRenderer_ReloadTexture(unsigned int th) {
     const int palette_handle = HI_16_BITS(th);
 
     if ((texture_handle > 0) && (texture_handle < FL_TEXTURE_MAX)) {
-        const FLTexture *fl_texture = &flTexture[texture_handle - 1];
+        const FLTexture* fl_texture = &flTexture[texture_handle - 1];
 
         if (!fl_texture->vram_on_flag) {
             SDLGameRenderer_DestroyTexture(texture_handle);
@@ -388,7 +388,7 @@ void SDLGameRenderer_ReloadTexture(unsigned int th) {
     }
 
     if ((palette_handle > 0) && (palette_handle < FL_PALETTE_MAX)) {
-        const FLTexture *fl_palette = &flPalette[palette_handle - 1];
+        const FLTexture* fl_palette = &flPalette[palette_handle - 1];
 
         if (!fl_palette->vram_on_flag) {
             SDLGameRenderer_DestroyPalette(palette_handle);
@@ -397,7 +397,7 @@ void SDLGameRenderer_ReloadTexture(unsigned int th) {
     }
 }
 
-static void draw_quad(const SDLGameRenderer_Vertex *vertices, bool textured) {
+static void draw_quad(const SDLGameRenderer_Vertex* vertices, bool textured) {
     RenderTask task;
     task.texture = textured ? get_texture() : NULL;
     task.z = flPS2ConvScreenFZ(vertices[0].coord.z);
@@ -419,15 +419,15 @@ static void draw_quad(const SDLGameRenderer_Vertex *vertices, bool textured) {
     push_render_task(&task);
 }
 
-void SDLGameRenderer_DrawTexturedQuad(const SDLGameRenderer_Vertex *vertices) {
+void SDLGameRenderer_DrawTexturedQuad(const SDLGameRenderer_Vertex* vertices) {
     draw_quad(vertices, true);
 }
 
-void SDLGameRenderer_DrawSolidQuad(const SDLGameRenderer_Vertex *vertices) {
+void SDLGameRenderer_DrawSolidQuad(const SDLGameRenderer_Vertex* vertices) {
     draw_quad(vertices, false);
 }
 
-void SDLGameRenderer_DrawSprite(const SDLGameRenderer_Sprite *sprite, unsigned int color) {
+void SDLGameRenderer_DrawSprite(const SDLGameRenderer_Sprite* sprite, unsigned int color) {
     SDLGameRenderer_Vertex vertices[4];
     SDL_zeroa(vertices);
 
@@ -455,7 +455,7 @@ void SDLGameRenderer_DrawSprite(const SDLGameRenderer_Sprite *sprite, unsigned i
     draw_quad(vertices, true);
 }
 
-void SDLGameRenderer_DrawSprite2(const SDLGameRenderer_Sprite2 *sprite2) {
+void SDLGameRenderer_DrawSprite2(const SDLGameRenderer_Sprite2* sprite2) {
     SDLGameRenderer_Sprite sprite;
     SDL_zero(sprite);
 
