@@ -422,6 +422,11 @@ void SDLGameRenderer_ReloadTexture(unsigned int th) {
     const int texture_handle = LO_16_BITS(th);
     const int palette_handle = HI_16_BITS(th);
 
+    // Kludge to reduce texture re-creation caused by scfont_put
+    if (((texture_handle == 2) || (texture_handle == 4)) && ((palette_handle == 805) || (palette_handle == 806))) {
+        return;
+    }
+
     if ((texture_handle > 0) && (texture_handle < FL_TEXTURE_MAX)) {
         const FLTexture* fl_texture = &flTexture[texture_handle - 1];
 
