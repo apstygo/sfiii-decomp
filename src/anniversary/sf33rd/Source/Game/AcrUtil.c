@@ -13,11 +13,11 @@ typedef struct {
 
 AppView appView;
 
-void appViewSetItems(VPRM *prm) {
+void appViewSetItems(VPRM* prm) {
     appView.prm = *prm;
 }
 
-void appViewGetItems(VPRM *prm) {
+void appViewGetItems(VPRM* prm) {
     *prm = appView.prm;
 }
 

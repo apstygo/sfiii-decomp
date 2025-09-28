@@ -12,7 +12,7 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", D_0055AA98);
 
 // data
 #if defined(TARGET_PS2)
-extern Char8 *volatile adxps2_build;
+extern Char8* volatile adxps2_build;
 extern Sint32 adxm_init_level;
 extern Sint32 adxm_init_ex;
 extern Sint32 adxm_save_tprm[12];
@@ -64,7 +64,7 @@ extern Sint32 adxm_cur_prio;
 extern Sint32 adxm_cur_tid;
 extern Sint32 adxm_main_prio_def;
 #else
-Char8 *volatile adxps2_build = "\nADXPS2 Ver.2.46 Build:Sep 18 2003 10:00:02\n";
+Char8* volatile adxps2_build = "\nADXPS2 Ver.2.46 Build:Sep 18 2003 10:00:02\n";
 Sint32 adxm_init_level = 0;
 Sint32 adxm_init_ex = 0;
 Sint32 adxm_save_tprm[12] = { 0 };
@@ -118,9 +118,9 @@ Sint32 adxm_main_prio_def = 0;
 #endif
 
 #if defined(TARGET_PS2)
-extern void *_gp;
+extern void* _gp;
 #else
-void *_gp;
+void* _gp;
 #endif
 
 // We have to declare adxt_vsync_cnt here instead of including adx_inis.h
@@ -432,9 +432,9 @@ Sint32 ADXM_IsSetupThrd() {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", ADXM_SetCbErr);
 
-void ADXM_SetupThrd(ADXM_TPRM *tprm) {
+void ADXM_SetupThrd(ADXM_TPRM* tprm) {
     struct ThreadParam param;
-    ADXM_TPRM_EX *tprm_ex = (ADXM_TPRM_EX *)tprm;
+    ADXM_TPRM_EX* tprm_ex = (ADXM_TPRM_EX*)tprm;
 
     adxps2_build;
 
@@ -633,9 +633,9 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", ADXPS2_WaitVsyn
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_mps2", ADXPS2_ExecServerEx);
 
-void ADXPS2_SetupThrd(ADXPS2_TPRM *tprm) {
+void ADXPS2_SetupThrd(ADXPS2_TPRM* tprm) {
     ADXM_TPRM_EX _tprm;
-    ADXM_TPRM_EX *tprm_p;
+    ADXM_TPRM_EX* tprm_p;
 
     if (tprm != NULL) {
         _tprm.prio_main = tprm->prio_main;

@@ -8,13 +8,13 @@
 #include "sf33rd/Source/Game/PLS01.h"
 #include "sf33rd/Source/Game/PLS02.h"
 
-void (*const pl12_exatt_table[18])(PLW *);
+void (*const pl12_exatt_table[18])(PLW*);
 
-void pl12_extra_attack(PLW *wk) {
+void pl12_extra_attack(PLW* wk) {
     pl12_exatt_table[wk->wu.routine_no[2] - 16](wk);
 }
 
-void Att_PL12_TOKUSHUKOUDOU(PLW *wk) {
+void Att_PL12_TOKUSHUKOUDOU(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -95,7 +95,7 @@ void Att_PL12_TOKUSHUKOUDOU(PLW *wk) {
     }
 }
 
-void Att_PL12_BONUS_STAGE(PLW *wk) {
+void Att_PL12_BONUS_STAGE(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -135,21 +135,21 @@ void Att_PL12_BONUS_STAGE(PLW *wk) {
     }
 }
 
-void (*const pl12_exatt_table[18])(PLW *) = { Att_HADOUKEN,
-                                              Att_SHOURYUUREPPA,
-                                              Att_SLIDE_and_JUMP,
-                                              Att_ABISEGERI,
-                                              Att_CHOUCHUURENGEKI,
-                                              Att_SHOURYUUKEN,
-                                              Att_CHOUCHUURENGEKI,
-                                              Att_KUUCHUUNICHIRINSHOU,
-                                              Att_SENPUUKYAKU,
-                                              Att_HOMING_JUMP,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_PL12_TOKUSHUKOUDOU,
-                                              Att_PL12_BONUS_STAGE,
-                                              Att_METAMOR_WAIT,
-                                              Att_METAMOR_REBIRTH };
+void (*const pl12_exatt_table[18])(PLW*) = { Att_HADOUKEN,
+                                             Att_SHOURYUUREPPA,
+                                             Att_SLIDE_and_JUMP,
+                                             Att_ABISEGERI,
+                                             Att_CHOUCHUURENGEKI,
+                                             Att_SHOURYUUKEN,
+                                             Att_CHOUCHUURENGEKI,
+                                             Att_KUUCHUUNICHIRINSHOU,
+                                             Att_SENPUUKYAKU,
+                                             Att_HOMING_JUMP,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_PL12_TOKUSHUKOUDOU,
+                                             Att_PL12_BONUS_STAGE,
+                                             Att_METAMOR_WAIT,
+                                             Att_METAMOR_REBIRTH };

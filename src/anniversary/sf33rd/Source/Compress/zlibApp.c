@@ -17,10 +17,10 @@ typedef struct {
 
 ZLIB zlib; // size: 0x78, address: 0x57A780
 
-void *zlib_Malloc(void *, u32, u32);
-void zlib_Free(void *, void *); // size: 0x0, address: 0x3B77C0
+void* zlib_Malloc(void*, u32, u32);
+void zlib_Free(void*, void*); // size: 0x0, address: 0x3B77C0
 
-void zlib_Initialize(void *tempAdrs, s32 tempSize) {
+void zlib_Initialize(void* tempAdrs, s32 tempSize) {
     if (tempAdrs == NULL) {
         while (1) {}
     }
@@ -32,17 +32,17 @@ void zlib_Initialize(void *tempAdrs, s32 tempSize) {
     zlib.info.opaque = NULL;
 }
 
-void *zlib_Malloc(void *opaque, u32 items, u32 size) {
+void* zlib_Malloc(void* opaque, u32 items, u32 size) {
     opaque = opaque;
     return mmAlloc(&zlib.mobj, size * items, 0);
 }
 
-void zlib_Free(void *opaque, void *adrs) {
+void zlib_Free(void* opaque, void* adrs) {
     opaque = opaque;
-    mmFree(&zlib.mobj, (u8 *)adrs);
+    mmFree(&zlib.mobj, (u8*)adrs);
 }
 
-ssize_t zlib_Decompress(void *srcBuff, s32 srcSize, void *dstBuff, s32 dstSize) {
+ssize_t zlib_Decompress(void* srcBuff, s32 srcSize, void* dstBuff, s32 dstSize) {
     zlib.info.next_in = srcBuff;
     zlib.info.avail_in = srcSize;
     zlib.info.next_out = dstBuff;

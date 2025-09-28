@@ -5,11 +5,11 @@
 
 void (*const Passive17_Tbl[182])();
 
-void Passive17(PLW *wk) {
+void Passive17(PLW* wk) {
     Passive17_Tbl[(s16)Pattern_Index[wk->wu.id]](wk);
 }
 
-void Passive17_0000(PLW *wk) {
+void Passive17_0000(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 0xD, M_Lv[wk->wu.id]);
@@ -21,7 +21,7 @@ void Passive17_0000(PLW *wk) {
     }
 }
 
-void Passive17_0001(PLW *wk) {
+void Passive17_0001(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Lever_Off(wk);
@@ -37,7 +37,7 @@ void Passive17_0001(PLW *wk) {
     }
 }
 
-void Passive17_0002(PLW *wk) {
+void Passive17_0002(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 3, -1);
@@ -61,7 +61,7 @@ void Passive17_0002(PLW *wk) {
     }
 }
 
-void Passive17_0003(PLW *wk) {
+void Passive17_0003(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         VS_Jump_Guard(wk);
@@ -73,7 +73,7 @@ void Passive17_0003(PLW *wk) {
     }
 }
 
-void Passive17_0004(PLW *wk) {
+void Passive17_0004(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x60, 6, 0x53);
@@ -89,7 +89,7 @@ void Passive17_0004(PLW *wk) {
     }
 }
 
-void Passive17_0005(PLW *wk) {
+void Passive17_0005(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Forced_Guard(wk, 0);
@@ -101,7 +101,7 @@ void Passive17_0005(PLW *wk) {
     }
 }
 
-void Passive17_0006(PLW *wk) {
+void Passive17_0006(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x7F, 2);
@@ -117,7 +117,7 @@ void Passive17_0006(PLW *wk) {
     }
 }
 
-void Passive17_0007(PLW *wk) {
+void Passive17_0007(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x7F, 2);
@@ -133,7 +133,7 @@ void Passive17_0007(PLW *wk) {
     }
 }
 
-void Passive17_0008(PLW *wk) {
+void Passive17_0008(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Pierce_On(wk);
@@ -153,7 +153,7 @@ void Passive17_0008(PLW *wk) {
     }
 }
 
-void Passive17_0009(PLW *wk) {
+void Passive17_0009(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1E, 10, -1);
@@ -165,7 +165,7 @@ void Passive17_0009(PLW *wk) {
     }
 }
 
-void Passive17_0010(PLW *wk) {
+void Passive17_0010(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Short_Range_Attack(wk, 8, 0x40, 6, 0x1D);
@@ -177,7 +177,7 @@ void Passive17_0010(PLW *wk) {
     }
 }
 
-void Passive17_0011(PLW *wk) {
+void Passive17_0011(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -1, -0x7FB0, 0xB, 0x200, 2, -0x7F90, -1, 0x200);
@@ -189,7 +189,7 @@ void Passive17_0011(PLW *wk) {
     }
 }
 
-void Passive17_0012(PLW *wk) {
+void Passive17_0012(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x400);
@@ -201,7 +201,7 @@ void Passive17_0012(PLW *wk) {
     }
 }
 
-void Passive17_0013(PLW *wk) {
+void Passive17_0013(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x60, 6, 0x6C);
@@ -217,7 +217,7 @@ void Passive17_0013(PLW *wk) {
     }
 }
 
-void Passive17_0014(PLW *wk) {
+void Passive17_0014(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait(wk, 3);
@@ -233,7 +233,7 @@ void Passive17_0014(PLW *wk) {
     }
 }
 
-void Passive17_0015(PLW *wk) {
+void Passive17_0015(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 0, -1);
@@ -245,7 +245,7 @@ void Passive17_0015(PLW *wk) {
     }
 }
 
-void Passive17_0016(PLW *wk) {
+void Passive17_0016(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x60, 6, 0x6C);
@@ -273,7 +273,7 @@ void Passive17_0016(PLW *wk) {
     }
 }
 
-void Passive17_0017(PLW *wk) {
+void Passive17_0017(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 0, -1);
@@ -297,7 +297,7 @@ void Passive17_0017(PLW *wk) {
     }
 }
 
-void Passive17_0018(PLW *wk) {
+void Passive17_0018(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x60, 6, 0x6C);
@@ -329,7 +329,7 @@ void Passive17_0018(PLW *wk) {
     }
 }
 
-void Passive17_0019(PLW *wk) {
+void Passive17_0019(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 3, 1);
@@ -341,7 +341,7 @@ void Passive17_0019(PLW *wk) {
     }
 }
 
-void Passive17_0020(PLW *wk) {
+void Passive17_0020(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 3, -1);
@@ -353,7 +353,7 @@ void Passive17_0020(PLW *wk) {
     }
 }
 
-void Passive17_0021(PLW *wk) {
+void Passive17_0021(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 0, -1);
@@ -369,7 +369,7 @@ void Passive17_0021(PLW *wk) {
     }
 }
 
-void Passive17_0022(PLW *wk) {
+void Passive17_0022(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait_Get_Up(wk, 0, -1);
@@ -397,7 +397,7 @@ void Passive17_0022(PLW *wk) {
     }
 }
 
-void Passive17_0023(PLW *wk) {
+void Passive17_0023(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7F60, -0x7FB0, 0xB, 0x200, 0, -0x7F90, -1, 0x200);
@@ -417,7 +417,7 @@ void Passive17_0023(PLW *wk) {
     }
 }
 
-void Passive17_0024(PLW *wk) {
+void Passive17_0024(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x60, 6, 0x6C);
@@ -445,7 +445,7 @@ void Passive17_0024(PLW *wk) {
     }
 }
 
-void Passive17_0025(PLW *wk) {
+void Passive17_0025(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x60, 6, 0x6C);
@@ -481,7 +481,7 @@ void Passive17_0025(PLW *wk) {
     }
 }
 
-void Passive17_0026(PLW *wk) {
+void Passive17_0026(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FB0, 6, 1, -1);
@@ -497,7 +497,7 @@ void Passive17_0026(PLW *wk) {
     }
 }
 
-void Passive17_0027(PLW *wk) {
+void Passive17_0027(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1E, 8, -1);
@@ -513,7 +513,7 @@ void Passive17_0027(PLW *wk) {
     }
 }
 
-void Passive17_0028(PLW *wk) {
+void Passive17_0028(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack(wk, 8, 10, 0x400, 1);
@@ -525,7 +525,7 @@ void Passive17_0028(PLW *wk) {
     }
 }
 
-void Passive17_0029(PLW *wk) {
+void Passive17_0029(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x10);
@@ -545,7 +545,7 @@ void Passive17_0029(PLW *wk) {
     }
 }
 
-void Passive17_0030(PLW *wk) {
+void Passive17_0030(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7F80, -0x7FB8, 6, 1, -1);
@@ -561,7 +561,7 @@ void Passive17_0030(PLW *wk) {
     }
 }
 
-void Passive17_0031(PLW *wk) {
+void Passive17_0031(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Walk(wk, 1, 0x20, 1);
@@ -573,7 +573,7 @@ void Passive17_0031(PLW *wk) {
     }
 }
 
-void Passive17_0032(PLW *wk) {
+void Passive17_0032(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SA_Term(wk, 0x2E, 0x2F, 0xFFFF, 0);
@@ -589,7 +589,7 @@ void Passive17_0032(PLW *wk) {
     }
 }
 
-void Passive17_0033(PLW *wk) {
+void Passive17_0033(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Com_Random_Select(wk, 6, 0x9D, 0x9E, 0x9F, 0x9F, 1);
@@ -601,7 +601,7 @@ void Passive17_0033(PLW *wk) {
     }
 }
 
-void Passive17_0034(PLW *wk) {
+void Passive17_0034(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 0xC, 0x20);
@@ -617,7 +617,7 @@ void Passive17_0034(PLW *wk) {
     }
 }
 
-void Passive17_0035(PLW *wk) {
+void Passive17_0035(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x10);
@@ -637,7 +637,7 @@ void Passive17_0035(PLW *wk) {
     }
 }
 
-void Passive17_0036(PLW *wk) {
+void Passive17_0036(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 0xB, 0x1E, 9, -1);
@@ -653,7 +653,7 @@ void Passive17_0036(PLW *wk) {
     }
 }
 
-void Passive17_0037(PLW *wk) {
+void Passive17_0037(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FF8, 6, 1, -1);
@@ -669,7 +669,7 @@ void Passive17_0037(PLW *wk) {
     }
 }
 
-void Passive17_0038(PLW *wk) {
+void Passive17_0038(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Keep_Away(wk, 0x4B, 3);
@@ -689,7 +689,7 @@ void Passive17_0038(PLW *wk) {
     }
 }
 
-void Passive17_0039(PLW *wk) {
+void Passive17_0039(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FC0, 6, 1, -1);
@@ -705,7 +705,7 @@ void Passive17_0039(PLW *wk) {
     }
 }
 
-void Passive17_0040(PLW *wk) {
+void Passive17_0040(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FE0, 6, 1, -1);
@@ -729,7 +729,7 @@ void Passive17_0040(PLW *wk) {
     }
 }
 
-void Passive17_0041(PLW *wk) {
+void Passive17_0041(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7F80, -0x7FC0, 6, 1, -1);
@@ -745,7 +745,7 @@ void Passive17_0041(PLW *wk) {
     }
 }
 
-void Passive17_0042(PLW *wk) {
+void Passive17_0042(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack(wk, 8, 10, 0x400, 2);
@@ -757,7 +757,7 @@ void Passive17_0042(PLW *wk) {
     }
 }
 
-void Passive17_0043(PLW *wk) {
+void Passive17_0043(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7F80, -0x7FB8, 6, 1, -1);
@@ -773,7 +773,7 @@ void Passive17_0043(PLW *wk) {
     }
 }
 
-void Passive17_0044(PLW *wk) {
+void Passive17_0044(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x4B, 2);
@@ -793,7 +793,7 @@ void Passive17_0044(PLW *wk) {
     }
 }
 
-void Passive17_0045(PLW *wk) {
+void Passive17_0045(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7F80, -0x7FD0, 6, 1, -1);
@@ -809,7 +809,7 @@ void Passive17_0045(PLW *wk) {
     }
 }
 
-void Passive17_0046(PLW *wk) {
+void Passive17_0046(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Keep_Status(wk, 2, -1);
@@ -821,7 +821,7 @@ void Passive17_0046(PLW *wk) {
     }
 }
 
-void Passive17_0047(PLW *wk) {
+void Passive17_0047(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 0xB, 0x102);
@@ -837,7 +837,7 @@ void Passive17_0047(PLW *wk) {
     }
 }
 
-void Passive17_0048(PLW *wk) {
+void Passive17_0048(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x102);
@@ -853,7 +853,7 @@ void Passive17_0048(PLW *wk) {
     }
 }
 
-void Passive17_0049(PLW *wk) {
+void Passive17_0049(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7F80, -1, 6, 1, -1);
@@ -869,7 +869,7 @@ void Passive17_0049(PLW *wk) {
     }
 }
 
-void Passive17_0050(PLW *wk) {
+void Passive17_0050(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7F80, -1, 6, 1, -1);
@@ -885,7 +885,7 @@ void Passive17_0050(PLW *wk) {
     }
 }
 
-void Passive17_0051(PLW *wk) {
+void Passive17_0051(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x220);
@@ -901,7 +901,7 @@ void Passive17_0051(PLW *wk) {
     }
 }
 
-void Passive17_0052(PLW *wk) {
+void Passive17_0052(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x202);
@@ -913,7 +913,7 @@ void Passive17_0052(PLW *wk) {
     }
 }
 
-void Passive17_0053(PLW *wk) {
+void Passive17_0053(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1E, 8, -1);
@@ -925,7 +925,7 @@ void Passive17_0053(PLW *wk) {
     }
 }
 
-void Passive17_0054(PLW *wk) {
+void Passive17_0054(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Branch_Unit_Area(wk, 6, 0x59, 0x5A, 0x5A, 0x5B);
@@ -937,7 +937,7 @@ void Passive17_0054(PLW *wk) {
     }
 }
 
-void Passive17_0055(PLW *wk) {
+void Passive17_0055(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1E, 9, -1);
@@ -949,7 +949,7 @@ void Passive17_0055(PLW *wk) {
     }
 }
 
-void Passive17_0056(PLW *wk) {
+void Passive17_0056(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7F60, -0x7FA0, 8, 0x200, 0, -0x7F90, -1, 0x20);
@@ -961,7 +961,7 @@ void Passive17_0056(PLW *wk) {
     }
 }
 
-void Passive17_0057(PLW *wk) {
+void Passive17_0057(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7F60, -0x7FA0, 8, 0x200, 0, -0x7F90, -1, 0x20);
@@ -973,7 +973,7 @@ void Passive17_0057(PLW *wk) {
     }
 }
 
-void Passive17_0058(PLW *wk) {
+void Passive17_0058(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Keep_Status(wk, 2, 1);
@@ -985,7 +985,7 @@ void Passive17_0058(PLW *wk) {
     }
 }
 
-void Passive17_0059(PLW *wk) {
+void Passive17_0059(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1E, 8, -1);
@@ -997,7 +997,7 @@ void Passive17_0059(PLW *wk) {
     }
 }
 
-void Passive17_0060(PLW *wk) {
+void Passive17_0060(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Forced_Guard(wk, 0);
@@ -1009,7 +1009,7 @@ void Passive17_0060(PLW *wk) {
     }
 }
 
-void Passive17_0061(PLW *wk) {
+void Passive17_0061(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SA_Term(wk, 0x2E, 0xFFFF, 0x30, 0);
@@ -1033,7 +1033,7 @@ void Passive17_0061(PLW *wk) {
     }
 }
 
-void Passive17_0062(PLW *wk) {
+void Passive17_0062(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x37, 2);
@@ -1053,7 +1053,7 @@ void Passive17_0062(PLW *wk) {
     }
 }
 
-void Passive17_0063(PLW *wk) {
+void Passive17_0063(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         ETC_Term(wk, 0, 6, 0x21);
@@ -1073,7 +1073,7 @@ void Passive17_0063(PLW *wk) {
     }
 }
 
-void Passive17_0064(PLW *wk) {
+void Passive17_0064(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x400);
@@ -1085,7 +1085,7 @@ void Passive17_0064(PLW *wk) {
     }
 }
 
-void Passive17_0065(PLW *wk) {
+void Passive17_0065(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x4B, 2);
@@ -1105,7 +1105,7 @@ void Passive17_0065(PLW *wk) {
     }
 }
 
-void Passive17_0066(PLW *wk) {
+void Passive17_0066(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x4B, 2);
@@ -1121,7 +1121,7 @@ void Passive17_0066(PLW *wk) {
     }
 }
 
-void Passive17_0067(PLW *wk) {
+void Passive17_0067(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x7F, 2);
@@ -1137,7 +1137,7 @@ void Passive17_0067(PLW *wk) {
     }
 }
 
-void Passive17_0068(PLW *wk) {
+void Passive17_0068(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7F60, -0x7FA0, 8, 0x200, 0, -0x7F90, -1, 0x200);
@@ -1149,7 +1149,7 @@ void Passive17_0068(PLW *wk) {
     }
 }
 
-void Passive17_0069(PLW *wk) {
+void Passive17_0069(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack(wk, 8, 0xC, 0x40, 0);
@@ -1161,7 +1161,7 @@ void Passive17_0069(PLW *wk) {
     }
 }
 
-void Passive17_0070(PLW *wk) {
+void Passive17_0070(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x7F, 2);
@@ -1177,7 +1177,7 @@ void Passive17_0070(PLW *wk) {
     }
 }
 
-void Passive17_0071(PLW *wk) {
+void Passive17_0071(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x37, 2);
@@ -1193,7 +1193,7 @@ void Passive17_0071(PLW *wk) {
     }
 }
 
-void Passive17_0072(PLW *wk) {
+void Passive17_0072(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Pierce_On(wk);
@@ -1217,7 +1217,7 @@ void Passive17_0072(PLW *wk) {
     }
 }
 
-void Passive17_0073(PLW *wk) {
+void Passive17_0073(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0xBF, 2);
@@ -1237,7 +1237,7 @@ void Passive17_0073(PLW *wk) {
     }
 }
 
-void Passive17_0074(PLW *wk) {
+void Passive17_0074(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SA_Term(wk, 0x2E, 0x2F, 0x30, 0);
@@ -1253,7 +1253,7 @@ void Passive17_0074(PLW *wk) {
     }
 }
 
-void Passive17_0075(PLW *wk) {
+void Passive17_0075(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SA_Term(wk, 0x2E, 0xFFFF, 0x30, 0);
@@ -1281,7 +1281,7 @@ void Passive17_0075(PLW *wk) {
     }
 }
 
-void Passive17_0076(PLW *wk) {
+void Passive17_0076(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SA_Term(wk, 0xFFFF, 0xFFFF, 0x30, 0);
@@ -1305,7 +1305,7 @@ void Passive17_0076(PLW *wk) {
     }
 }
 
-void Passive17_0077(PLW *wk) {
+void Passive17_0077(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7F60, -0x7FA0, 0xB, 0x40, 0, -0x7FA0, -1, 0x200);
@@ -1321,7 +1321,7 @@ void Passive17_0077(PLW *wk) {
     }
 }
 
-void Passive17_0078(PLW *wk) {
+void Passive17_0078(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7F60, -0x7FB0, 0xB, 0x200, 0, -0x7F90, -1, 0x40);
@@ -1341,7 +1341,7 @@ void Passive17_0078(PLW *wk) {
     }
 }
 
-void Passive17_0079(PLW *wk) {
+void Passive17_0079(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7F60, -0x7FB0, 0xB, 0x40, 0, -0x7F90, -1, 0x40);
@@ -1357,7 +1357,7 @@ void Passive17_0079(PLW *wk) {
     }
 }
 
-void Passive17_0080(PLW *wk) {
+void Passive17_0080(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Hi_Jump_Attack_Term(wk, -0x7F60, -0x7FA0, 0xB, 0x200, 0, -0x7F90, -1, 0x200);
@@ -1373,7 +1373,7 @@ void Passive17_0080(PLW *wk) {
     }
 }
 
-void Passive17_0081(PLW *wk) {
+void Passive17_0081(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Hi_Jump_Attack_Term(wk, -0x7F60, -0x7FA0, 0xB, 0x40, 0, -0x7F90, -1, 0x40);
@@ -1393,7 +1393,7 @@ void Passive17_0081(PLW *wk) {
     }
 }
 
-void Passive17_0082(PLW *wk) {
+void Passive17_0082(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Hi_Jump_Attack_Term(wk, -0x7F60, -0x7FA0, 0xB, 0x400, 0, -0x7F90, -1, 0x40);
@@ -1409,7 +1409,7 @@ void Passive17_0082(PLW *wk) {
     }
 }
 
-void Passive17_0083(PLW *wk) {
+void Passive17_0083(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Hi_Jump_Attack_Term(wk, -1, -0x7FA0, 0xB, 0x200, 0, -0x7F90, -1, 0x40);
@@ -1433,7 +1433,7 @@ void Passive17_0083(PLW *wk) {
     }
 }
 
-void Passive17_0084(PLW *wk) {
+void Passive17_0084(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Hi_Jump_Attack(wk, 0xC, 0xC, 0x40, 0);
@@ -1457,7 +1457,7 @@ void Passive17_0084(PLW *wk) {
     }
 }
 
-void Passive17_0085(PLW *wk) {
+void Passive17_0085(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait(wk, 10);
@@ -1473,7 +1473,7 @@ void Passive17_0085(PLW *wk) {
     }
 }
 
-void Passive17_0086(PLW *wk) {
+void Passive17_0086(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SA_Term(wk, 0xFFFF, 0xFFFF, 0x30, 0);
@@ -1497,7 +1497,7 @@ void Passive17_0086(PLW *wk) {
     }
 }
 
-void Passive17_0087(PLW *wk) {
+void Passive17_0087(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SA_Term(wk, 0xFFFF, 0xFFFF, 0x30, 0);
@@ -1521,7 +1521,7 @@ void Passive17_0087(PLW *wk) {
     }
 }
 
-void Passive17_0088(PLW *wk) {
+void Passive17_0088(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         SA_Term(wk, 0xFFFF, 0xFFFF, 0x30, 0);
@@ -1545,7 +1545,7 @@ void Passive17_0088(PLW *wk) {
     }
 }
 
-void Passive17_0089(PLW *wk) {
+void Passive17_0089(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1D, 8, -1);
@@ -1557,7 +1557,7 @@ void Passive17_0089(PLW *wk) {
     }
 }
 
-void Passive17_0090(PLW *wk) {
+void Passive17_0090(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1D, 9, -1);
@@ -1569,7 +1569,7 @@ void Passive17_0090(PLW *wk) {
     }
 }
 
-void Passive17_0091(PLW *wk) {
+void Passive17_0091(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1D, 10, -1);
@@ -1581,7 +1581,7 @@ void Passive17_0091(PLW *wk) {
     }
 }
 
-void Passive17_0092(PLW *wk) {
+void Passive17_0092(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FC0, 6, 1, -1);
@@ -1597,7 +1597,7 @@ void Passive17_0092(PLW *wk) {
     }
 }
 
-void Passive17_0093(PLW *wk) {
+void Passive17_0093(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x102);
@@ -1613,7 +1613,7 @@ void Passive17_0093(PLW *wk) {
     }
 }
 
-void Passive17_0094(PLW *wk) {
+void Passive17_0094(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Lever_Attack(wk, 8, 1, 0x20);
@@ -1625,7 +1625,7 @@ void Passive17_0094(PLW *wk) {
     }
 }
 
-void Passive17_0095(PLW *wk) {
+void Passive17_0095(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x12);
@@ -1645,7 +1645,7 @@ void Passive17_0095(PLW *wk) {
     }
 }
 
-void Passive17_0096(PLW *wk) {
+void Passive17_0096(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7F80, -0x7FC8, 6, 1, -1);
@@ -1661,7 +1661,7 @@ void Passive17_0096(PLW *wk) {
     }
 }
 
-void Passive17_0097(PLW *wk) {
+void Passive17_0097(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x37, 2);
@@ -1681,7 +1681,7 @@ void Passive17_0097(PLW *wk) {
     }
 }
 
-void Passive17_0098(PLW *wk) {
+void Passive17_0098(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x37, 2);
@@ -1705,7 +1705,7 @@ void Passive17_0098(PLW *wk) {
     }
 }
 
-void Passive17_0099(PLW *wk) {
+void Passive17_0099(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Hi_Jump_Attack_Term(wk, -1, -0x7FA0, 0xB, 0x200, 0, -0x7F90, -1, 0x200);
@@ -1725,7 +1725,7 @@ void Passive17_0099(PLW *wk) {
     }
 }
 
-void Passive17_0100(PLW *wk) {
+void Passive17_0100(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Approach_Walk(wk, 0x4B, 2);
@@ -1749,7 +1749,7 @@ void Passive17_0100(PLW *wk) {
     }
 }
 
-void Passive17_0101(PLW *wk) {
+void Passive17_0101(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Check_SA(wk, 6, 0x2F);
@@ -1769,7 +1769,7 @@ void Passive17_0101(PLW *wk) {
     }
 }
 
-void Passive17_0102(PLW *wk) {
+void Passive17_0102(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7F80, -1, 6, 1, -1);
@@ -1785,7 +1785,7 @@ void Passive17_0102(PLW *wk) {
     }
 }
 
-void Passive17_0103(PLW *wk) {
+void Passive17_0103(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x22);
@@ -1797,7 +1797,7 @@ void Passive17_0103(PLW *wk) {
     }
 }
 
-void Passive17_0104(PLW *wk) {
+void Passive17_0104(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1C, 0x4008, -1);
@@ -1809,7 +1809,7 @@ void Passive17_0104(PLW *wk) {
     }
 }
 
-void Passive17_0105(PLW *wk) {
+void Passive17_0105(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1C, 0x4009, -1);
@@ -1821,7 +1821,7 @@ void Passive17_0105(PLW *wk) {
     }
 }
 
-void Passive17_0106(PLW *wk) {
+void Passive17_0106(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1C, 0x400A, -1);
@@ -1833,7 +1833,7 @@ void Passive17_0106(PLW *wk) {
     }
 }
 
-void Passive17_0107(PLW *wk) {
+void Passive17_0107(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x60, 6, 0x6C);
@@ -1853,7 +1853,7 @@ void Passive17_0107(PLW *wk) {
     }
 }
 
-void Passive17_0108(PLW *wk) {
+void Passive17_0108(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Hi_Jump(wk, 1, 0);
@@ -1865,7 +1865,7 @@ void Passive17_0108(PLW *wk) {
     }
 }
 
-void Passive17_0109(PLW *wk) {
+void Passive17_0109(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x60, 6, 0x6C);
@@ -1889,7 +1889,7 @@ void Passive17_0109(PLW *wk) {
     }
 }
 
-void Passive17_0110(PLW *wk) {
+void Passive17_0110(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x60, 6, 0x6C);
@@ -1909,7 +1909,7 @@ void Passive17_0110(PLW *wk) {
     }
 }
 
-void Passive17_0111(PLW *wk) {
+void Passive17_0111(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FB0, 6, 1, -1);
@@ -1929,7 +1929,7 @@ void Passive17_0111(PLW *wk) {
     }
 }
 
-void Passive17_0112(PLW *wk) {
+void Passive17_0112(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x40);
@@ -1941,7 +1941,7 @@ void Passive17_0112(PLW *wk) {
     }
 }
 
-void Passive17_0113(PLW *wk) {
+void Passive17_0113(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 9, 0x42);
@@ -1957,7 +1957,7 @@ void Passive17_0113(PLW *wk) {
     }
 }
 
-void Passive17_0114(PLW *wk) {
+void Passive17_0114(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FB0, 6, 1, -1);
@@ -1973,7 +1973,7 @@ void Passive17_0114(PLW *wk) {
     }
 }
 
-void Passive17_0115(PLW *wk) {
+void Passive17_0115(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Hi_Jump_Attack_Term(wk, -1, -0x7FA0, 0xB, 0x200, 0, -0x7FA0, -1, 0x20);
@@ -1985,7 +1985,7 @@ void Passive17_0115(PLW *wk) {
     }
 }
 
-void Passive17_0116(PLW *wk) {
+void Passive17_0116(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -1, -0x7FA0, 0xB, 0x400, 0, -0x7FA0, -1, 0x20);
@@ -1997,7 +1997,7 @@ void Passive17_0116(PLW *wk) {
     }
 }
 
-void Passive17_0117(PLW *wk) {
+void Passive17_0117(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack(wk, 8, 0xC, 0x100, 0);
@@ -2009,7 +2009,7 @@ void Passive17_0117(PLW *wk) {
     }
 }
 
-void Passive17_0118(PLW *wk) {
+void Passive17_0118(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x200);
@@ -2021,7 +2021,7 @@ void Passive17_0118(PLW *wk) {
     }
 }
 
-void Passive17_0119(PLW *wk) {
+void Passive17_0119(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Branch_Unit_Area(wk, 6, 0x68, 0x69, 0x69, 0x6A);
@@ -2033,7 +2033,7 @@ void Passive17_0119(PLW *wk) {
     }
 }
 
-void Passive17_0120(PLW *wk) {
+void Passive17_0120(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -1, 0x20, 8, 0x400, 1, -1, 0x20, 0x200);
@@ -2045,7 +2045,7 @@ void Passive17_0120(PLW *wk) {
     }
 }
 
-void Passive17_0121(PLW *wk) {
+void Passive17_0121(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -1, 0x20, 8, 0x20, 1, -1, 0x20, 0x20);
@@ -2057,7 +2057,7 @@ void Passive17_0121(PLW *wk) {
     }
 }
 
-void Passive17_0122(PLW *wk) {
+void Passive17_0122(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -1, 0x20, 8, 0x40, 1, -1, 0x20, 0x40);
@@ -2069,7 +2069,7 @@ void Passive17_0122(PLW *wk) {
     }
 }
 
-void Passive17_0123(PLW *wk) {
+void Passive17_0123(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -1, 0x20, 8, 0x400, 2, -1, 0x20, 0x200);
@@ -2081,7 +2081,7 @@ void Passive17_0123(PLW *wk) {
     }
 }
 
-void Passive17_0124(PLW *wk) {
+void Passive17_0124(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -1, 0x20, 8, 0x20, 2, -1, 0x20, 0x20);
@@ -2093,7 +2093,7 @@ void Passive17_0124(PLW *wk) {
     }
 }
 
-void Passive17_0125(PLW *wk) {
+void Passive17_0125(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -1, 0x20, 8, 0x40, 2, -1, 0x20, 0x40);
@@ -2105,7 +2105,7 @@ void Passive17_0125(PLW *wk) {
     }
 }
 
-void Passive17_0126(PLW *wk) {
+void Passive17_0126(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, 0x30, 6, 1, -1);
@@ -2121,7 +2121,7 @@ void Passive17_0126(PLW *wk) {
     }
 }
 
-void Passive17_0127(PLW *wk) {
+void Passive17_0127(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x40);
@@ -2133,7 +2133,7 @@ void Passive17_0127(PLW *wk) {
     }
 }
 
-void Passive17_0128(PLW *wk) {
+void Passive17_0128(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Check_EX(wk, 6, 0x36);
@@ -2149,7 +2149,7 @@ void Passive17_0128(PLW *wk) {
     }
 }
 
-void Passive17_0129(PLW *wk) {
+void Passive17_0129(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1C, 8, -1);
@@ -2161,7 +2161,7 @@ void Passive17_0129(PLW *wk) {
     }
 }
 
-void Passive17_0130(PLW *wk) {
+void Passive17_0130(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1C, 9, -1);
@@ -2173,7 +2173,7 @@ void Passive17_0130(PLW *wk) {
     }
 }
 
-void Passive17_0131(PLW *wk) {
+void Passive17_0131(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1C, 10, -1);
@@ -2185,7 +2185,7 @@ void Passive17_0131(PLW *wk) {
     }
 }
 
-void Passive17_0132(PLW *wk) {
+void Passive17_0132(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Branch_Unit_Area(wk, 6, 0x81, 0x82, 0x82, 0x83);
@@ -2197,7 +2197,7 @@ void Passive17_0132(PLW *wk) {
     }
 }
 
-void Passive17_0133(PLW *wk) {
+void Passive17_0133(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Check_EX(wk, 6, 0x84);
@@ -2213,7 +2213,7 @@ void Passive17_0133(PLW *wk) {
     }
 }
 
-void Passive17_0134(PLW *wk) {
+void Passive17_0134(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1E, 10, 0x70);
@@ -2225,7 +2225,7 @@ void Passive17_0134(PLW *wk) {
     }
 }
 
-void Passive17_0135(PLW *wk) {
+void Passive17_0135(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Check_EX(wk, 6, 0x36);
@@ -2241,7 +2241,7 @@ void Passive17_0135(PLW *wk) {
     }
 }
 
-void Passive17_0136(PLW *wk) {
+void Passive17_0136(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Check_EX(wk, 6, 0x36);
@@ -2257,7 +2257,7 @@ void Passive17_0136(PLW *wk) {
     }
 }
 
-void Passive17_0137(PLW *wk) {
+void Passive17_0137(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FB0, 6, 1, -1);
@@ -2273,7 +2273,7 @@ void Passive17_0137(PLW *wk) {
     }
 }
 
-void Passive17_0138(PLW *wk) {
+void Passive17_0138(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Check_EX(wk, 6, 0x22);
@@ -2289,7 +2289,7 @@ void Passive17_0138(PLW *wk) {
     }
 }
 
-void Passive17_0139(PLW *wk) {
+void Passive17_0139(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack(wk, 0xC, 0xF, 0x40, 0);
@@ -2301,7 +2301,7 @@ void Passive17_0139(PLW *wk) {
     }
 }
 
-void Passive17_0140(PLW *wk) {
+void Passive17_0140(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait(wk, 0);
@@ -2313,7 +2313,7 @@ void Passive17_0140(PLW *wk) {
     }
 }
 
-void Passive17_0141(PLW *wk) {
+void Passive17_0141(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Lever_Attack(wk, 8, 0, 0x40);
@@ -2325,7 +2325,7 @@ void Passive17_0141(PLW *wk) {
     }
 }
 
-void Passive17_0142(PLW *wk) {
+void Passive17_0142(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Provoke(wk, -1);
@@ -2337,7 +2337,7 @@ void Passive17_0142(PLW *wk) {
     }
 }
 
-void Passive17_0143(PLW *wk) {
+void Passive17_0143(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Provoke(wk, 1);
@@ -2353,7 +2353,7 @@ void Passive17_0143(PLW *wk) {
     }
 }
 
-void Passive17_0144(PLW *wk) {
+void Passive17_0144(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Provoke(wk, 1);
@@ -2373,7 +2373,7 @@ void Passive17_0144(PLW *wk) {
     }
 }
 
-void Passive17_0145(PLW *wk) {
+void Passive17_0145(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Provoke(wk, 1);
@@ -2393,7 +2393,7 @@ void Passive17_0145(PLW *wk) {
     }
 }
 
-void Passive17_0146(PLW *wk) {
+void Passive17_0146(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Provoke(wk, 1);
@@ -2421,7 +2421,7 @@ void Passive17_0146(PLW *wk) {
     }
 }
 
-void Passive17_0147(PLW *wk) {
+void Passive17_0147(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Check_EX(wk, 6, 0x85);
@@ -2437,7 +2437,7 @@ void Passive17_0147(PLW *wk) {
     }
 }
 
-void Passive17_0148(PLW *wk) {
+void Passive17_0148(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump(wk, 1);
@@ -2453,7 +2453,7 @@ void Passive17_0148(PLW *wk) {
     }
 }
 
-void Passive17_0149(PLW *wk) {
+void Passive17_0149(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7F70, -1, 8, 0x200, 1, -1, 0x20, 0x20);
@@ -2465,7 +2465,7 @@ void Passive17_0149(PLW *wk) {
     }
 }
 
-void Passive17_0150(PLW *wk) {
+void Passive17_0150(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Jump_Attack_Term(wk, -0x7F70, -0x7FB0, 8, 0x40, 2, -1, -0x7FB0, 0x20);
@@ -2481,7 +2481,7 @@ void Passive17_0150(PLW *wk) {
     }
 }
 
-void Passive17_0151(PLW *wk) {
+void Passive17_0151(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x102);
@@ -2497,7 +2497,7 @@ void Passive17_0151(PLW *wk) {
     }
 }
 
-void Passive17_0152(PLW *wk) {
+void Passive17_0152(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7F70, -1, 6, 1, -1);
@@ -2517,7 +2517,7 @@ void Passive17_0152(PLW *wk) {
     }
 }
 
-void Passive17_0153(PLW *wk) {
+void Passive17_0153(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7F70, -1, 6, 1, -1);
@@ -2533,7 +2533,7 @@ void Passive17_0153(PLW *wk) {
     }
 }
 
-void Passive17_0154(PLW *wk) {
+void Passive17_0154(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -0x7F70, -1, 6, 1, -1);
@@ -2553,7 +2553,7 @@ void Passive17_0154(PLW *wk) {
     }
 }
 
-void Passive17_0155(PLW *wk) {
+void Passive17_0155(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Wait(wk, 6);
@@ -2569,7 +2569,7 @@ void Passive17_0155(PLW *wk) {
     }
 }
 
-void Passive17_0156(PLW *wk) {
+void Passive17_0156(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Check_EX(wk, 6, 0x9B);
@@ -2589,7 +2589,7 @@ void Passive17_0156(PLW *wk) {
     }
 }
 
-void Passive17_0157(PLW *wk) {
+void Passive17_0157(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Lever_Attack(wk, 8, 0, 0x110);
@@ -2601,7 +2601,7 @@ void Passive17_0157(PLW *wk) {
     }
 }
 
-void Passive17_0158(PLW *wk) {
+void Passive17_0158(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Lever_Attack(wk, 8, 1, 0x110);
@@ -2613,7 +2613,7 @@ void Passive17_0158(PLW *wk) {
     }
 }
 
-void Passive17_0159(PLW *wk) {
+void Passive17_0159(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 8, 0x110);
@@ -2625,7 +2625,7 @@ void Passive17_0159(PLW *wk) {
     }
 }
 
-void Passive17_0160(PLW *wk) {
+void Passive17_0160(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x30, 2, 0xF);
@@ -2657,7 +2657,7 @@ void Passive17_0160(PLW *wk) {
     }
 }
 
-void Passive17_0161(PLW *wk) {
+void Passive17_0161(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Search_Back_Term(wk, 0x20, 2, 0x1B);
@@ -2685,7 +2685,7 @@ void Passive17_0161(PLW *wk) {
     }
 }
 
-void Passive17_0162(PLW *wk) {
+void Passive17_0162(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Walk(wk, 0, 0x20, 0);
@@ -2713,7 +2713,7 @@ void Passive17_0162(PLW *wk) {
     }
 }
 
-void Passive17_0163(PLW *wk) {
+void Passive17_0163(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Normal_Attack(wk, 0xC, 0x10);
@@ -2729,7 +2729,7 @@ void Passive17_0163(PLW *wk) {
     }
 }
 
-void Passive17_0164(PLW *wk) {
+void Passive17_0164(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Pierce_On(wk);
@@ -2753,7 +2753,7 @@ void Passive17_0164(PLW *wk) {
     }
 }
 
-void Passive17_0165(PLW *wk) {
+void Passive17_0165(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Pierce_On(wk);
@@ -2773,7 +2773,7 @@ void Passive17_0165(PLW *wk) {
     }
 }
 
-void Passive17_0166(PLW *wk) {
+void Passive17_0166(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Pierce_On(wk);
@@ -2797,7 +2797,7 @@ void Passive17_0166(PLW *wk) {
     }
 }
 
-void Passive17_0167(PLW *wk) {
+void Passive17_0167(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         EM_Term(wk, -1, -0x7FC0, 6, 1, -1);
@@ -2813,7 +2813,7 @@ void Passive17_0167(PLW *wk) {
     }
 }
 
-void Passive17_0168(PLW *wk) {
+void Passive17_0168(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Walk(wk, 1, 0x10, 0);
@@ -2833,7 +2833,7 @@ void Passive17_0168(PLW *wk) {
     }
 }
 
-void Passive17_0169(PLW *wk) {
+void Passive17_0169(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Pierce_On(wk);
@@ -2861,7 +2861,7 @@ void Passive17_0169(PLW *wk) {
     }
 }
 
-void Passive17_0170(PLW *wk) {
+void Passive17_0170(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Check_SA(wk, 6, 0xA5);
@@ -2893,7 +2893,7 @@ void Passive17_0170(PLW *wk) {
     }
 }
 
-void Passive17_0171(PLW *wk) {
+void Passive17_0171(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Lever_On(wk, 1, 0xFFFF);
@@ -2917,7 +2917,7 @@ void Passive17_0171(PLW *wk) {
     }
 }
 
-void Passive17_0172(PLW *wk) {
+void Passive17_0172(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Lever_On(wk, 1, 0xFFFF);
@@ -2941,7 +2941,7 @@ void Passive17_0172(PLW *wk) {
     }
 }
 
-void Passive17_0173(PLW *wk) {
+void Passive17_0173(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Pierce_On(wk);
@@ -2965,7 +2965,7 @@ void Passive17_0173(PLW *wk) {
     }
 }
 
-void Passive17_0174(PLW *wk) {
+void Passive17_0174(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Lever_On(wk, 1, 0xFFFF);
@@ -2989,7 +2989,7 @@ void Passive17_0174(PLW *wk) {
     }
 }
 
-void Passive17_0175(PLW *wk) {
+void Passive17_0175(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Lever_On(wk, 1, 0xFFFF);
@@ -3013,7 +3013,7 @@ void Passive17_0175(PLW *wk) {
     }
 }
 
-void Passive17_0176(PLW *wk) {
+void Passive17_0176(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Pierce_On(wk);
@@ -3045,7 +3045,7 @@ void Passive17_0176(PLW *wk) {
     }
 }
 
-void Passive17_0177(PLW *wk) {
+void Passive17_0177(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Pierce_On(wk);
@@ -3077,7 +3077,7 @@ void Passive17_0177(PLW *wk) {
     }
 }
 
-void Passive17_0178(PLW *wk) {
+void Passive17_0178(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Pierce_On(wk);
@@ -3105,7 +3105,7 @@ void Passive17_0178(PLW *wk) {
     }
 }
 
-void Passive17_0179(PLW *wk) {
+void Passive17_0179(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1C, 8, -1);
@@ -3121,7 +3121,7 @@ void Passive17_0179(PLW *wk) {
     }
 }
 
-void Passive17_0180(PLW *wk) {
+void Passive17_0180(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Pierce_On(wk);
@@ -3141,7 +3141,7 @@ void Passive17_0180(PLW *wk) {
     }
 }
 
-void Passive17_0181(PLW *wk) {
+void Passive17_0181(PLW* wk) {
     switch (CP_Index[wk->wu.id][0]) {
     case 0:
         Command_Attack(wk, 8, 0x1C, 10, -1);
@@ -3153,7 +3153,7 @@ void Passive17_0181(PLW *wk) {
     }
 }
 
-void (*const Passive17_Tbl[182])(PLW *) = {
+void (*const Passive17_Tbl[182])(PLW*) = {
     Passive17_0000, Passive17_0001, Passive17_0002, Passive17_0003, Passive17_0004, Passive17_0005, Passive17_0006,
     Passive17_0007, Passive17_0008, Passive17_0009, Passive17_0010, Passive17_0011, Passive17_0012, Passive17_0013,
     Passive17_0014, Passive17_0015, Passive17_0016, Passive17_0017, Passive17_0018, Passive17_0019, Passive17_0020,

@@ -6,13 +6,13 @@
 #include "sf33rd/Source/Game/PLPATUNI.h"
 #include "sf33rd/Source/Game/PLS02.h"
 
-void (*const pl05_exatt_table[18])(PLW *);
+void (*const pl05_exatt_table[18])(PLW*);
 
-void pl05_extra_attack(PLW *wk) {
+void pl05_extra_attack(PLW* wk) {
     pl05_exatt_table[wk->wu.routine_no[2] - 16](wk);
 }
 
-void Att_PL05_TOKUSHUKOUDOU(PLW *wk) {
+void Att_PL05_TOKUSHUKOUDOU(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void grade_add_personal_action(s32 ix);
@@ -56,7 +56,7 @@ void Att_PL05_TOKUSHUKOUDOU(PLW *wk) {
     }
 }
 
-void (*const pl05_exatt_table[18])(PLW *wk) = { Att_CHOUCHUURENGEKI, Att_HADOUKEN,       Att_HADOUKEN,
+void (*const pl05_exatt_table[18])(PLW* wk) = { Att_CHOUCHUURENGEKI, Att_HADOUKEN,       Att_HADOUKEN,
                                                 Att_HADOUKEN,        Att_HADOUKEN,       Att_SENPUUKYAKU,
                                                 Att_HADOUKEN,        Att_HADOUKEN,       Att_HADOUKEN,
                                                 Att_JINNCHUUWATARI,  Att_SLIDE_and_JUMP, Att_DUMMY,

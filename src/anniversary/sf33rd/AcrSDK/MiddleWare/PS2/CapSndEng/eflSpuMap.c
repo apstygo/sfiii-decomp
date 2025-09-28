@@ -10,14 +10,14 @@ CURRMAP CurrMap; // size: 0x88, address: 0x6EA200
 
 // sbss
 
-PSPUMAP *pSpuMap; // size: 0x4, address: 0x57B250
+PSPUMAP* pSpuMap; // size: 0x4, address: 0x57B250
 u32 CurrPage;     // size: 0x4, address: 0x57B24C
 u32 SpuTopAddr;   // size: 0x4, address: 0x57B248
 
-s32 flSpuMapInit(PSPUMAP *pMap) {
+s32 flSpuMapInit(PSPUMAP* pMap) {
     u32 i;
 
-    if (strncmp((char *)pMap, "SPUMAPDT", 8) != 0) {
+    if (strncmp((char*)pMap, "SPUMAPDT", 8) != 0) {
         return -1;
     }
 
@@ -38,7 +38,7 @@ s32 flSpuMapInit(PSPUMAP *pMap) {
 s32 flSpuMapChgPage(u32 page) {
     s32 i;
     u32 addr;
-    PSPUMAP_PAGE *pPage;
+    PSPUMAP_PAGE* pPage;
 
     if ((pSpuMap->Head.NumPages - 1) > page) {
         return -1;

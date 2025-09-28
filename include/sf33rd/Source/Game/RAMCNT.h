@@ -13,7 +13,7 @@ extern RCKeyWork rckey_work[RCKEY_WORK_MAX];
 extern s16 rckeyque[RCKEY_WORK_MAX];
 
 void disp_ramcnt_free_area();
-void Init_ram_control_work(u8 *adrs, s32 size);
+void Init_ram_control_work(u8* adrs, s32 size);
 void Push_ramcnt_key(s16 key);
 void Push_ramcnt_key_original_2(s16 key);
 void Purge_memory_of_kind_of_key(u8 kokey);

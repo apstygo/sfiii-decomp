@@ -3,48 +3,48 @@
 
 #include <string.h>
 
-s32 IsSafeHeadChunk(_ps2_head_chunk *pHEAD) {
-    if (strncmp((s8 *)pHEAD, "Head", 4) == 0) {
+s32 IsSafeHeadChunk(_ps2_head_chunk* pHEAD) {
+    if (strncmp((s8*)pHEAD, "Head", 4) == 0) {
         return 1;
     }
 
     return 0;
 }
 
-s32 IsSafeProgChunk(_ps2_prog_chunk *pPROG) {
-    if (strncmp((char *)pPROG, "Prog", 4) == 0) {
+s32 IsSafeProgChunk(_ps2_prog_chunk* pPROG) {
+    if (strncmp((char*)pPROG, "Prog", 4) == 0) {
         return 1;
     }
 
     return 0;
 }
 
-s32 IsSafeSmplChunk(_ps2_smpl_chunk *pSMPL) {
-    if (strncmp((char *)pSMPL, "Smpl", 4) == 0) {
+s32 IsSafeSmplChunk(_ps2_smpl_chunk* pSMPL) {
+    if (strncmp((char*)pSMPL, "Smpl", 4) == 0) {
         return 1;
     }
 
     return 0;
 }
 
-s32 IsSafeVagiChunk(_ps2_vagi_chunk *pVAGI) {
-    if (strncmp((char *)pVAGI, "Vagi", 4) == 0) {
+s32 IsSafeVagiChunk(_ps2_vagi_chunk* pVAGI) {
+    if (strncmp((char*)pVAGI, "Vagi", 4) == 0) {
         return 1;
     }
 
     return 0;
 }
 
-s32 GetNumSplit(_ps2_head_chunk *pHEAD, u8 prog) {
-    _ps2_prog_chunk *pPROG;
-    _ps2_prog_param *pPPRM;
+s32 GetNumSplit(_ps2_head_chunk* pHEAD, u8 prog) {
+    _ps2_prog_chunk* pPROG;
+    _ps2_prog_param* pPPRM;
     u32 offset;
 
     if (IsSafeHeadChunk(pHEAD) != 1) {
         return -1;
     }
 
-    pPROG = (_ps2_prog_chunk *)((uintptr_t)&pHEAD->tag + (u32)pHEAD->progChunkOffset);
+    pPROG = (_ps2_prog_chunk*)((uintptr_t)&pHEAD->tag + (u32)pHEAD->progChunkOffset);
     if (IsSafeProgChunk(pPROG) != 1) {
         return -2;
     }
@@ -58,22 +58,22 @@ s32 GetNumSplit(_ps2_head_chunk *pHEAD, u8 prog) {
         return -11;
     }
 
-    pPPRM = (_ps2_prog_param *)((uintptr_t)pPROG + offset);
+    pPPRM = (_ps2_prog_param*)((uintptr_t)pPROG + offset);
     return pPPRM->nSplit;
 }
 
-s32 GetPhdParam(CSE_PHDPADDR *pHDPA, _ps2_head_chunk *pHEAD, u8 prog, u8 note, u8 index) {
-    _ps2_prog_chunk *pPROG;
-    _ps2_smpl_chunk *pSMPL;
-    _ps2_vagi_chunk *pVAGI;
-    _ps2_split_block *pSBLK;
-    _ps2_prog_param *pPPRM;
-    _ps2_smpl_param *pSPRM;
-    _ps2_vagi_param *pVPRM;
+s32 GetPhdParam(CSE_PHDPADDR* pHDPA, _ps2_head_chunk* pHEAD, u8 prog, u8 note, u8 index) {
+    _ps2_prog_chunk* pPROG;
+    _ps2_smpl_chunk* pSMPL;
+    _ps2_vagi_chunk* pVAGI;
+    _ps2_split_block* pSBLK;
+    _ps2_prog_param* pPPRM;
+    _ps2_smpl_param* pSPRM;
+    _ps2_vagi_param* pVPRM;
 
-    pPROG = (_ps2_prog_chunk *)((uintptr_t)&pHEAD->tag + (u32)pHEAD->progChunkOffset);
-    pSMPL = (_ps2_smpl_chunk *)((uintptr_t)&pHEAD->tag + (u32)pHEAD->smplChunkOffset);
-    pVAGI = (_ps2_vagi_chunk *)((uintptr_t)&pHEAD->tag + (u32)pHEAD->vagiChunkOffset);
+    pPROG = (_ps2_prog_chunk*)((uintptr_t)&pHEAD->tag + (u32)pHEAD->progChunkOffset);
+    pSMPL = (_ps2_smpl_chunk*)((uintptr_t)&pHEAD->tag + (u32)pHEAD->smplChunkOffset);
+    pVAGI = (_ps2_vagi_chunk*)((uintptr_t)&pHEAD->tag + (u32)pHEAD->vagiChunkOffset);
 
     if (IsSafeHeadChunk(pHEAD) != 1) {
         return -1;
@@ -91,7 +91,7 @@ s32 GetPhdParam(CSE_PHDPADDR *pHDPA, _ps2_head_chunk *pHEAD, u8 prog, u8 note, u
         return -4;
     }
 
-    pPPRM = (_ps2_prog_param *)((uintptr_t)pPROG + pPROG->progParamOffset[prog]);
+    pPPRM = (_ps2_prog_param*)((uintptr_t)pPROG + pPROG->progParamOffset[prog]);
     pSBLK = &pPPRM->splitBlock[index];
     pSPRM = &pSMPL->smplParam[pSBLK->sampleIndex];
     pVPRM = &pVAGI->vagiParam[pSPRM->vagiIndex];
@@ -107,7 +107,7 @@ s32 GetPhdParam(CSE_PHDPADDR *pHDPA, _ps2_head_chunk *pHEAD, u8 prog, u8 note, u
     return -1;
 }
 
-s32 CalcPhdParam(CSE_PHDP *pPHDP, CSE_PHDPADDR *pHDPA, u8 note, u32 SpuTopAddr) {
+s32 CalcPhdParam(CSE_PHDP* pPHDP, CSE_PHDPADDR* pHDPA, u8 note, u32 SpuTopAddr) {
     s16 pan;
 
     pPHDP->vol = pHDPA->pPprm->vol;

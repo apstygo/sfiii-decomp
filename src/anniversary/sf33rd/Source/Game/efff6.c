@@ -1,19 +1,19 @@
 #include "sf33rd/Source/Game/efff6.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/OPENING.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 
 // forward decls
-void efff6_move_common(WORK_Other *ewk);
-void efff6_move01(WORK_Other *ewk);
+void efff6_move_common(WORK_Other* ewk);
+void efff6_move01(WORK_Other* ewk);
 
-void effect_F6_move(WORK_Other *ewk) {
+void effect_F6_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         if (ewk->wu.old_rno[1] <= op_w.index) {
@@ -32,7 +32,7 @@ void effect_F6_move(WORK_Other *ewk) {
     }
 }
 
-void efff6_move(WORK_Other *ewk) {
+void efff6_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void push_color_trans_req(s32 from_col, s32 to_col);
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
@@ -65,7 +65,7 @@ void efff6_move(WORK_Other *ewk) {
     }
 }
 
-void efff6_move_common(WORK_Other *ewk) {
+void efff6_move_common(WORK_Other* ewk) {
     s16 work;
 
     switch (ewk->wu.routine_no[3]) {
@@ -180,7 +180,7 @@ void efff6_move_common(WORK_Other *ewk) {
     }
 }
 
-void efff6_move01(WORK_Other *ewk) {
+void efff6_move01(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void push_color_trans_req(s32 from_col, s32 to_col);
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
@@ -225,9 +225,9 @@ s32 effect_F6_init(u8 typenum) {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
-    const s16 *data_ptr;
+    const s16* data_ptr;
 
     if (Debug_w[0x30] & 4) {
         return 0;
@@ -237,7 +237,7 @@ s32 effect_F6_init(u8 typenum) {
         return -1;
     }
 
-    ewk = (WORK_Other *)&frw[ix];
+    ewk = (WORK_Other*)&frw[ix];
     data_ptr = efff6_data_tbl00[typenum];
     ewk->wu.id = 0x9C;
     ewk->wu.be_flag = 1;

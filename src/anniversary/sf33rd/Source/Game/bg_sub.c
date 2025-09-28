@@ -844,13 +844,13 @@ void zoom_ud_check() {
     }
 }
 
-void suzi_offset_set(WORK_Other *ewk) {
+void suzi_offset_set(WORK_Other* ewk) {
     if (ewk->wu.sync_suzi == 1) {
         suzi_offset_set_sub(ewk);
     }
 }
 
-static s32 suzi_offset_set_sub(WORK_Other *ewk) {
+static s32 suzi_offset_set_sub(WORK_Other* ewk) {
     s16 work, work2;
 
     work = ewk->wu.xyz[1].disp.pos & 0x300;
@@ -864,7 +864,7 @@ static s32 suzi_offset_set_sub(WORK_Other *ewk) {
     return 0;
 }
 
-void suzi_sync_pos_set(WORK_Other *ewk) {
+void suzi_sync_pos_set(WORK_Other* ewk) {
     s16 work;
 
     if (ewk->wu.sync_suzi) {
@@ -1124,7 +1124,7 @@ void bg_move_common() {
 }
 
 void bg_initialize() {
-    const s16 *ptr;
+    const s16* ptr;
     u8 i;
 
     Bg_Off_R(7);
@@ -1272,7 +1272,7 @@ void bg_etc_write(s16 type) {
     base_y_pos = 40;
 }
 
-s32 Ck_Range_Out_S(WORK_Other *ewk, s16 BG_No, s16 R) {
+s32 Ck_Range_Out_S(WORK_Other* ewk, s16 BG_No, s16 R) {
     s16 x;
 
     x = ewk->wu.xyz[0].disp.pos - bg_w.bgw[BG_No].wxy[0].disp.pos;

@@ -1,9 +1,9 @@
 #include "sf33rd/Source/Game/effb9.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
@@ -11,16 +11,16 @@
 
 // sbss
 
-WORK_Other *oya_p = NULL;
+WORK_Other* oya_p = NULL;
 
 // Funcs
 
-void effect_B9_move(WORK_Other *ewk) {
+void effect_B9_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-    oya_p = (WORK_Other *)ewk->my_master;
+    oya_p = (WORK_Other*)ewk->my_master;
 
     switch (oya_p->wu.routine_no[0]) {
     case 2:
@@ -59,23 +59,23 @@ void effect_B9_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_B9_init(WORK_Other *oya) {
+s32 effect_B9_init(WORK_Other* oya) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 0x77;
     ewk->wu.work_id = 0x10;
-    ewk->my_master = (u32 *)oya;
+    ewk->my_master = (u32*)oya;
     ewk->wu.my_family = 4;
     ewk->wu.my_col_code = 0x52;
     ewk->wu.my_priority = ewk->wu.position_z = 10;

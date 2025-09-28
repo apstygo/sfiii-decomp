@@ -18,7 +18,7 @@ SoundPatch sdeb[SDEB_SIZE];
 
 s16 bgm_selectorDC[8] = { 0, 1, 2, 1, 2, 1, 2, 1 };
 s16 bgm_selectorAC[8] = { 0, 1, 0, 1, 0, 1, 0, 1 };
-s16 *bgm_selector[2] = { bgm_selectorDC, bgm_selectorAC };
+s16* bgm_selector[2] = { bgm_selectorDC, bgm_selectorAC };
 
 const u16 BGM_Stage_Data[22] = { 46, 1, 13, 34, 31, 4, 7, 16, 25, 28, 34, 1, 28, 43, 22, 10, 19, 40, 4, 37, 61, 62 };
 const s16 SE_Shock_Data[7] = { 285, 286, 287, 288, 289, 305, 306 };
@@ -67,7 +67,7 @@ void SE_All_Off() {
     spu_all_off();
 }
 
-void Se_Dummy(WORK_Other *ewk, u16 Code) {
+void Se_Dummy(WORK_Other* ewk, u16 Code) {
     SoundPatchConfig rmc;
 
     rmc.ptix = 0;
@@ -78,12 +78,12 @@ void Se_Dummy(WORK_Other *ewk, u16 Code) {
     Store_Sound_Code(Code, &rmc);
 }
 
-void Se_Shock(WORK_Other *ewk, u16 Code) {
+void Se_Shock(WORK_Other* ewk, u16 Code) {
 #if defined(SOUND_DISABLED)
     return;
 #endif
 
-    PLW *em;
+    PLW* em;
     s16 xx;
     s16 zz;
     s16 uid;
@@ -93,10 +93,10 @@ void Se_Shock(WORK_Other *ewk, u16 Code) {
     Code = Check_Bonus_SE(Code);
 
     if (ewk->wu.work_id == 1) {
-        em = (PLW *)ewk->wu.target_adrs;
+        em = (PLW*)ewk->wu.target_adrs;
         uid = ewk->wu.id;
     } else {
-        em = (PLW *)((PLW *)ewk->my_master)->wu.target_adrs;
+        em = (PLW*)((PLW*)ewk->my_master)->wu.target_adrs;
         uid = ewk->master_id;
     }
 
@@ -114,11 +114,11 @@ void Se_Shock(WORK_Other *ewk, u16 Code) {
         Code += uid * 0x300;
     }
 
-    xx = Get_Position((PLW *)ewk);
+    xx = Get_Position((PLW*)ewk);
     SsRequestPan(Code, xx, xx, 0, 2);
 }
 
-void Se_Myself(WORK_Other *ewk, u16 Code) {
+void Se_Myself(WORK_Other* ewk, u16 Code) {
 #if defined(SOUND_DISABLED)
     return;
 #endif
@@ -131,24 +131,24 @@ void Se_Myself(WORK_Other *ewk, u16 Code) {
             Code += uid * 0x300;
         }
 
-        xx = Get_Position((PLW *)ewk);
+        xx = Get_Position((PLW*)ewk);
         SsRequestPan(Code, xx, xx, 0, 2);
     }
 }
 
-void Se_Myself_Die(WORK_Other *ewk, u16 Code) {
+void Se_Myself_Die(WORK_Other* ewk, u16 Code) {
     s16 xx;
 
     if ((ewk->wu.work_id == 1) && (ewk->wu.vital_new >= 0)) {
         if (Code) {
             Code += ewk->wu.id * 0x300;
         }
-        xx = Get_Position((PLW *)ewk);
+        xx = Get_Position((PLW*)ewk);
         SsRequestPan(Code, xx, xx, 0, 2);
     }
 }
 
-void Se_Let(WORK_Other *ewk, u16 Code) {
+void Se_Let(WORK_Other* ewk, u16 Code) {
 #if defined(SOUND_DISABLED)
     return;
 #endif
@@ -168,16 +168,16 @@ void Se_Let(WORK_Other *ewk, u16 Code) {
         Code += uid * 0x300;
     }
 
-    xx = Get_Position((PLW *)ewk);
+    xx = Get_Position((PLW*)ewk);
     SsRequestPan(Code, xx, xx, 0, 2);
 }
 
-void Se_Let_SP(WORK_Other *ewk, u16 Code) {
+void Se_Let_SP(WORK_Other* ewk, u16 Code) {
 #if defined(SOUND_DISABLED)
     return;
 #endif
 
-    PLW *em;
+    PLW* em;
     s16 xx;
     s16 uid;
 
@@ -187,7 +187,7 @@ void Se_Let_SP(WORK_Other *ewk, u16 Code) {
         uid = ewk->master_id;
     }
 
-    em = (PLW *)ewk->wu.target_adrs;
+    em = (PLW*)ewk->wu.target_adrs;
 
     if ((em->wu.work_id == 1) && (em->wu.vital_new < 0)) {
         if (Code == 0x14B) {
@@ -202,18 +202,18 @@ void Se_Let_SP(WORK_Other *ewk, u16 Code) {
         Code += uid * 0x300;
     }
 
-    xx = Get_Position((PLW *)ewk);
+    xx = Get_Position((PLW*)ewk);
     SsRequestPan(Code, xx, xx, 0, 2);
 }
 
-void Call_Se(WORK_Other *ewk, u16 Code) {
+void Call_Se(WORK_Other* ewk, u16 Code) {
     s16 xx;
 
-    xx = Get_Position((PLW *)ewk);
+    xx = Get_Position((PLW*)ewk);
     SsRequestPan(Code, xx, xx, 0, 2);
 }
 
-void Se_Term(WORK_Other *ewk, u16 Code) {
+void Se_Term(WORK_Other* ewk, u16 Code) {
 #if defined(SOUND_DISABLED)
     return;
 #endif
@@ -232,12 +232,12 @@ void Se_Term(WORK_Other *ewk, u16 Code) {
         Code += ewk->wu.id * 0x300;
     }
 
-    xx = Get_Position((PLW *)ewk);
+    xx = Get_Position((PLW*)ewk);
     SsRequestPan(Code, xx, xx, 0, 2);
 }
 
 void Finish_SE() {
-    PLW *wk;
+    PLW* wk;
     s16 xx;
     s16 Code;
 
@@ -269,7 +269,7 @@ s32 Check_Finish_SE() {
     return -1;
 }
 
-u16 Get_Position(PLW *wk) {
+u16 Get_Position(PLW* wk) {
     u16 xx;
     u16 yy;
 
@@ -308,7 +308,7 @@ u16 Check_Bonus_SE(u16 Code) {
     return Bonus_Voice_Data[Code - 0x100];
 }
 
-void Store_Sound_Code(u16 code, SoundPatchConfig *rmc) {
+void Store_Sound_Code(u16 code, SoundPatchConfig* rmc) {
     s16 i;
 
     for (i = 7; i > 0; i--) {

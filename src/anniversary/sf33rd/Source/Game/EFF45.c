@@ -8,23 +8,23 @@
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 
-void EFF45_DISP(WORK_Other_CONN *ewk);
-void EFF45_SUSPEND(WORK_Other_CONN *ewk);
-void EFF45_CHANGE(WORK_Other_CONN *ewk);
-void Setup_Message(WORK_Other_CONN *ewk);
-s16 Centering_Sub(WORK_Other_CONN *ewk, s16 dot_type);
-void Check_Pig_Pig(WORK_Other_CONN *ewk);
-void Convert_16_10_2(WORK_Other_CONN *ewk, u16 target);
+void EFF45_DISP(WORK_Other_CONN* ewk);
+void EFF45_SUSPEND(WORK_Other_CONN* ewk);
+void EFF45_CHANGE(WORK_Other_CONN* ewk);
+void Setup_Message(WORK_Other_CONN* ewk);
+s16 Centering_Sub(WORK_Other_CONN* ewk, s16 dot_type);
+void Check_Pig_Pig(WORK_Other_CONN* ewk);
+void Convert_16_10_2(WORK_Other_CONN* ewk, u16 target);
 
 // sbss
 MessageData Message_Data[4];
 
 void (*const EFF45_Jmp_Tbl[3])() = { EFF45_DISP, EFF45_CHANGE, EFF45_SUSPEND };
 
-void effect_45_move(WORK_Other_CONN *ewk) {
-    Check_Pos_OBJ2((WORK_Other *)ewk);
+void effect_45_move(WORK_Other_CONN* ewk) {
+    Check_Pos_OBJ2((WORK_Other*)ewk);
 
-    if (Check_Die_61((WORK_Other *)ewk) != 0 || Message_Data[ewk->wu.dir_old].order == 3) {
+    if (Check_Die_61((WORK_Other*)ewk) != 0 || Message_Data[ewk->wu.dir_old].order == 3) {
         push_effect_work(&ewk->wu);
         return;
     }
@@ -42,7 +42,7 @@ void effect_45_move(WORK_Other_CONN *ewk) {
     }
 }
 
-void EFF45_DISP(WORK_Other_CONN *ewk) {
+void EFF45_DISP(WORK_Other_CONN* ewk) {
     ewk->wu.disp_flag = 1;
 
     if ((ewk->wu.routine_no[0] = Message_Data[ewk->wu.dir_old].order)) {
@@ -50,7 +50,7 @@ void EFF45_DISP(WORK_Other_CONN *ewk) {
     }
 }
 
-void EFF45_SUSPEND(WORK_Other_CONN *ewk) {
+void EFF45_SUSPEND(WORK_Other_CONN* ewk) {
     ewk->wu.disp_flag = 0;
 
     if (Message_Data[ewk->wu.dir_old].order != 2) {
@@ -62,7 +62,7 @@ void EFF45_SUSPEND(WORK_Other_CONN *ewk) {
     }
 }
 
-void EFF45_CHANGE(WORK_Other_CONN *ewk) {
+void EFF45_CHANGE(WORK_Other_CONN* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         ewk->wu.routine_no[1]++;
@@ -82,14 +82,14 @@ void EFF45_CHANGE(WORK_Other_CONN *ewk) {
 }
 
 s32 effect_45_init(u8 id, s16 sync_bg, s16 master_player) {
-    WORK_Other_CONN *ewk;
+    WORK_Other_CONN* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk = (WORK_Other_CONN*)frw[ix];
     ewk->wu.routine_no[0] = 0;
     ewk->wu.be_flag = 1;
     ewk->wu.disp_flag = 0;
@@ -124,7 +124,7 @@ void Setup_Message(WORK_Other_CONN *ewk) {
     Check_Pig_Pig(ewk);
 }
 
-s16 Centering_Sub(WORK_Other_CONN *ewk, s16 dot_type) {
+s16 Centering_Sub(WORK_Other_CONN* ewk, s16 dot_type) {
     s16 i;
     s16 ix;
     s16 ny;
@@ -152,7 +152,7 @@ s16 Centering_Sub(WORK_Other_CONN *ewk, s16 dot_type) {
     return max / 2;
 }
 
-void Check_Pig_Pig(WORK_Other_CONN *ewk) {
+void Check_Pig_Pig(WORK_Other_CONN* ewk) {
     s16 ix;
 
     if (Debug_w[68]) {
@@ -242,13 +242,13 @@ void Check_Pig_Pig(WORK_Other_CONN *ewk) {
     }
 }
 
-void Convert_16_10_2(WORK_Other_CONN *ewk, u16 target) {
+void Convert_16_10_2(WORK_Other_CONN* ewk, u16 target) {
     ewk->wu.old_rno[1] = target / 10;
     target %= 10;
     ewk->wu.old_rno[0] = target;
 }
 
-void Convert_16_10_3(WORK_Other_CONN *ewk, u16 target) {
+void Convert_16_10_3(WORK_Other_CONN* ewk, u16 target) {
     ewk->wu.old_rno[2] = target / 100;
     target %= 100;
     ewk->wu.old_rno[1] = target / 10;

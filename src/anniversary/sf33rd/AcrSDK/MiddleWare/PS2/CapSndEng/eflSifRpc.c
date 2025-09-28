@@ -8,7 +8,7 @@
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
 #if defined(TARGET_PS2)
-void __assert(const s8 *file, s32 line, const s8 *expr);
+void __assert(const s8* file, s32 line, const s8* expr);
 #define assert(e) (__assert("eflSifRpc.c", 0, "0"))
 #else
 #include <assert.h>
@@ -18,9 +18,9 @@ void __assert(const s8 *file, s32 line, const s8 *expr);
 struct _sif_client_data ScdComm;  // size: 0x28, address: 0x57B220
 struct _sif_client_data ScdStat;  // size: 0x28, address: 0x57B1F0
 struct _sif_client_data ScdThMon; // size: 0x28, address: 0x57B1C0
-struct _sif_client_data *pScd;    // size: 0x4, address: 0x57B1B0
-void *pSendBuf;                   // size: 0x4, address: 0x57B1AC
-void *pRecvBuf;                   // size: 0x4, address: 0x57B1A8
+struct _sif_client_data* pScd;    // size: 0x4, address: 0x57B1B0
+void* pSendBuf;                   // size: 0x4, address: 0x57B1AC
+void* pRecvBuf;                   // size: 0x4, address: 0x57B1A8
 u32 SendBufSize;                  // size: 0x4, address: 0x57B1A4
 u32 RecvBufSize;                  // size: 0x4, address: 0x57B1A0
 
@@ -91,7 +91,7 @@ s32 flSifRpcInit() {
     return 0;
 }
 
-void *flSifRpcSend(u32 CmdType, void *pData, u32 DataSize) {
+void* flSifRpcSend(u32 CmdType, void* pData, u32 DataSize) {
 #if !defined(TARGET_PS2)
     // No need to send data through RPC on non-PS2 systems
     return NULL;

@@ -38,7 +38,7 @@ extern Texture ppgBgTex[4];        // size: 0x80, address: 0x57B5D0
 
 void ppgWorkInitializeApprication();
 void ppgPurgeFromVRAM(s32 type);
-void ppgPurgePaletteFromVRAM(Palette *pal);
-void ppgPurgeTextureFromVRAM(Texture *tex);
+void ppgPurgePaletteFromVRAM(Palette* pal);
+void ppgPurgeTextureFromVRAM(Texture* tex);
 
 #endif

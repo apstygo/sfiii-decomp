@@ -3,6 +3,6 @@
 
 #include "types.h"
 
-void Reboot_Program(s8 *args);
+void Reboot_Program(s8* args);
 
 #endif

@@ -61,13 +61,13 @@ s16 Hnc_Num;
 FadeData fd_dat;
 
 // forward decls
-s32 SSGetDrawSizePro(const s8 *str);
+s32 SSGetDrawSizePro(const s8* str);
 s16 SSPutStrTexInputPro(u16 x, u16 y, u16 ix);
 void face_base_put();
 void silver_stun_put(u8 Pl_Num, s16 len);
 
 void Scrscreen_Init() {
-    void *loadAdrs;
+    void* loadAdrs;
     u32 loadSize;
     s16 i;
     s16 key;
@@ -88,11 +88,11 @@ void Scrscreen_Init() {
         }
     }
 
-    ppgSetupPalChunk(&ppgScrPalOpt, (u8 *)loadAdrs, loadSize, 0, 3, 1);
-    ppgSetupPalChunk(&ppgScrPalShot, (u8 *)loadAdrs, loadSize, 0, 2, 1);
-    ppgSetupPalChunk(&ppgScrPalFace, (u8 *)loadAdrs, loadSize, 0, 1, 1);
-    ppgSetupPalChunk(NULL, (u8 *)loadAdrs, loadSize, 0, 0, 1);
-    ppgSetupTexChunk_1st(NULL, (u8 *)loadAdrs, loadSize, 0, 6, 0, 0);
+    ppgSetupPalChunk(&ppgScrPalOpt, (u8*)loadAdrs, loadSize, 0, 3, 1);
+    ppgSetupPalChunk(&ppgScrPalShot, (u8*)loadAdrs, loadSize, 0, 2, 1);
+    ppgSetupPalChunk(&ppgScrPalFace, (u8*)loadAdrs, loadSize, 0, 1, 1);
+    ppgSetupPalChunk(NULL, (u8*)loadAdrs, loadSize, 0, 0, 1);
+    ppgSetupTexChunk_1st(NULL, (u8*)loadAdrs, loadSize, 0, 6, 0, 0);
 
     for (i = 0; i < 3; i++) {
         ppgSetupTexChunk_2nd(NULL, i);
@@ -174,7 +174,7 @@ void Sa_frame_Write() {
     }
 }
 
-void SSPutStrTexInput(u16 x, u16 y, const s8 *str) {
+void SSPutStrTexInput(u16 x, u16 y, const s8* str) {
     s32 u = ((*str & 0xF) * 8) + 0x80;
     s32 v = ((*str & 0xF0) >> 4) * 8;
 
@@ -203,7 +203,7 @@ void SSPutStrTexInput2(u16 x, u16 y, u8 str) {
     scrscrntex[3].y = (y + 8) * Frame_Zoom_Y;
 }
 
-void SSPutStr(u16 x, u16 y, u8 atr, const s8 *str) {
+void SSPutStr(u16 x, u16 y, u8 atr, const s8* str) {
     if (No_Trans) {
         return;
     }
@@ -230,7 +230,7 @@ void SSPutStr(u16 x, u16 y, u8 atr, const s8 *str) {
     }
 }
 
-s32 SSPutStrPro(u16 flag, u16 x, u16 y, u8 atr, u32 vtxcol, s8 *str) {
+s32 SSPutStrPro(u16 flag, u16 x, u16 y, u8 atr, u32 vtxcol, s8* str) {
     s32 usex;
     s16 step;
 
@@ -290,7 +290,7 @@ s16 SSPutStrTexInputPro(u16 x, u16 y, u16 ix) {
     return slide;
 }
 
-s32 SSGetDrawSizePro(const s8 *str) {
+s32 SSGetDrawSizePro(const s8* str) {
     s32 ix;
     s32 size = 0;
 
@@ -303,7 +303,7 @@ s32 SSGetDrawSizePro(const s8 *str) {
     return size;
 }
 
-void SSPutStr2(u16 x, u16 y, u8 atr, const s8 *str) {
+void SSPutStr2(u16 x, u16 y, u8 atr, const s8* str) {
     if (No_Trans) {
         return;
     }
@@ -325,7 +325,7 @@ void SSPutStr2(u16 x, u16 y, u8 atr, const s8 *str) {
     }
 }
 
-void SSPutStrTexInputB(f32 x, f32 y, s8 *str, f32 sc) {
+void SSPutStrTexInputB(f32 x, f32 y, s8* str, f32 sc) {
     s32 u = ((*str & 0xF) * 8) + 128;
     s32 v = ((*str & 0xF0) >> 4) * 8;
 
@@ -352,7 +352,7 @@ void SSPutStrTexInputB2(f32 x, f32 y, s8 str) {
     scrscrntex[1].y = scrscrntex[3].y = (8.0f + y) * Frame_Zoom_Y;
 }
 
-void SSPutStr_Bigger(u16 x, u16 y, u8 atr, s8 *str, f32 sc, u8 gr, u16 priority) {
+void SSPutStr_Bigger(u16 x, u16 y, u8 atr, s8* str, f32 sc, u8 gr, u16 priority) {
     f32 xx;
     f32 yy;
     u8 i;
@@ -1710,7 +1710,7 @@ void combo_message_set(u8 pl, u8 kind, u8 x, u8 num, u8 hi, u8 low) {
     }
 }
 
-void combo_pts_set(u8 pl, u8 x, u8 num, s8 *pts, s8 digit) {
+void combo_pts_set(u8 pl, u8 x, u8 num, s8* pts, s8 digit) {
     s8 i;
     s8 j;
 
@@ -1910,16 +1910,16 @@ void sa_number_write(s8 Stpl_Num, u16 x) {
 }
 
 void sc_ram_to_vram(s8 sc_num) {
-    uintptr_t *sc_tbl_ptr;
-    u8 *sc_pos_ptr;
-    u8 *sc_uv_ptr;
+    uintptr_t* sc_tbl_ptr;
+    u8* sc_pos_ptr;
+    u8* sc_uv_ptr;
     u16 loop;
     u16 i;
 
-    sc_tbl_ptr = (uintptr_t *)sc_ram_vram_tbl[sc_num];
-    sc_pos_ptr = (u8 *)*sc_tbl_ptr;
+    sc_tbl_ptr = (uintptr_t*)sc_ram_vram_tbl[sc_num];
+    sc_pos_ptr = (u8*)*sc_tbl_ptr;
     *sc_tbl_ptr++;
-    sc_uv_ptr = (u8 *)*sc_tbl_ptr;
+    sc_uv_ptr = (u8*)*sc_tbl_ptr;
     loop = *sc_uv_ptr++;
 
     for (i = 0; i < loop; i++) {
@@ -1932,9 +1932,9 @@ void sc_ram_to_vram(s8 sc_num) {
 }
 
 void sc_ram_to_vram_opc(s8 sc_num, s8 x, s8 y, u16 atr) {
-    u32 *sc_tbl_ptr;
-    u8 *sc_pos_ptr;
-    u8 *sc_uv_ptr;
+    u32* sc_tbl_ptr;
+    u8* sc_pos_ptr;
+    u8* sc_uv_ptr;
     u16 loop;
     u16 i;
 
@@ -1943,10 +1943,10 @@ void sc_ram_to_vram_opc(s8 sc_num, s8 x, s8 y, u16 atr) {
     }
 
     ppgSetupCurrentDataList(&ppgScrList);
-    sc_tbl_ptr = (u32 *)sc_ram_vram_tbl[sc_num];
-    sc_pos_ptr = (u8 *)*sc_tbl_ptr;
+    sc_tbl_ptr = (u32*)sc_ram_vram_tbl[sc_num];
+    sc_pos_ptr = (u8*)*sc_tbl_ptr;
     *sc_tbl_ptr++;
-    sc_uv_ptr = (u8 *)*sc_tbl_ptr;
+    sc_uv_ptr = (u8*)*sc_tbl_ptr;
     loop = *sc_uv_ptr++;
 
     for (i = 0; i < loop; i++) {
@@ -2239,8 +2239,8 @@ void dispButtonImage2(s32 px, s32 py, s32 pz, s32 sx, s32 sy, s32 cl, s32 ix) {
     ps2SeqsRenderQuadEnd();
 }
 
-void dispSaveLoadTitle(void *ewk) {
-    WORK *wk;
+void dispSaveLoadTitle(void* ewk) {
+    WORK* wk;
     PAL_CURSOR_COL oricol;
     Sprite prm;
     FLVec3 pos[2];
@@ -2252,7 +2252,7 @@ void dispSaveLoadTitle(void *ewk) {
     }
 
     setFilterMode(0);
-    wk = (WORK *)ewk;
+    wk = (WORK*)ewk;
     mlt_obj_matrix(wk, 0);
     oricol.color = -1;
     oricol.argb.a = (0xFF - wk->my_clear_level);
@@ -2276,8 +2276,8 @@ void dispSaveLoadTitle(void *ewk) {
     pos[0].z = pos[1].z = 0.0f;
 
     for (i = 0; i < 3; i++) {
-        njCalcPoint(NULL, (Vec3 *)&pos[0], &prm.v[0]);
-        njCalcPoint(NULL, (Vec3 *)&pos[1], &prm.v[3]);
+        njCalcPoint(NULL, (Vec3*)&pos[0], &prm.v[0]);
+        njCalcPoint(NULL, (Vec3*)&pos[1], &prm.v[3]);
         ps2SeqsRenderQuadInit_A();
         ps2SeqsRenderQuad_A2(&prm, oricol.color);
         ps2SeqsRenderQuadEnd();

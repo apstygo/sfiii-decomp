@@ -1,24 +1,24 @@
 #include "sf33rd/Source/Game/EFF40.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void EFF40_EXIT(WORK_Other *ewk);
-void EFF40_BACK(WORK_Other *ewk);
-void EFF40_ARROW(WORK_Other *ewk);
+void EFF40_EXIT(WORK_Other* ewk);
+void EFF40_BACK(WORK_Other* ewk);
+void EFF40_ARROW(WORK_Other* ewk);
 
 void (*const EFF40_Jmp_Tbl[4])() = { EFF40_EXIT, EFF40_BACK, EFF40_ARROW, EFF40_ARROW };
 
 const s16 Pos_Data_40[4][3] = { { 0, 77, 70 }, { 0, 77, 72 }, { 0, 77, 68 }, { 0, 77, 68 } };
 
-void effect_40_move(WORK_Other *ewk) {
+void effect_40_move(WORK_Other* ewk) {
     Check_Pos_OBJ2(ewk);
 
     if (Menu_Suicide[ewk->master_player]) {
@@ -36,7 +36,7 @@ void effect_40_move(WORK_Other *ewk) {
     sort_push_request4(&ewk->wu);
 }
 
-void EFF40_EXIT(WORK_Other *ewk) {
+void EFF40_EXIT(WORK_Other* ewk) {
     if (Menu_Cursor_Y[0] == Menu_Max && ewk->wu.rl_waza == ewk->master_priority) {
         ewk->wu.my_clear_level = 0;
     } else {
@@ -44,7 +44,7 @@ void EFF40_EXIT(WORK_Other *ewk) {
     }
 }
 
-void EFF40_BACK(WORK_Other *ewk) {
+void EFF40_BACK(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -60,7 +60,7 @@ void EFF40_BACK(WORK_Other *ewk) {
     set_char_move_init2(&ewk->wu, 0, ewk->wu.char_index, ix + 1, 0);
 }
 
-void EFF40_ARROW(WORK_Other *ewk) {
+void EFF40_ARROW(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s32 scf);
@@ -89,14 +89,14 @@ s32 effect_40_init(s16 id, s16 type, s16 char_ix, s16 sync_bg, s16 master_player
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.disp_flag = 1;
     ewk->wu.id = 40;

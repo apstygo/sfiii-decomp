@@ -373,13 +373,13 @@ const ColorCode pl00_R_1[21] = { { 4, 0, pl00_R_1_00 }, { 4, 0, pl00_R_1_01 }, {
                                  { 4, 0, pl00_R_1_07 }, { 4, 0, pl00_R_1_06 }, { 4, 0, pl00_R_1_05 },
                                  { 4, 0, pl00_R_1_04 }, { 4, 0, pl00_R_1_03 }, { 4, 1, pl00_R_1_02 } };
 
-const ColorCode *pl00_cctbl[][2];
+const ColorCode* pl00_cctbl[][2];
 
-void check_new_color_data(WORK *wk);
-void get_new_color_data(WORK *wk, ColorCode *trom, s16 *tram);
+void check_new_color_data(WORK* wk);
+void get_new_color_data(WORK* wk, ColorCode* trom, s16* tram);
 
-void effect_J7_move(WORK_Other *ewk) {
-    PLW *mwk = (PLW *)ewk->my_master;
+void effect_J7_move(WORK_Other* ewk) {
+    PLW* mwk = (PLW*)ewk->my_master;
 
     ewk->wu.rl_flag = mwk->wu.rl_flag;
 
@@ -390,10 +390,10 @@ void effect_J7_move(WORK_Other *ewk) {
         }
 
         ewk->wu.routine_no[0]++;
-        ewk->wu.hit_adrs = (u32 *)pl00_cctbl[ewk->wu.type][0];
-        ewk->wu.dmg_adrs = (u32 *)pl00_cctbl[ewk->wu.type][1];
-        ewk->wu.step_xy_table = (s16 *)ColorRAM[ewk->master_id * 16];
-        ewk->wu.move_xy_table = (s16 *)ColorRAM[(ewk->master_id * 16) + 8];
+        ewk->wu.hit_adrs = (u32*)pl00_cctbl[ewk->wu.type][0];
+        ewk->wu.dmg_adrs = (u32*)pl00_cctbl[ewk->wu.type][1];
+        ewk->wu.step_xy_table = (s16*)ColorRAM[ewk->master_id * 16];
+        ewk->wu.move_xy_table = (s16*)ColorRAM[(ewk->master_id * 16) + 8];
         ewk->wu.dir_timer = 0;
         ewk->wu.dir_step = 0;
         ewk->wu.dir_old = 1;
@@ -421,11 +421,11 @@ void effect_J7_move(WORK_Other *ewk) {
             ewk->wu.dir_old = 1;
 
             if (ewk->wu.rl_flag) {
-                get_new_color_data(&ewk->wu, (ColorCode *)ewk->wu.hit_adrs, ewk->wu.step_xy_table);
-                get_new_color_data(&ewk->wu, (ColorCode *)ewk->wu.dmg_adrs, ewk->wu.move_xy_table);
+                get_new_color_data(&ewk->wu, (ColorCode*)ewk->wu.hit_adrs, ewk->wu.step_xy_table);
+                get_new_color_data(&ewk->wu, (ColorCode*)ewk->wu.dmg_adrs, ewk->wu.move_xy_table);
             } else {
-                get_new_color_data(&ewk->wu, (ColorCode *)ewk->wu.dmg_adrs, ewk->wu.move_xy_table);
-                get_new_color_data(&ewk->wu, (ColorCode *)ewk->wu.hit_adrs, ewk->wu.step_xy_table);
+                get_new_color_data(&ewk->wu, (ColorCode*)ewk->wu.dmg_adrs, ewk->wu.move_xy_table);
+                get_new_color_data(&ewk->wu, (ColorCode*)ewk->wu.hit_adrs, ewk->wu.step_xy_table);
             }
 
             break;
@@ -454,7 +454,7 @@ void effect_J7_move(WORK_Other *ewk) {
     }
 }
 
-void check_new_color_data(WORK *wk) {
+void check_new_color_data(WORK* wk) {
     if (--wk->dir_timer >= 0) {
         return;
     }
@@ -466,16 +466,16 @@ void check_new_color_data(WORK *wk) {
     }
 
     if (wk->rl_flag) {
-        get_new_color_data(wk, (ColorCode *)wk->hit_adrs, wk->step_xy_table);
-        get_new_color_data(wk, (ColorCode *)wk->dmg_adrs, wk->move_xy_table);
+        get_new_color_data(wk, (ColorCode*)wk->hit_adrs, wk->step_xy_table);
+        get_new_color_data(wk, (ColorCode*)wk->dmg_adrs, wk->move_xy_table);
     } else {
-        get_new_color_data(wk, (ColorCode *)wk->dmg_adrs, wk->move_xy_table);
-        get_new_color_data(wk, (ColorCode *)wk->hit_adrs, wk->step_xy_table);
+        get_new_color_data(wk, (ColorCode*)wk->dmg_adrs, wk->move_xy_table);
+        get_new_color_data(wk, (ColorCode*)wk->hit_adrs, wk->step_xy_table);
     }
 }
 
-void get_new_color_data(WORK *wk, ColorCode *trom, s16 *tram) {
-    const s16 *data;
+void get_new_color_data(WORK* wk, ColorCode* trom, s16* tram) {
+    const s16* data;
     s16 i;
     u16 col;
 
@@ -489,8 +489,8 @@ void get_new_color_data(WORK *wk, ColorCode *trom, s16 *tram) {
     }
 }
 
-s32 effect_J7_init(PLW *wk) {
-    WORK_Other *ewk;
+s32 effect_J7_init(PLW* wk) {
+    WORK_Other* ewk;
     s16 ix;
 
     if (wk->player_number != 0) {
@@ -505,19 +505,19 @@ s32 effect_J7_init(PLW *wk) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 197;
     ewk->wu.work_id = 16;
     ewk->wu.type = Player_Color[wk->wu.id];
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->master_id = wk->wu.id;
     ewk->master_work_id = wk->wu.work_id;
     ewk->master_player = wk->player_number;
     return 0;
 }
 
-const ColorCode *pl00_cctbl[16][2] = { { pl00_L_0, pl00_R_0 }, { pl00_L_1, pl00_R_1 }, { pl00_L_0, pl00_R_0 },
+const ColorCode* pl00_cctbl[16][2] = { { pl00_L_0, pl00_R_0 }, { pl00_L_1, pl00_R_1 }, { pl00_L_0, pl00_R_0 },
                                        { pl00_L_0, pl00_R_0 }, { pl00_L_0, pl00_R_0 }, { pl00_L_0, pl00_R_0 },
                                        { pl00_L_0, pl00_R_0 }, { pl00_L_0, pl00_R_0 }, { pl00_L_0, pl00_R_0 },
                                        { pl00_L_0, pl00_R_0 }, { pl00_L_0, pl00_R_0 }, { pl00_L_0, pl00_R_0 },

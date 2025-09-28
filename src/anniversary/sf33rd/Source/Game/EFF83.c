@@ -13,12 +13,12 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_83_move(WORK_Other *ewk) {
+void effect_83_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    WORK *oya_ptr = (WORK *)ewk->my_master;
+    WORK* oya_ptr = (WORK*)ewk->my_master;
     s16 work;
 
     switch (ewk->wu.routine_no[0]) {
@@ -83,20 +83,20 @@ void effect_83_move(WORK_Other *ewk) {
 }
 
 #if defined(TARGET_PS2)
-s32 effect_83_init(WORK *wk, s32 /* unused */) {
+s32 effect_83_init(WORK* wk, s32 /* unused */) {
     s16 get_my_trans_mode(s32 curr);
 #else
-s32 effect_83_init(WORK *wk) {
+s32 effect_83_init(WORK* wk) {
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 83;
     ewk->master_id = wk->id;
@@ -105,7 +105,7 @@ s32 effect_83_init(WORK *wk) {
     ewk->wu.my_col_mode = wk->my_col_mode;
     ewk->wu.my_col_code = wk->my_col_code + 6;
     ewk->wu.my_family = wk->my_family;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->wu.rl_flag = wk->rl_flag;
 
     if (wk->rl_flag) {

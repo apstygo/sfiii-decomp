@@ -8,7 +8,7 @@
 
 const u8 Time_Data[5] = { 80, 90, 50, 50, 50 };
 
-void effect_84_move(WORK_Other *ewk) {
+void effect_84_move(WORK_Other* ewk) {
     if (Suicide[0]) {
         push_effect_work(&ewk->wu);
         return;
@@ -98,14 +98,14 @@ void effect_84_move(WORK_Other *ewk) {
 }
 
 s32 effect_84_init() {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 84;
     return 0;

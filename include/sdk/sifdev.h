@@ -153,7 +153,7 @@ struct sce_stat {
 struct sce_dirent {
     struct sce_stat d_stat; /* �ե�����Υ��ơ����� */
     char d_name[256];       /* �ե�����̾(�ե�ѥ��ǤϤʤ�) */
-    void *d_private;        /* ����¾ */
+    void* d_private;        /* ����¾ */
 };
 
 #define SCE_CST_MODE 0x0001
@@ -169,42 +169,42 @@ typedef enum { sceFsREADING, sceFsWRITING } sceFsRWTYPE; /* system use */
 typedef struct {
     unsigned int lbn;
     unsigned int nblk;
-    void *addr;
+    void* addr;
     unsigned int blksiz;
     sceFsRWTYPE type;
     unsigned int mode;
 } sceFsDevctlBlkIO; /* system use */
 
-extern int sceOpen(const char *filename, int flag, ...);
+extern int sceOpen(const char* filename, int flag, ...);
 extern int sceClose(int fd);
-extern int sceRead(int fd, void *buf, int nbyte);
-extern int sceWrite(int fd, const void *buf, int nbyte);
+extern int sceRead(int fd, void* buf, int nbyte);
+extern int sceWrite(int fd, const void* buf, int nbyte);
 extern int sceLseek(int fd, int offset, int where);
-extern int sceIoctl(int fd, int req, void *);
+extern int sceIoctl(int fd, int req, void*);
 extern int sceFsReset(void);
 
-extern int sceDopen(const char *dirname);
+extern int sceDopen(const char* dirname);
 extern int sceDclose(int fd);
-extern int sceDread(int fd, struct sce_dirent *buf);
-extern int sceRemove(const char *filename);
-extern int sceMkdir(const char *dirname, int flag);
-extern int sceRmdir(const char *dirname);
-extern int sceGetstat(const char *name, struct sce_stat *buf);
-extern int sceChstat(const char *name, struct sce_stat *buf, unsigned int cbit);
-extern int sceFormat(const char *path, const char *blkdevname, void *arg, int arglen);
-extern int sceChdir(const char *name);
-extern int sceSync(const char *path, int flag);
-extern int sceMount(const char *fsdevname, const char *blkdevname, int flag, void *arg, int arglen);
-extern int sceUmount(const char *name);
+extern int sceDread(int fd, struct sce_dirent* buf);
+extern int sceRemove(const char* filename);
+extern int sceMkdir(const char* dirname, int flag);
+extern int sceRmdir(const char* dirname);
+extern int sceGetstat(const char* name, struct sce_stat* buf);
+extern int sceChstat(const char* name, struct sce_stat* buf, unsigned int cbit);
+extern int sceFormat(const char* path, const char* blkdevname, void* arg, int arglen);
+extern int sceChdir(const char* name);
+extern int sceSync(const char* path, int flag);
+extern int sceMount(const char* fsdevname, const char* blkdevname, int flag, void* arg, int arglen);
+extern int sceUmount(const char* name);
 extern long sceLseek64(int fd, long offset, int whence);
-extern int sceDevctl(const char *devname, int cmd, const void *arg, unsigned int arglen, void *bufp,
+extern int sceDevctl(const char* devname, int cmd, const void* arg, unsigned int arglen, void* bufp,
                      unsigned int buflen);
-extern int sceSymlink(const char *existing, const char *newname);
-extern int sceReadlink(const char *path, char *buf, unsigned int bufsize);
-extern int sceRename(const char *oldname, const char *newname);
-extern int sceIoctl2(int fd, int request, const void *argp, unsigned int arglen, void *bufp, unsigned int buflen);
+extern int sceSymlink(const char* existing, const char* newname);
+extern int sceReadlink(const char* path, char* buf, unsigned int bufsize);
+extern int sceRename(const char* oldname, const char* newname);
+extern int sceIoctl2(int fd, int request, const void* argp, unsigned int arglen, void* bufp, unsigned int buflen);
 extern int sceFsInit(void);
-extern int *scePowerOffHandler(void (*func)(void *), void *addr);
+extern int* scePowerOffHandler(void (*func)(void*), void* addr);
 
 extern int sceFsSetIopBuf(unsigned int buffsize, unsigned int buffcnt);
 extern int sceFsSetIopPrio(int wkthprio);
@@ -297,17 +297,17 @@ int sceStdioConvertError(SceStdioFunc func, int ioerror);
 #define SCE_FSTYPE_PFS 0x0100
 
 extern int sceSifInitIopHeap(void);
-extern void *sceSifAllocIopHeap(unsigned int);
-extern int sceSifFreeIopHeap(void *);
-extern int sceSifLoadIopHeap(const char *, void *);
-extern void *sceSifAllocSysMemory(int, unsigned int, void *);
-extern int sceSifFreeSysMemory(void *);
+extern void* sceSifAllocIopHeap(unsigned int);
+extern int sceSifFreeIopHeap(void*);
+extern int sceSifLoadIopHeap(const char*, void*);
+extern void* sceSifAllocSysMemory(int, unsigned int, void*);
+extern int sceSifFreeSysMemory(void*);
 
 extern unsigned int sceSifQueryMemSize(void);
 extern unsigned int sceSifQueryMaxFreeMemSize(void);
 extern unsigned int sceSifQueryTotalFreeMemSize(void);
-extern void *sceSifQueryBlockTopAddress(void *);
-extern unsigned int sceSifQueryBlockSize(void *);
+extern void* sceSifQueryBlockTopAddress(void*);
+extern unsigned int sceSifQueryBlockSize(void*);
 
 /* ee load file routine */
 typedef struct {
@@ -326,38 +326,38 @@ typedef struct {
 #define NO_RESIDENT_END (1)
 #define FAREWELL_END (1)
 
-extern int sceSifLoadModule(const char *filename, int args, const char *argp);
-extern int sceSifLoadModuleBuffer(const void *addr, int args, const char *argp);
-extern int sceSifLoadStartModule(const char *filename, int args, const char *argp, int *result);
-extern int sceSifLoadStartModuleBuffer(const void *addr, int args, const char *argp, int *result);
-extern int sceSifLoadElf(const char *name, sceExecData *data);
-extern int sceSifLoadElfPart(const char *name, const char *secname, sceExecData *data);
-extern int sceSifStopModule(int modid, int args, const char *argp, int *result);
+extern int sceSifLoadModule(const char* filename, int args, const char* argp);
+extern int sceSifLoadModuleBuffer(const void* addr, int args, const char* argp);
+extern int sceSifLoadStartModule(const char* filename, int args, const char* argp, int* result);
+extern int sceSifLoadStartModuleBuffer(const void* addr, int args, const char* argp, int* result);
+extern int sceSifLoadElf(const char* name, sceExecData* data);
+extern int sceSifLoadElfPart(const char* name, const char* secname, sceExecData* data);
+extern int sceSifStopModule(int modid, int args, const char* argp, int* result);
 extern int sceSifUnloadModule(int modid);
-extern int sceSifSearchModuleByName(const char *modulename);
-extern int sceSifSearchModuleByAddress(const void *addr);
+extern int sceSifSearchModuleByName(const char* modulename);
+extern int sceSifSearchModuleByAddress(const void* addr);
 
 extern int sceSifLoadFileReset(void);
 
 /* reboot notify handler */
-typedef void (*sceSifRebootNotifyHandler)(int mode, void *data);
+typedef void (*sceSifRebootNotifyHandler)(int mode, void* data);
 
 /* structure of reboot notify handler & data */
 typedef struct {
     sceSifRebootNotifyHandler func;
-    void *data;
-    void *gp;      /* system use */
-    void *reserve; /* system use */
+    void* data;
+    void* gp;      /* system use */
+    void* reserve; /* system use */
 } sceSifRebootNotifyData;
 
-extern int sceSifRebootIop(const char *img);
+extern int sceSifRebootIop(const char* img);
 extern int sceSifSyncIop(void);
 
 /* setup IOP reboot notify handler & data buffer */
-extern sceSifRebootNotifyData *sceSifSetRebootNotifyBuffer(sceSifRebootNotifyData *p, int size);
+extern sceSifRebootNotifyData* sceSifSetRebootNotifyBuffer(sceSifRebootNotifyData* p, int size);
 
 /* register IOP reboot notify handler */
-extern int sceSifAddRebootNotifyHandler(unsigned int pos, sceSifRebootNotifyHandler pFunc, void *data);
+extern int sceSifAddRebootNotifyHandler(unsigned int pos, sceSifRebootNotifyHandler pFunc, void* data);
 
 /* un-register IOP reboot notify handler */
 extern int sceSifRemoveRebootNotifyHandler(unsigned int pos);

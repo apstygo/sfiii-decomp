@@ -757,7 +757,7 @@ s16 caldir_pos_032(s16 x1, s16 x2, s16 y1, s16 y2) {
     return (caldir_pos_256(x1, x2, y1, y2) + 4) >> 3 & 0x1F;
 }
 
-void add_pos_dir_064(WORK *wk, s16 sp) {
+void add_pos_dir_064(WORK* wk, s16 sp) {
     wk->xyz[0].cal += (sp * rate_256_table[wk->direction * 4][0]) >> 8;
     wk->xyz[1].cal += (sp * rate_256_table[wk->direction * 4][1]) >> 8;
 }
@@ -795,7 +795,7 @@ s16 cal_move_quantity2(s16 x1, s16 x2, s16 y1, s16 y2) {
     return ms.pss.h;
 }
 
-s16 cal_move_quantity3(WORK *wk, s16 tm) {
+s16 cal_move_quantity3(WORK* wk, s16 tm) {
     s32 ltm;
     PS_DY ps;
 
@@ -809,7 +809,7 @@ s16 cal_move_quantity3(WORK *wk, s16 tm) {
     return ps.ry.h;
 }
 
-void cmsd_all_x_speed_data(MotionState *cc) {
+void cmsd_all_x_speed_data(MotionState* cc) {
     switch (cc->swx) {
     case 1:
         cmsd_swx_1(cc);
@@ -825,7 +825,7 @@ void cmsd_all_x_speed_data(MotionState *cc) {
     }
 }
 
-void cmsd_all_y_speed_data(MotionState *cc) {
+void cmsd_all_y_speed_data(MotionState* cc) {
     switch (cc->swy) {
     case 1:
         cmsd_swy_1(cc);
@@ -841,55 +841,55 @@ void cmsd_all_y_speed_data(MotionState *cc) {
     }
 }
 
-void cmsd_swx_0(MotionState *cc) {
+void cmsd_swx_0(MotionState* cc) {
     cc->amx = cc->x.pl % cc->timer;
     cc->spx = cc->x.pl / cc->timer;
     cc->dlx = 0;
 }
 
-void cmsd_swy_0(MotionState *cc) {
+void cmsd_swy_0(MotionState* cc) {
     cc->amy = cc->y.pl % cc->timer;
     cc->spy = cc->y.pl / cc->timer;
     cc->dly = 0;
 }
 
-void cmsd_swx_1(MotionState *cc) {
+void cmsd_swx_1(MotionState* cc) {
     cc->amx = cc->x.pl % cc->timer2;
     cc->spx = cc->dlx = cc->x.pl / cc->timer2;
 }
 
-void cmsd_swy_1(MotionState *cc) {
+void cmsd_swy_1(MotionState* cc) {
     cc->amy = cc->y.pl % cc->timer2;
     cc->spy = cc->dly = cc->y.pl / cc->timer2;
 }
 
-void cmsd_swx_2(MotionState *cc) {
+void cmsd_swx_2(MotionState* cc) {
     cc->amx = cc->x.pl % cc->timer2;
     cc->dlx = cc->x.pl / cc->timer2;
     cc->spx = cc->dlx * cc->timer;
     cc->dlx = -cc->dlx;
 }
 
-void cmsd_swy_2(MotionState *cc) {
+void cmsd_swy_2(MotionState* cc) {
     cc->amy = cc->y.pl % cc->timer2;
     cc->dly = cc->y.pl / cc->timer2;
     cc->spy = cc->dly * cc->timer;
     cc->dly = -cc->dly;
 }
 
-void cmsd_x_initial_speed(MotionState *cc) {
+void cmsd_x_initial_speed(MotionState* cc) {
     cc->amx = cc->x.pl - (cc->timer2 * cc->dlx);
     cc->spx = cc->dlx + (cc->amx / cc->timer);
     cc->amx %= cc->timer;
 }
 
-void cmsd_y_initial_speed(MotionState *cc) {
+void cmsd_y_initial_speed(MotionState* cc) {
     cc->amy = cc->y.pl - (cc->timer2 * cc->dly);
     cc->spy = cc->dly + (cc->amy / cc->timer);
     cc->amy %= cc->timer;
 }
 
-void cmsd_x_delta_speed(MotionState *cc) {
+void cmsd_x_delta_speed(MotionState* cc) {
     if (cc->spx != 0) {
         cc->amx = cc->x.pl - (cc->timer * cc->spx);
         cc->dlx = cc->amx / cc->timer2;
@@ -901,7 +901,7 @@ void cmsd_x_delta_speed(MotionState *cc) {
     cmsd_all_x_speed_data(cc);
 }
 
-void cmsd_y_delta_speed(MotionState *cc) {
+void cmsd_y_delta_speed(MotionState* cc) {
     if (cc->spy != 0) {
         cc->amy = cc->y.pl - (cc->timer * cc->spy);
         cc->dly = cc->amy / cc->timer2;
@@ -913,7 +913,7 @@ void cmsd_y_delta_speed(MotionState *cc) {
     cmsd_all_y_speed_data(cc);
 }
 
-void cal_all_speed_data(WORK *wk, s16 tm, s16 x1, s16 y1, s8 xsw, s8 ysw) {
+void cal_all_speed_data(WORK* wk, s16 tm, s16 x1, s16 y1, s8 xsw, s8 ysw) {
     MotionState bb;
 
     wk->xyz[0].disp.low = wk->xyz[1].disp.low = -0x8000;
@@ -946,7 +946,7 @@ void cal_all_speed_data(WORK *wk, s16 tm, s16 x1, s16 y1, s8 xsw, s8 ysw) {
     wk->mvxy.kop[0] = wk->mvxy.kop[1] = 0;
 }
 
-void cal_initial_speed(WORK *wk, s16 tm, s16 x1, s16 y1) {
+void cal_initial_speed(WORK* wk, s16 tm, s16 x1, s16 y1) {
     MotionState bb;
 
     wk->xyz[0].disp.low = wk->xyz[1].disp.low = 0;
@@ -974,7 +974,7 @@ void cal_initial_speed(WORK *wk, s16 tm, s16 x1, s16 y1) {
     wk->xyz[1].cal += bb.amy;
 }
 
-void cal_initial_speed_y(WORK *wk, s16 tm, s16 y1) {
+void cal_initial_speed_y(WORK* wk, s16 tm, s16 y1) {
     MotionState bb;
 
     wk->xyz[1].disp.low = 0;
@@ -995,7 +995,7 @@ void cal_initial_speed_y(WORK *wk, s16 tm, s16 y1) {
     wk->xyz[1].cal += bb.amy;
 }
 
-void cal_delta_speed(WORK *wk, s16 tm, s16 x1, s16 y1, s8 xsw, s8 ysw) {
+void cal_delta_speed(WORK* wk, s16 tm, s16 x1, s16 y1, s8 xsw, s8 ysw) {
     MotionState bb;
 
     wk->xyz[0].disp.low = wk->xyz[1].disp.low = 0;
@@ -1027,7 +1027,7 @@ void cal_delta_speed(WORK *wk, s16 tm, s16 x1, s16 y1, s8 xsw, s8 ysw) {
     wk->xyz[1].cal += bb.amy;
 }
 
-s16 cal_top_of_position_y(WORK *wk) {
+s16 cal_top_of_position_y(WORK* wk) {
     s32 num = cal_time_of_sign_change(wk);
     s32 num2;
     PS_UNI ps_uni;
@@ -1041,7 +1041,7 @@ s16 cal_top_of_position_y(WORK *wk) {
     return ps_uni.psys.h;
 }
 
-s16 cal_time_of_sign_change(WORK *wk) {
+s16 cal_time_of_sign_change(WORK* wk) {
     if (wk->mvxy.a[1].real.h > 0 && wk->mvxy.d[1].real.h < 0) {
         return wk->mvxy.a[1].sp / -wk->mvxy.d[1].sp;
     }
@@ -1049,7 +1049,7 @@ s16 cal_time_of_sign_change(WORK *wk) {
     return 0;
 }
 
-s16 cal_move_dir_forecast(WORK *wk, s16 tm) {
+s16 cal_move_dir_forecast(WORK* wk, s16 tm) {
     PS_DP ps[2];
 
     if (tm == 0) {

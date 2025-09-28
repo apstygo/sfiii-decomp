@@ -1,11 +1,11 @@
 #include "sf33rd/Source/Game/EFF74.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFF57.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/workuser.h"
 
 const s16 EFF74_Pos_Data[3][2][2] = { { { 0, 148 }, { 0, 116 } },
@@ -14,7 +14,7 @@ const s16 EFF74_Pos_Data[3][2][2] = { { { 0, 148 }, { 0, 116 } },
 
 void (*const EFF74_Jmp_Tbl[5])();
 
-void effect_74_move(WORK_Other *ewk) {
+void effect_74_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
@@ -43,13 +43,13 @@ void effect_74_move(WORK_Other *ewk) {
     sort_push_request4(&ewk->wu);
 }
 
-void EFF74_WAIT(WORK_Other *ewk) {
+void EFF74_WAIT(WORK_Other* ewk) {
     if ((ewk->wu.routine_no[0] = Order[ewk->wu.dir_old])) {
         ewk->wu.routine_no[1] = 0;
     }
 }
 
-void EFF74_SUDDENLY(WORK_Other *ewk) {
+void EFF74_SUDDENLY(WORK_Other* ewk) {
     s16 pos_y;
 
     switch (ewk->wu.routine_no[1]) {

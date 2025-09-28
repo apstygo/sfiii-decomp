@@ -39,211 +39,211 @@ s8 Lv;
 s8 Rnd;
 
 // forward decls
-void End_Pattern(PLW *wk);
-void Next_Be_Passive(PLW *wk, s32);
-void Turn_Over_On(PLW *wk);
-void Only_Shot(PLW *wk, s16 Lever_Data);
-void Lever_On(PLW *wk, u16 LR_Lever, u16 UD_Lever);
-void Lever_Off(PLW *wk);
-void Pierce_On(PLW *wk);
-void Setup_DENJIN_LEVEL(PLW *wk);
-void Push_Shot(PLW *wk, s16 Power_Level);
-s32 Check_Exit_DENJIN(PLW *wk);
-void Keep_Away(PLW *wk, s16 Target_Pos, s16 Option);
-void Setup_KA_Jump(PLW *wk);
-void Setup_KA_Walk(PLW *wk);
-void Search_Back_Term(PLW *wk, s16 Move_Value, s16 Next_Action, s16 Next_Menu);
-void Approach_Walk(PLW *wk, s16 Target_Pos, s16 Option);
-s32 Check_Arrival(PLW *wk, s16 Target_Pos, s16 Option);
-void Walk(PLW *wk, u16 Lever, s16 Time, s16 unused);
-void Forced_Guard(PLW *wk, s16 Guard_Type);
-void Provoke(PLW *wk, s16 Lever);
-void Normal_Attack(PLW *wk, s16 Reaction, u16 Lever_Data);
-s32 Small_Jump_Measure(PLW *wk);
-void Normal_Attack_SP(PLW *wk, s16 Reaction, u16 Lever_Data, s16 Time);
-void Adjust_Attack(PLW *wk, s16 Reaction, u16 Lever_Data);
-s32 Check_Squat(PLW *wk);
-s32 Check_Start_Normal_Attack(PLW *wk, s16 Reaction, u16 Lever_Data); // extra arg unused
-void Lever_Attack(PLW *wk, s16 Reaction, u16 Lever, u16 Lever_Data);
-void Lever_Attack_SP(PLW *wk, s16 Reaction, u16 Lever, u16 Lever_Data, s16 Time);
-s32 Setup_Guard_Lever(PLW *wk, u16 Lever);
-s32 Check_Start_Lever_Attack(PLW *wk, u16 Lever, u16 Lever_Data); // extra args
-void SA_Term(PLW *wk, u16 SA0, u16 SA1, u16 SA2, u16 Term_No);
-s32 DENJIN_Check(PLW *wk, u16 SA2, u16 *xx, u16 Term_No);
-s32 YAGYOU_Check(PLW *wk, s16 *xx, u16 Term_No);
-s32 SA_Range_Check(PLW *wk, s16 SA_No, u16 Range);
-void Check_SA(PLW *wk, s16 Next_Action, s16 Next_Menu);
-void Check_EX(PLW *wk, s16 Next_Action, s16 Next_Menu);
-void Check_SA_Full(PLW *wk, s16 Next_Action, s16 Next_Menu);
-void Branch_Unit_Area(PLW *wk, s16 Next_Action, s16 Menu_00, s16 Menu_01, s16 Menu_02, s16 Menu_03);
-void Com_Random_Select(PLW *wk, s16 Next_Action, s16 Menu_00, s16 Menu_01, s16 Menu_02, s16 Menu_03, s16 Rnd_Type);
-void Branch_Wait_Area(PLW *wk, s16 Time_00, s16 Time_01, s16 Time_02, s16 Time_03);
-void Wait(PLW *wk, s16 Time); // unused arg
-void Look(PLW *wk, s16 Time);
-void Keep_Status(PLW *wk, u16 Lever_Data, s16 Option_Data);
-void VS_Jump_Guard(PLW *wk);
-void Wait_Lie(PLW *wk, u16 Lever_Data);
-void Wait_Get_Up(PLW *wk, u16 Lever_Data, s16 Option);
-s32 Check_Wait_Term(PLW *wk, s16 Option);
-void Wait_Attack_Complete(PLW *wk, u16 Lever_Data, s16 Option);
-s32 Check_Exit_Guard(PLW *wk, s16 Option);
-void Short_Range_Attack(PLW *wk, s16 Reaction, u16 Lever_Data, s16 Next_Action, s16 Next_Menu);
-void EM_Term(PLW *wk, s16 Range_X, s16 Range_Y, s16 Exit_Number, s16 Next_Action, s16 Next_Menu);
-void SHELL_Term(PLW *wk, s16 Next_Command, s16 Exit_Number, s16 Next_Action, s16 Next_Menu, s16 unused); // unused arg
-s32 Check_Term_Sub_Air(PLW *wk, s16 Distance, s16 Range);
-s32 Check_Term_Sub(PLW *wk, s16 Distance, s16 Range);
-s32 Correct_Unit_PL(PLW *wk);
-s32 Check_Term_Sub_Y(PLW *wk, s16 Distance, s16 Range);
-void Jump(PLW *wk, s16 Jump_Dir);
-void Hi_Jump(PLW *wk, s16 Pl_Number, s16 Jump_Dir);
-s32 Check_Start_Hi_Jump(PLW *wk);
-s32 Check_Air_Guard(PLW *wk);
-void Jump_Attack(PLW *wk, s16 Reaction, s16 Time_Data, u16 Lever_Data, s16 Jump_Dir);
-void Jump_Attack_Term(PLW *wk, s16 Range_X, s16 Range_Y, s16 Reaction, u16 Lever_Data, s16 Jump_Dir, s16 Range_JX,
+void End_Pattern(PLW* wk);
+void Next_Be_Passive(PLW* wk, s32);
+void Turn_Over_On(PLW* wk);
+void Only_Shot(PLW* wk, s16 Lever_Data);
+void Lever_On(PLW* wk, u16 LR_Lever, u16 UD_Lever);
+void Lever_Off(PLW* wk);
+void Pierce_On(PLW* wk);
+void Setup_DENJIN_LEVEL(PLW* wk);
+void Push_Shot(PLW* wk, s16 Power_Level);
+s32 Check_Exit_DENJIN(PLW* wk);
+void Keep_Away(PLW* wk, s16 Target_Pos, s16 Option);
+void Setup_KA_Jump(PLW* wk);
+void Setup_KA_Walk(PLW* wk);
+void Search_Back_Term(PLW* wk, s16 Move_Value, s16 Next_Action, s16 Next_Menu);
+void Approach_Walk(PLW* wk, s16 Target_Pos, s16 Option);
+s32 Check_Arrival(PLW* wk, s16 Target_Pos, s16 Option);
+void Walk(PLW* wk, u16 Lever, s16 Time, s16 unused);
+void Forced_Guard(PLW* wk, s16 Guard_Type);
+void Provoke(PLW* wk, s16 Lever);
+void Normal_Attack(PLW* wk, s16 Reaction, u16 Lever_Data);
+s32 Small_Jump_Measure(PLW* wk);
+void Normal_Attack_SP(PLW* wk, s16 Reaction, u16 Lever_Data, s16 Time);
+void Adjust_Attack(PLW* wk, s16 Reaction, u16 Lever_Data);
+s32 Check_Squat(PLW* wk);
+s32 Check_Start_Normal_Attack(PLW* wk, s16 Reaction, u16 Lever_Data); // extra arg unused
+void Lever_Attack(PLW* wk, s16 Reaction, u16 Lever, u16 Lever_Data);
+void Lever_Attack_SP(PLW* wk, s16 Reaction, u16 Lever, u16 Lever_Data, s16 Time);
+s32 Setup_Guard_Lever(PLW* wk, u16 Lever);
+s32 Check_Start_Lever_Attack(PLW* wk, u16 Lever, u16 Lever_Data); // extra args
+void SA_Term(PLW* wk, u16 SA0, u16 SA1, u16 SA2, u16 Term_No);
+s32 DENJIN_Check(PLW* wk, u16 SA2, u16* xx, u16 Term_No);
+s32 YAGYOU_Check(PLW* wk, s16* xx, u16 Term_No);
+s32 SA_Range_Check(PLW* wk, s16 SA_No, u16 Range);
+void Check_SA(PLW* wk, s16 Next_Action, s16 Next_Menu);
+void Check_EX(PLW* wk, s16 Next_Action, s16 Next_Menu);
+void Check_SA_Full(PLW* wk, s16 Next_Action, s16 Next_Menu);
+void Branch_Unit_Area(PLW* wk, s16 Next_Action, s16 Menu_00, s16 Menu_01, s16 Menu_02, s16 Menu_03);
+void Com_Random_Select(PLW* wk, s16 Next_Action, s16 Menu_00, s16 Menu_01, s16 Menu_02, s16 Menu_03, s16 Rnd_Type);
+void Branch_Wait_Area(PLW* wk, s16 Time_00, s16 Time_01, s16 Time_02, s16 Time_03);
+void Wait(PLW* wk, s16 Time); // unused arg
+void Look(PLW* wk, s16 Time);
+void Keep_Status(PLW* wk, u16 Lever_Data, s16 Option_Data);
+void VS_Jump_Guard(PLW* wk);
+void Wait_Lie(PLW* wk, u16 Lever_Data);
+void Wait_Get_Up(PLW* wk, u16 Lever_Data, s16 Option);
+s32 Check_Wait_Term(PLW* wk, s16 Option);
+void Wait_Attack_Complete(PLW* wk, u16 Lever_Data, s16 Option);
+s32 Check_Exit_Guard(PLW* wk, s16 Option);
+void Short_Range_Attack(PLW* wk, s16 Reaction, u16 Lever_Data, s16 Next_Action, s16 Next_Menu);
+void EM_Term(PLW* wk, s16 Range_X, s16 Range_Y, s16 Exit_Number, s16 Next_Action, s16 Next_Menu);
+void SHELL_Term(PLW* wk, s16 Next_Command, s16 Exit_Number, s16 Next_Action, s16 Next_Menu, s16 unused); // unused arg
+s32 Check_Term_Sub_Air(PLW* wk, s16 Distance, s16 Range);
+s32 Check_Term_Sub(PLW* wk, s16 Distance, s16 Range);
+s32 Correct_Unit_PL(PLW* wk);
+s32 Check_Term_Sub_Y(PLW* wk, s16 Distance, s16 Range);
+void Jump(PLW* wk, s16 Jump_Dir);
+void Hi_Jump(PLW* wk, s16 Pl_Number, s16 Jump_Dir);
+s32 Check_Start_Hi_Jump(PLW* wk);
+s32 Check_Air_Guard(PLW* wk);
+void Jump_Attack(PLW* wk, s16 Reaction, s16 Time_Data, u16 Lever_Data, s16 Jump_Dir);
+void Jump_Attack_Term(PLW* wk, s16 Range_X, s16 Range_Y, s16 Reaction, u16 Lever_Data, s16 Jump_Dir, s16 Range_JX,
                       s16 Range_JY, s16 J_Lever_Data);
-s32 Check_SP_Jump_Attack(PLW *wk, s16 Lever_Data);
-s32 Check_VS_Air_Attack(PLW *wk, s16 Range_JX, s16 Range_JY, s16 J_Lever_Data);
-void Hi_Jump_Attack(PLW *wk, s16 Reaction, s16 Time_Data, u16 Lever_Data, s16 Jump_Dir);
-void Hi_Jump_Attack_Term(PLW *wk, s16 Range_X, s16 Range_Y, s16 Reaction, u16 Lever_Data, s16 Jump_Dir, s16 Range_JX,
+s32 Check_SP_Jump_Attack(PLW* wk, s16 Lever_Data);
+s32 Check_VS_Air_Attack(PLW* wk, s16 Range_JX, s16 Range_JY, s16 J_Lever_Data);
+void Hi_Jump_Attack(PLW* wk, s16 Reaction, s16 Time_Data, u16 Lever_Data, s16 Jump_Dir);
+void Hi_Jump_Attack_Term(PLW* wk, s16 Range_X, s16 Range_Y, s16 Reaction, u16 Lever_Data, s16 Jump_Dir, s16 Range_JX,
                          s16 Range_JY, u16 J_Lever_Data);
-s32 Check_Term_ABS_Distance(PLW *wk);
-s32 Check_Com_Add_Y(PLW *wk, s16 Pos_Y, s16 Range);
-void ORO_JA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Lever_Data, s16 RJX,
+s32 Check_Term_ABS_Distance(PLW* wk);
+s32 Check_Com_Add_Y(PLW* wk, s16 Pos_Y, s16 Range);
+void ORO_JA_Term(PLW* wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Lever_Data, s16 RJX,
                  s16 RJY, u16 JLD);
-void ORO_HJA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Lever_Data, s16 RJX,
+void ORO_HJA_Term(PLW* wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Lever_Data, s16 RJX,
                   s16 RJY, u16 JLD);
-void Command_Attack(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot);
-s32 Hadou_Check(PLW *wk, u16 Tech_Number);
-s32 Check_Resume_Lever(PLW *wk);
-void J_Command_Attack(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot);
-void Rapid_Command_Attack(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Shot, u16 Time);
-void Check_Rapid(PLW *wk, u16 Tech_Number);
-void Setup_Rapid_End_Term(PLW *wk, s16 Tech_Number);
-s32 Setup_Rapid_Time(PLW *wk, u16 Tech_Number); // unused all args
-void Rapid_Sub(PLW *wk);
-s32 Check_Rapid_End(PLW *wk);
-s32 Check_Start_Command_Attack(PLW *wk, s16 Reaction, u16 Tech_Number);
-void ORO_JCA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Tech_Number,
+void Command_Attack(PLW* wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot);
+s32 Hadou_Check(PLW* wk, u16 Tech_Number);
+s32 Check_Resume_Lever(PLW* wk);
+void J_Command_Attack(PLW* wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot);
+void Rapid_Command_Attack(PLW* wk, s16 Reaction, u16 Tech_Number, s16 Shot, u16 Time);
+void Check_Rapid(PLW* wk, u16 Tech_Number);
+void Setup_Rapid_End_Term(PLW* wk, s16 Tech_Number);
+s32 Setup_Rapid_Time(PLW* wk, u16 Tech_Number); // unused all args
+void Rapid_Sub(PLW* wk);
+s32 Check_Rapid_End(PLW* wk);
+s32 Check_Start_Command_Attack(PLW* wk, s16 Reaction, u16 Tech_Number);
+void ORO_JCA_Term(PLW* wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Tech_Number,
                   s16 Power_Level, s16 Ex_Shot, s16 RJX, s16 RJY, u16 JLD);
-void ORO_HJCA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Tech_Number,
+void ORO_HJCA_Term(PLW* wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Tech_Number,
                    s16 Power_Level, s16 Ex_Shot, s16 RJX, s16 RJY, u16 JLD);
-void Jump_Command_Attack_Term(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RX, s16 RY,
+void Jump_Command_Attack_Term(PLW* wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RX, s16 RY,
                               s16 Jump_Dir, s16 JRX, s16 JRY, u16 JLD);
-void Hi_Jump_Command_Attack_Term(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RX, s16 RY,
+void Hi_Jump_Command_Attack_Term(PLW* wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RX, s16 RY,
                                  s16 Jump_Dir, s16 JRX, s16 JRY, u16 JLD);
-s32 Check_Landed(PLW *wk, s16 Reaction);
-s32 Check_Dash_Hit(PLW *wk, u16 Tech_Number);
-s32 Setup_Front_or_Back(PLW *wk, s16 xx);
-s32 Check_Hit_Shell(PLW *wk, WORK_Other *tmw, u16 Tech_Number);
-void Jump_Init(PLW *wk, s16 Jump_Dir);
-s32 Command_Type_00(PLW *wk, s16 Power_Level, u16 Tech_Number, s16 Ex_Shot);
-s32 Command_Type_06(PLW *wk, s16 Power_Level, u16 Tech_Number, s16 Ex_Shot); // unused last arg
-s32 Command_Type_01(PLW *wk, s16 Power_Level, s16 Ex_Shot);                  // unused args
-void Setup_Command_01(PLW *wk);
-void Check_Store_Lever(PLW *wk, u16 Tech_Number, s16 Next_Action, s16 Next_Menu);
-s32 Check_Store_Direction(PLW *wk, u16 lever, s16 time);
-s32 Select_Combo_Speed(PLW *wk);
-s32 Select_Reflection_Time(PLW *wk);
+s32 Check_Landed(PLW* wk, s16 Reaction);
+s32 Check_Dash_Hit(PLW* wk, u16 Tech_Number);
+s32 Setup_Front_or_Back(PLW* wk, s16 xx);
+s32 Check_Hit_Shell(PLW* wk, WORK_Other* tmw, u16 Tech_Number);
+void Jump_Init(PLW* wk, s16 Jump_Dir);
+s32 Command_Type_00(PLW* wk, s16 Power_Level, u16 Tech_Number, s16 Ex_Shot);
+s32 Command_Type_06(PLW* wk, s16 Power_Level, u16 Tech_Number, s16 Ex_Shot); // unused last arg
+s32 Command_Type_01(PLW* wk, s16 Power_Level, s16 Ex_Shot);                  // unused args
+void Setup_Command_01(PLW* wk);
+void Check_Store_Lever(PLW* wk, u16 Tech_Number, s16 Next_Action, s16 Next_Menu);
+s32 Check_Store_Direction(PLW* wk, u16 lever, s16 time);
+s32 Select_Combo_Speed(PLW* wk);
+s32 Select_Reflection_Time(PLW* wk);
 s32 Setup_Lv04(s16 xx);
 s32 Setup_Lv08(s16 xx);
 s32 Setup_Lv10(s16 xx);
 s32 Setup_Lv18(s16 xx);
-s32 Setup_VS_Catch_Data(PLW *wk);
-s32 Setup_LP_Data(PLW *wk);
-s32 Setup_WT_Data(PLW *wk);
-void Ck_Distance(PLW *wk);
-s32 Ck_Distance_Height(PLW *wk);
-s32 Ck_Area(PLW *wk);
-s32 Ck_Area_Shell(PLW *wk);
-void Ck_Distance_Lv(PLW *wk);
-void Ck_Distance_LvJ(PLW *wk);
-void Next_End(PLW *wk);
-void Next_Another_Menu(PLW *wk, s16 Next_Action, u16 Next_Menu);
-void Reaction_Sub(PLW *wk, s16 Reaction, s16 Power_Level);
-s32 Check_Meoshi_Attack(PLW *wk, s16 Reaction, s16 Power_Level); // unused last 2 args
-s32 Get_Meoshi_Data(PLW *wk);
-void Reaction_Exit_Sub(PLW *wk);
-void Check_First_Menu(PLW *wk);
-void Select_Active(PLW *wk);
-s32 Check_SA_Active(PLW *wk, s16 *pl_id);
-void Setup_Follow(PLW *wk, s16 Follow_Type);
-void Decide_Follow_Menu(PLW *wk);
-s32 Select_Passive(PLW *wk);
+s32 Setup_VS_Catch_Data(PLW* wk);
+s32 Setup_LP_Data(PLW* wk);
+s32 Setup_WT_Data(PLW* wk);
+void Ck_Distance(PLW* wk);
+s32 Ck_Distance_Height(PLW* wk);
+s32 Ck_Area(PLW* wk);
+s32 Ck_Area_Shell(PLW* wk);
+void Ck_Distance_Lv(PLW* wk);
+void Ck_Distance_LvJ(PLW* wk);
+void Next_End(PLW* wk);
+void Next_Another_Menu(PLW* wk, s16 Next_Action, u16 Next_Menu);
+void Reaction_Sub(PLW* wk, s16 Reaction, s16 Power_Level);
+s32 Check_Meoshi_Attack(PLW* wk, s16 Reaction, s16 Power_Level); // unused last 2 args
+s32 Get_Meoshi_Data(PLW* wk);
+void Reaction_Exit_Sub(PLW* wk);
+void Check_First_Menu(PLW* wk);
+void Select_Active(PLW* wk);
+s32 Check_SA_Active(PLW* wk, s16* pl_id);
+void Setup_Follow(PLW* wk, s16 Follow_Type);
+void Decide_Follow_Menu(PLW* wk);
+s32 Select_Passive(PLW* wk);
 void Devide_Level(s16 xx);
-void Setup_Random(PLW *wk);
-s32 Check_Dramatic(PLW *wk, s16 PL_id);
-s32 Check_Passive(PLW *wk);
-s32 Check_Guard(PLW *wk);
-s32 Check_Makoto(PLW *wk);
-s32 Check_Flip_Term(PLW *wk, WORK *tmw);
-s32 Setup_EM_Rank_Index(PLW *wk);
-s32 Flip_Term_Correct(PLW *wk);
-void Next_Be_Guard(PLW *wk, WORK *em, s16 Type_Of_Guard);
-s32 Check_Flip_Tech(WORK *em);
-void Next_Be_Flip(PLW *wk, s16 xx);
-s32 Check_Diagonal_Shell(PLW *wk);
-s32 Check_Ignore_Shell2(WORK_Other *tmw);
-s32 Check_Shell(PLW *wk);
-s32 Check_Shell_Another_in_Flip(PLW *wk);
-s32 Check_Ignore_Shell(WORK_Other *tmw);
-s32 Compute_Hit_Time(PLW *wk, WORK_Other *tmw);
-s32 Decide_Shell_Guard(PLW *wk, WORK_Other *tmw); // unused second arg
-void Guard_or_Jump_VS_Shell(PLW *wk, WORK_Other *tmw, s16 xx);
-void Setup_Shell_Disposal(PLW *wk, WORK_Other *tmw);
-void Next_Be_Shell_Guard(PLW *wk, WORK *tmw);
-s32 Decide_Shell_Reaction(PLW *wk, WORK_Other *tmw, u16 dir_step); // unused second arg
+void Setup_Random(PLW* wk);
+s32 Check_Dramatic(PLW* wk, s16 PL_id);
+s32 Check_Passive(PLW* wk);
+s32 Check_Guard(PLW* wk);
+s32 Check_Makoto(PLW* wk);
+s32 Check_Flip_Term(PLW* wk, WORK* tmw);
+s32 Setup_EM_Rank_Index(PLW* wk);
+s32 Flip_Term_Correct(PLW* wk);
+void Next_Be_Guard(PLW* wk, WORK* em, s16 Type_Of_Guard);
+s32 Check_Flip_Tech(WORK* em);
+void Next_Be_Flip(PLW* wk, s16 xx);
+s32 Check_Diagonal_Shell(PLW* wk);
+s32 Check_Ignore_Shell2(WORK_Other* tmw);
+s32 Check_Shell(PLW* wk);
+s32 Check_Shell_Another_in_Flip(PLW* wk);
+s32 Check_Ignore_Shell(WORK_Other* tmw);
+s32 Compute_Hit_Time(PLW* wk, WORK_Other* tmw);
+s32 Decide_Shell_Guard(PLW* wk, WORK_Other* tmw); // unused second arg
+void Guard_or_Jump_VS_Shell(PLW* wk, WORK_Other* tmw, s16 xx);
+void Setup_Shell_Disposal(PLW* wk, WORK_Other* tmw);
+void Next_Be_Shell_Guard(PLW* wk, WORK* tmw);
+s32 Decide_Shell_Reaction(PLW* wk, WORK_Other* tmw, u16 dir_step); // unused second arg
 s32 Ck_Distance_XX(s16 x1, s16 x2);
-s32 Check_Behind(PLW *wk, WORK_Other *tmw);
-void Setup_Lever_LR(PLW *wk, s16 PL_id, s16 Lever);
-s32 Check_Exit_Term(PLW *wk, WORK *em, s16 Exit_No);
-s32 VS_Jump_Term(PLW *wk, WORK *em, s16 *xx);
-s32 Exit_Term_0000(PLW *wk, WORK *em);
-s32 Exit_Term_0001(PLW *wk, WORK *em);
-s32 Exit_Term_0002(PLW *wk, WORK *em);
-s32 Exit_Term_0003(PLW *wk, WORK *em);
-s32 Exit_Term_0004(PLW *wk, WORK *em);
-s32 Exit_Term_0005(PLW *wk, WORK *em);
-s32 Exit_Term_0006(PLW *wk, WORK *em);
-s32 Exit_Term_0007(PLW *wk, WORK *em);
-s32 Exit_Term_0008(PLW *wk, WORK *em);
-s32 Check_Drop_Term(WORK *em, s16 Y);
-s32 Check_SHINRYU(PLW *wk);
-void Check_BOSS(PLW *wk, u32 Next_Action, u16 Next_Menu);
-void Check_BOSS_EX(PLW *wk, u32 Next_Action, u16 Next_Menu);
-void ETC_Term(PLW *wk, s16 Exit_No, u32 Next_Action, u16 Next_Menu);
-s32 ETC_Term_0000(PLW *wk, WORK *em);
-s32 ETC_Term_0001(PLW *wk, WORK *em);
-s32 ETC_Term_0002(PLW *wk, WORK *em);
-s32 ETC_Term_0003(PLW *wk, WORK *em);
-s32 ETC_Term_0004(PLW *wk, WORK *em);
-s32 ETC_Term_0005(PLW *wk, WORK *em);
-s32 ETC_Term_0006(PLW *wk, WORK *em);
-s32 ETC_Term_0007(PLW *wk, WORK *em);
-s32 ETC_Term_0008(PLW *wk, WORK *em);
-s32 ETC_Term_0009(PLW *wk, WORK *em);
+s32 Check_Behind(PLW* wk, WORK_Other* tmw);
+void Setup_Lever_LR(PLW* wk, s16 PL_id, s16 Lever);
+s32 Check_Exit_Term(PLW* wk, WORK* em, s16 Exit_No);
+s32 VS_Jump_Term(PLW* wk, WORK* em, s16* xx);
+s32 Exit_Term_0000(PLW* wk, WORK* em);
+s32 Exit_Term_0001(PLW* wk, WORK* em);
+s32 Exit_Term_0002(PLW* wk, WORK* em);
+s32 Exit_Term_0003(PLW* wk, WORK* em);
+s32 Exit_Term_0004(PLW* wk, WORK* em);
+s32 Exit_Term_0005(PLW* wk, WORK* em);
+s32 Exit_Term_0006(PLW* wk, WORK* em);
+s32 Exit_Term_0007(PLW* wk, WORK* em);
+s32 Exit_Term_0008(PLW* wk, WORK* em);
+s32 Check_Drop_Term(WORK* em, s16 Y);
+s32 Check_SHINRYU(PLW* wk);
+void Check_BOSS(PLW* wk, u32 Next_Action, u16 Next_Menu);
+void Check_BOSS_EX(PLW* wk, u32 Next_Action, u16 Next_Menu);
+void ETC_Term(PLW* wk, s16 Exit_No, u32 Next_Action, u16 Next_Menu);
+s32 ETC_Term_0000(PLW* wk, WORK* em);
+s32 ETC_Term_0001(PLW* wk, WORK* em);
+s32 ETC_Term_0002(PLW* wk, WORK* em);
+s32 ETC_Term_0003(PLW* wk, WORK* em);
+s32 ETC_Term_0004(PLW* wk, WORK* em);
+s32 ETC_Term_0005(PLW* wk, WORK* em);
+s32 ETC_Term_0006(PLW* wk, WORK* em);
+s32 ETC_Term_0007(PLW* wk, WORK* em);
+s32 ETC_Term_0008(PLW* wk, WORK* em);
+s32 ETC_Term_0009(PLW* wk, WORK* em);
 s32 emLevelRemake(s32 now, s32 max, s32 exd);
 s32 emGetMaxBlocking();
 
-void End_Pattern(PLW *wk) {
+void End_Pattern(PLW* wk) {
     Next_Be_Free(wk);
 }
 
-void Next_Be_Passive(PLW *wk, s32 unused) {
+void Next_Be_Passive(PLW* wk, s32 unused) {
     Next_Be_Free(wk);
 }
 
-void Turn_Over_On(PLW *wk) {
+void Turn_Over_On(PLW* wk) {
     Disposal_Again[wk->wu.id] = 1;
     Turn_Over[wk->wu.id] = 1;
     CP_Index[wk->wu.id][0]++;
 }
 
-void Only_Shot(PLW *wk, s16 Lever_Data) {
+void Only_Shot(PLW* wk, s16 Lever_Data) {
     Lever_Buff[wk->wu.id] = Lever_Data;
     CP_Index[wk->wu.id][0]++;
 }
 
-void Lever_On(PLW *wk, u16 LR_Lever, u16 UD_Lever) {
+void Lever_On(PLW* wk, u16 LR_Lever, u16 UD_Lever) {
     CP_Index[wk->wu.id][0]++;
     Disposal_Again[wk->wu.id] = 1;
     if ((LR_Lever == 0) || (LR_Lever == 1)) {
@@ -255,20 +255,20 @@ void Lever_On(PLW *wk, u16 LR_Lever, u16 UD_Lever) {
     Lever_Buff[wk->wu.id] = Lever_LR[wk->wu.id];
 }
 
-void Lever_Off(PLW *wk) {
+void Lever_Off(PLW* wk) {
     CP_Index[wk->wu.id][0]++;
     Disposal_Again[wk->wu.id] = 1;
     Lever_LR[wk->wu.id] = 0;
 }
 
-void Pierce_On(PLW *wk) {
+void Pierce_On(PLW* wk) {
     Disposal_Again[wk->wu.id] = 1;
     CP_Index[wk->wu.id][0]++;
     Pierce_Menu[wk->wu.id] = 1;
     Lever_Buff[wk->wu.id] = Lever_LR[wk->wu.id];
 }
 
-void Setup_DENJIN_LEVEL(PLW *wk) {
+void Setup_DENJIN_LEVEL(PLW* wk) {
     u16 xx;
 
     Disposal_Again[wk->wu.id] = 1;
@@ -279,7 +279,7 @@ void Setup_DENJIN_LEVEL(PLW *wk) {
     }
 }
 
-void Push_Shot(PLW *wk, s16 Power_Level) {
+void Push_Shot(PLW* wk, s16 Power_Level) {
     s16 xx;
 
     switch (CP_Index[wk->wu.id][1]) {
@@ -317,9 +317,9 @@ void Push_Shot(PLW *wk, s16 Power_Level) {
     }
 }
 
-s32 Check_Exit_DENJIN(PLW *wk) {
+s32 Check_Exit_DENJIN(PLW* wk) {
     s16 xx;
-    WORK *em;
+    WORK* em;
 
     if (!(DENJIN_Term[wk->wu.id] & 1)) {
         if (CP_Index[wk->wu.id][1] == 0) {
@@ -332,7 +332,7 @@ s32 Check_Exit_DENJIN(PLW *wk) {
             return 1;
         }
     }
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
 
     xx = 0;
     if ((em->xyz[0].disp.pos) != (em->old_pos[0])) {
@@ -391,7 +391,7 @@ s32 Check_Exit_DENJIN(PLW *wk) {
     return 0;
 }
 
-void Keep_Away(PLW *wk, s16 Target_Pos, s16 Option) {
+void Keep_Away(PLW* wk, s16 Target_Pos, s16 Option) {
     switch (CP_Index[wk->wu.id][3]) {
 
     case 0:
@@ -422,7 +422,7 @@ void Keep_Away(PLW *wk, s16 Target_Pos, s16 Option) {
     }
 }
 
-void Setup_KA_Jump(PLW *wk) {
+void Setup_KA_Jump(PLW* wk) {
     s16 xx;
 
     CP_Index[wk->wu.id][3] = 2;
@@ -441,11 +441,11 @@ void Setup_KA_Jump(PLW *wk) {
     }
 }
 
-void Setup_KA_Walk(PLW *wk) {
+void Setup_KA_Walk(PLW* wk) {
     CP_Index[wk->wu.id][3] = 4;
 }
 
-void Search_Back_Term(PLW *wk, s16 Move_Value, s16 Next_Action, s16 Next_Menu) {
+void Search_Back_Term(PLW* wk, s16 Move_Value, s16 Next_Action, s16 Next_Menu) {
     if (wk->wu.rl_waza) {
         Move_Value = wk->wu.xyz[0].disp.pos - Move_Value;
         if ((bg_w.bgw[1].l_limit2 - bg_w.pos_offset) > Move_Value) {
@@ -464,7 +464,7 @@ void Search_Back_Term(PLW *wk, s16 Move_Value, s16 Next_Action, s16 Next_Menu) {
     Lever_Buff[wk->wu.id] = Lever_LR[wk->wu.id];
 }
 
-void Approach_Walk(PLW *wk, s16 Target_Pos, s16 Option) {
+void Approach_Walk(PLW* wk, s16 Target_Pos, s16 Option) {
     s16 xx;
 
     switch (CP_Index[wk->wu.id][1]) {
@@ -511,7 +511,7 @@ void Approach_Walk(PLW *wk, s16 Target_Pos, s16 Option) {
     }
 }
 
-s32 Check_Arrival(PLW *wk, s16 Target_Pos, s16 Option) {
+s32 Check_Arrival(PLW* wk, s16 Target_Pos, s16 Option) {
     if (Option == 3) {
         if (Target_Pos <= PL_Distance[wk->wu.id]) {
             return 1;
@@ -529,7 +529,7 @@ s32 Check_Arrival(PLW *wk, s16 Target_Pos, s16 Option) {
     return 0;
 }
 
-void Walk(PLW *wk, u16 Lever, s16 Time, s16 unused) {
+void Walk(PLW* wk, u16 Lever, s16 Time, s16 unused) {
     switch (CP_Index[wk->wu.id][1]) {
 
     case 0:
@@ -569,11 +569,11 @@ void Walk(PLW *wk, u16 Lever, s16 Time, s16 unused) {
     }
 }
 
-void Forced_Guard(PLW *wk, s16 Guard_Type) {
-    WORK *em;
+void Forced_Guard(PLW* wk, s16 Guard_Type) {
+    WORK* em;
     s16 xx;
 
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
 
     if (Attack_Flag[wk->wu.id] == 0) {
         Next_Be_Free(wk);
@@ -589,7 +589,7 @@ void Forced_Guard(PLW *wk, s16 Guard_Type) {
     Lever_Buff[wk->wu.id] |= Lever_Squat[wk->wu.id];
 }
 
-void Provoke(PLW *wk, s16 Lever) {
+void Provoke(PLW* wk, s16 Lever) {
     switch (CP_Index[wk->wu.id][1]) {
     case 0:
         if (Check_Passive(wk) != 0) {
@@ -624,7 +624,7 @@ void Provoke(PLW *wk, s16 Lever) {
     }
 }
 
-void Normal_Attack(PLW *wk, s16 Reaction, u16 Lever_Data) {
+void Normal_Attack(PLW* wk, s16 Reaction, u16 Lever_Data) {
     switch (CP_Index[wk->wu.id][1]) {
     case 0:
         if (Check_Passive(wk) != 0) {
@@ -669,14 +669,14 @@ void Normal_Attack(PLW *wk, s16 Reaction, u16 Lever_Data) {
     }
 }
 
-s32 Small_Jump_Measure(PLW *wk) {
+s32 Small_Jump_Measure(PLW* wk) {
     if (Lever_Squat[wk->wu.id] & 2) {
         return Setup_Guard_Lever(wk, 1);
     }
     return 0;
 }
 
-void Normal_Attack_SP(PLW *wk, s16 Reaction, u16 Lever_Data, s16 Time) {
+void Normal_Attack_SP(PLW* wk, s16 Reaction, u16 Lever_Data, s16 Time) {
     switch (CP_Index[wk->wu.id][1]) {
     case 0:
         if (Check_Passive(wk) != 0) {
@@ -721,7 +721,7 @@ void Normal_Attack_SP(PLW *wk, s16 Reaction, u16 Lever_Data, s16 Time) {
     }
 }
 
-void Adjust_Attack(PLW *wk, s16 Reaction, u16 Lever_Data) {
+void Adjust_Attack(PLW* wk, s16 Reaction, u16 Lever_Data) {
     u16 xx;
 
     switch (CP_Index[wk->wu.id][1]) {
@@ -761,15 +761,15 @@ void Adjust_Attack(PLW *wk, s16 Reaction, u16 Lever_Data) {
     }
 }
 
-s32 Check_Squat(PLW *wk) {
-    if (((WORK *)wk->wu.target_adrs)->pat_status == 0x20) {
+s32 Check_Squat(PLW* wk) {
+    if (((WORK*)wk->wu.target_adrs)->pat_status == 0x20) {
         return 0;
     }
 
     return 2;
 }
 
-s32 Check_Start_Normal_Attack(PLW *wk, s16 Reaction, u16 Lever_Data) {
+s32 Check_Start_Normal_Attack(PLW* wk, s16 Reaction, u16 Lever_Data) {
     if (((wk->wu.routine_no[1]) != 4) || ((wk->wu.cg_type) == 0x40)) {
         return 0;
     }
@@ -789,7 +789,7 @@ s32 Check_Start_Normal_Attack(PLW *wk, s16 Reaction, u16 Lever_Data) {
     return 1;
 }
 
-void Lever_Attack(PLW *wk, s16 Reaction, u16 Lever, u16 Lever_Data) {
+void Lever_Attack(PLW* wk, s16 Reaction, u16 Lever, u16 Lever_Data) {
     s16 xx;
 
     switch (CP_Index[wk->wu.id][1]) {
@@ -830,7 +830,7 @@ void Lever_Attack(PLW *wk, s16 Reaction, u16 Lever, u16 Lever_Data) {
     }
 }
 
-void Lever_Attack_SP(PLW *wk, s16 Reaction, u16 Lever, u16 Lever_Data, s16 Time) {
+void Lever_Attack_SP(PLW* wk, s16 Reaction, u16 Lever, u16 Lever_Data, s16 Time) {
     s16 xx;
 
     switch (CP_Index[wk->wu.id][1]) {
@@ -879,7 +879,7 @@ void Lever_Attack_SP(PLW *wk, s16 Reaction, u16 Lever, u16 Lever_Data, s16 Time)
     }
 }
 
-s32 Setup_Guard_Lever(PLW *wk, u16 Lever) {
+s32 Setup_Guard_Lever(PLW* wk, u16 Lever) {
     s32 rnum = 0;
 
     switch (Lever) {
@@ -901,7 +901,7 @@ s32 Setup_Guard_Lever(PLW *wk, u16 Lever) {
     return rnum;
 }
 
-s32 Check_Start_Lever_Attack(PLW *wk, u16 Lever, u16 Lever_Data) {
+s32 Check_Start_Lever_Attack(PLW* wk, u16 Lever, u16 Lever_Data) {
     if ((wk->wu.routine_no[1] != 4) || (wk->wu.cg_type == 0x40)) {
         return 0;
     }
@@ -917,7 +917,7 @@ s32 Check_Start_Lever_Attack(PLW *wk, u16 Lever, u16 Lever_Data) {
     return 1;
 }
 
-void SA_Term(PLW *wk, u16 SA0, u16 SA1, u16 SA2, u16 Term_No) {
+void SA_Term(PLW* wk, u16 SA0, u16 SA1, u16 SA2, u16 Term_No) {
     s16 xx[3];
 
     if (((Passive_Flag[wk->wu.id]) == 0) && (Check_Passive(wk) != 0)) {
@@ -943,7 +943,7 @@ void SA_Term(PLW *wk, u16 SA0, u16 SA1, u16 SA2, u16 Term_No) {
                 if (SA_Range_Check(wk, 1, Term_No) != 0) {
                     return;
                 }
-                DENJIN_Check(wk, SA2, (u16 *)&xx[2], Term_No);
+                DENJIN_Check(wk, SA2, (u16*)&xx[2], Term_No);
                 Next_Another_Menu(wk, 2, xx[plw[wk->wu.id].sa->kind_of_arts]);
                 return;
 
@@ -962,7 +962,7 @@ void SA_Term(PLW *wk, u16 SA0, u16 SA1, u16 SA2, u16 Term_No) {
                 return;
 
             case 5:
-                if (((WORK *)wk->wu.target_adrs)->xyz[1].disp.pos >= 0x10) {
+                if (((WORK*)wk->wu.target_adrs)->xyz[1].disp.pos >= 0x10) {
                     CP_Index[wk->wu.id][0]++;
                     return;
                 }
@@ -1013,7 +1013,7 @@ void SA_Term(PLW *wk, u16 SA0, u16 SA1, u16 SA2, u16 Term_No) {
     }
 }
 
-s32 DENJIN_Check(PLW *wk, u16 SA2, u16 *xx, u16 Term_No) {
+s32 DENJIN_Check(PLW* wk, u16 SA2, u16* xx, u16 Term_No) {
     if (plw[wk->wu.id].sa->kind_of_arts != 2) {
         return 0;
     }
@@ -1026,7 +1026,7 @@ s32 DENJIN_Check(PLW *wk, u16 SA2, u16 *xx, u16 Term_No) {
 
 const u8 YAGYOU_Data[0x10] = { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3 };
 
-s32 YAGYOU_Check(PLW *wk, s16 *xx, u16 Term_No) {
+s32 YAGYOU_Check(PLW* wk, s16* xx, u16 Term_No) {
     if (plw[wk->wu.id].sa->kind_of_arts != 1) {
         return 0;
     }
@@ -1039,7 +1039,7 @@ s32 YAGYOU_Check(PLW *wk, s16 *xx, u16 Term_No) {
     return 1;
 }
 
-s32 SA_Range_Check(PLW *wk, s16 SA_No, u16 Range) {
+s32 SA_Range_Check(PLW* wk, s16 SA_No, u16 Range) {
     if (SA_No != plw[wk->wu.id].sa->kind_of_arts) {
         return 0;
     }
@@ -1060,7 +1060,7 @@ s32 SA_Range_Check(PLW *wk, s16 SA_No, u16 Range) {
     return 0;
 }
 
-void Check_SA(PLW *wk, s16 Next_Action, s16 Next_Menu) {
+void Check_SA(PLW* wk, s16 Next_Action, s16 Next_Menu) {
     if (plw[wk->wu.id].sa->ok) {
         CP_Index[wk->wu.id][0]++;
     } else {
@@ -1071,7 +1071,7 @@ void Check_SA(PLW *wk, s16 Next_Action, s16 Next_Menu) {
     Lever_Buff[wk->wu.id] = Lever_LR[wk->wu.id];
 }
 
-void Check_EX(PLW *wk, s16 Next_Action, s16 Next_Menu) {
+void Check_EX(PLW* wk, s16 Next_Action, s16 Next_Menu) {
     if (plw[wk->wu.id].sa->ex) {
         CP_Index[wk->wu.id][0]++;
     } else {
@@ -1082,7 +1082,7 @@ void Check_EX(PLW *wk, s16 Next_Action, s16 Next_Menu) {
     Lever_Buff[wk->wu.id] = Lever_LR[wk->wu.id];
 }
 
-void Check_SA_Full(PLW *wk, s16 Next_Action, s16 Next_Menu) {
+void Check_SA_Full(PLW* wk, s16 Next_Action, s16 Next_Menu) {
     Disposal_Again[wk->wu.id] = 1;
 
     if (wk->permited_koa & 0x40) {
@@ -1094,7 +1094,7 @@ void Check_SA_Full(PLW *wk, s16 Next_Action, s16 Next_Menu) {
     Lever_Buff[wk->wu.id] = Lever_LR[wk->wu.id];
 }
 
-void Branch_Unit_Area(PLW *wk, s16 Next_Action, s16 Menu_00, s16 Menu_01, s16 Menu_02, s16 Menu_03) {
+void Branch_Unit_Area(PLW* wk, s16 Next_Action, s16 Menu_00, s16 Menu_01, s16 Menu_02, s16 Menu_03) {
     s16 xx[4];
 
     CP_No[wk->wu.id][0] = Next_Action;
@@ -1108,7 +1108,7 @@ void Branch_Unit_Area(PLW *wk, s16 Next_Action, s16 Menu_00, s16 Menu_01, s16 Me
     Next_Another_Menu(wk, Next_Action, xx[Area_Number[wk->wu.id]]);
 }
 
-void Com_Random_Select(PLW *wk, s16 Next_Action, s16 Menu_00, s16 Menu_01, s16 Menu_02, s16 Menu_03, s16 Rnd_Type) {
+void Com_Random_Select(PLW* wk, s16 Next_Action, s16 Menu_00, s16 Menu_01, s16 Menu_02, s16 Menu_03, s16 Rnd_Type) {
     s16 xx[4];
     s16 zz;
 
@@ -1128,7 +1128,7 @@ void Com_Random_Select(PLW *wk, s16 Next_Action, s16 Menu_00, s16 Menu_01, s16 M
     }
 }
 
-void Branch_Wait_Area(PLW *wk, s16 Time_00, s16 Time_01, s16 Time_02, s16 Time_03) {
+void Branch_Wait_Area(PLW* wk, s16 Time_00, s16 Time_01, s16 Time_02, s16 Time_03) {
     s16 xx[4];
 
     switch (CP_Index[wk->wu.id][1]) {
@@ -1162,7 +1162,7 @@ void Branch_Wait_Area(PLW *wk, s16 Time_00, s16 Time_01, s16 Time_02, s16 Time_0
     }
 }
 
-void Wait(PLW *wk, s16 Time) {
+void Wait(PLW* wk, s16 Time) {
     switch (CP_Index[wk->wu.id][1]) {
 
     case 0:
@@ -1196,7 +1196,7 @@ void Wait(PLW *wk, s16 Time) {
     Lever_Buff[wk->wu.id] = Lever_LR[wk->wu.id];
 }
 
-void Look(PLW *wk, s16 Time) {
+void Look(PLW* wk, s16 Time) {
     Passive_Flag[wk->wu.id] = 0;
     Lever_Buff[wk->wu.id] = Lever_LR[wk->wu.id];
 
@@ -1240,7 +1240,7 @@ void Look(PLW *wk, s16 Time) {
     }
 }
 
-void Keep_Status(PLW *wk, u16 Lever_Data, s16 Option_Data) {
+void Keep_Status(PLW* wk, u16 Lever_Data, s16 Option_Data) {
     switch (CP_Index[wk->wu.id][1]) {
 
     case 0:
@@ -1280,7 +1280,7 @@ void Keep_Status(PLW *wk, u16 Lever_Data, s16 Option_Data) {
     }
 }
 
-void VS_Jump_Guard(PLW *wk) {
+void VS_Jump_Guard(PLW* wk) {
     switch (CP_Index[wk->wu.id][1]) {
     case 0:
         if (Check_Guard(wk) == 0) {
@@ -1295,7 +1295,7 @@ void VS_Jump_Guard(PLW *wk) {
             break;
         }
 
-        if (((WORK *)wk->wu.target_adrs)->xyz[1].disp.pos < 0x19) {
+        if (((WORK*)wk->wu.target_adrs)->xyz[1].disp.pos < 0x19) {
             CP_Index[wk->wu.id][0]++;
             CP_Index[wk->wu.id][1] = 0;
             CP_Index[wk->wu.id][2] = 0;
@@ -1310,8 +1310,8 @@ void VS_Jump_Guard(PLW *wk) {
     }
 }
 
-void Wait_Lie(PLW *wk, u16 Lever_Data) {
-    WORK *em;
+void Wait_Lie(PLW* wk, u16 Lever_Data) {
+    WORK* em;
 
     switch (CP_Index[wk->wu.id][1]) {
 
@@ -1331,7 +1331,7 @@ void Wait_Lie(PLW *wk, u16 Lever_Data) {
     default:
         Lever_Buff[wk->wu.id] = Free_Lever[wk->wu.id];
 
-        em = (WORK *)wk->wu.target_adrs;
+        em = (WORK*)wk->wu.target_adrs;
         if ((Check_Blow_Off(wk, em, 0) == 0) || (Lie_Flag[wk->wu.id] != 0)) {
             CP_Index[wk->wu.id][0]++;
             CP_Index[wk->wu.id][1] = 0;
@@ -1346,7 +1346,7 @@ void Wait_Lie(PLW *wk, u16 Lever_Data) {
     }
 }
 
-void Wait_Get_Up(PLW *wk, u16 Lever_Data, s16 Option) {
+void Wait_Get_Up(PLW* wk, u16 Lever_Data, s16 Option) {
     switch (CP_Index[wk->wu.id][1]) {
 
     case 0:
@@ -1381,10 +1381,10 @@ void Wait_Get_Up(PLW *wk, u16 Lever_Data, s16 Option) {
     }
 }
 
-s32 Check_Wait_Term(PLW *wk, s16 Option) {
-    WORK *em;
+s32 Check_Wait_Term(PLW* wk, s16 Option) {
+    WORK* em;
 
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
 
     if ((em->routine_no[1] == 1) && (em->pat_status == 0x18)) {
         return 0;
@@ -1401,7 +1401,7 @@ s32 Check_Wait_Term(PLW *wk, s16 Option) {
     return 0;
 }
 
-void Wait_Attack_Complete(PLW *wk, u16 Lever_Data, s16 Option) {
+void Wait_Attack_Complete(PLW* wk, u16 Lever_Data, s16 Option) {
     switch (CP_Index[wk->wu.id][1]) {
 
     case 0:
@@ -1438,15 +1438,15 @@ void Wait_Attack_Complete(PLW *wk, u16 Lever_Data, s16 Option) {
     }
 }
 
-s32 Check_Exit_Guard(PLW *wk, s16 Option) {
-    WORK *em;
+s32 Check_Exit_Guard(PLW* wk, s16 Option) {
+    WORK* em;
 
     if (wk->wu.routine_no[1] == 1) {
         return 1;
     }
 
     if (Option == 0) {
-        em = (WORK *)wk->wu.target_adrs;
+        em = (WORK*)wk->wu.target_adrs;
         if (em->routine_no[1] != 4) {
             return 0;
         }
@@ -1455,7 +1455,7 @@ s32 Check_Exit_Guard(PLW *wk, s16 Option) {
     return Attack_Flag[wk->wu.id];
 }
 
-void Short_Range_Attack(PLW *wk, s16 Reaction, u16 Lever_Data, s16 Next_Action, s16 Next_Menu) {
+void Short_Range_Attack(PLW* wk, s16 Reaction, u16 Lever_Data, s16 Next_Action, s16 Next_Menu) {
 #if defined(TARGET_PS2)
     u16 get_nearing_range(s32 pnum, s32 kos);
 #endif
@@ -1498,10 +1498,10 @@ void Short_Range_Attack(PLW *wk, s16 Reaction, u16 Lever_Data, s16 Next_Action, 
     }
 }
 
-void EM_Term(PLW *wk, s16 Range_X, s16 Range_Y, s16 Exit_Number, s16 Next_Action, s16 Next_Menu) {
-    WORK *em;
+void EM_Term(PLW* wk, s16 Range_X, s16 Range_Y, s16 Exit_Number, s16 Next_Action, s16 Next_Menu) {
+    WORK* em;
 
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
     Lever_Buff[wk->wu.id] = Lever_LR[wk->wu.id];
 
     switch (CP_Index[wk->wu.id][1]) {
@@ -1563,13 +1563,13 @@ void EM_Term(PLW *wk, s16 Range_X, s16 Range_Y, s16 Exit_Number, s16 Next_Action
     }
 }
 
-void SHELL_Term(PLW *wk, s16 Next_Command, s16 Exit_Number, s16 Next_Action, s16 Next_Menu, s16 unused) {
-    WORK *em;
-    WORK_Other *tmw;
+void SHELL_Term(PLW* wk, s16 Next_Command, s16 Exit_Number, s16 Next_Action, s16 Next_Menu, s16 unused) {
+    WORK* em;
+    WORK_Other* tmw;
     s16 xx;
 
-    em = (WORK *)Shell_Address[wk->wu.id];
-    tmw = (WORK_Other *)Shell_Address[wk->wu.id];
+    em = (WORK*)Shell_Address[wk->wu.id];
+    tmw = (WORK_Other*)Shell_Address[wk->wu.id];
 
     Lever_Buff[wk->wu.id] = Lever_LR[wk->wu.id];
     switch (CP_Index[wk->wu.id][1]) {
@@ -1603,7 +1603,7 @@ void SHELL_Term(PLW *wk, s16 Next_Command, s16 Exit_Number, s16 Next_Action, s16
     }
 }
 
-s32 Check_Term_Sub_Air(PLW *wk, s16 Distance, s16 Range) {
+s32 Check_Term_Sub_Air(PLW* wk, s16 Distance, s16 Range) {
     if (Range == -1) {
         return 1;
     }
@@ -1622,7 +1622,7 @@ s32 Check_Term_Sub_Air(PLW *wk, s16 Distance, s16 Range) {
     }
 }
 
-s32 Check_Term_Sub(PLW *wk, s16 Distance, s16 Range) {
+s32 Check_Term_Sub(PLW* wk, s16 Distance, s16 Range) {
     if (Range == -1) {
         return 1;
     }
@@ -1641,18 +1641,18 @@ s32 Check_Term_Sub(PLW *wk, s16 Distance, s16 Range) {
 
 const s16 Correct_VS_Air_Data[0x14] = { 0, 0x20, 0, 0, 0, 0x20, 0x20, 0, 0x20, 0, 0, 0, 0, 0x20, 0, 0, 0, 0, 0, 0 };
 
-s32 Correct_Unit_PL(PLW *wk) {
+s32 Correct_Unit_PL(PLW* wk) {
     return Correct_VS_Air_Data[My_char[Player_id]];
 }
 
-s32 Check_Term_Sub_Y(PLW *wk, s16 Distance, s16 Range) {
-    WORK *em;
+s32 Check_Term_Sub_Y(PLW* wk, s16 Distance, s16 Range) {
+    WORK* em;
 
     if (Range == -1) {
         return 1;
     }
 
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
     if (!(Range & 0x8000)) {
         if (Distance >= Range) {
             return 1;
@@ -1669,7 +1669,7 @@ s32 Check_Term_Sub_Y(PLW *wk, s16 Distance, s16 Range) {
     }
 }
 
-void Jump(PLW *wk, s16 Jump_Dir) {
+void Jump(PLW* wk, s16 Jump_Dir) {
     switch (CP_Index[wk->wu.id][1]) {
 
     case 0:
@@ -1732,7 +1732,7 @@ void Jump(PLW *wk, s16 Jump_Dir) {
     }
 }
 
-void Hi_Jump(PLW *wk, s16 Pl_Number, s16 Jump_Dir) {
+void Hi_Jump(PLW* wk, s16 Pl_Number, s16 Jump_Dir) {
     switch (CP_Index[wk->wu.id][1]) {
 
     case 0:
@@ -1818,7 +1818,7 @@ void Hi_Jump(PLW *wk, s16 Pl_Number, s16 Jump_Dir) {
     }
 }
 
-s32 Check_Start_Hi_Jump(PLW *wk) {
+s32 Check_Start_Hi_Jump(PLW* wk) {
     if ((wk->wu.routine_no[1] != 4) || (wk->wu.cg_type == 0x40)) {
         return 0;
     }
@@ -1834,12 +1834,12 @@ s32 Check_Start_Hi_Jump(PLW *wk) {
     return 1;
 }
 
-s32 Check_Air_Guard(PLW *wk) {
-    WORK *em;
+s32 Check_Air_Guard(PLW* wk) {
+    WORK* em;
     s16 xx;
     s16 zz;
 
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
 
     if (Lever_LR[wk->wu.id]) {
         return Lever_LR[wk->wu.id];
@@ -1884,7 +1884,7 @@ s32 Check_Air_Guard(PLW *wk) {
     return Guard_Type[wk->wu.id] |= 0x8000;
 }
 
-void Jump_Attack(PLW *wk, s16 Reaction, s16 Time_Data, u16 Lever_Data, s16 Jump_Dir) {
+void Jump_Attack(PLW* wk, s16 Reaction, s16 Time_Data, u16 Lever_Data, s16 Jump_Dir) {
     switch (CP_Index[wk->wu.id][1]) {
 
     case 0:
@@ -1965,7 +1965,7 @@ void Jump_Attack(PLW *wk, s16 Reaction, s16 Time_Data, u16 Lever_Data, s16 Jump_
     }
 }
 
-void Jump_Attack_Term(PLW *wk, s16 Range_X, s16 Range_Y, s16 Reaction, u16 Lever_Data, s16 Jump_Dir, s16 Range_JX,
+void Jump_Attack_Term(PLW* wk, s16 Range_X, s16 Range_Y, s16 Reaction, u16 Lever_Data, s16 Jump_Dir, s16 Range_JX,
                       s16 Range_JY, s16 J_Lever_Data) {
     switch (CP_Index[wk->wu.id][1]) {
 
@@ -2073,7 +2073,7 @@ void Jump_Attack_Term(PLW *wk, s16 Range_X, s16 Range_Y, s16 Reaction, u16 Lever
     }
 }
 
-s32 Check_SP_Jump_Attack(PLW *wk, s16 Lever_Data) {
+s32 Check_SP_Jump_Attack(PLW* wk, s16 Lever_Data) {
     u16 xx;
 
     if (!(Lever_Data & 0x8000)) {
@@ -2085,8 +2085,8 @@ s32 Check_SP_Jump_Attack(PLW *wk, s16 Lever_Data) {
     return xx | 2;
 }
 
-s32 Check_VS_Air_Attack(PLW *wk, s16 Range_JX, s16 Range_JY, s16 J_Lever_Data) {
-    WORK *em;
+s32 Check_VS_Air_Attack(PLW* wk, s16 Range_JX, s16 Range_JY, s16 J_Lever_Data) {
+    WORK* em;
 
     if ((Range_JX == -1) && (Range_JY == -1)) {
         return 0;
@@ -2095,7 +2095,7 @@ s32 Check_VS_Air_Attack(PLW *wk, s16 Range_JX, s16 Range_JY, s16 J_Lever_Data) {
         return 0;
     }
 
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
     if ((em->pat_status != 0xE) && (em->pat_status != 0x14) && (em->pat_status != 0x1A) && (em->xyz[1].disp.pos <= 0)) {
         return 0;
     }
@@ -2136,7 +2136,7 @@ s32 Check_VS_Air_Attack(PLW *wk, s16 Range_JX, s16 Range_JY, s16 J_Lever_Data) {
     return 0;
 }
 
-void Hi_Jump_Attack(PLW *wk, s16 Reaction, s16 Time_Data, u16 Lever_Data, s16 Jump_Dir) {
+void Hi_Jump_Attack(PLW* wk, s16 Reaction, s16 Time_Data, u16 Lever_Data, s16 Jump_Dir) {
     switch (CP_Index[wk->wu.id][1]) {
 
     case 0:
@@ -2263,7 +2263,7 @@ void Hi_Jump_Attack(PLW *wk, s16 Reaction, s16 Time_Data, u16 Lever_Data, s16 Ju
     }
 }
 
-void Hi_Jump_Attack_Term(PLW *wk, s16 Range_X, s16 Range_Y, s16 Reaction, u16 Lever_Data, s16 Jump_Dir, s16 Range_JX,
+void Hi_Jump_Attack_Term(PLW* wk, s16 Range_X, s16 Range_Y, s16 Reaction, u16 Lever_Data, s16 Jump_Dir, s16 Range_JX,
                          s16 Range_JY, u16 J_Lever_Data) {
     switch (CP_Index[wk->wu.id][1]) {
 
@@ -2426,7 +2426,7 @@ void Hi_Jump_Attack_Term(PLW *wk, s16 Range_X, s16 Range_Y, s16 Reaction, u16 Le
     }
 }
 
-s32 Check_Term_ABS_Distance(PLW *wk) {
+s32 Check_Term_ABS_Distance(PLW* wk) {
     if (Turn_Over[wk->wu.id]) {
         return 1;
     }
@@ -2450,7 +2450,7 @@ s32 Check_Term_ABS_Distance(PLW *wk) {
     return 0;
 }
 
-s32 Check_Com_Add_Y(PLW *wk, s16 Pos_Y, s16 Range) {
+s32 Check_Com_Add_Y(PLW* wk, s16 Pos_Y, s16 Range) {
     if (Range == -1) {
         return 1;
     }
@@ -2470,7 +2470,7 @@ s32 Check_Com_Add_Y(PLW *wk, s16 Pos_Y, s16 Range) {
     }
 }
 
-void ORO_JA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Lever_Data, s16 RJX,
+void ORO_JA_Term(PLW* wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Lever_Data, s16 RJX,
                  s16 RJY, u16 JLD) {
     switch (CP_Index[wk->wu.id][1]) {
 
@@ -2606,7 +2606,7 @@ void ORO_JA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16
     }
 }
 
-void ORO_HJA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Lever_Data, s16 RJX,
+void ORO_HJA_Term(PLW* wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Lever_Data, s16 RJX,
                   s16 RJY, u16 JLD) {
     switch (CP_Index[wk->wu.id][1]) {
 
@@ -2752,7 +2752,7 @@ void ORO_HJA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s1
     }
 }
 
-void Command_Attack(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot) {
+void Command_Attack(PLW* wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot) {
     switch (CP_Index[wk->wu.id][1]) {
 
     case 0:
@@ -2881,7 +2881,7 @@ const s32 Hadou_Check_Data[20][2] = {
     { 1, 0x1F }, { 0, 0 }, { 1, 0x1E }, { 0, 0 },    { 0, 0 },    { 0, 0 },
 };
 
-s32 Hadou_Check(PLW *wk, u16 Tech_Number) {
+s32 Hadou_Check(PLW* wk, u16 Tech_Number) {
     if (Hadou_Check_Data[wk->player_number][0] == 0) {
         return 0;
     }
@@ -2893,7 +2893,7 @@ s32 Hadou_Check(PLW *wk, u16 Tech_Number) {
     return Check_Resume_Lever(wk);
 }
 
-s32 Check_Resume_Lever(PLW *wk) {
+s32 Check_Resume_Lever(PLW* wk) {
     u16 Target_Lever;
     s16 xx;
 
@@ -2911,7 +2911,7 @@ s32 Check_Resume_Lever(PLW *wk) {
     return 0;
 }
 
-void J_Command_Attack(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot) {
+void J_Command_Attack(PLW* wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot) {
     switch (CP_Index[wk->wu.id][1]) {
 
     case 0:
@@ -3002,7 +3002,7 @@ void J_Command_Attack(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s
     }
 }
 
-void Rapid_Command_Attack(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Shot, u16 Time) {
+void Rapid_Command_Attack(PLW* wk, s16 Reaction, u16 Tech_Number, s16 Shot, u16 Time) {
     switch (CP_Index[wk->wu.id][1]) {
 
     case 0:
@@ -3089,7 +3089,7 @@ void Rapid_Command_Attack(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Shot, u16 
     }
 }
 
-void Check_Rapid(PLW *wk, u16 Tech_Number) {
+void Check_Rapid(PLW* wk, u16 Tech_Number) {
     if (!(Tech_Number & 0xF00)) {
         Rapid_No[wk->wu.id][0] = 0;
     } else {
@@ -3104,18 +3104,18 @@ void Check_Rapid(PLW *wk, u16 Tech_Number) {
     }
 }
 
-void Setup_Rapid_End_Term(PLW *wk, s16 Tech_Number) {
+void Setup_Rapid_End_Term(PLW* wk, s16 Tech_Number) {
     Rapid_No[wk->wu.id][2] = (Tech_Number & 0xF00) >> 8;
     if ((Tech_Number & 0xF00) == 0x400) {
         Rapid_No[wk->wu.id][3] = Setup_Rapid_Time(wk, Tech_Number);
     }
 }
 
-s32 Setup_Rapid_Time(PLW *wk, u16 Tech_Number) {
+s32 Setup_Rapid_Time(PLW* wk, u16 Tech_Number) {
     return 60;
 }
 
-void Rapid_Sub(PLW *wk) {
+void Rapid_Sub(PLW* wk) {
     if (Check_Rapid_End(wk) != 0) {
         return;
     }
@@ -3174,7 +3174,7 @@ void Rapid_Sub(PLW *wk) {
     }
 }
 
-s32 Check_Rapid_End(PLW *wk) {
+s32 Check_Rapid_End(PLW* wk) {
     switch (Rapid_No[wk->wu.id][2]) {
     case 1:
         if (wk->wu.mvxy.a[1].real.h < 0) {
@@ -3216,7 +3216,7 @@ s32 Check_Rapid_End(PLW *wk) {
     return 0;
 }
 
-s32 Check_Start_Command_Attack(PLW *wk, s16 Reaction, u16 Tech_Number) {
+s32 Check_Start_Command_Attack(PLW* wk, s16 Reaction, u16 Tech_Number) {
     if (Before_Jump[wk->wu.id]) {
         return Before_Jump[wk->wu.id] = 0;
     }
@@ -3246,7 +3246,7 @@ s32 Check_Start_Command_Attack(PLW *wk, s16 Reaction, u16 Tech_Number) {
     return 1;
 }
 
-void ORO_JCA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Tech_Number,
+void ORO_JCA_Term(PLW* wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Tech_Number,
                   s16 Power_Level, s16 Ex_Shot, s16 RJX, s16 RJY, u16 JLD) {
     switch (CP_Index[wk->wu.id][1]) {
 
@@ -3367,7 +3367,7 @@ void ORO_JCA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s1
     }
 }
 
-void ORO_HJCA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Tech_Number,
+void ORO_HJCA_Term(PLW* wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s16 RX, s16 RY, u16 Tech_Number,
                    s16 Power_Level, s16 Ex_Shot, s16 RJX, s16 RJY, u16 JLD) {
     switch (CP_Index[wk->wu.id][1]) {
 
@@ -3505,7 +3505,7 @@ void ORO_HJCA_Term(PLW *wk, s16 Reaction, s16 Jump_Dir, s16 JY, s16 Jump_Dir2, s
     }
 }
 
-void Jump_Command_Attack_Term(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RX, s16 RY,
+void Jump_Command_Attack_Term(PLW* wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RX, s16 RY,
                               s16 Jump_Dir, s16 JRX, s16 JRY, u16 JLD) {
     switch (CP_Index[wk->wu.id][1]) {
 
@@ -3609,7 +3609,7 @@ void Jump_Command_Attack_Term(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_
     }
 }
 
-void Hi_Jump_Command_Attack_Term(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RX, s16 RY,
+void Hi_Jump_Command_Attack_Term(PLW* wk, s16 Reaction, u16 Tech_Number, s16 Power_Level, s16 Ex_Shot, s16 RX, s16 RY,
                                  s16 Jump_Dir, s16 JRX, s16 JRY, u16 JLD) {
     switch (CP_Index[wk->wu.id][1]) {
 
@@ -3721,7 +3721,7 @@ void Hi_Jump_Command_Attack_Term(PLW *wk, s16 Reaction, u16 Tech_Number, s16 Pow
     }
 }
 
-s32 Check_Landed(PLW *wk, s16 Reaction) {
+s32 Check_Landed(PLW* wk, s16 Reaction) {
     if ((wk->wu.old_pos[1] != 0) && (wk->wu.xyz[1].disp.pos == 0)) {
         Lever_Buff[wk->wu.id] = 0;
         if (Continue_Menu[wk->wu.id]) {
@@ -3756,13 +3756,13 @@ s32 Check_Landed(PLW *wk, s16 Reaction) {
     return 0;
 }
 
-s32 Check_Dash_Hit(PLW *wk, u16 Tech_Number) {
+s32 Check_Dash_Hit(PLW* wk, u16 Tech_Number) {
 #if defined(TARGET_PS2)
     s32 get_vs_shell_adrs(WORK * wk, s32 id, s32 ix, WORK_Other * *tmw);
 #endif
 
-    WORK_Other *tmw;
-    WORK *em;
+    WORK_Other* tmw;
+    WORK* em;
     s16 i;
     s16 xx;
     s16 zz;
@@ -3771,9 +3771,9 @@ s32 Check_Dash_Hit(PLW *wk, u16 Tech_Number) {
         return 0;
     }
 
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
     for (i = 0; i < 8; i++) {
-        if ((get_vs_shell_adrs(em, em->id, i, &tmw) == 0) && (get_vs_shell_adrs((WORK *)wk, em->id, i, &tmw) == 0)) {
+        if ((get_vs_shell_adrs(em, em->id, i, &tmw) == 0) && (get_vs_shell_adrs((WORK*)wk, em->id, i, &tmw) == 0)) {
             return 0;
         }
         if (tmw->wu.routine_no[1] == 2) {
@@ -3801,7 +3801,7 @@ s32 Check_Dash_Hit(PLW *wk, u16 Tech_Number) {
     return 0;
 }
 
-s32 Setup_Front_or_Back(PLW *wk, s16 xx) {
+s32 Setup_Front_or_Back(PLW* wk, s16 xx) {
     if (wk->wu.rl_waza == 0) {
         if (xx >= 0) {
             return 0;
@@ -3815,7 +3815,7 @@ s32 Setup_Front_or_Back(PLW *wk, s16 xx) {
     }
 }
 
-s32 Check_Hit_Shell(PLW *wk, WORK_Other *tmw, u16 Tech_Number) {
+s32 Check_Hit_Shell(PLW* wk, WORK_Other* tmw, u16 Tech_Number) {
     s16 xx;
 
     if (wk->wu.rl_waza == 1) {
@@ -3837,7 +3837,7 @@ s32 Check_Hit_Shell(PLW *wk, WORK_Other *tmw, u16 Tech_Number) {
     }
 }
 
-void Jump_Init(PLW *wk, s16 Jump_Dir) {
+void Jump_Init(PLW* wk, s16 Jump_Dir) {
     switch (Jump_Dir) {
     case 0:
         Ck_Distance_LvJ(wk);
@@ -3856,10 +3856,10 @@ void Jump_Init(PLW *wk, s16 Jump_Dir) {
     }
 }
 
-s32 Command_Type_00(PLW *wk, s16 Power_Level, u16 Tech_Number, s16 Ex_Shot) {
+s32 Command_Type_00(PLW* wk, s16 Power_Level, u16 Tech_Number, s16 Ex_Shot) {
 #if defined(TARGET_PS2)
     s16 datacmd_conpanecmd(s32 dat);
-    s16 renbanshot_conpaneshot(const s16 *dadr, s32 pow);
+    s16 renbanshot_conpaneshot(const s16* dadr, s32 pow);
 #endif
 
     if (Tech_Address[wk->wu.id][Tech_Index[wk->wu.id] + 4] != 0x1C) {
@@ -3924,9 +3924,9 @@ const u16 Rolling_Lv_Data[2][9] = {
     { 4, 2, 8, 1, 4, 2, 8, 1, 0xFFFF },
 };
 
-s32 Command_Type_06(PLW *wk, s16 Power_Level, u16 Tech_Number, s16 Ex_Shot) {
+s32 Command_Type_06(PLW* wk, s16 Power_Level, u16 Tech_Number, s16 Ex_Shot) {
 #if defined(TARGET_PS2)
-    s16 renbanshot_conpaneshot(const s16 *dadr, s32 pow);
+    s16 renbanshot_conpaneshot(const s16* dadr, s32 pow);
 #endif
 
     s16 xx;
@@ -3949,7 +3949,7 @@ s32 Command_Type_06(PLW *wk, s16 Power_Level, u16 Tech_Number, s16 Ex_Shot) {
     return 0;
 }
 
-s32 Command_Type_01(PLW *wk, s16 Power_Level, s16 Ex_Shot) {
+s32 Command_Type_01(PLW* wk, s16 Power_Level, s16 Ex_Shot) {
     switch (CP_Index[wk->wu.id][2]) {
     case 0:
         CP_Index[wk->wu.id][2]++;
@@ -3988,7 +3988,7 @@ s32 Command_Type_01(PLW *wk, s16 Power_Level, s16 Ex_Shot) {
     return 0;
 }
 
-void Setup_Command_01(PLW *wk) {
+void Setup_Command_01(PLW* wk) {
     switch (Lever_Pool[wk->wu.id]) {
     case 2:
         Timer_00[wk->wu.id] = Lever_Store[wk->wu.id][0];
@@ -3999,7 +3999,7 @@ void Setup_Command_01(PLW *wk) {
     }
 }
 
-void Check_Store_Lever(PLW *wk, u16 Tech_Number, s16 Next_Action, s16 Next_Menu) {
+void Check_Store_Lever(PLW* wk, u16 Tech_Number, s16 Next_Action, s16 Next_Menu) {
     s16 time;
     u16 lever;
 
@@ -4019,7 +4019,7 @@ void Check_Store_Lever(PLW *wk, u16 Tech_Number, s16 Next_Action, s16 Next_Menu)
     }
 }
 
-s32 Check_Store_Direction(PLW *wk, u16 lever, s16 time) {
+s32 Check_Store_Direction(PLW* wk, u16 lever, s16 time) {
     if (wk->wu.rl_waza) {
         if (lever & 0xC) {
             lever ^= 0xC;
@@ -4046,7 +4046,7 @@ s32 Check_Store_Direction(PLW *wk, u16 lever, s16 time) {
     return 0;
 }
 
-s32 Select_Combo_Speed(PLW *wk) {
+s32 Select_Combo_Speed(PLW* wk) {
     s8 xx;
     s8 zz;
 
@@ -4071,7 +4071,7 @@ s32 Select_Combo_Speed(PLW *wk) {
     return zz = Combo_Speed_Unit_Data[wk->player_number][Lv][xx];
 }
 
-s32 Select_Reflection_Time(PLW *wk) {
+s32 Select_Reflection_Time(PLW* wk) {
     s8 Lv;
     s8 xx;
     s8 zz;
@@ -4100,9 +4100,9 @@ s32 Select_Reflection_Time(PLW *wk) {
 
 s32 Setup_Lv04(s16 xx) {
     s16 i;
-    s16 *zz;
+    s16* zz;
 
-    zz = (s16 *)&Level_04_Data[xx];
+    zz = (s16*)&Level_04_Data[xx];
 
     for (i = 0; i < 3; i++) {
         if (Control_Time <= zz[i]) {
@@ -4114,9 +4114,9 @@ s32 Setup_Lv04(s16 xx) {
 
 s32 Setup_Lv08(s16 xx) {
     s16 i;
-    s16 *zz;
+    s16* zz;
 
-    zz = (s16 *)&Level_08_Data[xx];
+    zz = (s16*)&Level_08_Data[xx];
 
     for (i = 0; i < 7; i++) {
         if (Control_Time <= zz[i]) {
@@ -4128,9 +4128,9 @@ s32 Setup_Lv08(s16 xx) {
 
 s32 Setup_Lv10(s16 xx) {
     s16 i;
-    s16 *zz;
+    s16* zz;
 
-    zz = (s16 *)&Level_10_Data[xx];
+    zz = (s16*)&Level_10_Data[xx];
 
     for (i = 0; i < 9; i++) {
         if (Control_Time <= zz[i]) {
@@ -4142,9 +4142,9 @@ s32 Setup_Lv10(s16 xx) {
 
 s32 Setup_Lv18(s16 xx) {
     s16 i;
-    s16 *zz;
+    s16* zz;
 
-    zz = (s16 *)&Level_18_Data[xx];
+    zz = (s16*)&Level_18_Data[xx];
 
     for (i = 0; i < 17; i++) {
         if (Control_Time <= zz[i]) {
@@ -4154,7 +4154,7 @@ s32 Setup_Lv18(s16 xx) {
     return i;
 }
 
-s32 Setup_VS_Catch_Data(PLW *wk) {
+s32 Setup_VS_Catch_Data(PLW* wk) {
     Lv = Setup_Lv08(0);
     if (Break_Into_CPU == 2) {
         Lv = 7;
@@ -4165,7 +4165,7 @@ s32 Setup_VS_Catch_Data(PLW *wk) {
     return VS_Catch_Data[emLevelRemake(Lv, 8, 0)];
 }
 
-s32 Setup_LP_Data(PLW *wk) {
+s32 Setup_LP_Data(PLW* wk) {
     Lv = Setup_Lv08(0);
     if (Break_Into_CPU == 2) {
         Lv = 7;
@@ -4176,7 +4176,7 @@ s32 Setup_LP_Data(PLW *wk) {
     return LOOK_POSITION_Data[emLevelRemake(Lv, 8, 0)][random_32_com()];
 }
 
-s32 Setup_WT_Data(PLW *wk) {
+s32 Setup_WT_Data(PLW* wk) {
     Lv = Setup_Lv04(0);
     if (Break_Into_CPU == 2) {
         Lv = 3;
@@ -4187,24 +4187,24 @@ s32 Setup_WT_Data(PLW *wk) {
     return Wait_Time_Data[emLevelRemake(Lv, 4, 0)][random_16_com() & 7];
 }
 
-void Ck_Distance(PLW *wk) {
-    PL_Distance[wk->wu.id] = ((WORK *)wk->wu.target_adrs)->xyz[0].disp.pos - wk->wu.xyz[0].disp.pos;
+void Ck_Distance(PLW* wk) {
+    PL_Distance[wk->wu.id] = ((WORK*)wk->wu.target_adrs)->xyz[0].disp.pos - wk->wu.xyz[0].disp.pos;
     if (PL_Distance[wk->wu.id] < 0) {
         PL_Distance[wk->wu.id] = PL_Distance[wk->wu.id] * -1;
     }
 }
 
-s32 Ck_Distance_Height(PLW *wk) {
+s32 Ck_Distance_Height(PLW* wk) {
     s16 xx;
 
-    xx = ((WORK *)wk->wu.target_adrs)->xyz[1].disp.pos - wk->wu.xyz[1].disp.pos;
+    xx = ((WORK*)wk->wu.target_adrs)->xyz[1].disp.pos - wk->wu.xyz[1].disp.pos;
     if (xx < 0) {
         xx = xx * -1;
     }
     return xx;
 }
 
-s32 Ck_Area(PLW *wk) {
+s32 Ck_Area(PLW* wk) {
     s16 i;
 
     for (i = 0; i < 3; i++) {
@@ -4215,7 +4215,7 @@ s32 Ck_Area(PLW *wk) {
     return 3;
 }
 
-s32 Ck_Area_Shell(PLW *wk) {
+s32 Ck_Area_Shell(PLW* wk) {
     s16 i;
 
     for (i = 0; i < 3; i++) {
@@ -4227,8 +4227,8 @@ s32 Ck_Area_Shell(PLW *wk) {
     return 3;
 }
 
-void Ck_Distance_Lv(PLW *wk) {
-    PL_Distance[wk->wu.id] = ((WORK *)wk->wu.target_adrs)->xyz[0].disp.pos - wk->wu.xyz[0].disp.pos;
+void Ck_Distance_Lv(PLW* wk) {
+    PL_Distance[wk->wu.id] = ((WORK*)wk->wu.target_adrs)->xyz[0].disp.pos - wk->wu.xyz[0].disp.pos;
 
     if (PL_Distance[wk->wu.id] > 0) {
         Lever_Buff[wk->wu.id] = 8;
@@ -4238,8 +4238,8 @@ void Ck_Distance_Lv(PLW *wk) {
     }
 }
 
-void Ck_Distance_LvJ(PLW *wk) {
-    PL_Distance[wk->wu.id] = ((WORK *)wk->wu.target_adrs)->xyz[0].disp.pos - wk->wu.xyz[0].disp.pos;
+void Ck_Distance_LvJ(PLW* wk) {
+    PL_Distance[wk->wu.id] = ((WORK*)wk->wu.target_adrs)->xyz[0].disp.pos - wk->wu.xyz[0].disp.pos;
 
     if (PL_Distance[wk->wu.id] > 0) {
         Lever_Pool[wk->wu.id] = 9;
@@ -4249,7 +4249,7 @@ void Ck_Distance_LvJ(PLW *wk) {
     }
 }
 
-void Next_End(PLW *wk) {
+void Next_End(PLW* wk) {
     if (Check_Guard(wk) != 0) {
         return;
     }
@@ -4260,7 +4260,7 @@ void Next_End(PLW *wk) {
     CP_Index[wk->wu.id][3] = 0;
 }
 
-void Next_Another_Menu(PLW *wk, s16 Next_Action, u16 Next_Menu) {
+void Next_Another_Menu(PLW* wk, s16 Next_Action, u16 Next_Menu) {
     if (Next_Action != 1) {
         CP_No[wk->wu.id][0] = Next_Action;
         Pattern_Index[wk->wu.id] = Next_Menu;
@@ -4273,7 +4273,7 @@ void Next_Another_Menu(PLW *wk, s16 Next_Action, u16 Next_Menu) {
     }
 }
 
-void Reaction_Sub(PLW *wk, s16 Reaction, s16 Power_Level) {
+void Reaction_Sub(PLW* wk, s16 Reaction, s16 Power_Level) {
     switch (Reaction & 0x7F) {
     case 9:
         if (Stock_Hit_Flag[wk->wu.id]) {
@@ -4397,7 +4397,7 @@ void Reaction_Sub(PLW *wk, s16 Reaction, s16 Power_Level) {
     }
 }
 
-s32 Check_Meoshi_Attack(PLW *wk, s16 Reaction, s16 Power_Level) {
+s32 Check_Meoshi_Attack(PLW* wk, s16 Reaction, s16 Power_Level) {
     if (wk->wu.cg_meoshi == Last_Eftype[wk->wu.id]) {
         return 0;
     }
@@ -4426,7 +4426,7 @@ s32 Check_Meoshi_Attack(PLW *wk, s16 Reaction, s16 Power_Level) {
     return 0;
 }
 
-s32 Get_Meoshi_Data(PLW *wk) {
+s32 Get_Meoshi_Data(PLW* wk) {
 #if defined(TARGET_PS2)
     s16 get_meoshi_lever(s32 data);
     s16 get_meoshi_shot(s32 data);
@@ -4445,7 +4445,7 @@ s32 Get_Meoshi_Data(PLW *wk) {
     return shot | lever;
 }
 
-void Reaction_Exit_Sub(PLW *wk) {
+void Reaction_Exit_Sub(PLW* wk) {
     CP_Index[wk->wu.id][0]++;
     CP_Index[wk->wu.id][1] = 0;
     CP_Index[wk->wu.id][2] = 0;
@@ -4460,7 +4460,7 @@ void Reaction_Exit_Sub(PLW *wk) {
     }
 }
 
-void Check_First_Menu(PLW *wk) {
+void Check_First_Menu(PLW* wk) {
     if (CP_Index[wk->wu.id][0] == 0) {
         Combo_Speed[wk->wu.id] = 1;
     } else {
@@ -4468,7 +4468,7 @@ void Check_First_Menu(PLW *wk) {
     }
 }
 
-void Select_Active(PLW *wk) {
+void Select_Active(PLW* wk) {
     s16 pl_id;
 
     Lv = Setup_Lv08(0);
@@ -4533,7 +4533,7 @@ void Select_Active(PLW *wk) {
     }
 }
 
-s32 Check_SA_Active(PLW *wk, s16 *pl_id) {
+s32 Check_SA_Active(PLW* wk, s16* pl_id) {
     if (wk->sa->ok != -1) {
         return 0;
     }
@@ -4555,7 +4555,7 @@ s32 Check_SA_Active(PLW *wk, s16 *pl_id) {
     return 0;
 }
 
-void Setup_Follow(PLW *wk, s16 Follow_Type) {
+void Setup_Follow(PLW* wk, s16 Follow_Type) {
     CP_No[wk->wu.id][0] = 3;
     CP_No[wk->wu.id][1] = Follow_Type;
 
@@ -4571,7 +4571,7 @@ void Setup_Follow(PLW *wk, s16 Follow_Type) {
 }
 
 // sdata
-typedef const _anon6 *const_anon6_p;
+typedef const _anon6* const_anon6_p;
 
 static const_anon6_p Follow_Menu_1st_Unit_Data[13] = {
     &COM00_Flollow_1st_Unit_Data, &COM00_Flollow_1st_Unit_Data, &COM02_Flollow_1st_Unit_Data,
@@ -4581,7 +4581,7 @@ static const_anon6_p Follow_Menu_1st_Unit_Data[13] = {
     &COM00_Flollow_1st_Unit_Data,
 };
 
-typedef const _anon13 *const_anon13_p;
+typedef const _anon13* const_anon13_p;
 
 static const_anon13_p Follow_Menu_2nd_Unit_Data[13] = {
     &Com00_Follow_Menu, &Com00_Follow_Menu, &Com02_Follow_Menu, &Com00_Follow_Menu, &Com00_Follow_Menu,
@@ -4589,10 +4589,10 @@ static const_anon13_p Follow_Menu_2nd_Unit_Data[13] = {
     &Com00_Follow_Menu, &Com00_Follow_Menu, &Com00_Follow_Menu,
 };
 
-void Decide_Follow_Menu(PLW *wk) {
+void Decide_Follow_Menu(PLW* wk) {
     s8 xx;
-    const _anon6 *Menu_Add_Ptr0;
-    const _anon13 *Menu_Add_Ptr1;
+    const _anon6* Menu_Add_Ptr0;
+    const _anon13* Menu_Add_Ptr1;
 
     Menu_Add_Ptr0 = Follow_Menu_1st_Unit_Data[wk->player_number];
     Rnd = (u8)random_32_com();
@@ -4602,7 +4602,7 @@ void Decide_Follow_Menu(PLW *wk) {
     Pattern_Index[wk->wu.id] = Menu_Add_Ptr1->zzzz[xx][Area_Number[wk->wu.id]];
 }
 
-s32 Select_Passive(PLW *wk) {
+s32 Select_Passive(PLW* wk) {
     u16 xx;
 
     if (VS_Tech[wk->wu.id] == 0xB) {
@@ -4719,7 +4719,7 @@ void Devide_Level(s16 xx) {
     }
 }
 
-void Setup_Random(PLW *wk) {
+void Setup_Random(PLW* wk) {
     if (VS_Tech[wk->wu.id] == 0x20) {
         Rnd = (u8)random_16_com() & 7;
         VS_Tech[wk->wu.id] = 0x1C;
@@ -4729,7 +4729,7 @@ void Setup_Random(PLW *wk) {
     }
 }
 
-s32 Check_Dramatic(PLW *wk, s16 PL_id) {
+s32 Check_Dramatic(PLW* wk, s16 PL_id) {
     if (plw[wk->wu.id].sa->ok) {
         return Rnd | 8;
     }
@@ -4742,14 +4742,14 @@ s32 Check_Dramatic(PLW *wk, s16 PL_id) {
 
 const s8 PL_Status[0xA] = { 1, 0, 0, 0, 1, 1, 0, 0, 0, 0 };
 
-s32 Check_Passive(PLW *wk) {
-    WORK *em;
+s32 Check_Passive(PLW* wk) {
+    WORK* em;
 
     if ((Counter_Attack[wk->wu.id] != 0) || (Pierce_Menu[wk->wu.id] != 0)) {
         return 0;
     }
 
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
 
     if (Check_Blow_Off(wk, em, 0) != 0) {
         *CP_No[wk->wu.id] = 0xE;
@@ -4802,12 +4802,12 @@ s32 Check_Passive(PLW *wk) {
     return 0;
 }
 
-s32 Check_Guard(PLW *wk) {
-    WORK *em;
+s32 Check_Guard(PLW* wk) {
+    WORK* em;
     s16 xx;
     s16 zz;
 
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
 
     if (Attack_Flag[wk->wu.id] == 0) {
         return 0;
@@ -4853,7 +4853,7 @@ s32 Check_Guard(PLW *wk) {
     return 1;
 }
 
-s32 Check_Makoto(PLW *wk) {
+s32 Check_Makoto(PLW* wk) {
     if (wk->player_number != 0x10) {
         return 0;
     }
@@ -4867,14 +4867,14 @@ s32 Check_Makoto(PLW *wk) {
     return 0;
 }
 
-s32 Check_Flip_Term(PLW *wk, WORK *tmw) {
-    WORK *em;
+s32 Check_Flip_Term(PLW* wk, WORK* tmw) {
+    WORK* em;
     s16 xx;
 
     if (tmw != NULL) {
         em = tmw;
     } else {
-        em = (WORK *)wk->wu.target_adrs;
+        em = (WORK*)wk->wu.target_adrs;
     }
 
     if (Check_Flip_Tech(em) == 0) {
@@ -4902,7 +4902,7 @@ s32 Check_Flip_Term(PLW *wk, WORK *tmw) {
     return 1;
 }
 
-s32 Setup_EM_Rank_Index(PLW *wk) {
+s32 Setup_EM_Rank_Index(PLW* wk) {
     if (EM_Rank != 0) {
         return 0x11;
     }
@@ -4910,7 +4910,7 @@ s32 Setup_EM_Rank_Index(PLW *wk) {
     return wk->player_number;
 }
 
-s32 Flip_Term_Correct(PLW *wk) {
+s32 Flip_Term_Correct(PLW* wk) {
     s16 xx = 0;
 
     if (plw[wk->wu.id].wu.vital_new < 0x31) {
@@ -4929,7 +4929,7 @@ s32 Flip_Term_Correct(PLW *wk) {
     return xx;
 }
 
-void Next_Be_Guard(PLW *wk, WORK *em, s16 Type_Of_Guard) {
+void Next_Be_Guard(PLW* wk, WORK* em, s16 Type_Of_Guard) {
     CP_No[wk->wu.id][0] = 7;
     CP_No[wk->wu.id][1] = 0;
     CP_No[wk->wu.id][2] = 0;
@@ -4941,7 +4941,7 @@ void Next_Be_Guard(PLW *wk, WORK *em, s16 Type_Of_Guard) {
     Check_Guard_Type(wk, em);
 }
 
-s32 Check_Flip_Tech(WORK *em) {
+s32 Check_Flip_Tech(WORK* em) {
     s32 rnum = 1;
 
     switch (save_w[Present_Mode].Difficulty) {
@@ -4968,10 +4968,10 @@ s32 Check_Flip_Tech(WORK *em) {
     return rnum;
 }
 
-void Next_Be_Flip(PLW *wk, s16 xx) {
-    WORK *em;
+void Next_Be_Flip(PLW* wk, s16 xx) {
+    WORK* em;
 
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
 
     CP_No[wk->wu.id][0] = 0xC;
     CP_No[wk->wu.id][1] = 0;
@@ -4999,13 +4999,13 @@ void Next_Be_Flip(PLW *wk, s16 xx) {
     }
 }
 
-s32 Check_Diagonal_Shell(PLW *wk) {
+s32 Check_Diagonal_Shell(PLW* wk) {
 #if defined(TARGET_PS2)
     s32 get_vs_shell_adrs(WORK * wk, s32 id, s32 ix, WORK_Other * *tmw);
 #endif
 
-    WORK_Other *tmw;
-    WORK *em;
+    WORK_Other* tmw;
+    WORK* em;
     s16 i;
 
     Lv = Setup_Lv08(0);
@@ -5023,7 +5023,7 @@ s32 Check_Diagonal_Shell(PLW *wk) {
         return 0;
     }
 
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
 
     for (i = 0; i < 8; i++) {
         if ((get_vs_shell_adrs(em, em->id, i, &tmw) == 0) && (get_vs_shell_adrs(&wk->wu, em->id, i, &tmw) == 0)) {
@@ -5051,7 +5051,7 @@ s32 Check_Diagonal_Shell(PLW *wk) {
     return 0;
 }
 
-s32 Check_Ignore_Shell2(WORK_Other *tmw) {
+s32 Check_Ignore_Shell2(WORK_Other* tmw) {
     if (tmw->wu.type == 0xDE) {
         return 1;
     }
@@ -5074,13 +5074,13 @@ s32 Check_Ignore_Shell2(WORK_Other *tmw) {
     return 0;
 }
 
-s32 Check_Shell(PLW *wk) {
+s32 Check_Shell(PLW* wk) {
 #if defined(TARGET_PS2)
     s32 get_vs_shell_adrs(WORK * wk, s32 id, s32 ix, WORK_Other * *tmw);
 #endif
 
-    WORK_Other *tmw;
-    WORK *em;
+    WORK_Other* tmw;
+    WORK* em;
     s16 i;
     s16 xx;
     s16 zz;
@@ -5093,7 +5093,7 @@ s32 Check_Shell(PLW *wk) {
         return 0;
     }
 
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
 
     for (i = 0; i < 8; i++) {
         if ((get_vs_shell_adrs(em, em->id, i, &tmw) == 0) && (get_vs_shell_adrs(&wk->wu, em->id, i, &tmw) == 0)) {
@@ -5132,7 +5132,7 @@ s32 Check_Shell(PLW *wk) {
                 CP_Index[wk->wu.id][2] = 0;
                 CP_Index[wk->wu.id][3] = 0;
 
-                Shell_Address[wk->wu.id] = (u32 *)tmw;
+                Shell_Address[wk->wu.id] = (u32*)tmw;
 
                 Guard_or_Jump_VS_Shell(wk, tmw, xx);
 
@@ -5143,17 +5143,17 @@ s32 Check_Shell(PLW *wk) {
 
     return 0;
 }
-s32 Check_Shell_Another_in_Flip(PLW *wk) {
+s32 Check_Shell_Another_in_Flip(PLW* wk) {
 #if defined(TARGET_PS2)
     s32 get_vs_shell_adrs(WORK * wk, s32 id, s32 ix, WORK_Other * *tmw);
 #endif
 
-    WORK_Other *tmw;
-    WORK *em;
+    WORK_Other* tmw;
+    WORK* em;
     s32 i;
     s32 xx = 0;
 
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
 
     for (i = 0; i < 8; i++) {
         if ((get_vs_shell_adrs(em, em->id, i, &tmw) == 0) && (get_vs_shell_adrs(&wk->wu, em->id, i, &tmw) == 0)) {
@@ -5182,14 +5182,14 @@ s32 Check_Shell_Another_in_Flip(PLW *wk) {
 
         xx = Compute_Hit_Time(wk, tmw);
 
-        Shell_Address[wk->wu.id] = (u32 *)tmw;
+        Shell_Address[wk->wu.id] = (u32*)tmw;
 
         break;
     }
     return xx;
 }
 
-s32 Check_Ignore_Shell(WORK_Other *tmw) {
+s32 Check_Ignore_Shell(WORK_Other* tmw) {
     if (tmw->wu.type == 0xDE) {
         return 1;
     }
@@ -5212,7 +5212,7 @@ s32 Check_Ignore_Shell(WORK_Other *tmw) {
     return 0;
 }
 
-s32 Compute_Hit_Time(PLW *wk, WORK_Other *tmw) {
+s32 Compute_Hit_Time(PLW* wk, WORK_Other* tmw) {
     s32 lx1;
     s32 divsp;
     s16 x2;
@@ -5237,7 +5237,7 @@ s32 Compute_Hit_Time(PLW *wk, WORK_Other *tmw) {
     return x2;
 }
 
-s32 Decide_Shell_Guard(PLW *wk, WORK_Other *tmw) {
+s32 Decide_Shell_Guard(PLW* wk, WORK_Other* tmw) {
     s16 xx;
 
     Lv = Setup_Lv10(0);
@@ -5259,7 +5259,7 @@ s32 Decide_Shell_Guard(PLW *wk, WORK_Other *tmw) {
     return 1;
 }
 
-void Guard_or_Jump_VS_Shell(PLW *wk, WORK_Other *tmw, s16 xx) {
+void Guard_or_Jump_VS_Shell(PLW* wk, WORK_Other* tmw, s16 xx) {
     if (xx <= Shell_Dodge_Data[0][wk->player_number]) {
         if (Check_Flip_Term(wk, &tmw->wu) != 0) {
             Pattern_Index[wk->wu.id] = 9;
@@ -5293,7 +5293,7 @@ void Guard_or_Jump_VS_Shell(PLW *wk, WORK_Other *tmw, s16 xx) {
     Setup_Shell_Disposal(wk, tmw);
 }
 
-void Setup_Shell_Disposal(PLW *wk, WORK_Other *tmw) {
+void Setup_Shell_Disposal(PLW* wk, WORK_Other* tmw) {
     switch (Pattern_Index[wk->wu.id]) {
     case 0:
         Next_Be_Shell_Guard(wk, &tmw->wu);
@@ -5312,7 +5312,7 @@ void Setup_Shell_Disposal(PLW *wk, WORK_Other *tmw) {
     }
 }
 
-void Next_Be_Shell_Guard(PLW *wk, WORK *tmw) {
+void Next_Be_Shell_Guard(PLW* wk, WORK* tmw) {
     CP_No[wk->wu.id][0] = 9;
     CP_No[wk->wu.id][1] = 0;
     CP_No[wk->wu.id][2] = 0;
@@ -5324,7 +5324,7 @@ void Next_Be_Shell_Guard(PLW *wk, WORK *tmw) {
     Check_Guard_Type(wk, tmw);
 }
 
-s32 Decide_Shell_Reaction(PLW *wk, WORK_Other *tmw, u16 dir_step) {
+s32 Decide_Shell_Reaction(PLW* wk, WORK_Other* tmw, u16 dir_step) {
     if (dir_step == 0xFF) {
         return 0;
     }
@@ -5354,7 +5354,7 @@ s32 Ck_Distance_XX(s16 x1, s16 x2) {
     return xx;
 }
 
-s32 Check_Behind(PLW *wk, WORK_Other *tmw) {
+s32 Check_Behind(PLW* wk, WORK_Other* tmw) {
     if (wk->wu.rl_waza == 0) {
         if (wk->wu.xyz[0].disp.pos < tmw->wu.xyz[0].disp.pos) {
             return 1;
@@ -5368,11 +5368,11 @@ s32 Check_Behind(PLW *wk, WORK_Other *tmw) {
     }
 }
 
-typedef s32 (*Term_Tbl_t)(PLW *wk, WORK *em);
+typedef s32 (*Term_Tbl_t)(PLW* wk, WORK* em);
 const Term_Tbl_t Exit_Term_Tbl[9] = { Exit_Term_0000, Exit_Term_0001, Exit_Term_0002, Exit_Term_0003, Exit_Term_0004,
                                       Exit_Term_0005, Exit_Term_0006, Exit_Term_0007, Exit_Term_0008 };
 
-void Setup_Lever_LR(PLW *wk, s16 PL_id, s16 Lever) {
+void Setup_Lever_LR(PLW* wk, s16 PL_id, s16 Lever) {
     if (Lever == 0) {
         Lever_LR[PL_id] = 0;
     } else {
@@ -5394,7 +5394,7 @@ void Setup_Lever_LR(PLW *wk, s16 PL_id, s16 Lever) {
     }
 }
 
-s32 Check_Exit_Term(PLW *wk, WORK *em, s16 Exit_No) {
+s32 Check_Exit_Term(PLW* wk, WORK* em, s16 Exit_No) {
     s16 xx;
 
     if (VS_Jump_Term(wk, em, &xx) != 0) {
@@ -5403,7 +5403,7 @@ s32 Check_Exit_Term(PLW *wk, WORK *em, s16 Exit_No) {
     return Exit_Term_Tbl[Exit_No](wk, em);
 }
 
-s32 VS_Jump_Term(PLW *wk, WORK *em, s16 *xx) {
+s32 VS_Jump_Term(PLW* wk, WORK* em, s16* xx) {
     if (Attack_Flag[wk->wu.id] == 0) {
         return 0;
     }
@@ -5444,7 +5444,7 @@ s32 VS_Jump_Term(PLW *wk, WORK *em, s16 *xx) {
     return 0;
 }
 
-s32 Exit_Term_0000(PLW *wk, WORK *em) {
+s32 Exit_Term_0000(PLW* wk, WORK* em) {
     switch (Term_No[wk->wu.id]) {
     case 0:
         Term_No[wk->wu.id]++;
@@ -5461,11 +5461,11 @@ s32 Exit_Term_0000(PLW *wk, WORK *em) {
     return 0;
 }
 
-s32 Exit_Term_0001(PLW *wk, WORK *em) {
+s32 Exit_Term_0001(PLW* wk, WORK* em) {
     return 1;
 }
 
-s32 Exit_Term_0002(PLW *wk, WORK *em) {
+s32 Exit_Term_0002(PLW* wk, WORK* em) {
     if (em->routine_no[1] == 2) {
         return 1;
     }
@@ -5475,7 +5475,7 @@ s32 Exit_Term_0002(PLW *wk, WORK *em) {
     return 0;
 }
 
-s32 Exit_Term_0003(PLW *wk, WORK *em) {
+s32 Exit_Term_0003(PLW* wk, WORK* em) {
     switch (Term_No[wk->wu.id]) {
     case 0:
         Term_No[wk->wu.id]++;
@@ -5495,7 +5495,7 @@ s32 Exit_Term_0003(PLW *wk, WORK *em) {
     return 0;
 }
 
-s32 Exit_Term_0004(PLW *wk, WORK *em) {
+s32 Exit_Term_0004(PLW* wk, WORK* em) {
     switch (Term_No[wk->wu.id]) {
     case 0:
         Term_No[wk->wu.id]++;
@@ -5515,7 +5515,7 @@ s32 Exit_Term_0004(PLW *wk, WORK *em) {
     return 0;
 }
 
-s32 Exit_Term_0005(PLW *wk, WORK *em) {
+s32 Exit_Term_0005(PLW* wk, WORK* em) {
     switch (Term_No[wk->wu.id]) {
     case 0:
         Term_No[wk->wu.id]++;
@@ -5535,7 +5535,7 @@ s32 Exit_Term_0005(PLW *wk, WORK *em) {
     return 0;
 }
 
-s32 Exit_Term_0006(PLW *wk, WORK *em) {
+s32 Exit_Term_0006(PLW* wk, WORK* em) {
     switch (Term_No[wk->wu.id]) {
     case 0:
         Term_No[wk->wu.id]++;
@@ -5555,7 +5555,7 @@ s32 Exit_Term_0006(PLW *wk, WORK *em) {
     return 0;
 }
 
-s32 Exit_Term_0007(PLW *wk, WORK *em) {
+s32 Exit_Term_0007(PLW* wk, WORK* em) {
     switch (Term_No[wk->wu.id]) {
     case 0:
         Term_No[wk->wu.id]++;
@@ -5579,7 +5579,7 @@ s32 Exit_Term_0007(PLW *wk, WORK *em) {
     return 0;
 }
 
-s32 Exit_Term_0008(PLW *wk, WORK *em) {
+s32 Exit_Term_0008(PLW* wk, WORK* em) {
     switch (Term_No[wk->wu.id]) {
     case 0:
         Term_No[wk->wu.id]++;
@@ -5597,7 +5597,7 @@ s32 Exit_Term_0008(PLW *wk, WORK *em) {
     return 0;
 }
 
-s32 Check_Drop_Term(WORK *em, s16 Y) {
+s32 Check_Drop_Term(WORK* em, s16 Y) {
     if (em->mvxy.a[1].real.h >= 0) {
         return 0;
     }
@@ -5607,10 +5607,10 @@ s32 Check_Drop_Term(WORK *em, s16 Y) {
     return 1;
 }
 
-s32 Check_SHINRYU(PLW *wk) {
-    PLW *em;
+s32 Check_SHINRYU(PLW* wk) {
+    PLW* em;
 
-    em = (PLW *)wk->wu.target_adrs;
+    em = (PLW*)wk->wu.target_adrs;
 
     if (em->sa->ok != -1) {
         return 0;
@@ -5627,8 +5627,8 @@ s32 Check_SHINRYU(PLW *wk) {
 const Term_Tbl_t ETC_Term_Tbl[10] = { ETC_Term_0000, ETC_Term_0001, ETC_Term_0002, ETC_Term_0003, ETC_Term_0004,
                                       ETC_Term_0005, ETC_Term_0006, ETC_Term_0007, ETC_Term_0008, ETC_Term_0009 };
 
-void Check_BOSS(PLW *wk, u32 Next_Action, u16 Next_Menu) {
-    WORK *em = (WORK *)wk->wu.target_adrs;
+void Check_BOSS(PLW* wk, u32 Next_Action, u16 Next_Menu) {
+    WORK* em = (WORK*)wk->wu.target_adrs;
 
     if (Break_Into_CPU == 1) {
         Disposal_Again[wk->wu.id] = 1;
@@ -5645,8 +5645,8 @@ void Check_BOSS(PLW *wk, u32 Next_Action, u16 Next_Menu) {
     }
 }
 
-void Check_BOSS_EX(PLW *wk, u32 Next_Action, u16 Next_Menu) {
-    WORK *em = (WORK *)wk->wu.target_adrs;
+void Check_BOSS_EX(PLW* wk, u32 Next_Action, u16 Next_Menu) {
+    WORK* em = (WORK*)wk->wu.target_adrs;
 
     if (Break_Into_CPU != 1) {
         Disposal_Again[wk->wu.id] = 1;
@@ -5663,9 +5663,9 @@ void Check_BOSS_EX(PLW *wk, u32 Next_Action, u16 Next_Menu) {
     }
 }
 
-void ETC_Term(PLW *wk, s16 Exit_No, u32 Next_Action, u16 Next_Menu) {
+void ETC_Term(PLW* wk, s16 Exit_No, u32 Next_Action, u16 Next_Menu) {
     s16 xx;
-    WORK *em = (WORK *)wk->wu.target_adrs;
+    WORK* em = (WORK*)wk->wu.target_adrs;
 
     xx = ETC_Term_Tbl[Exit_No](wk, em);
 
@@ -5688,14 +5688,14 @@ void ETC_Term(PLW *wk, s16 Exit_No, u32 Next_Action, u16 Next_Menu) {
     }
 }
 
-s32 ETC_Term_0000(PLW *wk, WORK *em) {
+s32 ETC_Term_0000(PLW* wk, WORK* em) {
     if (Check_VS_Squat(wk, em, 0x1D, 0x21, 0x20) != 0) {
         return 1;
     }
     return 0;
 }
 
-s32 ETC_Term_0001(PLW *wk, WORK *em) {
+s32 ETC_Term_0001(PLW* wk, WORK* em) {
     if (wk->sa->ok != -1) {
         return 1;
     }
@@ -5708,21 +5708,21 @@ s32 ETC_Term_0001(PLW *wk, WORK *em) {
     return 0;
 }
 
-s32 ETC_Term_0002(PLW *wk, WORK *em) {
+s32 ETC_Term_0002(PLW* wk, WORK* em) {
     if (plw[wk->wu.id].wu.vital_new < 0x31) {
         return 1;
     }
     return 0;
 }
 
-s32 ETC_Term_0003(PLW *wk, WORK *em) {
+s32 ETC_Term_0003(PLW* wk, WORK* em) {
     if ((em->pat_status != 0x20) && (em->pat_status != 0x21) && (em->pat_status != 2)) {
         return 1;
     }
     return 0;
 }
 
-s32 ETC_Term_0004(PLW *wk, WORK *em) {
+s32 ETC_Term_0004(PLW* wk, WORK* em) {
     if (em->vital_new >= 0x50) {
         return 0;
     }
@@ -5732,14 +5732,14 @@ s32 ETC_Term_0004(PLW *wk, WORK *em) {
     return 1;
 }
 
-s32 ETC_Term_0005(PLW *wk, WORK *em) {
+s32 ETC_Term_0005(PLW* wk, WORK* em) {
     if (em->vital_new < plw[wk->wu.id].wu.vital_new) {
         return 1;
     }
     return 0;
 }
 
-s32 ETC_Term_0006(PLW *wk, WORK *em) {
+s32 ETC_Term_0006(PLW* wk, WORK* em) {
     switch (CP_Index[wk->wu.id][1]) {
     case 0:
         CP_Index[wk->wu.id][1]++;
@@ -5758,7 +5758,7 @@ s32 ETC_Term_0006(PLW *wk, WORK *em) {
     return -1;
 }
 
-s32 ETC_Term_0007(PLW *wk, WORK *em) {
+s32 ETC_Term_0007(PLW* wk, WORK* em) {
     if (plw[wk->wu.id].sa->kind_of_arts == 2) {
         return 1;
     }
@@ -5766,7 +5766,7 @@ s32 ETC_Term_0007(PLW *wk, WORK *em) {
     return 0;
 }
 
-s32 ETC_Term_0008(PLW *wk, WORK *em) {
+s32 ETC_Term_0008(PLW* wk, WORK* em) {
     if (plw[wk->wu.id].sa->kind_of_arts == 1) {
         return 1;
     }
@@ -5774,7 +5774,7 @@ s32 ETC_Term_0008(PLW *wk, WORK *em) {
     return 0;
 }
 
-s32 ETC_Term_0009(PLW *wk, WORK *em) {
+s32 ETC_Term_0009(PLW* wk, WORK* em) {
     if (plw[wk->wu.id].sa->kind_of_arts == 0) {
         return 1;
     }

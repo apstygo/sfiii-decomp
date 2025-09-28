@@ -41,7 +41,7 @@ NJDP2D_W njdp2d_w;
 MTX cmtx;
 
 #if !defined(TARGET_PS2)
-static void matmul(MTX *dst, const MTX *a, const MTX *b) {
+static void matmul(MTX* dst, const MTX* a, const MTX* b) {
     MTX result;
 
     for (int i = 0; i < 4; i++) {
@@ -55,7 +55,7 @@ static void matmul(MTX *dst, const MTX *a, const MTX *b) {
 }
 #endif
 
-void njUnitMatrix(MTX *mtx) {
+void njUnitMatrix(MTX* mtx) {
     if (mtx == NULL) {
         mtx = &cmtx;
     }
@@ -63,11 +63,11 @@ void njUnitMatrix(MTX *mtx) {
     sceVu0UnitMatrix(mtx->a);
 }
 
-void njGetMatrix(MTX *m) {
+void njGetMatrix(MTX* m) {
     *m = cmtx;
 }
 
-void njSetMatrix(MTX *md, MTX *ms) {
+void njSetMatrix(MTX* md, MTX* ms) {
     if (md == NULL) {
         md = &cmtx;
     }
@@ -75,7 +75,7 @@ void njSetMatrix(MTX *md, MTX *ms) {
     *md = *ms;
 }
 
-void njScale(MTX *mtx, f32 x, f32 y, f32 z) {
+void njScale(MTX* mtx, f32 x, f32 y, f32 z) {
     f32 v0[4];
 
     v0[0] = x;
@@ -112,7 +112,7 @@ void njScale(MTX *mtx, f32 x, f32 y, f32 z) {
 #endif
 }
 
-void njTranslate(MTX *mtx, f32 x, f32 y, f32 z) {
+void njTranslate(MTX* mtx, f32 x, f32 y, f32 z) {
     if (mtx == NULL) {
         mtx = &cmtx;
     }
@@ -163,7 +163,7 @@ void njColorBlendingMode(s32 target, s32 mode) {
     flSetRenderState(FLRENDER_ALPHABLENDMODE, 0x32);
 }
 
-void njCalcPoint(MTX *mtx, Vec3 *ps, Vec3 *pd) {
+void njCalcPoint(MTX* mtx, Vec3* ps, Vec3* pd) {
     f32 v0[4];
 
     if (mtx == NULL) {
@@ -205,7 +205,7 @@ void njCalcPoint(MTX *mtx, Vec3 *ps, Vec3 *pd) {
 #endif
 }
 
-void njCalcPoints(MTX *mtx, Vec3 *ps, Vec3 *pd, s32 num) {
+void njCalcPoints(MTX* mtx, Vec3* ps, Vec3* pd, s32 num) {
     s32 i;
 
     if (mtx == NULL) {
@@ -221,18 +221,18 @@ void njRotateZ(s32 /* unused */, s32 /* unused */) {
     // Do nothing
 }
 
-void njDrawTexture(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */) {
+void njDrawTexture(Polygon* polygon, s32 /* unused */, s32 tex, s32 /* unused */) {
     Vertex vtx[4];
     s32 i;
 
     for (i = 0; i < 4; i++) {
-        vtx[i] = ((_Polygon *)polygon)[i].v;
+        vtx[i] = ((_Polygon*)polygon)[i].v;
     }
 
     ppgWriteQuadWithST_B(vtx, polygon[0].col, NULL, tex, -1);
 }
 
-void njDrawSprite(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */) {
+void njDrawSprite(Polygon* polygon, s32 /* unused */, s32 tex, s32 /* unused */) {
     Vertex vtx[4];
 
     if ((getCP3toFullScreenDrawFlag() != 0) &&
@@ -240,8 +240,8 @@ void njDrawSprite(Polygon *polygon, s32 /* unused */, s32 tex, s32 /* unused */)
         return;
     }
 
-    vtx[0] = ((_Polygon *)polygon)[0].v;
-    vtx[3] = ((_Polygon *)polygon)[3].v;
+    vtx[0] = ((_Polygon*)polygon)[0].v;
+    vtx[3] = ((_Polygon*)polygon)[3].v;
 
     ppgWriteQuadWithST_B2(vtx, polygon[0].col, 0, tex, -1);
 }
@@ -270,7 +270,7 @@ void njdp2d_draw() {
             break;
 
         case 1:
-            shadow_drawing((WORK *)njdp2d_w.prim[i].col, njdp2d_w.prim[i].v[0].y);
+            shadow_drawing((WORK*)njdp2d_w.prim[i].col, njdp2d_w.prim[i].v[0].y);
             break;
         }
     }
@@ -280,7 +280,7 @@ void njdp2d_draw() {
 }
 
 // `col` needs to be `uintptr_t` because it sometimes stores a pointer to `WORK`
-void njdp2d_sort(f32 *pos, f32 pri, uintptr_t col, s32 flag) {
+void njdp2d_sort(f32* pos, f32 pri, uintptr_t col, s32 flag) {
     s32 i;
     s32 ix = njdp2d_w.total;
     s32 prev;
@@ -354,9 +354,9 @@ void njdp2d_sort(f32 *pos, f32 pri, uintptr_t col, s32 flag) {
     njdp2d_w.total += 1;
 }
 
-void njDrawPolygon2D(PAL_CURSOR *p, s32 /* unused */, f32 pri, u32 attr) {
+void njDrawPolygon2D(PAL_CURSOR* p, s32 /* unused */, f32 pri, u32 attr) {
     if (attr & 0x20) {
-        njdp2d_sort((f32 *)p->p, pri, p->col->color, 0);
+        njdp2d_sort((f32*)p->p, pri, p->col->color, 0);
     }
 }
 
@@ -369,12 +369,12 @@ void njSetPaletteMode(u32 mode) {
     mode = mode;
 }
 
-void njSetPaletteData(s32 offset, s32 count, void *data) {
+void njSetPaletteData(s32 offset, s32 count, void* data) {
     palCopyGhostDC(offset, count, data);
     palUpdateGhostDC();
 }
 
-s32 njReLoadTexturePartNumG(u32 gix, s8 *srcAdrs, u32 ofs, u32 size) {
-    ppgRenewDotDataSeqs(0, gix, (u32 *)srcAdrs, ofs, size);
+s32 njReLoadTexturePartNumG(u32 gix, s8* srcAdrs, u32 ofs, u32 size) {
+    ppgRenewDotDataSeqs(0, gix, (u32*)srcAdrs, ofs, size);
     return 1;
 }

@@ -8,7 +8,7 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_baif", D_00559920);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_baif", D_00559928);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_baif", ADXB_CheckAiff);
 #else
-Sint32 ADXB_CheckAiff(void *) {
+Sint32 ADXB_CheckAiff(void*) {
     not_implemented(__func__);
 }
 #endif
@@ -18,7 +18,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_baif", ADX_DecodeInfoA
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_baif", ADXB_DecodeHeaderAiff);
 #else
-Sint32 ADXB_DecodeHeaderAiff(ADXB, void *, Sint32) {
+Sint32 ADXB_DecodeHeaderAiff(ADXB, void*, Sint32) {
     not_implemented(__func__);
 }
 #endif

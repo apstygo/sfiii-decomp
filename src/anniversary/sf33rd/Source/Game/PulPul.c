@@ -240,7 +240,7 @@ void pulpul_request(s16 id, s16 ix) {
 #if defined(TARGET_PS2)
     s32 pulpul_req_copy();
 #endif
-    PULREQ *adr;
+    PULREQ* adr;
 
     if (vib_sel[id] == 0) {
         return;
@@ -262,7 +262,7 @@ void pulpul_request(s16 id, s16 ix) {
     pulpul_req_copy(id, adr);
 }
 
-void pulpul_req_copy(s16 id, PULREQ *adr) {
+void pulpul_req_copy(s16 id, PULREQ* adr) {
     ppwork[id].p[adr->prio].ppnew = ppwork[id].ok_dev;
     ppwork[id].p[adr->prio].rno[0] = 0;
     ppwork[id].p[adr->prio].rno[1] = adr->rno;
@@ -273,7 +273,7 @@ void pp_vib_on(s16 id) {
 #if defined(TARGET_PS2)
     s32 pulpul_req_copy();
 #endif
-    PULREQ *adr;
+    PULREQ* adr;
 
     adr = &pulreq[3];
     pulpul_req_copy(id, adr);
@@ -306,7 +306,7 @@ s32 chkVibUnit(s32 port) {
     return (flpad_adr)[0][port].conn.gc.etc1;
 }
 
-void move_pulpul(PPWORK *wk) {
+void move_pulpul(PPWORK* wk) {
 #if defined(TARGET_PS2)
     s32 pulpul_request();
     s32 pulpul_pdVibMxStart();
@@ -411,7 +411,7 @@ void move_pulpul(PPWORK *wk) {
     }
 }
 
-s32 pulpul_pdVibMxStart(PPWORK *wk, s32 arg1, s32 arg2, PULPARA *param) {
+s32 pulpul_pdVibMxStart(PPWORK* wk, s32 arg1, s32 arg2, PULPARA* param) {
     PULPARA adrs;
 
     adrs = *param;
@@ -433,7 +433,7 @@ s32 pulpul_pdVibMxStart(PPWORK *wk, s32 arg1, s32 arg2, PULPARA *param) {
     return vibParamTrans(wk->id, &adrs);
 }
 
-s32 vibParamTrans(s32 id, PULPARA *prm) {
+s32 vibParamTrans(s32 id, PULPARA* prm) {
     s32 vib_data_size;
     s32 rnum;
     u16 big;
@@ -532,7 +532,7 @@ void pp_pulpara_remake_at() {
     // do nothing
 }
 
-void pp_pulpara_remake_dm_all(WORK *wk) {
+void pp_pulpara_remake_dm_all(WORK* wk) {
 #if defined(TARGET_PS2)
     s32 pp_conv_kow();
     s32 pulpul_request();
@@ -544,7 +544,7 @@ void pp_pulpara_remake_dm_all(WORK *wk) {
     pulpul_request(wk->id, pp_dm_shock[ix]);
 }
 
-void pp_pulpara_guard(WORK *wk) {
+void pp_pulpara_guard(WORK* wk) {
 #if defined(TARGET_PS2)
     s32 pp_conv_kow();
     s32 pulpul_request();
@@ -553,7 +553,7 @@ void pp_pulpara_guard(WORK *wk) {
     pulpul_request(wk->id, pp_guard_shock[pp_conv_kow(wk->dm_kind_of_waza)]);
 }
 
-void pp_pulpara_hit(WORK *wk) {
+void pp_pulpara_hit(WORK* wk) {
 #if defined(TARGET_PS2)
     s32 pp_conv_kow();
     s32 pulpul_request();
@@ -562,7 +562,7 @@ void pp_pulpara_hit(WORK *wk) {
     pulpul_request(wk->id, pp_hit_shock[pp_conv_kow(wk->kind_of_waza)]);
 }
 
-void pp_pulpara_blocking(WORK *wk) {
+void pp_pulpara_blocking(WORK* wk) {
 #if defined(TARGET_PS2)
     s32 pp_conv_kow();
     s32 pulpul_request();
@@ -570,12 +570,12 @@ void pp_pulpara_blocking(WORK *wk) {
 
     pulpul_request(wk->id, 0x20);
 
-    if (((s16 *)wk->dmg_adrs)[3] == 1) {
+    if (((s16*)wk->dmg_adrs)[3] == 1) {
         pulpul_request((wk->id + 1) & 1, 0x21);
     }
 }
 
-void pp_pulpara_catch(WORK *wk) {
+void pp_pulpara_catch(WORK* wk) {
 #if defined(TARGET_PS2)
     s32 pulpul_request();
 #endif
@@ -583,7 +583,7 @@ void pp_pulpara_catch(WORK *wk) {
     pulpul_request(wk->id, 0x22);
 }
 
-void pp_pulpara_caught(WORK *wk) {
+void pp_pulpara_caught(WORK* wk) {
 #if defined(TARGET_PS2)
     s32 pulpul_request();
 #endif
@@ -595,7 +595,7 @@ void pp_pulpara_remake_nm_move(s32 arg0) {
     // do nothing
 }
 
-void pp_pulpara_shungokusatsu(WORK *wk) {
+void pp_pulpara_shungokusatsu(WORK* wk) {
 #if defined(TARGET_PS2)
     s32 pulpul_request();
 #endif

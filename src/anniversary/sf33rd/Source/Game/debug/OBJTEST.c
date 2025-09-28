@@ -11,7 +11,7 @@ PULREQ ot_pulreq[OT_PULREQ_MAX];
 PULPARA ot_pulpara[OT_PULPARA_MAX];
 
 void ot_make_curr_vib_data() {
-    const PPWORK_SUB_SUB *adrs;
+    const PPWORK_SUB_SUB* adrs;
     s16 i;
 
     for (i = 0; i < (OT_PULPARA_MAX + 1); i++) {

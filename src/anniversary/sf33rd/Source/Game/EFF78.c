@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/EFF78.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CALDIR.h"
 #include "sf33rd/Source/Game/CHARSET.h"
@@ -7,12 +8,11 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_78_move(WORK_Other *ewk) {
+void effect_78_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -46,7 +46,7 @@ void effect_78_move(WORK_Other *ewk) {
     }
 }
 
-s32 crow_fuss_check(WORK_Other *ewk) {
+s32 crow_fuss_check(WORK_Other* ewk) {
     s16 work;
 
     if (bg_w.quake_y_index > 3) {
@@ -74,7 +74,7 @@ const s16 eff78_data_tbl[4] = { 416, 71, 912, 64 };
 
 const s16 crow_char_tbl[3][3] = { { 8, 0, 64 }, { 18, -16, 64 }, { 13, 16, 64 } };
 
-void crow_fuss_move(WORK_Other *ewk) {
+void crow_fuss_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -182,17 +182,17 @@ s32 effect_78_init() {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 i;
-    const s16 *data_ptr = eff78_data_tbl;
+    const s16* data_ptr = eff78_data_tbl;
 
     for (i = 0; i < 2; i++) {
         if ((ix = pull_effect_work(4)) == -1) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 78;
         ewk->wu.work_id = 16;

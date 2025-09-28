@@ -1,21 +1,21 @@
 #include "sf33rd/Source/Game/EFF86.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/PLCNT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
 const s16 eff86_data_tbl00[7] = { 0, 2, 8224, 511, 56, 10, 18 };
 
-const s16 *eff86_adrs_tbl[1] = { eff86_data_tbl00 };
+const s16* eff86_adrs_tbl[1] = { eff86_data_tbl00 };
 
-void effect_86_move(WORK_Other *ewk) {
-    void (*eff86_jp_tbl[1])(WORK_Other *) = { eff86_0000 };
+void effect_86_move(WORK_Other* ewk) {
+    void (*eff86_jp_tbl[1])(WORK_Other*) = { eff86_0000 };
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -32,7 +32,7 @@ void effect_86_move(WORK_Other *ewk) {
     }
 }
 
-void eff86_0000(WORK_Other *ewk) {
+void eff86_0000(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -69,15 +69,15 @@ s32 effect_86_init(s16 type86) {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
-    const s16 *data_ptr;
+    const s16* data_ptr;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     data_ptr = eff86_adrs_tbl[type86];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 86;

@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/EffE0.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
@@ -6,13 +7,12 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void Setup_Char_E0(WORK_Other *ewk);
+void Setup_Char_E0(WORK_Other* ewk);
 
-void effect_E0_move(WORK_Other *ewk) {
+void effect_E0_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -110,7 +110,7 @@ void effect_E0_move(WORK_Other *ewk) {
     sort_push_request4(&ewk->wu);
 }
 
-void Setup_Char_E0(WORK_Other *ewk) {
+void Setup_Char_E0(WORK_Other* ewk) {
     ewk->wu.char_index = ((ewk->wu.direction - 1) * 4) + 35;
     ewk->wu.dir_step = 0;
 
@@ -125,14 +125,14 @@ s32 effect_E0_init(s16 Direction, s16 dm_vital, s16 Pos_Type) {
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 140;
     ewk->wu.work_id = 16;

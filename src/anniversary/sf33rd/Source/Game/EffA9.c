@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/EffA9.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
@@ -8,13 +9,12 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void Setup_A9(WORK_Other *ewk, s16 Char_Index, s16 Option, s16 Option2);
+void Setup_A9(WORK_Other* ewk, s16 Char_Index, s16 Option, s16 Option2);
 
-void effect_A9_move(WORK_Other *ewk) {
+void effect_A9_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -93,14 +93,14 @@ s32 effect_A9_init(s16 Char_Index, s16 Option, s16 Pos_Index, s16 Option2) {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 109;
     ewk->wu.work_id = 16;
@@ -118,7 +118,7 @@ s32 effect_A9_init(s16 Char_Index, s16 Option, s16 Pos_Index, s16 Option2) {
     return 0;
 }
 
-void Setup_A9(WORK_Other *ewk, s16 Char_Index, s16 Option, s16 Option2) {
+void Setup_A9(WORK_Other* ewk, s16 Char_Index, s16 Option, s16 Option2) {
     switch (Char_Index) {
     case 32:
         if (Option2) {

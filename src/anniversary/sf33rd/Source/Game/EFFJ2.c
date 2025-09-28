@@ -5,11 +5,11 @@
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effJ2_trans(WORK *ewk);
+void effJ2_trans(WORK* ewk);
 
 const CONN bbbs_nando_large[2] = { { 92, 78, 0, 0x7EC7 }, { -20, 78, 0, 0x7EC6 } };
 
-void effect_J2_move(WORK_Other_CONN *ewk) {
+void effect_J2_move(WORK_Other_CONN* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         switch (ewk->wu.routine_no[1]) {
@@ -53,21 +53,21 @@ void effect_J2_move(WORK_Other_CONN *ewk) {
     }
 }
 
-void effJ2_trans(WORK *ewk) {
+void effJ2_trans(WORK* ewk) {
     ewk->position_x = bg_w.bgw[1].wxy[0].disp.pos;
     ewk->position_y = bg_w.bgw[1].wxy[1].disp.pos;
     sort_push_request3(ewk);
 }
 
 s32 effect_J2_init(s16 delay) {
-    WORK_Other_CONN *ewk;
+    WORK_Other_CONN* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk = (WORK_Other_CONN*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 192;
     ewk->wu.work_id = 16;

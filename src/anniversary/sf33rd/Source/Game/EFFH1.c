@@ -1,16 +1,16 @@
 #include "sf33rd/Source/Game/EFFH1.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/end_data.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 
-void eff_h1_move(WORK_Other *ewk);
+void eff_h1_move(WORK_Other* ewk);
 
 const s16 effh1_wait_timer[8] = { 30, 120, 180, 40, 10, 200, 240, 50 };
 
@@ -18,7 +18,7 @@ const s16 effh1_data_tbl[8][5] = { { -96, 256, 74, 34, 10 }, { 64, 288, 74, 34, 
                                    { 128, 272, 78, 35, 28 }, { -32, 240, 74, 34, 2 }, { 96, 240, 74, 34, 2 },
                                    { -160, 224, 78, 35, 2 }, { 128, 224, 78, 35, 2 } };
 
-void effect_H1_move(WORK_Other *ewk) {
+void effect_H1_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         if (ewk->wu.old_rno[6] < end_w.r_no_2) {
@@ -40,7 +40,7 @@ void effect_H1_move(WORK_Other *ewk) {
     }
 }
 
-void eff_h1_move(WORK_Other *ewk) {
+void eff_h1_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -89,17 +89,17 @@ s32 effect_H1_init() {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 i;
-    const s16 *data_ptr = &effh1_data_tbl[0][0];
+    const s16* data_ptr = &effh1_data_tbl[0][0];
 
     for (i = 0; i < 8; i++) {
         if ((ix = pull_effect_work(4)) == -1) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.id = 171;
         ewk->wu.be_flag = 1;
         ewk->wu.type = i;
@@ -107,7 +107,7 @@ s32 effect_H1_init() {
         ewk->wu.cgromtype = 1;
         ewk->wu.old_rno[6] = end_w.r_no_2;
         ewk->wu.my_col_mode = 0x4200;
-        ewk->wu.char_table[0] = (u32 *)_end_char_table;
+        ewk->wu.char_table[0] = (u32*)_end_char_table;
         ewk->wu.my_family = 2;
         ewk->wu.my_col_code = 300;
         ewk->wu.xyz[0].disp.pos = *data_ptr++;

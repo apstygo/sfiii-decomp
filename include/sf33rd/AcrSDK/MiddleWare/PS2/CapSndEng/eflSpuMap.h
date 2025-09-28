@@ -33,11 +33,11 @@ typedef struct {
 } CURRMAP;
 
 extern CURRMAP CurrMap;  // size: 0x88, address: 0x6EA200
-extern PSPUMAP *pSpuMap; // size: 0x4, address: 0x57B250
+extern PSPUMAP* pSpuMap; // size: 0x4, address: 0x57B250
 extern u32 SpuTopAddr;   // size: 0x4, address: 0x57B248
 extern u32 CurrPage;     // size: 0x4, address: 0x57B24C
 
-s32 flSpuMapInit(PSPUMAP *pMap);
+s32 flSpuMapInit(PSPUMAP* pMap);
 s32 flSpuMapChgPage(u32 page);
 u32 flSpuMapGetBankAddr(u32 bank);
 

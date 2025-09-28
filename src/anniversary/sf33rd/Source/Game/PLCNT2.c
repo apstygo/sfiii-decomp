@@ -16,8 +16,8 @@
 
 void setup_bs_scrrrl_bs();
 void setup_bs_scrrrl_bs2();
-void move_P1_move_P2_bonus(s16 *field_work);
-void move_P2_move_P1_bonus(s16 *field_work);
+void move_P1_move_P2_bonus(s16* field_work);
+void move_P2_move_P1_bonus(s16* field_work);
 
 const s16 bsmr_range_table[3][2][2] = { { { 192, 192 }, { 192, 192 } },
                                         { { 64, 192 }, { 224, -136 } },
@@ -66,8 +66,8 @@ void plcnt_b_init() {
     switch (pcon_rno[1]) {
     case 0:
         pcon_rno[1] = 2;
-        work_init_zero((s32 *)&plw[0], sizeof(PLW));
-        work_init_zero((s32 *)&plw[1], sizeof(PLW));
+        work_init_zero((s32*)&plw[0], sizeof(PLW));
+        work_init_zero((s32*)&plw[1], sizeof(PLW));
         setup_base_and_other_data();
         pcon_dp_flag = 0;
         round_slow_flag = 0;
@@ -269,7 +269,7 @@ void move_player_work_bonus() {
     move_P2_move_P1_bonus(*bs_scrrrl);
 }
 
-void move_P1_move_P2_bonus(s16 *field_work) {
+void move_P1_move_P2_bonus(s16* field_work) {
 #if defined(TARGET_PS2)
     void Player_move_bonus(PLW * wk, u32 lv_data);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -292,7 +292,7 @@ void move_P1_move_P2_bonus(s16 *field_work) {
     }
 }
 
-void move_P2_move_P1_bonus(s16 *field_work) {
+void move_P2_move_P1_bonus(s16* field_work) {
 #if defined(TARGET_PS2)
     void Player_move_bonus(PLW * wk, u32 lv_data);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);

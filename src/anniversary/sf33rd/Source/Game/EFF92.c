@@ -8,7 +8,7 @@
 const u8 Rewrite_Mark_Data[13][2] = { { -1, 2 }, { 0, 2 },  { -1, 2 }, { 0, 2 },  { -1, 2 }, { 0, 2 },  { -1, 2 },
                                       { 0, 2 },  { -1, 2 }, { 0, 2 },  { -1, 2 }, { 0, 3 },  { -1, 99 } };
 
-void effect_92_move(WORK_Other *ewk) {
+void effect_92_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         if ((ewk->wu.dir_timer -= 1) == 0) {
@@ -36,14 +36,14 @@ void effect_92_move(WORK_Other *ewk) {
 }
 
 s32 effect_92_init(s16 PL_id, s16 win_number) {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 92;
     ewk->master_id = PL_id;

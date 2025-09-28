@@ -4,6 +4,6 @@
 #include "structs.h"
 #include "types.h"
 
-void effect_A1_move(WORK_Other *ewk);
+void effect_A1_move(WORK_Other* ewk);
 
 #endif

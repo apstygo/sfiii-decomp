@@ -7,7 +7,7 @@
 
 const u8 Contents_Check_Data_A3[23] = { 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0 };
 
-s8 *Letter_Data_A3[23][8] = {
+s8* Letter_Data_A3[23][8] = {
     { "NORMAL MODE",
       "RECORDING MODE",
       "REPLAY",
@@ -68,7 +68,7 @@ s8 *Letter_Data_A3[23][8] = {
     { "REPLAY DATA", "FINISHED$!", NULL, NULL, NULL, NULL, NULL, NULL }
 };
 
-void effect_A3_move(WORK_Other *ewk) {
+void effect_A3_move(WORK_Other* ewk) {
     s16 color;
     s16 ix;
     s16 clear_level;
@@ -128,14 +128,14 @@ void effect_A3_move(WORK_Other *ewk) {
 }
 
 s32 effect_A3_init(s16 id, u8 Type, u8 Type_in_Type, u8 dir_step, u8 Death_Type, s16 pos_x, s16 pos_y, s16 Buff) {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 103;
     ewk->wu.work_id = 16;

@@ -4,7 +4,7 @@
 #include "types.h"
 
 #define NULL 0
-#define REINTERPRET_AS_U32(_num) (*(u32 *)&(_num))
+#define REINTERPRET_AS_U32(_num) (*(u32*)&(_num))
 #define BOOL(_expr) ((_expr) ? 1 : 0)
 #define SPR 0x70000000
 
@@ -49,9 +49,9 @@ __asm__(".include \"include/cri_macro.inc\"\n");
 #define __dead2 __attribute__((__noreturn__))
 #endif
 
-void fatal_error(const s8 *fmt, ...) __dead2;
-void not_implemented(const s8 *func) __dead2;
-void debug_print(const char *fmt, ...);
+void fatal_error(const s8* fmt, ...) __dead2;
+void not_implemented(const s8* func) __dead2;
+void debug_print(const char* fmt, ...);
 
 #endif
 

@@ -56,8 +56,8 @@ void combo_cont_init() {
         cmb_calc_now[i] = 0;
         cst_read[i] = 0;
         cst_write[i] = 0;
-        work_init_zero((s32 *)&combo_type[i], sizeof(ComboType));
-        work_init_zero((s32 *)&remake_power[i], sizeof(ComboType));
+        work_init_zero((s32*)&combo_type[i], sizeof(ComboType));
+        work_init_zero((s32*)&remake_power[i], sizeof(ComboType));
         memset(calc_hit[i], 0, sizeof(calc_hit[0]));
         memset(score_calc[i], 0, sizeof(score_calc[0]));
     }
@@ -181,7 +181,7 @@ void check_and_set_combo(s8 PL) {
 }
 
 void combo_hensuu_clear(s8 PL) {
-    work_init_zero((s32 *)plw[PL].cb, sizeof(ComboType));
+    work_init_zero((s32*)plw[PL].cb, sizeof(ComboType));
     combo_rp_clear_check(PL);
     memset(calc_hit[PL], 0, sizeof(calc_hit[0]));
     memset(score_calc[PL], 0, sizeof(score_calc[0]));
@@ -194,7 +194,7 @@ void combo_hensuu_clear(s8 PL) {
 void combo_rp_clear_check(s8 PL) {
     if (plw[PL].wu.routine_no[1] != 1 || plw[PL].wu.routine_no[2] != 17 || plw[PL].wu.routine_no[3] == 0 ||
         plw[PL].wu.routine_no[3] == 3) {
-        work_init_zero((s32 *)plw[PL].rp, sizeof(ComboType));
+        work_init_zero((s32*)plw[PL].rp, sizeof(ComboType));
     }
 }
 
@@ -285,7 +285,7 @@ s32 paring_check(s8 PL) {
 }
 
 void hit_combo_check(s8 PL) {
-    s32 *sa_ptr = (s32 *)plw[PL].cb->kind_of[4][0];
+    s32* sa_ptr = (s32*)plw[PL].cb->kind_of[4][0];
     s8 lpx;
 
     for (lpx = 0; lpx < 20; lpx++) {
@@ -328,9 +328,9 @@ s32 arts_finish_check2(u8 PL) {
 }
 
 u32 SCORE_CALCULATION(s8 PL) {
-    s16 *c_ptr;
-    s16 *s_ptr;
-    s16 *k_ptr;
+    s16* c_ptr;
+    s16* s_ptr;
+    s16* k_ptr;
     s8 lpx;
     s8 lpy;
     s16 hit;

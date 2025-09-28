@@ -3,6 +3,6 @@
 
 #include <cri/cri_xpts.h>
 
-void SJERR_CallErr(const Char8 *msg);
+void SJERR_CallErr(const Char8* msg);
 
 #endif

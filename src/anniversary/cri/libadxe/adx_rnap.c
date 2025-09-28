@@ -36,11 +36,11 @@ void ADXRNA_Finish() {
     PS2RNA_Finish();
 }
 
-void ADXRNA_EntryErrFunc(void (*func)(void *, Char8 *), void *object) {
+void ADXRNA_EntryErrFunc(void (*func)(void*, Char8*), void* object) {
     // Do nothing
 }
 
-ADXRNA ADXRNA_Create(SJ *sjo, Sint32 maxnch) {
+ADXRNA ADXRNA_Create(SJ* sjo, Sint32 maxnch) {
     return PS2RNA_Create(sjo, maxnch);
 }
 

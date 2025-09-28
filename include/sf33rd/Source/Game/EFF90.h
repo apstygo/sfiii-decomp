@@ -4,6 +4,6 @@
 #include "structs.h"
 #include "types.h"
 
-void effect_90_move(WORK_Other_CONN *ewk);
+void effect_90_move(WORK_Other_CONN* ewk);
 
 #endif

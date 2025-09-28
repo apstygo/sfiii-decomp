@@ -17,7 +17,7 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_M5_move(WORK_Other *ewk) {
+void effect_M5_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -125,12 +125,12 @@ void effect_M5_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_M5_init(PLW *oya) {
+s32 effect_M5_init(PLW* oya) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 work;
 
@@ -138,7 +138,7 @@ s32 effect_M5_init(PLW *oya) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     demo_car_flag[oya->wu.id] = 0;
     ewk->wu.be_flag = 1;
     ewk->wu.id = 225;

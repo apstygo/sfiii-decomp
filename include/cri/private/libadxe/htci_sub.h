@@ -3,6 +3,6 @@
 
 #include <cri/ee/cri_xpt.h>
 
-Sint32 htci_load_flist(const Char8 *flist, Sint8 *buf);
+Sint32 htci_load_flist(const Char8* flist, Sint8* buf);
 
 #endif

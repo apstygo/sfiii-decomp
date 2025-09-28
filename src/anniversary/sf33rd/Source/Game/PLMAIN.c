@@ -23,16 +23,16 @@
 #include "sf33rd/Source/Game/spgauge.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void plmv_1010(PLW *wk);
-void plmv_1020(PLW *wk, s16 step);
-void mpg_union(PLW *wk);
-void eag_union(PLW *wk);
-void sag_union(PLW *wk);
-void addSAAttribute(u8 *kow, u16 *koa);
-void check_omop_vital(PLW *wk);
+void plmv_1010(PLW* wk);
+void plmv_1020(PLW* wk, s16 step);
+void mpg_union(PLW* wk);
+void eag_union(PLW* wk);
+void sag_union(PLW* wk);
+void addSAAttribute(u8* kow, u16* koa);
+void check_omop_vital(PLW* wk);
 s16 select_hit_stop(s16 ms, s16 sb);
 
-void Player_move(PLW *wk, u16 lv_data) {
+void Player_move(PLW* wk, u16 lv_data) {
 #if defined(TARGET_PS2)
     u16 check_illegal_lever_data(u32 data);
 #endif
@@ -101,7 +101,7 @@ u16 check_illegal_lever_data(u16 data) {
     return data;
 }
 
-void player_mv_0000(PLW *wk) {
+void player_mv_0000(PLW* wk) {
 #if defined(TARGET_PS2)
     void setup_vitality(WORK * wk, s32 pno);
     void metamor_color_restore(s32 wkid);
@@ -177,7 +177,7 @@ void player_mv_0000(PLW *wk) {
     about_gauge_process(wk);
 }
 
-void player_mv_1000(PLW *wk) {
+void player_mv_1000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_super_arts_status(s32 ix);
 #endif
@@ -220,7 +220,7 @@ void player_mv_1000(PLW *wk) {
     about_gauge_process(wk);
 }
 
-void plmv_1010(PLW *wk) {
+void plmv_1010(PLW* wk) {
     wk->wu.routine_no[0] = 3;
     wk->wu.routine_no[1] = 0;
     wk->wu.routine_no[2] = 1;
@@ -231,7 +231,7 @@ void plmv_1010(PLW *wk) {
     }
 }
 
-void plmv_1020(PLW *wk, s16 step) {
+void plmv_1020(PLW* wk, s16 step) {
     if (wk->wu.id) {
         wk->wu.rl_flag = 0;
         wk->wu.xyz[0].disp.pos = step + get_center_position();
@@ -245,7 +245,7 @@ void plmv_1020(PLW *wk, s16 step) {
     about_gauge_process(wk);
 }
 
-void player_mv_2000(PLW *wk) {
+void player_mv_2000(PLW* wk) {
     if (wk->wu.routine_no[2] == 1) {
         wk->wu.routine_no[0] = 3;
 
@@ -260,7 +260,7 @@ void player_mv_2000(PLW *wk) {
     about_gauge_process(wk);
 }
 
-void player_mv_3000(PLW *wk) {
+void player_mv_3000(PLW* wk) {
     if (gouki_app) {
         gouki_appear(wk);
     } else {
@@ -270,7 +270,7 @@ void player_mv_3000(PLW *wk) {
     about_gauge_process(wk);
 }
 
-void player_mv_4000(PLW *wk) {
+void player_mv_4000(PLW* wk) {
     wk->permited_koa = 0;
     check_extra_jump_timer(wk);
 
@@ -305,13 +305,13 @@ void player_mv_4000(PLW *wk) {
     about_gauge_process(wk);
 }
 
-s16 check_hit_stop(PLW *wk) {
+s16 check_hit_stop(PLW* wk) {
 #if defined(TARGET_PS2)
     s16 select_hit_stop(s32 ms, s32 sb);
 #endif
 
     s16 num;
-    WORK *emwk = (WORK *)wk->wu.target_adrs;
+    WORK* emwk = (WORK*)wk->wu.target_adrs;
 
     num = 0;
 
@@ -383,7 +383,7 @@ s16 select_hit_stop(s16 ms, s16 sb) {
     return ms * maf;
 }
 
-void look_after_timers(PLW *wk) {
+void look_after_timers(PLW* wk) {
     if (wk->tsukamarenai_flag) {
         wk->tsukamarenai_flag--;
     }
@@ -447,14 +447,14 @@ void look_after_timers(PLW *wk) {
     }
 }
 
-void about_gauge_process(PLW *wk) {
+void about_gauge_process(PLW* wk) {
     eag_union(wk);
     sag_union(wk);
     mpg_union(wk);
     add_sp_arts_gauge_maxbit(wk);
 }
 
-void mpg_union(PLW *wk) {
+void mpg_union(PLW* wk) {
     switch (wk->sa->mp_rno) {
     case 0:
         if (wk->sa->store == wk->sa->store_max) {
@@ -514,7 +514,7 @@ void mpg_union(PLW *wk) {
     }
 }
 
-void eag_union(PLW *wk) {
+void eag_union(PLW* wk) {
     switch (wk->sa->ex_rno) {
     case 0:
         if (wk->player_number == 14 || wk->player_number == 0) {
@@ -583,7 +583,7 @@ void eag_union(PLW *wk) {
     }
 }
 
-void sag_union(PLW *wk) {
+void sag_union(PLW* wk) {
     switch (wk->sa->sa_rno) {
     case 0:
         if (wk->sa->store) {
@@ -694,7 +694,7 @@ void sag_union(PLW *wk) {
                 /* fallthrough */
 
             case 2:
-                if ((wk->sa_stop_flag != 1) && (((PLW *)wk->wu.target_adrs)->sa_stop_flag != 1)) {
+                if ((wk->sa_stop_flag != 1) && (((PLW*)wk->wu.target_adrs)->sa_stop_flag != 1)) {
                     wk->sa->gauge.i -= wk->sa->dtm * wk->sa->dtm_mul;
                 }
 
@@ -776,7 +776,7 @@ void sag_union(PLW *wk) {
     }
 }
 
-void addSAAttribute(u8 *kow, u16 *koa) {
+void addSAAttribute(u8* kow, u16* koa) {
     switch (*kow & 0x78) {
     case 0:
     case 8:
@@ -792,7 +792,7 @@ void addSAAttribute(u8 *kow, u16 *koa) {
     }
 }
 
-void demo_set_sa_full(SA_WORK *sa) {
+void demo_set_sa_full(SA_WORK* sa) {
     sa->sa_rno = 1;
     sa->ok = 1;
     sa->store = sa->store_max;
@@ -802,7 +802,7 @@ void demo_set_sa_full(SA_WORK *sa) {
     sa->dtm_mul = 1;
 }
 
-void get_saikinnno_idouryou(PLW *wk) {
+void get_saikinnno_idouryou(PLW* wk) {
     s16 i;
 
     for (i = 0; i < 7; i++) {
@@ -815,7 +815,7 @@ void get_saikinnno_idouryou(PLW *wk) {
     wk->move_power >>= 3;
 }
 
-void clear_attack_num(WORK *wk) {
+void clear_attack_num(WORK* wk) {
     s16 i;
 
     for (i = 0; i < 4; i++) {
@@ -825,7 +825,7 @@ void clear_attack_num(WORK *wk) {
     wk->attack_num = 0;
 }
 
-void clear_tk_flags(PLW *wk) {
+void clear_tk_flags(PLW* wk) {
     wk->tk_success = 0;
     wk->tk_dageki = 0;
     wk->tk_nage = 0;
@@ -835,11 +835,11 @@ void clear_tk_flags(PLW *wk) {
     wk->def_plus = 8;
 }
 
-void (*const plmain_lv_00[5])(PLW *wk) = {
+void (*const plmain_lv_00[5])(PLW* wk) = {
     player_mv_0000, player_mv_1000, player_mv_2000, player_mv_3000, player_mv_4000
 };
 
-void (*const plmain_lv_02[5])(PLW *wk) = { Player_normal, Player_damage, Player_catch, Player_caught, Player_attack };
+void (*const plmain_lv_02[5])(PLW* wk) = { Player_normal, Player_damage, Player_catch, Player_caught, Player_attack };
 
 const u8 plpnm_mvkind[59] = { 0, 3, 3, 3, 3, 1, 1, 3, 3, 3, 3, 0, 0, 0, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3,
                               3, 2, 2, 2, 2, 2, 3, 3, 1, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -849,7 +849,7 @@ const u8 plpdm_mvkind[32] = { 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,
 
 const u8 plpxx_kind[5] = { 0, 1, 0, 1, 0 };
 
-void check_omop_vital(PLW *wk) {
+void check_omop_vital(PLW* wk) {
     if (pcon_dp_flag) {
         return;
     }

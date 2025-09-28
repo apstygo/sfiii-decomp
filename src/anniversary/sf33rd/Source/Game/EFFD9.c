@@ -46,16 +46,16 @@ const ColorTableIndex color_table_index[11] = {
     { 17, 24, coltbl_010_1P, coltbl_010_2P }
 };
 
-void effect_D9_move(WORK_Other *ewk) {
-    PLW *mwk = (PLW *)ewk->my_master;
+void effect_D9_move(WORK_Other* ewk) {
+    PLW* mwk = (PLW*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
         ewk->wu.routine_no[0]++;
         if (ewk->master_id) {
-            ewk->wu.step_xy_table = (s16 *)color_table_index[ewk->wu.direction].changetbl_2p;
+            ewk->wu.step_xy_table = (s16*)color_table_index[ewk->wu.direction].changetbl_2p;
         } else {
-            ewk->wu.step_xy_table = (s16 *)color_table_index[ewk->wu.direction].changetbl_1p;
+            ewk->wu.step_xy_table = (s16*)color_table_index[ewk->wu.direction].changetbl_1p;
         }
         ewk->wu.vital_old = color_table_index[ewk->wu.direction].flag;
         ewk->wu.dir_timer = color_table_index[ewk->wu.direction].timer;
@@ -126,15 +126,15 @@ void effect_D9_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_D9_init(PLW *wk, u8 data) {
-    WORK_Other *ewk;
+s32 effect_D9_init(PLW* wk, u8 data) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(6)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 139;
     ewk->wu.work_id = 16;
@@ -143,7 +143,7 @@ s32 effect_D9_init(PLW *wk, u8 data) {
     ewk->wu.dm_attribute = wk->wu.dm_attribute;
     ewk->wu.type = wk->wu.pat_status;
     ewk->wu.total_paring = wk->wu.kind_of_waza;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->master_id = wk->wu.id;
     ewk->master_work_id = wk->wu.work_id;
     ewk->master_player = wk->player_number;

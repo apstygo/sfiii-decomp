@@ -21,7 +21,7 @@ static const struct {
     u16 x;
     u16 y;
     u16 atr;
-    s8 *name;
+    s8* name;
 } sf3_staff[243] = { { -1, 48, 128, 3, "STREET FIGHTER {  3rd STRIKE" },
                      { -1, 48, 96, 3, "Fight for the Future" },
                      { -1, 48, 64, 3, "STAFF" },
@@ -284,8 +284,8 @@ static s32 check_shortcut() {
     return 0;
 }
 
-void set_credit_string(s32 t, s32 x, s32 y, s32 a, s8 *s) {
-    char *su;
+void set_credit_string(s32 t, s32 x, s32 y, s32 a, s8* s) {
+    char* su;
     s16 xu;
     s16 yu;
     s16 mojisuu;

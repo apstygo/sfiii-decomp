@@ -5,8 +5,8 @@
 
 #define ADXERR_MAX_LEN 0x100
 
-void (*adxerr_func)(void *, Sint8 *) = NULL;
-void *adxerr_obj = NULL;
+void (*adxerr_func)(void*, Sint8*) = NULL;
+void* adxerr_obj = NULL;
 char adxerr_msg[ADXERR_MAX_LEN] = { 0 };
 
 Sint8 D_006BDA48[32];
@@ -23,13 +23,13 @@ void ADXERR_Finish() {
     adxerr_obj = NULL;
 }
 
-void ADXERR_EntryErrFunc(void (*arg0)(void *, Sint8 *), void *arg1) {
+void ADXERR_EntryErrFunc(void (*arg0)(void*, Sint8*), void* arg1) {
     adxerr_func = arg0;
     adxerr_obj = arg1;
     SVM_SetCbErr(arg0, arg1);
 }
 
-void ADXERR_CallErrFunc1(Sint8 *msg) {
+void ADXERR_CallErrFunc1(Sint8* msg) {
     strncpy(adxerr_msg, msg, ADXERR_MAX_LEN - 1);
 
     if (adxerr_func != NULL) {
@@ -39,7 +39,7 @@ void ADXERR_CallErrFunc1(Sint8 *msg) {
     SVM_CallErr(adxerr_msg);
 }
 
-void ADXERR_CallErrFunc2(Sint8 *arg0, Sint8 *arg1) {
+void ADXERR_CallErrFunc2(Sint8* arg0, Sint8* arg1) {
     strncpy(adxerr_msg, arg0, ADXERR_MAX_LEN - 1);
     strncat(adxerr_msg, arg1, ADXERR_MAX_LEN - 1);
 
@@ -52,7 +52,7 @@ void ADXERR_CallErrFunc2(Sint8 *arg0, Sint8 *arg1) {
 
 #pragma divbyzerocheck
 
-void ADXERR_ItoA(Sint32 value, Sint8 *str, strlen_t base) {
+void ADXERR_ItoA(Sint32 value, Sint8* str, strlen_t base) {
     Sint32 i;
     strlen_t len;
 
@@ -76,7 +76,7 @@ void ADXERR_ItoA(Sint32 value, Sint8 *str, strlen_t base) {
     str[i] = '\0';
 }
 
-void ADXERR_ItoA2(Sint32 arg0, Sint32 arg1, Sint8 *str, Sint32 base) {
+void ADXERR_ItoA2(Sint32 arg0, Sint32 arg1, Sint8* str, Sint32 base) {
     ADXERR_ItoA(arg0, str, base);
     strncat(str, " ", base - strlen(str) - 1);
     ADXERR_ItoA(arg1, &str[strlen(str)], 4 - strlen(str));

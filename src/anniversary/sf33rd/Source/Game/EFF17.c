@@ -1,12 +1,12 @@
 #include "sf33rd/Source/Game/EFF17.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_17_move(WORK_Other *ewk) {
+void effect_17_move(WORK_Other* ewk) {
     if (Menu_Suicide[ewk->master_player]) {
         push_effect_work(&ewk->wu);
     } else if (Menu_Cursor_Y[0] == ewk->wu.type) {
@@ -19,7 +19,7 @@ void effect_17_move(WORK_Other *ewk) {
     sort_push_request4(&ewk->wu);
 }
 
-void EFF17_Bowan(WORK_Other *ewk) {
+void EFF17_Bowan(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         ewk->wu.my_clear_level -= 4;

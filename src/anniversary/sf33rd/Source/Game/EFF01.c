@@ -11,11 +11,11 @@ const s16 parts_colcd_table[14] = {
     0x2000, 0x0, 0x6, 0x2000, 0x4, 0x2020, 0x4, 0x4, 0x0, 0x6, 0x5, 0x4, 0x203C, 0x202A
 };
 
-void get_new_parts_data(WORK_Other *ewk, PLW *mwk);
-void set_parts_disp_flag(WORK_Other *ewk, PLW *mwk);
+void get_new_parts_data(WORK_Other* ewk, PLW* mwk);
+void set_parts_disp_flag(WORK_Other* ewk, PLW* mwk);
 
-void effect_01_move(WORK_Other *ewk) {
-    WORK *mwk = (WORK *)ewk->my_master;
+void effect_01_move(WORK_Other* ewk) {
+    WORK* mwk = (WORK*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -43,12 +43,12 @@ void effect_01_move(WORK_Other *ewk) {
                 ewk->wu.cg_olc.olc_ix[ewk->wu.type] = ewk->wu.cg_ix = mwk->cg_olc.olc_ix[ewk->wu.type];
                 ewk->wu.now_koc = ewk->wu.cg_ix;
 
-                if (ewk->wu.type == 0 && ((PLW *)mwk)->player_number == 0 && mwk->rl_flag) {
+                if (ewk->wu.type == 0 && ((PLW*)mwk)->player_number == 0 && mwk->rl_flag) {
                     ewk->wu.now_koc++;
                 }
 
-                get_new_parts_data(ewk, (PLW *)mwk);
-            } else if (((PLW *)mwk)->sa_stop_flag == 0) {
+                get_new_parts_data(ewk, (PLW*)mwk);
+            } else if (((PLW*)mwk)->sa_stop_flag == 0) {
                 if (--ewk->wu.cg_ctr == 0) {
                     if (ewk->wu.overlap_char_tbl->parts_nix) {
                         ewk->wu.cg_ix = ewk->wu.overlap_char_tbl->parts_nix;
@@ -57,7 +57,7 @@ void effect_01_move(WORK_Other *ewk) {
                     }
 
                     ewk->wu.now_koc = ewk->wu.cg_ix;
-                    get_new_parts_data(ewk, (PLW *)mwk);
+                    get_new_parts_data(ewk, (PLW*)mwk);
                 }
             }
 
@@ -102,7 +102,7 @@ void effect_01_move(WORK_Other *ewk) {
             break;
         }
 
-        set_parts_disp_flag(ewk, (PLW *)mwk);
+        set_parts_disp_flag(ewk, (PLW*)mwk);
 
         if (ewk->wu.overlap_char_tbl->parts_colcd == 0) {
             ewk->wu.my_col_code = mwk->my_col_code;
@@ -126,7 +126,7 @@ void effect_01_move(WORK_Other *ewk) {
     }
 }
 
-void get_new_parts_data(WORK_Other *ewk, PLW *mwk) {
+void get_new_parts_data(WORK_Other* ewk, PLW* mwk) {
     ewk->wu.now_koc = ewk->wu.cg_ix;
 
     if (ewk->wu.type == 0 && mwk->player_number == 0 && mwk->wu.rl_flag) {
@@ -138,7 +138,7 @@ void get_new_parts_data(WORK_Other *ewk, PLW *mwk) {
 
     if (ewk->wu.overlap_char_tbl->parts_colmd) {
         if (ewk->wu.overlap_char_tbl->parts_colmd == 1) {
-            ewk->wu.my_col_mode = ((WORK *)mwk->wu.target_adrs)->my_col_mode;
+            ewk->wu.my_col_mode = ((WORK*)mwk->wu.target_adrs)->my_col_mode;
         } else {
             ewk->wu.my_col_mode = parts_colmd_table[ewk->wu.overlap_char_tbl->parts_colmd];
         }
@@ -164,7 +164,7 @@ void get_new_parts_data(WORK_Other *ewk, PLW *mwk) {
     ewk->wu.cg_number = ewk->wu.overlap_char_tbl->parts_char;
 }
 
-void set_parts_disp_flag(WORK_Other *ewk, PLW *mwk) {
+void set_parts_disp_flag(WORK_Other* ewk, PLW* mwk) {
     switch (ewk->wu.overlap_char_tbl->parts_disp) {
     case 1:
         if (mwk->wu.disp_flag) {
@@ -198,22 +198,22 @@ void set_parts_disp_flag(WORK_Other *ewk, PLW *mwk) {
     }
 }
 
-s32 effect_01_init(WORK *wk, u8 koolc) {
-    WORK_Other *ewk;
+s32 effect_01_init(WORK* wk, u8 koolc) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(1)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 1;
     ewk->wu.work_id = 32;
     ewk->wu.type = koolc;
     ewk->wu.my_family = wk->my_family;
     ewk->wu.blink_timing = wk->blink_timing;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->master_work_id = wk->work_id;
     ewk->master_id = wk->id;
     ewk->wu.my_mts = wk->my_mts;

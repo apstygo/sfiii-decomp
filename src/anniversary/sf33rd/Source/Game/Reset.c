@@ -12,23 +12,23 @@
 u8 Reset_Status[2];
 u8 RESET_X;
 
-void Reset_Init(struct _TASK *task_ptr);
-void Reset_Move(struct _TASK *task_ptr);
-void Reset_Wait(struct _TASK *task_ptr);
-void Reset_Sleep(struct _TASK *task_ptr);
+void Reset_Init(struct _TASK* task_ptr);
+void Reset_Move(struct _TASK* task_ptr);
+void Reset_Wait(struct _TASK* task_ptr);
+void Reset_Sleep(struct _TASK* task_ptr);
 void Check_Reset();
 u8 Check_SoftReset(s16 PL_id);
 s32 Setup_Next_Disposal();
-void Check_Reset_IO(struct _TASK * /* unused */, s16 PL_id);
+void Check_Reset_IO(struct _TASK* /* unused */, s16 PL_id);
 
-void Reset_Task(struct _TASK *task_ptr) {
+void Reset_Task(struct _TASK* task_ptr) {
     void (*Main_Jmp_Tbl[4])() = { Reset_Init, Reset_Move, Reset_Wait, Reset_Sleep };
     Check_Reset_IO(task_ptr, 0);
     Check_Reset_IO(task_ptr, 1);
     Main_Jmp_Tbl[task_ptr->r_no[0]](task_ptr);
 }
 
-void Reset_Init(struct _TASK *task_ptr) {
+void Reset_Init(struct _TASK* task_ptr) {
     task_ptr->r_no[0] += 1;
     RESET_X = 0;
 }
@@ -37,7 +37,7 @@ u8 nowSoftReset() {
     return RESET_X != 0;
 }
 
-void Reset_Move(struct _TASK *task_ptr) {
+void Reset_Move(struct _TASK* task_ptr) {
     RESET_X = 0;
     Check_Reset();
 
@@ -52,7 +52,7 @@ void Reset_Move(struct _TASK *task_ptr) {
     }
 }
 
-void Reset_Wait(struct _TASK *task_ptr) {
+void Reset_Wait(struct _TASK* task_ptr) {
     ToneDown(0xFF, 0);
 
     switch (task_ptr->r_no[1]) {
@@ -72,7 +72,7 @@ void Reset_Wait(struct _TASK *task_ptr) {
     }
 }
 
-void Reset_Sleep(struct _TASK *task_ptr) {
+void Reset_Sleep(struct _TASK* task_ptr) {
     ToneDown(0xFF, 0);
 
     if (Pause_ID == 0) {
@@ -124,7 +124,7 @@ s32 Setup_Next_Disposal() {
     return 0;
 }
 
-void Check_Reset_IO(struct _TASK * /* unused */, s16 PL_id) {
+void Check_Reset_IO(struct _TASK* /* unused */, s16 PL_id) {
     u16 sw;
     u16 plsw;
 

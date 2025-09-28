@@ -42,10 +42,10 @@ const CONN bbbs_score[4][8] = { { { -64, 164, 0, 32474 },
                                   { 0, 0, 0, 0 },
                                   { 0, 0, 0, 0 } } };
 
-void eff16_trans(WORK *ewk);
-static s16 score_bunkai_eff16(WORK_Other_CONN *ewk, u32 tsc);
+void eff16_trans(WORK* ewk);
+static s16 score_bunkai_eff16(WORK_Other_CONN* ewk, u32 tsc);
 
-void effect_16_move(WORK_Other *ewk) {
+void effect_16_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         switch (ewk->wu.routine_no[1]) {
@@ -53,8 +53,7 @@ void effect_16_move(WORK_Other *ewk) {
             ewk->wu.routine_no[1]++;
             ewk->wu.disp_flag = 1;
             ewk->wu.old_cgnum = 0;
-            ewk->free =
-                score_bunkai_eff16((WORK_Other_CONN *)ewk, Continue_Coin[ewk->wu.type] + Score[ewk->wu.type][0]);
+            ewk->free = score_bunkai_eff16((WORK_Other_CONN*)ewk, Continue_Coin[ewk->wu.type] + Score[ewk->wu.type][0]);
             ewk->wu.direction = ewk->free;
             ewk->free = 0;
             ewk->wu.dir_timer = 0;
@@ -93,7 +92,7 @@ void effect_16_move(WORK_Other *ewk) {
             break;
         }
 
-        ewk->free = score_bunkai_eff16((WORK_Other_CONN *)ewk, Continue_Coin[ewk->wu.type] + Score[ewk->wu.type][0]);
+        ewk->free = score_bunkai_eff16((WORK_Other_CONN*)ewk, Continue_Coin[ewk->wu.type] + Score[ewk->wu.type][0]);
         eff16_trans(&ewk->wu);
         break;
 
@@ -107,13 +106,13 @@ void effect_16_move(WORK_Other *ewk) {
     }
 }
 
-void eff16_trans(WORK *ewk) {
+void eff16_trans(WORK* ewk) {
     ewk->position_x = bg_w.bgw[2].wxy[0].disp.pos;
     ewk->position_y = bg_w.bgw[2].wxy[1].disp.pos;
     sort_push_request3(ewk);
 }
 
-s16 score_bunkai_eff16(WORK_Other_CONN *ewk, u32 tsc) {
+s16 score_bunkai_eff16(WORK_Other_CONN* ewk, u32 tsc) {
     s16 noobjans = 0;
     s16 i;
     s16 ixs[8];
@@ -135,8 +134,8 @@ s16 score_bunkai_eff16(WORK_Other_CONN *ewk, u32 tsc) {
     return noobjans;
 }
 
-s32 effect_16_init(PLW *wk, s16 flag) {
-    WORK_Other_CONN *ewk;
+s32 effect_16_init(PLW* wk, s16 flag) {
+    WORK_Other_CONN* ewk;
     s16 ix;
     s16 i;
 
@@ -144,7 +143,7 @@ s32 effect_16_init(PLW *wk, s16 flag) {
         return -1;
     }
 
-    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk = (WORK_Other_CONN*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 16;
     ewk->wu.work_id = 16;

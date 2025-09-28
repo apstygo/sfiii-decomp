@@ -8,9 +8,9 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void Setup_Letter_51(WORK_Other_CONN *ewk);
+void Setup_Letter_51(WORK_Other_CONN* ewk);
 
-void effect_51_move(WORK_Other_CONN *ewk) {
+void effect_51_move(WORK_Other_CONN* ewk) {
     if (Menu_Suicide[ewk->master_player]) {
         push_effect_work(&ewk->wu);
         return;
@@ -31,14 +31,14 @@ s32 effect_51_init(s16 letter_type, s16 cursor_index, s16 master_player) {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other_CONN *ewk;
+    WORK_Other_CONN* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk = (WORK_Other_CONN*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.disp_flag = 1;
     ewk->wu.id = 51;
@@ -58,9 +58,9 @@ s32 effect_51_init(s16 letter_type, s16 cursor_index, s16 master_player) {
     return 0;
 }
 
-void Setup_Letter_51(WORK_Other_CONN *ewk) {
-    u8 *ptr =
-        (u8 *)Letter_Data_51[Menu_Page_Buff][ewk->wu.char_index][system_dir[1].contents[Menu_Page_Buff][ewk->wu.type]];
+void Setup_Letter_51(WORK_Other_CONN* ewk) {
+    u8* ptr =
+        (u8*)Letter_Data_51[Menu_Page_Buff][ewk->wu.char_index][system_dir[1].contents[Menu_Page_Buff][ewk->wu.type]];
     s16 ix = 0;
     s16 x = 0;
 

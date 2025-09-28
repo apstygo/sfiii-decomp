@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/EffK6.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
@@ -8,27 +9,26 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void EFFK6_WAIT(WORK_Other *ewk);
-void EFFK6_SLIDE_IN(WORK_Other *ewk);
-void EFFK6_SLIDE_OUT(WORK_Other *ewk);
-void EFFK6_SUDDENLY(WORK_Other *ewk);
-void EFFK6_KILL(WORK_Other *ewk);
-void EFFK6_MOVE(WORK_Other *ewk);
-void Setup_1st_PosK6(WORK_Other *ewk, s16 Who, s16 Play_Style);
-s16 Get_PosK6(WORK_Other *ewk, s16 Who, s16 Get_Type, s16 Play_Style);
-void Setup_CharK6(WORK_Other *ewk, s16 dm_vital);
-s16 Setup_K6_Index(WORK_Other *ewk);
+void EFFK6_WAIT(WORK_Other* ewk);
+void EFFK6_SLIDE_IN(WORK_Other* ewk);
+void EFFK6_SLIDE_OUT(WORK_Other* ewk);
+void EFFK6_SUDDENLY(WORK_Other* ewk);
+void EFFK6_KILL(WORK_Other* ewk);
+void EFFK6_MOVE(WORK_Other* ewk);
+void Setup_1st_PosK6(WORK_Other* ewk, s16 Who, s16 Play_Style);
+s16 Get_PosK6(WORK_Other* ewk, s16 Who, s16 Get_Type, s16 Play_Style);
+void Setup_CharK6(WORK_Other* ewk, s16 dm_vital);
+s16 Setup_K6_Index(WORK_Other* ewk);
 
 void (*const EFFK6_Jmp_Tbl[6])() = {
     EFFK6_WAIT, EFFK6_SLIDE_IN, EFFK6_SLIDE_OUT, EFFK6_SUDDENLY, EFFK6_MOVE, EFFK6_KILL
 };
 
-void effect_K6_move(WORK_Other *ewk) {
+void effect_K6_move(WORK_Other* ewk) {
     Check_Pos_OBJ(ewk);
     EFFK6_Jmp_Tbl[ewk->wu.routine_no[0]](ewk);
     ewk->wu.position_x = ewk->wu.xyz[0].disp.pos & 0xFFFF;
@@ -36,13 +36,13 @@ void effect_K6_move(WORK_Other *ewk) {
     sort_push_request4(&ewk->wu);
 }
 
-void EFFK6_WAIT(WORK_Other *ewk) {
+void EFFK6_WAIT(WORK_Other* ewk) {
     if ((ewk->wu.routine_no[0] = Order[ewk->wu.dir_old])) {
         ewk->wu.routine_no[1] = 0;
     }
 }
 
-void EFFK6_SLIDE_IN(WORK_Other *ewk) {
+void EFFK6_SLIDE_IN(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -131,7 +131,7 @@ void EFFK6_SLIDE_IN(WORK_Other *ewk) {
     }
 }
 
-void EFFK6_SLIDE_OUT(WORK_Other *ewk) {
+void EFFK6_SLIDE_OUT(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         if (ewk->wu.disp_flag == 0) {
@@ -171,7 +171,7 @@ void EFFK6_SLIDE_OUT(WORK_Other *ewk) {
     }
 }
 
-void EFFK6_SUDDENLY(WORK_Other *ewk) {
+void EFFK6_SUDDENLY(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -206,7 +206,7 @@ void EFFK6_SUDDENLY(WORK_Other *ewk) {
     }
 }
 
-void EFFK6_KILL(WORK_Other *ewk) {
+void EFFK6_KILL(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         if (--Order_Timer[ewk->wu.dir_old] == 0) {
@@ -222,7 +222,7 @@ void EFFK6_KILL(WORK_Other *ewk) {
     }
 }
 
-void EFFK6_MOVE(WORK_Other *ewk) {
+void EFFK6_MOVE(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
@@ -274,14 +274,14 @@ s32 effect_K6_init(s16 PL_id, s16 dir_old, s16 dm_vital, s16 Target_BG) {
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 206;
     ewk->wu.work_id = 16;
@@ -298,7 +298,7 @@ s32 effect_K6_init(s16 PL_id, s16 dir_old, s16 dm_vital, s16 Target_BG) {
     return 0;
 }
 
-void Setup_1st_PosK6(WORK_Other *ewk, s16 Who, s16 Play_Style) {
+void Setup_1st_PosK6(WORK_Other* ewk, s16 Who, s16 Play_Style) {
     if (ewk->master_id) {
         ewk->wu.mvxy.a[0].sp = -0xF0000;
         ewk->wu.mvxy.d[0].sp = 0;
@@ -314,7 +314,7 @@ void Setup_1st_PosK6(WORK_Other *ewk, s16 Who, s16 Play_Style) {
     }
 }
 
-s16 Get_PosK6(WORK_Other *ewk, s16 Who, s16 Get_Type, s16 Play_Style) {
+s16 Get_PosK6(WORK_Other* ewk, s16 Who, s16 Get_Type, s16 Play_Style) {
     if (ewk->master_id == 0) {
         switch (ewk->wu.direction) {
         default:
@@ -367,7 +367,7 @@ s16 Get_PosK6(WORK_Other *ewk, s16 Who, s16 Get_Type, s16 Play_Style) {
     }
 }
 
-void Setup_CharK6(WORK_Other *ewk, s16 dm_vital) {
+void Setup_CharK6(WORK_Other* ewk, s16 dm_vital) {
     s16 x;
 
     switch (dm_vital) {
@@ -393,7 +393,7 @@ void Setup_CharK6(WORK_Other *ewk, s16 dm_vital) {
     }
 }
 
-s16 Setup_K6_Index(WORK_Other *ewk) {
+s16 Setup_K6_Index(WORK_Other* ewk) {
     switch (ewk->wu.dir_old) {
     case 25:
     case 26:

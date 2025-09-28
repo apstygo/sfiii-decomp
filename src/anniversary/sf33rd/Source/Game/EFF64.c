@@ -8,14 +8,14 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void EFF64_WAIT(WORK_Other_CONN *ewk);
-void EFF64_SLIDE_IN(WORK_Other_CONN *ewk);
-void EFF64_CHAR_CHANGE(WORK_Other_CONN * /* unused */);
-void EFF64_SUDDENLY(WORK_Other_CONN * /* unused */);
-void Disp_64_Sub(WORK_Other_CONN *ewk);
-void Setup_Letter_64(WORK_Other_CONN *ewk, s16 disp_index);
+void EFF64_WAIT(WORK_Other_CONN* ewk);
+void EFF64_SLIDE_IN(WORK_Other_CONN* ewk);
+void EFF64_CHAR_CHANGE(WORK_Other_CONN* /* unused */);
+void EFF64_SUDDENLY(WORK_Other_CONN* /* unused */);
+void Disp_64_Sub(WORK_Other_CONN* ewk);
+void Setup_Letter_64(WORK_Other_CONN* ewk, s16 disp_index);
 
-const s8 *Letter_Data_64[16][16] = {
+const s8* Letter_Data_64[16][16] = {
     { "\"OFF\"", "\"/ON/\"", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL },
     { "#;;;;;;;",
       "##;;;;;;",
@@ -66,8 +66,8 @@ const s8 *Letter_Data_64[16][16] = {
 
 void (*const EFF64_Jmp_Tbl[4])() = { EFF64_WAIT, EFF64_SLIDE_IN, EFF64_CHAR_CHANGE, EFF64_SUDDENLY };
 
-void effect_64_move(WORK_Other_CONN *ewk) {
-    if (Check_Die_61((WORK_Other *)ewk)) {
+void effect_64_move(WORK_Other_CONN* ewk) {
+    if (Check_Die_61((WORK_Other*)ewk)) {
         push_effect_work(&ewk->wu);
         return;
     }
@@ -90,7 +90,7 @@ void effect_64_move(WORK_Other_CONN *ewk) {
     sort_push_request3(&ewk->wu);
 }
 
-void EFF64_WAIT(WORK_Other_CONN *ewk) {
+void EFF64_WAIT(WORK_Other_CONN* ewk) {
     if ((ewk->wu.routine_no[0] = Order[ewk->wu.dir_old])) {
         ewk->wu.routine_no[1] = 0;
     }
@@ -98,7 +98,7 @@ void EFF64_WAIT(WORK_Other_CONN *ewk) {
     Disp_64_Sub(ewk);
 }
 
-void EFF64_SLIDE_IN(WORK_Other_CONN *ewk) {
+void EFF64_SLIDE_IN(WORK_Other_CONN* ewk) {
     if (Order[ewk->wu.dir_old] != 1) {
         ewk->wu.routine_no[0] = Order[ewk->wu.dir_old];
         ewk->wu.routine_no[1] = 0;
@@ -141,9 +141,9 @@ void EFF64_SLIDE_IN(WORK_Other_CONN *ewk) {
     }
 }
 
-void EFF64_CHAR_CHANGE(WORK_Other_CONN * /* unused */) {}
+void EFF64_CHAR_CHANGE(WORK_Other_CONN* /* unused */) {}
 
-void EFF64_SUDDENLY(WORK_Other_CONN * /* unused */) {}
+void EFF64_SUDDENLY(WORK_Other_CONN* /* unused */) {}
 
 s32 effect_64_init(u8 dir_old, s16 sync_bg, s16 master_player, s16 letter_type, s16 cursor_index, u16 char_offset,
                    s16 pos_index, s16 convert_id, s16 convert_id2) {
@@ -151,14 +151,14 @@ s32 effect_64_init(u8 dir_old, s16 sync_bg, s16 master_player, s16 letter_type, 
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other_CONN *ewk;
+    WORK_Other_CONN* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk = (WORK_Other_CONN*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 64;
     ewk->wu.work_id = 16;
@@ -178,15 +178,15 @@ s32 effect_64_init(u8 dir_old, s16 sync_bg, s16 master_player, s16 letter_type, 
     return 0;
 }
 
-void Disp_64_Sub(WORK_Other_CONN *ewk) {
+void Disp_64_Sub(WORK_Other_CONN* ewk) {
     Setup_Letter_64(ewk, Convert_Buff[ewk->master_priority][ewk->wu.cg_type][ewk->wu.type]);
 }
 
-void Setup_Letter_64(WORK_Other_CONN *ewk, s16 disp_index) {
+void Setup_Letter_64(WORK_Other_CONN* ewk, s16 disp_index) {
     s16 x;
     s16 ix;
     s16 offset_x;
-    const u8 *ptr;
+    const u8* ptr;
 
     if (ewk->wu.old_cgnum == 0x70A7) {
         offset_x = 8;
@@ -194,7 +194,7 @@ void Setup_Letter_64(WORK_Other_CONN *ewk, s16 disp_index) {
         offset_x = 14;
     }
 
-    ptr = (u8 *)Letter_Data_64[ewk->wu.char_index][disp_index];
+    ptr = (u8*)Letter_Data_64[ewk->wu.char_index][disp_index];
     ix = 0;
     x = 0;
 

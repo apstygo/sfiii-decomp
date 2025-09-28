@@ -62,13 +62,13 @@ const s16 st1100_data_tbl[32] = { 0, 1, 8492, 256, 64,  90, 0, 0, 0, 1, 8492, 38
 
 const s16 st1400_data_tbl[8] = { 0, 3, 300, 496, 64, 88, 4, 0 };
 
-const s16 *scr_obj_data6[22] = { st0000_data_tbl,  st0100_data_tbl,  st0200_data_tbl, stg_dum_data_tbl, st0400_data_tbl,
+const s16* scr_obj_data6[22] = { st0000_data_tbl,  st0100_data_tbl,  st0200_data_tbl, stg_dum_data_tbl, st0400_data_tbl,
                                  st0500_data_tbl,  stg_dum_data_tbl, st0700_data_tbl, st0800_data_tbl,  st0900_data_tbl,
                                  st0A00_data_tbl,  st0B00_data_tbl,  st0c00_data_tbl, st0100_data_tbl,  st0e00_data_tbl,
                                  st1000_data_tbl,  st1100_data_tbl,  st0500_data_tbl, st1300_data_tbl,  st1400_data_tbl,
                                  stg_dum_data_tbl, stg_dum_data_tbl };
 
-void effect_06_move(WORK_Other *ewk) {
+void effect_06_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -105,11 +105,11 @@ s32 effect_06_init() {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 lp_cnt = scr_obj_num6[bg_w.bg_index];
     s16 i;
-    const s16 *data_ptr;
+    const s16* data_ptr;
 
     if (lp_cnt == 0) {
         return 0;
@@ -122,7 +122,7 @@ s32 effect_06_init() {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 6;
         ewk->wu.work_id = 16;

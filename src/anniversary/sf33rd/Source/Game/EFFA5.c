@@ -5,9 +5,9 @@
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-s32 Check_Sleep_A5(WORK_Other *ewk);
+s32 Check_Sleep_A5(WORK_Other* ewk);
 
-void effect_A5_move(WORK_Other *ewk) {
+void effect_A5_move(WORK_Other* ewk) {
     if (Present_Mode == 4 || Present_Mode == 5) {
         return;
     }
@@ -82,7 +82,7 @@ void effect_A5_move(WORK_Other *ewk) {
     }
 }
 
-s32 Check_Sleep_A5(WORK_Other *ewk) {
+s32 Check_Sleep_A5(WORK_Other* ewk) {
     if (Time_Stop == 2) {
         ewk->wu.routine_no[0] = 0;
     }
@@ -91,14 +91,14 @@ s32 Check_Sleep_A5(WORK_Other *ewk) {
 }
 
 s32 effect_A5_init() {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 105;
     return 0;

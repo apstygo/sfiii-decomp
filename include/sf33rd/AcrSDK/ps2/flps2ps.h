@@ -4,6 +4,6 @@
 #include "structs.h"
 #include "types.h"
 
-s32 flPS2psAddQueue(QWORD *dma_data);
+s32 flPS2psAddQueue(QWORD* dma_data);
 
 #endif

@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/eff73.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
@@ -6,7 +7,6 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 
@@ -18,7 +18,7 @@ const s16 eff73_vanish_tbl[8] = { 0x003C, 0x0018, 0x0026, 0x000E, 0x0016, 0x001C
 
 const s16 eff73_survive_tbl[8] = { 0x0000, 0x0001, 0x0002, 0x0003, 0x0003, 0x0002, 0x0001, 0x0000 };
 
-void effect_73_move(WORK_Other *ewk) {
+void effect_73_move(WORK_Other* ewk) {
     if (obr_no_disp_check()) {
         return;
     }
@@ -90,8 +90,8 @@ void effect_73_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_73_init(WORK_Other *oya) {
-    WORK_Other *ewk;
+s32 effect_73_init(WORK_Other* oya) {
+    WORK_Other* ewk;
     s16 ix;
     s16 i;
     s16 work;
@@ -109,11 +109,11 @@ s32 effect_73_init(WORK_Other *oya) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 73;
         ewk->wu.work_id = 16;
-        ewk->my_master = (u32 *)oya;
+        ewk->my_master = (u32*)oya;
         ewk->wu.cgromtype = 1;
         ewk->wu.rl_flag = 0;
         ewk->wu.type = i;

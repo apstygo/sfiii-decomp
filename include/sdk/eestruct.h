@@ -217,7 +217,7 @@ typedef struct {
     ((u_long)(nloop) | ((u_long)(eop) << 15) | ((u_long)(pre) << 46) | ((u_long)(prim) << 47) |                        \
      ((u_long)(flg) << 58) | ((u_long)(nreg) << 60))
 
-#define SCE_GIF_CLEAR_TAG(tp) (*(u_long128 *)(tp) = (u_long128)0)
+#define SCE_GIF_CLEAR_TAG(tp) (*(u_long128*)(tp) = (u_long128)0)
 
 #define SCE_GIF_PACKED 0
 #define SCE_GIF_REGLIST 1
@@ -373,8 +373,8 @@ typedef struct {
 // #ifdef GS_PAL_MODE
 
 /* PAL, NOINTERLACE */
-// #define SCE_GS_SET_DISPLAY_NOINTERLACE(dx, dy, magh, magv, dw, dh)                                                     \
-//     ((u_long)(0x290 + (dx)) | ((u_long)(36 + (dy)) << 12) | ((u_long)(magh) << 23) | ((u_long)(magv) << 27) |          \
+// #define SCE_GS_SET_DISPLAY_NOINTERLACE(dx, dy, magh, magv, dw, dh) \
+//     ((u_long)(0x290 + (dx)) | ((u_long)(36 + (dy)) << 12) | ((u_long)(magh) << 23) | ((u_long)(magv) << 27) | \
 //      ((u_long)(dw) << 32) | ((u_long)(dh) << 44))
 
 // /* PAL, INTERLACE */

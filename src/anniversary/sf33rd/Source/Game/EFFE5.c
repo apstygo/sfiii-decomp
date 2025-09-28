@@ -41,15 +41,15 @@ const u16 illusion_setup_table[13][2] = {
     { 0, 12 }, { 0, 13 }, { 0, 0 }, { 0, 15 }, { 0, 17 }, { 0, 18 },
 };
 
-s32 check_new_after_image(WORK_Other *ewk, PLW *mwk);
-void setup_illusion_data(WORK_Other *ewk, PLW *mwk);
+s32 check_new_after_image(WORK_Other* ewk, PLW* mwk);
+void setup_illusion_data(WORK_Other* ewk, PLW* mwk);
 
-void effect_E5_move(WORK_Other *ewk) {
+void effect_E5_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     s32 effect_E8_init(WORK_Other * ek, PLW * mk, s32 data);
 #endif
 
-    PLW *mwk = (PLW *)ewk->my_master;
+    PLW* mwk = (PLW*)ewk->my_master;
     s16 i;
 
     switch (ewk->wu.routine_no[0]) {
@@ -97,10 +97,10 @@ void effect_E5_move(WORK_Other *ewk) {
              (ewk->wu.routine_no[5] != mwk->wu.routine_no[1] || ewk->wu.routine_no[6] != mwk->wu.routine_no[2]) &&
              (mwk->image_data_index != 11 || mwk->wu.routine_no[1] != 4 || mwk->wu.routine_no[3] != 0)) ||
             (ewk->wu.dir_old & 4 && mwk->sa->ok != -1) ||
-            (ewk->wu.dir_old & 8 && ((WORK *)mwk->wu.target_adrs)->routine_no[1] != 4 &&
-             ((WORK *)mwk->wu.target_adrs)->routine_no[1] != 2) ||
+            (ewk->wu.dir_old & 8 && ((WORK*)mwk->wu.target_adrs)->routine_no[1] != 4 &&
+             ((WORK*)mwk->wu.target_adrs)->routine_no[1] != 2) ||
             (ewk->wu.dir_old & 0x10 && mwk->wu.routine_no[1] != 4 && mwk->wu.routine_no[1] != 2) ||
-            (ewk->wu.dir_old & 0x20 && ewk->wu.total_att_set != ((WORK *)mwk->wu.target_adrs)->kind_of_waza) ||
+            (ewk->wu.dir_old & 0x20 && ewk->wu.total_att_set != ((WORK*)mwk->wu.target_adrs)->kind_of_waza) ||
             (ewk->wu.dir_old & 0x40 && ewk->wu.total_paring != mwk->wu.kind_of_waza) ||
             (ewk->wu.dir_old & 0x80 && pcon_dp_flag) || !mwk->image_setup_flag) {
             mwk->image_setup_flag = 0;
@@ -178,12 +178,12 @@ void effect_E5_move(WORK_Other *ewk) {
     }
 }
 
-void setup_illusion_data(WORK_Other *ewk, PLW *mwk) {
+void setup_illusion_data(WORK_Other* ewk, PLW* mwk) {
 #if defined(TARGET_PS2)
     void push_color_trans_req(s32 from_col, s32 to_col);
 #endif
 
-    const u16 *tblh = after_image_data[mwk->image_data_index];
+    const u16* tblh = after_image_data[mwk->image_data_index];
 
     if (tblh[0] & 0x10) {
         ewk->wu.disp_flag = 1;
@@ -209,12 +209,12 @@ void setup_illusion_data(WORK_Other *ewk, PLW *mwk) {
     ewk->wu.routine_no[5] = mwk->wu.routine_no[1];
     ewk->wu.routine_no[6] = mwk->wu.routine_no[2];
     ewk->wu.total_paring = mwk->wu.kind_of_waza;
-    ewk->wu.total_att_set = ((WORK *)mwk->wu.target_adrs)->kind_of_waza;
+    ewk->wu.total_att_set = ((WORK*)mwk->wu.target_adrs)->kind_of_waza;
     push_color_trans_req(after_image_color[ewk->wu.old_rno[4]][mwk->wu.id], (mwk->wu.id * 8) + 4);
     mwk->image_setup_flag = 1;
 }
 
-s32 check_new_after_image(WORK_Other *ewk, PLW *mwk) {
+s32 check_new_after_image(WORK_Other* ewk, PLW* mwk) {
     if (mwk->image_setup_flag != 2) {
         return 0;
     }
@@ -226,15 +226,15 @@ s32 check_new_after_image(WORK_Other *ewk, PLW *mwk) {
     return 1;
 }
 
-s32 effect_E5_init(PLW *wk) {
-    WORK_Other *ewk;
+s32 effect_E5_init(PLW* wk) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     wk->illusion_work = &ewk->wu;
     ewk->wu.be_flag = 1;
     ewk->wu.id = 145;
@@ -243,7 +243,7 @@ s32 effect_E5_init(PLW *wk) {
     ewk->wu.cgromtype = wk->wu.cgromtype;
     ewk->wu.my_col_mode = wk->wu.my_col_mode;
     ewk->wu.my_col_code = wk->wu.my_col_code;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->master_work_id = wk->wu.work_id;
     ewk->master_id = wk->wu.id;
     ewk->master_player = wk->player_number;
@@ -251,7 +251,7 @@ s32 effect_E5_init(PLW *wk) {
     return 0;
 }
 
-void effect_e7_e8_init_union(WORK_Other *nwk, WORK_Other *ek, PLW *mk) {
+void effect_e7_e8_init_union(WORK_Other* nwk, WORK_Other* ek, PLW* mk) {
     nwk->wu.old_rno[4] = ek->wu.old_rno[4];
     nwk->wu.old_rno[3] = ek->wu.old_rno[3];
     nwk->wu.old_rno[1] = ek->wu.old_rno[1];
@@ -268,8 +268,8 @@ void effect_e7_e8_init_union(WORK_Other *nwk, WORK_Other *ek, PLW *mk) {
     nwk->wu.dmcal_d = ek->wu.dmcal_d;
     nwk->wu.dmcal_m = ek->wu.dmcal_m;
     nwk->wu.blink_timing = mk->wu.blink_timing;
-    nwk->wu.target_adrs = (u32 *)ek;
-    nwk->my_master = (u32 *)mk;
+    nwk->wu.target_adrs = (u32*)ek;
+    nwk->my_master = (u32*)mk;
     nwk->master_work_id = mk->wu.work_id;
     nwk->master_id = mk->wu.id;
     nwk->wu.hit_ix_table = mk->wu.hit_ix_table;
@@ -283,7 +283,7 @@ void effect_e7_e8_init_union(WORK_Other *nwk, WORK_Other *ek, PLW *mk) {
     nwk->wu.weight_level = mk->wu.weight_level;
 }
 
-void get_attdata_of_illusion(WORK_Other *ewk) {
+void get_attdata_of_illusion(WORK_Other* ewk) {
     ewk->wu.cg_hit_ix = zanzou_table[ewk->master_id][ewk->wu.type].hit_ix;
     ewk->wu.cg_att_ix = zanzou_table[ewk->master_id][ewk->wu.type].renew;
     ewk->wu.xyz[0].disp.pos = ewk->wu.position_x;
@@ -311,8 +311,8 @@ void get_attdata_of_illusion(WORK_Other *ewk) {
     }
 }
 
-s32 setup_after_images(PLW *wk, u8 ix) {
-    PLW *tk = (PLW *)wk->wu.target_adrs;
+s32 setup_after_images(PLW* wk, u8 ix) {
+    PLW* tk = (PLW*)wk->wu.target_adrs;
 
     switch (illusion_setup_table[ix][0]) {
     case 0:
@@ -334,8 +334,8 @@ s32 setup_after_images(PLW *wk, u8 ix) {
     return 0;
 }
 
-s32 erase_after_images(PLW *wk, u8 who) {
-    PLW *tk = (PLW *)wk->wu.target_adrs;
+s32 erase_after_images(PLW* wk, u8 who) {
+    PLW* tk = (PLW*)wk->wu.target_adrs;
 
     switch (who) {
     case 0:

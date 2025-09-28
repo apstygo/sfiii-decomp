@@ -24,7 +24,7 @@ void flAdxModuleInit() {
     }
 }
 
-void flAdxInitialize(s8 *host_root, s8 *cvd_root) {
+void flAdxInitialize(s8* host_root, s8* cvd_root) {
     if (host_root != NULL) {
         printf("Setup HOST file system.\n");
         memset(&ht_sprm, 0, sizeof(ADXPS2_SPRM_HOST));

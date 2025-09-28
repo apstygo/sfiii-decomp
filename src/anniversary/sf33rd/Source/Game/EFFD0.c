@@ -7,7 +7,7 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void d0_speed_set(WORK *ewk, s16 num);
+void d0_speed_set(WORK* ewk, s16 num);
 
 const s32 effd0_data_tbl[9][4] = { { 0x4000, -0x800, -0x6000, -0x400 }, { -0x4000, 0x600, -0x4000, -0x600 },
                                    { 0x4000, -0xC00, -0x3000, -0x400 }, { 0x800, -0x300, -0x6000, -0x600 },
@@ -17,7 +17,7 @@ const s32 effd0_data_tbl[9][4] = { { 0x4000, -0x800, -0x6000, -0x400 }, { -0x400
 
 const s16 effd0_conter[9] = { 32, 40, 30, 48, 64, 16, 32, 36, 72 };
 
-void effect_D0_move(WORK_Other *ewk) {
+void effect_D0_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -117,7 +117,7 @@ void effect_D0_move(WORK_Other *ewk) {
     }
 }
 
-void d0_speed_set(WORK *ewk, s16 num) {
+void d0_speed_set(WORK* ewk, s16 num) {
     ewk->old_rno[0] = effd0_conter[num];
     ewk->old_rno[1]++;
 
@@ -133,25 +133,25 @@ void d0_speed_set(WORK *ewk, s16 num) {
     ewk->mvxy.d[1].sp = effd0_data_tbl[num][3];
 }
 
-s32 effect_D0_init(PLW *oya, s32 /* unused */) {
+s32 effect_D0_init(PLW* oya, s32 /* unused */) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 130;
     ewk->wu.work_id = 16;
     ewk->wu.cgromtype = 1;
     ewk->wu.disp_flag = 0;
-    ewk->my_master = (u32 *)oya;
+    ewk->my_master = (u32*)oya;
     ewk->wu.my_family = 2;
     ewk->wu.char_index = 14;
     ewk->wu.my_col_mode = 0x4200;

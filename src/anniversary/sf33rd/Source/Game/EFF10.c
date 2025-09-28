@@ -7,7 +7,7 @@
 
 const u8 Contents_Check_Data[8] = { 0, 0, 1, 1, 0, 0, 0, 0 };
 
-const s8 *button_string_data[8][12] = {
+const s8* button_string_data[8][12] = {
     { "CONTINUE",
       "BUTTON CONFIG.",
       "EXIT",
@@ -40,7 +40,7 @@ const s8 *button_string_data[8][12] = {
     { "PLAYER 1", "PLAYER 2", NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL }
 };
 
-void effect_10_move(WORK_Other *ewk) {
+void effect_10_move(WORK_Other* ewk) {
     s16 color;
     s16 correct_index;
     s16 ix;
@@ -89,14 +89,14 @@ void effect_10_move(WORK_Other *ewk) {
 }
 
 s32 effect_10_init(s16 id, u8 Type, u8 Type_in_Type, u8 dir_step, u8 Death_Type, s16 pos_x, s16 pos_y) {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 10;
     ewk->wu.work_id = 16;

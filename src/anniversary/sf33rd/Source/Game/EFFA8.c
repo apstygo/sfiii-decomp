@@ -8,11 +8,11 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void Setup_A8_Sub(WORK_Other_CONN *ewk);
+void Setup_A8_Sub(WORK_Other_CONN* ewk);
 
 const s16 Pos_Data_A8[4][2] = { { 52, 81 }, { 52, 68 }, { 0, 52 }, { 192, 32 } };
 
-const s8 *Letter_Data_A8DC[69] = { "-PLAY(  )",
+const s8* Letter_Data_A8DC[69] = { "-PLAY(  )",
                                    " STOP(  ) BUTTON-",
                                    "1. Alex & Ken Stage -JAZZY NYC '99 mix1-",
                                    "2. Alex & Ken Stage -JAZZY NYC '99 mix2-",
@@ -82,7 +82,7 @@ const s8 *Letter_Data_A8DC[69] = { "-PLAY(  )",
                                    "66. Player Select -LET'S GET IT ON(VERSUS)-",
                                    "67. Capcom Logo" };
 
-const s8 *Letter_Data_A8AC[69] = { "-PLAY(  )",
+const s8* Letter_Data_A8AC[69] = { "-PLAY(  )",
                                    " STOP(  ) BUTTON-",
                                    "1. Alex & Ken Stage -JAZZY NYC '99 1-",
                                    "2. Alex & Ken Stage -JAZZY NYC '99 2-",
@@ -152,9 +152,9 @@ const s8 *Letter_Data_A8AC[69] = { "-PLAY(  )",
                                    "50. Player Select -LET'S GET IT ON(VERSUS)-",
                                    "51. Capcom Logo" };
 
-const s8 **Letter_Data_A8[2] = { Letter_Data_A8DC, Letter_Data_A8AC };
+const s8** Letter_Data_A8[2] = { Letter_Data_A8DC, Letter_Data_A8AC };
 
-void effect_A8_move(WORK_Other_CONN *ewk) {
+void effect_A8_move(WORK_Other_CONN* ewk) {
     s16 ix;
 
     if (Menu_Suicide[ewk->master_player]) {
@@ -204,14 +204,14 @@ s32 effect_A8_init(s16 id, u8 dir_old, s16 sync_bg, s16 master_player, s16 curso
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other_CONN *ewk;
+    WORK_Other_CONN* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk = (WORK_Other_CONN*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 108;
     ewk->wu.work_id = 16;
@@ -245,11 +245,11 @@ s32 effect_A8_init(s16 id, u8 dir_old, s16 sync_bg, s16 master_player, s16 curso
     return 0;
 }
 
-void Setup_A8_Sub(WORK_Other_CONN *ewk) {
+void Setup_A8_Sub(WORK_Other_CONN* ewk) {
     s16 x;
     s16 ix;
     s16 offset_x;
-    u8 *ptr;
+    u8* ptr;
 
     if (ewk->wu.old_cgnum == 0x70A7) {
         offset_x = 8;
@@ -257,7 +257,7 @@ void Setup_A8_Sub(WORK_Other_CONN *ewk) {
         offset_x = 14;
     }
 
-    ptr = (u8 *)Letter_Data_A8[sys_w.bgm_type][Order_Dir[ewk->wu.dir_old] + ewk->master_id];
+    ptr = (u8*)Letter_Data_A8[sys_w.bgm_type][Order_Dir[ewk->wu.dir_old] + ewk->master_id];
     ix = 0;
     x = 0;
 

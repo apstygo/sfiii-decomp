@@ -6,10 +6,10 @@
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void Setup_Pos_18(WORK_Other_CONN *ewk);
-void Check_TenTen(WORK_Other_CONN *ewk);
+void Setup_Pos_18(WORK_Other_CONN* ewk);
+void Check_TenTen(WORK_Other_CONN* ewk);
 
-void effect_18_move(WORK_Other_CONN *ewk) {
+void effect_18_move(WORK_Other_CONN* ewk) {
     if (Menu_Suicide[ewk->master_player]) {
         push_effect_work(&ewk->wu);
         return;
@@ -29,14 +29,14 @@ s32 effect_18_init(s16 disp_index, s16 cursor_id, s16 sync_bg, s16 master_player
     void get_message_conn_data(WORK_Other_CONN * ewk, s32 kind, s32 pl, s32 msg);
 #endif
 
-    WORK_Other_CONN *ewk;
+    WORK_Other_CONN* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk = (WORK_Other_CONN*)frw[ix];
     ewk->wu.routine_no[0] = 0;
     ewk->wu.be_flag = 1;
     ewk->wu.disp_flag = 1;
@@ -53,14 +53,14 @@ s32 effect_18_init(s16 disp_index, s16 cursor_id, s16 sync_bg, s16 master_player
     return 0;
 }
 
-void Setup_Pos_18(WORK_Other_CONN *ewk) {
+void Setup_Pos_18(WORK_Other_CONN* ewk) {
     ewk->wu.position_x = bg_w.bgw[ewk->wu.my_family - 1].wxy[0].disp.pos - 143;
     ewk->wu.position_y = bg_w.bgw[ewk->wu.my_family - 1].wxy[1].disp.pos + 199 - ewk->wu.type * 18;
     ewk->wu.position_z = 68;
     Check_TenTen(ewk);
 }
 
-void Check_TenTen(WORK_Other_CONN *ewk) {
+void Check_TenTen(WORK_Other_CONN* ewk) {
     s16 ix;
 
     for (ix = 0; ix < ewk->num_of_conn; ix++) {

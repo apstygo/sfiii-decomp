@@ -79,7 +79,7 @@ const u16 sdcode_conv[1024] = {
     0x7000, 0x7000
 };
 
-typedef void (*se_request)(WORK_Other *ewk, u16 Code);
+typedef void (*se_request)(WORK_Other* ewk, u16 Code);
 
 const se_request sound_effect_request[1024] = {
     Call_Se,       Call_Se,       Call_Se,       Call_Se,       Call_Se,   Call_Se,       Call_Se,       Call_Se,

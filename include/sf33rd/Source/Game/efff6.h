@@ -20,10 +20,10 @@ extern const s16 efff6_move01_tbl[6];      // size: 0xC, address: 0x515180
 extern const s16 efff6_data_tbl00[61][8];  // size: 0x3D0, address: 0x515190
 extern const EFFF6_ETC efff6_etc_data[61]; // size: 0x5B8, address: 0x515560
 
-void effect_F6_move(WORK_Other *ewk);
-void efff6_move(WORK_Other *ewk);
-void efff6_move_common(WORK_Other *ewk);
-void efff6_move01(WORK_Other *ewk);
+void effect_F6_move(WORK_Other* ewk);
+void efff6_move(WORK_Other* ewk);
+void efff6_move_common(WORK_Other* ewk);
+void efff6_move01(WORK_Other* ewk);
 s32 effect_F6_init(u8 typenum);
 
 #endif

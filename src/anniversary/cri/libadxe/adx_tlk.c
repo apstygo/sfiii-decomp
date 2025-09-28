@@ -43,7 +43,7 @@ INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B480);
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B4A0);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", adxt_disp_rna_stat);
 
-ADXT ADXT_Create(Sint32 maxnch, void *work, Sint32 worksize) {
+ADXT ADXT_Create(Sint32 maxnch, void* work, Sint32 worksize) {
     ADXT adxt;
     Sint32 _maxnch;
     Sint32 i;
@@ -76,8 +76,8 @@ ADXT ADXT_Create(Sint32 maxnch, void *work, Sint32 worksize) {
     memset(adxt, 0, sizeof(ADX_TALK));
 
     adxt->maxnch = _maxnch;
-    adxt->ibuf = (Sint8 *)(aligned_work + ADXT_CALC_OBUFSIZE(_maxnch));
-    adxt->obuf = (s16 *)aligned_work;
+    adxt->ibuf = (Sint8*)(aligned_work + ADXT_CALC_OBUFSIZE(_maxnch));
+    adxt->obuf = (s16*)aligned_work;
     adxt->obufsize = ADXT_OBUF_SIZE;
     adxt->obufdist = ADXT_OBUF_DIST;
     adxt->ibufxlen = ADXT_IBUF_XLEN;
@@ -102,7 +102,7 @@ ADXT ADXT_Create(Sint32 maxnch, void *work, Sint32 worksize) {
 
     for (i = 0; i < _maxnch; i++) {
         adxt->sjo[i] = SJRBF_Create(
-            (Sint8 *)(adxt->obuf + adxt->obufdist * i), adxt->obufsize * 2, (adxt->obufdist - adxt->obufsize) * 2);
+            (Sint8*)(adxt->obuf + adxt->obufdist * i), adxt->obufsize * 2, (adxt->obufdist - adxt->obufsize) * 2);
 
         if (adxt->sjo[i] == NULL) {
             ADXT_Destroy(adxt);
@@ -188,7 +188,7 @@ void ADXT_Destroy(ADXT adxt) {
     ADXSTM stm;
     LSC lsc;
     SJ sjf;
-    void *amp;
+    void* amp;
     SJ sj;
     SJ ampsj;
 
@@ -307,7 +307,7 @@ void adxt_start_sj(ADXT adxt, SJ sj) {
     }
 }
 
-void adxt_start_stm(ADXT adxt, const Char8 *fname, void *dir, s32 arg3, Sint32 file_sct) {
+void adxt_start_stm(ADXT adxt, const Char8* fname, void* dir, s32 arg3, Sint32 file_sct) {
     ADXSTM_SetBufSize(adxt->stm, adxt->minsct << 11, adxt->maxsct << 11);
     ADXSTM_SetEos(adxt->stm, 25);
     ADXSTM_EntryEosFunc(adxt->stm, NULL, NULL);
@@ -398,7 +398,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_SetTimeMode
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetTimeSfreq);
 
-void ADXT_GetTimeSfreq2(ADXT adxt, Sint32 *ncount, Sint32 *tscale) {
+void ADXT_GetTimeSfreq2(ADXT adxt, Sint32* ncount, Sint32* tscale) {
     Uint8 stat = adxt->stat;
 
     if ((Uint32)(stat - 3) < 2) {
@@ -422,7 +422,7 @@ void adxt_time_adjust_trap() {
     adxt_time_adjust_cnt += 1;
 }
 
-void ADXT_GetTime(ADX_TALK *adxt, Sint32 *ncount, Sint32 *tscale) {
+void ADXT_GetTime(ADX_TALK* adxt, Sint32* ncount, Sint32* tscale) {
     Sint32 sp0;
     Sint32 sp4;
     Sint32 temp_s1;
@@ -679,7 +679,7 @@ void ADXT_SetTranspose(ADXT adxt, Sint32 transps, Sint32 detune) {
     // Do nothing
 }
 
-void ADXT_GetTranspose(ADXT adxt, Sint32 *transps, Sint32 *detune) {
+void ADXT_GetTranspose(ADXT adxt, Sint32* transps, Sint32* detune) {
     // Do nothing
 }
 
@@ -697,7 +697,7 @@ void ADXT_SetFx(ADXT adxt, Sint32 fxch, Sint32 fxlvl) {
     // Do nothing
 }
 
-void ADXT_GetFx(ADXT adxt, Sint32 *fxch, Sint32 *fxlvl) {
+void ADXT_GetFx(ADXT adxt, Sint32* fxch, Sint32* fxlvl) {
     // Do nothing
 }
 
@@ -705,7 +705,7 @@ void ADXT_SetFilter(ADXT adxt, Sint32 coff, Sint32 q) {
     // Do nothing
 }
 
-void ADXT_GetFilter(ADXT adxt, Sint32 *coff, Sint32 *q) {
+void ADXT_GetFilter(ADXT adxt, Sint32* coff, Sint32* q) {
     // Do nothing
 }
 

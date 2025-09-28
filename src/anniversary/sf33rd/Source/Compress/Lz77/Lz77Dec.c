@@ -1,10 +1,10 @@
 #include "sf33rd/Source/Compress/Lz77/Lz77Dec.h"
 #include "common.h"
 
-s32 decLZ77withSizeCheck(u8 *src, u8 *dst, s32 size) {
+s32 decLZ77withSizeCheck(u8* src, u8* dst, s32 size) {
     s32 j;
     s32 loop;
-    u8 *dic;
+    u8* dic;
     u8 num;
     u8 step;
     u16 offset;

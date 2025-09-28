@@ -9,13 +9,13 @@
 
 const u8 pl08_hcs_tbl[8] = { 0, 0, 0, 1, 0, 1, 1, 1 };
 
-void (*const pl08_exatt_table[18])(PLW *);
+void (*const pl08_exatt_table[18])(PLW*);
 
-void pl08_extra_attack(PLW *wk) {
+void pl08_extra_attack(PLW* wk) {
     pl08_exatt_table[wk->wu.routine_no[2] - 16](wk);
 }
 
-void Att_PL08_HEALING(PLW *wk) {
+void Att_PL08_HEALING(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -69,7 +69,7 @@ void Att_PL08_HEALING(PLW *wk) {
     }
 }
 
-void Att_PL08_TOKUSHUKOUDOU(PLW *wk) {
+void Att_PL08_TOKUSHUKOUDOU(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void grade_add_personal_action(s32 ix);
@@ -111,9 +111,9 @@ void Att_PL08_TOKUSHUKOUDOU(PLW *wk) {
     }
 }
 
-void (*const pl08_exatt_table[18])(PLW *) = { Att_SHOURYUUKEN,   Att_SENPUUKYAKU,    Att_SENPUUKYAKU,
-                                              Att_SHOURYUUREPPA, Att_SHOURYUUREPPA,  Att_PL08_HEALING,
-                                              Att_DUMMY,         Att_SLIDE_and_JUMP, Att_HADOUKEN,
-                                              Att_DUMMY,         Att_DUMMY,          Att_DUMMY,
-                                              Att_DUMMY,         Att_DUMMY,          Att_PL08_TOKUSHUKOUDOU,
-                                              Att_DUMMY,         Att_METAMOR_WAIT,   Att_METAMOR_REBIRTH };
+void (*const pl08_exatt_table[18])(PLW*) = { Att_SHOURYUUKEN,   Att_SENPUUKYAKU,    Att_SENPUUKYAKU,
+                                             Att_SHOURYUUREPPA, Att_SHOURYUUREPPA,  Att_PL08_HEALING,
+                                             Att_DUMMY,         Att_SLIDE_and_JUMP, Att_HADOUKEN,
+                                             Att_DUMMY,         Att_DUMMY,          Att_DUMMY,
+                                             Att_DUMMY,         Att_DUMMY,          Att_PL08_TOKUSHUKOUDOU,
+                                             Att_DUMMY,         Att_METAMOR_WAIT,   Att_METAMOR_REBIRTH };

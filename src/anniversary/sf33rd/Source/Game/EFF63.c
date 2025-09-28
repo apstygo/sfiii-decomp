@@ -9,14 +9,14 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void EFF63_WAIT(WORK_Other_CONN *ewk);
-void EFF63_SLIDE_IN(WORK_Other_CONN *ewk);
-void EFF63_CHAR_CHANGE(WORK_Other_CONN * /* unused */);
-void EFF63_SUDDENLY(WORK_Other_CONN * /* unused */);
-void Disp_63_Sub(WORK_Other_CONN *ewk);
-void Setup_Letter_63(WORK_Other_CONN *ewk, s16 disp_index);
+void EFF63_WAIT(WORK_Other_CONN* ewk);
+void EFF63_SLIDE_IN(WORK_Other_CONN* ewk);
+void EFF63_CHAR_CHANGE(WORK_Other_CONN* /* unused */);
+void EFF63_SUDDENLY(WORK_Other_CONN* /* unused */);
+void Disp_63_Sub(WORK_Other_CONN* ewk);
+void Setup_Letter_63(WORK_Other_CONN* ewk, s16 disp_index);
 
-const s8 *Letter_Data_63[3][21] = { { "-10", "-9", "-8", "-7", "-6", "-5", "-4", "-3", "-2", "-1", "0",
+const s8* Letter_Data_63[3][21] = { { "-10", "-9", "-8", "-7", "-6", "-5", "-4", "-3", "-2", "-1", "0",
                                       "1",   "2",  "3",  "4",  "5",  "6",  "7",  "8",  "9",  "10" },
                                     { "94%", "96%", "98%", "100%", NULL, NULL, NULL, NULL, NULL, NULL, NULL,
                                       NULL,  NULL,  NULL,  NULL,   NULL, NULL, NULL, NULL, NULL, NULL },
@@ -25,8 +25,8 @@ const s8 *Letter_Data_63[3][21] = { { "-10", "-9", "-8", "-7", "-6", "-5", "-4",
 
 void (*const EFF63_Jmp_Tbl[4])() = { EFF63_WAIT, EFF63_SLIDE_IN, EFF63_CHAR_CHANGE, EFF63_SUDDENLY };
 
-void effect_63_move(WORK_Other_CONN *ewk) {
-    if (Check_Die_61((WORK_Other *)ewk) != 0) {
+void effect_63_move(WORK_Other_CONN* ewk) {
+    if (Check_Die_61((WORK_Other*)ewk) != 0) {
         push_effect_work(&ewk->wu);
         return;
     }
@@ -44,7 +44,7 @@ void effect_63_move(WORK_Other_CONN *ewk) {
     sort_push_request3(&ewk->wu);
 }
 
-void EFF63_WAIT(WORK_Other_CONN *ewk) {
+void EFF63_WAIT(WORK_Other_CONN* ewk) {
     if ((ewk->wu.routine_no[0] = Order[ewk->wu.dir_old])) {
         ewk->wu.routine_no[1] = 0;
     }
@@ -52,7 +52,7 @@ void EFF63_WAIT(WORK_Other_CONN *ewk) {
     Disp_63_Sub(ewk);
 }
 
-void EFF63_SLIDE_IN(WORK_Other_CONN *ewk) {
+void EFF63_SLIDE_IN(WORK_Other_CONN* ewk) {
     if (Order[ewk->wu.dir_old] != 1) {
         ewk->wu.routine_no[0] = Order[ewk->wu.dir_old];
         ewk->wu.routine_no[1] = 0;
@@ -106,23 +106,23 @@ void EFF63_SLIDE_IN(WORK_Other_CONN *ewk) {
     }
 }
 
-void EFF63_CHAR_CHANGE(WORK_Other_CONN * /* unused */) {}
+void EFF63_CHAR_CHANGE(WORK_Other_CONN* /* unused */) {}
 
-void EFF63_SUDDENLY(WORK_Other_CONN * /* unused */) {}
+void EFF63_SUDDENLY(WORK_Other_CONN* /* unused */) {}
 
 s32 effect_63_init(u8 dir_old, s16 sync_bg, s16 master_player, s16 letter_type, s16 cursor_index) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other_CONN *ewk;
+    WORK_Other_CONN* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk = (WORK_Other_CONN*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 63;
     ewk->wu.work_id = 16;
@@ -154,7 +154,7 @@ s32 effect_63_init(u8 dir_old, s16 sync_bg, s16 master_player, s16 letter_type, 
     return 0;
 }
 
-void Disp_63_Sub(WORK_Other_CONN *ewk) {
+void Disp_63_Sub(WORK_Other_CONN* ewk) {
     s16 disp_index;
 
     switch (ewk->wu.type) {
@@ -184,8 +184,8 @@ void Disp_63_Sub(WORK_Other_CONN *ewk) {
     Setup_Letter_63(ewk, disp_index);
 }
 
-void Setup_Letter_63(WORK_Other_CONN *ewk, s16 disp_index) {
-    const u8 *ptr = (u8 *)Letter_Data_63[ewk->wu.dir_step][disp_index];
+void Setup_Letter_63(WORK_Other_CONN* ewk, s16 disp_index) {
+    const u8* ptr = (u8*)Letter_Data_63[ewk->wu.dir_step][disp_index];
     s16 ix = 0;
     s16 x = 0;
 

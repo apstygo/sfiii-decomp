@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/EFF33.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
@@ -6,18 +7,17 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
 const s16 WinLoseID[2][2];
 
-void effect_33_move(WORK_Other *ewk) {
+void effect_33_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    WORK *oya_ptr = (WORK *)ewk->my_master;
+    WORK* oya_ptr = (WORK*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -79,12 +79,12 @@ void effect_33_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_33_init(WORK *wk) {
+s32 effect_33_init(WORK* wk) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s64 var_s1;
 
@@ -92,7 +92,7 @@ s32 effect_33_init(WORK *wk) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 33;
     ewk->wu.work_id = 16;
@@ -101,7 +101,7 @@ s32 effect_33_init(WORK *wk) {
     ewk->wu.my_col_mode = wk->my_col_mode;
     ewk->wu.my_col_code = wk->my_col_code + 1;
     ewk->wu.my_family = wk->my_family;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->wu.rl_flag = wk->rl_flag;
     ewk->wu.xyz[0].disp.pos = wk->xyz[0].disp.pos;
     ewk->wu.xyz[0].disp.pos += wk->rl_flag ? -48 : 48;

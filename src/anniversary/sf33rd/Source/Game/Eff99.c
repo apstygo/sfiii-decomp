@@ -6,11 +6,11 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void Setup_Letter_99(WORK_Other_CONN *ewk, s16 letter_index, s16 disp_index);
+void Setup_Letter_99(WORK_Other_CONN* ewk, s16 letter_index, s16 disp_index);
 
 const s16 Pos_Data_99[5][3] = { { -144, 128, 23 }, { 48, 128, 23 }, { 8, 54, 23 }, { 0, 42, 23 }, { 0, 30, 23 } };
 
-const s8 *Letter_Data_99[5][21] = {
+const s8* Letter_Data_99[5][21] = {
     { ";;;;;;;#", ";;;;;;##", ";;;;;###", ";;;;####", ";;;#####", ";;######", ";#######", "########" },
     { "#;;;;;;;", "##;;;;;;", "###;;;;;", "####;;;;", "#####;;;", "######;;", "#######;", "########" },
     { "UNKNOWN", "AMERICA", "JAPAN",  "HONG KONG", "ENGLAND", "RUSSIA", "GERMANY",
@@ -60,7 +60,7 @@ const s8 *Letter_Data_99[5][21] = {
       "" }
 };
 
-void effect_99_move(WORK_Other_CONN *ewk) {
+void effect_99_move(WORK_Other_CONN* ewk) {
     if (Menu_Suicide[ewk->master_player]) {
         push_effect_work(&ewk->wu);
         return;
@@ -84,14 +84,14 @@ s32 effect_99_init(s16 id, s16 type, s16 char_offset, s16 letter_index, s16 pos_
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other_CONN *ewk;
+    WORK_Other_CONN* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk = (WORK_Other_CONN*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.disp_flag = 1;
     ewk->wu.id = 99;
@@ -112,11 +112,11 @@ s32 effect_99_init(s16 id, s16 type, s16 char_offset, s16 letter_index, s16 pos_
     return 0;
 }
 
-void Setup_Letter_99(WORK_Other_CONN *ewk, s16 letter_index, s16 disp_index) {
+void Setup_Letter_99(WORK_Other_CONN* ewk, s16 letter_index, s16 disp_index) {
     s16 x;
     s16 ix;
     s16 offset_x;
-    u8 *ptr;
+    u8* ptr;
     u8 space;
 
     if (ewk->wu.old_cgnum == 0x70A7) {
@@ -125,7 +125,7 @@ void Setup_Letter_99(WORK_Other_CONN *ewk, s16 letter_index, s16 disp_index) {
         offset_x = 14;
     }
 
-    ptr = (u8 *)Letter_Data_99[letter_index][disp_index];
+    ptr = (u8*)Letter_Data_99[letter_index][disp_index];
     ix = 0;
     x = 0;
     space = 0;

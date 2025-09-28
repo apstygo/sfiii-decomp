@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/effL3.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CALDIR.h"
 #include "sf33rd/Source/Game/CHARSET.h"
@@ -8,16 +9,15 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effl3_0000(WORK_Other *ewk);
-void effl3_0001(WORK_Other *ewk);
-void effl3_0002(WORK_Other *ewk);
-void effl3_tobi(WORK_Other *ewk);
-void effl3_kie(WORK_Other *ewk);
+void effl3_0000(WORK_Other* ewk);
+void effl3_0001(WORK_Other* ewk);
+void effl3_0002(WORK_Other* ewk);
+void effl3_tobi(WORK_Other* ewk);
+void effl3_kie(WORK_Other* ewk);
 
 const s16 effl3_wait_timer[8] = { 3, 0, 30, 50, 40, 8, 20, 1 };
 
@@ -29,8 +29,8 @@ const s16 effl3_data_tbl[112] = { -272, -8,  -1, 1, 18, -32, -8, 0, 272,  -8,  -
                                   272,  2,   1,  0, 17, 192, 2,  0, 272,  128, 1,  0, 17, 160,  2,  1,
                                   -272, 2,   1,  0, 17, 16,  2,  0, 272,  128, 1,  0, 17, 32,   2,  1 };
 
-void effect_L3_move(WORK_Other *ewk) {
-    void (*effl3_jp[3])(WORK_Other *) = { effl3_0000, effl3_0001, effl3_0002 };
+void effect_L3_move(WORK_Other* ewk) {
+    void (*effl3_jp[3])(WORK_Other*) = { effl3_0000, effl3_0001, effl3_0002 };
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -52,7 +52,7 @@ void effect_L3_move(WORK_Other *ewk) {
     }
 }
 
-void effl3_0000(WORK_Other *ewk) {
+void effl3_0000(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[2]) {
     case 0:
         ewk->wu.routine_no[2]++;
@@ -105,7 +105,7 @@ void effl3_0000(WORK_Other *ewk) {
     }
 }
 
-void effl3_0001(WORK_Other *ewk) {
+void effl3_0001(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[2]) {
     case 0:
         ewk->wu.routine_no[2]++;
@@ -152,7 +152,7 @@ void effl3_0001(WORK_Other *ewk) {
     }
 }
 
-void effl3_0002(WORK_Other *ewk) {
+void effl3_0002(WORK_Other* ewk) {
     s16 work;
 
     switch (ewk->wu.routine_no[3]) {
@@ -175,7 +175,7 @@ void effl3_0002(WORK_Other *ewk) {
     }
 }
 
-void effl3_tobi(WORK_Other *ewk) {
+void effl3_tobi(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[4]) {
     case 0:
         ewk->wu.old_rno[4]--;
@@ -238,7 +238,7 @@ void effl3_tobi(WORK_Other *ewk) {
     }
 }
 
-void effl3_kie(WORK_Other *ewk) {
+void effl3_kie(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[4]) {
     case 0:
         ewk->wu.old_rno[4]--;
@@ -261,16 +261,16 @@ void effl3_kie(WORK_Other *ewk) {
     }
 }
 
-s32 effect_L3_init(PLW *oya) {
+s32 effect_L3_init(PLW* oya) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 i;
     s16 id_w;
-    const s16 *data_ptr;
+    const s16* data_ptr;
 
     if (!Perfect_Flag) {
         return 0;
@@ -284,11 +284,11 @@ s32 effect_L3_init(PLW *oya) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 213;
         ewk->wu.work_id = 16;
-        ewk->my_master = (u32 *)oya;
+        ewk->my_master = (u32*)oya;
         ewk->master_id = oya->wu.id;
         ewk->wu.cgromtype = 1;
         ewk->wu.my_family = 2;
@@ -296,16 +296,16 @@ s32 effect_L3_init(PLW *oya) {
         ewk->wu.my_col_code = oya->wu.id ? 8 : 0;
         ewk->wu.type = i;
         ewk->wu.xyz[0].disp.pos = bg_w.bgw[1].wxy[0].disp.pos;
-        ewk->wu.xyz[0].disp.pos += *(s16 *)data_ptr++;
+        ewk->wu.xyz[0].disp.pos += *(s16*)data_ptr++;
         ewk->wu.xyz[1].disp.pos = plw[id_w].wu.xyz[1].disp.pos;
-        ewk->wu.xyz[1].disp.pos += *(s16 *)data_ptr++;
+        ewk->wu.xyz[1].disp.pos += *(s16*)data_ptr++;
         ewk->wu.position_z = plw[id_w].wu.position_z;
-        ewk->wu.position_z += *(s16 *)data_ptr++;
+        ewk->wu.position_z += *(s16*)data_ptr++;
         ewk->wu.my_priority = ewk->wu.position_z;
         ewk->wu.rl_flag = *data_ptr++;
         ewk->wu.kage_char = *data_ptr++;
         ewk->wu.old_rno[0] = plw[id_w].wu.xyz[0].disp.pos;
-        ewk->wu.old_rno[0] += *(s16 *)data_ptr++;
+        ewk->wu.old_rno[0] += *(s16*)data_ptr++;
         ewk->wu.old_rno[1] = *data_ptr++;
         ewk->wu.routine_no[1] = *data_ptr++;
         ewk->wu.char_table[0] = oya->wu.char_table[0];

@@ -79,8 +79,8 @@ Sint32 LSC_EntryFname(LSC lsc) {
 }
 #endif
 
-Sint32 LSC_EntryFileRange(LSC lsc, const Char8 *fname, void *dir, Sint32 ofst, Sint32 fnsct) {
-    LSC_STM *stm;
+Sint32 LSC_EntryFileRange(LSC lsc, const Char8* fname, void* dir, Sint32 ofst, Sint32 fnsct) {
+    LSC_STM* stm;
     Sint32 id;
     size_t fname_length;
     Sint32 i;
@@ -240,7 +240,7 @@ Sint32 LSC_GetStmId(LSC lsc, Sint32 no) {
     return lsc->stm[stream_index].id;
 }
 
-const Char8 *LSC_GetStmFname(LSC lsc, Sint32 stm_id) {
+const Char8* LSC_GetStmFname(LSC lsc, Sint32 stm_id) {
     Sint32 i;
 
     if (lsc == NULL) {

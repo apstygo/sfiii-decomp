@@ -4,8 +4,8 @@
 #include "structs.h"
 #include "types.h"
 
-void appViewSetItems(VPRM *prm);
-void appViewGetItems(VPRM *prm);
+void appViewSetItems(VPRM* prm);
+void appViewGetItems(VPRM* prm);
 void appViewMatrix();
 void render_start();
 void render_end();

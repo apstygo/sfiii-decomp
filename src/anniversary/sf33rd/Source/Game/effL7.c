@@ -17,8 +17,8 @@
 // forward declaration
 const s16 effl7_data_tbl[16];
 
-void effect_L7_move(WORK_Other *ewk) {
-    WORK *oya_ptr = (WORK *)ewk->my_master;
+void effect_L7_move(WORK_Other* ewk) {
+    WORK* oya_ptr = (WORK*)ewk->my_master;
 
     if (Suicide[0] || (ewk->wu.dead_f)) {
         ewk->wu.routine_no[0] = 1;
@@ -45,13 +45,13 @@ void effect_L7_move(WORK_Other *ewk) {
     }
 }
 
-void effl7_move(WORK_Other *ewk) {
+void effl7_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void set_char_move_init2(WORK * wk, s16 koc, s16 index, s16 ip);
 #endif
 
-    WORK *oya_ptr = (WORK *)ewk->my_master;
+    WORK* oya_ptr = (WORK*)ewk->my_master;
 
     switch (ewk->wu.routine_no[1]) {
     case 0:
@@ -154,16 +154,16 @@ void effl7_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_L7_init(WORK *wk, s32 /* unused */) {
+s32 effect_L7_init(WORK* wk, s32 /* unused */) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 kind_w;
 
-    if ((wk->work_id == 1) && (((PLW *)wk)->player_number != My_char[wk->id])) {
+    if ((wk->work_id == 1) && (((PLW*)wk)->player_number != My_char[wk->id])) {
         return 0;
     }
 
@@ -183,7 +183,7 @@ s32 effect_L7_init(WORK *wk, s32 /* unused */) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 217;
     ewk->wu.work_id = 16;
@@ -192,7 +192,7 @@ s32 effect_L7_init(WORK *wk, s32 /* unused */) {
     ewk->wu.my_col_mode = wk->my_col_mode;
     ewk->wu.my_col_code = wk->my_col_code + 1;
     ewk->wu.my_family = wk->my_family;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->wu.rl_flag = wk->rl_flag;
 
     if (wk->rl_flag) {

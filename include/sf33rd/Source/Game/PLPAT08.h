@@ -4,6 +4,6 @@
 #include "structs.h"
 #include "types.h"
 
-void pl08_extra_attack(PLW *wk);
+void pl08_extra_attack(PLW* wk);
 
 #endif

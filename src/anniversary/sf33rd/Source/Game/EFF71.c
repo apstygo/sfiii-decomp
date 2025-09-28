@@ -10,7 +10,7 @@
 
 const s16 eff71_time_tbl[8] = { 2, 8, 12, 9, 4, 6, 50, 3 };
 
-void effect_71_move(WORK_Other *ewk) {
+void effect_71_move(WORK_Other* ewk) {
     s16 work;
 
     if (obr_no_disp_check()) {
@@ -52,7 +52,7 @@ void effect_71_move(WORK_Other *ewk) {
 }
 
 s32 effect_71_init() {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if (EXE_obroll) {
@@ -63,7 +63,7 @@ s32 effect_71_init() {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 71;
     ewk->wu.work_id = 16;

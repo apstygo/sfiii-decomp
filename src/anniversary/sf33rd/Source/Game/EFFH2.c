@@ -1,18 +1,18 @@
 #include "sf33rd/Source/Game/EFFH2.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "bin2obj/char_table.h"
 
 const s16 panel_guide[8][2] = { { 0, 6 }, { 0, 5 }, { 0, 4 }, { 0, 2 }, { 0, 0 }, { 0, 2 }, { 0, 4 }, { 0, 5 } };
 
-void effect_H2_move(WORK_Other *ewk) {
+void effect_H2_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
 #endif
 
-    WORK *mwk = (WORK *)ewk->my_master;
+    WORK* mwk = (WORK*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -60,15 +60,15 @@ void effect_H2_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_H2_init(WORK *wk, u8 gal, u8 ohen) {
-    WORK_Other *ewk;
+s32 effect_H2_init(WORK* wk, u8 gal, u8 ohen) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 172;
     ewk->wu.work_id = 16;
@@ -76,7 +76,7 @@ s32 effect_H2_init(WORK *wk, u8 gal, u8 ohen) {
     ewk->wu.charset_id = gal;
     ewk->wu.type = ohen;
     ewk->wu.rl_flag = 0;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->wu.cgromtype = 1;
     ewk->wu.my_family = 2;
     ewk->wu.position_z = wk->position_z - 1;

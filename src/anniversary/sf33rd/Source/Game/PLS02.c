@@ -15,20 +15,19 @@
 #include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
 
-void read_adrs_store_mvxy(WORK *wk, s16 *adrs);
-void remake_mvxy_PoGR(WORK *wk);
+void read_adrs_store_mvxy(WORK* wk, s16* adrs);
+void remake_mvxy_PoGR(WORK* wk);
 s16 meri_case_switch(s16 meri);
-s16 hoseishitemo_eenka(WORK *wk, s16 tx);
+s16 hoseishitemo_eenka(WORK* wk, s16 tx);
 s32 random_32();
 s32 random_32_ex();
 s32 random_16_ex();
-s8 get_guard_direction(WORK *as, WORK *ds);
-s16 cal_attdir_flip(s16 dir);
-void add_sp_arts_gauge_guard(PLW *wk);
-s16 cal_sa_gauge_waribiki(PLW *wk, s16 asag);
-void setup_saishin_lvdir(PLW *ds, s8 gddir);
+s8 get_guard_direction(WORK* as, WORK* ds);
+void add_sp_arts_gauge_guard(PLW* wk);
+s16 cal_sa_gauge_waribiki(PLW* wk, s16 asag);
+void setup_saishin_lvdir(PLW* ds, s8 gddir);
 void dead_voice_request();
-void dead_voice_request2(PLW *wk);
+void dead_voice_request2(PLW* wk);
 
 const s16 asagh_zuru[8] = { -2, -1, 0, 0, 1, 2, 3, 4 };
 
@@ -102,8 +101,8 @@ const s16 dead_voice_table[20][2] = { 864, 865, 928, 929, 512, 513, 608, 609, 89
                                       352, 353, 672, 673, 576, 577, 640, 641, 384, 385, 480, 481, 736, 737,
                                       704, 705, 416, 417, 448, 449, 768, 769, 960, 961, 544, 545 };
 
-void add_to_mvxy_data(WORK *wk, u16 ix) {
-    s16 *adrs;
+void add_to_mvxy_data(WORK* wk, u16 ix) {
+    s16* adrs;
     s32 sp;
 
     wk->mvxy.index = ix;
@@ -125,7 +124,7 @@ void add_to_mvxy_data(WORK *wk, u16 ix) {
     wk->mvxy.kop[1] = adrs[5];
 }
 
-void setup_move_data_easy(WORK *wk, const s16 *adrs, s16 prx, s16 pry) {
+void setup_move_data_easy(WORK* wk, const s16* adrs, s16 prx, s16 pry) {
     wk->mvxy.a[0].sp = adrs[0];
     wk->mvxy.a[0].sp <<= 8;
     wk->mvxy.d[0].sp = adrs[1];
@@ -138,18 +137,18 @@ void setup_move_data_easy(WORK *wk, const s16 *adrs, s16 prx, s16 pry) {
     wk->mvxy.kop[1] = pry;
 }
 
-void setup_mvxy_data(WORK *wk, u16 ix) {
+void setup_mvxy_data(WORK* wk, u16 ix) {
     wk->mvxy.index = ix;
     read_adrs_store_mvxy(wk, &wk->move_xy_table[ix * 6]);
 }
 
-void setup_butt_own_data(WORK *wk) {
+void setup_butt_own_data(WORK* wk) {
     wk->mvxy.index = wk->dm_butt_type;
     read_adrs_store_mvxy(
-        wk, (s16 *)((char *)parabora_own_table[wk->dm_plnum] + wk->dm_butt_type * 48 + wk->weight_level * 12));
+        wk, (s16*)((char*)parabora_own_table[wk->dm_plnum] + wk->dm_butt_type * 48 + wk->weight_level * 12));
 }
 
-void read_adrs_store_mvxy(WORK *wk, s16 *adrs) {
+void read_adrs_store_mvxy(WORK* wk, s16* adrs) {
     wk->mvxy.a[0].sp = adrs[0];
     wk->mvxy.a[0].sp <<= 8;
     wk->mvxy.d[0].sp = adrs[1];
@@ -162,11 +161,11 @@ void read_adrs_store_mvxy(WORK *wk, s16 *adrs) {
     wk->mvxy.kop[1] = adrs[5];
 }
 
-s8 get_weight_point(WORK *wk) {
+s8 get_weight_point(WORK* wk) {
     return wk->dm_weight - wk->weight_level + 3;
 }
 
-void cal_mvxy_speed(WORK *wk) {
+void cal_mvxy_speed(WORK* wk) {
     s16 i;
 
     for (i = 0; i < 2; i++) {
@@ -196,7 +195,7 @@ void cal_mvxy_speed(WORK *wk) {
     }
 }
 
-void add_mvxy_speed(WORK *wk) {
+void add_mvxy_speed(WORK* wk) {
     if (wk->rl_flag) {
         wk->xyz[0].cal += wk->mvxy.a[0].sp;
     } else {
@@ -206,7 +205,7 @@ void add_mvxy_speed(WORK *wk) {
     wk->xyz[1].cal += wk->mvxy.a[1].sp;
 }
 
-void add_mvxy_speed_exp(WORK *wk, s16 dvp) {
+void add_mvxy_speed_exp(WORK* wk, s16 dvp) {
     if (wk->rl_flag) {
         wk->xyz[0].cal += wk->mvxy.a[0].sp / dvp;
     } else {
@@ -216,12 +215,12 @@ void add_mvxy_speed_exp(WORK *wk, s16 dvp) {
     wk->xyz[1].cal += wk->mvxy.a[1].sp;
 }
 
-void add_mvxy_speed_no_use_rl(WORK *wk) {
+void add_mvxy_speed_no_use_rl(WORK* wk) {
     wk->xyz[0].cal += wk->mvxy.a[0].sp;
     wk->xyz[1].cal += wk->mvxy.a[1].sp;
 }
 
-void add_mvxy_speed_direct(WORK *wk, s16 sx, s16 sy) {
+void add_mvxy_speed_direct(WORK* wk, s16 sx, s16 sy) {
     s32 ax;
     s32 ay;
 
@@ -238,19 +237,19 @@ void add_mvxy_speed_direct(WORK *wk, s16 sx, s16 sy) {
     wk->xyz[1].cal += ay << 8;
 }
 
-void reset_mvxy_data(WORK *wk) {
+void reset_mvxy_data(WORK* wk) {
     wk->mvxy.a[0].sp = wk->mvxy.d[0].sp = wk->mvxy.kop[0] = 0;
     wk->mvxy.a[1].sp = wk->mvxy.d[1].sp = wk->mvxy.kop[1] = 0;
 }
 
-void remake_mvxy_PoSB(WORK *wk) {
+void remake_mvxy_PoSB(WORK* wk) {
     if (wk->mvxy.a[1].sp < 0) {
         wk->mvxy.a[1].sp = (wk->mvxy.a[1].sp * 30) / 100;
         wk->mvxy.a[1].sp = -wk->mvxy.a[1].sp;
     }
 }
 
-void remake_mvxy_PoGR(WORK *wk) {
+void remake_mvxy_PoGR(WORK* wk) {
     if (wk->mvxy.d[1].sp) {
         switch ((wk->mvxy.a[1].sp > 0) + ((wk->mvxy.a[1].sp < 0) * 2)) {
         case 1:
@@ -285,8 +284,8 @@ void check_body_touch() {
     s16 meri_case_switch(s32 meri);
 #endif
 
-    PLW *p1w = &plw[0];
-    PLW *p2w = &plw[1];
+    PLW* p1w = &plw[0];
+    PLW* p2w = &plw[1];
     s16 meri;
 
     if (p1w->wu.h_hos->hos_box[0] != 0 && p2w->wu.h_hos->hos_box[0] != 0) {
@@ -358,11 +357,11 @@ void check_body_touch2() {
     s16 check_work_position_bonus(WORK * hm, s32 tx);
 #endif
 
-    PLW *hmw;
-    PLW *cmw;
-    WORK *efw;
-    s16 *dad0;
-    s16 *dad1;
+    PLW* hmw;
+    PLW* cmw;
+    WORK* efw;
+    s16* dad0;
+    s16* dad1;
     s16 meri;
     s16 ix;
     s16 dad2[4];
@@ -377,7 +376,7 @@ void check_body_touch2() {
     }
 
     if (!saishin_bs2_on_car(hmw)) {
-        efw = (WORK *)cmw->wu.my_effadrs;
+        efw = (WORK*)cmw->wu.my_effadrs;
         ix = (sel_hosei_tbl_ix[hmw->player_number]) + 1 + ((efw->dir_timer == 1) * 2);
         dad0 = &hmw->wu.hosei_adrs[1].hos_box[0];
         dad1 = &efw->hosei_adrs[ix].hos_box[0];
@@ -433,7 +432,7 @@ two:
 }
 
 s32 check_be_car_object() {
-    PLW *com;
+    PLW* com;
 
     if (pcon_rno[0] == 0) {
         return 1;
@@ -449,10 +448,10 @@ s32 check_be_car_object() {
         return 1;
     }
 
-    return ((PLW *)com->wu.my_effadrs)->wu.be_flag != 0;
+    return ((PLW*)com->wu.my_effadrs)->wu.be_flag != 0;
 }
 
-s16 hoseishitemo_eenka(WORK *wk, s16 tx) {
+s16 hoseishitemo_eenka(WORK* wk, s16 tx) {
     s16 rnum = 0;
 
     if (wk->cg_jphos + cal_top_of_position_y(wk) > bs2_floor[2] || wk->mvxy.a[1].real.h < 0) {
@@ -483,7 +482,7 @@ s16 get_sel_hosei_tbl_ix(s16 plnum) {
     return sel_hosei_tbl_ix[plnum];
 }
 
-s16 check_work_position_bonus(WORK *hm, s16 tx) {
+s16 check_work_position_bonus(WORK* hm, s16 tx) {
     s16 result = hm->xyz[0].disp.pos - tx;
     s16 num;
 
@@ -500,7 +499,7 @@ s16 check_work_position_bonus(WORK *hm, s16 tx) {
     return num;
 }
 
-s32 set_field_hosei_flag(PLW *pl, s16 pos, s16 ix) {
+s32 set_field_hosei_flag(PLW* pl, s16 pos, s16 ix) {
     s16 hami;
 
     while (1) {
@@ -549,7 +548,7 @@ s32 set_field_hosei_flag(PLW *pl, s16 pos, s16 ix) {
     return 1;
 }
 
-s16 check_work_position(WORK *p1, WORK *p2) {
+s16 check_work_position(WORK* p1, WORK* p2) {
     s16 result = p1->xyz[0].disp.pos - p2->xyz[0].disp.pos;
     s16 num;
 
@@ -707,7 +706,7 @@ s32 random_16_bg() {
     return random_tbl_16_bg[Random_ix16_bg];
 }
 
-s8 get_guard_direction(WORK *as, WORK *ds) {
+s8 get_guard_direction(WORK* as, WORK* ds) {
     s16 result;
     s8 num;
 
@@ -729,7 +728,7 @@ s8 get_guard_direction(WORK *as, WORK *ds) {
         } else {
             num = 3;
         }
-    } else if (((PLW *)ds)->spmv_ng_flag & 0x04000000) {
+    } else if (((PLW*)ds)->spmv_ng_flag & 0x04000000) {
         if (as->rl_flag + ds->rl_flag & 1) {
             if (ds->work_id != 1) {
                 num = 2;
@@ -750,7 +749,7 @@ s8 get_guard_direction(WORK *as, WORK *ds) {
     return num;
 }
 
-s16 cal_attdir(WORK *wk) {
+s16 cal_attdir(WORK* wk) {
     s16 resdir = wk->att.dir;
 
     if (wk->rl_flag) {
@@ -780,7 +779,7 @@ s16 get_kind_of_trunk_dm(s16 dir, s8 drl) {
     return dir16_trdm[dir];
 }
 
-void setup_vitality(WORK *wk, s16 pno) {
+void setup_vitality(WORK* wk, s16 pno) {
     s16 ix;
 
     if (wk->operator) {
@@ -802,7 +801,7 @@ void setup_vitality(WORK *wk, s16 pno) {
     }
 }
 
-void cal_dm_vital_gauge_hosei(PLW *wk) {
+void cal_dm_vital_gauge_hosei(PLW* wk) {
     s16 cnjix;
 
     if (wk->wu.dm_vital == 0) {
@@ -831,7 +830,7 @@ void cal_dm_vital_gauge_hosei(PLW *wk) {
     }
 }
 
-void set_hit_stop_hit_quake(WORK *wk) {
+void set_hit_stop_hit_quake(WORK* wk) {
     if (wk->dm_stop) {
         wk->hit_stop = wk->dm_stop;
         wk->dm_stop = 0;
@@ -843,16 +842,16 @@ void set_hit_stop_hit_quake(WORK *wk) {
     }
 }
 
-void add_sp_arts_gauge_init(PLW *wk) {
+void add_sp_arts_gauge_init(PLW* wk) {
 #if defined(TARGET_PS2)
     void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u16 mf);
 #endif
 
-    PLW *mwk;
+    PLW* mwk;
     s16 asag;
 
     if (wk->wu.work_id != 1) {
-        mwk = (PLW *)wk->cp;
+        mwk = (PLW*)wk->cp;
 
         if ((mwk->wu.work_id == 1) && !(mwk->spmv_ng_flag2 & 0x20000000)) {
             asag = _add_arts_gauge[mwk->player_number][wk->wu.add_arts_point][0];
@@ -864,16 +863,16 @@ void add_sp_arts_gauge_init(PLW *wk) {
     }
 }
 
-void add_sp_arts_gauge_guard(PLW *wk) {
+void add_sp_arts_gauge_guard(PLW* wk) {
 #if defined(TARGET_PS2)
     void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u32 mf);
 #endif
 
-    PLW *mwk;
+    PLW* mwk;
     s16 asag;
 
     if (wk->wu.work_id != 1) {
-        mwk = (PLW *)wk->cp;
+        mwk = (PLW*)wk->cp;
 
         if (mwk->wu.work_id == 1) {
             asag = _add_arts_gauge[mwk->player_number][wk->wu.add_arts_point][1];
@@ -885,20 +884,20 @@ void add_sp_arts_gauge_guard(PLW *wk) {
     }
 }
 
-void add_sp_arts_gauge_hit_dm(PLW *wk) {
+void add_sp_arts_gauge_hit_dm(PLW* wk) {
 #if defined(TARGET_PS2)
     void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u32 mf);
     s16 cal_sa_gauge_waribiki(PLW * wk, s32 asag);
 #endif
 
-    PLW *emwk;
+    PLW* emwk;
     s16 asag;
 
     if (wk->wu.work_id != 1) {
         return;
     }
 
-    emwk = (PLW *)wk->wu.target_adrs;
+    emwk = (PLW*)wk->wu.target_adrs;
     asag = _add_arts_gauge[emwk->player_number][wk->wu.dm_arts_point][2];
 
     if (asag != 0) {
@@ -924,7 +923,7 @@ void add_sp_arts_gauge_hit_dm(PLW *wk) {
     wk->wu.dm_arts_point = 0;
 }
 
-s16 cal_sa_gauge_waribiki(PLW *wk, s16 asag) {
+s16 cal_sa_gauge_waribiki(PLW* wk, s16 asag) {
     s16 num;
 
     if (wk->cb->total < 2) {
@@ -946,12 +945,12 @@ s16 cal_sa_gauge_waribiki(PLW *wk, s16 asag) {
     return asag;
 }
 
-void add_sp_arts_gauge_paring(PLW *wk) {
+void add_sp_arts_gauge_paring(PLW* wk) {
 #if defined(TARGET_PS2)
     void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u16 mf);
 #endif
 
-    PLW *emwk;
+    PLW* emwk;
     s16 asag;
 
     if (sa_stop_check() != 0) {
@@ -962,7 +961,7 @@ void add_sp_arts_gauge_paring(PLW *wk) {
         return;
     }
 
-    emwk = (PLW *)wk->wu.target_adrs;
+    emwk = (PLW*)wk->wu.target_adrs;
     asag = _add_arts_gauge[emwk->player_number][wk->wu.dm_arts_point][3];
 
     if (asag != 0) {
@@ -980,7 +979,7 @@ void add_sp_arts_gauge_paring(PLW *wk) {
     wk->wu.dm_arts_point = 0;
 }
 
-void add_sp_arts_gauge_tokushu(PLW *wk) {
+void add_sp_arts_gauge_tokushu(PLW* wk) {
 #if defined(TARGET_PS2)
     void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u16 mf);
 #endif
@@ -1008,7 +1007,7 @@ void add_sp_arts_gauge_tokushu(PLW *wk) {
     add_super_arts_gauge(wk->sa, wk->wu.id, asag, wk->metamorphose);
 }
 
-void add_sp_arts_gauge_ukemi(PLW *wk) {
+void add_sp_arts_gauge_ukemi(PLW* wk) {
 #if defined(TARGET_PS2)
     void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u32 mf);
 #endif
@@ -1036,7 +1035,7 @@ void add_sp_arts_gauge_ukemi(PLW *wk) {
     add_super_arts_gauge(wk->sa, wk->wu.id, asag, wk->metamorphose);
 }
 
-void add_sp_arts_gauge_nagenuke(PLW *wk) {
+void add_sp_arts_gauge_nagenuke(PLW* wk) {
 #if defined(TARGET_PS2)
     void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u16 mf);
 #endif
@@ -1064,7 +1063,7 @@ void add_sp_arts_gauge_nagenuke(PLW *wk) {
     add_super_arts_gauge(wk->sa, wk->wu.id, asag, wk->metamorphose);
 }
 
-void add_sp_arts_gauge_maxbit(PLW *wk) {
+void add_sp_arts_gauge_maxbit(PLW* wk) {
 #if defined(TARGET_PS2)
     void add_super_arts_gauge(SA_WORK * wk, s32 ix, s32 asag, u16 mf);
 #endif
@@ -1098,7 +1097,7 @@ void add_sp_arts_gauge_maxbit(PLW *wk) {
     }
 }
 
-void add_super_arts_gauge(SA_WORK *wk, s16 ix, s16 asag, u8 mf) {
+void add_super_arts_gauge(SA_WORK* wk, s16 ix, s16 asag, u8 mf) {
     if (!test_flag && !mf) {
         if ((wk->mp == -1) || (wk->ok == -1) || (wk->ex == -1)) {
             return;
@@ -1137,7 +1136,7 @@ void add_super_arts_gauge(SA_WORK *wk, s16 ix, s16 asag, u8 mf) {
     }
 }
 
-s16 check_buttobi_type(PLW *wk) {
+s16 check_buttobi_type(PLW* wk) {
     s16 rn;
 
     setup_butt_own_data(&wk->wu);
@@ -1145,7 +1144,7 @@ s16 check_buttobi_type(PLW *wk) {
     return rn;
 }
 
-s16 check_buttobi_type2(PLW *wk) {
+s16 check_buttobi_type2(PLW* wk) {
     s16 rn;
 
     setup_butt_own_data(&wk->wu);
@@ -1153,7 +1152,7 @@ s16 check_buttobi_type2(PLW *wk) {
     return rn;
 }
 
-void setup_saishin_lvdir(PLW *ds, s8 gddir) {
+void setup_saishin_lvdir(PLW* ds, s8 gddir) {
     if ((ds->sa_stop_flag) == 1) {
         if (ds->wu.rl_flag) {
             ds->saishin_lvdir = convert_saishin_lvdir[1][ds->sa_stop_lvdir & 0xC];
@@ -1171,7 +1170,7 @@ void setup_saishin_lvdir(PLW *ds, s8 gddir) {
     }
 }
 
-void setup_lvdir_after_autodir(PLW *wk) {
+void setup_lvdir_after_autodir(PLW* wk) {
     if (wk->wu.rl_flag) {
         wk->cp->lever_dir = convert_saishin_lvdir[1][wk->cp->sw_lvbt & 0xC];
         return;
@@ -1194,7 +1193,7 @@ void dead_voice_request() {
     dead_voice_flag = 0;
 }
 
-void dead_voice_request2(PLW *wk) {
+void dead_voice_request2(PLW* wk) {
     s16 secd1;
     s16 secd2;
     s16 ks = 0;

@@ -8,15 +8,15 @@
 #include "sf33rd/Source/Game/meta_col.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void K7_move_type_0(WORK_Other *ewk, PLW *mwk);
-s16 K7_mt0_rebirth_check(PLW *mwk);
+void K7_move_type_0(WORK_Other* ewk, PLW* mwk);
+s16 K7_mt0_rebirth_check(PLW* mwk);
 
-void effect_K7_move(WORK_Other *ewk) {
+void effect_K7_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void metamor_color_restore(s32 wkid);
 #endif
 
-    PLW *mwk = (PLW *)ewk->my_master;
+    PLW* mwk = (PLW*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -56,7 +56,7 @@ void effect_K7_move(WORK_Other *ewk) {
     }
 }
 
-void K7_move_type_0(WORK_Other *ewk, PLW *mwk) {
+void K7_move_type_0(WORK_Other* ewk, PLW* mwk) {
 #if defined(TARGET_PS2)
     void set_base_data_metamorphose(PLW * wk, s32 dmid);
     void metamor_color_trans(s32 wkid);
@@ -73,8 +73,8 @@ void K7_move_type_0(WORK_Other *ewk, PLW *mwk) {
         ewk->wu.routine_no[1] = 1;
         ewk->wu.direction = mwk->player_number;
         ewk->wu.charset_id = mwk->wu.charset_id;
-        mwk->player_number = ((PLW *)mwk->wu.target_adrs)->player_number;
-        mwk->wu.charset_id = ((PLW *)mwk->wu.target_adrs)->wu.charset_id;
+        mwk->player_number = ((PLW*)mwk->wu.target_adrs)->player_number;
+        mwk->wu.charset_id = ((PLW*)mwk->wu.target_adrs)->wu.charset_id;
         set_base_data_metamorphose(mwk, mwk->wu.id + 1 & 1);
         mwk->att_plus = 10;
         mwk->def_plus = 6;
@@ -153,7 +153,7 @@ void K7_move_type_0(WORK_Other *ewk, PLW *mwk) {
     }
 }
 
-s16 K7_mt0_rebirth_check(PLW *mwk) {
+s16 K7_mt0_rebirth_check(PLW* mwk) {
     s16 num = 0;
 
     switch (mwk->wu.routine_no[1]) {
@@ -172,7 +172,7 @@ s16 K7_mt0_rebirth_check(PLW *mwk) {
     return num;
 }
 
-void K7_muriyari_metamor_rebirth(PLW *wk) {
+void K7_muriyari_metamor_rebirth(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_base_data_metamorphose(PLW * wk, s32 dmid);
     void metamor_color_restore(s32 wkid);
@@ -190,8 +190,8 @@ void K7_muriyari_metamor_rebirth(PLW *wk) {
     wk->metamorphose = 0;
 }
 
-s32 effect_K7_init(PLW *wk) {
-    WORK_Other *ewk;
+s32 effect_K7_init(PLW* wk) {
+    WORK_Other* ewk;
     s16 ix;
 
     if (test_flag) {
@@ -202,12 +202,12 @@ s32 effect_K7_init(PLW *wk) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 207;
     ewk->wu.work_id = 16;
     ewk->wu.type = 0;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     wk->metamor_index = ewk->wu.myself;
     ewk->wu.my_col_mode = 0x4200;
     ewk->wu.my_col_code = 0x2000;

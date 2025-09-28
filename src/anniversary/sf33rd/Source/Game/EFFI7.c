@@ -1,13 +1,13 @@
 #include "sf33rd/Source/Game/EFFI7.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effI7_pos_hosei(WORK_Other *ewk, WORK *mwk);
+void effI7_pos_hosei(WORK_Other* ewk, WORK* mwk);
 
 const s16 ex_sign_data[69][4] = {
     { 28, 70, 121, 1 },  { -44, 60, 121, 0 }, { -24, 40, 121, 1 },  { -12, 52, 121, 1 }, { -40, 68, 121, 1 },
@@ -26,12 +26,12 @@ const s16 ex_sign_data[69][4] = {
     { -56, 65, 121, 0 }, { -37, 78, 121, 1 }, { -18, 58, 121, 1 },  { -42, 84, 121, 1 }
 };
 
-void effect_I7_move(WORK_Other *ewk) {
+void effect_I7_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    PLW *mwk = (PLW *)ewk->my_master;
+    PLW* mwk = (PLW*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -84,7 +84,7 @@ void effect_I7_move(WORK_Other *ewk) {
     }
 }
 
-void effI7_pos_hosei(WORK_Other *ewk, WORK *mwk) {
+void effI7_pos_hosei(WORK_Other* ewk, WORK* mwk) {
     ewk->wu.position_x = mwk->position_x;
 
     if (mwk->rl_flag) {
@@ -96,8 +96,8 @@ void effI7_pos_hosei(WORK_Other *ewk, WORK *mwk) {
     ewk->wu.position_y = mwk->position_y + ex_sign_data[ewk->wu.type][1];
 }
 
-s32 effect_I7_init(PLW *wk, u8 data) {
-    WORK_Other *ewk;
+s32 effect_I7_init(PLW* wk, u8 data) {
+    WORK_Other* ewk;
     s16 ix;
 
     if (test_flag) {
@@ -108,7 +108,7 @@ s32 effect_I7_init(PLW *wk, u8 data) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.type = data;
     ewk->wu.id = 187;
@@ -116,7 +116,7 @@ s32 effect_I7_init(PLW *wk, u8 data) {
     ewk->wu.my_mts = 14;
     ewk->wu.my_family = wk->wu.my_family;
     ewk->wu.cgromtype = 1;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->master_work_id = wk->wu.work_id;
     ewk->master_id = wk->wu.id;
     *ewk->wu.char_table = _plef_char_table;

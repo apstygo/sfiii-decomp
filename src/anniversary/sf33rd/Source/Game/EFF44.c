@@ -41,10 +41,10 @@ const s16 eff44_data_tbl8[32] = { 0, 2, 8492, 240, 80, 72, 16, 0, 0, 2, 8492, 31
 
 const s16 eff44_data_tbl9[16] = { 0, 2, 8492, 720, 80, 83, 5, 0, 0, 2, 300, 286, 64, 82, 6, 0 };
 
-const s16 *scr_obj_data44[10] = { eff44_data_tbl0, eff44_data_tbl1, eff44_data_tbl2, eff44_data_tbl3, eff44_data_tbl4,
+const s16* scr_obj_data44[10] = { eff44_data_tbl0, eff44_data_tbl1, eff44_data_tbl2, eff44_data_tbl3, eff44_data_tbl4,
                                   eff44_data_tbl5, eff44_data_tbl6, eff44_data_tbl7, eff44_data_tbl8, eff44_data_tbl9 };
 
-void effect_44_move(WORK_Other *ewk) {
+void effect_44_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -86,11 +86,11 @@ s32 effect_44_init(s16 type) {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 lp_cnt = scr_obj_num44[type];
     s16 i;
-    const s16 *data_ptr;
+    const s16* data_ptr;
 
     if (lp_cnt == 0) {
         return 0;
@@ -103,7 +103,7 @@ s32 effect_44_init(s16 type) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 44;
         ewk->wu.work_id = 16;

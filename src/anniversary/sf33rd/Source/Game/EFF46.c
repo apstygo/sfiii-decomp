@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/EFF46.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
@@ -7,15 +8,14 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void eff46_move(WORK_Other *ewk);
-s16 eff46_appear_check(WORK_Other *ewk);
+void eff46_move(WORK_Other* ewk);
+s16 eff46_appear_check(WORK_Other* ewk);
 
-void effect_46_move(WORK_Other *ewk) {
+void effect_46_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -43,7 +43,7 @@ void effect_46_move(WORK_Other *ewk) {
     }
 }
 
-void eff46_move(WORK_Other *ewk) {
+void eff46_move(WORK_Other* ewk) {
     s16 work2;
 
     switch (ewk->wu.routine_no[1]) {
@@ -95,8 +95,8 @@ void eff46_move(WORK_Other *ewk) {
     }
 }
 
-s16 eff46_appear_check(WORK_Other *ewk) {
-    WORK *oya_ptr = (WORK *)ewk->my_master;
+s16 eff46_appear_check(WORK_Other* ewk) {
+    WORK* oya_ptr = (WORK*)ewk->my_master;
     s16 work = oya_ptr->xyz[0].disp.pos - ewk->wu.xyz[0].disp.pos;
 
     if (work < 0) {
@@ -120,19 +120,19 @@ s16 eff46_appear_check(WORK_Other *ewk) {
     return 1;
 }
 
-s32 effect_46_init(WORK *wk, s32 /* unused */) {
+s32 effect_46_init(WORK* wk, s32 /* unused */) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 46;
     ewk->master_id = wk->id;
@@ -141,7 +141,7 @@ s32 effect_46_init(WORK *wk, s32 /* unused */) {
     ewk->wu.my_col_mode = wk->my_col_mode;
     ewk->wu.my_col_code = wk->my_col_code + 6;
     ewk->wu.my_family = wk->my_family;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->wu.rl_flag = wk->rl_flag;
 
     if (wk->id) {

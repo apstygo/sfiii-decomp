@@ -72,7 +72,7 @@ extern s32 flVramStaticNum;                                  // size: 0x4, addre
 extern VRAMBlockHeader flVramStatic[VRAM_BLOCK_HEADER_SIZE]; // size: 0x18, address: 0x57AE20
 extern s32 flPTNum;                                          // size: 0x4, address: 0x57AE38
 extern s32 flVramNum;                                        // size: 0x4, address: 0x57AE3C
-extern LPVram *flVramList;                                   // size: 0x4, address: 0x57AE40
+extern LPVram* flVramList;                                   // size: 0x4, address: 0x57AE40
 extern s32 flPs2GsHandler;                                   // size: 0x4, address: 0x57AE44
 extern FLPS2VIF1Control flPs2VIF1Control;                    // size: 0x3C, address: 0x57AE50
 extern u32 flDebugFlag;                                      // size: 0x4, address: 0x57AE8C
@@ -108,7 +108,7 @@ extern FLPS2State flPs2State;                   // size: 0x470, address: 0x6E275
 s32 flInitialize();
 u32 flPS2CheckDbChangeFlag();
 s32 flFlip(u32 flag);
-s32 flLogOut(s8 *format, ...);
+s32 flLogOut(s8* format, ...);
 void flInitPhaseStarted();
 void flInitPhaseFinished();
 

@@ -1,17 +1,17 @@
 #include "sf33rd/Source/Game/EFF70.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/Sel_Data.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void Setup_Eff70(WORK_Other *ewk);
+void Setup_Eff70(WORK_Other* ewk);
 
-void effect_70_move(WORK_Other *ewk) {
+void effect_70_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
@@ -96,14 +96,14 @@ void effect_70_move(WORK_Other *ewk) {
 }
 
 s32 effect_70_init(s16 id) {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     Setup_Eff70(ewk);
     ewk->wu.xyz[0].disp.pos = Face_Pos_Data[id][0] + 512;
     ewk->wu.xyz[1].disp.pos = Face_Pos_Data[id][1] + 0;
@@ -120,7 +120,7 @@ s32 effect_70_init(s16 id) {
     return 0;
 }
 
-void Setup_Eff70(WORK_Other *ewk) {
+void Setup_Eff70(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif

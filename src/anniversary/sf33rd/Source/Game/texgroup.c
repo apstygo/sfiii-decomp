@@ -129,17 +129,17 @@ const TexGroupData texgrpdat[100] = { { 0, 65535, 0, 0, 0, 0, 0 },
 // forward decls
 s32 load_any_texture_grpnum(u8 grp, u8 kokey);
 
-void q_ldreq_texture_group(REQ *curr) {
-    const TexGroupData *bsd;
-    CharInitData *cit;
-    CharInitData *cit2;
+void q_ldreq_texture_group(REQ* curr) {
+    const TexGroupData* bsd;
+    CharInitData* cit;
+    CharInitData* cit2;
     uintptr_t ldadr;
     uintptr_t ldchd;
     s32 err;
     s16 i;
-    u32 *patchAdrs;
-    u16 *trsbas;
-    TexGroup_UNK_0 *trsptr;
+    u32* patchAdrs;
+    u16* trsbas;
+    TexGroup_UNK_0* trsptr;
     s16 count;
     s16 loop;
 
@@ -228,7 +228,7 @@ void q_ldreq_texture_group(REQ *curr) {
         /* fallthrough */
 
     case 3:
-        err = fsRequestFileRead(curr, curr->sect, (void *)Get_ramcnt_address(curr->key));
+        err = fsRequestFileRead(curr, curr->sect, (void*)Get_ramcnt_address(curr->key));
 
         if (err == 0) {
             Push_ramcnt_key(curr->key);
@@ -264,7 +264,7 @@ void q_ldreq_texture_group(REQ *curr) {
                 // On PS2 it is okay to just add `ldchd` to each of these offsets
                 // to turn them into pointers, because a 4-byte int can hold a pointer.
                 // However on modern 64-bit platforms pointers are bigger, meaning we
-                // can't add `ldchd` to the offsets inplace. That's why we have to 
+                // can't add `ldchd` to the offsets inplace. That's why we have to
                 // allocate a separate memory region for `cit` and compute the pointers
                 // that comprise it there.
                 //
@@ -273,15 +273,15 @@ void q_ldreq_texture_group(REQ *curr) {
 
 #if defined(TARGET_PS2)
                 for (i = 0; i < 25; i++) {
-                    ((u32 *)ldchd)[i] += ldchd;
+                    ((u32*)ldchd)[i] += ldchd;
                 }
 
-                cit = (CharInitData *)ldchd;
+                cit = (CharInitData*)ldchd;
 #else
-                cit = (CharInitData *)malloc(sizeof(CharInitData));
+                cit = (CharInitData*)malloc(sizeof(CharInitData));
 
                 for (i = 0; i < 25; i++) {
-                    ((uintptr_t *)cit)[i] = ldchd + ((u32 *)ldchd)[i];
+                    ((uintptr_t*)cit)[i] = ldchd + ((u32*)ldchd)[i];
                 }
 #endif
 
@@ -298,18 +298,18 @@ void q_ldreq_texture_group(REQ *curr) {
 #if !defined(TARGET_PS2)
                     fatal_error("This code is highly suspicious. Investigate it before removing this error");
 #endif
-                    patchAdrs = ((u32 **)ldchd)[8];
+                    patchAdrs = ((u32**)ldchd)[8];
                     patchAdrs[37] = patchAdrs[3];
                 }
 
                 // Looks like this code handles some Akuma specific stuff
                 if (curr->ix == 15) {
-                    trsbas = (u16 *)(((u32 *)texgrplds[15].trans_table)[166] + texgrplds[15].trans_table);
+                    trsbas = (u16*)(((u32*)texgrplds[15].trans_table)[166] + texgrplds[15].trans_table);
                     count = *trsbas;
                     count -= 1;
                     trsbas[0] = count;
                     trsbas += 1;
-                    trsptr = (TexGroup_UNK_0 *)trsbas;
+                    trsptr = (TexGroup_UNK_0*)trsbas;
                     trsptr[0].x += trsptr[1].x;
                     trsptr[0].y += trsptr[1].y;
                     trsptr[0].attr = trsptr[1].attr;
@@ -345,7 +345,7 @@ void Init_texgrplds_work() {
 
     // Zero out the 0-th element of texgrplds
     for (i = 0; i < sizeof(TEX_GRP_LD) / sizeof(u32); i++) {
-        ((u32 *)texgrplds)[i] = 0;
+        ((u32*)texgrplds)[i] = 0;
     }
 
     for (i = 1; i < 100; i++) {
@@ -354,7 +354,7 @@ void Init_texgrplds_work() {
 }
 
 void reservMemKeySelObj() {
-    TEX_GRP_LD *lds;
+    TEX_GRP_LD* lds;
     s32 size;
 
     size = fsCalSectorSize(0x11372CU) << 0xB;
@@ -367,8 +367,8 @@ void reservMemKeySelObj() {
 }
 
 void checkSelObjFileLoaded() {
-    const TexGroupData *bsd;
-    TEX_GRP_LD *lds;
+    const TexGroupData* bsd;
+    TEX_GRP_LD* lds;
     uintptr_t ldadr;
     s32 rnum;
 
@@ -451,8 +451,8 @@ s32 load_any_texture_patnum(u16 patnum, u8 kokey, u8 _unused) {
 }
 
 s32 load_any_texture_grpnum(u8 grp, u8 kokey) {
-    const TexGroupData *bsd;
-    TEX_GRP_LD *lds;
+    const TexGroupData* bsd;
+    TEX_GRP_LD* lds;
     uintptr_t ldadr;
 
     if (grp == 0) {

@@ -11,7 +11,7 @@
 
 const s32 effg8_sp_tbl[28][4];
 
-void effect_G8_move(WORK_Other *ewk) {
+void effect_G8_move(WORK_Other* ewk) {
     if (!akebono_flag) {
         ewk->wu.routine_no[0] = 99;
     }
@@ -77,7 +77,7 @@ void effect_G8_move(WORK_Other *ewk) {
     }
 }
 
-s16 effg8_range_check(WORK_Other *ewk) {
+s16 effg8_range_check(WORK_Other* ewk) {
     if (ewk->wu.xyz[0].disp.pos < 88) {
         return 1;
     }
@@ -102,7 +102,7 @@ s32 effect_G8_init() {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 i;
 
@@ -111,7 +111,7 @@ s32 effect_G8_init() {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.id = 168;
         ewk->wu.be_flag = 1;
         ewk->wu.type = i;

@@ -17,7 +17,7 @@ u32 ioconv_table[24][2] = { { 0x1, 0x1 },      { 0x2, 0x2 },      { 0x4, 0x4 }, 
                             { 0x0, 0x100000 }, { 0x0, 0x200000 }, { 0x0, 0x400000 },  { 0x0, 0x800000 } };
 
 void keyConvert() {
-    IOPad *pad;
+    IOPad* pad;
     u32 currSw;
     s32 i;
     s32 j;

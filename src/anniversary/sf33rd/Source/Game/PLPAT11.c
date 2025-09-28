@@ -6,13 +6,13 @@
 #include "sf33rd/Source/Game/PLPATUNI.h"
 #include "sf33rd/Source/Game/PLS02.h"
 
-void (*const pl11_exatt_table[18])(PLW *);
+void (*const pl11_exatt_table[18])(PLW*);
 
-void pl11_extra_attack(PLW *wk) {
+void pl11_extra_attack(PLW* wk) {
     pl11_exatt_table[wk->wu.routine_no[2] - 16](wk);
 }
 
-void Att_PL11_TOKUSHUKOUDOU(PLW *wk) {
+void Att_PL11_TOKUSHUKOUDOU(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void grade_add_personal_action(s32 ix);
@@ -56,21 +56,21 @@ void Att_PL11_TOKUSHUKOUDOU(PLW *wk) {
     }
 }
 
-void (*const pl11_exatt_table[18])(PLW *) = { Att_HADOUKEN,
-                                              Att_SHOURYUUKEN,
-                                              Att_SENPUUKYAKU,
-                                              Att_SHOURYUUREPPA,
-                                              Att_SHOURYUUREPPA,
-                                              Att_SLIDE_and_JUMP,
-                                              Att_KUUCHUUNICHIRINSHOU,
-                                              Att_CHOUCHUURENGEKI,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_DUMMY,
-                                              Att_PL11_TOKUSHUKOUDOU,
-                                              Att_DUMMY,
-                                              Att_METAMOR_WAIT,
-                                              Att_METAMOR_REBIRTH };
+void (*const pl11_exatt_table[18])(PLW*) = { Att_HADOUKEN,
+                                             Att_SHOURYUUKEN,
+                                             Att_SENPUUKYAKU,
+                                             Att_SHOURYUUREPPA,
+                                             Att_SHOURYUUREPPA,
+                                             Att_SLIDE_and_JUMP,
+                                             Att_KUUCHUUNICHIRINSHOU,
+                                             Att_CHOUCHUURENGEKI,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_DUMMY,
+                                             Att_PL11_TOKUSHUKOUDOU,
+                                             Att_DUMMY,
+                                             Att_METAMOR_WAIT,
+                                             Att_METAMOR_REBIRTH };

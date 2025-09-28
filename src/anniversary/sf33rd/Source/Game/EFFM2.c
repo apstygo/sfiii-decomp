@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/EFFM2.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
@@ -6,18 +7,17 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/effM0.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effm2_move(WORK_Other *ewk);
-void effm2_move2(WORK_Other *ewk);
+void effm2_move(WORK_Other* ewk);
+void effm2_move2(WORK_Other* ewk);
 
 const s16 effm2_char_tbl[4] = { 50, 50, 29, 46 };
 
-void effect_M2_move(WORK_Other *ewk) {
+void effect_M2_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         ewk->wu.routine_no[0]++;
@@ -48,12 +48,12 @@ void effect_M2_move(WORK_Other *ewk) {
     }
 }
 
-void effm2_move(WORK_Other *ewk) {
+void effm2_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    WORK *oya_ptr = (WORK *)ewk->my_master;
+    WORK* oya_ptr = (WORK*)ewk->my_master;
 
     switch (ewk->wu.routine_no[1]) {
     case 0:
@@ -105,8 +105,8 @@ void effm2_move(WORK_Other *ewk) {
     }
 }
 
-void effm2_move2(WORK_Other *ewk) {
-    WORK *oya_ptr = (WORK *)ewk->my_master;
+void effm2_move2(WORK_Other* ewk) {
+    WORK* oya_ptr = (WORK*)ewk->my_master;
     s16 dis_w;
 
     switch (ewk->wu.routine_no[1]) {
@@ -174,12 +174,12 @@ void effm2_move2(WORK_Other *ewk) {
     }
 }
 
-s32 effect_M2_init(WORK *wk, u8 data) {
+s32 effect_M2_init(WORK* wk, u8 data) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if (data) {
@@ -194,11 +194,11 @@ s32 effect_M2_init(WORK *wk, u8 data) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 222;
     ewk->wu.cgromtype = 1;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->wu.rl_flag = wk->rl_flag;
     ewk->wu.type = data;
     ewk->wu.work_id = 16;

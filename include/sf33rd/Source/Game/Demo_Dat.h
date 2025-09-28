@@ -4,6 +4,6 @@
 #include "structs.h"
 #include "types.h"
 
-extern const u16 *Sel_PL_Data_Address[4];
+extern const u16* Sel_PL_Data_Address[4];
 
 #endif

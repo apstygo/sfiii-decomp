@@ -8,9 +8,9 @@
 
 const s16 M3_bahn_data[5] = { 16, 10, 78, 0, -512 };
 
-void effM3_trans(WORK *ewk);
+void effM3_trans(WORK* ewk);
 
-void effect_M3_move(WORK_Other *ewk) {
+void effect_M3_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         ewk->wu.routine_no[0] = 1;
@@ -93,7 +93,7 @@ void effect_M3_move(WORK_Other *ewk) {
     }
 }
 
-void effM3_trans(WORK *ewk) {
+void effM3_trans(WORK* ewk) {
     ewk->position_x = bg_w.bgw[ewk->my_family - 1].wxy[0].disp.pos;
     ewk->position_y = bg_w.bgw[ewk->my_family - 1].wxy[1].disp.pos;
     ewk->position_x += ewk->xyz[0].disp.pos;
@@ -101,15 +101,15 @@ void effM3_trans(WORK *ewk) {
     sort_push_request4(ewk);
 }
 
-s32 effect_M3_init(WORK_Other_CONN *wk, s16 num) {
-    WORK_Other *ewk;
+s32 effect_M3_init(WORK_Other_CONN* wk, s16 num) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 223;
     ewk->wu.work_id = 16;

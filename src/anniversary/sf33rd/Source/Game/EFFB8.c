@@ -12,7 +12,7 @@ s16 mes_timer;
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/sf33rd/Source/Game/EFFB8", effect_B8_move);
 #else
-s32 effect_B8_move(WORK_Other_CONN *ewk) {
+s32 effect_B8_move(WORK_Other_CONN* ewk) {
     not_implemented(__func__);
 }
 #endif

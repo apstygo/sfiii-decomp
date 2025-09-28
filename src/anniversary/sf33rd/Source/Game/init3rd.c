@@ -35,22 +35,22 @@ const u8 Difficult_V_Data[2][2] = { { 0, 0 }, { 1, 2 } };
 const Permission Permission_PL_Data = { { 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
                                         { { 0, 0 }, { 0, 0 } } };
 
-void Init_Task_1st(struct _TASK *task_ptr);
-void Init_Task_Aload(struct _TASK *task_ptr);
-void Init_Task_2nd(struct _TASK *task_ptr);
-void Init_Task_Test1(struct _TASK *task_ptr);
-void Init_Task_Test2(struct _TASK *task_ptr);
-void Init_Task_End(struct _TASK *task_ptr);
+void Init_Task_1st(struct _TASK* task_ptr);
+void Init_Task_Aload(struct _TASK* task_ptr);
+void Init_Task_2nd(struct _TASK* task_ptr);
+void Init_Task_Test1(struct _TASK* task_ptr);
+void Init_Task_Test2(struct _TASK* task_ptr);
+void Init_Task_End(struct _TASK* task_ptr);
 void Setup_Difficult_V();
 
-void Init_Task(struct _TASK *task_ptr) {
+void Init_Task(struct _TASK* task_ptr) {
     void (*Main_Jmp_Tbl[6])() = { Init_Task_1st, Init_Task_Aload, Init_Task_2nd,
                                   Init_Task_End, Init_Task_Test1, Init_Task_Test2 };
 
     Main_Jmp_Tbl[task_ptr->r_no[0]](task_ptr);
 }
 
-void Init_Task_1st(struct _TASK *task_ptr) {
+void Init_Task_1st(struct _TASK* task_ptr) {
     s16 ix;
 
     task_ptr->r_no[0] = 1;
@@ -149,7 +149,7 @@ void Setup_Difficult_V() {
     CC_Value[1] = Difficult_V_Data[country][1];
 }
 
-void Init_Task_Aload(struct _TASK *task_ptr) {
+void Init_Task_Aload(struct _TASK* task_ptr) {
     switch (task_ptr->r_no[1]) {
     case 0:
     case 1:
@@ -172,7 +172,7 @@ void Init_Task_Aload(struct _TASK *task_ptr) {
     }
 }
 
-void Init_Task_2nd(struct _TASK *task_ptr) {
+void Init_Task_2nd(struct _TASK* task_ptr) {
     if (Warning() == 0) {
         return;
     }
@@ -183,7 +183,7 @@ void Init_Task_2nd(struct _TASK *task_ptr) {
     CP3toPS2DrawOn();
 }
 
-void Init_Task_Test1(struct _TASK *task_ptr) {
+void Init_Task_Test1(struct _TASK* task_ptr) {
     u16 sw;
 
     switch (task_ptr->r_no[1]) {
@@ -258,7 +258,7 @@ void Init_Task_Test1(struct _TASK *task_ptr) {
     Put_Warning(2);
 }
 
-void Init_Task_Test2(struct _TASK *task_ptr) {
+void Init_Task_Test2(struct _TASK* task_ptr) {
     switch (task_ptr->r_no[1]) {
     case 0:
         task_ptr->r_no[1] += 1;
@@ -283,7 +283,7 @@ void Init_Task_Test2(struct _TASK *task_ptr) {
     }
 }
 
-void Init_Task_End(struct _TASK *task_ptr) {
+void Init_Task_End(struct _TASK* task_ptr) {
     cpReadyTask(GAME_TASK_NUM, Game_Task);
     task_ptr->r_no[0] += 1;
     task_ptr->r_no[1] = 0;

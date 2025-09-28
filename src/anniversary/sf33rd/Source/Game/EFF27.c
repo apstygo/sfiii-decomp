@@ -11,10 +11,10 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void set_second_hop(WORK_Other *ewk);
-void dead_check27(WORK_Other *ewk);
+void set_second_hop(WORK_Other* ewk);
+void dead_check27(WORK_Other* ewk);
 
-void (*eff27_jp_tbl[11])(WORK_Other *);
+void (*eff27_jp_tbl[11])(WORK_Other*);
 
 const s16 scr_obj_num27[2] = { 3, 3 };
 
@@ -26,14 +26,14 @@ const s16 piece_0001[57] = { 2, 8492, 14,  80, 70, 51, 1, 0, 2, 32, 32, 2,  0, 0
                              2, 8492, -4,  96, 10, 50, 1, 0, 2, 52, 52, -2, 0, 0, 0, 7, -32768, -1, -24576,
                              2, 8492, -26, 88, 10, 49, 1, 0, 7, 16, 16, -3, 0, 0, 0, 6, -32768, -1, -12288 };
 
-const s16 *scr_obj_data27[2] = { piece_0000, piece_0001 };
+const s16* scr_obj_data27[2] = { piece_0000, piece_0001 };
 
-void effect_27_move(WORK_Other *ewk) {
+void effect_27_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    WORK_Other *oya;
+    WORK_Other* oya;
 
     if (obr_no_disp_check()) {
         return;
@@ -45,7 +45,7 @@ void effect_27_move(WORK_Other *ewk) {
         ewk->wu.routine_no[1] = 0;
         ewk->wu.disp_flag = 1;
         set_char_move_init(&ewk->wu, 0, ewk->wu.char_index);
-        oya = (WORK_Other *)ewk->my_master;
+        oya = (WORK_Other*)ewk->my_master;
         ewk->wu.old_rno[3] = oya->wu.routine_no[1];
         /* fallthrough */
 
@@ -79,7 +79,7 @@ void effect_27_move(WORK_Other *ewk) {
     }
 }
 
-void eff27_00(WORK_Other *ewk) {
+void eff27_00(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         if (ewk->wu.hit_stop) {
@@ -104,7 +104,7 @@ void eff27_00(WORK_Other *ewk) {
     }
 }
 
-void eff27_02(WORK_Other *ewk) {
+void eff27_02(WORK_Other* ewk) {
     if (ewk->wu.hit_stop) {
         char_move(&ewk->wu);
     }
@@ -119,7 +119,7 @@ void eff27_02(WORK_Other *ewk) {
     }
 }
 
-void eff27_03(WORK_Other *ewk) {
+void eff27_03(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         if (ewk->wu.cg_type != 2) {
@@ -161,7 +161,7 @@ void eff27_03(WORK_Other *ewk) {
     }
 }
 
-void eff27_04(WORK_Other *ewk) {
+void eff27_04(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         if (ewk->wu.cg_type != 2) {
@@ -193,7 +193,7 @@ void eff27_04(WORK_Other *ewk) {
     }
 }
 
-void eff27_05(WORK_Other *ewk) {
+void eff27_05(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         if (ewk->wu.cg_type != 2) {
@@ -226,7 +226,7 @@ void eff27_05(WORK_Other *ewk) {
     }
 }
 
-void eff27_06(WORK_Other *ewk) {
+void eff27_06(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         char_move(&ewk->wu);
@@ -248,7 +248,7 @@ void eff27_06(WORK_Other *ewk) {
     }
 }
 
-void eff27_07(WORK_Other *ewk) {
+void eff27_07(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         if (ewk->wu.cg_type != 2) {
@@ -294,7 +294,7 @@ void eff27_07(WORK_Other *ewk) {
     }
 }
 
-void eff27_08(WORK_Other *ewk) {
+void eff27_08(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[1]) {
     case 0:
         eff27_03(ewk);
@@ -311,7 +311,7 @@ void eff27_08(WORK_Other *ewk) {
     }
 }
 
-void eff27_09(WORK_Other *ewk) {
+void eff27_09(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -340,8 +340,8 @@ void eff27_09(WORK_Other *ewk) {
     }
 }
 
-void set_second_hop(WORK_Other *ewk) {
-    const s16 *ptr;
+void set_second_hop(WORK_Other* ewk) {
+    const s16* ptr;
 
     ewk->wu.xyz[1].disp.pos = ewk->wu.old_rno[1];
     ewk->wu.mvxy.d[0].sp = ewk->wu.mvxy.d[0].sp >> 1;
@@ -358,27 +358,27 @@ void set_second_hop(WORK_Other *ewk) {
     ewk->wu.mvxy.a[1].sp = ewk->wu.mvxy.a[1].sp >> 1;
 }
 
-void dead_check27(WORK_Other *ewk) {
-    WORK_Other *oya = (WORK_Other *)ewk->my_master;
+void dead_check27(WORK_Other* ewk) {
+    WORK_Other* oya = (WORK_Other*)ewk->my_master;
 
     if (ewk->wu.old_rno[3] != oya->wu.routine_no[1]) {
         ewk->wu.routine_no[0] = 2;
     }
 }
 
-void (*eff27_jp_tbl[11])(WORK_Other *) = { eff27_00, eff27_00, eff27_02, eff27_03, eff27_04, eff27_05,
-                                           eff27_06, eff27_06, eff27_07, eff27_08, eff27_09 };
+void (*eff27_jp_tbl[11])(WORK_Other*) = { eff27_00, eff27_00, eff27_02, eff27_03, eff27_04, eff27_05,
+                                          eff27_06, eff27_06, eff27_07, eff27_08, eff27_09 };
 
-s32 effect_27_init(WORK_Other *oya, s16 type) {
+s32 effect_27_init(WORK_Other* oya, s16 type) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 lp_cnt = scr_obj_num27[type];
     s16 i;
-    const s16 *data_ptr;
+    const s16* data_ptr;
 
     if (!lp_cnt) {
         return 0;
@@ -389,8 +389,8 @@ s32 effect_27_init(WORK_Other *oya, s16 type) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
-        ewk->my_master = (u32 *)oya;
+        ewk = (WORK_Other*)frw[ix];
+        ewk->my_master = (u32*)oya;
         ewk->wu.be_flag = 1;
         ewk->wu.id = 0x1B;
         ewk->wu.work_id = 0x10;

@@ -28,7 +28,7 @@ static const f32 caplogo00[17] = { 0.25f, 0.25f, 1.0f,  0.5f,   0.0f, 0.0f,   19
 static const f32 caplogo01[17] = { 0.0f,  0.0f,  1.0f, 0.25f,  0.0f, 0.0f,  256.0f, 64.0f, 0.0f,
                                    0.25f, 0.25f, 0.5f, 256.0f, 0.0f, 64.0f, 64.0f,  -1.0f };
 
-static const f32 *caplogo[2] = { caplogo00, caplogo01 };
+static const f32* caplogo[2] = { caplogo00, caplogo01 };
 
 s16 picon_no;
 f32 picon_level;
@@ -197,7 +197,7 @@ s32 CAPCOM_Logo() {
 }
 
 void CAPLOGO_Init() {
-    void *loadAdrs;
+    void* loadAdrs;
     u32 loadSize;
     s16 key;
 
@@ -243,7 +243,7 @@ s16 CAPLOGO_Move(u16 type) {
     return rnum;
 }
 
-void Put_char(const f32 *ptr, u32 indexG, u16 prio, s16 x, s16 y, f32 zx, f32 zy) {
+void Put_char(const f32* ptr, u32 indexG, u16 prio, s16 x, s16 y, f32 zx, f32 zy) {
     Polygon tex[4];
     s16 off_x;
     s16 off_y;
@@ -278,7 +278,7 @@ void Put_char(const f32 *ptr, u32 indexG, u16 prio, s16 x, s16 y, f32 zx, f32 zy
 }
 
 void Warning_Init() {
-    void *loadAdrs;
+    void* loadAdrs;
     u32 loadSize;
     s16 key;
     s16 i;
@@ -380,7 +380,7 @@ void Pal_Cursor_Put(s16 type) {
     f32 pal_alpha_tbl[4] = { 255.0f, 48.0f, 178.5f, 48.0f };
     PAL_CURSOR pal_cursor;
     f32 prio;
-    PAL_CURSOR_TBL *pal_cursorwk;
+    PAL_CURSOR_TBL* pal_cursorwk;
     s16 i;
 
     switch (picon_no) {

@@ -45,24 +45,24 @@ void move_player_work();
 void move_P1_move_P2();
 void move_P2_move_P1();
 void check_damage_hosei();
-void check_damage_hosei_nage(PLW *as, PLW *ds);
-void check_damage_hosei_dageki(PLW *w1, PLW *w2);
+void check_damage_hosei_nage(PLW* as, PLW* ds);
+void check_damage_hosei_dageki(PLW* w1, PLW* w2);
 s32 time_over_check();
 s32 will_die();
 void setup_settle_rno(s16 kos);
 void settle_check();
-s32 check_sa_resurrection(PLW *wk);
+s32 check_sa_resurrection(PLW* wk);
 s16 nekorobi_check(s8 ix);
 s16 footwork_check(s8 ix);
 void setup_gouki_wins();
 void setup_any_data();
-void set_base_data(PLW *wk, s16 ix);
-void set_base_data_metamorphose(PLW *wk, s16 dmid);
-void set_base_data_tiny(PLW *wk);
-void setup_other_data(PLW *wk);
+void set_base_data(PLW* wk, s16 ix);
+void set_base_data_metamorphose(PLW* wk, s16 dmid);
+void set_base_data_tiny(PLW* wk);
+void setup_other_data(PLW* wk);
 s16 remake_sa_store_max(s16 ix, s16 store_max);
 s16 remake_sa_gauge_len(s16 ix, s16 gauge_len);
-void clear_super_arts_point(PLW *wk);
+void clear_super_arts_point(PLW* wk);
 void set_scrrrl();
 
 // bss
@@ -296,13 +296,13 @@ const s16 tsuujyou_dageki_00[16] = { 150, 150, 130, 130, 130, 110, 110, 110, 110
 const s16 tsuujyou_dageki_01[16] = { 150, 150, 150, 150, 130, 130, 130, 130, 110, 110, 110, 110, 90, 90, 90, 90 };
 const s16 tsuujyou_dageki_02[16] = { 150, 150, 150, 150, 150, 150, 130, 130, 130, 130, 130, 110, 110, 110, 90, 90 };
 
-const s16 *tsuujyou_dageki[4] = { tsuujyou_dageki_00, tsuujyou_dageki_01, tsuujyou_dageki_02, tsuujyou_dageki_02 };
+const s16* tsuujyou_dageki[4] = { tsuujyou_dageki_00, tsuujyou_dageki_01, tsuujyou_dageki_02, tsuujyou_dageki_02 };
 
 const s16 hissatsu_dageki_00[16] = { 210, 210, 190, 190, 190, 170, 170, 170, 170, 170, 150, 150, 150, 150, 150, 150 };
 const s16 hissatsu_dageki_01[16] = { 210, 210, 210, 210, 190, 190, 190, 190, 170, 170, 170, 170, 150, 150, 150, 150 };
 const s16 hissatsu_dageki_02[16] = { 210, 210, 210, 210, 210, 210, 190, 190, 190, 190, 190, 170, 170, 170, 150, 150 };
 
-const s16 *hissatsu_dageki[4] = {
+const s16* hissatsu_dageki[4] = {
     hissatsu_dageki_00,
     hissatsu_dageki_01,
     hissatsu_dageki_02,
@@ -313,19 +313,19 @@ const s16 tsuujyou_nage_00[16] = { 180, 180, 160, 160, 160, 140, 140, 140, 140, 
 const s16 tsuujyou_nage_01[16] = { 180, 180, 180, 180, 160, 160, 160, 160, 140, 140, 140, 140, 120, 120, 120, 120 };
 const s16 tsuujyou_nage_02[16] = { 180, 180, 180, 180, 180, 180, 160, 160, 160, 160, 160, 140, 140, 140, 120, 120 };
 
-const s16 *tsuujyou_nage[4] = { tsuujyou_nage_00, tsuujyou_nage_01, tsuujyou_nage_02, tsuujyou_nage_02 };
+const s16* tsuujyou_nage[4] = { tsuujyou_nage_00, tsuujyou_nage_01, tsuujyou_nage_02, tsuujyou_nage_02 };
 
 const s16 hissatsu_nage_00[16] = { 240, 240, 200, 200, 200, 160, 160, 160, 160, 160, 120, 120, 120, 120, 120, 120 };
 const s16 hissatsu_nage_01[16] = { 240, 240, 240, 240, 200, 200, 200, 200, 160, 160, 160, 160, 120, 120, 120, 120 };
 const s16 hissatsu_nage_02[16] = { 240, 240, 240, 240, 240, 240, 200, 200, 200, 200, 200, 160, 160, 160, 120, 120 };
 
-const s16 *hissatsu_nage[4] = { hissatsu_nage_00, hissatsu_nage_01, hissatsu_nage_02, hissatsu_nage_02 };
+const s16* hissatsu_nage[4] = { hissatsu_nage_00, hissatsu_nage_01, hissatsu_nage_02, hissatsu_nage_02 };
 
 const s16 super_arts_dageki_00[16] = { 240, 240, 200, 200, 200, 160, 160, 160, 160, 160, 120, 120, 120, 120, 120, 120 };
 const s16 super_arts_dageki_01[16] = { 240, 240, 240, 240, 200, 200, 200, 200, 160, 160, 160, 160, 120, 120, 120, 120 };
 const s16 super_arts_dageki_02[16] = { 240, 240, 240, 240, 240, 240, 200, 200, 200, 200, 200, 160, 160, 160, 120, 120 };
 
-const s16 *super_arts_dageki[4] = {
+const s16* super_arts_dageki[4] = {
     super_arts_dageki_00, super_arts_dageki_01, super_arts_dageki_02, super_arts_dageki_02
 };
 
@@ -333,9 +333,9 @@ const s16 super_arts_nage_00[16] = { 270, 270, 230, 230, 230, 190, 190, 190, 190
 const s16 super_arts_nage_01[16] = { 270, 270, 270, 270, 230, 230, 230, 230, 190, 190, 190, 190, 150, 150, 150, 150 };
 const s16 super_arts_nage_02[16] = { 270, 270, 270, 270, 270, 270, 230, 230, 230, 230, 230, 190, 190, 190, 150, 150 };
 
-const s16 *super_arts_nage[4] = { super_arts_nage_00, super_arts_nage_01, super_arts_nage_02, super_arts_nage_02 };
+const s16* super_arts_nage[4] = { super_arts_nage_00, super_arts_nage_01, super_arts_nage_02, super_arts_nage_02 };
 
-const s16 **kizetsu_timer_table[9] = { tsuujyou_dageki,   hissatsu_dageki,   tsuujyou_nage,
+const s16** kizetsu_timer_table[9] = { tsuujyou_dageki,   hissatsu_dageki,   tsuujyou_nage,
                                        hissatsu_nage,     super_arts_dageki, super_arts_nage,
                                        super_arts_dageki, super_arts_nage,   super_arts_dageki };
 
@@ -532,8 +532,8 @@ void init_app_30000() {
 void pli_0000() {
     pcon_rno[1]++;
     round_slow_flag = 0;
-    work_init_zero((s32 *)&plw[0], sizeof(PLW));
-    work_init_zero((s32 *)&plw[1], sizeof(PLW));
+    work_init_zero((s32*)&plw[0], sizeof(PLW));
+    work_init_zero((s32*)&plw[1], sizeof(PLW));
     setup_base_and_other_data();
 }
 
@@ -981,7 +981,7 @@ void check_damage_hosei() {
     plw[0].hosei_amari = plw[1].hosei_amari = 0;
 }
 
-void check_damage_hosei_nage(PLW *as, PLW *ds) {
+void check_damage_hosei_nage(PLW* as, PLW* ds) {
 #if defined(TARGET_PS2)
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
 #endif
@@ -1007,7 +1007,7 @@ void check_damage_hosei_nage(PLW *as, PLW *ds) {
     }
 }
 
-void check_damage_hosei_dageki(PLW *w1, PLW *w2) {
+void check_damage_hosei_dageki(PLW* w1, PLW* w2) {
     if ((w1->dm_hos_flag != 0) && (w2->wu.hit_stop == 0)) {
         w2->wu.xyz[0].disp.pos += w1->hosei_amari;
         w2->muriyari_ugoku += w1->hosei_amari;
@@ -1121,7 +1121,7 @@ void settle_check() {
     }
 }
 
-s32 check_sa_resurrection(PLW *wk) {
+s32 check_sa_resurrection(PLW* wk) {
     if (check_sa_type_rebirth(wk) == 0) {
         return 0;
     }
@@ -1132,7 +1132,7 @@ s32 check_sa_resurrection(PLW *wk) {
     return 1;
 }
 
-s32 check_sa_type_rebirth(PLW *wk) {
+s32 check_sa_type_rebirth(PLW* wk) {
     if ((wk->spmv_ng_flag & 0x40000000) || (wk->spmv_ng_flag & 0x80000000)) {
         return 0;
     }
@@ -1168,7 +1168,7 @@ s16 footwork_check(s8 ix) {
     return rnum;
 }
 
-void set_quake(PLW *wk) {
+void set_quake(PLW* wk) {
     if (wk->wu.hit_quake) {
         wk->wu.hit_quake--;
         wk->wu.next_x = quake_table[wk->wu.hit_quake];
@@ -1181,7 +1181,7 @@ void set_quake(PLW *wk) {
     }
 }
 
-void add_next_position(PLW *wk) {
+void add_next_position(PLW* wk) {
     wk->wu.position_x = wk->wu.xyz[0].disp.pos + wk->wu.next_x;
     wk->wu.position_y = wk->wu.xyz[1].disp.pos + wk->wu.next_y;
     wk->wu.position_z = wk->wu.next_z;
@@ -1261,7 +1261,7 @@ void setup_any_data() {
     }
 }
 
-void set_base_data(PLW *wk, s16 ix) {
+void set_base_data(PLW* wk, s16 ix) {
     wk->wu.be_flag = 1;
     wk->wu.disp_flag = 0;
     wk->wu.blink_timing = ix;
@@ -1271,7 +1271,7 @@ void set_base_data(PLW *wk, s16 ix) {
     wk->wu.charset_id = plid_data[My_char[ix]];
     wk->wkey_flag = wk->dead_flag = 0;
     set_char_base_data(&wk->wu);
-    wk->wu.target_adrs = (u32 *)&plw[(ix + 1) & 1];
+    wk->wu.target_adrs = (u32*)&plw[(ix + 1) & 1];
     wk->player_number = My_char[ix];
     wk->wu.hit_adrs = wk->wu.target_adrs;
     wk->wu.dmg_adrs = wk->wu.target_adrs;
@@ -1294,7 +1294,7 @@ void set_base_data(PLW *wk, s16 ix) {
     set_jugde_area(&wk->wu);
 }
 
-void set_base_data_metamorphose(PLW *wk, s16 dmid) {
+void set_base_data_metamorphose(PLW* wk, s16 dmid) {
     set_char_base_data(&wk->wu);
 
     if (wk->wu.id) {
@@ -1307,7 +1307,7 @@ void set_base_data_metamorphose(PLW *wk, s16 dmid) {
     set_player_shadow(wk);
 }
 
-void set_base_data_tiny(PLW *wk) {
+void set_base_data_tiny(PLW* wk) {
     wk->wu.charset_id = plid_data[My_char[wk->wu.id]];
     wk->player_number = My_char[wk->wu.id];
     set_char_base_data(&wk->wu);
@@ -1326,14 +1326,14 @@ void set_base_data_tiny(PLW *wk) {
     set_player_shadow(wk);
 }
 
-void set_player_shadow(PLW *wk) {
+void set_player_shadow(PLW* wk) {
     wk->wu.kage_flag = 1;
     wk->wu.kage_prio = 68;
     wk->wu.kage_hx = kage_base[wk->player_number][0];
     wk->wu.kage_char = kage_base[wk->player_number][1];
 }
 
-void setup_other_data(PLW *wk) {
+void setup_other_data(PLW* wk) {
 #if defined(TARGET_PS2)
     s32 effect_01_init(WORK * wk, u32 koolc);
 #endif
@@ -1380,7 +1380,7 @@ void set_kizetsu_status(s16 ix) {
     }
 }
 
-void clear_kizetsu_point(PLW *wk) {
+void clear_kizetsu_point(PLW* wk) {
     wk->py->flag = 0;
     wk->py->time = 0;
     wk->py->now.timer = 0;
@@ -1394,7 +1394,7 @@ void set_super_arts_status(s16 ix) {
     s16 remake_sa_gauge_len(s32 ix, s32 gauge_len);
 #endif
 
-    const SA_DATA *saptr;
+    const SA_DATA* saptr;
 
     if (cmd_sel[ix] || no_sa[ix]) {
         saptr = &super_arts_DATA[My_char[ix]][Super_Arts[ix]];
@@ -1457,7 +1457,7 @@ void set_super_arts_status_dc(s16 ix) {
     s16 remake_sa_gauge_len(s32 ix, s32 gauge_len);
 #endif
 
-    const SA_DATA *saptr;
+    const SA_DATA* saptr;
 
     if (cmd_sel[ix] || no_sa[ix]) {
         saptr = &super_arts_DATA[My_char[ix]][Super_Arts[ix]];
@@ -1480,7 +1480,7 @@ void set_super_arts_status_dc(s16 ix) {
     super_arts[ix].dtm_mul = 1;
 }
 
-void clear_super_arts_point(PLW *wk) {
+void clear_super_arts_point(PLW* wk) {
     wk->sa->store = 0;
     wk->sa->gauge.s.h = 0;
     wk->sa->gauge.s.l = -1;

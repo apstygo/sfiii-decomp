@@ -16,16 +16,16 @@
 // with SDL types
 int ADXPS2_ExecVint(int mode);
 
-static const char *app_name = "Street Fighter III: 3rd Strike";
+static const char* app_name = "Street Fighter III: 3rd Strike";
 static const float display_target_ratio = 4.0 / 3.0;
 static const int window_default_width = 640;
 static const int window_default_height = (int)(window_default_width / display_target_ratio);
 static const int target_fps = 60;
 static const float target_frame_time_ns = 1000000000.0 / target_fps;
 
-static SDL_Window *window = NULL;
-static SDL_Renderer *renderer = NULL;
-static SDL_Texture *screen_texture = NULL;
+static SDL_Window* window = NULL;
+static SDL_Renderer* renderer = NULL;
+static SDL_Texture* screen_texture = NULL;
 
 static Uint64 frame_start = 0;
 static Uint64 frame_times[FRAME_TIMES_MAX];
@@ -87,7 +87,7 @@ int SDLApp_Init() {
 
     // Query display
     const SDL_DisplayID display_id = SDL_GetDisplayForWindow(window);
-    const SDL_DisplayMode *display_mode = SDL_GetCurrentDisplayMode(display_id);
+    const SDL_DisplayMode* display_mode = SDL_GetCurrentDisplayMode(display_id);
 
     if (display_mode->refresh_rate == 0) {
         SDL_Log("Displays with unspecified refresh rate are not supported yet");
@@ -108,7 +108,7 @@ void SDLApp_Quit() {
     SDL_Quit();
 }
 
-static void set_screenshot_flag_if_needed(SDL_KeyboardEvent *event) {
+static void set_screenshot_flag_if_needed(SDL_KeyboardEvent* event) {
     if ((event->key == SDLK_GRAVE) && event->down && !event->repeat) {
         should_save_screenshot = true;
     }
@@ -200,9 +200,9 @@ static void update_fps() {
     fps = 1000000000.0 / average_frame_time;
 }
 
-static void save_texture(SDL_Texture *texture, const char *filename) {
+static void save_texture(SDL_Texture* texture, const char* filename) {
     SDL_SetRenderTarget(renderer, texture);
-    const SDL_Surface *rendered_surface = SDL_RenderReadPixels(renderer, NULL);
+    const SDL_Surface* rendered_surface = SDL_RenderReadPixels(renderer, NULL);
     SDL_SaveBMP(rendered_surface, filename);
     SDL_DestroySurface(rendered_surface);
 }

@@ -121,8 +121,8 @@ const s16 effg6_data[230][8] = { { 46, 0, 0, 0, -32, 32, 515, 31 },       { 46, 
                                  { 63, 7, -55, -5, -48, 28, 513, 31 },    { 63, 5, -48, -6, -36, 20, 515, 31 },
                                  { 63, 6, -38, -6, -32, 10, 515, 31 },    { 63, 7, -28, -5, 24, 18, 513, 31 } };
 
-void effect_G6_move(WORK_Other *ewk) {
-    WORK *mwk = (WORK *)ewk->my_master;
+void effect_G6_move(WORK_Other* ewk) {
+    WORK* mwk = (WORK*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -201,15 +201,15 @@ void effect_G6_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_G6_init(WORK *wk, u8 dat) {
-    WORK_Other *ewk;
+s32 effect_G6_init(WORK* wk, u8 dat) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 0xA6;
     ewk->wu.work_id = 0x10;
@@ -224,7 +224,7 @@ s32 effect_G6_init(WORK *wk, u8 dat) {
     ewk->wu.old_rno[1] = wk->routine_no[1];
     ewk->wu.old_rno[2] = wk->routine_no[2];
     ewk->wu.dm_vital = wk->dm_count_up;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->master_work_id = wk->work_id;
     ewk->master_id = wk->id;
     ewk->wu.blink_timing = wk->blink_timing;

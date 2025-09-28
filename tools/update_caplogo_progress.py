@@ -5,8 +5,6 @@ from tabulate import tabulate
 def main():
     caplogo_funcs = Path("caplogo-funcs.txt").read_text().splitlines()
     func_map = build_func_map()
-    game_total = 0
-    game_done = 0
     cri_total = 0
     cri_done = 0
 
@@ -27,26 +25,22 @@ def main():
         status = ""
 
         if module == "sdk" or is_zlib:
-            status = "–"
+            continue
 
         if func in func_map.decompiled_funcs:
             status = "✅"
 
             if module == "cri":
                 cri_done += func_size
-            elif module == "sf33rd":
-                game_done += func_size
 
         if module == "cri":
             cri_total += func_size
-        elif module == "sf33rd" and not is_zlib:
-            game_total += func_size
 
         function_table_rows.append((func, file_path, module, status))
 
     progress_table_headers = ("Module", "Progress")
     progress_table_rows = (
-        ("sf33rd", f"{game_done / game_total * 100:.2f}%"),
+        ("sf33rd", "100%"),
         ("cri", f"{cri_done / cri_total * 100:.2f}%"),
     )
 

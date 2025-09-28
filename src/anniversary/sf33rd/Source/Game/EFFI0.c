@@ -17,7 +17,7 @@ const s16 koishi_app_area[8][16];
 const s16 koishi_speed_x[5][8];
 const s16 koishi_speed_y[5][8];
 
-void effect_I0_move(WORK_Other *ewk) {
+void effect_I0_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -80,15 +80,15 @@ void effect_I0_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_I0_init(WORK *wk, s16 hsx, s16 hsy, s16 spx, s16 spy, s16 nxy) {
-    WORK_Other *ewk;
+s32 effect_I0_init(WORK* wk, s16 hsx, s16 hsy, s16 spx, s16 spy, s16 nxy) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 0xB4;
     ewk->wu.work_id = 0x10;
@@ -113,8 +113,8 @@ s32 effect_I0_init(WORK *wk, s16 hsx, s16 hsy, s16 spx, s16 spy, s16 nxy) {
     return 0;
 }
 
-s32 setup_koishi_extra(WORK *wk, u8 num) {
-    s16 *dix;
+s32 setup_koishi_extra(WORK* wk, u8 num) {
+    s16* dix;
     s16 i;
     s16 hsx;
     s16 hsy;
@@ -125,7 +125,7 @@ s32 setup_koishi_extra(WORK *wk, u8 num) {
     s32 effect_I0_init(WORK * wk, s32 hsx, s32 hsy, s32 spx, s32 spy, s32 nxy);
 #endif
 
-    dix = (s16 *)koishi_app_area[random_16() & 7];
+    dix = (s16*)koishi_app_area[random_16() & 7];
 
     for (i = 0; i < num_of_koishi[num]; i++) {
         hsx = (koishi_area_hosei[dix[i]] + (random_16() - 7));

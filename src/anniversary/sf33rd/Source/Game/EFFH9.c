@@ -13,10 +13,10 @@ const CONN bbbs_ball[4][3] = {
     { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } },
 };
 
-void effH9_trans(WORK *ewk);
-void nokori_ball_effH9(WORK_Other_CONN *ewk, s16 num);
+void effH9_trans(WORK* ewk);
+void nokori_ball_effH9(WORK_Other_CONN* ewk, s16 num);
 
-void effect_H9_move(WORK_Other_CONN *ewk) {
+void effect_H9_move(WORK_Other_CONN* ewk) {
 #if defined(TARGET_PS2)
     void nokori_ball_effH9(WORK_Other_CONN * ewk, s32 num);
 #endif
@@ -80,19 +80,19 @@ void effect_H9_move(WORK_Other_CONN *ewk) {
     }
 }
 
-void effH9_trans(WORK *ewk) {
+void effH9_trans(WORK* ewk) {
     ewk->position_x = bg_w.bgw[2].wxy[0].disp.pos;
     ewk->position_y = bg_w.bgw[2].wxy[1].disp.pos;
     sort_push_request3(ewk);
 }
 
-void nokori_ball_effH9(WORK_Other_CONN *ewk, s16 num) {
+void nokori_ball_effH9(WORK_Other_CONN* ewk, s16 num) {
     ewk->conn[0].chr = (num % 10) + 32464;
     ewk->conn[1].chr = (num / 10) + 32464;
 }
 
-s32 effect_H9_init(PLW *wk) {
-    WORK_Other_CONN *ewk;
+s32 effect_H9_init(PLW* wk) {
+    WORK_Other_CONN* ewk;
     s16 ix;
     s16 i;
 
@@ -100,7 +100,7 @@ s32 effect_H9_init(PLW *wk) {
         return -1;
     }
 
-    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk = (WORK_Other_CONN*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 179;
     ewk->wu.work_id = 16;

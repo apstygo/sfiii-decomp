@@ -26,4 +26,4 @@ const u16 Sel_PL_Data_03[53] = { 32791, 4,   32780, 4,   32779, 4,   32810, 2,  
                                  32783, 128, 32799, 128, 32799, 128, 32831, 128, 32847, 128, 32879, 128, 32815, 128,
                                  32831, 128, 32831, 128, 32815, 128, 32799, 128, 32807, 128, 32879 };
 
-const u16 *Sel_PL_Data_Address[4] = { Sel_PL_Data_00, Sel_PL_Data_01, Sel_PL_Data_02, Sel_PL_Data_03 };
+const u16* Sel_PL_Data_Address[4] = { Sel_PL_Data_00, Sel_PL_Data_01, Sel_PL_Data_02, Sel_PL_Data_03 };

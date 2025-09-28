@@ -11,7 +11,7 @@ void (*chk_move_jp[28])() = { check_init, check_0,  check_1,  check_2,  check_3,
                               check_13,   check_14, check_15, check_16, check_16, check_18, check_19,
                               check_20,   check_21, check_22, check_23, check_24, check_25, check_26 };
 
-void waza_check(PLW *pl) {
+void waza_check(PLW* pl) {
     cmd_pl = pl;
     cmd_id = cmd_pl->wu.id;
     chk_pl = &t_pl_lvr[cmd_id];
@@ -19,20 +19,20 @@ void waza_check(PLW *pl) {
     cmd_move();
 }
 
-void key_thru(PLW *pl) {
+void key_thru(PLW* pl) {
     cmd_pl = pl;
     cmd_id = cmd_pl->wu.id;
     chk_pl = &t_pl_lvr[cmd_id];
     sw_pick_up();
 }
 
-void cmd_data_set(PLW * /* unused */, s16 i) {
+void cmd_data_set(PLW* /* unused */, s16 i) {
 #if defined(TARGET_PS2)
     void make_red_blocking_time(s32 id, s32 ix, s32 num);
 #endif
 
-    u8 *ptr3;
-    u16 *ptr4;
+    u8* ptr3;
+    u16* ptr4;
 
     wcp[cmd_id].reset[i] = *cmd_tbl_ptr++;
     waza_work[cmd_id][i].w_dead = *cmd_tbl_ptr++;
@@ -67,14 +67,14 @@ void cmd_data_set(PLW * /* unused */, s16 i) {
     }
 }
 
-void cmd_init(PLW *pl) {
+void cmd_init(PLW* pl) {
     s16 i;
     s16 j;
-    s32 *ptr;
+    s32* ptr;
 
     cmd_id = pl->wu.id;
     pl->cp = &wcp[cmd_id];
-    ptr = (s32 *)&waza_work[cmd_id][0];
+    ptr = (s32*)&waza_work[cmd_id][0];
 
     for (i = 0; i < 56; i++) {
         for (j = 0; j < 6; j++) {
@@ -94,7 +94,7 @@ void cmd_init(PLW *pl) {
 
 void cmd_move() {
     s16 j;
-    intptr_t *adrs;
+    intptr_t* adrs;
 
     cmd_id = cmd_pl->wu.id;
 
@@ -107,7 +107,7 @@ void cmd_move() {
     for (j = 0; j < 56; j++) {
         if (wcp[cmd_id].waza_flag[j] != -1) {
             waza_type[cmd_id] = j;
-            cmd_tbl_ptr = (s16 *)adrs[j];
+            cmd_tbl_ptr = (s16*)adrs[j];
             waza_ptr = &waza_work[cmd_id][j];
             chk_move_jp[waza_ptr->w_type]();
         }
@@ -138,7 +138,7 @@ void check_init() {
 }
 
 void check_next() {
-    s16 *next_ptr = waza_ptr->w_ptr;
+    s16* next_ptr = waza_ptr->w_ptr;
 
     waza_ptr->w_type = *next_ptr++;
     waza_ptr->w_int = *next_ptr++;
@@ -292,7 +292,7 @@ void check_2() {
 void check_3() {
     s16 i;
     s16 w_flag;
-    s16 *shot_cnt_adrs;
+    s16* shot_cnt_adrs;
 
     sw_work = chk_pl->sw_new & 0x770;
     waza_ptr->uni0.tame.shot_flag2 = waza_ptr->uni0.tame.shot_flag;
@@ -485,7 +485,7 @@ void check_6() {
 void check_7() {
     s16 i;
     s16 w_flag;
-    s16 *shot_cnt_adrs;
+    s16* shot_cnt_adrs;
 
     waza_ptr->w_int--;
 
@@ -1676,7 +1676,7 @@ void pl_lvr_set() {
 
 void sw_pick_up() {
     s16 i;
-    s16 *cnt_address1;
+    s16* cnt_address1;
 
     pl_lvr_set();
     sw_work = 1;
@@ -1740,7 +1740,7 @@ void sw_pick_up() {
 }
 
 void dash_flag_clear(s16 pl_id) {
-    intptr_t *adrs;
+    intptr_t* adrs;
 
     if (cmd_sel[pl_id]) {
         adrs = pl_CMD[plw[pl_id].player_number];
@@ -1753,7 +1753,7 @@ void dash_flag_clear(s16 pl_id) {
 }
 
 void hi_jump_flag_clear(s16 pl_id) {
-    intptr_t *adrs;
+    intptr_t* adrs;
 
     if (cmd_sel[pl_id]) {
         adrs = pl_CMD[plw[pl_id].player_number];
@@ -1765,7 +1765,7 @@ void hi_jump_flag_clear(s16 pl_id) {
 }
 
 void waza_flag_clear_only_1(s16 pl_id, s16 wznum) {
-    intptr_t *adrs;
+    intptr_t* adrs;
 
     if (cmd_sel[pl_id]) {
         adrs = pl_CMD[plw[pl_id].player_number];
@@ -1776,11 +1776,11 @@ void waza_flag_clear_only_1(s16 pl_id, s16 wznum) {
     waza_compel_init(pl_id, wznum, adrs);
 }
 
-void waza_compel_init(s16 pl_id, s16 num, intptr_t *adrs) {
-    WAZA_WORK *w_ptr;
-    s16 *ptr;
+void waza_compel_init(s16 pl_id, s16 num, intptr_t* adrs) {
+    WAZA_WORK* w_ptr;
+    s16* ptr;
 
-    ptr = (s16 *)adrs[num];
+    ptr = (s16*)adrs[num];
     ptr += 12;
     w_ptr = &waza_work[pl_id][num];
     w_ptr->w_type = *ptr++;
@@ -1797,9 +1797,9 @@ void waza_compel_init(s16 pl_id, s16 num, intptr_t *adrs) {
     wcp[pl_id].waza_flag[num] = 0;
 }
 
-void waza_compel_all_init(PLW *pl) {
+void waza_compel_all_init(PLW* pl) {
     s16 i;
-    intptr_t *adrs;
+    intptr_t* adrs;
 
     if (cmd_sel[pl->wu.id]) {
         adrs = pl_CMD[pl->player_number];
@@ -1808,7 +1808,7 @@ void waza_compel_all_init(PLW *pl) {
     }
 
     for (i = 0; i < pl_cmd_num[pl->player_number][0]; i++) {
-        cmd_tbl_ptr = (s16 *)adrs[i];
+        cmd_tbl_ptr = (s16*)adrs[i];
         cmd_data_set(pl, i);
     }
 
@@ -1817,7 +1817,7 @@ void waza_compel_all_init(PLW *pl) {
     }
 
     for (i = 20; i < pl_cmd_num[pl->player_number][1]; i++) {
-        cmd_tbl_ptr = (s16 *)adrs[i];
+        cmd_tbl_ptr = (s16*)adrs[i];
         cmd_data_set(pl, i);
     }
 
@@ -1826,7 +1826,7 @@ void waza_compel_all_init(PLW *pl) {
     }
 
     for (i = 24; i < pl_cmd_num[pl->player_number][2]; i++) {
-        cmd_tbl_ptr = (s16 *)adrs[i];
+        cmd_tbl_ptr = (s16*)adrs[i];
         cmd_data_set(pl, i);
     }
 
@@ -1835,7 +1835,7 @@ void waza_compel_all_init(PLW *pl) {
     }
 
     for (i = 28; i < pl_cmd_num[pl->player_number][3]; i++) {
-        cmd_tbl_ptr = (s16 *)adrs[i];
+        cmd_tbl_ptr = (s16*)adrs[i];
         cmd_data_set(pl, i);
     }
 
@@ -1844,7 +1844,7 @@ void waza_compel_all_init(PLW *pl) {
     }
 
     for (i = 38; i < pl_cmd_num[pl->player_number][4]; i++) {
-        cmd_tbl_ptr = (s16 *)adrs[i];
+        cmd_tbl_ptr = (s16*)adrs[i];
         cmd_data_set(pl, i);
     }
 
@@ -1853,7 +1853,7 @@ void waza_compel_all_init(PLW *pl) {
     }
 
     for (i = 42; i < pl_cmd_num[pl->player_number][5]; i++) {
-        cmd_tbl_ptr = (s16 *)adrs[i];
+        cmd_tbl_ptr = (s16*)adrs[i];
         cmd_data_set(pl, i);
     }
 
@@ -1862,7 +1862,7 @@ void waza_compel_all_init(PLW *pl) {
     }
 
     for (i = 46; i < pl_cmd_num[pl->player_number][6]; i++) {
-        cmd_tbl_ptr = (s16 *)adrs[i];
+        cmd_tbl_ptr = (s16*)adrs[i];
         cmd_data_set(pl, i);
     }
 
@@ -1871,9 +1871,9 @@ void waza_compel_all_init(PLW *pl) {
     }
 }
 
-void waza_compel_all_init2(PLW *pl) {
+void waza_compel_all_init2(PLW* pl) {
     s16 j;
-    s32 *adrs;
+    s32* adrs;
 
     if (cmd_sel[pl->wu.id]) {
         adrs = pl_CMD[pl->player_number];

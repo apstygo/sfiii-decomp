@@ -17,9 +17,9 @@ s16 eff_hit_data[4][4] = { { -67, 59, 13, 29 }, { 31, 95, 24, 15 }, { 4, 123, 28
 // sbss
 s16 eff_hit_flag[11];
 
-s32 eff_hit_check_sub(WORK_Other *ewk, PLW *pl);
-s32 eff_hit_check_sub2(WORK_Other *ewk, PLW *pl, s16 where_type);
-static s16 hit_check_subroutine_yu(WORK *tpl, WORK *tef, s16 *hd1, s16 *hd2);
+s32 eff_hit_check_sub(WORK_Other* ewk, PLW* pl);
+s32 eff_hit_check_sub2(WORK_Other* ewk, PLW* pl, s16 where_type);
+static s16 hit_check_subroutine_yu(WORK* tpl, WORK* tef, s16* hd1, s16* hd2);
 
 void sync_fam_set3(s16 my_fam) {
 #if defined(TARGET_PS2)
@@ -67,7 +67,7 @@ void sync_fam_set3(s16 my_fam) {
     Family_Set_W(my_fam + 1, pos_work_x, pos_work_y);
 }
 
-s32 range_x_check(WORK_Other *ewk) {
+s32 range_x_check(WORK_Other* ewk) {
     s16 pos_x_work;
     s16 work2;
     s16 work3;
@@ -95,7 +95,7 @@ s32 range_x_check(WORK_Other *ewk) {
     return 1;
 }
 
-s32 range_x_check3(WORK_Other *ewk, s16 optional_range) {
+s32 range_x_check3(WORK_Other* ewk, s16 optional_range) {
     s16 pos_x_work;
     s16 work2;
     s16 work3;
@@ -118,7 +118,7 @@ s32 range_x_check3(WORK_Other *ewk, s16 optional_range) {
     return 1;
 }
 
-s32 range_y_check(WORK_Other *ewk) {
+s32 range_y_check(WORK_Other* ewk) {
     s16 pos_y_work;
     s16 work2;
     s16 work3;
@@ -141,22 +141,22 @@ s32 range_y_check(WORK_Other *ewk) {
     return 1;
 }
 
-void add_x_sub(WORK_Other *ewk) {
+void add_x_sub(WORK_Other* ewk) {
     ewk->wu.xyz[0].cal += ewk->wu.mvxy.a[0].sp;
     ewk->wu.mvxy.a[0].sp += ewk->wu.mvxy.d[0].sp;
 }
 
-void add_x_sub2(WORK_Other *ewk) {
+void add_x_sub2(WORK_Other* ewk) {
     ewk->wu.xyz[0].cal += ewk->wu.mvxy.a[0].sp;
     ewk->wu.mvxy.a[0].sp += ewk->wu.mvxy.d[0].sp;
 }
 
-void add_y_sub(WORK_Other *ewk) {
+void add_y_sub(WORK_Other* ewk) {
     ewk->wu.xyz[1].cal += ewk->wu.mvxy.a[1].sp;
     ewk->wu.mvxy.a[1].sp += ewk->wu.mvxy.d[1].sp;
 }
 
-void add_y_sub2(WORK_Other *ewk) {
+void add_y_sub2(WORK_Other* ewk) {
     ewk->wu.xyz[1].cal += ewk->wu.mvxy.a[1].sp;
     ewk->wu.mvxy.a[1].sp += ewk->wu.mvxy.d[1].sp;
 }
@@ -169,7 +169,7 @@ s32 obr_no_disp_check() {
     return 0;
 }
 
-void disp_pos_trans_entry(WORK_Other *ewk) {
+void disp_pos_trans_entry(WORK_Other* ewk) {
     if (obr_no_disp_check()) {
         return;
     }
@@ -179,7 +179,7 @@ void disp_pos_trans_entry(WORK_Other *ewk) {
     sort_push_request4(&ewk->wu);
 }
 
-void disp_pos_trans_entry5(WORK_Other *ewk) {
+void disp_pos_trans_entry5(WORK_Other* ewk) {
     if (obr_no_disp_check()) {
         return;
     }
@@ -189,7 +189,7 @@ void disp_pos_trans_entry5(WORK_Other *ewk) {
     sort_push_request4(&ewk->wu);
 }
 
-void disp_pos_trans_entry_r(WORK_Other *ewk) {
+void disp_pos_trans_entry_r(WORK_Other* ewk) {
     if ((obr_no_disp_check() == 0) && (range_x_check(ewk) != 0)) {
         ewk->wu.position_x = (ewk->wu.xyz[0].disp.pos & 0xFFFF) + 1;
         ewk->wu.position_y = ewk->wu.xyz[1].disp.pos & 0xFFFF;
@@ -197,7 +197,7 @@ void disp_pos_trans_entry_r(WORK_Other *ewk) {
     }
 }
 
-void disp_pos_trans_entry_r4(WORK_Other *ewk) {
+void disp_pos_trans_entry_r4(WORK_Other* ewk) {
     if ((obr_no_disp_check() == 0) && (range_y_check(ewk) != 0)) {
         ewk->wu.position_x = ewk->wu.xyz[0].disp.pos & 0xFFFF;
         ewk->wu.position_y = ewk->wu.xyz[1].disp.pos & 0xFFFF;
@@ -205,7 +205,7 @@ void disp_pos_trans_entry_r4(WORK_Other *ewk) {
     }
 }
 
-void disp_pos_trans_entry_s(WORK_Other *ewk) {
+void disp_pos_trans_entry_s(WORK_Other* ewk) {
     if (obr_no_disp_check() == 0) {
         suzi_sync_pos_set(ewk);
         ewk->wu.position_x++;
@@ -213,7 +213,7 @@ void disp_pos_trans_entry_s(WORK_Other *ewk) {
     }
 }
 
-void disp_pos_trans_entry_rs(WORK_Other *ewk) {
+void disp_pos_trans_entry_rs(WORK_Other* ewk) {
     if ((obr_no_disp_check() == 0) && (range_x_check(ewk) != 0)) {
         suzi_sync_pos_set(ewk);
         ewk->wu.position_x++;
@@ -221,7 +221,7 @@ void disp_pos_trans_entry_rs(WORK_Other *ewk) {
     }
 }
 
-void pl_eff_trans_entry(WORK_Other *ewk) {
+void pl_eff_trans_entry(WORK_Other* ewk) {
     if (obr_no_disp_check() == 0) {
         ewk->wu.position_x = ewk->wu.xyz[0].disp.pos & 0xFFFF;
         ewk->wu.position_y = ewk->wu.xyz[1].disp.pos & 0xFFFF;
@@ -229,7 +229,7 @@ void pl_eff_trans_entry(WORK_Other *ewk) {
     }
 }
 
-s16 eff_hit_check(WORK_Other *ewk, s16 type) {
+s16 eff_hit_check(WORK_Other* ewk, s16 type) {
     if (!EXE_obroll) {
         if (type) {
             if (pcon_dp_flag) {
@@ -253,7 +253,7 @@ const s16 pl_hit_eff[25][4] = { { -11, 56, 33, 38 }, { -11, 56, 35, 53 }, { -13,
                                 { -11, 56, 33, 38 }, { -11, 56, 33, 38 }, { -11, 56, 33, 38 }, { -11, 56, 33, 38 },
                                 { -11, 56, 33, 38 } };
 
-s32 eff_hit_check_sub(WORK_Other *ewk, PLW *pl) {
+s32 eff_hit_check_sub(WORK_Other* ewk, PLW* pl) {
     if (pl->wu.routine_no[1] == 1) {
         if (pl->wu.routine_no[2] < 14 || pl->wu.routine_no[2] >= 24) {
             return 0;
@@ -268,7 +268,7 @@ s32 eff_hit_check_sub(WORK_Other *ewk, PLW *pl) {
     return 0;
 }
 
-s16 eff_hit_check2(WORK_Other *ewk, s16 type, s16 where_type) {
+s16 eff_hit_check2(WORK_Other* ewk, s16 type, s16 where_type) {
     if (!EXE_obroll) {
         if (type) {
             if (pcon_dp_flag) {
@@ -284,8 +284,8 @@ s16 eff_hit_check2(WORK_Other *ewk, s16 type, s16 where_type) {
     return eff_hit_flag[ewk->wu.type];
 }
 
-s32 eff_hit_check_sub2(WORK_Other *ewk, PLW *pl, s16 where_type) {
-    s16 *hd1 = pl->wu.h_bod->body_dm[where_type];
+s32 eff_hit_check_sub2(WORK_Other* ewk, PLW* pl, s16 where_type) {
+    s16* hd1 = pl->wu.h_bod->body_dm[where_type];
 
     if (hit_check_subroutine_yu(&pl->wu, &ewk->wu, hd1, eff_hit_data[ewk->wu.type])) {
         return 1;
@@ -294,7 +294,7 @@ s32 eff_hit_check_sub2(WORK_Other *ewk, PLW *pl, s16 where_type) {
     return 0;
 }
 
-static s16 hit_check_subroutine_yu(WORK *tpl, WORK *tef, s16 *hd1, s16 *hd2) {
+static s16 hit_check_subroutine_yu(WORK* tpl, WORK* tef, s16* hd1, s16* hd2) {
     s16 d0 = *hd1++;
     s16 d1 = *hd1++;
     s16 d2;
@@ -339,7 +339,7 @@ static s16 hit_check_subroutine_yu(WORK *tpl, WORK *tef, s16 *hd1, s16 *hd2) {
 
 void eff_hit_flag_clear() {
     s16 i;
-    s16 *ptr;
+    s16* ptr;
 
     ptr = &eff_hit_flag[0];
 
@@ -348,7 +348,7 @@ void eff_hit_flag_clear() {
     }
 }
 
-s32 compel_dead_check(WORK_Other *ewk) {
+s32 compel_dead_check(WORK_Other* ewk) {
     s32 var_s0 = 0;
 
     if (bg_w.compel_flag) {

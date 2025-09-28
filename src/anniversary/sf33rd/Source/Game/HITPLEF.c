@@ -11,15 +11,15 @@ void player_at_vs_effect_dm(s16 ix2, s16 ix) {
     s32 effect_02_init(WORK * wk, s32 dmgp, s32 mkst, s32 dmrl);
 #endif
 
-    PLW *as = (PLW *)q_hit_push[ix2];
-    WORK_Other *ds = (WORK_Other *)q_hit_push[ix];
+    PLW* as = (PLW*)q_hit_push[ix2];
+    WORK_Other* ds = (WORK_Other*)q_hit_push[ix];
 
     pp_pulpara_hit(&as->wu);
     ds->wu.dm_rl = as->wu.rl_flag;
     cal_hit_mark_pos(&as->wu, &ds->wu, ix2, ix);
 
     if (ds->wu.id == 122 || ds->wu.id == 123) {
-        cal_damage_vitality(as, (PLW *)ds);
+        cal_damage_vitality(as, (PLW*)ds);
     } else {
         ds->wu.dm_vital = 256;
     }

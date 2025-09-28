@@ -5,7 +5,7 @@
 #include "sf33rd/Source/Game/sc_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-const u8 *hnc_pointer;
+const u8* hnc_pointer;
 u8 hnc_timer;
 u8 hnc_end_timer;
 u8 hnc_col;
@@ -15,7 +15,7 @@ const u8 hnc_color_tbl[88] = { 21, 2, 22, 1, 21, 2, 20, 18, 21, 2, 22, 1, 21, 2,
                                21, 2, 20, 4, 21, 2, 22, 1,  21, 2, 20, 4, 21, 2, 22, 1,  21, 2, 20, 4, 21, 2,
                                22, 1, 21, 2, 20, 4, 21, 2,  22, 1, 21, 2, 20, 4, 21, 2,  22, 1, 21, 2, 20, 255 };
 
-void effect_A2_move(WORK_Other *ewk) {
+void effect_A2_move(WORK_Other* ewk) {
     if (!(Game_pause & 0x80)) {
         hnc_end_timer++;
     }
@@ -105,14 +105,14 @@ void effect_A2_move(WORK_Other *ewk) {
 }
 
 s32 effect_A2_init() {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 102;
     ewk->wu.work_id = 16;

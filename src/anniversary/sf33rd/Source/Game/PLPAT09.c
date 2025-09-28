@@ -10,7 +10,7 @@
 #include "sf33rd/Source/Game/PLS01.h"
 #include "sf33rd/Source/Game/PLS02.h"
 
-void mvxy_table_reader(PLW *wk);
+void mvxy_table_reader(PLW* wk);
 
 const u8 tenguiwa_stand_by[2][8] = { { 24, 25, 26, 27, 28, 29, 30, 30 }, { 31, 32, 33, 34, 35, 34, 33, 31 } };
 
@@ -34,13 +34,13 @@ const s16 homing_hos[2][20][2] = { { { 0, 128 }, { 0, 128 }, { 0, 128 }, { 0, 12
 
 const s16 homing_kop[2][4] = { { 1, 14, 0, 2 }, { 0, 14, 0, 2 } };
 
-void (*const pl09_exatt_table[18])(PLW *);
+void (*const pl09_exatt_table[18])(PLW*);
 
-void pl09_extra_attack(PLW *wk) {
+void pl09_extra_attack(PLW* wk) {
     pl09_exatt_table[wk->wu.routine_no[2] - 16](wk);
 }
 
-void Att_SP_YAGYOUDAMA(PLW *wk) {
+void Att_SP_YAGYOUDAMA(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -101,7 +101,7 @@ void Att_SP_YAGYOUDAMA(PLW *wk) {
     }
 }
 
-s32 set_tenguiwa(PLW *wk, u8 data) {
+s32 set_tenguiwa(PLW* wk, u8 data) {
 #if defined(TARGET_PS2)
     s32 effect_13_init(WORK * wk, const u32 data);
     s32 get_my_shell_ix(WORK * wk, s32 ix, WORK * *tmw);
@@ -110,8 +110,8 @@ s32 set_tenguiwa(PLW *wk, u8 data) {
     s16 i;
     s16 j;
     u16 num;
-    const u8 *tengu;
-    WORK *tmw;
+    const u8* tengu;
+    WORK* tmw;
 
     if (!data) {
         tengu = tenguiwa_stand_by[0];
@@ -176,7 +176,7 @@ s32 set_tenguiwa(PLW *wk, u8 data) {
     return 0;
 }
 
-void Att_PL09_TOKUSHUKOUDOU(PLW *wk) {
+void Att_PL09_TOKUSHUKOUDOU(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void grade_add_personal_action(s32 ix);
@@ -234,7 +234,7 @@ void Att_PL09_TOKUSHUKOUDOU(PLW *wk) {
     }
 }
 
-void Att_JINNCHUUWATARI_EX(PLW *wk) {
+void Att_JINNCHUUWATARI_EX(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -281,14 +281,14 @@ void Att_JINNCHUUWATARI_EX(PLW *wk) {
     }
 }
 
-void mvxy_table_reader(PLW *wk) {
+void mvxy_table_reader(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
 #endif
 
-    PLW *twk = (PLW *)wk->wu.target_adrs;
-    const s16 *curr_kop = &homing_kop[wk->pl09_dat_index][0];
+    PLW* twk = (PLW*)wk->wu.target_adrs;
+    const s16* curr_kop = &homing_kop[wk->pl09_dat_index][0];
     s16 ex;
     s16 ey;
 
@@ -353,7 +353,7 @@ void mvxy_table_reader(PLW *wk) {
     }
 }
 
-void Att_PL09_EX_TENGUIWA(PLW *wk) {
+void Att_PL09_EX_TENGUIWA(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -375,7 +375,7 @@ void Att_PL09_EX_TENGUIWA(PLW *wk) {
     }
 }
 
-void Att_PL09_EX_KISHINRIKI(PLW *wk) {
+void Att_PL09_EX_KISHINRIKI(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -415,7 +415,7 @@ void Att_PL09_EX_KISHINRIKI(PLW *wk) {
     }
 }
 
-void (*const pl09_exatt_table[18])(PLW *) = {
+void (*const pl09_exatt_table[18])(PLW*) = {
     Att_HADOUKEN,      Att_SHOURYUUKEN,      Att_KUUCHUUNICHIRINSHOU,   Att_HADOUKEN,       Att_HADOUKEN,
     Att_HADOUKEN,      Att_HADOUKEN,         Att_KUUCHUUJINNCHUUWATARI, Att_JINNCHUUWATARI, Att_JINNCHUUWATARI_EX,
     Att_SP_YAGYOUDAMA, Att_PL09_EX_TENGUIWA, Att_PL09_EX_KISHINRIKI,    Att_DUMMY,          Att_PL09_TOKUSHUKOUDOU,

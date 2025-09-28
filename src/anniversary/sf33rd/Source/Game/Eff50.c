@@ -1,20 +1,20 @@
 #include "sf33rd/Source/Game/Eff50.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/Sel_Data.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_50_move(WORK_Other *ewk) {
+void effect_50_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    WORK_Other *pwk;
+    WORK_Other* pwk;
     u16 sw;
 
     if (ewk->master_id) {
@@ -29,7 +29,7 @@ void effect_50_move(WORK_Other *ewk) {
         return;
     }
 
-    pwk = (WORK_Other *)Synchro_Address[ewk->master_id][(ewk->wu.direction - 1) ^ 1];
+    pwk = (WORK_Other*)Synchro_Address[ewk->master_id][(ewk->wu.direction - 1) ^ 1];
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -104,14 +104,14 @@ s32 effect_50_init(s16 PL_id, s16 Direction, s16 dm_vital) {
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 50;
     ewk->wu.work_id = 16;
@@ -125,7 +125,7 @@ s32 effect_50_init(s16 PL_id, s16 Direction, s16 dm_vital) {
     ewk->wu.my_trans_mode = get_my_trans_mode(ewk->wu.my_mts);
 
     if (dm_vital == 0) {
-        Synchro_Address[ewk->master_id][ewk->wu.direction - 1] = (u32 *)ewk;
+        Synchro_Address[ewk->master_id][ewk->wu.direction - 1] = (u32*)ewk;
     }
 
     ewk->wu.xyz[0].disp.pos = Plate_Pos_Data_79[Play_Type][ewk->master_id][0][0];

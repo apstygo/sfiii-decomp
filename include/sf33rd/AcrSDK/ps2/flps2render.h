@@ -22,7 +22,7 @@ s32 flPS2SendRenderState_TEST(u32 render_state, u32 flag);
 s32 flPS2SendRenderState_ALPHA(u32 render_state, u32 flag);
 s32 flPS2SendRenderState_FOGCOL(u32 fogcol);
 s32 flPS2SendRenderState_TEX1(u32 render_state, u32 flag);
-s32 flPS2SetTextureRegister(u32 th, u64 *texA, u64 *tex1, u64 *tex0, u64 *clamp, u64 *miptbp1, u64 *miptbp2,
+s32 flPS2SetTextureRegister(u32 th, u64* texA, u64* tex1, u64* tex0, u64* clamp, u64* miptbp1, u64* miptbp2,
                             u32 render_ope);
 s16 flPS2ConvScreenX(s16 x);
 s16 flPS2ConvScreenY(s16 y);

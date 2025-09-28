@@ -49,24 +49,24 @@ const s8 k5_exc_check[125] = { 1, 2, 0, 2, 2, 2, 2, 1, 1, 1, 2, 2, 1, 2, 1, 2, 1
 
 // Forward decls
 
-void K5_init_data(WORK *mwk, MVJ *mvj, u16 *ixtbl);
-void K5_init_data_copy(MVJ *mvj, K5Data *dad, s16 num);
-void K5_init_data_copy2(K5Data *dad, MVJ *mvj, s16 num);
-void get_table_adrs_K5(WORK *wk);
-void k5_add_sub(MVJ *mvj);
-void get_okuri_time(WORK *ewk, WORK *mwk, MVJ *mvj);
-void K5_main_process(WORK *ewk, WORK *mwk, MVJ *mvj);
-void init_K5_work(WORK *ewk, WORK *mwk, MVJ *mvj);
-void get_master_table_address(WORK *ewk, WORK *mwk);
-s32 get_cal_work(WORK *wk);
-void K5_decode_new_hit_index(WORK *wk, MVJ *mvj, u16 mf);
+void K5_init_data(WORK* mwk, MVJ* mvj, u16* ixtbl);
+void K5_init_data_copy(MVJ* mvj, K5Data* dad, s16 num);
+void K5_init_data_copy2(K5Data* dad, MVJ* mvj, s16 num);
+void get_table_adrs_K5(WORK* wk);
+void k5_add_sub(MVJ* mvj);
+void get_okuri_time(WORK* ewk, WORK* mwk, MVJ* mvj);
+void K5_main_process(WORK* ewk, WORK* mwk, MVJ* mvj);
+void init_K5_work(WORK* ewk, WORK* mwk, MVJ* mvj);
+void get_master_table_address(WORK* ewk, WORK* mwk);
+s32 get_cal_work(WORK* wk);
+void K5_decode_new_hit_index(WORK* wk, MVJ* mvj, u16 mf);
 u32 decode_mvsw(u16 flag);
 
 // Funcs
 
-void effect_K5_move(WORK_Other *ewk) {
-    WORK *mwk = (WORK *)ewk->my_master;
-    MVJ *mvj;
+void effect_K5_move(WORK_Other* ewk) {
+    WORK* mwk = (WORK*)ewk->my_master;
+    MVJ* mvj;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -77,11 +77,11 @@ void effect_K5_move(WORK_Other *ewk) {
             return;
         }
 
-        mvj = (MVJ *)(ewk->wu.target_adrs + 9);
+        mvj = (MVJ*)(ewk->wu.target_adrs + 9);
         init_K5_work(&ewk->wu, mwk, mvj);
         ewk->wu.old_rno[1] = mwk->cg_hit_ix;
         get_table_adrs_K5(mwk);
-        K5_init_data(mwk, mvj, (u16 *)(&mwk->cg_ja));
+        K5_init_data(mwk, mvj, (u16*)(&mwk->cg_ja));
         break;
 
     case 1:
@@ -91,14 +91,14 @@ void effect_K5_move(WORK_Other *ewk) {
             return;
         }
 
-        if (((PLW *)mwk)->waku_ram_index != ewk->wu.myself) {
+        if (((PLW*)mwk)->waku_ram_index != ewk->wu.myself) {
             ewk->wu.disp_flag = 0;
             ewk->wu.routine_no[0] = 2;
             return;
         }
 
         get_master_table_address(&ewk->wu, mwk);
-        mvj = (MVJ *)(ewk->wu.target_adrs + 9);
+        mvj = (MVJ*)(ewk->wu.target_adrs + 9);
 
         if (mwk->K5_exec_ok) {
             mwk->K5_exec_ok = 0;
@@ -107,20 +107,20 @@ void effect_K5_move(WORK_Other *ewk) {
                 mwk->K5_init_flag = 0;
                 ewk->wu.old_rno[1] = mwk->cg_hit_ix;
                 ewk->wu.routine_no[1] = 0;
-                K5_init_data(mwk, mvj, (u16 *)(&mwk->cg_ja));
+                K5_init_data(mwk, mvj, (u16*)(&mwk->cg_ja));
             }
 
             K5_main_process(&ewk->wu, mwk, mvj);
         }
 
-        K5_init_data_copy2((K5Data *)&rambod[mwk->id], mvj, 4);
-        K5_init_data_copy2((K5Data *)&ramhan[mwk->id], mvj + 4, 4);
-        mwk->h_bod = (UNK_1 *)&rambod[mwk->id];
-        mwk->h_han = (UNK_2 *)&ramhan[mwk->id];
+        K5_init_data_copy2((K5Data*)&rambod[mwk->id], mvj, 4);
+        K5_init_data_copy2((K5Data*)&ramhan[mwk->id], mvj + 4, 4);
+        mwk->h_bod = (UNK_1*)&rambod[mwk->id];
+        mwk->h_han = (UNK_2*)&ramhan[mwk->id];
         break;
 
     case 2:
-        push_effect_work((WORK *)ewk->wu.target_adrs);
+        push_effect_work((WORK*)ewk->wu.target_adrs);
         /* fallthrough */
 
     default:
@@ -129,7 +129,7 @@ void effect_K5_move(WORK_Other *ewk) {
     }
 }
 
-void K5_main_process(WORK *ewk, WORK *mwk, MVJ *mvj) {
+void K5_main_process(WORK* ewk, WORK* mwk, MVJ* mvj) {
     s16 i;
 
     switch (ewk->routine_no[1]) {
@@ -149,12 +149,12 @@ void K5_main_process(WORK *ewk, WORK *mwk, MVJ *mvj) {
 }
 
 typedef union {
-    u32 *cpl; // offset 0x0, size 0x4
-    u16 *cps; // offset 0x0, size 0x4
-    u8 *cpc;  // offset 0x0, size 0x4
+    u32* cpl; // offset 0x0, size 0x4
+    u16* cps; // offset 0x0, size 0x4
+    u8* cpc;  // offset 0x0, size 0x4
 } GOTCP;
 
-void get_okuri_time(WORK *ewk, WORK *mwk, MVJ *mvj) {
+void get_okuri_time(WORK* ewk, WORK* mwk, MVJ* mvj) {
 #if defined(TARGET_PS2)
     void K5_decode_new_hit_index(WORK * wk, MVJ * mvj, s32 mf);
 #endif
@@ -234,7 +234,7 @@ void get_okuri_time(WORK *ewk, WORK *mwk, MVJ *mvj) {
     ewk->routine_no[1] = 2;
 }
 
-void K5_decode_new_hit_index(WORK *wk, MVJ *mvj, u16 mf) {
+void K5_decode_new_hit_index(WORK* wk, MVJ* mvj, u16 mf) {
 #if defined(TARGET_PS2)
     u32 decode_mvsw(s32 flag);
 #endif
@@ -362,13 +362,13 @@ u32 decode_mvsw(u16 flag) {
     return mvsw.swi;
 }
 
-void get_table_adrs_K5(WORK *wk) {
+void get_table_adrs_K5(WORK* wk) {
     wk->cg_ja = wk->hit_ix_table[wk->cg_hit_ix];
     wk->h_bod = &wk->body_adrs[wk->cg_ja.boix];
     wk->h_han = &wk->hand_adrs[wk->cg_ja.bhix + wk->cg_ja.haix];
 }
 
-void init_K5_work(WORK *ewk, WORK *mwk, MVJ *mvj) {
+void init_K5_work(WORK* ewk, WORK* mwk, MVJ* mvj) {
     s16 i;
 
     for (i = 0; i < 10; i++) {
@@ -382,13 +382,13 @@ void init_K5_work(WORK *ewk, WORK *mwk, MVJ *mvj) {
     mwk->K5_init_flag = 1;
 }
 
-void get_master_table_address(WORK *ewk, WORK *mwk) {
+void get_master_table_address(WORK* ewk, WORK* mwk) {
     ewk->hit_ix_table = mwk->hit_ix_table;
     ewk->body_adrs = mwk->body_adrs;
     ewk->hand_adrs = mwk->hand_adrs;
 }
 
-void K5_init_data(WORK *mwk, MVJ *mvj, u16 *ixtbl) {
+void K5_init_data(WORK* mwk, MVJ* mvj, u16* ixtbl) {
     s16 i;
 
     for (i = 0; i < 8; i++) {
@@ -396,11 +396,11 @@ void K5_init_data(WORK *mwk, MVJ *mvj, u16 *ixtbl) {
         mvj[i].index = ixtbl[lookup_index[i]];
     }
 
-    K5_init_data_copy(mvj, (K5Data *)mwk->body_adrs[mwk->cg_ja.boix].body_dm, 4);
-    K5_init_data_copy(mvj + 4, (K5Data *)mwk->hand_adrs[mwk->cg_ja.bhix + mwk->cg_ja.haix].hand_dm, 4);
+    K5_init_data_copy(mvj, (K5Data*)mwk->body_adrs[mwk->cg_ja.boix].body_dm, 4);
+    K5_init_data_copy(mvj + 4, (K5Data*)mwk->hand_adrs[mwk->cg_ja.bhix + mwk->cg_ja.haix].hand_dm, 4);
 }
 
-void K5_init_data_copy(MVJ *mvj, K5Data *dad, s16 num) {
+void K5_init_data_copy(MVJ* mvj, K5Data* dad, s16 num) {
     s16 i;
 
     for (i = 0; i < num; i++) {
@@ -411,7 +411,7 @@ void K5_init_data_copy(MVJ *mvj, K5Data *dad, s16 num) {
     }
 }
 
-void K5_init_data_copy2(K5Data *dad, MVJ *mvj, s16 num) {
+void K5_init_data_copy2(K5Data* dad, MVJ* mvj, s16 num) {
     s16 i;
 
     for (i = 0; i < num; i++) {
@@ -422,22 +422,22 @@ void K5_init_data_copy2(K5Data *dad, MVJ *mvj, s16 num) {
     }
 }
 
-s32 get_cal_work(WORK *wk) {
-    WORK *fwk;
+s32 get_cal_work(WORK* wk) {
+    WORK* fwk;
     s16 ix;
 
     if ((ix = pull_effect_work(7)) == -1) {
         return -1;
     }
 
-    fwk = (WORK *)frw[ix];
-    wk->target_adrs = (u32 *)fwk;
+    fwk = (WORK*)frw[ix];
+    wk->target_adrs = (u32*)fwk;
     fwk->be_flag = 1;
     fwk->id = 0xCD;
     return 0;
 }
 
-void k5_add_sub(MVJ *mvj) {
+void k5_add_sub(MVJ* mvj) {
     s16 i;
 
     for (i = 0; i < 4; i++) {
@@ -449,8 +449,8 @@ void k5_add_sub(MVJ *mvj) {
     }
 }
 
-s32 effect_K5_init(PLW *wk) {
-    WORK_Other *ewk;
+s32 effect_K5_init(PLW* wk) {
+    WORK_Other* ewk;
     s16 ix;
 
     if (Bonus_Game_Flag == 0x14) {
@@ -461,11 +461,11 @@ s32 effect_K5_init(PLW *wk) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 0xCD;
     ewk->wu.work_id = 0x10;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     wk->waku_ram_index = ewk->wu.myself;
     return 0;
 }

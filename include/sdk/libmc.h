@@ -156,28 +156,28 @@ extern "C" {
 
 int sceMcInit(void);
 int sceMcEnd(void);
-int sceMcGetInfo(int, int, int *, int *, int *);
-int sceMcOpen(int, int, const char *, int);
+int sceMcGetInfo(int, int, int*, int*, int*);
+int sceMcOpen(int, int, const char*, int);
 int sceMcClose(int);
 int sceMcSeek(int, int, int);
-int sceMcRead(int, void *, int);
-int sceMcReadFast(int, void *, int);
-int sceMcWrite(int, const void *, int);
-int sceMcWriteFast(int, const void *, int);
+int sceMcRead(int, void*, int);
+int sceMcReadFast(int, void*, int);
+int sceMcWrite(int, const void*, int);
+int sceMcWriteFast(int, const void*, int);
 int sceMcFlush(int);
-int sceMcMkdir(int, int, const char *);
-int sceMcChdir(int, int, const char *, char *);
-int sceMcGetDir(int, int, const char *, unsigned int, int, sceMcTblGetDir *);
-int sceMcSetFileInfo(int, int, const char *, const char *, unsigned int);
-int sceMcDelete(int, int, const char *);
+int sceMcMkdir(int, int, const char*);
+int sceMcChdir(int, int, const char*, char*);
+int sceMcGetDir(int, int, const char*, unsigned int, int, sceMcTblGetDir*);
+int sceMcSetFileInfo(int, int, const char*, const char*, unsigned int);
+int sceMcDelete(int, int, const char*);
 int sceMcFormat(int, int);
 int sceMcUnformat(int, int);
-int sceMcGetEntSpace(int, int, const char *);
-int sceMcRename(int, int, const char *, const char *);
+int sceMcGetEntSpace(int, int, const char*);
+int sceMcRename(int, int, const char*, const char*);
 int sceMcChangeThreadPriority(int);
 int sceMcGetSlotMax(int);
-int sceMcSync(int, int *, int *);
-void *sceMcGetErxEntries(void);
+int sceMcSync(int, int*, int*);
+void* sceMcGetErxEntries(void);
 int sceMcConvertError(SceMcFunc func, int mcerror);
 
 #if defined(__LANGUAGE_C_PLUS_PLUS) || defined(__cplusplus) || defined(c_plusplus)

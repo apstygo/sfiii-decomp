@@ -54,15 +54,15 @@ typedef struct {
 
 extern Sint32 adx_decode_output_mono_flag;
 
-Sint32 ADX_DecodeInfo(ADXHeader *hdr, Sint32 arg1, Sint16 *audio_offset, Sint8 *encoding_type, Sint8 *sample_bitdepth,
-                      Sint8 *block_size, Sint8 *channel_count, Sint32 *sample_rate, Sint32 *total_samples,
-                      Sint32 *samples_per_block);
-Sint32 ADX_DecodeInfoExADPCM2(ADXHeader *hdr, Sint32 arg1, Sint16 *high_pass_frequency);
-Sint32 ADX_DecodeInfoExVer(ADXHeader *hdr, Sint32 arg1, Sint8 *version, Sint8 *flags);
-Sint32 ADX_DecodeInfoExIdly(ADXHeader *hdr, Sint32 arg1, Sint16 *arg2, Sint16 *arg3);
-Sint32 ADX_DecodeInfoExLoop(Uint8 *hdr, Sint32 arg1, Sint32 *arg2, Sint16 *arg3, Sint16 *arg4, Sint32 *arg5,
-                            Sint32 *arg6, Sint32 *arg7, Sint32 *arg8);
-Sint32 ADX_DecodeInfoAinf(Uint8 *hdr, Sint32 arg1, Sint32 *arg2, ADX_UNK *arg3, Sint16 *arg4, Sint16 *arg5);
-void ADX_GetCoefficient(Sint32 highpass_frequency, Sint32 sample_rate, Sint16 *coef1_ptr, Sint16 *coef2_ptr);
+Sint32 ADX_DecodeInfo(ADXHeader* hdr, Sint32 arg1, Sint16* audio_offset, Sint8* encoding_type, Sint8* sample_bitdepth,
+                      Sint8* block_size, Sint8* channel_count, Sint32* sample_rate, Sint32* total_samples,
+                      Sint32* samples_per_block);
+Sint32 ADX_DecodeInfoExADPCM2(ADXHeader* hdr, Sint32 arg1, Sint16* high_pass_frequency);
+Sint32 ADX_DecodeInfoExVer(ADXHeader* hdr, Sint32 arg1, Sint8* version, Sint8* flags);
+Sint32 ADX_DecodeInfoExIdly(ADXHeader* hdr, Sint32 arg1, Sint16* arg2, Sint16* arg3);
+Sint32 ADX_DecodeInfoExLoop(Uint8* hdr, Sint32 arg1, Sint32* arg2, Sint16* arg3, Sint16* arg4, Sint32* arg5,
+                            Sint32* arg6, Sint32* arg7, Sint32* arg8);
+Sint32 ADX_DecodeInfoAinf(Uint8* hdr, Sint32 arg1, Sint32* arg2, ADX_UNK* arg3, Sint16* arg4, Sint16* arg5);
+void ADX_GetCoefficient(Sint32 highpass_frequency, Sint32 sample_rate, Sint16* coef1_ptr, Sint16* coef2_ptr);
 
 #endif

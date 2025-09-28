@@ -17,44 +17,44 @@
 #include <memory.h>
 
 #if defined(TARGET_PS2)
-void __assert(const s8 *file, s32 line, const s8 *expr);
+void __assert(const s8* file, s32 line, const s8* expr);
 #define assert(e) (__assert("flps2vram.c", 0, "0"))
 #else
 #include <assert.h>
 #endif
 
-#define LPVRAM_ERROR ((LPVram *)-1)
+#define LPVRAM_ERROR ((LPVram*)-1)
 
 #define ERR_STOP                                                                                                       \
     while (1) {}
 
-static s32 flPS2ConvertTextureFromContext(plContext *lpcontext, FLTexture *lpflTexture, u32 type);
-s32 flPS2GetVramFreeArea(u32 *lpflhTexture, s32 tex_num);
+static s32 flPS2ConvertTextureFromContext(plContext* lpcontext, FLTexture* lpflTexture, u32 type);
+s32 flPS2GetVramFreeArea(u32* lpflhTexture, s32 tex_num);
 s16 flPS2GetTextureBuffWidth(s16 width);
 u32 flPS2GetTextureSize(u32 format, s32 dw, s32 dh, s32 bnum);
-s16 flPS2GetTextureVramBlock(FLTexture *lpflTexture);
-static s16 flPS2GetPaletteVramBlock(FLTexture *lpflTexture);
-s32 flPS2AddVramList(LPVram *lpVram, FLTexture *lpflTexture);
-s32 flPS2RewriteVramList(LPVram *lpVram, FLTexture *lpflTexture);
-LPVram *flPS2SearchVramChange(FLTexture *lpflTexture, u32 *lpflhTexture, s32 tex_num);
-LPVram *flPS2SearchVramSpace(u32 size, u32 align);
-static void flPS2VramTrans(FLTexture *lpflTexture);
+s16 flPS2GetTextureVramBlock(FLTexture* lpflTexture);
+static s16 flPS2GetPaletteVramBlock(FLTexture* lpflTexture);
+s32 flPS2AddVramList(LPVram* lpVram, FLTexture* lpflTexture);
+s32 flPS2RewriteVramList(LPVram* lpVram, FLTexture* lpflTexture);
+LPVram* flPS2SearchVramChange(FLTexture* lpflTexture, u32* lpflhTexture, s32 tex_num);
+LPVram* flPS2SearchVramSpace(u32 size, u32 align);
+static void flPS2VramTrans(FLTexture* lpflTexture);
 s32 flPS2DeleteAllVramList();
-s32 flPS2DeleteVramList(FLTexture *lpflTexture);
-s32 flPS2LockTexture(Rect * /* unused */, FLTexture *lpflTexture, plContext *lpcontext, u32 flag, s32 /* unused */);
-s32 flPS2UnlockTexture(FLTexture *);
-s32 flPS2ReloadTexture(s32 count, u32 *texlist);
-static void Conv4to32(s32 width, s32 height, u8 *p_input, u8 *p_output);
-static void PageConv4to32(u8 *p_input, u8 *p_output, s32 p_page_w);
-static void BlockConv4to32(u8 *p_input, u8 *p_output, s32 p_page_w);
-static void Conv8to32(s32 width, s32 height, u8 *p_input, u8 *p_output);
-static void PageConv8to32(u8 *p_input, u8 *p_output, s32 p_page_w);
-static void BlockConv8to32(u8 *p_input, u8 *p_output, s32 p_page_w);
+s32 flPS2DeleteVramList(FLTexture* lpflTexture);
+s32 flPS2LockTexture(Rect* /* unused */, FLTexture* lpflTexture, plContext* lpcontext, u32 flag, s32 /* unused */);
+s32 flPS2UnlockTexture(FLTexture*);
+s32 flPS2ReloadTexture(s32 count, u32* texlist);
+static void Conv4to32(s32 width, s32 height, u8* p_input, u8* p_output);
+static void PageConv4to32(u8* p_input, u8* p_output, s32 p_page_w);
+static void BlockConv4to32(u8* p_input, u8* p_output, s32 p_page_w);
+static void Conv8to32(s32 width, s32 height, u8* p_input, u8* p_output);
+static void PageConv8to32(u8* p_input, u8* p_output, s32 p_page_w);
+static void BlockConv8to32(u8* p_input, u8* p_output, s32 p_page_w);
 
 u16 flPS2GetStaticVramArea(u32 size) {
     s32 lp0;
     u32 block_size;
-    VRAMBlockHeader *lpVramStatic;
+    VRAMBlockHeader* lpVramStatic;
 
     if (flVramStaticNum >= 3) {
         flPS2SystemError(0, "ERROR flPS2GetStaticVramArea flpsvram.c");
@@ -82,8 +82,8 @@ u16 flPS2GetStaticVramArea(u32 size) {
     return lpVramStatic->tbp;
 }
 
-u32 flCreateTextureHandle(plContext *bits, u32 flag) {
-    FLTexture *lpflTexture;
+u32 flCreateTextureHandle(plContext* bits, u32 flag) {
+    FLTexture* lpflTexture;
     u32 th = flPS2GetTextureHandle();
 
     if (th == 0) {
@@ -110,12 +110,12 @@ u32 flCreateTextureHandle(plContext *bits, u32 flag) {
     return th;
 }
 
-s32 flPS2GetTextureInfoFromContext(plContext *bits, s32 bnum, u32 th, u32 flag) {
-    FLTexture *lpflTexture;
+s32 flPS2GetTextureInfoFromContext(plContext* bits, s32 bnum, u32 th, u32 flag) {
+    FLTexture* lpflTexture;
     s32 lp0;
     s32 dw;
     s32 dh;
-    plContext *lpcon;
+    plContext* lpcon;
 
     lpflTexture = &flTexture[LO_16_BITS(th) - 1];
 
@@ -226,7 +226,7 @@ s32 flPS2GetTextureInfoFromContext(plContext *bits, s32 bnum, u32 th, u32 flag) 
 }
 
 s32 flPS2CreateTextureHandle(u32 th, u32 flag) {
-    FLTexture *lpflTexture = &flTexture[LO_16_BITS(th) - 1];
+    FLTexture* lpflTexture = &flTexture[LO_16_BITS(th) - 1];
     u32 dma_size;
     uintptr_t dma_ptr;
 
@@ -265,7 +265,7 @@ s32 flPS2CreateTextureHandle(u32 th, u32 flag) {
     return 1;
 }
 
-void flPS2VramTrans(FLTexture *lpflTexture) {
+void flPS2VramTrans(FLTexture* lpflTexture) {
     uintptr_t pixel_ptr;
     u32 dma_size;
     uintptr_t dma_ptr;
@@ -331,7 +331,7 @@ void flPS2VramTrans(FLTexture *lpflTexture) {
     }
 }
 
-s32 flPS2GetVramTransAdrs(FLTexture *lpflTexture, s32 bnum) {
+s32 flPS2GetVramTransAdrs(FLTexture* lpflTexture, s32 bnum) {
     s32 lp0;
     s32 dw;
     s32 dh;
@@ -396,8 +396,8 @@ u32 flPS2GetTextureHandle() {
     return i + 1;
 }
 
-u32 flCreatePaletteHandle(plContext *lpcontext, u32 flag) {
-    FLTexture *lpflPalette;
+u32 flCreatePaletteHandle(plContext* lpcontext, u32 flag) {
+    FLTexture* lpflPalette;
     u32 ph = flPS2GetPaletteHandle();
 
     if (ph == 0) {
@@ -429,8 +429,8 @@ u32 flCreatePaletteHandle(plContext *lpcontext, u32 flag) {
     return ph >> 16;
 }
 
-s32 flPS2GetPaletteInfoFromContext(plContext *bits, u32 ph, u32 flag) {
-    FLTexture *lpflPalette = &flPalette[((ph & 0xFFFF0000) >> 0x10) - 1];
+s32 flPS2GetPaletteInfoFromContext(plContext* bits, u32 ph, u32 flag) {
+    FLTexture* lpflPalette = &flPalette[((ph & 0xFFFF0000) >> 0x10) - 1];
 
     if (bits->height != 1) {
         flLogOut("Supported only 1 palette. Unallocatable. @flCreatePaletteHandle");
@@ -484,7 +484,7 @@ s32 flPS2GetPaletteInfoFromContext(plContext *bits, u32 ph, u32 flag) {
 }
 
 s32 flPS2CreatePaletteHandle(u32 ph, u32 flag) {
-    FLTexture *lpflPalette = &flPalette[HI_16_BITS(ph) - 1];
+    FLTexture* lpflPalette = &flPalette[HI_16_BITS(ph) - 1];
     u32 dma_size;
     uintptr_t dma_ptr;
 
@@ -540,7 +540,7 @@ u32 flPS2GetPaletteHandle() {
 }
 
 s32 flReleaseTextureHandle(u32 texture_handle) {
-    FLTexture *lpflTexture = &flTexture[texture_handle - 1];
+    FLTexture* lpflTexture = &flTexture[texture_handle - 1];
 
     if ((texture_handle == 0) || (texture_handle >= 0x101) || (lpflTexture->be_flag == 0)) {
         flPS2SystemError(0, "ERROR flReleaseTextureHandle flps2vram.c");
@@ -563,7 +563,7 @@ s32 flReleaseTextureHandle(u32 texture_handle) {
 }
 
 s32 flReleasePaletteHandle(u32 palette_handle) {
-    FLTexture *lpflPalette = &flPalette[palette_handle - 1];
+    FLTexture* lpflPalette = &flPalette[palette_handle - 1];
 
     if ((palette_handle == 0) || (palette_handle > FL_PALETTE_MAX) || (lpflPalette->be_flag == 0)) {
         flPS2SystemError(0, "ERROR flReleasePaletteHandle flps2vram.c");
@@ -585,8 +585,8 @@ s32 flReleasePaletteHandle(u32 palette_handle) {
     return 1;
 }
 
-s32 flLockTexture(Rect *lprect, u32 th, plContext *lpcontext, u32 flag) {
-    FLTexture *lpflTexture = &flTexture[th - 1];
+s32 flLockTexture(Rect* lprect, u32 th, plContext* lpcontext, u32 flag) {
+    FLTexture* lpflTexture = &flTexture[th - 1];
 
     if (th > FL_TEXTURE_MAX) {
         return 0;
@@ -599,8 +599,8 @@ s32 flLockTexture(Rect *lprect, u32 th, plContext *lpcontext, u32 flag) {
     return flPS2LockTexture(lprect, lpflTexture, lpcontext, flag, 0);
 }
 
-s32 flLockPalette(Rect *lprect, u32 th, plContext *lpcontext, u32 flag) {
-    FLTexture *lpflPalette = &flPalette[th - 1];
+s32 flLockPalette(Rect* lprect, u32 th, plContext* lpcontext, u32 flag) {
+    FLTexture* lpflPalette = &flPalette[th - 1];
 
     if (th > FL_PALETTE_MAX) {
         return 0;
@@ -626,9 +626,9 @@ s32 flLockPalette(Rect *lprect, u32 th, plContext *lpcontext, u32 flag) {
     return 1;
 }
 
-s32 flPS2LockTexture(Rect * /* unused */, FLTexture *lpflTexture, plContext *lpcontext, u32 flag, s32 /* unused */) {
-    u8 *buff_ptr;
-    u8 *buff_ptr1;
+s32 flPS2LockTexture(Rect* /* unused */, FLTexture* lpflTexture, plContext* lpcontext, u32 flag, s32 /* unused */) {
+    u8* buff_ptr;
+    u8* buff_ptr1;
     plContext src;
 
     lpflTexture->lock_flag = flag;
@@ -1048,7 +1048,7 @@ s32 flPS2LockTexture(Rect * /* unused */, FLTexture *lpflTexture, plContext *lpc
 }
 
 s32 flUnlockTexture(u32 th) {
-    FLTexture *lpflTexture = &flTexture[th - 1];
+    FLTexture* lpflTexture = &flTexture[th - 1];
 
     if (th > FL_TEXTURE_MAX) {
         return 0;
@@ -1062,7 +1062,7 @@ s32 flUnlockTexture(u32 th) {
 }
 
 s32 flUnlockPalette(u32 th) {
-    FLTexture *lpflPalette = &flPalette[th - 1];
+    FLTexture* lpflPalette = &flPalette[th - 1];
 
     if (th > FL_PALETTE_MAX) {
         return 0;
@@ -1075,10 +1075,10 @@ s32 flUnlockPalette(u32 th) {
     return flPS2UnlockTexture(lpflPalette);
 }
 
-s32 flPS2UnlockTexture(FLTexture *lpflTexture) {
+s32 flPS2UnlockTexture(FLTexture* lpflTexture) {
     uintptr_t trans_ptr;
-    u8 *buff_ptr;
-    u8 *buff_ptr1;
+    u8* buff_ptr;
+    u8* buff_ptr1;
     plContext src;
     plContext dst;
     u32 dma_size;
@@ -1091,11 +1091,11 @@ s32 flPS2UnlockTexture(FLTexture *lpflTexture) {
     case 0:
         if (lpflTexture->mem_handle != 0) {
             buff_ptr = flPS2GetSystemBuffAdrs(lpflTexture->mem_handle);
-            buff_ptr1 = (u8 *)lpflTexture->lock_ptr;
+            buff_ptr1 = (u8*)lpflTexture->lock_ptr;
             trans_ptr = (uintptr_t)buff_ptr;
         } else {
             buff_ptr = mflTemporaryUse(lpflTexture->size);
-            buff_ptr1 = (u8 *)lpflTexture->lock_ptr;
+            buff_ptr1 = (u8*)lpflTexture->lock_ptr;
             trans_ptr = (uintptr_t)buff_ptr;
         }
 
@@ -1224,11 +1224,11 @@ s32 flPS2UnlockTexture(FLTexture *lpflTexture) {
     case 1:
         if (lpflTexture->mem_handle != 0) {
             buff_ptr = flPS2GetSystemBuffAdrs(lpflTexture->mem_handle);
-            buff_ptr1 = (u8 *)lpflTexture->lock_ptr;
+            buff_ptr1 = (u8*)lpflTexture->lock_ptr;
             flMemcpy(buff_ptr, buff_ptr1, lpflTexture->size);
             trans_ptr = (uintptr_t)buff_ptr;
         } else {
-            buff_ptr = (u8 *)lpflTexture->lock_ptr;
+            buff_ptr = (u8*)lpflTexture->lock_ptr;
             trans_ptr = (uintptr_t)buff_ptr;
         }
 
@@ -1291,14 +1291,14 @@ s32 flPS2UnlockTexture(FLTexture *lpflTexture) {
     return 1;
 }
 
-void flReloadTexture(s32 count, u32 *texlist) {
+void flReloadTexture(s32 count, u32* texlist) {
     flPS2ReloadTexture(count, texlist);
 }
 
-s32 flPS2ReloadTexture(s32 count, u32 *texlist) {
-    LPVram *lpVram;
-    FLTexture *lpflTexture;
-    FLTexture *lpflKeep;
+s32 flPS2ReloadTexture(s32 count, u32* texlist) {
+    LPVram* lpVram;
+    FLTexture* lpflTexture;
+    FLTexture* lpflKeep;
     u32 th;
     s32 i;
     s32 j;
@@ -1417,7 +1417,7 @@ u32 flPS2GetTextureSize(u32 format, s32 dw, s32 dh, s32 bnum) {
     return tex_size;
 }
 
-s16 flPS2GetTextureVramBlock(FLTexture *lpflTexture) {
+s16 flPS2GetTextureVramBlock(FLTexture* lpflTexture) {
     s16 vram_block;
     s16 w;
     s16 h;
@@ -1462,7 +1462,7 @@ s16 flPS2GetTextureVramBlock(FLTexture *lpflTexture) {
     return vram_block;
 }
 
-s16 flPS2GetPaletteVramBlock(FLTexture *lpflPalette) {
+s16 flPS2GetPaletteVramBlock(FLTexture* lpflPalette) {
     s16 vram_block;
 
     if (lpflPalette->height == 1) {
@@ -1483,12 +1483,12 @@ s16 flPS2GetPaletteVramBlock(FLTexture *lpflPalette) {
     return vram_block;
 }
 
-s32 flPS2ConvertTextureFromContext(plContext *lpcontext, FLTexture *lpflTexture, u32 type) {
+s32 flPS2ConvertTextureFromContext(plContext* lpcontext, FLTexture* lpflTexture, u32 type) {
     s32 lp0;
     s32 dw;
     s32 dh;
     plContext tcon;
-    u8 *dst_ptr;
+    u8* dst_ptr;
     s32 tex_size;
 
     lpflTexture->mem_handle = flPS2GetSystemMemoryHandle(lpflTexture->size, 2);
@@ -1606,7 +1606,7 @@ s32 flPS2ConvertTextureFromContext(plContext *lpcontext, FLTexture *lpflTexture,
     return 1;
 }
 
-s32 flPS2ConvertContext(plContext *lpSrc, plContext *lpDst, u32 direction, u32 type) {
+s32 flPS2ConvertContext(plContext* lpSrc, plContext* lpDst, u32 direction, u32 type) {
     s32 x;
     s32 y;
     u32 r;
@@ -1616,10 +1616,10 @@ s32 flPS2ConvertContext(plContext *lpSrc, plContext *lpDst, u32 direction, u32 t
     u32 color;
     u32 wk0;
     u32 wk1;
-    u8 *keep_src;
-    u8 *keep_dst;
-    u8 *src;
-    u8 *dst;
+    u8* keep_src;
+    u8* keep_dst;
+    u8* src;
+    u8* dst;
 
     static u8 clut_tbl[32] = { 0, 1, 2,  3,  4,  5,  6,  7,  16, 17, 18, 19, 20, 21, 22, 23,
                                8, 9, 10, 11, 12, 13, 14, 15, 24, 25, 26, 27, 28, 29, 30, 31 };
@@ -1641,7 +1641,7 @@ s32 flPS2ConvertContext(plContext *lpSrc, plContext *lpDst, u32 direction, u32 t
 
             switch (lpSrc->bitdepth) {
             case 2:
-                color = ((u16 *)src)[0];
+                color = ((u16*)src)[0];
                 break;
 
             case 3:
@@ -1649,7 +1649,7 @@ s32 flPS2ConvertContext(plContext *lpSrc, plContext *lpDst, u32 direction, u32 t
                 break;
 
             case 4:
-                color = ((u32 *)src)[0];
+                color = ((u32*)src)[0];
                 break;
             }
 
@@ -1690,7 +1690,7 @@ s32 flPS2ConvertContext(plContext *lpSrc, plContext *lpDst, u32 direction, u32 t
 
             switch (lpSrc->bitdepth) {
             case 2:
-                ((u16 *)dst)[0] = color;
+                ((u16*)dst)[0] = color;
                 break;
 
             case 3:
@@ -1700,7 +1700,7 @@ s32 flPS2ConvertContext(plContext *lpSrc, plContext *lpDst, u32 direction, u32 t
                 break;
 
             case 4:
-                ((u32 *)dst)[0] = color;
+                ((u32*)dst)[0] = color;
                 break;
             }
 
@@ -1751,10 +1751,10 @@ static s32 block_table4[32] = { 0,  2,  8,  10, 1,  3,  9,  11, 4,  6,  12, 14, 
 static s32 block_table8[32] = { 0, 1, 4,  5,  16, 17, 20, 21, 2,  3,  6,  7,  18, 19, 22, 23,
                                 8, 9, 12, 13, 24, 25, 28, 29, 10, 11, 14, 15, 26, 27, 30, 31 };
 
-static s32 *clm_tbl4_ptr[4] = { column_tbl4[0], column_tbl4[1], column_tbl4[0], column_tbl4[1] };
-static s32 *clm_tbl8_ptr[4] = { column_tbl8[0], column_tbl8[1], column_tbl8[0], column_tbl8[1] };
+static s32* clm_tbl4_ptr[4] = { column_tbl4[0], column_tbl4[1], column_tbl4[0], column_tbl4[1] };
+static s32* clm_tbl8_ptr[4] = { column_tbl8[0], column_tbl8[1], column_tbl8[0], column_tbl8[1] };
 
-s32 flPS2Conv4_8_32(s32 width, s32 height, u8 *p_input, u8 *p_output, s32 n_bit) {
+s32 flPS2Conv4_8_32(s32 width, s32 height, u8* p_input, u8* p_output, s32 n_bit) {
     switch (n_bit) {
     case 0:
         Conv4to32(width, height, p_input, p_output);
@@ -1769,7 +1769,7 @@ s32 flPS2Conv4_8_32(s32 width, s32 height, u8 *p_input, u8 *p_output, s32 n_bit)
     }
 }
 
-static void Conv4to32(s32 width, s32 height, u8 *p_input, u8 *p_output) {
+static void Conv4to32(s32 width, s32 height, u8* p_input, u8* p_output) {
     s32 i;
     s32 j;
     s32 k;
@@ -1780,9 +1780,9 @@ static void Conv4to32(s32 width, s32 height, u8 *p_input, u8 *p_output) {
     s32 n_output_width;
     s32 n_input_height;
     s32 n_output_height;
-    u8 *pi0;
-    u8 *pi1;
-    u8 *po;
+    u8* pi0;
+    u8* pi1;
+    u8* po;
     u8 input_page[8192];
 
     n_page_w = p_page_w = (width - 1) / 128 + 1;
@@ -1809,13 +1809,13 @@ static void Conv4to32(s32 width, s32 height, u8 *p_input, u8 *p_output) {
     }
 }
 
-void PageConv4to32(u8 *p_input, u8 *p_output, s32 p_page_w) {
+void PageConv4to32(u8* p_input, u8* p_output, s32 p_page_w) {
     s32 i;
     s32 j;
     s32 nb;
-    s32 *tbl;
-    u8 *pi;
-    u8 *po;
+    s32* tbl;
+    u8* pi;
+    u8* po;
     s32 n_width = 4;
     s32 n_height = 8;
     s32 i_size = 0x40;
@@ -1833,15 +1833,15 @@ void PageConv4to32(u8 *p_input, u8 *p_output, s32 p_page_w) {
     }
 }
 
-static void BlockConv4to32(u8 *p_input, u8 *p_output, s32 p_page_w) {
+static void BlockConv4to32(u8* p_input, u8* p_output, s32 p_page_w) {
     s32 i;
     s32 j;
     s32 k;
     s32 cno;
-    s32 **pTbl;
-    s32 *tbl;
-    u8 *pIn;
-    u8 *pOut;
+    s32** pTbl;
+    s32* tbl;
+    u8* pIn;
+    u8* pOut;
     u8 ld;
     u8 ud;
 
@@ -1880,7 +1880,7 @@ static void BlockConv4to32(u8 *p_input, u8 *p_output, s32 p_page_w) {
     }
 }
 
-static void Conv8to32(s32 width, s32 height, u8 *p_input, u8 *p_output) {
+static void Conv8to32(s32 width, s32 height, u8* p_input, u8* p_output) {
     s32 i;
     s32 j;
     s32 k;
@@ -1891,9 +1891,9 @@ static void Conv8to32(s32 width, s32 height, u8 *p_input, u8 *p_output) {
     s32 n_output_width;
     s32 n_input_height;
     s32 n_output_height;
-    u8 *pi0;
-    u8 *pi1;
-    u8 *po;
+    u8* pi0;
+    u8* pi1;
+    u8* po;
     u8 input_page[8192];
 
     p_page_w = n_page_w = (width - 1) / 128 + 1;
@@ -1920,13 +1920,13 @@ static void Conv8to32(s32 width, s32 height, u8 *p_input, u8 *p_output) {
     }
 }
 
-static void PageConv8to32(u8 *p_input, u8 *p_output, s32 p_page_w) {
+static void PageConv8to32(u8* p_input, u8* p_output, s32 p_page_w) {
     s32 i;
     s32 j;
     s32 nb;
-    s32 *tbl;
-    u8 *pi;
-    u8 *po;
+    s32* tbl;
+    u8* pi;
+    u8* po;
     s32 n_width = 8;
     s32 n_height = 4;
     s32 i_size = 0x80;
@@ -1944,14 +1944,14 @@ static void PageConv8to32(u8 *p_input, u8 *p_output, s32 p_page_w) {
     }
 }
 
-void BlockConv8to32(u8 *p_input, u8 *p_output, s32 p_page_w) {
+void BlockConv8to32(u8* p_input, u8* p_output, s32 p_page_w) {
     s32 i;
     s32 j;
     s32 k;
-    s32 **pTbl;
-    s32 *tbl;
-    u8 *pIn = p_input;
-    u8 *pOut = p_output;
+    s32** pTbl;
+    s32* tbl;
+    u8* pIn = p_input;
+    u8* pOut = p_output;
 
     pTbl = clm_tbl8_ptr;
 
@@ -1989,9 +1989,9 @@ void flPS2VramInit() {
 }
 
 #if defined(TARGET_PS2)
-LPVram *flPS2PullVramWork()
+LPVram* flPS2PullVramWork()
 #else
-LPVram *flPS2PullVramWork(LPVram * /* unused */, s32 /* unused */)
+LPVram* flPS2PullVramWork(LPVram* /* unused */, s32 /* unused */)
 #endif
 {
     s32 i;
@@ -2006,14 +2006,14 @@ LPVram *flPS2PullVramWork(LPVram * /* unused */, s32 /* unused */)
     return NULL;
 }
 
-void flPS2PushVramWork(LPVram *lpVram) {
-    LPVram *lpParent = (LPVram *)lpVram->parent;
-    LPVram *lpChild = (LPVram *)lpVram->child;
+void flPS2PushVramWork(LPVram* lpVram) {
+    LPVram* lpParent = (LPVram*)lpVram->parent;
+    LPVram* lpChild = (LPVram*)lpVram->child;
 
     if (lpParent != 0) {
         lpParent->child = (uintptr_t)lpChild;
     } else if (lpChild != 0) {
-        flVramList = (LPVram *)lpChild;
+        flVramList = (LPVram*)lpChild;
     } else {
         flVramList = NULL;
     }
@@ -2032,11 +2032,11 @@ void flPS2PushVramWork(LPVram *lpVram) {
     flVramNum -= 1;
 }
 
-void flPS2ChainVramWork(LPVram *lpParent, LPVram *lpVram) {
-    LPVram *lpChild = NULL;
+void flPS2ChainVramWork(LPVram* lpParent, LPVram* lpVram) {
+    LPVram* lpChild = NULL;
 
     if (lpParent != NULL) {
-        lpChild = (LPVram *)lpParent->child;
+        lpChild = (LPVram*)lpParent->child;
         lpParent->child = (uintptr_t)lpVram;
     } else if (flVramList == NULL) {
         flVramList = lpVram;
@@ -2054,7 +2054,7 @@ void flPS2ChainVramWork(LPVram *lpParent, LPVram *lpVram) {
 }
 
 s16 flPS2GetVramSize() {
-    LPVram *lpVram = flVramList;
+    LPVram* lpVram = flVramList;
     s16 size = 0;
 
     while (lpVram != NULL) {
@@ -2063,15 +2063,15 @@ s16 flPS2GetVramSize() {
         }
 
         size += lpVram->block_size;
-        lpVram = (LPVram *)lpVram->child;
+        lpVram = (LPVram*)lpVram->child;
     }
 
     return size;
 }
 
-s32 flPS2AddVramList(LPVram *lpVram, FLTexture *lpflTexture) {
+s32 flPS2AddVramList(LPVram* lpVram, FLTexture* lpflTexture) {
     s16 next_tbp;
-    LPVram *lpVramNew;
+    LPVram* lpVramNew;
 
     if (lpVram == NULL) {
         if ((lpVramNew = flPS2PullVramWork(flVramControl, VRAM_CONTROL_SIZE)) == NULL) {
@@ -2111,8 +2111,8 @@ s32 flPS2AddVramList(LPVram *lpVram, FLTexture *lpflTexture) {
     return 1;
 }
 
-s32 flPS2RewriteVramList(LPVram *lpVram, FLTexture *lpflTexture) {
-    LPVram *lpVramNext;
+s32 flPS2RewriteVramList(LPVram* lpVram, FLTexture* lpflTexture) {
+    LPVram* lpVramNext;
 
     if (lpVram == NULL) {
         if ((lpVram = flPS2PullVramWork(flVramControl, VRAM_CONTROL_SIZE)) == NULL) {
@@ -2122,16 +2122,16 @@ s32 flPS2RewriteVramList(LPVram *lpVram, FLTexture *lpflTexture) {
         flPS2ChainVramWork(NULL, lpVram);
         lpVram->tbp = flPs2State.TextureStartAdrs;
     } else if (lpVram->child != 0) {
-        lpVramNext = (LPVram *)lpVram->child;
+        lpVramNext = (LPVram*)lpVram->child;
 
         while ((lpVramNext->tbp - lpVram->tbp) < lpflTexture->block_size) {
-            flPS2PushVramWork((LPVram *)lpVramNext);
+            flPS2PushVramWork((LPVram*)lpVramNext);
 
             if (lpVram->child == 0) {
                 break;
             }
 
-            lpVramNext = (LPVram *)lpVram->child;
+            lpVramNext = (LPVram*)lpVram->child;
         }
     }
 
@@ -2160,7 +2160,7 @@ s32 flPS2DeleteAllVramList() {
     return 1;
 }
 
-s32 flPS2DeleteVramList(FLTexture *lpflTexture) {
+s32 flPS2DeleteVramList(FLTexture* lpflTexture) {
     if (lpflTexture->vram_on_flag) {
         flPS2PushVramWork(lpflTexture->wkVram);
     }
@@ -2169,7 +2169,7 @@ s32 flPS2DeleteVramList(FLTexture *lpflTexture) {
 }
 
 void flPS2PurgeTextureFromVRAM(u32 th) {
-    FLTexture *lpflTexture = &flTexture[th - 1];
+    FLTexture* lpflTexture = &flTexture[th - 1];
 
     if (th > FL_TEXTURE_MAX) {
         ERR_STOP;
@@ -2185,7 +2185,7 @@ void flPS2PurgeTextureFromVRAM(u32 th) {
 }
 
 void flPS2PurgePaletteFromVRAM(u32 ph) {
-    FLTexture *lpflPalette = &flPalette[ph - 1];
+    FLTexture* lpflPalette = &flPalette[ph - 1];
 
     if (ph > FL_PALETTE_MAX) {
         ERR_STOP;
@@ -2200,10 +2200,10 @@ void flPS2PurgePaletteFromVRAM(u32 ph) {
     }
 }
 
-s32 flPS2GetVramFreeArea(u32 *lpflhTexture, s32 tex_num) {
-    LPVram *lpVram;
-    FLTexture *lpflTexture;
-    FLTexture *lpflPalette;
+s32 flPS2GetVramFreeArea(u32* lpflhTexture, s32 tex_num) {
+    LPVram* lpVram;
+    FLTexture* lpflTexture;
+    FLTexture* lpflPalette;
     u32 th;
     s32 i;
 
@@ -2244,9 +2244,9 @@ s32 flPS2GetVramFreeArea(u32 *lpflhTexture, s32 tex_num) {
     return 1;
 }
 
-LPVram *flPS2SearchVramSpace(u32 size, u32 align) {
-    LPVram *lpVram = flVramList;
-    LPVram *lpChild;
+LPVram* flPS2SearchVramSpace(u32 size, u32 align) {
+    LPVram* lpVram = flVramList;
+    LPVram* lpChild;
     u32 next_tbp;
 
     if (lpVram == NULL) {
@@ -2258,7 +2258,7 @@ LPVram *flPS2SearchVramSpace(u32 size, u32 align) {
     }
 
     while (1) {
-        lpChild = (LPVram *)lpVram->child;
+        lpChild = (LPVram*)lpVram->child;
         next_tbp = lpVram->tbp + lpVram->block_size;
         next_tbp = ~(align - 1) & (next_tbp + (align - 1)); // Should probably use an alignment macro here
 
@@ -2278,17 +2278,17 @@ LPVram *flPS2SearchVramSpace(u32 size, u32 align) {
             return lpVram;
         }
 
-        lpVram = (LPVram *)lpChild;
+        lpVram = (LPVram*)lpChild;
     }
 }
 
-LPVram *flPS2SearchVramChange(FLTexture *lpflTexture, u32 *lpflhTexture, s32 tex_num) {
+LPVram* flPS2SearchVramChange(FLTexture* lpflTexture, u32* lpflhTexture, s32 tex_num) {
     s32 i;
-    LPVram *lpVram;
-    LPVram *lpVramNext;
-    LPVram *lpVramKeep;
-    LPVram *lpVramOld;
-    FLTexture *lpPs2tex;
+    LPVram* lpVram;
+    LPVram* lpVramNext;
+    LPVram* lpVramKeep;
+    LPVram* lpVramOld;
+    FLTexture* lpPs2tex;
     u32 th;
     s32 loop_num = 0;
     u32 next_tbp;
@@ -2334,7 +2334,7 @@ LPVram *flPS2SearchVramChange(FLTexture *lpflTexture, u32 *lpflhTexture, s32 tex
                     }
 
                     lpVramKeep = lpVram;
-                    lpVramNext = (LPVram *)lpVram->child;
+                    lpVramNext = (LPVram*)lpVram->child;
 
                     while ((lpVramNext->tbp - next_tbp) < lpflTexture->block_size) {
                         lpVram = lpVramNext;
@@ -2373,7 +2373,7 @@ LPVram *flPS2SearchVramChange(FLTexture *lpflTexture, u32 *lpflhTexture, s32 tex
                             return lpVramKeep;
                         }
 
-                        lpVramNext = (LPVram *)lpVram->child;
+                        lpVramNext = (LPVram*)lpVram->child;
                     }
 
                     return lpVramKeep;
@@ -2382,7 +2382,7 @@ LPVram *flPS2SearchVramChange(FLTexture *lpflTexture, u32 *lpflhTexture, s32 tex
 
         block_38:
             lpVramOld = lpVram;
-            lpVram = (LPVram *)lpVram->child;
+            lpVram = (LPVram*)lpVram->child;
 
             if (lpVram == NULL) {
                 break;
@@ -2390,7 +2390,7 @@ LPVram *flPS2SearchVramChange(FLTexture *lpflTexture, u32 *lpflhTexture, s32 tex
         }
 
         if ((0x4000 - (lpVramOld->tbp + lpVramOld->block_size)) >= lpflTexture->block_size) {
-            return (LPVram *)1;
+            return (LPVram*)1;
         }
 
         if (loop_num != 0) {

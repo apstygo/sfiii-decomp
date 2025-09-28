@@ -4,7 +4,7 @@
 #include "structs.h"
 #include "types.h"
 
-extern const u16 *ending_map_tbl[][3];
+extern const u16* ending_map_tbl[][3];
 
 extern const u8 end_use_scr[];
 extern const u8 end_use_real_scr[];

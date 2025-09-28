@@ -38,7 +38,7 @@ s32 sa_stop_check() {
     return 0;
 }
 
-void check_my_tk_power_off(PLW *wk, PLW * /* unused */) {
+void check_my_tk_power_off(PLW* wk, PLW* /* unused */) {
     if (wk->wu.old_rno[1] == 1) {
         if (wk->wu.old_rno[2] < 8 && wk->wu.old_rno[2] > 3) {
             return;
@@ -57,7 +57,7 @@ void check_my_tk_power_off(PLW *wk, PLW * /* unused */) {
     }
 }
 
-void check_em_tk_power_off(PLW *wk, PLW *tk) {
+void check_em_tk_power_off(PLW* wk, PLW* tk) {
     if (about_rno[wk->wu.old_rno[1]] != 1) {
         return;
     }
@@ -80,16 +80,16 @@ void check_em_tk_power_off(PLW *wk, PLW *tk) {
     }
 }
 
-s16 check_ukemi_flag(PLW *wk) {
+s16 check_ukemi_flag(PLW* wk) {
     return wk->cp->waza_flag[7];
 }
 
-s32 check_rl_flag(WORK *wk) {
+s32 check_rl_flag(WORK* wk) {
     return wk->rl_flag == wk->rl_waza;
 }
 
-void set_rl_waza(PLW *wk) {
-    WORK *em;
+void set_rl_waza(PLW* wk) {
+    WORK* em;
     s16 result;
 
     while (1) {
@@ -112,7 +112,7 @@ void set_rl_waza(PLW *wk) {
         break;
     }
 
-    em = (WORK *)wk->wu.target_adrs;
+    em = (WORK*)wk->wu.target_adrs;
     result = wk->wu.xyz[0].disp.pos - em->xyz[0].disp.pos;
 
     if (result) {
@@ -128,7 +128,7 @@ void set_rl_waza(PLW *wk) {
     wk->wu.rl_waza = (em->rl_waza + 1) & 1;
 }
 
-s16 check_rl_on_car(PLW *wk) {
+s16 check_rl_on_car(PLW* wk) {
     s16 rnum;
 
     if (Bonus_Game_Flag != 20) {
@@ -162,7 +162,7 @@ s16 check_rl_on_car(PLW *wk) {
     return rnum;
 }
 
-s32 saishin_bs2_area_car(PLW *wk) {
+s32 saishin_bs2_area_car(PLW* wk) {
     wk->bs2_area_car2 = 0;
     wk->bs2_over_car2 = 0;
 
@@ -193,7 +193,7 @@ s32 saishin_bs2_area_car(PLW *wk) {
     return 0;
 }
 
-s8 saishin_bs2_on_car(PLW *wk) {
+s8 saishin_bs2_on_car(PLW* wk) {
     if (wk->bs2_on_car && (wk->wu.xyz[1].disp.pos > (bs2_floor[2] + 2))) {
         wk->bs2_on_car = 0;
     }
@@ -201,7 +201,7 @@ s8 saishin_bs2_on_car(PLW *wk) {
     return wk->bs2_on_car;
 }
 
-s32 check_air_jump(PLW *wk) {
+s32 check_air_jump(PLW* wk) {
 #if defined(TARGET_PS2)
     void grade_add_command_waza(s32 ix);
 #endif
@@ -237,7 +237,7 @@ s32 check_air_jump(PLW *wk) {
     return 1;
 }
 
-s32 check_sankaku_tobi(PLW *wk) {
+s32 check_sankaku_tobi(PLW* wk) {
 #if defined(TARGET_PS2)
     void grade_add_command_waza(s32 ix);
 #endif
@@ -271,7 +271,7 @@ s32 check_sankaku_tobi(PLW *wk) {
     return 1;
 }
 
-void check_extra_jump_timer(PLW *wk) {
+void check_extra_jump_timer(PLW* wk) {
     if (wk->air_jump_ok_time) {
         wk->air_jump_ok_time--;
     }
@@ -293,7 +293,7 @@ void check_extra_jump_timer(PLW *wk) {
     wk->micchaku_wall_time = 0;
 }
 
-void remake_sankaku_tobi_mvxy(WORK *wk, u8 kabe) {
+void remake_sankaku_tobi_mvxy(WORK* wk, u8 kabe) {
     if (kabe == 1) {
         wk->rl_flag = 0;
     }
@@ -332,7 +332,7 @@ void remake_sankaku_tobi_mvxy(WORK *wk, u8 kabe) {
     wk->mvxy.d[1].sp = -0x8800;
 }
 
-s16 check_F_R_dash(PLW *wk) {
+s16 check_F_R_dash(PLW* wk) {
 #if defined(TARGET_PS2)
     void grade_add_command_waza(s32 ix);
 #endif
@@ -393,7 +393,7 @@ s16 check_F_R_dash(PLW *wk) {
     return rnum;
 }
 
-s32 check_jump_ready(PLW *wk) {
+s32 check_jump_ready(PLW* wk) {
 #if defined(TARGET_PS2)
     void grade_add_command_waza(s32 ix);
 #endif
@@ -419,7 +419,7 @@ s32 check_jump_ready(PLW *wk) {
     return 1;
 }
 
-s32 check_hijump_only(PLW *wk) {
+s32 check_hijump_only(PLW* wk) {
 #if defined(TARGET_PS2)
     void grade_add_command_waza(s32 ix);
 #endif
@@ -448,7 +448,7 @@ s32 check_hijump_only(PLW *wk) {
     return 1;
 }
 
-s32 check_bend_myself(PLW *wk) {
+s32 check_bend_myself(PLW* wk) {
     if (!(wk->cp->sw_new & 2)) {
         return 0;
     }
@@ -459,7 +459,7 @@ s32 check_bend_myself(PLW *wk) {
     return 1;
 }
 
-s16 check_F_R_walk(PLW *wk) {
+s16 check_F_R_walk(PLW* wk) {
     s16 rnum = 0;
 
     switch (wk->cp->lever_dir) {
@@ -481,7 +481,7 @@ s16 check_F_R_walk(PLW *wk) {
     return rnum;
 }
 
-s32 check_turn_to_back(PLW *wk) {
+s32 check_turn_to_back(PLW* wk) {
     if (wk->hurimukenai_flag) {
         return 0;
     }
@@ -507,8 +507,8 @@ s32 check_turn_to_back(PLW *wk) {
     return 1;
 }
 
-s32 check_hurimuki(WORK *wk) {
-    WORK *em = (WORK *)wk->target_adrs;
+s32 check_hurimuki(WORK* wk) {
+    WORK* em = (WORK*)wk->target_adrs;
     s16 result = wk->xyz[0].disp.pos - em->old_pos[0];
 
     if (result) {
@@ -521,7 +521,7 @@ s32 check_hurimuki(WORK *wk) {
     return 1;
 }
 
-s16 check_walking_lv_dir(PLW *wk) {
+s16 check_walking_lv_dir(PLW* wk) {
     s16 rnum = 0;
 
     switch (wk->cp->lever_dir) {
@@ -558,7 +558,7 @@ s16 check_walking_lv_dir(PLW *wk) {
     return rnum;
 }
 
-s32 check_stand_up(PLW *wk) {
+s32 check_stand_up(PLW* wk) {
     if (wk->cp->sw_new & 2) {
         return 0;
     }
@@ -569,7 +569,7 @@ s32 check_stand_up(PLW *wk) {
     return 1;
 }
 
-s32 check_defense_lever(PLW *wk) {
+s32 check_defense_lever(PLW* wk) {
     if (wk->spmv_ng_flag & 0x10) {
         return 0;
     }
@@ -591,8 +591,8 @@ s32 check_defense_lever(PLW *wk) {
     return 1;
 }
 
-s32 check_em_catt(PLW *wk) {
-    PLW *em = (PLW *)wk->wu.target_adrs;
+s32 check_em_catt(PLW* wk) {
+    PLW* em = (PLW*)wk->wu.target_adrs;
     s16 xd;
     s8 rlf;
 
@@ -621,14 +621,14 @@ s32 check_em_catt(PLW *wk) {
     return 1;
 }
 
-s16 check_attbox_dir(PLW *wk) {
+s16 check_attbox_dir(PLW* wk) {
     s16 target_pos_x;
     s16 target_pos_y;
     s16 emdir;
-    s16 *dttbl;
+    s16* dttbl;
 
-    get_target_att_position((WORK *)wk->wu.target_adrs, &target_pos_x, &target_pos_y);
-    dttbl = (s16 *)sel_hd_fg_hos[wk->player_number];
+    get_target_att_position((WORK*)wk->wu.target_adrs, &target_pos_x, &target_pos_y);
+    dttbl = (s16*)sel_hd_fg_hos[wk->player_number];
 
     if (wk->wu.rl_flag) {
         emdir = caldir_pos_032(
@@ -648,7 +648,7 @@ s16 check_attbox_dir(PLW *wk) {
     return emdir;
 }
 
-u16 check_defense_kind(PLW *wk) {
+u16 check_defense_kind(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -702,17 +702,17 @@ u16 check_defense_kind(PLW *wk) {
     return rnum;
 }
 
-void jumping_union_process(WORK *wk, s16 num) {
+void jumping_union_process(WORK* wk, s16 num) {
     add_mvxy_speed(wk);
     cal_mvxy_speed(wk);
     char_move(wk);
 
-    if ((Bonus_Game_Flag == 20) && (wk->operator != 0) && (saishin_bs2_area_car((PLW *)wk) == 0)) {
+    if ((Bonus_Game_Flag == 20) && (wk->operator != 0) && (saishin_bs2_area_car((PLW*)wk) == 0)) {
         if (!(wk->xyz[1].disp.pos + wk->cg_jphos > bs2_floor[2])) {
             wk->position_y = wk->xyz[1].disp.pos = bs2_floor[2];
             wk->mvxy.a[1].sp = 0;
             wk->routine_no[3] = num;
-            ((PLW *)wk)->bs2_on_car = 1;
+            ((PLW*)wk)->bs2_on_car = 1;
             char_move_cmja(wk);
         }
 
@@ -728,7 +728,7 @@ void jumping_union_process(WORK *wk, s16 num) {
     }
 }
 
-s32 check_floor(PLW *wk) {
+s32 check_floor(PLW* wk) {
     if (wk->bs2_on_car == 0) {
         return 0;
     }
@@ -740,7 +740,7 @@ s32 check_floor(PLW *wk) {
     return 1;
 }
 
-s32 check_ashimoto(PLW *wk) {
+s32 check_ashimoto(PLW* wk) {
     if (check_floor(wk) == 0) {
         return 0;
     }
@@ -752,8 +752,8 @@ s32 check_ashimoto(PLW *wk) {
     return 1;
 }
 
-s32 check_floor_2(PLW *wk) {
-    WORK *efw;
+s32 check_floor_2(PLW* wk) {
+    WORK* efw;
 
     if (wk->bs2_on_car == 0) {
         return 0;
@@ -763,7 +763,7 @@ s32 check_floor_2(PLW *wk) {
         return 0;
     }
 
-    efw = (WORK *)((WORK *)wk->wu.target_adrs)->my_effadrs;
+    efw = (WORK*)((WORK*)wk->wu.target_adrs)->my_effadrs;
 
     if (hit_check_x_only(&wk->wu, efw, &wk->wu.hosei_adrs->hos_box[4], &efw->h_hos->hos_box[0]) != 0) {
         return 0;
@@ -772,7 +772,7 @@ s32 check_floor_2(PLW *wk) {
     return 1;
 }
 
-s32 check_ashimoto_ex(PLW *wk) {
+s32 check_ashimoto_ex(PLW* wk) {
     if (check_floor_2(wk) == 0) {
         return 0;
     }

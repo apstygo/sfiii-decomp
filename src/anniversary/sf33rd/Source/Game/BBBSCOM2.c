@@ -6,7 +6,7 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void bbbs_com_execute2(PLW *wk) {
+void bbbs_com_execute2(PLW* wk) {
     switch (Bonus_Stage_RNO[0]) {
     case 0:
         if (Bonus_Stage_RNO[1]) {
@@ -41,7 +41,7 @@ void bbbs_com_execute2(PLW *wk) {
         break;
 
     case 1:
-        if (((WORK *)wk->wu.my_effadrs)->routine_no[0] == 2 && ((WORK *)wk->wu.my_effadrs)->routine_no[1] == 9) {
+        if (((WORK*)wk->wu.my_effadrs)->routine_no[0] == 2 && ((WORK*)wk->wu.my_effadrs)->routine_no[1] == 9) {
             Bonus_Stage_RNO[0] = 2;
             Bonus_Stage_RNO[1] = 0;
             Allow_a_battle_f = 0;

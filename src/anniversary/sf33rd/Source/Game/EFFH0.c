@@ -8,9 +8,9 @@
 const CONN bbbs_nando_small[2][2] = { { { 176, -16, 0, 32490 }, { 132, -16, 0, 32489 } },
                                       { { -104, -16, 0, 32490 }, { -148, -16, 0, 32489 } } };
 
-void effH0_trans(WORK *ewk);
+void effH0_trans(WORK* ewk);
 
-void effect_H0_move(WORK_Other_CONN *ewk) {
+void effect_H0_move(WORK_Other_CONN* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         switch (ewk->wu.routine_no[1]) {
@@ -56,21 +56,21 @@ void effect_H0_move(WORK_Other_CONN *ewk) {
     }
 }
 
-void effH0_trans(WORK *ewk) {
+void effH0_trans(WORK* ewk) {
     ewk->position_x = bg_w.bgw[2].wxy[0].disp.pos;
     ewk->position_y = bg_w.bgw[2].wxy[1].disp.pos;
     sort_push_request3(ewk);
 }
 
-s32 effect_H0_init(WORK *wk) {
-    WORK_Other_CONN *ewk;
+s32 effect_H0_init(WORK* wk) {
+    WORK_Other_CONN* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other_CONN *)frw[ix];
+    ewk = (WORK_Other_CONN*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 170;
     ewk->wu.work_id = 16;

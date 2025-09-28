@@ -15,8 +15,8 @@ const s16 loser_type_tbl[20] = { 0, 0, 0, 0, 0, 2, 0, 0, 1, 0, 0, 0, 0, 3, 0, 0,
 
 const s16 meta_lose_tbl[20] = { 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 28, 24, 24, 24, 24, 24, 24 };
 
-void lose_player(PLW *wk) {
-    void (*lose_jp_tbl[4])(PLW *) = { Lose_00000, Lose_10000, Lose_20000, Lose_30000 };
+void lose_player(PLW* wk) {
+    void (*lose_jp_tbl[4])(PLW*) = { Lose_00000, Lose_10000, Lose_20000, Lose_30000 };
 
     if (My_char[wk->wu.id] != wk->player_number) {
         meta_lose_pause(wk);
@@ -26,7 +26,7 @@ void lose_player(PLW *wk) {
     lose_jp_tbl[loser_type_tbl[wk->player_number]](wk);
 }
 
-void Lose_00000(PLW *wk) {
+void Lose_00000(PLW* wk) {
     if ((pcon_rno[0] == 2) && (pcon_rno[1] == 3)) {
         Judge_normal_loser(wk);
         return;
@@ -35,7 +35,7 @@ void Lose_00000(PLW *wk) {
     Normal_normal_Loser(wk);
 }
 
-void Lose_10000(PLW *wk) {
+void Lose_10000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -81,7 +81,7 @@ void Lose_10000(PLW *wk) {
     }
 }
 
-void Lose_20000(PLW *wk) {
+void Lose_20000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -124,7 +124,7 @@ void Lose_20000(PLW *wk) {
     }
 }
 
-void Lose_30000(PLW *wk) {
+void Lose_30000(PLW* wk) {
 #if defined(TARGET_PS2)
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
 #endif
@@ -174,7 +174,7 @@ void Lose_30000(PLW *wk) {
     }
 }
 
-void Normal_normal_Loser(PLW *wk) {
+void Normal_normal_Loser(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -205,7 +205,7 @@ void Normal_normal_Loser(PLW *wk) {
     }
 }
 
-void Judge_normal_loser(PLW *wk) {
+void Judge_normal_loser(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -233,7 +233,7 @@ void Judge_normal_loser(PLW *wk) {
     }
 }
 
-void meta_lose_pause(PLW *wk) {
+void meta_lose_pause(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);

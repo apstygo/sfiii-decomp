@@ -12,18 +12,18 @@
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void (*eff26_jp_tbl[6])(WORK_Other *);
+void (*eff26_jp_tbl[6])(WORK_Other*);
 
 const s16 eff26_num[1] = { 1 };
 
 const s16 eff26_data_0000[1] = { 0 };
 
-void effect_26_move(WORK_Other *ewk) {
+void effect_26_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    WORK_Other *oya;
+    WORK_Other* oya;
 
     if (obr_no_disp_check()) {
         return;
@@ -35,7 +35,7 @@ void effect_26_move(WORK_Other *ewk) {
         return;
     }
 
-    oya = (WORK_Other *)ewk->my_master;
+    oya = (WORK_Other*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -69,8 +69,8 @@ void effect_26_move(WORK_Other *ewk) {
     }
 }
 
-void eff26_00(WORK_Other *ewk) {
-    WORK_Other *oya = (WORK_Other *)ewk->my_master;
+void eff26_00(WORK_Other* ewk) {
+    WORK_Other* oya = (WORK_Other*)ewk->my_master;
 
     if (oya->wu.routine_no[1] > 1) {
         ewk->wu.routine_no[0] = 2;
@@ -83,12 +83,12 @@ void eff26_00(WORK_Other *ewk) {
     }
 }
 
-void eff26_01(WORK_Other *ewk) {
+void eff26_01(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    WORK_Other *oya = (WORK_Other *)ewk->my_master;
+    WORK_Other* oya = (WORK_Other*)ewk->my_master;
 
     switch (ewk->wu.routine_no[1]) {
     case 0:
@@ -127,12 +127,12 @@ void eff26_01(WORK_Other *ewk) {
     }
 }
 
-void eff26_02(WORK_Other *ewk) {
+void eff26_02(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    WORK_Other *oya = (WORK_Other *)ewk->my_master;
+    WORK_Other* oya = (WORK_Other*)ewk->my_master;
 
     switch (ewk->wu.routine_no[1]) {
     case 0:
@@ -180,13 +180,13 @@ void eff26_02(WORK_Other *ewk) {
     }
 }
 
-void eff26_03(WORK_Other *ewk) {
+void eff26_03(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 effect_27_init(WORK_Other * oya, s32 type);
 #endif
 
-    WORK_Other *oya = (WORK_Other *)ewk->my_master;
+    WORK_Other* oya = (WORK_Other*)ewk->my_master;
 
     switch (ewk->wu.routine_no[1]) {
     case 0:
@@ -246,13 +246,13 @@ void eff26_03(WORK_Other *ewk) {
     }
 }
 
-void eff26_04(WORK_Other *ewk) {
+void eff26_04(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 effect_27_init(WORK_Other * oya, s32 type);
 #endif
 
-    WORK_Other *oya = (WORK_Other *)ewk->my_master;
+    WORK_Other* oya = (WORK_Other*)ewk->my_master;
 
     switch (ewk->wu.routine_no[1]) {
     case 0:
@@ -321,13 +321,13 @@ void eff26_04(WORK_Other *ewk) {
     }
 }
 
-void eff26_05(WORK_Other *ewk) {
+void eff26_05(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 effect_27_init(WORK_Other * oya, s32 type);
 #endif
 
-    WORK_Other *oya = (WORK_Other *)ewk->my_master;
+    WORK_Other* oya = (WORK_Other*)ewk->my_master;
 
     switch (ewk->wu.routine_no[1]) {
     case 0:
@@ -412,16 +412,16 @@ void eff26_05(WORK_Other *ewk) {
     }
 }
 
-void (*eff26_jp_tbl[6])(WORK_Other *) = { eff26_00, eff26_01, eff26_02, eff26_03, eff26_04, eff26_05 };
+void (*eff26_jp_tbl[6])(WORK_Other*) = { eff26_00, eff26_01, eff26_02, eff26_03, eff26_04, eff26_05 };
 
-const s16 *scr_obj_data26[1] = { eff26_data_0000 };
+const s16* scr_obj_data26[1] = { eff26_data_0000 };
 
-s32 effect_26_init(WORK_Other *oya, s16 type26) {
-    WORK_Other *ewk;
+s32 effect_26_init(WORK_Other* oya, s16 type26) {
+    WORK_Other* ewk;
     s16 ix;
     s16 lp_cnt = eff26_num[type26];
     s16 i;
-    const s16 *data_ptr;
+    const s16* data_ptr;
 
     if (!lp_cnt) {
         return 0;
@@ -432,11 +432,11 @@ s32 effect_26_init(WORK_Other *oya, s16 type26) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 26;
         ewk->wu.work_id = 16;
-        ewk->my_master = (u32 *)oya;
+        ewk->my_master = (u32*)oya;
         ewk->wu.cgromtype = 1;
         ewk->wu.rl_flag = 0;
         ewk->wu.my_col_mode = 0x4200;

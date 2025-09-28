@@ -8,23 +8,23 @@
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effL1_trans(WORK *ewk);
+void effL1_trans(WORK* ewk);
 void grade_data_disp();
-void effL1_w_win_init(WORK_Other_CONN *ewk);
-void effL1_w_grade_init(WORK_Other_CONN *ewk);
-void effL1_k_grade_init(WORK_Other_CONN *ewk);
-void effL1_w_score_init(WORK_Other_CONN *ewk);
-void effL1_w_graph_init(WORK_Other_CONN *ewk);
-void effL1_k_graph_init(WORK_Other_CONN *ewk);
-void effL1_f_stage_p_init(WORK_Other_CONN *ewk);
-void effL1_f_stage_r_init(WORK_Other_CONN *ewk);
-void effL1_f_grade_init(WORK_Other_CONN *ewk);
-void effL1_f_mk_spp_init(WORK_Other_CONN *ewk);
-void effL1_f_mk_all_init(WORK_Other_CONN *ewk);
-void effL1_f_kz_cont_init(WORK_Other_CONN *ewk);
-void effL1_f_kz_spp_init(WORK_Other_CONN *ewk);
-void effL1_f_score_init(WORK_Other_CONN *ewk);
-void effL1_suuchi_bunkai_sub(WORK_Other_CONN *ewk, u32 tsc);
+void effL1_w_win_init(WORK_Other_CONN* ewk);
+void effL1_w_grade_init(WORK_Other_CONN* ewk);
+void effL1_k_grade_init(WORK_Other_CONN* ewk);
+void effL1_w_score_init(WORK_Other_CONN* ewk);
+void effL1_w_graph_init(WORK_Other_CONN* ewk);
+void effL1_k_graph_init(WORK_Other_CONN* ewk);
+void effL1_f_stage_p_init(WORK_Other_CONN* ewk);
+void effL1_f_stage_r_init(WORK_Other_CONN* ewk);
+void effL1_f_grade_init(WORK_Other_CONN* ewk);
+void effL1_f_mk_spp_init(WORK_Other_CONN* ewk);
+void effL1_f_mk_all_init(WORK_Other_CONN* ewk);
+void effL1_f_kz_cont_init(WORK_Other_CONN* ewk);
+void effL1_f_kz_spp_init(WORK_Other_CONN* ewk);
+void effL1_f_score_init(WORK_Other_CONN* ewk);
+void effL1_suuchi_bunkai_sub(WORK_Other_CONN* ewk, u32 tsc);
 
 const u32 bunkai_table_l1[8] = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000 };
 
@@ -133,7 +133,7 @@ const s16 gj_loser_face[20] = { 0x6EC3, 0x6EC4, 0x6EC5, 0x6EC6, 0x6EC7, 0x6EC8, 
 const CONN gj_bar2[6] = { { -123, 164, 0, 0x6F50 }, { -113, 164, 0, 0x6F50 }, { -103, 164, 0, 0x6F50 },
                           { -93, 164, 0, 0x6F50 },  { -83, 164, 0, 0x6F50 },  { -73, 164, 0, 0x6F6F } };
 
-void effect_L1_move(WORK_Other_CONN *ewk) {
+void effect_L1_move(WORK_Other_CONN* ewk) {
     s16 i;
 
     switch (ewk->wu.routine_no[0]) {
@@ -145,7 +145,7 @@ void effect_L1_move(WORK_Other_CONN *ewk) {
         ewk->wu.my_col_code = 0x90;
 
         if (effL1_base_data[ewk->wu.type][2]) {
-            Setup_Color_L1((WORK_Other *)ewk);
+            Setup_Color_L1((WORK_Other*)ewk);
         }
 
         ewk->wu.my_family = effL1_base_data[ewk->wu.type][1];
@@ -200,7 +200,7 @@ void effect_L1_move(WORK_Other_CONN *ewk) {
     }
 }
 
-void effL1_trans(WORK *ewk) {
+void effL1_trans(WORK* ewk) {
     ewk->cg_number = (ewk->cg_number + 1) & 0x7FFF;
 
     if (ewk->cg_number == 0) {
@@ -214,7 +214,7 @@ void grade_data_disp() {
     // Do nothing
 };
 
-void effL1_w_win_init(WORK_Other_CONN *ewk) {
+void effL1_w_win_init(WORK_Other_CONN* ewk) {
     s16 i;
 
     effL1_suuchi_bunkai_sub(ewk, WGJ_Win);
@@ -226,7 +226,7 @@ void effL1_w_win_init(WORK_Other_CONN *ewk) {
     }
 }
 
-void effL1_w_grade_init(WORK_Other_CONN *ewk) {
+void effL1_w_grade_init(WORK_Other_CONN* ewk) {
 #if defined(TARGET_PS2)
     s32 effect_M3_init(WORK_Other_CONN * wk, s32 num);
 #endif
@@ -250,7 +250,7 @@ void effL1_w_grade_init(WORK_Other_CONN *ewk) {
     ewk->prio_reverse = 1;
 }
 
-void effL1_k_grade_init(WORK_Other_CONN *ewk) {
+void effL1_k_grade_init(WORK_Other_CONN* ewk) {
     s16 i;
 
     if (kakushi_op) {
@@ -270,7 +270,7 @@ void effL1_k_grade_init(WORK_Other_CONN *ewk) {
     ewk->wu.position_x -= 384;
 }
 
-void effL1_w_score_init(WORK_Other_CONN *ewk) {
+void effL1_w_score_init(WORK_Other_CONN* ewk) {
     s16 i;
 
     effL1_suuchi_bunkai_sub(ewk, WGJ_Score);
@@ -284,7 +284,7 @@ void effL1_w_score_init(WORK_Other_CONN *ewk) {
     ewk->wu.position_x -= 384;
 }
 
-void effL1_w_graph_init(WORK_Other_CONN *ewk) {
+void effL1_w_graph_init(WORK_Other_CONN* ewk) {
 #if defined(TARGET_PS2)
     s16 grade_get_my_point_percentage(s16 ix, s32 flag);
 #endif
@@ -319,7 +319,7 @@ void effL1_w_graph_init(WORK_Other_CONN *ewk) {
     ewk->wu.position_x -= 384;
 }
 
-void effL1_k_graph_init(WORK_Other_CONN *ewk) {
+void effL1_k_graph_init(WORK_Other_CONN* ewk) {
 #if defined(TARGET_PS2)
     s16 grade_get_my_point_percentage(s16 ix, s32 flag);
     s16 grade_get_cm_point_percentage(s16 ix, s32 flag);
@@ -359,7 +359,7 @@ void effL1_k_graph_init(WORK_Other_CONN *ewk) {
     ewk->wu.position_x -= 384;
 }
 
-void effL1_f_stage_p_init(WORK_Other_CONN *ewk) {
+void effL1_f_stage_p_init(WORK_Other_CONN* ewk) {
     s16 i;
 
     for (i = 0; i < 10; i++) {
@@ -377,7 +377,7 @@ void effL1_f_stage_p_init(WORK_Other_CONN *ewk) {
     }
 }
 
-void effL1_f_stage_r_init(WORK_Other_CONN *ewk) {
+void effL1_f_stage_r_init(WORK_Other_CONN* ewk) {
     s16 i;
 
     for (i = 0; i < 22; i++) {
@@ -395,7 +395,7 @@ void effL1_f_stage_r_init(WORK_Other_CONN *ewk) {
     }
 }
 
-void effL1_f_grade_init(WORK_Other_CONN *ewk) {
+void effL1_f_grade_init(WORK_Other_CONN* ewk) {
     s16 i;
 
     ewk->wu.direction = judge_final[WGJ_Target]->grade;
@@ -414,7 +414,7 @@ void effL1_f_grade_init(WORK_Other_CONN *ewk) {
     ewk->prio_reverse = 1;
 }
 
-void effL1_f_mk_spp_init(WORK_Other_CONN *ewk) {
+void effL1_f_mk_spp_init(WORK_Other_CONN* ewk) {
     s16 i;
     s16 k = 0;
 
@@ -444,7 +444,7 @@ void effL1_f_mk_spp_init(WORK_Other_CONN *ewk) {
     ewk->conn[k + 3].chr = 0x6F10;
 }
 
-void effL1_f_mk_all_init(WORK_Other_CONN *ewk) {
+void effL1_f_mk_all_init(WORK_Other_CONN* ewk) {
     s16 i;
 
     ewk->num_of_conn = 6;
@@ -460,7 +460,7 @@ void effL1_f_mk_all_init(WORK_Other_CONN *ewk) {
     }
 }
 
-void effL1_f_kz_cont_init(WORK_Other_CONN *ewk) {
+void effL1_f_kz_cont_init(WORK_Other_CONN* ewk) {
     s16 i;
 
     effL1_suuchi_bunkai_sub(ewk, judge_final[WGJ_Target][Play_Type].keizoku);
@@ -474,7 +474,7 @@ void effL1_f_kz_cont_init(WORK_Other_CONN *ewk) {
     ewk->conn[5].chr += ewk->wu.shell_ix[1];
 }
 
-void effL1_f_kz_spp_init(WORK_Other_CONN *ewk) {
+void effL1_f_kz_spp_init(WORK_Other_CONN* ewk) {
     s16 i;
 
     effL1_suuchi_bunkai_sub(ewk, judge_final[WGJ_Target][Play_Type].sp_point);
@@ -488,7 +488,7 @@ void effL1_f_kz_spp_init(WORK_Other_CONN *ewk) {
     ewk->conn[6].chr += ewk->wu.shell_ix[1];
 }
 
-void effL1_f_score_init(WORK_Other_CONN *ewk) {
+void effL1_f_score_init(WORK_Other_CONN* ewk) {
     s16 i;
 
     effL1_suuchi_bunkai_sub(ewk, WGJ_Score);
@@ -503,7 +503,7 @@ void effL1_f_score_init(WORK_Other_CONN *ewk) {
     }
 }
 
-void effL1_suuchi_bunkai_sub(WORK_Other_CONN *ewk, u32 tsc) {
+void effL1_suuchi_bunkai_sub(WORK_Other_CONN* ewk, u32 tsc) {
     s16 i;
 
     for (i = 7; i > 0; i--) {
@@ -515,14 +515,14 @@ void effL1_suuchi_bunkai_sub(WORK_Other_CONN *ewk, u32 tsc) {
 }
 
 s32 effect_L1_init(s16 flag) {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 211;
     ewk->wu.type = flag;

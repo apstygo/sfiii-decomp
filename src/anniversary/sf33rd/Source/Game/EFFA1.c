@@ -1,12 +1,12 @@
 #include "sf33rd/Source/Game/EFFA1.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_A1_move(WORK_Other *ewk) {
+void effect_A1_move(WORK_Other* ewk) {
     s16 x;
 
     ewk->wu.disp_flag = 0;

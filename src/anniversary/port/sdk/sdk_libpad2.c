@@ -18,7 +18,7 @@ int scePad2GetState(int socket_number) {
     return SDLPad_IsGamepadConnected(socket_number) ? scePad2StateStable : scePad2StateNoLink;
 }
 
-int scePad2GetButtonProfile(int socket_number, unsigned char *profile) {
+int scePad2GetButtonProfile(int socket_number, unsigned char* profile) {
     // Profile for Digital controller
     // profile[0] = 0xF9;
     // profile[1] = 0xFF;
@@ -34,7 +34,7 @@ int scePad2GetButtonProfile(int socket_number, unsigned char *profile) {
     return 4;
 }
 
-int scePad2Read(int socket_number, scePad2ButtonState *data) {
+int scePad2Read(int socket_number, scePad2ButtonState* data) {
     memset(data, 0, sizeof(scePad2ButtonState));
 
     SDLPad_ButtonState button_state;
@@ -86,7 +86,7 @@ int scePad2Read(int socket_number, scePad2ButtonState *data) {
     return sizeof(scePad2ButtonState);
 }
 
-int scePad2CreateSocket(scePad2SocketParam *socket, void *addr) {
+int scePad2CreateSocket(scePad2SocketParam* socket, void* addr) {
     return socket->port;
 }
 
@@ -94,12 +94,12 @@ int scePad2DeleteSocket(int) {
     not_implemented(__func__);
 }
 
-int sceVibGetProfile(int socket_number, unsigned char *profile) {
+int sceVibGetProfile(int socket_number, unsigned char* profile) {
     profile[0] = 3; // Small and big motor
     return 1;
 }
 
-int sceVibSetActParam(int socket_number, int profile_size, unsigned char *profile, int data_size, unsigned char *data) {
+int sceVibSetActParam(int socket_number, int profile_size, unsigned char* profile, int data_size, unsigned char* data) {
     const bool is_small_enabled = profile[0] & 1;
     const bool is_big_enabled = profile[0] & 2;
     unsigned char big_value = 0;

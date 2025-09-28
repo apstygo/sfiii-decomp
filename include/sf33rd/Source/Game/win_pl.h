@@ -9,6 +9,6 @@ extern s16 a_rno;
 extern s16 win_rno[2];
 extern s16 poison_flag[2];
 
-void win_player(PLW *wk);
+void win_player(PLW* wk);
 
 #endif

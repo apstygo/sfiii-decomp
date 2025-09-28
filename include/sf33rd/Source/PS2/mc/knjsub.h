@@ -11,10 +11,10 @@ void KnjLocate(s32 x, s32 y);
 void KnjSetColor(u32 color);
 void KnjSetAlpha(u32 alpha);
 void KnjSetRgb(u32 color);
-void KnjPuts(const s8 *str);
-void KnjPrintf(const s8 *fmt, ...);
+void KnjPuts(const s8* str);
+void KnjPrintf(const s8* fmt, ...);
 void KnjFlush();
-s32 KnjStrLen(const s8 *str);
-s32 KnjCheckCode(const s8 *str);
+s32 KnjStrLen(const s8* str);
+s32 KnjCheckCode(const s8* str);
 
 #endif

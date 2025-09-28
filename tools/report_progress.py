@@ -41,7 +41,10 @@ def generate_progress_report() -> str:
 
     for func, path in func_map.func_to_file.items():
         module_type = path_to_module_type(path)
-        skip_func = module_type == "cri" and func not in cri_func_set
+        is_unused_cri_func = module_type == "cri" and func not in cri_func_set
+        is_zlib_func = "zlib" in path
+        is_flps2asm_func = "flps2asm" in path
+        skip_func = is_unused_cri_func or is_zlib_func or is_flps2asm_func
 
         if skip_func:
             continue

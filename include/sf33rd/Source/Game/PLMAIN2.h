@@ -4,6 +4,6 @@
 #include "structs.h"
 #include "types.h"
 
-void Player_move_bonus(PLW *wk, u16 lv_data);
+void Player_move_bonus(PLW* wk, u16 lv_data);
 
 #endif

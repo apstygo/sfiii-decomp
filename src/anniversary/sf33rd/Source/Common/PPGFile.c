@@ -22,7 +22,7 @@
 
 typedef struct {
     // total size: 0x34
-    PPGDataList *cur; // offset 0x0, size 0x4
+    PPGDataList* cur; // offset 0x0, size 0x4
     u16 hanPal;       // offset 0x4, size 0x2
     u16 hanTex;       // offset 0x6, size 0x2
     _MEMMAN_OBJ mm;   // offset 0x8, size 0x2C
@@ -36,16 +36,16 @@ typedef struct {
 const u8 pplColorModeWidth[4] = { 0xF, 0x3F, 0xFF, 0 };
 
 PPG_W ppg_w;
-s16 *dctex_linear;
+s16* dctex_linear;
 
-s32 ppgCheckPaletteDataBe(Palette *pch);
-void ppgWriteQuadOnly(Vertex *pos, u32 col, u32 texCode);
-void ppgWriteQuadOnly2(Vertex *pos, u32 col, u32 texCode);
-void ppgChangeDataEndian(u8 *adrs, s32 size, s32 dendL, s32 col4, s32 depth, s32 excdot);
-void ppgSetupContextFromPPL(PPLFileHeader *ppl, plContext *bits);
-void ppgSetupContextFromPPG(PPGFileHeader *ppg, plContext *bits);
+s32 ppgCheckPaletteDataBe(Palette* pch);
+void ppgWriteQuadOnly(Vertex* pos, u32 col, u32 texCode);
+void ppgWriteQuadOnly2(Vertex* pos, u32 col, u32 texCode);
+void ppgChangeDataEndian(u8* adrs, s32 size, s32 dendL, s32 col4, s32 depth, s32 excdot);
+void ppgSetupContextFromPPL(PPLFileHeader* ppl, plContext* bits);
+void ppgSetupContextFromPPG(PPGFileHeader* ppg, plContext* bits);
 
-void ppg_Initialize(void *lcmAdrs, s32 lcmSize) {
+void ppg_Initialize(void* lcmAdrs, s32 lcmSize) {
     if (lcmAdrs == NULL) {
         while (1) {}
     }
@@ -53,27 +53,27 @@ void ppg_Initialize(void *lcmAdrs, s32 lcmSize) {
     mmHeapInitialize(&ppg_w.mm, lcmAdrs, lcmSize, ALIGN_UP(sizeof(_MEMMAN_CELL), 16), "- for PPG -");
 }
 
-void *ppgMallocF(s32 size) {
+void* ppgMallocF(s32 size) {
     return mmAlloc(&ppg_w.mm, size, 0);
 }
 
-void *ppgMallocR(s32 size) {
+void* ppgMallocR(s32 size) {
     return mmAlloc(&ppg_w.mm, size, 1);
 }
 
-void ppgFree(void *adrs) {
+void ppgFree(void* adrs) {
     mmFree(&ppg_w.mm, adrs);
 }
 
-void *ppgPullDecBuff(s32 size) {
+void* ppgPullDecBuff(s32 size) {
     return ppgMallocR(size);
 }
 
-void ppgPushDecBuff(void *adrs) {
+void ppgPushDecBuff(void* adrs) {
     ppgFree(adrs);
 }
 
-void ppgTexSrcDataReleased(Texture *tex) {
+void ppgTexSrcDataReleased(Texture* tex) {
     if (tex == NULL) {
         tex = ppg_w.cur->tex;
     }
@@ -83,7 +83,7 @@ void ppgTexSrcDataReleased(Texture *tex) {
     ppgCheckTextureDataBe(tex);
 }
 
-void ppgPalSrcDataReleased(Palette *pal) {
+void ppgPalSrcDataReleased(Palette* pal) {
     if (pal == NULL) {
         pal = ppg_w.cur->pal;
     }
@@ -93,7 +93,7 @@ void ppgPalSrcDataReleased(Palette *pal) {
     ppgCheckPaletteDataBe(pal);
 }
 
-void ppgSourceDataReleased(PPGDataList *dlist) {
+void ppgSourceDataReleased(PPGDataList* dlist) {
     if (dlist == NULL) {
         dlist = ppg_w.cur;
     }
@@ -107,11 +107,11 @@ void ppgSourceDataReleased(PPGDataList *dlist) {
     }
 }
 
-void ppgSetupCurrentDataList(PPGDataList *dlist) {
+void ppgSetupCurrentDataList(PPGDataList* dlist) {
     ppg_w.cur = dlist;
 }
 
-void ppgSetupCurrentPaletteNumber(Palette *pal, s32 num) {
+void ppgSetupCurrentPaletteNumber(Palette* pal, s32 num) {
     if (pal == NULL) {
         pal = ppg_w.cur->pal;
 
@@ -125,17 +125,17 @@ void ppgSetupCurrentPaletteNumber(Palette *pal, s32 num) {
     }
 }
 
-s32 ppgWriteQuadWithST_A(Vertex *pos, u32 col) {
+s32 ppgWriteQuadWithST_A(Vertex* pos, u32 col) {
     ppgWriteQuadOnly(pos, col, ppg_w.hanTex | (ppg_w.hanPal << 0x10));
     return 1;
 }
 
-s32 ppgWriteQuadWithST_A2(Vertex *pos, u32 col) {
+s32 ppgWriteQuadWithST_A2(Vertex* pos, u32 col) {
     ppgWriteQuadOnly2(pos, col, ppg_w.hanTex | (ppg_w.hanPal << 0x10));
     return 1;
 }
 
-void ppgWriteQuadOnly(Vertex *pos, u32 col, u32 texCode) {
+void ppgWriteQuadOnly(Vertex* pos, u32 col, u32 texCode) {
     Sprite prm;
     s32 i;
 
@@ -143,30 +143,30 @@ void ppgWriteQuadOnly(Vertex *pos, u32 col, u32 texCode) {
     ps2SeqsRenderQuadInit_A();
 
     for (i = 0; i < 4; i++) {
-        prm.v[i] = ((_Vertex *)pos)[i].v;
-        prm.t[i] = ((_Vertex *)pos)[i].t;
+        prm.v[i] = ((_Vertex*)pos)[i].v;
+        prm.t[i] = ((_Vertex*)pos)[i].t;
     }
 
     ps2SeqsRenderQuad_A(&prm, col);
     ps2SeqsRenderQuadEnd();
 }
 
-void ppgWriteQuadOnly2(Vertex *pos, u32 col, u32 texCode) {
+void ppgWriteQuadOnly2(Vertex* pos, u32 col, u32 texCode) {
     Sprite prm;
 
     flSetRenderState(FLRENDER_TEXSTAGE0, texCode);
     ps2SeqsRenderQuadInit_A();
 
-    prm.v[0] = ((_Vertex *)pos)[0].v;
-    prm.t[0] = ((_Vertex *)pos)[0].t;
-    prm.v[3] = ((_Vertex *)pos)[3].v;
-    prm.t[3] = ((_Vertex *)pos)[3].t;
+    prm.v[0] = ((_Vertex*)pos)[0].v;
+    prm.t[0] = ((_Vertex*)pos)[0].t;
+    prm.v[3] = ((_Vertex*)pos)[3].v;
+    prm.t[3] = ((_Vertex*)pos)[3].t;
 
     ps2SeqsRenderQuad_A2(&prm, col);
     ps2SeqsRenderQuadEnd();
 }
 
-s32 ppgWriteQuadWithST_B(Vertex *pos, u32 col, PPGDataList *tb, s32 tix, s32 cix) {
+s32 ppgWriteQuadWithST_B(Vertex* pos, u32 col, PPGDataList* tb, s32 tix, s32 cix) {
     u16 texhan;
     u16 palhan = 0;
 
@@ -200,7 +200,7 @@ s32 ppgWriteQuadWithST_B(Vertex *pos, u32 col, PPGDataList *tb, s32 tix, s32 cix
     return 1;
 }
 
-s32 ppgWriteQuadWithST_B2(Vertex *pos, u32 col, PPGDataList *tb, s32 tix, s32 cix) {
+s32 ppgWriteQuadWithST_B2(Vertex* pos, u32 col, PPGDataList* tb, s32 tix, s32 cix) {
     u16 texhan;
     u16 palhan = 0;
 
@@ -234,17 +234,17 @@ s32 ppgWriteQuadWithST_B2(Vertex *pos, u32 col, PPGDataList *tb, s32 tix, s32 ci
     return 1;
 }
 
-s32 ppgWriteQuadUseTrans(Vertex *pos, u32 col, PPGDataList *tb, s32 tix, s32 cix, s32 flip, s32 pal) {
+s32 ppgWriteQuadUseTrans(Vertex* pos, u32 col, PPGDataList* tb, s32 tix, s32 cix, s32 flip, s32 pal) {
     Vertex qvtx[4];
     s32 i;
     u32 sx;
     u32 sy;
     u32 ppgw;
     u32 ppgh;
-    u16 *phan;
+    u16* phan;
     u16 palhan;
     u16 texhan;
-    u8 *tran;
+    u8* tran;
     u8 cofsXY;
     u8 xs;
     u8 ys;
@@ -257,7 +257,7 @@ s32 ppgWriteQuadUseTrans(Vertex *pos, u32 col, PPGDataList *tb, s32 tix, s32 cix
     f32 tadd;
     f32 ppgwf;
     f32 ppghf;
-    PPGFileHeader *ppg;
+    PPGFileHeader* ppg;
 
     if ((pos[0].x >= 384.0f) || (pos[3].x < 0.0f) || (pos[0].y >= 224.0f) || (pos[3].y < 0.0f)) {
         return 0;
@@ -289,11 +289,11 @@ s32 ppgWriteQuadUseTrans(Vertex *pos, u32 col, PPGDataList *tb, s32 tix, s32 cix
     }
 
     if (tb->tex->srcAdrs != NULL) {
-        ppg = (PPGFileHeader *)(tb->tex->srcAdrs + tb->tex->offset[ix_ofs & 0xFFF]);
+        ppg = (PPGFileHeader*)(tb->tex->srcAdrs + tb->tex->offset[ix_ofs & 0xFFF]);
         transTotal = ((ppg->transNums >> 8) & 0xFF) | ((ppg->transNums & 0xFF) << 8);
 
         if (transTotal != 0) {
-            tran = (u8 *)&ppg[1];
+            tran = (u8*)&ppg[1];
             ppgwf = ppg->width;
             ppgw = ppg->width;
             ppghf = ppg->height;
@@ -407,9 +407,9 @@ s32 ppgWriteQuadUseTrans(Vertex *pos, u32 col, PPGDataList *tb, s32 tix, s32 cix
     return 1;
 }
 
-ssize_t ppgDecompress(s32 koCmpr, void *srcAdrs, s32 srcSize, void *dstAdrs, s32 dstSize) {
-    u8 *src;
-    u8 *dst;
+ssize_t ppgDecompress(s32 koCmpr, void* srcAdrs, s32 srcSize, void* dstAdrs, s32 dstSize) {
+    u8* src;
+    u8* dst;
     s32 i;
     ssize_t rnum = 0;
 
@@ -440,9 +440,9 @@ ssize_t ppgDecompress(s32 koCmpr, void *srcAdrs, s32 srcSize, void *dstAdrs, s32
     return rnum;
 }
 
-s32 ppgSetupCmpChunk(u8 *srcAdrs, s32 num, u8 *dstAdrs) {
-    PPXFileHeader *ppx;
-    void *cmpAdrs;
+s32 ppgSetupCmpChunk(u8* srcAdrs, s32 num, u8* dstAdrs) {
+    PPXFileHeader* ppx;
+    void* cmpAdrs;
     s32 cmpSize;
     s32 mltSize;
     s32 koCmpr;
@@ -451,7 +451,7 @@ s32 ppgSetupCmpChunk(u8 *srcAdrs, s32 num, u8 *dstAdrs) {
     ofs = 0;
 
     while (1) {
-        ppx = (PPXFileHeader *)(srcAdrs + ofs);
+        ppx = (PPXFileHeader*)(srcAdrs + ofs);
 
         if (MAGIC_TO_INT("pEND") == REVERT_U32(ppx->magic)) {
             return -1;
@@ -484,16 +484,16 @@ s32 ppgSetupCmpChunk(u8 *srcAdrs, s32 num, u8 *dstAdrs) {
     return 1;
 }
 
-s32 ppgSetupPalChunk(Palette *pch, u8 *adrs, s32 size, s32 ixNum1st, s32 num, s32 /* unused */) {
-    PPLFileHeader *ppl;
+s32 ppgSetupPalChunk(Palette* pch, u8* adrs, s32 size, s32 ixNum1st, s32 num, s32 /* unused */) {
+    PPLFileHeader* ppl;
     plContext bits;
     s32 i;
     s32 col_items;
     s32 koCmpr;
     s32 cmpSize;
     s32 mltSize;
-    void *cmpAdrs;
-    void *mltAdrs;
+    void* cmpAdrs;
+    void* mltAdrs;
     u32 ofs = 0;
 
     if (pch == NULL) {
@@ -513,7 +513,7 @@ s32 ppgSetupPalChunk(Palette *pch, u8 *adrs, s32 size, s32 ixNum1st, s32 num, s3
     koCmpr = 0;
 
     while (1) {
-        ppl = (PPLFileHeader *)(adrs + ofs);
+        ppl = (PPLFileHeader*)(adrs + ofs);
 
         if (MAGIC_TO_INT("pEND") == REVERT_U32(ppl->magic)) {
             return -1;
@@ -589,7 +589,7 @@ s32 ppgSetupPalChunk(Palette *pch, u8 *adrs, s32 size, s32 ixNum1st, s32 num, s3
                 goto error_handler;
             }
 
-            bits.ptr = (u8 *)bits.ptr + (col_items * bits.bitdepth);
+            bits.ptr = (u8*)bits.ptr + (col_items * bits.bitdepth);
         }
 
         if (koCmpr != 0) {
@@ -618,7 +618,7 @@ error_handler:
     while (1) {}
 }
 
-s32 ppgSetupPalChunkDir(Palette *pch, PPLFileHeader *ppl, u8 *adrs, s32 ixNum1st, s32 /* unused */) {
+s32 ppgSetupPalChunkDir(Palette* pch, PPLFileHeader* ppl, u8* adrs, s32 ixNum1st, s32 /* unused */) {
     plContext bits;
     s32 i;
 
@@ -679,10 +679,10 @@ error_handler:
     while (1) {}
 }
 
-void ppgChangeDataEndian(u8 *adrs, s32 size, s32 dendL, s32 col4, s32 depth, s32 excdot) {
+void ppgChangeDataEndian(u8* adrs, s32 size, s32 dendL, s32 col4, s32 depth, s32 excdot) {
     s32 i;
-    u32 *c4;
-    u16 *c2;
+    u32* c4;
+    u16* c2;
 
     if (depth == 1) {
         return;
@@ -691,13 +691,13 @@ void ppgChangeDataEndian(u8 *adrs, s32 size, s32 dendL, s32 col4, s32 depth, s32
     if (depth != 0) {
         if (dendL == 0) {
             if (col4 != 0) {
-                c4 = (u32 *)adrs;
+                c4 = (u32*)adrs;
 
                 for (i = 0; i < size / 4; i++) {
                     c4[i] = REVERT_U32(c4[i]);
                 }
             } else {
-                c2 = (u16 *)adrs;
+                c2 = (u16*)adrs;
 
                 for (i = 0; i < size / 2; i++) {
                     c2[i] = REVERT_U16(c2[i]);
@@ -715,7 +715,7 @@ void ppgChangeDataEndian(u8 *adrs, s32 size, s32 dendL, s32 col4, s32 depth, s32
     }
 }
 
-s32 ppgSetupTexChunkSeqs(Texture *tch, PPGFileHeader *ppg, u8 *adrs, s32 ixNum1st, s32 ixNums, u32 attribute) {
+s32 ppgSetupTexChunkSeqs(Texture* tch, PPGFileHeader* ppg, u8* adrs, s32 ixNum1st, s32 ixNums, u32 attribute) {
     plContext bits;
     s32 i;
     s32 ci_flag = 0;
@@ -792,15 +792,15 @@ error_handler:
     while (1) {}
 }
 
-void ppgRenewDotDataSeqs(Texture *tch, u32 gix, u32 *srcRam, u32 code, u32 size) {
+void ppgRenewDotDataSeqs(Texture* tch, u32 gix, u32* srcRam, u32 code, u32 size) {
     s32 ix;
     s32 i;
     s32 j;
-    u16 *dstRam16;
-    u16 *srcRam16;
-    u16 *tix;
-    u8 *dstRam8;
-    u8 *srcRam8;
+    u16* dstRam16;
+    u16* srcRam16;
+    u16* tix;
+    u8* dstRam8;
+    u8* srcRam8;
 
     if (tch == NULL) {
         tch = ppg_w.cur->tex;
@@ -818,8 +818,8 @@ void ppgRenewDotDataSeqs(Texture *tch, u32 gix, u32 *srcRam, u32 code, u32 size)
 
             switch (size) {
             case 0x40:
-                srcRam8 = (u8 *)srcRam;
-                dstRam8 = (u8 *)(tch->srcAdrs + tch->srcSize * ix + CODE_0(code));
+                srcRam8 = (u8*)srcRam;
+                dstRam8 = (u8*)(tch->srcAdrs + tch->srcSize * ix + CODE_0(code));
 
                 for (i = 0; i < 8; i++) {
                     for (j = 0; j < 8; j++) {
@@ -832,8 +832,8 @@ void ppgRenewDotDataSeqs(Texture *tch, u32 gix, u32 *srcRam, u32 code, u32 size)
                 break;
 
             case 0x100:
-                srcRam8 = (u8 *)srcRam;
-                dstRam8 = (u8 *)(tch->srcAdrs + tch->srcSize * ix + CODE_0(code));
+                srcRam8 = (u8*)srcRam;
+                dstRam8 = (u8*)(tch->srcAdrs + tch->srcSize * ix + CODE_0(code));
 
                 for (i = 0; i < 0x10; i++) {
                     for (j = 0; j < 0x10; j++) {
@@ -846,9 +846,9 @@ void ppgRenewDotDataSeqs(Texture *tch, u32 gix, u32 *srcRam, u32 code, u32 size)
                 break;
 
             case 0x400:
-                srcRam8 = (u8 *)srcRam;
-                dstRam8 = (u8 *)(tch->srcAdrs + tch->srcSize * ix + CODE_1(code));
-                tix = (u16 *)dctex_linear;
+                srcRam8 = (u8*)srcRam;
+                dstRam8 = (u8*)(tch->srcAdrs + tch->srcSize * ix + CODE_1(code));
+                tix = (u16*)dctex_linear;
 
                 for (i = 0; i < 0x20; i++) {
                     for (j = 0; j < 0x20; j++) {
@@ -861,8 +861,8 @@ void ppgRenewDotDataSeqs(Texture *tch, u32 gix, u32 *srcRam, u32 code, u32 size)
                 break;
 
             case 0x80:
-                srcRam16 = (u16 *)srcRam;
-                dstRam16 = (u16 *)(tch->srcAdrs + tch->srcSize * ix + (CODE_0(code)) * 2);
+                srcRam16 = (u16*)srcRam;
+                dstRam16 = (u16*)(tch->srcAdrs + tch->srcSize * ix + (CODE_0(code)) * 2);
 
                 for (i = 0; i < 8; i++) {
                     for (j = 0; j < 8; j++) {
@@ -875,8 +875,8 @@ void ppgRenewDotDataSeqs(Texture *tch, u32 gix, u32 *srcRam, u32 code, u32 size)
                 break;
 
             case 0x200:
-                srcRam16 = (u16 *)srcRam;
-                dstRam16 = (u16 *)(tch->srcAdrs + tch->srcSize * ix + (CODE_0(code)) * 2);
+                srcRam16 = (u16*)srcRam;
+                dstRam16 = (u16*)(tch->srcAdrs + tch->srcSize * ix + (CODE_0(code)) * 2);
 
                 for (i = 0; i < 0x10; i++) {
                     for (j = 0; j < 0x10; j++) {
@@ -889,9 +889,9 @@ void ppgRenewDotDataSeqs(Texture *tch, u32 gix, u32 *srcRam, u32 code, u32 size)
                 break;
 
             case 0x800:
-                srcRam16 = (u16 *)srcRam;
-                dstRam16 = (u16 *)(tch->srcAdrs + tch->srcSize * ix + (CODE_1(code)) * 2);
-                tix = (u16 *)dctex_linear;
+                srcRam16 = (u16*)srcRam;
+                dstRam16 = (u16*)(tch->srcAdrs + tch->srcSize * ix + (CODE_1(code)) * 2);
+                tix = (u16*)dctex_linear;
 
                 for (i = 0; i < 0x20; i++) {
                     for (j = 0; j < 0x20; j++) {
@@ -933,11 +933,11 @@ void ppgMakeConvTableTexDC() {
     }
 }
 
-s32 ppgRenewTexChunkSeqs(Texture *tch) {
+s32 ppgRenewTexChunkSeqs(Texture* tch) {
     plContext bits;
     s32 i;
-    s32 *srcRam;
-    s32 *dstRam;
+    s32* srcRam;
+    s32* dstRam;
 
     if (tch == NULL) {
         tch = ppg_w.cur->tex;
@@ -956,7 +956,7 @@ s32 ppgRenewTexChunkSeqs(Texture *tch) {
             tch->handle[i].b16[1] &= 0xDFFF;
             flLockTexture(NULL, tch->handle[i].b16[0], &bits, 3);
             dstRam = bits.ptr;
-            srcRam = (s32 *)(tch->srcAdrs + tch->srcSize * i);
+            srcRam = (s32*)(tch->srcAdrs + tch->srcSize * i);
             flPS2_Mem_move64(srcRam, dstRam, tch->srcSize >> 6);
             flUnlockTexture(tch->handle[i].b16[0]);
         }
@@ -965,8 +965,8 @@ s32 ppgRenewTexChunkSeqs(Texture *tch) {
     return 1;
 }
 
-s32 ppgSetupTexChunk_1st(Texture *tch, u8 *adrs, ssize_t size, s32 ixNum1st, s32 ixNums, s32 ar, s32 arcnt) {
-    PPGFileHeader *ppg;
+s32 ppgSetupTexChunk_1st(Texture* tch, u8* adrs, ssize_t size, s32 ixNum1st, s32 ixNums, s32 ar, s32 arcnt) {
+    PPGFileHeader* ppg;
     s32 i;
     s32 ofs;
 
@@ -989,7 +989,7 @@ s32 ppgSetupTexChunk_1st(Texture *tch, u8 *adrs, ssize_t size, s32 ixNum1st, s32
     tch->offset = NULL;
     tch->srcAdrs = adrs;
     tch->srcSize = size;
-    tch->handle = (TextureHandle *)ppgMallocF(ixNums * 4);
+    tch->handle = (TextureHandle*)ppgMallocF(ixNums * 4);
 
     if (tch->handle == NULL) {
         flLogOut("テクスチャハンドル記憶領域が確保できませんでした。\n"); // Failed to allocate texture handle memory.
@@ -1004,7 +1004,7 @@ s32 ppgSetupTexChunk_1st(Texture *tch, u8 *adrs, ssize_t size, s32 ixNum1st, s32
     ofs = 0;
 
     while (1) {
-        ppg = (PPGFileHeader *)(tch->srcAdrs + ofs);
+        ppg = (PPGFileHeader*)(tch->srcAdrs + ofs);
 
         if (MAGIC_TO_INT("pEND") != REVERT_U32(ppg->magic)) {
             if (MAGIC_TO_INT("pTEX") == REVERT_U32(ppg->magic)) {
@@ -1033,7 +1033,7 @@ s32 ppgSetupTexChunk_1st(Texture *tch, u8 *adrs, ssize_t size, s32 ixNum1st, s32
     ofs = 0;
 
     while (1) {
-        ppg = (PPGFileHeader *)(tch->srcAdrs + ofs);
+        ppg = (PPGFileHeader*)(tch->srcAdrs + ofs);
 
         if (MAGIC_TO_INT("pEND") != REVERT_U32(ppg->magic)) {
             if (MAGIC_TO_INT("pTEX") == REVERT_U32(ppg->magic)) {
@@ -1064,7 +1064,7 @@ error_handler:
     while (1) {}
 }
 
-s32 ppgSetupTexChunk_1st_Accnum(Texture *tch, u16 accnum) {
+s32 ppgSetupTexChunk_1st_Accnum(Texture* tch, u16 accnum) {
     if (tch == NULL) {
         tch = ppg_w.cur->tex;
     }
@@ -1073,9 +1073,9 @@ s32 ppgSetupTexChunk_1st_Accnum(Texture *tch, u16 accnum) {
     return 0;
 }
 
-s32 ppgSetupTexChunk_2nd(Texture *tch, s32 ixNum) {
-    PPGFileHeader *ppg;
-    TextureHandle *hnof;
+s32 ppgSetupTexChunk_2nd(Texture* tch, s32 ixNum) {
+    PPGFileHeader* ppg;
+    TextureHandle* hnof;
 
     if (tch == NULL) {
         tch = ppg_w.cur->tex;
@@ -1096,7 +1096,7 @@ s32 ppgSetupTexChunk_2nd(Texture *tch, s32 ixNum) {
         while (1) {}
     }
 
-    ppg = (PPGFileHeader *)(tch->srcAdrs + tch->offset[hnof->b16[1]]);
+    ppg = (PPGFileHeader*)(tch->srcAdrs + tch->offset[hnof->b16[1]]);
 
     if ((ppg->pixel & 3) < 2) {
         hnof->b16[1] |= 0x4000;
@@ -1105,15 +1105,15 @@ s32 ppgSetupTexChunk_2nd(Texture *tch, s32 ixNum) {
     return tch->accnum;
 }
 
-s32 ppgSetupTexChunk_3rd(Texture *tch, s32 ixNum, u32 attribute) {
+s32 ppgSetupTexChunk_3rd(Texture* tch, s32 ixNum, u32 attribute) {
     plContext bits;
-    PPGFileHeader *ppg;
-    TextureHandle *hnof;
+    PPGFileHeader* ppg;
+    TextureHandle* hnof;
     s32 koCmpr;
     s32 cmpSize;
     s32 mltSize;
-    void *cmpAdrs;
-    void *mltAdrs;
+    void* cmpAdrs;
+    void* mltAdrs;
 
     s32 unused_s5;
 
@@ -1137,11 +1137,11 @@ s32 ppgSetupTexChunk_3rd(Texture *tch, s32 ixNum, u32 attribute) {
         while (1) {}
     }
 
-    ppg = (PPGFileHeader *)(tch->srcAdrs + (tch->offset[hnof->b16[1] & 0xFFF]));
+    ppg = (PPGFileHeader*)(tch->srcAdrs + (tch->offset[hnof->b16[1] & 0xFFF]));
     ppgSetupContextFromPPG(ppg, &bits);
     koCmpr = ppg->compress & 3;
     cmpSize = (u16)REVERT_U16(ppg->transNums) * 3 + 0x10;
-    cmpAdrs = (u8 *)ppg + cmpSize;
+    cmpAdrs = (u8*)ppg + cmpSize;
     cmpSize = REVERT_U32(ppg->fileSize) - cmpSize;
     mltSize = bits.height * bits.pitch;
     mltAdrs = ppgPullDecBuff(mltSize);
@@ -1175,7 +1175,7 @@ s32 ppgSetupTexChunk_3rd(Texture *tch, s32 ixNum, u32 attribute) {
     return 1;
 }
 
-void ppgSetupContextFromPPL(PPLFileHeader *ppl, plContext *bits) {
+void ppgSetupContextFromPPL(PPLFileHeader* ppl, plContext* bits) {
     bits->desc = 0;
     bits->width = pplColorModeWidth[ppl->c_mode & 3] < 17 ? 16 : 256;
     bits->height = 1;
@@ -1246,7 +1246,7 @@ void ppgSetupContextFromPPL(PPLFileHeader *ppl, plContext *bits) {
     }
 }
 
-void ppgSetupContextFromPPG(PPGFileHeader *ppg, plContext *bits) {
+void ppgSetupContextFromPPG(PPGFileHeader* ppg, plContext* bits) {
     bits->desc = 0;
     bits->width = ppg->width * 16;
     bits->height = ppg->height * 16;
@@ -1358,7 +1358,7 @@ void ppgSetupContextFromPPG(PPGFileHeader *ppg, plContext *bits) {
     }
 }
 
-s32 ppgReleasePaletteHandle(Palette *pch, s32 ixNum) {
+s32 ppgReleasePaletteHandle(Palette* pch, s32 ixNum) {
     s32 i;
     s32 ix;
     u16 han;
@@ -1403,7 +1403,7 @@ s32 ppgReleasePaletteHandle(Palette *pch, s32 ixNum) {
     return ppgCheckPaletteDataBe(pch);
 }
 
-s32 ppgReleaseTextureHandle(Texture *tch, s32 ixNum) {
+s32 ppgReleaseTextureHandle(Texture* tch, s32 ixNum) {
     s32 i;
     s32 ix;
     u16 han;
@@ -1455,7 +1455,7 @@ s32 ppgReleaseTextureHandle(Texture *tch, s32 ixNum) {
     return ppgCheckTextureDataBe(tch);
 }
 
-s32 ppgCheckTextureDataBe(Texture *tch) {
+s32 ppgCheckTextureDataBe(Texture* tch) {
     s32 i;
 
     if (tch->be == 0) {
@@ -1485,7 +1485,7 @@ s32 ppgCheckTextureDataBe(Texture *tch) {
     return tch->be;
 }
 
-s32 ppgCheckPaletteDataBe(Palette *pch) {
+s32 ppgCheckPaletteDataBe(Palette* pch) {
     s32 i;
 
     if (pch->be == 0) {
@@ -1510,7 +1510,7 @@ s32 ppgCheckPaletteDataBe(Palette *pch) {
     return pch->be;
 }
 
-s32 ppgGetUsingTextureHandle(Texture *tch, s32 ixNums) {
+s32 ppgGetUsingTextureHandle(Texture* tch, s32 ixNums) {
     if (tch == NULL) {
         tch = ppg_w.cur->tex;
 
@@ -1536,7 +1536,7 @@ s32 ppgGetUsingTextureHandle(Texture *tch, s32 ixNums) {
     }
 }
 
-s32 ppgGetUsingPaletteHandle(Palette *pch, s32 ixNums) {
+s32 ppgGetUsingPaletteHandle(Palette* pch, s32 ixNums) {
     if (pch == NULL) {
         pch = ppg_w.cur->pal;
 
@@ -1562,7 +1562,7 @@ s32 ppgGetUsingPaletteHandle(Palette *pch, s32 ixNums) {
     }
 }
 
-s32 ppgCheckTextureNumber(Texture *tex, s32 num) {
+s32 ppgCheckTextureNumber(Texture* tex, s32 num) {
     u16 ix;
 
     if (tex == NULL) {

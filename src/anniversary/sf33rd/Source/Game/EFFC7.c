@@ -7,7 +7,7 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effc7_sort_push(WORK *ewk, WORK *);
+void effc7_sort_push(WORK* ewk, WORK*);
 
 const s16 paring_mark_data[3][20][2] = {
     { { 64, 96 }, { 66, 82 }, { 50, 72 }, { 32, 60 }, { 36, 82 }, { 42, 70 }, { 34, 100 },
@@ -21,8 +21,8 @@ const s16 paring_mark_data[3][20][2] = {
       { 28, 76 }, { 25, 77 }, { 34, 79 }, { 47, 74 }, { 21, 84 }, { 22, 73 } }
 };
 
-void effect_C7_move(WORK_Other *ewk) {
-    WORK *mwk = (WORK *)ewk->my_master;
+void effect_C7_move(WORK_Other* ewk) {
+    WORK* mwk = (WORK*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -79,19 +79,19 @@ void effect_C7_move(WORK_Other *ewk) {
     }
 }
 
-void effc7_sort_push(WORK *ewk, WORK * /* unused */) {
+void effc7_sort_push(WORK* ewk, WORK* /* unused */) {
     sort_push_request8(ewk);
 }
 
-s32 effect_C7_init(PLW *wk, u8 data) {
-    WORK_Other *ewk;
+s32 effect_C7_init(PLW* wk, u8 data) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(2)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 127;
     ewk->wu.work_id = 64;
@@ -101,7 +101,7 @@ s32 effect_C7_init(PLW *wk, u8 data) {
     ewk->wu.my_col_mode = 0x4200;
     ewk->wu.my_col_code = 0x2020;
     ewk->wu.my_family = wk->wu.my_family;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->master_id = wk->wu.id;
     ewk->master_work_id = wk->wu.work_id;
     ewk->master_player = wk->player_number;

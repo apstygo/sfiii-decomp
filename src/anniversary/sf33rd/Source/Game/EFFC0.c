@@ -1,10 +1,10 @@
 #include "sf33rd/Source/Game/EFFC0.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/workuser.h"
 
 const s16 hok_table_ef[8] = { 1, 1, 2, 2, 3, 3, 3, 3 };
@@ -14,12 +14,12 @@ const s16 plhos_data[20][3] = { { 2, 136, 4 }, { 40, 92, 3 },  { -4, 104, 2 },  
                                 { 2, 92, 5 },  { -4, 104, 2 }, { -4, 104, 5 },  { 2, 136, 4 },  { -4, 104, 2 },
                                 { 6, 90, 2 },  { -4, 104, 2 }, { -41, 127, 5 }, { -4, 104, 4 }, { -4, 104, 4 } };
 
-void effect_C0_move(WORK_Other *ewk) {
+void effect_C0_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    PLW *mwk = (PLW *)ewk->my_master;
+    PLW* mwk = (PLW*)ewk->my_master;
     s16 i;
     s16 hok;
 
@@ -80,15 +80,15 @@ void effect_C0_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_C0_init(PLW *wk, s32 /* unused */) {
-    WORK_Other *ewk;
+s32 effect_C0_init(PLW* wk, s32 /* unused */) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 120;
     ewk->wu.work_id = 16;
@@ -97,7 +97,7 @@ s32 effect_C0_init(PLW *wk, s32 /* unused */) {
     ewk->wu.position_x = wk->wu.position_x;
     ewk->wu.position_y = wk->wu.position_y;
     ewk->wu.position_z = wk->wu.position_z - 4;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->master_work_id = wk->wu.work_id;
     ewk->master_id = wk->wu.id;
     *ewk->wu.char_table = _plef_char_table;

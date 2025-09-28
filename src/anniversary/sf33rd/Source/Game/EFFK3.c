@@ -8,7 +8,7 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void set_init_posspeed_effK3(WORK *wk);
+void set_init_posspeed_effK3(WORK* wk);
 
 const s16 numof_effK3[4] = { 2, 4, 6, 6 };
 
@@ -29,7 +29,7 @@ const s16 effK3_isp_y_hosei[4][8] = { { 0, 128, 256, 384, 512, 0, -128, -256 },
 
 const s16 effK3_life_time[4] = { 24, 20, 16, 12 };
 
-void effect_K3_move(WORK_Other *ewk) {
+void effect_K3_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -83,7 +83,7 @@ void effect_K3_move(WORK_Other *ewk) {
     }
 }
 
-void set_init_posspeed_effK3(WORK *wk) {
+void set_init_posspeed_effK3(WORK* wk) {
     s16 data[4];
     s16 ix;
     s16 flag;
@@ -114,15 +114,15 @@ void set_init_posspeed_effK3(WORK *wk) {
     wk->kage_hy = wk->kage_prio / 2;
 }
 
-s32 effect_K3_init(WORK_Other *wk) {
-    WORK_Other *ewk;
+s32 effect_K3_init(WORK_Other* wk) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(1)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 203;
     ewk->wu.work_id = 16;
@@ -131,7 +131,7 @@ s32 effect_K3_init(WORK_Other *wk) {
     ewk->wu.cgromtype = wk->wu.cgromtype;
     ewk->wu.my_col_mode = wk->wu.my_col_mode;
     ewk->wu.my_col_code = wk->wu.my_col_code;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->wu.dm_dir = wk->wu.dm_dir;
     ewk->wu.dm_attlv = wk->wu.dm_attlv;
     ewk->master_player = wk->master_player;
@@ -141,7 +141,7 @@ s32 effect_K3_init(WORK_Other *wk) {
     return 0;
 }
 
-s32 setup_effK3(WORK *wk) {
+s32 setup_effK3(WORK* wk) {
     s16 i;
 
     if (wk->type != 3) {
@@ -153,7 +153,7 @@ s32 setup_effK3(WORK *wk) {
     }
 
     for (i = 0; i < numof_effK3[wk->dm_attlv]; i++) {
-        effect_K3_init((WORK_Other *)wk);
+        effect_K3_init((WORK_Other*)wk);
     }
 
     return 1;

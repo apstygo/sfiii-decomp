@@ -9,8 +9,8 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_M6_move(WORK_Other *ewk) {
-    WORK_Other *oya = (WORK_Other *)ewk->my_master;
+void effect_M6_move(WORK_Other* ewk) {
+    WORK_Other* oya = (WORK_Other*)ewk->my_master;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -60,25 +60,25 @@ void effect_M6_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_M6_init(WORK_Other *oya) {
+s32 effect_M6_init(WORK_Other* oya) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 226;
     ewk->wu.work_id = 16;
     ewk->wu.cgromtype = 1;
     ewk->wu.disp_flag = 0;
-    ewk->my_master = (u32 *)oya;
+    ewk->my_master = (u32*)oya;
     ewk->wu.my_family = 2;
     ewk->wu.char_index = 105;
     ewk->wu.my_col_mode = 0x4200;

@@ -4,7 +4,7 @@
 #include "sf33rd/Source/Game/POW_DATA.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void cal_damage_vitality(PLW *as, PLW *ds) {
+void cal_damage_vitality(PLW* as, PLW* ds) {
     u16 xx = as->wu.att.pow;
     s16 yy;
     s16 power = Power_Data[xx];
@@ -26,7 +26,7 @@ void cal_damage_vitality(PLW *as, PLW *ds) {
     }
 }
 
-void cal_damage_vitality_eff(WORK_Other *as, PLW *ds) {
+void cal_damage_vitality_eff(WORK_Other* as, PLW* ds) {
     u16 xx = as->wu.att.pow;
     s16 yy;
     s16 power = Power_Data[xx];
@@ -40,7 +40,7 @@ void cal_damage_vitality_eff(WORK_Other *as, PLW *ds) {
     ds->wu.dm_vital = (power * yy) / 100;
 
     if (as->wu.work_id == 1) {
-        ds->wu.dm_vital = (ds->wu.dm_vital * ((PLW *)as)->att_plus) / 8;
+        ds->wu.dm_vital = (ds->wu.dm_vital * ((PLW*)as)->att_plus) / 8;
     }
 
     if (ds->wu.work_id == 1) {
@@ -48,13 +48,13 @@ void cal_damage_vitality_eff(WORK_Other *as, PLW *ds) {
     }
 }
 
-void Additinal_Score_DM(WORK_Other *wk, u16 ix) {
+void Additinal_Score_DM(WORK_Other* wk, u16 ix) {
     s16 id;
 
     if (wk->wu.work_id == 1) {
         id = wk->wu.id;
     } else {
-        if (((WORK *)wk->my_master)->work_id != 1) {
+        if (((WORK*)wk->my_master)->work_id != 1) {
             return;
         }
 

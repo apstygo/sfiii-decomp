@@ -1,11 +1,11 @@
 #include "sf33rd/Source/Game/eff05.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
 #include "sf33rd/Source/Game/bg_sub.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 
@@ -53,20 +53,20 @@ const s16 stg1500_data_tbl[8] = { 0, 2, 300, 445, 48, 10, 0, 0 };
 const s16 stg1600_data_tbl[32] = { 0, 2, 300, 624, 0, 10, 2, 0, 0, 2, 8492, 511, 0,  12, 3,  0,
                                    0, 2, 300, 511, 0, 80, 4, 0, 0, 2, 300,  608, 48, 77, 11, 0 };
 
-u32 *char_add[22] = { _fnl_char_table, _usa_char_table, _j10_char_table, _hkg_char_table, _eng_char_table,
+u32* char_add[22] = { _fnl_char_table, _usa_char_table, _j10_char_table, _hkg_char_table, _eng_char_table,
                       _rca_char_table, _grm_char_table, _j11_char_table, _afc_char_table, _brz_char_table,
                       _hkg_char_table, _usa_char_table, _brz_char_table, _orm_char_table, _jp2_char_table,
                       _chn_char_table, _jp3_char_table, _usa_char_table, _rca_char_table, _frc_char_table,
                       _bns_char_table, _bns_char_table };
 
-const s16 *scr_obj_data[22] = { stg_dum_data_tbl, stg0100_data_tbl, stg_dum_data_tbl, stg_dum_data_tbl,
+const s16* scr_obj_data[22] = { stg_dum_data_tbl, stg0100_data_tbl, stg_dum_data_tbl, stg_dum_data_tbl,
                                 stg_dum_data_tbl, stg0500_data_tbl, stg0600_data_tbl, stg0700_data_tbl,
                                 stg0800_data_tbl, stg0900_data_tbl, stg0A00_data_tbl, stg0100_data_tbl,
                                 stg0c00_data_tbl, stg0d00_data_tbl, stg0e00_data_tbl, stg1000_data_tbl,
                                 stg1100_data_tbl, stg_dum_data_tbl, stg1300_data_tbl, stg1400_data_tbl,
                                 stg1500_data_tbl, stg1600_data_tbl };
 
-void effect_05_move(WORK_Other *ewk) {
+void effect_05_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -98,11 +98,11 @@ s32 effect_05_init() {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 lp_cnt;
     s16 i;
-    const s16 *data_ptr;
+    const s16* data_ptr;
 
     lp_cnt = scr_obj_num[bg_w.bg_index];
     if (lp_cnt == 0) {
@@ -116,7 +116,7 @@ s32 effect_05_init() {
             return -1;
         }
 
-        ewk = (WORK_Other *)((u8 *)&frw + ix * 0x700);
+        ewk = (WORK_Other*)((u8*)&frw + ix * 0x700);
 
         ewk->wu.be_flag = 1;
         ewk->wu.id = 5;

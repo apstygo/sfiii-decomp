@@ -6,7 +6,7 @@
 #include "sf33rd/Source/Game/Pow_Pow.h"
 #include "sf33rd/Source/Game/SysDir.h"
 
-void setup_dm_rl_pldm(WORK *as, WORK *ds);
+void setup_dm_rl_pldm(WORK* as, WORK* ds);
 
 void effect_at_vs_player_dm(s16 ix2, s16 ix) {
 #if defined(TARGET_PS2)
@@ -15,9 +15,9 @@ void effect_at_vs_player_dm(s16 ix2, s16 ix) {
     void plef_at_vs_player_damage_union(PLW * as, PLW * ds, s32 gddir);
 #endif
 
-    WORK_Other *as = (WORK_Other *)q_hit_push[ix2];
-    PLW *ds = (PLW *)q_hit_push[ix];
-    PLW *ms;
+    WORK_Other* as = (WORK_Other*)q_hit_push[ix2];
+    PLW* ds = (PLW*)q_hit_push[ix];
+    PLW* ms;
     s8 gddir;
 
     ds->dm_point = hs[ix].dm_body;
@@ -37,7 +37,7 @@ void effect_at_vs_player_dm(s16 ix2, s16 ix) {
         ds->wu.dm_vital *= 2;
     }
 
-    ms = (PLW *)as->my_master;
+    ms = (PLW*)as->my_master;
 
     if (ms->wu.work_id == 1) {
         if (as->wu.olc_work_ix[3] == 2) {
@@ -55,15 +55,15 @@ void effect_at_vs_player_dm(s16 ix2, s16 ix) {
     }
 
     as->wu.at_ten_ix = remake_score_index(ds->wu.dm_vital);
-    cal_combo_waribiki((PLW *)as, ds);
+    cal_combo_waribiki((PLW*)as, ds);
     cal_dm_vital_gauge_hosei(ds);
     cal_combo_waribiki2(ds);
     as->wu.dm_vital = 256;
     ds->atemi_flag = 0;
-    plef_at_vs_player_damage_union((PLW *)as, ds, gddir);
+    plef_at_vs_player_damage_union((PLW*)as, ds, gddir);
 }
 
-void setup_dm_rl_pldm(WORK *as, WORK *ds) {
+void setup_dm_rl_pldm(WORK* as, WORK* ds) {
     s16 pw;
 
     ds->dm_rl = as->rl_flag;

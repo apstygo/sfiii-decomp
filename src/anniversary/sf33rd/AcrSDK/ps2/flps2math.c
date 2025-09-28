@@ -4,11 +4,11 @@
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 #include "structs.h"
 
-void flmatCopy(MTX *dst, const MTX *src);
+void flmatCopy(MTX* dst, const MTX* src);
 void flPS2MakeClipViewport(s32 /* unused */, s32 /* unused */, s32 dwWidth, s32 dwHeight, f32 dvMinz, f32 dvMaxz);
-void flmatInit(MTX *lpmat);
+void flmatInit(MTX* lpmat);
 
-void flPS2MakeClipProjection(MTX *lppro) {
+void flPS2MakeClipProjection(MTX* lppro) {
     f32 width;
     f32 height;
 
@@ -20,7 +20,7 @@ void flPS2MakeClipProjection(MTX *lppro) {
 }
 
 void flmatrMakeViewport(s32 mdst, s32 dwx, s32 dwy, s32 dwWidth, s32 dwHeight, f32 dvMinz, f32 dvMaxz) {
-    MTX *lpmat = &flMATRIX[mdst];
+    MTX* lpmat = &flMATRIX[mdst];
 
     flmatMakeViewport(lpmat, dwx, dwy, dwWidth, dwHeight, dvMinz, dvMaxz);
     flPS2MakeClipProjection(&flMATRIX[0x20]);
@@ -35,7 +35,7 @@ void flmatrMakeViewport(s32 mdst, s32 dwx, s32 dwy, s32 dwWidth, s32 dwHeight, f
     flPS2SendRenderState_SCISSOR(dwx, dwy, dwWidth, dwHeight, 2);
 }
 
-void flmatMakeViewport(MTX *lpmat, s32 dwx, s32 dwy, s32 dwWidth, s32 dwHeight, f32 dvMinz, f32 dvMaxz) {
+void flmatMakeViewport(MTX* lpmat, s32 dwx, s32 dwy, s32 dwWidth, s32 dwHeight, f32 dvMinz, f32 dvMaxz) {
     f32 width;
     f32 height;
     f32 cwidth;
@@ -110,7 +110,7 @@ void flPS2MakeClipViewport(s32 /* unused */, s32 /* unused */, s32 dwWidth, s32 
     flPS2VIEWPORT.f[0xE] = 0.5f * flPs2State.ZBuffMax;
 }
 
-void flmatInit(MTX *lpmat) {
+void flmatInit(MTX* lpmat) {
 #if !defined(TARGET_PS2)
     *lpmat = flPS2INITMATRIX;
 #else
@@ -128,7 +128,7 @@ void flmatInit(MTX *lpmat) {
 #endif
 }
 
-void flmatMul(MTX *lpdst, const MTX *lpsrc1, const MTX *lpsrc2) {
+void flmatMul(MTX* lpdst, const MTX* lpsrc1, const MTX* lpsrc2) {
 #if !defined(TARGET_PS2)
     not_implemented(__func__);
 #else
@@ -166,7 +166,7 @@ void flmatMul(MTX *lpdst, const MTX *lpsrc1, const MTX *lpsrc2) {
 #endif
 }
 
-void flmatCopy(MTX *dst, const MTX *src) {
+void flmatCopy(MTX* dst, const MTX* src) {
 #if !defined(TARGET_PS2)
     not_implemented(__func__);
 #else
@@ -184,7 +184,7 @@ void flmatCopy(MTX *dst, const MTX *src) {
 #endif
 }
 
-void flvecNormalize(Vec3 *lpvec) {
+void flvecNormalize(Vec3* lpvec) {
 #if !defined(TARGET_PS2)
     not_implemented(__func__);
 #else

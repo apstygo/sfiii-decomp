@@ -1,24 +1,24 @@
 #include "sf33rd/Source/Game/EFFC8.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
 const s32 effc8_data_tbl[4] = { 0x30000, 0x200, 0, -0x1800 };
 
-void effect_C8_move(WORK_Other *ewk) {
+void effect_C8_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init2(WORK * wk, s32 koc, s32 index, s32 ip, s32 scf);
 #endif
 
-    PLW *oya_pl = (PLW *)ewk->my_master;
+    PLW* oya_pl = (PLW*)ewk->my_master;
     s16 work;
-    const s32 *ptr;
+    const s32* ptr;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -101,19 +101,19 @@ void effect_C8_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_C8_init(PLW *wk) {
+s32 effect_C8_init(PLW* wk) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(2)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 128;
     ewk->wu.work_id = 16;
@@ -124,7 +124,7 @@ s32 effect_C8_init(PLW *wk) {
     ewk->wu.my_priority = ewk->wu.position_z = 20;
     *ewk->wu.char_table = _etc_char_table;
     ewk->wu.my_col_code = wk->wu.my_col_code;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->wu.position_x = ewk->wu.xyz[0].disp.pos = wk->wu.xyz[0].disp.pos;
     ewk->wu.position_y = ewk->wu.xyz[1].disp.pos = wk->wu.xyz[1].disp.pos;
     ewk->wu.xyz[0].disp.low = ewk->wu.xyz[1].disp.low = 0;

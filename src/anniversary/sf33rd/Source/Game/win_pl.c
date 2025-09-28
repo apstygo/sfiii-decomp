@@ -18,35 +18,35 @@
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void Win_00000(PLW *wk);
-void Win_01000(PLW *wk);
-void jijii_nebukuro(PLW *wk);
-void jijii_jump(PLW *wk);
-void jijii_full(PLW *wk);
-void Win_02000(PLW *wk);
-void Win_03000(PLW *wk);
-void Win_04000(PLW *wk);
-void Normal_normal_Winner(PLW *wk);
-void Judge_normal_winner(PLW *wk);
-void Win_05000(PLW *wk);
-void Win_06000(PLW *wk);
-void Win_07000(PLW *wk);
-void Win_08000(PLW *wk);
-void Win_09000(PLW *wk);
-void Win_10000(PLW *wk);
-void q_keeping_action(PLW *wk);
-void q_leave_after_action(PLW *wk);
-void Win_11000(PLW *wk);
-void twelve_win_away(PLW *wk);
-void twelve_win_backjump(PLW *wk);
-void Win_12000(PLW *wk);
-void Win_13000(PLW *wk);
-void Win_14000(PLW *wk);
-void urien_dash(PLW *wk);
-void Win_15000(PLW *wk);
-s16 win_select(PLW * /* unused */, s16 num);
-void bonus_game_win_pause(PLW *wk);
-void meta_win_pause(PLW *wk);
+void Win_00000(PLW* wk);
+void Win_01000(PLW* wk);
+void jijii_nebukuro(PLW* wk);
+void jijii_jump(PLW* wk);
+void jijii_full(PLW* wk);
+void Win_02000(PLW* wk);
+void Win_03000(PLW* wk);
+void Win_04000(PLW* wk);
+void Normal_normal_Winner(PLW* wk);
+void Judge_normal_winner(PLW* wk);
+void Win_05000(PLW* wk);
+void Win_06000(PLW* wk);
+void Win_07000(PLW* wk);
+void Win_08000(PLW* wk);
+void Win_09000(PLW* wk);
+void Win_10000(PLW* wk);
+void q_keeping_action(PLW* wk);
+void q_leave_after_action(PLW* wk);
+void Win_11000(PLW* wk);
+void twelve_win_away(PLW* wk);
+void twelve_win_backjump(PLW* wk);
+void Win_12000(PLW* wk);
+void Win_13000(PLW* wk);
+void Win_14000(PLW* wk);
+void urien_dash(PLW* wk);
+void Win_15000(PLW* wk);
+s16 win_select(PLW* /* unused */, s16 num);
+void bonus_game_win_pause(PLW* wk);
+void meta_win_pause(PLW* wk);
 
 s16 win_rno[2];
 s16 a_rno;
@@ -55,10 +55,10 @@ s16 poison_flag[2];
 
 const s16 winner_type_tbl[20] = { 6, 0, 0, 6, 2, 7, 9, 3, 4, 1, 12, 0, 5, 14, 8, 13, 6, 10, 11, 15 };
 
-void win_player(PLW *wk) {
-    void (*win_jp_tbl[16])(PLW *) = { Win_00000, Win_01000, Win_02000, Win_03000, Win_04000, Win_05000,
-                                      Win_06000, Win_07000, Win_08000, Win_09000, Win_10000, Win_11000,
-                                      Win_12000, Win_13000, Win_14000, Win_15000 };
+void win_player(PLW* wk) {
+    void (*win_jp_tbl[16])(PLW*) = { Win_00000, Win_01000, Win_02000, Win_03000, Win_04000, Win_05000,
+                                     Win_06000, Win_07000, Win_08000, Win_09000, Win_10000, Win_11000,
+                                     Win_12000, Win_13000, Win_14000, Win_15000 };
 
     if (My_char[wk->wu.id] != wk->player_number) {
         meta_win_pause(wk);
@@ -78,13 +78,13 @@ void win_player(PLW *wk) {
     win_jp_tbl[winner_type_tbl[wk->player_number]](wk);
 }
 
-void Win_00000(PLW *wk) {
+void Win_00000(PLW* wk) {
     Normal_normal_Winner(wk);
 }
 
 const s16 win_10000_tbl[2][8] = { { 32, 33, 34, 32, 36, 37, 38, 33 }, { 35, 39, 34, 35, 36, 37, 38, 39 } };
 
-void Win_01000(PLW *wk) {
+void Win_01000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -155,7 +155,7 @@ void Win_01000(PLW *wk) {
     }
 }
 
-void jijii_nebukuro(PLW *wk) {
+void jijii_nebukuro(PLW* wk) {
     bg_app_stop = 1;
 
     switch (win_rno[1]) {
@@ -176,7 +176,7 @@ void jijii_nebukuro(PLW *wk) {
             char_move(&wk->wu);
         }
 
-        add_y_sub((WORK_Other *)wk);
+        add_y_sub((WORK_Other*)wk);
 
         if (wk->wu.xyz[1].disp.pos > 256) {
             win_rno[1]++;
@@ -193,7 +193,7 @@ void jijii_nebukuro(PLW *wk) {
     }
 }
 
-void jijii_jump(PLW *wk) {
+void jijii_jump(PLW* wk) {
     s16 id_w;
 
     bg_app_stop = 1;
@@ -226,8 +226,8 @@ void jijii_jump(PLW *wk) {
             char_move(&wk->wu);
         }
 
-        add_x_sub((WORK_Other *)wk);
-        add_y_sub((WORK_Other *)wk);
+        add_x_sub((WORK_Other*)wk);
+        add_y_sub((WORK_Other*)wk);
 
         if (wk->wu.rl_flag) {
             if (wk->wu.xyz[0].disp.pos > bg_w.bgw[1].xy[0].disp.pos + 320) {
@@ -273,14 +273,14 @@ void jijii_jump(PLW *wk) {
         /* fallthrough */
 
     case 4:
-        add_x_sub((WORK_Other *)wk);
+        add_x_sub((WORK_Other*)wk);
         char_move(&wk->wu);
 
         break;
     }
 }
 
-void jijii_full(PLW *wk) {
+void jijii_full(PLW* wk) {
     bg_app_stop = 1;
 
     switch (win_rno[1]) {
@@ -314,7 +314,7 @@ void jijii_full(PLW *wk) {
 
 const s16 win_2000_tbl[18] = { 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1 };
 
-void Win_02000(PLW *wk) {
+void Win_02000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -360,7 +360,7 @@ const s16 Win_3000_tbl[16] = { 42, 34, 33, 42, 32, 42, 32, 35, 42, 34, 33, 42, 3
 
 const s8 Win_3001_tbl[16] = { 36, 40, 41, 40, 41, 38, 40, 39, 36, 40, 41, 39, 41, 37, 39, 40 };
 
-void Win_03000(PLW *wk) {
+void Win_03000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -416,7 +416,7 @@ void Win_03000(PLW *wk) {
     }
 }
 
-void Win_04000(PLW *wk) {
+void Win_04000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -472,7 +472,7 @@ void Win_04000(PLW *wk) {
     }
 }
 
-void Normal_normal_Winner(PLW *wk) {
+void Normal_normal_Winner(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -500,7 +500,7 @@ void Normal_normal_Winner(PLW *wk) {
     }
 }
 
-void Judge_normal_winner(PLW *wk) {
+void Judge_normal_winner(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -529,7 +529,7 @@ void Judge_normal_winner(PLW *wk) {
     }
 }
 
-void Win_05000(PLW *wk) {
+void Win_05000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -575,8 +575,8 @@ void Win_05000(PLW *wk) {
         switch (win_rno[1]) {
         case 0:
             char_move(&wk->wu);
-            add_x_sub((WORK_Other *)wk);
-            add_y_sub((WORK_Other *)wk);
+            add_x_sub((WORK_Other*)wk);
+            add_y_sub((WORK_Other*)wk);
 
             if (wk->wu.xyz[1].disp.pos < 0) {
                 win_rno[1]++;
@@ -597,7 +597,7 @@ void Win_05000(PLW *wk) {
     }
 }
 
-void Win_06000(PLW *wk) {
+void Win_06000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -633,7 +633,7 @@ void Win_06000(PLW *wk) {
     }
 }
 
-void Win_07000(PLW *wk) {
+void Win_07000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -719,7 +719,7 @@ void Win_07000(PLW *wk) {
     }
 }
 
-void Win_08000(PLW *wk) {
+void Win_08000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -757,7 +757,7 @@ void Win_08000(PLW *wk) {
     }
 }
 
-void Win_09000(PLW *wk) {
+void Win_09000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -845,7 +845,7 @@ void Win_09000(PLW *wk) {
     }
 }
 
-void Win_10000(PLW *wk) {
+void Win_10000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -931,7 +931,7 @@ const s16 q_em_distance_tbl[20][2] = { { -96, -16 }, { -104, 0 },  { -90, -16 },
                                        { -100, 0 },  { -90, -16 }, { -90, -16 }, { -96, -16 }, { -90, -16 },
                                        { -90, -16 }, { 0, -96 },   { -2, -112 }, { -112, 4 },  { -96, -6 } };
 
-s16 q_em_distance_chk(PLW *wk) {
+s16 q_em_distance_chk(PLW* wk) {
     s16 work;
     s16 id_w = wk->wu.id ^ 1;
     s16 rl_w = wk->wu.rl_flag ^ plw[id_w].wu.rl_flag;
@@ -953,7 +953,7 @@ s16 q_em_distance_chk(PLW *wk) {
     return 0;
 }
 
-s32 q_em_dir(PLW *wk) {
+s32 q_em_dir(PLW* wk) {
     s16 work;
     s16 pos_w;
     s16 id_w = wk->wu.id ^ 1;
@@ -987,7 +987,7 @@ s32 q_em_dir(PLW *wk) {
     return 1;
 }
 
-void q_keeping_action(PLW *wk) {
+void q_keeping_action(PLW* wk) {
     switch (win_rno[1]) {
     case 0:
         if (!q_em_dir(wk)) {
@@ -1029,7 +1029,7 @@ void q_keeping_action(PLW *wk) {
 
     case 3:
         char_move(&wk->wu);
-        add_x_sub((WORK_Other *)wk);
+        add_x_sub((WORK_Other*)wk);
 
         if (!q_em_distance_chk(wk)) {
             break;
@@ -1051,7 +1051,7 @@ void q_keeping_action(PLW *wk) {
     }
 }
 
-void q_leave_after_action(PLW *wk) {
+void q_leave_after_action(PLW* wk) {
     s16 work;
 
     switch (win_rno[1]) {
@@ -1094,7 +1094,7 @@ void q_leave_after_action(PLW *wk) {
 
     case 3:
         char_move(&wk->wu);
-        add_x_sub((WORK_Other *)wk);
+        add_x_sub((WORK_Other*)wk);
 
         if (q_em_distance_chk(wk)) {
             win_rno[1]++;
@@ -1127,7 +1127,7 @@ void q_leave_after_action(PLW *wk) {
 
     case 5:
         char_move(&wk->wu);
-        add_x_sub((WORK_Other *)wk);
+        add_x_sub((WORK_Other*)wk);
 
         if (wk->wu.rl_flag) {
             work = bg_w.bgw[1].wxy[0].disp.pos + bg_w.pos_offset;
@@ -1151,7 +1151,7 @@ void q_leave_after_action(PLW *wk) {
     }
 }
 
-void Win_11000(PLW *wk) {
+void Win_11000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -1217,7 +1217,7 @@ void Win_11000(PLW *wk) {
     }
 }
 
-void twelve_win_away(PLW *wk) {
+void twelve_win_away(PLW* wk) {
     switch (win_rno[1]) {
     case 0:
         char_move(&wk->wu);
@@ -1233,7 +1233,7 @@ void twelve_win_away(PLW *wk) {
         break;
 
     case 1:
-        add_y_sub((WORK_Other *)wk);
+        add_y_sub((WORK_Other*)wk);
         char_move(&wk->wu);
 
         if (wk->wu.cg_type != 2) {
@@ -1254,10 +1254,10 @@ void twelve_win_away(PLW *wk) {
         break;
 
     case 2:
-        add_x_sub((WORK_Other *)wk);
-        add_y_sub((WORK_Other *)wk);
+        add_x_sub((WORK_Other*)wk);
+        add_y_sub((WORK_Other*)wk);
 
-        if (!range_x_check3((WORK_Other *)wk, 208)) {
+        if (!range_x_check3((WORK_Other*)wk, 208)) {
             win_rno[1]++;
         }
 
@@ -1268,7 +1268,7 @@ void twelve_win_away(PLW *wk) {
     }
 }
 
-void twelve_win_backjump(PLW *wk) {
+void twelve_win_backjump(PLW* wk) {
 #if defined(TARGET_PS2)
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
 #endif
@@ -1296,8 +1296,8 @@ void twelve_win_backjump(PLW *wk) {
         break;
 
     case 1:
-        add_y_sub((WORK_Other *)wk);
-        add_x_sub((WORK_Other *)wk);
+        add_y_sub((WORK_Other*)wk);
+        add_x_sub((WORK_Other*)wk);
         char_move(&wk->wu);
 
         if (wk->wu.cg_type == 2) {
@@ -1336,7 +1336,7 @@ void twelve_win_backjump(PLW *wk) {
     }
 }
 
-void Win_12000(PLW *wk) {
+void Win_12000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -1370,7 +1370,7 @@ void Win_12000(PLW *wk) {
     }
 }
 
-void Win_13000(PLW *wk) {
+void Win_13000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -1416,7 +1416,7 @@ void Win_13000(PLW *wk) {
     }
 }
 
-void Win_14000(PLW *wk) {
+void Win_14000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -1462,7 +1462,7 @@ void Win_14000(PLW *wk) {
     }
 }
 
-s32 urien_dash_chk(PLW *wk) {
+s32 urien_dash_chk(PLW* wk) {
     s16 id_w = wk->wu.id ^ 1;
     s16 pos_w = wk->wu.xyz[0].disp.pos - plw[id_w].wu.xyz[0].disp.pos;
 
@@ -1483,7 +1483,7 @@ s32 urien_dash_chk(PLW *wk) {
     return 0;
 }
 
-void urien_dash(PLW *wk) {
+void urien_dash(PLW* wk) {
     switch (win_rno[1]) {
     case 0:
         win_rno[1]++;
@@ -1562,7 +1562,7 @@ void urien_dash(PLW *wk) {
 
 const s16 Win_15000_tbl[8] = { 38, 37, 40, 39, 38, 40, 39, 36 };
 
-void Win_15000(PLW *wk) {
+void Win_15000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);
@@ -1598,13 +1598,13 @@ void Win_15000(PLW *wk) {
     }
 }
 
-s16 win_select(PLW * /* unused */, s16 num) {
+s16 win_select(PLW* /* unused */, s16 num) {
     s16 work = random_16();
     work &= num;
     return work;
 }
 
-void bonus_game_win_pause(PLW *wk) {
+void bonus_game_win_pause(PLW* wk) {
 #if defined(TARGET_PS2)
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s32 ix);
 #endif
@@ -1683,7 +1683,7 @@ void bonus_game_win_pause(PLW *wk) {
 
 const s16 meta_win_tbl[20] = { 33, 32, 32, 32, 32, 32, 33, 32, 32, 37, 32, 32, 32, 32, 34, 32, 32, 32, 32, 32 };
 
-void meta_win_pause(PLW *wk) {
+void meta_win_pause(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 set_field_hosei_flag(PLW * pl, s32 pos, s16 ix);

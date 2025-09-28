@@ -111,32 +111,32 @@ const u16 pl19txt5[4] = { 13, 240, 0, 0xFFFF };
 const u16 pl19txt6[8] = { 14, 212, 15, 192, 16, 336, 0, 0xFFFF };
 const u16 pl19txt7[2] = { 0, 0xFFFF };
 
-const u16 *gill[6] = { plXXtxt0, pl00txt1, pl00txt2, pl00txt3, pl00txt4, pl00txt5 };
-const u16 *alex[6] = { plXXtxt0, pl01txt1, pl01txt2, pl01txt3, pl01txt4, pl01txt5 };
-const u16 *ryu[6] = { plXXtxt0, pl02txt1, pl02txt2, pl02txt3, pl02txt4, pl02txt5 };
-const u16 *yun[7] = { plXXtxt0, pl03txt1, pl03txt2, pl03txt3, pl03txt4, pl03txt5, pl03txt6 };
-const u16 *dudley[3] = { plXXtxt0, pl04txt1, pl04txt2 };
-const u16 *necro[7] = { plXXtxt0, pl05txt1, pl05txt2, pl05txt3, pl05txt4, pl05txt5, pl05txt6 };
-const u16 *hugo[6] = { plXXtxt0, pl06txt1, pl06txt2, pl06txt3, pl06txt4, pl06txt5 };
-const u16 *ibuki[5] = { plXXtxt0, pl07txt1, pl07txt2, pl07txt3, pl07txt4 };
-const u16 *elena[5] = { plXXtxt0, pl08txt1, pl08txt2, pl08txt3, pl08txt4 };
-const u16 *oro[7] = { plXXtxt0, pl09txt1, pl09txt2, pl09txt3, pl09txt4, pl09txt5, pl09txt6 };
-const u16 *yang[7] = { plXXtxt0, pl10txt1, pl10txt2, pl10txt3, pl10txt4, pl10txt5, pl10txt6 };
-const u16 *ken[6] = { plXXtxt0, pl11txt1, pl11txt2, pl11txt3, pl11txt4, pl11txt5 };
-const u16 *sean[7] = { plXXtxt0, pl12txt1, pl12txt2, pl12txt3, pl12txt4, pl12txt5, pl12txt6 };
-const u16 *urien[5] = { plXXtxt0, pl13txt1, pl13txt2, pl13txt3, pl13txt4 };
-const u16 *gouki[6] = { plXXtxt0, pl14txt1, pl14txt2, pl14txt3, pl14txt4, pl14txt5 };
-const u16 *chun[6] = { plXXtxt0, pl15txt1, pl15txt2, pl15txt3, pl15txt4, pl15txt5 };
-const u16 *makoto[8] = { plXXtxt0, pl16txt1, pl16txt2, pl16txt3, pl16txt4, pl16txt5, pl16txt6, pl16txt7 };
-const u16 *q[7] = { plXXtxt0, pl17txt1, pl17txt2, pl17txt3, pl17txt4, pl17txt5, pl17txt6 };
-const u16 *twelve[6] = { plXXtxt0, pl18txt1, pl18txt2, pl18txt3, pl18txt4, pl18txt5 };
-const u16 *remy[8] = { plXXtxt0, pl19txt1, pl19txt2, pl19txt3, pl19txt4, pl19txt5, pl19txt6, pl19txt7 };
+const u16* gill[6] = { plXXtxt0, pl00txt1, pl00txt2, pl00txt3, pl00txt4, pl00txt5 };
+const u16* alex[6] = { plXXtxt0, pl01txt1, pl01txt2, pl01txt3, pl01txt4, pl01txt5 };
+const u16* ryu[6] = { plXXtxt0, pl02txt1, pl02txt2, pl02txt3, pl02txt4, pl02txt5 };
+const u16* yun[7] = { plXXtxt0, pl03txt1, pl03txt2, pl03txt3, pl03txt4, pl03txt5, pl03txt6 };
+const u16* dudley[3] = { plXXtxt0, pl04txt1, pl04txt2 };
+const u16* necro[7] = { plXXtxt0, pl05txt1, pl05txt2, pl05txt3, pl05txt4, pl05txt5, pl05txt6 };
+const u16* hugo[6] = { plXXtxt0, pl06txt1, pl06txt2, pl06txt3, pl06txt4, pl06txt5 };
+const u16* ibuki[5] = { plXXtxt0, pl07txt1, pl07txt2, pl07txt3, pl07txt4 };
+const u16* elena[5] = { plXXtxt0, pl08txt1, pl08txt2, pl08txt3, pl08txt4 };
+const u16* oro[7] = { plXXtxt0, pl09txt1, pl09txt2, pl09txt3, pl09txt4, pl09txt5, pl09txt6 };
+const u16* yang[7] = { plXXtxt0, pl10txt1, pl10txt2, pl10txt3, pl10txt4, pl10txt5, pl10txt6 };
+const u16* ken[6] = { plXXtxt0, pl11txt1, pl11txt2, pl11txt3, pl11txt4, pl11txt5 };
+const u16* sean[7] = { plXXtxt0, pl12txt1, pl12txt2, pl12txt3, pl12txt4, pl12txt5, pl12txt6 };
+const u16* urien[5] = { plXXtxt0, pl13txt1, pl13txt2, pl13txt3, pl13txt4 };
+const u16* gouki[6] = { plXXtxt0, pl14txt1, pl14txt2, pl14txt3, pl14txt4, pl14txt5 };
+const u16* chun[6] = { plXXtxt0, pl15txt1, pl15txt2, pl15txt3, pl15txt4, pl15txt5 };
+const u16* makoto[8] = { plXXtxt0, pl16txt1, pl16txt2, pl16txt3, pl16txt4, pl16txt5, pl16txt6, pl16txt7 };
+const u16* q[7] = { plXXtxt0, pl17txt1, pl17txt2, pl17txt3, pl17txt4, pl17txt5, pl17txt6 };
+const u16* twelve[6] = { plXXtxt0, pl18txt1, pl18txt2, pl18txt3, pl18txt4, pl18txt5 };
+const u16* remy[8] = { plXXtxt0, pl19txt1, pl19txt2, pl19txt3, pl19txt4, pl19txt5, pl19txt6, pl19txt7 };
 
-void *txt_no_tbl[20] = { gill, alex, ryu,  yun,   dudley, necro, hugo,   ibuki, elena,  oro,
+void* txt_no_tbl[20] = { gill, alex, ryu,  yun,   dudley, necro, hugo,   ibuki, elena,  oro,
                          yang, ken,  sean, urien, gouki,  chun,  makoto, q,     twelve, remy };
 
-s32 *efff9_txt_no_adrs;
-u16 *efff9_txt_scene_adrs;
+s32* efff9_txt_no_adrs;
+u16* efff9_txt_scene_adrs;
 s16 efff9_suicide;
 s16 efff9_PL_NO;
 s16 efff9_txt_point;
@@ -157,7 +157,7 @@ void effect_F9_move(WORK_Other *ewk) {
         ewk->free = 0;
 
         if (mes_already) {
-            get_message_conn_data((WORK_Other_CONN *)ewk, 2, ewk->master_player, mes_already);
+            get_message_conn_data((WORK_Other_CONN*)ewk, 2, ewk->master_player, mes_already);
         }
 
         ewk->wu.old_rno[4] = ewk->free;
@@ -243,7 +243,7 @@ void effect_F9_init(s16 END_PL_NO) {
     efff9_PL_NO = END_PL_NO;
 }
 
-void efff9_wk_set(WORK_Other_CONN *ewk) {
+void efff9_wk_set(WORK_Other_CONN* ewk) {
     ewk->wu.be_flag = 1;
     ewk->wu.id = 159;
     ewk->wu.work_id = 16;
@@ -260,21 +260,21 @@ void efff9_wk_set(WORK_Other_CONN *ewk) {
 }
 
 s32 Rewrite_End_Message(u16 mes_no) {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     keep_mes_no = mes_no;
-    efff9_wk_set((WORK_Other_CONN *)ewk);
+    efff9_wk_set((WORK_Other_CONN*)ewk);
     ewk->master_player = efff9_PL_NO;
     efff9_suicide = 1;
     efff9_txt_point = 2;
     efff9_txt_no_adrs = txt_no_tbl[efff9_PL_NO];
-    efff9_txt_scene_adrs = (u16 *)efff9_txt_no_adrs[mes_no];
+    efff9_txt_scene_adrs = (u16*)efff9_txt_no_adrs[mes_no];
     efff9_message = efff9_txt_scene_adrs[0];
     ewk->wu.old_rno[3] = efff9_txt_scene_adrs[1];
     mes_already = efff9_message;
@@ -282,19 +282,19 @@ s32 Rewrite_End_Message(u16 mes_no) {
 }
 
 s32 Rewrite() {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
-    efff9_wk_set((WORK_Other_CONN *)ewk);
+    ewk = (WORK_Other*)frw[ix];
+    efff9_wk_set((WORK_Other_CONN*)ewk);
     ewk->master_player = efff9_PL_NO;
     efff9_suicide = 1;
     efff9_txt_no_adrs = txt_no_tbl[efff9_PL_NO];
-    efff9_txt_scene_adrs = (u16 *)efff9_txt_no_adrs[keep_mes_no];
+    efff9_txt_scene_adrs = (u16*)efff9_txt_no_adrs[keep_mes_no];
     efff9_message = efff9_txt_scene_adrs[efff9_txt_point];
     ewk->wu.old_rno[3] = efff9_txt_scene_adrs[efff9_txt_point + 1];
     efff9_txt_point += 2;

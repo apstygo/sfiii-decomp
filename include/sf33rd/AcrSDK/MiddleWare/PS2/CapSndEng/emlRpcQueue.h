@@ -21,7 +21,7 @@ extern u32 num;                             // size: 0x4, address: 0x57B2AC
 extern u32 numVTransReq;                    // size: 0x4, address: 0x57B2A8
 
 s32 mlRpcQueueInit();
-s32 mlRpcQueueSetData(u32 type, void *data, u32 size);
+s32 mlRpcQueueSetData(u32 type, void* data, u32 size);
 u32 mlRpcQueueSend();
 u32 mlRpcQueueGetNumVtransReq();
 

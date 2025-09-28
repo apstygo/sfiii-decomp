@@ -6,11 +6,11 @@
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-s32 Check_Disp_90(WORK_Other_CONN *ewk);
-s16 Check_Disp_Pos_90(WORK_Other_CONN *ewk);
+s32 Check_Disp_90(WORK_Other_CONN* ewk);
+s16 Check_Disp_Pos_90(WORK_Other_CONN* ewk);
 
-void effect_90_move(WORK_Other_CONN *ewk) {
-    Check_Pos_OBJ2((WORK_Other *)ewk);
+void effect_90_move(WORK_Other_CONN* ewk) {
+    Check_Pos_OBJ2((WORK_Other*)ewk);
 
     if (Menu_Suicide[ewk->master_player]) {
         push_effect_work(&ewk->wu);
@@ -30,7 +30,7 @@ void effect_90_move(WORK_Other_CONN *ewk) {
     sort_push_request3(&ewk->wu);
 }
 
-s32 Check_Disp_90(WORK_Other_CONN *ewk) {
+s32 Check_Disp_90(WORK_Other_CONN* ewk) {
     if (ewk->wu.dir_step == 2 || ewk->wu.dir_step == 6) {
         return 1;
     }
@@ -46,7 +46,7 @@ s32 Check_Disp_90(WORK_Other_CONN *ewk) {
     return 1;
 }
 
-s16 Check_Disp_Pos_90(WORK_Other_CONN *ewk) {
+s16 Check_Disp_Pos_90(WORK_Other_CONN* ewk) {
     s16 y;
 
     if (ewk->wu.dir_step == 2 || ewk->wu.dir_step == 6) {

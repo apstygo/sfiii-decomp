@@ -137,7 +137,7 @@ void ADXSTM_Destroy(ADXSTM stm) {
     }
 }
 
-void ADXSTM_BindFileNw(ADXSTM stm, const Char8 *fname, void *dir, Sint32 arg3, Sint32 file_sct) {
+void ADXSTM_BindFileNw(ADXSTM stm, const Char8* fname, void* dir, Sint32 arg3, Sint32 file_sct) {
     SVM_Lock();
     stm->unkC = arg3;
     stm->file_len = file_sct << 11;
@@ -148,7 +148,7 @@ void ADXSTM_BindFileNw(ADXSTM stm, const Char8 *fname, void *dir, Sint32 arg3, S
     SVM_Unlock();
 }
 
-void ADXSTM_BindFile(ADXSTM stm, const Char8 *fname, void *dir, Sint32 arg3, Sint32 file_sct) {
+void ADXSTM_BindFile(ADXSTM stm, const Char8* fname, void* dir, Sint32 arg3, Sint32 file_sct) {
     ADXSTM_BindFileNw(stm, fname, dir, arg3, file_sct);
 
     do {
@@ -257,7 +257,7 @@ void ADXSTM_Stop(ADXSTM stm) {
     } while (stm->stat != 1 || stm->unk24.data != NULL);
 }
 
-void ADXSTM_EntryEosFunc(ADXSTM stm, void (*func)(void *), void *context) {
+void ADXSTM_EntryEosFunc(ADXSTM stm, void (*func)(void*), void* context) {
     stm->eos_callback = func;
     stm->eos_callback_context = context;
 }
@@ -393,7 +393,7 @@ void adxstmf_stat_exec(ADXSTM stm) {
 }
 
 void ADXSTMF_ExecHndl(ADXSTM stm) {
-    void *cvfs;
+    void* cvfs;
     Sint32 cur_pos;
 
     if (stm->read_flg == 0) {

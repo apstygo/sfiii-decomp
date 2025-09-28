@@ -1,4 +1,5 @@
 #include "sf33rd/Source/Game/EFF85.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CALDIR.h"
 #include "sf33rd/Source/Game/CHARSET.h"
@@ -6,19 +7,18 @@
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
 const s16 eff85_char_index_tbl[9] = { 0, 30, 0, 32, 29, 33, 0, 0, 0 };
 
-void effect_85_move(WORK_Other *ewk) {
-    void (*const eff85_jp_tbl[3])(WORK_Other *) = { eff85_0000, eff85_0100, eff85_0200 };
+void effect_85_move(WORK_Other* ewk) {
+    void (*const eff85_jp_tbl[3])(WORK_Other*) = { eff85_0000, eff85_0100, eff85_0200 };
     eff85_jp_tbl[ewk->wu.routine_no[0]](ewk);
 };
 
-void eff85_0000(WORK_Other *ewk) {
+void eff85_0000(WORK_Other* ewk) {
     ewk->wu.routine_no[0]++;
     ewk->wu.routine_no[1] = 0;
     ewk->wu.routine_no[2] = 0;
@@ -26,9 +26,9 @@ void eff85_0000(WORK_Other *ewk) {
     ewk->wu.old_rno[0] = 0;
 }
 
-void eff85_0100(WORK_Other *ewk) {
-    void (*const eff85_move_tbl[9])(WORK_Other *) = { eff85_1000,   eff85_common, eff85_3000, eff85_common, eff85_5000,
-                                                      eff85_common, eff85_7000,   eff85_8000, eff85_9000 };
+void eff85_0100(WORK_Other* ewk) {
+    void (*const eff85_move_tbl[9])(WORK_Other*) = { eff85_1000,   eff85_common, eff85_3000, eff85_common, eff85_5000,
+                                                     eff85_common, eff85_7000,   eff85_8000, eff85_9000 };
 
     if (!EXE_flag && !Game_pause && !EXE_obroll) {
         eff85_move_tbl[ewk->wu.routine_no[1]](ewk);
@@ -37,7 +37,7 @@ void eff85_0100(WORK_Other *ewk) {
     disp_pos_trans_entry(ewk);
 }
 
-void eff85_1000(WORK_Other *ewk) {
+void eff85_1000(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -75,7 +75,7 @@ void eff85_1000(WORK_Other *ewk) {
     }
 }
 
-void eff85_common(WORK_Other *ewk) {
+void eff85_common(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -98,7 +98,7 @@ void eff85_common(WORK_Other *ewk) {
     }
 }
 
-void eff85_3000(WORK_Other *ewk) {
+void eff85_3000(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -131,7 +131,7 @@ void eff85_3000(WORK_Other *ewk) {
     }
 }
 
-void eff85_5000(WORK_Other *ewk) {
+void eff85_5000(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -158,7 +158,7 @@ void eff85_5000(WORK_Other *ewk) {
     }
 }
 
-void eff85_7000(WORK_Other *ewk) {
+void eff85_7000(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -189,7 +189,7 @@ void eff85_7000(WORK_Other *ewk) {
     }
 }
 
-void eff85_8000(WORK_Other *ewk) {
+void eff85_8000(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -212,7 +212,7 @@ void eff85_8000(WORK_Other *ewk) {
     }
 }
 
-void eff85_9000(WORK_Other *ewk) {
+void eff85_9000(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -261,7 +261,7 @@ void eff85_9000(WORK_Other *ewk) {
     }
 }
 
-s32 swallow_sprize_check(WORK_Other *ewk) {
+s32 swallow_sprize_check(WORK_Other* ewk) {
     if (bg_w.quake_y_index > 3) {
         ewk->wu.routine_no[1] = 8;
         ewk->wu.routine_no[2] = 0;
@@ -271,7 +271,7 @@ s32 swallow_sprize_check(WORK_Other *ewk) {
     return 1;
 }
 
-void eff85_0200(WORK_Other *ewk) {
+void eff85_0200(WORK_Other* ewk) {
     all_cgps_put_back(&ewk->wu);
     push_effect_work(&ewk->wu);
 }
@@ -281,7 +281,7 @@ s32 effect_85_init() {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if (EXE_obroll) {
@@ -292,7 +292,7 @@ s32 effect_85_init() {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 85;
     ewk->wu.work_id = 16;

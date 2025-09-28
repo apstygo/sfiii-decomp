@@ -65,12 +65,12 @@ const s32 snow_sp[4][12][4] = { { { 0x200, 0, -0x2000, 0 },
                                   { -0x80, 0, -0x1800, 0 },
                                   { 0, 0, -0x2000, 0 } } };
 
-void effect_22_move(WORK_Other *ewk) {
+void effect_22_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    const s32 *ptr;
+    const s32* ptr;
 
     if (obr_no_disp_check()) {
         return;
@@ -133,14 +133,14 @@ s32 effect_22_init() {
 
     s16 ix;
     s16 i;
-    WORK_Other *ewk;
+    WORK_Other* ewk;
 
     for (i = 0; i < 12; i++) {
         if ((ix = pull_effect_work(4)) == -1) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 22;
         ewk->wu.work_id = 16;

@@ -12,7 +12,7 @@
 
 const s32 bbbs_jump_level[4][2];
 
-void bbbs_com_execute(PLW *wk) {
+void bbbs_com_execute(PLW* wk) {
     switch (Bonus_Stage_RNO[0]) {
     case 0:
         if (Allow_a_battle_f == 0) {
@@ -417,5 +417,5 @@ const BBBSTable bbbs_level_09[12] = {
     { -1, 0, 0, { { 0, 0, 3, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } } }
 };
 
-const BBBSTable *bbbs_table[2][5] = { { bbbs_level_00, bbbs_level_01, bbbs_level_02, bbbs_level_03, bbbs_level_04 },
+const BBBSTable* bbbs_table[2][5] = { { bbbs_level_00, bbbs_level_01, bbbs_level_02, bbbs_level_03, bbbs_level_04 },
                                       { bbbs_level_05, bbbs_level_06, bbbs_level_07, bbbs_level_08, bbbs_level_09 } };

@@ -9,7 +9,7 @@
 void PS2RNA_SetupVoice(Sint32 nste, Sint32 nmono);
 void PS2RNA_Init();
 void PS2RNA_Finish();
-ADXRNA PS2RNA_Create(SJ *sjo, Sint32 maxnch);
+ADXRNA PS2RNA_Create(SJ* sjo, Sint32 maxnch);
 void PS2RNA_Destroy(ADXRNA rna);
 void PS2RNA_SetPlaySw(ADXRNA rna, Sint32 sw);
 void PS2RNA_SetTransSw(ADXRNA rna, Sint32 sw);

@@ -16,11 +16,11 @@
 #define ADXB_MAX_OBJ 16
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
-Char8 *skg_build = "\nSKG/PS2EE Ver.0.64 Build:Sep 18 2003 09:59:56\n";
+Char8* skg_build = "\nSKG/PS2EE Ver.0.64 Build:Sep 18 2003 09:59:56\n";
 Sint32 skg_init_count = 0;
 Sint32 skg_err_func = 0;
 Sint32 skg_err_obj = 0;
-void (*ahxsetextfunc)(Sint32, Sint16 *) = NULL;
+void (*ahxsetextfunc)(Sint32, Sint16*) = NULL;
 Sint32 pl2encodefunc = 0;
 void (*pl2resetfunc)() = NULL;
 Sint16 adxb_def_k0 = 0;
@@ -30,7 +30,7 @@ ADXB_OBJ adxb_obj[ADXB_MAX_OBJ] = { 0 };
 
 // forward decls
 void ADXB_Destroy(ADXB adxb);
-Sint32 adxb_get_key(ADXB adxb, Uint8 arg1, Uint8 arg2, Sint32 arg3, Sint16 *arg4, Sint16 *arg5, Sint16 *arg6);
+Sint32 adxb_get_key(ADXB adxb, Uint8 arg1, Uint8 arg2, Sint32 arg3, Sint16* arg4, Sint16* arg5, Sint16* arg6);
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", skg_prim_tbl);
 
@@ -48,11 +48,11 @@ Sint32 SKG_Init() {
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", SKG_Finish);
 
 #if defined(TARGET_PS2)
-void SKG_GenerateKey(void *, Sint32, Sint16 *, Sint16 *, Sint16 *);
+void SKG_GenerateKey(void*, Sint32, Sint16*, Sint16*, Sint16*);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", SKG_GenerateKey);
 #else
 // Never called
-void SKG_GenerateKey(void *, Sint32, Sint16 *, Sint16 *, Sint16 *) {
+void SKG_GenerateKey(void*, Sint32, Sint16*, Sint16*, Sint16*) {
     not_implemented(__func__);
 }
 #endif
@@ -79,9 +79,9 @@ void ADXB_Finish() {
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_Finish);
 #endif
 
-void *adxb_DefGetWr(void *object, Sint32 *arg1, Sint32 *arg2, Sint32 *arg3) {
+void* adxb_DefGetWr(void* object, Sint32* arg1, Sint32* arg2, Sint32* arg3) {
     ADXB adxb = (ADXB)object;
-    void *ret = adxb->unk3C;
+    void* ret = adxb->unk3C;
 
     *arg1 = adxb->unk8C;
     *arg2 = adxb->unk40 - adxb->unk8C;
@@ -90,14 +90,14 @@ void *adxb_DefGetWr(void *object, Sint32 *arg1, Sint32 *arg2, Sint32 *arg3) {
     return ret;
 }
 
-void adxb_DefAddWr(void *object, Sint32 arg1, Sint32 arg2) {
+void adxb_DefAddWr(void* object, Sint32 arg1, Sint32 arg2) {
     ADXB adxb = (ADXB)object;
 
     adxb->unk8C += arg2;
     adxb->unk88 += arg2;
 }
 
-ADXB ADXB_Create(Sint32 arg0, void *arg1, Sint32 arg2, Sint32 arg3) {
+ADXB ADXB_Create(Sint32 arg0, void* arg1, Sint32 arg2, Sint32 arg3) {
     ADXB adxb;
     ADXB chk_adxb;
     ADXPD adxpd;
@@ -155,7 +155,7 @@ void ADXB_Destroy(ADXB adxb) {
 }
 
 // TODO: This function needs thorough testing
-Sint32 ADXB_DecodeHeaderAdx(ADXB adxb, void *header, Sint32 len) {
+Sint32 ADXB_DecodeHeaderAdx(ADXB adxb, void* header, Sint32 len) {
     Sint16 sp10[2];
     Sint16 sp20[2];
     Sint16 sp30;
@@ -262,8 +262,8 @@ Sint32 ADXB_DecodeHeaderAdx(ADXB adxb, void *header, Sint32 len) {
     return audio_offset;
 }
 
-Sint32 ADXB_DecodeHeader(ADXB adxb, void *header, Sint32 len) {
-    Uint32 magic = *(Uint16 *)header;
+Sint32 ADXB_DecodeHeader(ADXB adxb, void* header, Sint32 len) {
+    Uint32 magic = *(Uint16*)header;
 
     if ((Uint16)((magic >> 8) | (magic << 8)) == 0x8000) {
         return ADXB_DecodeHeaderAdx(adxb, header, len);
@@ -292,14 +292,14 @@ Sint32 ADXB_DecodeHeader(ADXB adxb, void *header, Sint32 len) {
     return -1;
 }
 
-void ADXB_EntryGetWrFunc(ADXB adxb, void *(*get_wr)(void *, ptrdiff_t *, Sint32 *, Sint32 *), void *object) {
+void ADXB_EntryGetWrFunc(ADXB adxb, void* (*get_wr)(void*, ptrdiff_t*, Sint32*, Sint32*), void* object) {
     adxb->get_wr = get_wr;
     adxb->object = object;
 }
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_EntryAddWrFunc);
 
-void *ADXB_GetPcmBuf(ADXB adxb) {
+void* ADXB_GetPcmBuf(ADXB adxb) {
     return adxb->unk3C;
 }
 
@@ -396,7 +396,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_SetExtStrin
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_SetDefExtString);
 
-Sint32 adxb_get_key(ADXB adxb, Uint8 arg1, Uint8 arg2, Sint32 arg3, Sint16 *arg4, Sint16 *arg5, Sint16 *arg6) {
+Sint32 adxb_get_key(ADXB adxb, Uint8 arg1, Uint8 arg2, Sint32 arg3, Sint16* arg4, Sint16* arg5, Sint16* arg6) {
     Char8 sp[9];
 
     if (arg1 >= 4) {
@@ -490,7 +490,7 @@ void ADXB_EvokeExpandMono(ADXB adxb, Sint32 arg1) {
 
 void ADXB_EvokeExpandSte(ADXB adxb, Sint32 arg1) {
     ADXPD adxpd = adxb->adxpd;
-    ADXB_UNK *unk = &adxb->unk48;
+    ADXB_UNK* unk = &adxb->unk48;
     Sint32 a3;
     Sint32 t0;
 
@@ -515,7 +515,7 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_EvokeDecode
 #else
 // TODO: This function needs thorough testing
 void ADXB_EvokeDecode(ADXB adxb) {
-    ADXB_UNK *unk = &adxb->unk48;
+    ADXB_UNK* unk = &adxb->unk48;
     Sint32 temp_a1_2;
     Sint32 temp_lo;
     Sint32 temp_lo_2;
@@ -565,9 +565,9 @@ void ADXB_EvokeDecode(ADXB adxb) {
 }
 #endif
 
-void memcpy2(void *dest, const void *src, Sint32 count) {
-    Uint16 *_dest = dest;
-    const Uint16 *_src = src;
+void memcpy2(void* dest, const void* src, Sint32 count) {
+    Uint16* _dest = dest;
+    const Uint16* _src = src;
 
     while (count > 0) {
         *_dest++ = *_src++;
@@ -575,7 +575,7 @@ void memcpy2(void *dest, const void *src, Sint32 count) {
     }
 }
 
-void ADXB_CopyExtraBufSte(void *arg0, Sint32 arg1, Sint32 arg2, Sint32 arg3) {
+void ADXB_CopyExtraBufSte(void* arg0, Sint32 arg1, Sint32 arg2, Sint32 arg3) {
     memcpy2(arg0, arg0 + (arg1 * 2), arg3);
     memcpy2(arg0 + (arg2 * 2), arg0 + ((arg2 + arg1) * 2), arg3);
 }
@@ -594,7 +594,7 @@ void ADXB_EndDecode(ADXB adxb) {
 void ADXB_ExecOneAdx(ADXB adxb) {
     ADXPD adxpd;
     Sint16 temp_a1;
-    Sint16 *temp_a2;
+    Sint16* temp_a2;
     Sint32 temp_a3;
     Sint32 temp_a3_2;
     Sint32 i;
@@ -620,7 +620,7 @@ void ADXB_ExecOneAdx(ADXB adxb) {
                     temp_a2 = temp_a3 + adxpd->unk20;
                     temp_a1 = *temp_a2;
                     temp_a3_2 = adxpd->unk24 + temp_a3;
-                    ((void (*)(ADXB_OBJ *, Sint16, Sint16 *, Sint32))pl2encodefunc)(adxb, temp_a1, temp_a2, temp_a3_2);
+                    ((void (*)(ADXB_OBJ*, Sint16, Sint16*, Sint32))pl2encodefunc)(adxb, temp_a1, temp_a2, temp_a3_2);
                 }
             }
 

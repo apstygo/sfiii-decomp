@@ -37,7 +37,7 @@ BGMFade bgm_fade;
 ADXT adxt;
 BGMExecution bgm_exe;
 BGMRequest bgm_req;
-s8 *sdbd[3];
+s8* sdbd[3];
 
 // bss
 u8 adx_VS[198954];
@@ -105,22 +105,22 @@ BGMExecutionData bgm_exdataAC[32] = {
 };
 
 // sdata
-SoundEvent *cseTSBDataTable[21] = { TSB_SE,   TSB_PL00, TSB_PL01, TSB_PL02, TSB_PL03, TSB_PL04, TSB_PL05,
+SoundEvent* cseTSBDataTable[21] = { TSB_SE,   TSB_PL00, TSB_PL01, TSB_PL02, TSB_PL03, TSB_PL04, TSB_PL05,
                                     TSB_PL06, TSB_PL07, TSB_PL08, TSB_PL09, TSB_PL10, TSB_PL11, TSB_PL12,
                                     TSB_PL13, TSB_PL14, TSB_PL15, TSB_PL16, TSB_PL17, TSB_PL18, TSB_PL19 };
 
-s8 *csePHDDataTable[21] = { PHD_SE,   PHD_PL00, PHD_PL01, PHD_PL02, PHD_PL03, PHD_PL04, PHD_PL05,
+s8* csePHDDataTable[21] = { PHD_SE,   PHD_PL00, PHD_PL01, PHD_PL02, PHD_PL03, PHD_PL04, PHD_PL05,
                             PHD_PL06, PHD_PL07, PHD_PL08, PHD_PL09, PHD_PL10, PHD_PL11, PHD_PL12,
                             PHD_PL13, PHD_PL14, PHD_PL15, PHD_PL16, PHD_PL17, PHD_PL18, PHD_PL19 };
 
 u8 adx_NowOnMemoryType = 0xFF;
 
-BGMTableEntry *bgm_table[2] = { bgm_tableDC, bgm_tableAC };
-BGMExecutionData *bgm_exdata[2] = { bgm_exdataDC, bgm_exdataAC };
+BGMTableEntry* bgm_table[2] = { bgm_tableDC, bgm_tableAC };
+BGMExecutionData* bgm_exdata[2] = { bgm_exdataDC, bgm_exdataAC };
 
 // Forward decls
 
-s32 cseMemMapInit(void *pSpuMemMap);
+s32 cseMemMapInit(void* pSpuMemMap);
 s32 adx_now_playing();
 void spu_all_off();
 void sound_bgm_off();
@@ -129,7 +129,7 @@ void bgm_play_request(s32 filenum, s32 flag);
 void bgm_seamless_clear();
 s32 bgm_separate_check();
 void bgm_volume_setup(s16 data);
-u16 remake_sound_code_for_DC(u16 code, SoundPatchConfig *rmcode);
+u16 remake_sound_code_for_DC(u16 code, SoundPatchConfig* rmcode);
 
 extern const s16 adx_volume[128];
 
@@ -180,12 +180,12 @@ void sndInitialLoad() {
     load_any_color(109, 20);
 }
 
-s32 cseMemMapInit(void *pSpuMemMap) {
+s32 cseMemMapInit(void* pSpuMemMap) {
     return mlMemMapInit(pSpuMemMap);
 }
 
 void checkAdxFileLoaded() {
-    u8 *adr;
+    u8* adr;
     s16 key;
     u16 fnum;
 
@@ -203,7 +203,7 @@ void checkAdxFileLoaded() {
         key = load_it_use_any_key(fnum, 21, 0);
     } while (key == 0);
 
-    adr = (u8 *)Get_ramcnt_address(key);
+    adr = (u8*)Get_ramcnt_address(key);
     ppgSetupCmpChunk(adr, 0, adx_VS);
     ppgSetupCmpChunk(adr, 1, adx_EmSel);
     Push_ramcnt_key(key);
@@ -224,8 +224,8 @@ void Exit_sound_system() {
 }
 
 void Init_bgm_work() {
-    work_init_zero((s32 *)&bgm_exe, sizeof(BGMExecution));
-    work_init_zero((s32 *)&bgm_req, sizeof(BGMRequest));
+    work_init_zero((s32*)&bgm_exe, sizeof(BGMExecution));
+    work_init_zero((s32*)&bgm_req, sizeof(BGMRequest));
 }
 
 void sound_all_off() {
@@ -275,7 +275,7 @@ s32 cseSysSetMono(u32 mono_sw) {
     return mlSysSetMono(mono_sw);
 }
 
-void sound_request_for_dc(SoundPatchConfig *rmc, s16 pan) {
+void sound_request_for_dc(SoundPatchConfig* rmc, s16 pan) {
     if (rmc->ptix != 0x7F) {
         if (pan < -0x20) {
             pan = -0x20;
@@ -748,7 +748,7 @@ void SsRequestPan(u16 reqNum, s16 start, s16 /* unused */, s32 /* unused */, s32
     sound_request_for_dc(&rmcode, start);
 }
 
-u16 remake_sound_code_for_DC(u16 code, SoundPatchConfig *rmcode) {
+u16 remake_sound_code_for_DC(u16 code, SoundPatchConfig* rmcode) {
     u16 cd;
     u16 mtf;
     u16 p2s;

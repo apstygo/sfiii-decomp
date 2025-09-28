@@ -2,14 +2,14 @@
 
 #include <SDL3/SDL.h>
 
-SDL_Texture *message_canvas = NULL;
+SDL_Texture* message_canvas = NULL;
 
 static const int canvas_width = 512;
 static const int canvas_height = 448;
 
-static SDL_Renderer *_renderer = NULL;
-static SDL_Texture *knjsub_texture = NULL;
-static SDL_Palette *knjsub_palette = NULL;
+static SDL_Renderer* _renderer = NULL;
+static SDL_Texture* knjsub_texture = NULL;
+static SDL_Palette* knjsub_palette = NULL;
 static int knjsub_palette_count = 0;
 
 static const SDL_Color knjsub_palette_colors[4] = {
@@ -19,7 +19,7 @@ static const SDL_Color knjsub_palette_colors[4] = {
     { .r = 255, .g = 255, .b = 255, .a = 255 },
 };
 
-void SDLMessageRenderer_Initialize(SDL_Renderer *renderer) {
+void SDLMessageRenderer_Initialize(SDL_Renderer* renderer) {
     _renderer = renderer;
 
     // Initialize canvas
@@ -39,12 +39,12 @@ void SDLMessageRenderer_BeginFrame() {
     SDL_RenderClear(_renderer);
 }
 
-void SDLMessageRenderer_CreateTexture(int width, int height, void *pixels, int format) {
+void SDLMessageRenderer_CreateTexture(int width, int height, void* pixels, int format) {
     if (knjsub_texture != NULL) {
         SDL_DestroyTexture(knjsub_texture);
     }
 
-    SDL_Surface *surface = SDL_CreateSurfaceFrom(width, height, SDL_PIXELFORMAT_INDEX4LSB, pixels, width / 2);
+    SDL_Surface* surface = SDL_CreateSurfaceFrom(width, height, SDL_PIXELFORMAT_INDEX4LSB, pixels, width / 2);
     SDL_SetSurfacePalette(surface, knjsub_palette);
     knjsub_texture = SDL_CreateTextureFromSurface(_renderer, surface);
     SDL_DestroySurface(surface);

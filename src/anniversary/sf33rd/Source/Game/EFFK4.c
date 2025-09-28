@@ -8,8 +8,8 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void get_init_position_effK4(WORK *wk);
-void get_init_speed_and_timer_effK4(WORK *wk);
+void get_init_position_effK4(WORK* wk);
+void get_init_speed_and_timer_effK4(WORK* wk);
 
 const s16 effK4_isp_table[4][4][2] = { { { -512, 768 }, { -768, 768 }, { 512, 768 }, { 768, 768 } },
                                        { { -1024, 1024 }, { -1280, 1024 }, { 1024, 1024 }, { 1280, 1024 } },
@@ -35,7 +35,7 @@ const s16 effK4_char_sel_table[4][16] = {
     { 140, 140, 140, 136, 136, 136, 132, 132, 132, 140, 136, 132, 134, 142, 143, 140 }
 };
 
-void effect_K4_move(WORK_Other *ewk) {
+void effect_K4_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -90,7 +90,7 @@ void effect_K4_move(WORK_Other *ewk) {
     }
 }
 
-void get_init_position_effK4(WORK *wk) {
+void get_init_position_effK4(WORK* wk) {
     s16 xhs;
 
     wk->xyz[0].disp.pos = wk->hit_mark_x;
@@ -102,7 +102,7 @@ void get_init_position_effK4(WORK *wk) {
     wk->type = (xhs < 0) * 2;
 }
 
-void get_init_speed_and_timer_effK4(WORK *wk) {
+void get_init_speed_and_timer_effK4(WORK* wk) {
     s16 data[4];
     s16 ix;
 
@@ -120,8 +120,8 @@ void get_init_speed_and_timer_effK4(WORK *wk) {
     wk->kage_hy = wk->kage_prio / 2;
 }
 
-void setup_effK4(WORK *wk) {
-    WORK *twk;
+void setup_effK4(WORK* wk) {
+    WORK* twk;
     s16 i;
     s16 j;
 

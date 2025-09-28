@@ -4,6 +4,6 @@
 #include "structs.h"
 #include "types.h"
 
-void Passive02(PLW *wk);
+void Passive02(PLW* wk);
 
 #endif

@@ -4,7 +4,7 @@
 #include "structs.h"
 #include "types.h"
 
-void effect_30_move(WORK_Other *ewk);
-s32 effect_30_init(WORK *wk);
+void effect_30_move(WORK_Other* ewk);
+s32 effect_30_init(WORK* wk);
 
 #endif

@@ -6,10 +6,10 @@
 
 #include <string.h>
 
-Char8 *volatile adxf_build = "\nADXF/PS2EE Ver.7.13 Build:Sep 18 2003 09:59:54\n";
+Char8* volatile adxf_build = "\nADXF/PS2EE Ver.7.13 Build:Sep 18 2003 09:59:54\n";
 Sint32 adxf_init_cnt = 0;
 ADX_FS adxf_obj[ADXF_OBJ_MAX] = { 0 };
-ADXF_PTINFO *adxf_ptinfo[ADXF_PART_MAX] = { 0 };
+ADXF_PTINFO* adxf_ptinfo[ADXF_PART_MAX] = { 0 };
 Sint32 adxf_ocbi_fg = 0;
 ADXF_CMD_HSTRY adxf_cmd_hstry[ADXF_CMD_HSTRY_MAX] = { 0 };
 Sint16 adxf_cmd_ncall[ADXF_CMD_NUM_MAX] = { 0 };

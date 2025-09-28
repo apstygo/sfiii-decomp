@@ -1,24 +1,24 @@
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/OPENING.h"
 #include "sf33rd/Source/Game/SE.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/color3rd.h"
 #include "sf33rd/Source/Game/debug/Debug.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 
 // forward decls
-void eff36_move00(WORK_Other *ewk);
-void eff36_move01(WORK_Other *ewk);
-void eff36_move02(WORK_Other *ewk);
-void eff36_move03(WORK_Other *ewk);
-void eff36_move04(WORK_Other *ewk);
-void eff36_move05(WORK_Other *ewk);
-void eff36_move06(WORK_Other *ewk);
+void eff36_move00(WORK_Other* ewk);
+void eff36_move01(WORK_Other* ewk);
+void eff36_move02(WORK_Other* ewk);
+void eff36_move03(WORK_Other* ewk);
+void eff36_move04(WORK_Other* ewk);
+void eff36_move05(WORK_Other* ewk);
+void eff36_move06(WORK_Other* ewk);
 
-void effect_36_move(WORK_Other *ewk) {
+void effect_36_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         if (ewk->wu.old_rno[1] <= op_w.index) {
@@ -66,7 +66,7 @@ void effect_36_move(WORK_Other *ewk) {
     }
 }
 
-void eff36_move00(WORK_Other *ewk) {
+void eff36_move00(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void push_color_trans_req(s32 from_col, s32 to_col);
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
@@ -99,7 +99,7 @@ void eff36_move00(WORK_Other *ewk) {
     }
 }
 
-void eff36_move01(WORK_Other *ewk) {
+void eff36_move01(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void push_color_trans_req(s32 from_col, s32 to_col);
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
@@ -124,7 +124,7 @@ void eff36_move01(WORK_Other *ewk) {
     }
 }
 
-void eff36_move02(WORK_Other *ewk) {
+void eff36_move02(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void push_color_trans_req(s32 from_col, s32 to_col);
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
@@ -152,7 +152,7 @@ void eff36_move02(WORK_Other *ewk) {
     }
 }
 
-void eff36_move03(WORK_Other *ewk) {
+void eff36_move03(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void push_color_trans_req(s32 from_col, s32 to_col);
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
@@ -182,7 +182,7 @@ void eff36_move03(WORK_Other *ewk) {
 
 const s16 eff36_04_tbl[4] = { 0, 5, 9, 13 };
 
-void eff36_move04(WORK_Other *ewk) {
+void eff36_move04(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void push_color_trans_req(s32 from_col, s32 to_col);
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
@@ -255,7 +255,7 @@ void eff36_move04(WORK_Other *ewk) {
     }
 }
 
-void eff36_move05(WORK_Other *ewk) {
+void eff36_move05(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void push_color_trans_req(s32 from_col, s32 to_col);
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
@@ -287,7 +287,7 @@ void eff36_move05(WORK_Other *ewk) {
     }
 }
 
-void eff36_move06(WORK_Other *ewk) {
+void eff36_move06(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void push_color_trans_req(s32 from_col, s32 to_col);
     void set_char_move_init2(WORK * wk, s16 koc, s32 index, s32 ip, s16 scf);
@@ -352,9 +352,9 @@ s32 effect_36_init(u8 typenum) {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
-    const s16 *data_ptr;
+    const s16* data_ptr;
 
     if (Debug_w[48] & 0x10) {
         return 0;
@@ -364,7 +364,7 @@ s32 effect_36_init(u8 typenum) {
         return -1;
     }
 
-    ewk = (WORK_Other *)&frw[ix];
+    ewk = (WORK_Other*)&frw[ix];
     data_ptr = eff36_data_tbl[typenum];
     ewk->wu.id = 0x24;
     ewk->wu.be_flag = 1;

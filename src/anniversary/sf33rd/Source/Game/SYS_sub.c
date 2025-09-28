@@ -391,7 +391,7 @@ void Disp_Win_Record_Sub(u16 win_record, s16 zz) {
     SSPutDec(zz - 2, 0, 9, Wins_Buff, 1);
 }
 
-s32 Button_Cut_EX(s16 *Timer, s16 Limit_Time) {
+s32 Button_Cut_EX(s16* Timer, s16 Limit_Time) {
     s16 PL_id = Setup_Target_PL();
     u16 xx;
 
@@ -461,12 +461,12 @@ void Clear_Disp_Ranking(s16 PL_id) {
     }
 }
 
-void Meltw(u16 *s, u16 *d, s32 file_ptr) {
+void Meltw(u16* s, u16* d, s32 file_ptr) {
     s32 flag;
     s32 i;
     u32 s_cnt;
     u32 s_len;
-    u16 *s_ptr;
+    u16* s_ptr;
 
     while (1) {
         flag = *s++ * 0x10000;
@@ -746,7 +746,7 @@ s32 Check_Change_Contents() {
 }
 
 void cpRevivalTask() {
-    struct _TASK *task_ptr;
+    struct _TASK* task_ptr;
     s16 ix;
 
     for (task_ptr = task, ix = 0; ix < 11; task_ptr++, ix++) {
@@ -755,7 +755,7 @@ void cpRevivalTask() {
 }
 
 s32 Check_Menu_Task() {
-    struct _TASK *task_ptr = &task[3];
+    struct _TASK* task_ptr = &task[3];
 
     if (Mode_Type == 3 || Mode_Type == 4) {
         if (task[3].r_no[0] == 7 && task[3].r_no[1] == 7) {
@@ -1860,6 +1860,6 @@ void Check_Off_Vib() {
     // Do nothing
 }
 
-s32 Flash_Violent(WORK_Other * /* unused */, s32 /* unused */) {
+s32 Flash_Violent(WORK_Other* /* unused */, s32 /* unused */) {
     return 1;
 }

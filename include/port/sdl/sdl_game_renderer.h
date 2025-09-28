@@ -39,9 +39,9 @@ typedef struct SDLGameRenderer_Sprite2 {
     unsigned int id;
 } SDLGameRenderer_Sprite2;
 
-extern SDL_Texture *cps3_canvas;
+extern SDL_Texture* cps3_canvas;
 
-void SDLGameRenderer_Init(SDL_Renderer *renderer);
+void SDLGameRenderer_Init(SDL_Renderer* renderer);
 void SDLGameRenderer_BeginFrame();
 void SDLGameRenderer_RenderFrame();
 void SDLGameRenderer_EndFrame();
@@ -52,10 +52,10 @@ void SDLGameRenderer_CreatePalette(unsigned int ph);
 void SDLGameRenderer_DestroyPalette(unsigned int palette_handle);
 void SDLGameRenderer_SetTexture(unsigned int th);
 void SDLGameRenderer_ReloadTexture(unsigned int th);
-void SDLGameRenderer_DrawTexturedQuad(const SDLGameRenderer_Vertex *vertices);
-void SDLGameRenderer_DrawSolidQuad(const SDLGameRenderer_Vertex *vertices);
-void SDLGameRenderer_DrawSprite(const SDLGameRenderer_Sprite *sprite, unsigned int color);
-void SDLGameRenderer_DrawSprite2(const SDLGameRenderer_Sprite2 *sprite2);
+void SDLGameRenderer_DrawTexturedQuad(const SDLGameRenderer_Vertex* vertices);
+void SDLGameRenderer_DrawSolidQuad(const SDLGameRenderer_Vertex* vertices);
+void SDLGameRenderer_DrawSprite(const SDLGameRenderer_Sprite* sprite, unsigned int color);
+void SDLGameRenderer_DrawSprite2(const SDLGameRenderer_Sprite2* sprite2);
 
 int SDLGameRenderer_GetRenderTaskCount();
 

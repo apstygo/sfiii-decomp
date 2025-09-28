@@ -18,9 +18,9 @@ const s32 eff21_sp_tbl[1][2] = { { 0x2000, 0x2000 } };
 const s16 eff21_data_tbl_00[27] = { 1,  2,  8492, 640, 0, 10, 17,   0,   0, 0,  2,  8492, 192, 0,
                                     10, 18, 0,    0,   1, 2,  8492, 736, 0, 10, 19, 0,    0 };
 
-const s16 *eff21_data_adrs[1] = { eff21_data_tbl_00 };
+const s16* eff21_data_adrs[1] = { eff21_data_tbl_00 };
 
-void effect_21_move(WORK_Other *ewk) {
+void effect_21_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -64,11 +64,11 @@ s32 effect_21_init(s16 sync_index) {
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 lp_cnt = eff21_num[sync_index];
     s16 i;
-    const s16 *data_ptr;
+    const s16* data_ptr;
 
     if (lp_cnt == 0) {
         return 0;
@@ -81,7 +81,7 @@ s32 effect_21_init(s16 sync_index) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 21;
         ewk->wu.work_id = 16;

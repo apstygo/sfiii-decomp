@@ -5,11 +5,11 @@
 #define ALIGN(ptr, len, alignment) ((~(alignment - 1)) & ((uintptr_t)(ptr) + len + alignment - 1))
 #define ALIGN_DOWN(ptr, len, alignment) ((~(alignment - 1)) & ((uintptr_t)(ptr) - len))
 
-static u32 plmemPullHandle(MEM_MGR *memmgr);
-static void plmemAppendBlockList(MEM_MGR *memmgr, u32 han);
-static void plmemDeleteBlockList(MEM_MGR *memmgr, u32 han);
+static u32 plmemPullHandle(MEM_MGR* memmgr);
+static void plmemAppendBlockList(MEM_MGR* memmgr, u32 han);
+static void plmemDeleteBlockList(MEM_MGR* memmgr, u32 han);
 
-void plmemInit(MEM_MGR *memmgr, MEM_BLOCK *block, s32 count, void *mem_ptr, s32 memsize, s32 memalign, s32 direction) {
+void plmemInit(MEM_MGR* memmgr, MEM_BLOCK* block, s32 count, void* mem_ptr, s32 memsize, s32 memalign, s32 direction) {
     memmgr->cnt = count;
     memmgr->block = block;
     memmgr->memsize = memsize;
@@ -17,9 +17,9 @@ void plmemInit(MEM_MGR *memmgr, MEM_BLOCK *block, s32 count, void *mem_ptr, s32 
     memmgr->memalign = memalign;
 
     if (direction != 0) {
-        memmgr->memptr = (u8 *)(~(memalign - 1) & ((uintptr_t)mem_ptr + memalign - 1));
+        memmgr->memptr = (u8*)(~(memalign - 1) & ((uintptr_t)mem_ptr + memalign - 1));
     } else {
-        memmgr->memptr = (u8 *)(~(memalign - 1) & ((uintptr_t)mem_ptr + memsize));
+        memmgr->memptr = (u8*)(~(memalign - 1) & ((uintptr_t)mem_ptr + memsize));
     }
 
     memmgr->memnow = memmgr->memptr;
@@ -30,11 +30,11 @@ void plmemInit(MEM_MGR *memmgr, MEM_BLOCK *block, s32 count, void *mem_ptr, s32 
     plMemset(block, 0, count * sizeof(MEM_BLOCK));
 }
 
-u32 plmemRegister(MEM_MGR *memmgr, s32 len) {
+u32 plmemRegister(MEM_MGR* memmgr, s32 len) {
     return plmemRegisterAlign(memmgr, len, memmgr->memalign);
 }
 
-u32 plmemRegisterAlign(MEM_MGR *memmgr, s32 len, s32 align) {
+u32 plmemRegisterAlign(MEM_MGR* memmgr, s32 len, s32 align) {
     u32 han;
 
     if (plmemGetFreeSpace(memmgr) <= len + align) {
@@ -57,10 +57,10 @@ u32 plmemRegisterAlign(MEM_MGR *memmgr, s32 len, s32 align) {
 
     if (memmgr->direction != 0) {
         memmgr->block[han].ptr = memmgr->memnow;
-        memmgr->memnow = (u8 *)(~(align - 1) & ((uintptr_t)&memmgr->block[han].ptr[len] + align - 1));
+        memmgr->memnow = (u8*)(~(align - 1) & ((uintptr_t)&memmgr->block[han].ptr[len] + align - 1));
         // memmgr->memnow = (u8*)ALIGN(memmgr->block[han].ptr, len, align);
     } else {
-        memmgr->block[han].ptr = (u8 *)(~(align - 1) & (uintptr_t)(memmgr->memnow - len));
+        memmgr->block[han].ptr = (u8*)(~(align - 1) & (uintptr_t)(memmgr->memnow - len));
         // memmgr->block[han].ptr = (u8 *)ALIGN_DOWN(memmgr->memnow, len, align);
         memmgr->memnow = memmgr->block[han].ptr;
     }
@@ -71,13 +71,13 @@ u32 plmemRegisterAlign(MEM_MGR *memmgr, s32 len, s32 align) {
     return han + 1;
 }
 
-u32 plmemRegisterS(MEM_MGR *memmgr, s32 len) {
+u32 plmemRegisterS(MEM_MGR* memmgr, s32 len) {
     u32 han;
     size_t len2;
     u32 size;
-    MEM_BLOCK *now_block;
-    MEM_BLOCK *next_block;
-    u8 *data_ptr;
+    MEM_BLOCK* now_block;
+    MEM_BLOCK* next_block;
+    u8* data_ptr;
 
     size = ALIGN(NULL, len, memmgr->memalign);
     han = plmemPullHandle(memmgr);
@@ -95,7 +95,7 @@ u32 plmemRegisterS(MEM_MGR *memmgr, s32 len) {
     if (memmgr->direction != 0) {
         while (now_block->next != MEM_NULL_HANDLE) {
             next_block = &memmgr->block[now_block->next];
-            data_ptr = (u8 *)ALIGN(now_block->ptr, now_block->len, memmgr->memalign);
+            data_ptr = (u8*)ALIGN(now_block->ptr, now_block->len, memmgr->memalign);
             len2 = next_block->ptr - data_ptr;
 
             if (size <= len2) {
@@ -111,7 +111,7 @@ u32 plmemRegisterS(MEM_MGR *memmgr, s32 len) {
             now_block = next_block;
         }
 
-        data_ptr = (u8 *)ALIGN(now_block->ptr, now_block->len, memmgr->memalign);
+        data_ptr = (u8*)ALIGN(now_block->ptr, now_block->len, memmgr->memalign);
         len2 = memmgr->memnow - data_ptr;
 
         if (size <= len2) {
@@ -126,7 +126,7 @@ u32 plmemRegisterS(MEM_MGR *memmgr, s32 len) {
     } else {
         while (now_block->next != MEM_NULL_HANDLE) {
             next_block = memmgr->block + now_block->next;
-            data_ptr = (u8 *)ALIGN(next_block->ptr, next_block->len, memmgr->memalign);
+            data_ptr = (u8*)ALIGN(next_block->ptr, next_block->len, memmgr->memalign);
             len2 = now_block->ptr - data_ptr;
 
             if (size <= len2) {
@@ -158,7 +158,7 @@ u32 plmemRegisterS(MEM_MGR *memmgr, s32 len) {
     return plmemRegister(memmgr, len);
 }
 
-void *plmemTemporaryUse(MEM_MGR *memmgr, s32 len) {
+void* plmemTemporaryUse(MEM_MGR* memmgr, s32 len) {
     size_t tmp;
 
     len = ALIGN(NULL, len, memmgr->memalign);
@@ -181,7 +181,7 @@ void *plmemTemporaryUse(MEM_MGR *memmgr, s32 len) {
     return memmgr->memptr - memmgr->memsize;
 }
 
-void *plmemRetrieve(MEM_MGR *memmgr, u32 handle) {
+void* plmemRetrieve(MEM_MGR* memmgr, u32 handle) {
     s32 index = handle - 1;
 
     if ((index >= memmgr->cnt) || (handle == 0)) {
@@ -191,7 +191,7 @@ void *plmemRetrieve(MEM_MGR *memmgr, u32 handle) {
     return memmgr->block[index].ptr;
 }
 
-s32 plmemRelease(MEM_MGR *memmgr, u32 handle) {
+s32 plmemRelease(MEM_MGR* memmgr, u32 handle) {
     s32 index = handle - 1;
 
     if (index >= memmgr->cnt) {
@@ -209,10 +209,10 @@ s32 plmemRelease(MEM_MGR *memmgr, u32 handle) {
     return 1;
 }
 
-void *plmemCompact(MEM_MGR *memmgr) {
-    MEM_BLOCK *now_block;
-    MEM_BLOCK *next_block;
-    u8 *data_ptr;
+void* plmemCompact(MEM_MGR* memmgr) {
+    MEM_BLOCK* now_block;
+    MEM_BLOCK* next_block;
+    u8* data_ptr;
 
     s32 temp_s2;
     s32 temp_s2_2;
@@ -227,7 +227,7 @@ void *plmemCompact(MEM_MGR *memmgr) {
     now_block = memmgr->block + memmgr->blocklist;
 
     if (memmgr->direction != 0) {
-        data_ptr = (u8 *)ALIGN(memmgr->memptr, 0, memmgr->memalign);
+        data_ptr = (u8*)ALIGN(memmgr->memptr, 0, memmgr->memalign);
 
         if (data_ptr != now_block->ptr) {
             plMemmove(data_ptr, now_block->ptr, now_block->len);
@@ -236,7 +236,7 @@ void *plmemCompact(MEM_MGR *memmgr) {
 
         while (now_block->next != MEM_NULL_HANDLE) {
             next_block = memmgr->block + now_block->next;
-            data_ptr = (u8 *)ALIGN(now_block->ptr, now_block->len, memmgr->memalign);
+            data_ptr = (u8*)ALIGN(now_block->ptr, now_block->len, memmgr->memalign);
 
             if (data_ptr != next_block->ptr) {
                 plMemmove(data_ptr, next_block->ptr, next_block->len);
@@ -246,9 +246,9 @@ void *plmemCompact(MEM_MGR *memmgr) {
             now_block = next_block;
         }
 
-        memmgr->memnow = (u8 *)ALIGN(now_block->ptr, now_block->len, memmgr->memalign);
+        memmgr->memnow = (u8*)ALIGN(now_block->ptr, now_block->len, memmgr->memalign);
     } else {
-        data_ptr = (u8 *)ALIGN_DOWN(memmgr->memptr, now_block->len, memmgr->memalign);
+        data_ptr = (u8*)ALIGN_DOWN(memmgr->memptr, now_block->len, memmgr->memalign);
 
         if (data_ptr != now_block->ptr) {
             plMemmove(data_ptr, now_block->ptr, now_block->len);
@@ -257,7 +257,7 @@ void *plmemCompact(MEM_MGR *memmgr) {
 
         while (now_block->next != MEM_NULL_HANDLE) {
             next_block = memmgr->block + now_block->next;
-            data_ptr = (u8 *)ALIGN_DOWN(now_block->ptr, next_block->len, memmgr->memalign);
+            data_ptr = (u8*)ALIGN_DOWN(now_block->ptr, next_block->len, memmgr->memalign);
 
             if (data_ptr != next_block->ptr) {
                 plMemmove(data_ptr, next_block->ptr, next_block->len);
@@ -273,11 +273,11 @@ void *plmemCompact(MEM_MGR *memmgr) {
     return memmgr->memnow;
 }
 
-u32 plmemGetSpace(MEM_MGR *memmgr) {
+u32 plmemGetSpace(MEM_MGR* memmgr) {
     return memmgr->memsize - memmgr->used_size;
 }
 
-size_t plmemGetFreeSpace(MEM_MGR *memmgr) {
+size_t plmemGetFreeSpace(MEM_MGR* memmgr) {
     if (memmgr->direction != 0) {
         return memmgr->memptr + memmgr->memsize - memmgr->memnow - memmgr->tmemsize;
     }
@@ -285,7 +285,7 @@ size_t plmemGetFreeSpace(MEM_MGR *memmgr) {
     return memmgr->memnow - (memmgr->memptr - memmgr->memsize) - memmgr->tmemsize;
 }
 
-u32 plmemPullHandle(MEM_MGR *memmgr) {
+u32 plmemPullHandle(MEM_MGR* memmgr) {
     s32 i;
 
     for (i = 0; i < memmgr->cnt; i++) {
@@ -298,10 +298,10 @@ u32 plmemPullHandle(MEM_MGR *memmgr) {
     return MEM_NULL_HANDLE;
 }
 
-void plmemAppendBlockList(MEM_MGR *memmgr, u32 han) {
-    MEM_BLOCK *block_ptr;
-    MEM_BLOCK *next_block;
-    MEM_BLOCK *now_block;
+void plmemAppendBlockList(MEM_MGR* memmgr, u32 han) {
+    MEM_BLOCK* block_ptr;
+    MEM_BLOCK* next_block;
+    MEM_BLOCK* now_block;
     u32 next_han;
     u32 now_han;
 
@@ -364,10 +364,10 @@ void plmemAppendBlockList(MEM_MGR *memmgr, u32 han) {
     }
 }
 
-void plmemDeleteBlockList(MEM_MGR *memmgr, u32 han) {
-    MEM_BLOCK *now_block;
-    MEM_BLOCK *parent;
-    MEM_BLOCK *child;
+void plmemDeleteBlockList(MEM_MGR* memmgr, u32 han) {
+    MEM_BLOCK* now_block;
+    MEM_BLOCK* parent;
+    MEM_BLOCK* child;
 
     now_block = &memmgr->block[han];
     parent = NULL;

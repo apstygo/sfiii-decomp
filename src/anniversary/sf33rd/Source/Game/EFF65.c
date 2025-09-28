@@ -1,14 +1,14 @@
 #include "sf33rd/Source/Game/EFF65.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/WORK_SYS.h"
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/bg.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_65_move(WORK_Other *ewk) {
+void effect_65_move(WORK_Other* ewk) {
     ewk->wu.my_clear_level = 0x80;
 
     if (Menu_Suicide[ewk->master_player]) {

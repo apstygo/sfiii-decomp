@@ -9,10 +9,10 @@ const u16 jdb[16] = { 0x8000, 0x80FF, 0xBC00, 0xBCFF, 0x8300, 0x83FF, 0xBF00, 0x
 
 s32 get_dip_modoki(s16 from, s8 fl);
 s32 get_dip_modoki2(s16 from, s8 fl);
-void renewal_table_address(WORK_Other_JUDGE *ewk, WORK *twk);
-void renewal_table_data(WORK_Other_JUDGE *ewk);
+void renewal_table_address(WORK_Other_JUDGE* ewk, WORK* twk);
+void renewal_table_data(WORK_Other_JUDGE* ewk);
 
-void effect_00_move(WORK_Other_JUDGE *ewk) {
+void effect_00_move(WORK_Other_JUDGE* ewk) {
 #if defined(TARGET_PS2)
     s32 get_dip_modoki(s16 from, s32 fl);
     s32 get_dip_modoki2(s16 from, s32 fl);
@@ -28,7 +28,7 @@ void effect_00_move(WORK_Other_JUDGE *ewk) {
     case 0:
         ewk->wu.routine_no[0]++;
         ewk->wu.type = ewk->master_work_id < 16;
-        renewal_table_address(ewk, (WORK *)ewk->my_master);
+        renewal_table_address(ewk, (WORK*)ewk->my_master);
         ewk->wu.my_priority = ewk->wu.position_z = 1;
         ewk->look_up_flag = 0;
         ewk->curr_ja = 0;
@@ -41,7 +41,7 @@ void effect_00_move(WORK_Other_JUDGE *ewk) {
             break;
         }
 
-        if (((WORK *)ewk->my_master)->waku_work_index != ewk->wu.myself) {
+        if (((WORK*)ewk->my_master)->waku_work_index != ewk->wu.myself) {
             ewk->wu.disp_flag = 0;
             ewk->wu.routine_no[0] = 2;
             break;
@@ -69,13 +69,13 @@ void effect_00_move(WORK_Other_JUDGE *ewk) {
             ewk->curr_ja = Debug_w[17];
         }
 
-        renewal_table_address(ewk, (WORK *)ewk->my_master);
+        renewal_table_address(ewk, (WORK*)ewk->my_master);
 
         if (ewk->wu.type) {
             renewal_table_data(ewk);
         }
 
-        sort_push_request2((WORK_Other *)ewk);
+        sort_push_request2((WORK_Other*)ewk);
         break;
 
     default:
@@ -117,7 +117,7 @@ s32 get_dip_modoki2(s16 from, s8 fl) {
     return rnum;
 }
 
-void renewal_table_address(WORK_Other_JUDGE *ewk, WORK *twk) {
+void renewal_table_address(WORK_Other_JUDGE* ewk, WORK* twk) {
     ewk->wu.my_family = twk->my_family;
     ewk->wu.rl_flag = twk->rl_flag;
 
@@ -137,44 +137,44 @@ void renewal_table_address(WORK_Other_JUDGE *ewk, WORK *twk) {
     ewk->wu.position_y = twk->xyz[1].disp.pos;
 }
 
-void renewal_table_data(WORK_Other_JUDGE *ewk) {
-    u16 *mm;
+void renewal_table_data(WORK_Other_JUDGE* ewk) {
+    u16* mm;
     s16 i;
     s16 j;
 
-    for (mm = (u16 *)ewk->wu.h_bod, i = 0; i < 4; i++) {
+    for (mm = (u16*)ewk->wu.h_bod, i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
             ewk->jx[i][j] = *mm++;
         }
     }
 
-    for (mm = (u16 *)ewk->wu.h_han, i = 0; i < 4; i++) {
+    for (mm = (u16*)ewk->wu.h_han, i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
             ewk->jx[i + 4][j] = *mm++;
         }
     }
 
-    for (mm = (u16 *)ewk->wu.h_cat, j = 0; j < 4; j++) {
+    for (mm = (u16*)ewk->wu.h_cat, j = 0; j < 4; j++) {
         ewk->jx[8][j] = *mm++;
     }
 
-    for (mm = (u16 *)ewk->wu.h_cau, j = 0; j < 4; j++) {
+    for (mm = (u16*)ewk->wu.h_cau, j = 0; j < 4; j++) {
         ewk->jx[9][j] = *mm++;
     }
 
-    for (mm = (u16 *)ewk->wu.h_att, i = 0; i < 4; i++) {
+    for (mm = (u16*)ewk->wu.h_att, i = 0; i < 4; i++) {
         for (j = 0; j < 4; j++) {
             ewk->jx[i + 10][j] = *mm++;
         }
     }
 
-    for (mm = (u16 *)ewk->wu.h_hos, j = 0; j < 4; j++) {
+    for (mm = (u16*)ewk->wu.h_hos, j = 0; j < 4; j++) {
         ewk->jx[14][j] = *mm++;
     }
 }
 
-s32 effect_00_init(WORK *wk) {
-    WORK_Other_JUDGE *ewk;
+s32 effect_00_init(WORK* wk) {
+    WORK_Other_JUDGE* ewk;
     s16 ix;
 
     if (Debug_w[18] == 0 && Debug_w[23] == 0) {
@@ -185,12 +185,12 @@ s32 effect_00_init(WORK *wk) {
         return -1;
     }
 
-    ewk = (WORK_Other_JUDGE *)frw[ix];
+    ewk = (WORK_Other_JUDGE*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 0;
     ewk->wu.work_id = 128;
     ewk->wu.my_family = wk->my_family;
-    ewk->my_master = (u32 *)wk;
+    ewk->my_master = (u32*)wk;
     ewk->master_work_id = wk->work_id;
     ewk->master_id = wk->id;
     wk->waku_work_index = ewk->wu.myself;

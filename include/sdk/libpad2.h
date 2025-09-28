@@ -82,7 +82,7 @@ typedef struct {
             unsigned char left : 1;
         } bits;
     } sw0;
-    
+
     union {
         unsigned char byte;
         struct {
@@ -118,13 +118,13 @@ typedef struct {
 
 int scePad2Init(int);
 int scePad2End(void);
-int scePad2CreateSocket(scePad2SocketParam *, void *);
+int scePad2CreateSocket(scePad2SocketParam*, void*);
 int scePad2DeleteSocket(int);
-int scePad2Read(int, scePad2ButtonState *);
-int scePad2GetButtonProfile(int, unsigned char *);
+int scePad2Read(int, scePad2ButtonState*);
+int scePad2GetButtonProfile(int, unsigned char*);
 int scePad2GetState(int);
-int scePad2GetButtonInfo(int, unsigned char *, int);
-void scePad2StateIntToStr(int, unsigned char *);
-void *scePad2GetErxEntries(void);
+int scePad2GetButtonInfo(int, unsigned char*, int);
+void scePad2StateIntToStr(int, unsigned char*);
+void* scePad2GetErxEntries(void);
 
 #endif /* _LIBPAD2_H_ */

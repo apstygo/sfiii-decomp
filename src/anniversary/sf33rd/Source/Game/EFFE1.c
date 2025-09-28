@@ -1,11 +1,11 @@
 #include "sf33rd/Source/Game/EFFE1.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "bin2obj/char_table.h"
 
-void effect_E1_move(WORK_Other *ewk) {
+void effect_E1_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -30,14 +30,14 @@ void effect_E1_move(WORK_Other *ewk) {
 
 #if defined(TARGET_PS2)
 s32 effect_E1_init(s16 id, s16 Time, s16 /* unused */) {
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 0x8D;
     ewk->wu.work_id = 0x10;

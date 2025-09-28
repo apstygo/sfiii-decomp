@@ -12,11 +12,11 @@
 #endif
 
 // data
-void (*lsc_err_func)(void *, Char8 *) = NULL;
-void *lsc_err_obj = NULL;
+void (*lsc_err_func)(void*, Char8*) = NULL;
+void* lsc_err_obj = NULL;
 Char8 lsc_err_msg[0x100] = { 0 };
 
-void LSC_EntryErrFunc(void (*func)(void *, Char8 *), void *object) {
+void LSC_EntryErrFunc(void (*func)(void*, Char8*), void* object) {
     if (func == NULL) {
         lsc_err_func = NULL;
         lsc_err_obj = NULL;
@@ -27,7 +27,7 @@ void LSC_EntryErrFunc(void (*func)(void *, Char8 *), void *object) {
     lsc_err_obj = object;
 }
 
-void LSC_CallErrFunc(const Char8 *format, ...) {
+void LSC_CallErrFunc(const Char8* format, ...) {
     va_list args;
 
     va_start(args, format);

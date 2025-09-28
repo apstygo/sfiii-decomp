@@ -19,8 +19,8 @@ void ADXPD_Finish() {
 }
 
 ADXPD ADXPD_Create() {
-    ADXPD_OBJ *adxpd;
-    ADXPD_OBJ *chk_adxpd;
+    ADXPD_OBJ* adxpd;
+    ADXPD_OBJ* chk_adxpd;
     s32 i;
 
     for (i = 0; i < ADXPD_MAX_OBJ; i++) {
@@ -47,37 +47,37 @@ ADXPD ADXPD_Create() {
     return adxpd;
 }
 
-void ADXPD_SetCoef(ADXPD_OBJ *adxpd, s32 arg1, s16 *arg2) {
+void ADXPD_SetCoef(ADXPD_OBJ* adxpd, s32 arg1, s16* arg2) {
     ADX_GetCoefficient(arg2, arg1, &adxpd->unk30, &adxpd->unk32);
 }
 
-void ADXPD_SetDly(ADXPD_OBJ *arg0, s16 *arg1, s16 *arg2) {
+void ADXPD_SetDly(ADXPD_OBJ* arg0, s16* arg1, s16* arg2) {
     arg0->unk28.unk0 = arg1[0];
     arg0->unk28.unk2 = arg2[0];
     arg0->unk28.unk4 = arg1[1];
     arg0->unk28.unk6 = arg2[1];
 }
 
-void ADXPD_GetDly(ADXPD_OBJ *adxpd, s16 *arg1, s16 *arg2) {
+void ADXPD_GetDly(ADXPD_OBJ* adxpd, s16* arg1, s16* arg2) {
     arg1[0] = adxpd->unk28.unk0;
     arg2[0] = adxpd->unk28.unk2;
     arg1[1] = adxpd->unk28.unk4;
     arg2[1] = adxpd->unk28.unk6;
 }
 
-void ADXPD_SetExtPrm(ADXPD_OBJ *adxpd, s16 arg1, s16 arg2, s16 arg3) {
+void ADXPD_SetExtPrm(ADXPD_OBJ* adxpd, s16 arg1, s16 arg2, s16 arg3) {
     adxpd->unk34 = arg1;
     adxpd->unk36 = arg2;
     adxpd->unk38 = arg3;
 }
 
-void ADXPD_GetExtPrm(ADXPD_OBJ *adxpd, u16 *arg1, u16 *arg2, u16 *arg3) {
+void ADXPD_GetExtPrm(ADXPD_OBJ* adxpd, u16* arg1, u16* arg2, u16* arg3) {
     *arg1 = adxpd->unk34;
     *arg2 = adxpd->unk36;
     *arg3 = adxpd->unk38;
 }
 
-void ADXPD_Destroy(ADXPD_OBJ *adxpd) {
+void ADXPD_Destroy(ADXPD_OBJ* adxpd) {
     if (adxpd != NULL) {
         adxpd->used = 0;
         memset(adxpd, 0, sizeof(ADXPD_OBJ));

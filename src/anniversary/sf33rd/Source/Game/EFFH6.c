@@ -20,7 +20,7 @@ static const s8 code_tab[128] = { -1,  -1, -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1
                                   118, 26, 27,  28,  29,  30,  31,  32,  33,  34,  35,  36,  37,  38,  39,  40,
                                   41,  42, 43,  44,  45,  46,  47,  48,  49,  50,  51,  147, 150, 150, 150, -1 };
 
-void effect_H6_move(WORK_Other *ewk) {
+void effect_H6_move(WORK_Other* ewk) {
     switch (ewk->wu.routine_no[0]) {
     case 0:
         ewk->wu.routine_no[0]++;
@@ -267,22 +267,22 @@ void effect_H6_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_H6_init(s16 timer, s8 *str, s16 X, s16 Y, s16 Original_Color, s32 /* unused */) {
+s32 effect_H6_init(s16 timer, s8* str, s16 X, s16 Y, s16 Original_Color, s32 /* unused */) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other_CONN *ewk;
+    WORK_Other_CONN* ewk;
     s16 i;
     s16 x;
     s16 c;
-    s8 *su = str;
+    s8* su = str;
 
     if ((x = pull_effect_work(4)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other_CONN *)frw[x];
+    ewk = (WORK_Other_CONN*)frw[x];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 176;
     ewk->wu.type = 0;

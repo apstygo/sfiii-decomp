@@ -1,10 +1,10 @@
 #include "sf33rd/Source/Game/EFF47.h"
+#include "bin2obj/char_table.h"
 #include "common.h"
 #include "sf33rd/Source/Game/CHARSET.h"
 #include "sf33rd/Source/Game/EFFECT.h"
 #include "sf33rd/Source/Game/SLOWF.h"
 #include "sf33rd/Source/Game/aboutspr.h"
-#include "bin2obj/char_table.h"
 #include "sf33rd/Source/Game/ta_sub.h"
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
@@ -16,7 +16,7 @@ const s32 eff47_sp_tbl[4][4] = { { 0x40000, -0x1000, 0x30000, -0x4000 },
 
 const s16 eff47_data_tbl[12] = { 16, 144, 50, -68, 122, 50, 24, 48, 30, -37, 70, 30 };
 
-void effect_47_move(WORK_Other *ewk) {
+void effect_47_move(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -59,22 +59,22 @@ void effect_47_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_47_init(WORK *wk, s32 /* unused */) {
+s32 effect_47_init(WORK* wk, s32 /* unused */) {
 #if defined(TARGET_PS2)
     s16 get_my_trans_mode(s32 curr);
 #endif
 
-    WORK_Other *ewk;
+    WORK_Other* ewk;
     s16 ix;
     s16 i;
-    const s16 *data_ptr = eff47_data_tbl;
+    const s16* data_ptr = eff47_data_tbl;
 
     for (i = 0; i < 4; i++) {
         if ((ix = pull_effect_work(4)) == -1) {
             return -1;
         }
 
-        ewk = (WORK_Other *)frw[ix];
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 47;
         ewk->wu.work_id = 16;
@@ -90,8 +90,8 @@ s32 effect_47_init(WORK *wk, s32 /* unused */) {
         ewk->wu.position_z = ewk->wu.my_priority = wk->my_priority - 2;
         ewk->wu.xyz[0].disp.pos = wk->xyz[0].disp.pos;
         ewk->wu.xyz[1].disp.pos = wk->xyz[1].disp.pos;
-        ewk->wu.xyz[0].disp.pos += *(s16 *)data_ptr++;
-        ewk->wu.xyz[1].disp.pos += *(s16 *)data_ptr++;
+        ewk->wu.xyz[0].disp.pos += *(s16*)data_ptr++;
+        ewk->wu.xyz[1].disp.pos += *(s16*)data_ptr++;
         ewk->wu.old_rno[0] = *data_ptr++;
         ewk->wu.mvxy.a[0].sp = eff47_sp_tbl[i][0];
         ewk->wu.mvxy.d[0].sp = eff47_sp_tbl[i][1];

@@ -31,21 +31,21 @@
 #include "sf33rd/Source/Game/plpat20.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-s16 ja_nmj_rno_change(WORK *wk);
-void Attack_07000(PLW *wk);
-void get_cancel_timer(PLW *wk);
-void check_ja_nmj_dummy_RTNM(PLW *wk);
-u8 get_cjdR(PLW *);
+s16 ja_nmj_rno_change(WORK* wk);
+void Attack_07000(PLW* wk);
+void get_cancel_timer(PLW* wk);
+void check_ja_nmj_dummy_RTNM(PLW* wk);
+u8 get_cjdR(PLW*);
 
-void (*const plpat_lv_00[16])(PLW *wk);
+void (*const plpat_lv_00[16])(PLW* wk);
 void (*const plxx_extra_attack_table[])();
 
-const u8 *cjdr_karaburi_table[20];
-const u8 *cjdr_hits_table[20];
-const u8 *cjdr_blocking_table[20];
-const u8 *cjdr_defense_table[20];
+const u8* cjdr_karaburi_table[20];
+const u8* cjdr_hits_table[20];
+const u8* cjdr_blocking_table[20];
+const u8* cjdr_defense_table[20];
 
-void Player_attack(PLW *wk) {
+void Player_attack(PLW* wk) {
 #if defined(TARGET_PS2)
     void clear_chainex_check(s32 ix);
 #endif
@@ -69,7 +69,7 @@ void Player_attack(PLW *wk) {
     wk->hazusenai_flag = 0;
     wk->cat_break_reserve = 0;
     wk->wu.swallow_no_effect = 0;
-    check_em_tk_power_off(wk, (PLW *)wk->wu.target_adrs);
+    check_em_tk_power_off(wk, (PLW*)wk->wu.target_adrs);
 
     if (wk->wu.routine_no[3] == 0) {
         wk->caution_flag = 1;
@@ -95,7 +95,7 @@ void Player_attack(PLW *wk) {
         plpat_lv_00[wk->wu.routine_no[2]](wk);
     }
 
-    wk->wu.next_z = ((PLW *)wk->wu.target_adrs)->wu.my_priority - 3;
+    wk->wu.next_z = ((PLW*)wk->wu.target_adrs)->wu.my_priority - 3;
 
     if (wk->wu.cg_prio) {
         if (wk->wu.cg_prio == 1) {
@@ -107,7 +107,7 @@ void Player_attack(PLW *wk) {
     }
 }
 
-void Attack_00000(PLW *wk) {
+void Attack_00000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -137,7 +137,7 @@ void Attack_00000(PLW *wk) {
     }
 }
 
-void Attack_01000(PLW *wk) {
+void Attack_01000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -176,7 +176,7 @@ void Attack_01000(PLW *wk) {
     }
 }
 
-void Attack_02000(PLW *wk) {
+void Attack_02000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -222,7 +222,7 @@ void Attack_02000(PLW *wk) {
     }
 }
 
-void Attack_03000(PLW *wk) {
+void Attack_03000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void Normal_18000_init_unit(PLW * wk, s32 ps);
@@ -276,7 +276,7 @@ void Attack_03000(PLW *wk) {
     }
 }
 
-s16 ja_nmj_rno_change(WORK *wk) {
+s16 ja_nmj_rno_change(WORK* wk) {
     s16 rnum = 0;
 
     switch (wk->pat_status) {
@@ -329,7 +329,7 @@ s16 ja_nmj_rno_change(WORK *wk) {
     return rnum;
 }
 
-void check_ja_nmj_dummy_RTNM(PLW *wk) {
+void check_ja_nmj_dummy_RTNM(PLW* wk) {
     s32 temp_a0;
     u8 temp_v1;
 
@@ -380,7 +380,7 @@ void check_ja_nmj_dummy_RTNM(PLW *wk) {
     }
 }
 
-u8 get_cjdR(PLW *wk) {
+u8 get_cjdR(PLW* wk) {
     s16 w_ix = (wk->wu.kind_of_waza & 6);
     w_ix += ((wk->wu.hf.hit.player & 0xA2) != 0);
 
@@ -413,7 +413,7 @@ case3:
     return cjdr_defense_table[wk->player_number][w_ix];
 }
 
-void Attack_04000(PLW *wk) {
+void Attack_04000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -441,7 +441,7 @@ void Attack_04000(PLW *wk) {
     }
 }
 
-void Attack_05000(PLW *wk) {
+void Attack_05000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     s32 effect_G6_init(WORK * wk, s32 dat);
@@ -486,12 +486,12 @@ void Attack_05000(PLW *wk) {
     }
 }
 
-void Attack_06000(PLW *wk) {
+void Attack_06000(PLW* wk) {
     wk->scr_pos_set_flag = 0;
     Attack_07000(wk);
 }
 
-void Attack_07000(PLW *wk) {
+void Attack_07000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -523,7 +523,7 @@ void Attack_07000(PLW *wk) {
     }
 }
 
-void Attack_08000(PLW *wk) {
+void Attack_08000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -588,7 +588,7 @@ void Attack_08000(PLW *wk) {
     }
 }
 
-void Attack_09000(PLW *wk) {
+void Attack_09000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -637,7 +637,7 @@ void Attack_09000(PLW *wk) {
     }
 }
 
-void Attack_10000(PLW *wk) {
+void Attack_10000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, s32 ix);
@@ -713,7 +713,7 @@ void Attack_10000(PLW *wk) {
     }
 }
 
-void Attack_14000(PLW *wk) {
+void Attack_14000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
@@ -739,7 +739,7 @@ void Attack_14000(PLW *wk) {
     }
 }
 
-void Attack_15000(PLW *wk) {
+void Attack_15000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void Normal_18000_init_unit(PLW * wk, s32 ps);
@@ -795,7 +795,7 @@ void Attack_15000(PLW *wk) {
     }
 }
 
-void get_cancel_timer(PLW *wk) {
+void get_cancel_timer(PLW* wk) {
     if (wk->tc_1st_flag) {
         wk->cancel_timer = 0;
         return;
@@ -809,7 +809,7 @@ void get_cancel_timer(PLW *wk) {
     wk->cancel_timer = 2;
 }
 
-void hoken_muriyari_chakuchi(PLW *wk) {
+void hoken_muriyari_chakuchi(PLW* wk) {
     if ((Bonus_Game_Flag == 20) && wk->bs2_on_car) {
         wk->wu.xyz[1].disp.pos = bs2_floor[2];
         return;
@@ -818,7 +818,7 @@ void hoken_muriyari_chakuchi(PLW *wk) {
     wk->wu.xyz[1].disp.pos = 0;
 }
 
-void (*const plpat_lv_00[16])(PLW *wk) = { Attack_00000, Attack_01000, Attack_02000, Attack_03000,
+void (*const plpat_lv_00[16])(PLW* wk) = { Attack_00000, Attack_01000, Attack_02000, Attack_03000,
                                            Attack_04000, Attack_05000, Attack_06000, Attack_07000,
                                            Attack_08000, Attack_09000, Attack_10000, Attack_00000,
                                            Attack_00000, Attack_00000, Attack_14000, Attack_15000 };
@@ -832,7 +832,7 @@ void (*const plxx_extra_attack_table[])() = {
 
 const u8 cjdr_karaburi_type3[8] = { 255, 255, 255, 255, 255, 255, 255, 255 };
 
-const u8 *cjdr_karaburi_table[20] = {
+const u8* cjdr_karaburi_table[20] = {
     cjdr_karaburi_type3, cjdr_karaburi_type3, cjdr_karaburi_type3, cjdr_karaburi_type3, cjdr_karaburi_type3,
     cjdr_karaburi_type3, cjdr_karaburi_type3, cjdr_karaburi_type3, cjdr_karaburi_type3, cjdr_karaburi_type3,
     cjdr_karaburi_type3, cjdr_karaburi_type3, cjdr_karaburi_type3, cjdr_karaburi_type3, cjdr_karaburi_type3,
@@ -841,7 +841,7 @@ const u8 *cjdr_karaburi_table[20] = {
 
 const u8 cjdr_hits_type3[8] = { 255, 255, 255, 255, 255, 255, 255, 255 };
 
-const u8 *cjdr_hits_table[20] = {
+const u8* cjdr_hits_table[20] = {
     cjdr_hits_type3, cjdr_hits_type3, cjdr_hits_type3, cjdr_hits_type3, cjdr_hits_type3,
     cjdr_hits_type3, cjdr_hits_type3, cjdr_hits_type3, cjdr_hits_type3, cjdr_hits_type3,
     cjdr_hits_type3, cjdr_hits_type3, cjdr_hits_type3, cjdr_hits_type3, cjdr_hits_type3,
@@ -852,7 +852,7 @@ const u8 cjdr_blocking_type0[8] = { 16, 7, 18, 9, 20, 11, 20, 11 };
 const u8 cjdr_blocking_type1[8] = { 17, 8, 19, 10, 21, 12, 21, 12 };
 const u8 cjdr_blocking_type2[8] = { 18, 9, 20, 11, 22, 13, 22, 13 };
 
-const u8 *cjdr_blocking_table[20] = {
+const u8* cjdr_blocking_table[20] = {
     cjdr_blocking_type0, cjdr_blocking_type1, cjdr_blocking_type1, cjdr_blocking_type1, cjdr_blocking_type0,
     cjdr_blocking_type2, cjdr_blocking_type1, cjdr_blocking_type0, cjdr_blocking_type1, cjdr_blocking_type1,
     cjdr_blocking_type1, cjdr_blocking_type0, cjdr_blocking_type1, cjdr_blocking_type2, cjdr_blocking_type0,
@@ -861,7 +861,7 @@ const u8 *cjdr_blocking_table[20] = {
 
 const u8 cjdr_defense_type3[8] = { 255, 255, 255, 255, 255, 255, 255, 255 };
 
-const u8 *cjdr_defense_table[20] = { cjdr_defense_type3, cjdr_defense_type3, cjdr_defense_type3, cjdr_defense_type3,
+const u8* cjdr_defense_table[20] = { cjdr_defense_type3, cjdr_defense_type3, cjdr_defense_type3, cjdr_defense_type3,
                                      cjdr_defense_type3, cjdr_defense_type3, cjdr_defense_type3, cjdr_defense_type3,
                                      cjdr_defense_type3, cjdr_defense_type3, cjdr_defense_type3, cjdr_defense_type3,
                                      cjdr_defense_type3, cjdr_defense_type3, cjdr_defense_type3, cjdr_defense_type3,

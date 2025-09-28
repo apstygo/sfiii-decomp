@@ -16,14 +16,14 @@
 #include "sf33rd/Source/Game/sc_sub.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void check_nagenuke(PLW *wk, PLW *tk);
-static s32 cat07_running_check(WORK *wk);
-void catch_cg_type_check(PLW *wk);
-void set_char_move_init_ca(PLW *wk, s16 koc, s16 index);
+void check_nagenuke(PLW* wk, PLW* tk);
+static s32 cat07_running_check(WORK* wk);
+void catch_cg_type_check(PLW* wk);
+void set_char_move_init_ca(PLW* wk, s16 koc, s16 index);
 
 void (*const plpca_lv_00[9])();
 
-void Player_catch(PLW *wk) {
+void Player_catch(PLW* wk) {
     wk->wu.next_z = wk->wu.my_priority;
     wk->running_f = 0;
     wk->py->flag = 0;
@@ -50,16 +50,16 @@ void Player_catch(PLW *wk) {
     wk->hsjp_ok = 0;
     wk->high_jump_flag = 0;
     wk->wu.swallow_no_effect = 0;
-    check_em_tk_power_off(wk, (PLW *)wk->wu.target_adrs);
+    check_em_tk_power_off(wk, (PLW*)wk->wu.target_adrs);
 
     if (wk->wu.routine_no[3] == 0) {
         pp_pulpara_catch(&wk->wu);
     }
 
     plpca_lv_00[wk->wu.routine_no[2]](wk);
-    check_nagenuke(wk, (PLW *)wk->wu.hit_adrs);
+    check_nagenuke(wk, (PLW*)wk->wu.hit_adrs);
 
-    if (((WORK *)wk->wu.target_adrs)->routine_no[2] == 3) {
+    if (((WORK*)wk->wu.target_adrs)->routine_no[2] == 3) {
         return;
     }
 
@@ -67,7 +67,7 @@ void Player_catch(PLW *wk) {
         return;
     }
 
-    wk->wu.next_z = ((WORK *)wk->wu.target_adrs)->my_priority;
+    wk->wu.next_z = ((WORK*)wk->wu.target_adrs)->my_priority;
 
     if (wk->wu.cg_prio == 1) {
         wk->wu.next_z++;
@@ -77,7 +77,7 @@ void Player_catch(PLW *wk) {
     wk->wu.next_z -= 3;
 }
 
-void check_nagenuke(PLW *wk, PLW *tk) {
+void check_nagenuke(PLW* wk, PLW* tk) {
     if (tk->wu.work_id != 1) {
         return;
     }
@@ -121,9 +121,9 @@ void check_nagenuke(PLW *wk, PLW *tk) {
     tk->wu.dm_stop = 0;
 }
 
-void Catch_00000(PLW * /* unused */) {}
+void Catch_00000(PLW* /* unused */) {}
 
-void Catch_01000(PLW *wk) {
+void Catch_01000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init_ca(PLW * wk, s16 koc, s32 index);
 #endif
@@ -141,7 +141,7 @@ void Catch_01000(PLW *wk) {
     }
 }
 
-void Catch_02000(PLW *wk) {
+void Catch_02000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init_ca(PLW * wk, s16 koc, s32 index);
 #endif
@@ -149,7 +149,7 @@ void Catch_02000(PLW *wk) {
     switch (wk->wu.routine_no[3]) {
     case 0:
         wk->wu.routine_no[3]++;
-        set_char_move_init_ca(wk, 2, wk->wu.char_index + ((WORK *)wk->wu.hit_adrs)->weight_level);
+        set_char_move_init_ca(wk, 2, wk->wu.char_index + ((WORK*)wk->wu.hit_adrs)->weight_level);
         break;
 
     case 1:
@@ -159,7 +159,7 @@ void Catch_02000(PLW *wk) {
     }
 }
 
-void Catch_03000(PLW *wk) {
+void Catch_03000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init_ca(PLW * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -183,7 +183,7 @@ void Catch_03000(PLW *wk) {
     }
 }
 
-void Catch_04000(PLW *wk) {
+void Catch_04000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init_ca(PLW * wk, s16 koc, s32 index);
     void setup_mvxy_data(WORK * wk, u32 ix);
@@ -234,7 +234,7 @@ void Catch_04000(PLW *wk) {
     }
 }
 
-void Catch_05000(PLW *wk) {
+void Catch_05000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init_ca(PLW * wk, s16 koc, s32 index);
     void add_to_mvxy_data(WORK * wk, u32 ix);
@@ -297,7 +297,7 @@ void Catch_05000(PLW *wk) {
     }
 }
 
-void Catch_06000(PLW *wk) {
+void Catch_06000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init_ca(PLW * wk, s16 koc, s32 index);
 #endif
@@ -317,7 +317,7 @@ void Catch_06000(PLW *wk) {
         char_move(&wk->wu);
 
         if (wk->wu.cg_type == 20) {
-            nise_combo_work(wk, (PLW *)wk->wu.target_adrs, 14);
+            nise_combo_work(wk, (PLW*)wk->wu.target_adrs, 14);
             wk->wu.cg_type = 0;
         }
 
@@ -326,7 +326,7 @@ void Catch_06000(PLW *wk) {
     }
 }
 
-void Catch_07000(PLW *wk) {
+void Catch_07000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init_ca(PLW * wk, s16 koc, s32 index);
     void add_to_mvxy_data(WORK * wk, u32 ix);
@@ -379,7 +379,7 @@ void Catch_07000(PLW *wk) {
     case 4:
         jumping_union_process(&wk->wu, 6);
 
-        if (((PLW *)wk->wu.target_adrs)->micchaku_flag) {
+        if (((PLW*)wk->wu.target_adrs)->micchaku_flag) {
             char_move_z(&wk->wu);
             wk->wu.routine_no[3] = 5;
         }
@@ -397,7 +397,7 @@ void Catch_07000(PLW *wk) {
     }
 }
 
-s32 cat07_running_check(WORK *wk) {
+s32 cat07_running_check(WORK* wk) {
 #if defined(TARGET_PS2)
     void setup_mvxy_data(WORK * wk, u32 ix);
 #endif
@@ -413,7 +413,7 @@ s32 cat07_running_check(WORK *wk) {
     return 0;
 }
 
-void Catch_08000(PLW *wk) {
+void Catch_08000(PLW* wk) {
 #if defined(TARGET_PS2)
     void set_char_move_init_ca(PLW * wk, s16 koc, s32 index);
 #endif
@@ -438,11 +438,11 @@ void Catch_08000(PLW *wk) {
     }
 }
 
-void subtract_cu_vital(PLW *wk) {
+void subtract_cu_vital(PLW* wk) {
     if (wk->wu.dm_vital != 0) {
         if (wk->dead_flag == 0) {
             if (wk->wu.dm_vital) {
-                Additinal_Score_DM((WORK_Other *)wk->wu.dmg_adrs, wk->wu.dm_ten_ix);
+                Additinal_Score_DM((WORK_Other*)wk->wu.dmg_adrs, wk->wu.dm_ten_ix);
                 add_sp_arts_gauge_hit_dm(wk);
             }
 
@@ -486,19 +486,19 @@ void subtract_cu_vital(PLW *wk) {
     wk->wu.dm_piyo = 0;
 }
 
-void catch_cg_type_check(PLW *wk) {
+void catch_cg_type_check(PLW* wk) {
 #if defined(TARGET_PS2)
     s32 effect_02_init(WORK * wk, s8 dmgp, s8 mkst, s32 dmrl);
 #endif
 
-    PLW *emwk = (PLW *)wk->wu.hit_adrs;
+    PLW* emwk = (PLW*)wk->wu.hit_adrs;
 
     switch (wk->wu.cg_type) {
     case 2:
         wk->wu.cg_type = 0;
         setup_catch_atthit(&wk->wu, &emwk->wu);
         add_combo_work(wk, emwk);
-        grade_add_clean_hits((WORK_Other *)wk);
+        grade_add_clean_hits((WORK_Other*)wk);
         break;
 
     case 3:
@@ -553,7 +553,7 @@ void catch_cg_type_check(PLW *wk) {
     }
 }
 
-void set_char_move_init_ca(PLW *wk, s16 koc, s16 index) {
+void set_char_move_init_ca(PLW* wk, s16 koc, s16 index) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s32 koc, s32 index);
 #endif
@@ -563,5 +563,5 @@ void set_char_move_init_ca(PLW *wk, s16 koc, s16 index) {
     wk->wu.cmyd.koc &= 0xFF;
 }
 
-void (*const plpca_lv_00[9])(PLW *) = { Catch_00000, Catch_01000, Catch_02000, Catch_03000, Catch_04000,
-                                        Catch_05000, Catch_06000, Catch_07000, Catch_08000 };
+void (*const plpca_lv_00[9])(PLW*) = { Catch_00000, Catch_01000, Catch_02000, Catch_03000, Catch_04000,
+                                       Catch_05000, Catch_06000, Catch_07000, Catch_08000 };

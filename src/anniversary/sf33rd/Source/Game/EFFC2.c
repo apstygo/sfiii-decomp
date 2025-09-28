@@ -58,24 +58,24 @@ const s16 c2_last_bomb[4][4] = {
 };
 
 // forward declares
-void effC2_main_process_first(WORK_Other *ewk, PLW *twk);
+void effC2_main_process_first(WORK_Other* ewk, PLW* twk);
 void effc2_parts_work_chain_check(s16 flag);
-void effC2_main_process_second(WORK_Other *ewk, PLW *twk);
-void c2_last_char_and_mvxy(WORK_Other *ewk);
-s16 c2_last_dir_select(PLW *wk, WORK *efw);
-void copy_rno(WORK *wk);
-void set_c2_quake(WORK *wk);
-void setup_prio_ix(WORK_Other *c2wk);
-void setup_vital_bonus2(WORK *wk);
-void setup_parts_break(WORK *wk);
-void setup_parts_break2(WORK *wk);
-void bs2_status_disp(WORK_Other * /* unused */);
-void bs2_score_add_next(WORK *wk);
-void set_1st_Bonus_Game_result(WORK *wk);
-void set_bs2_floor(WORK_Other *wk);
-void send_to_shizumi_guai(WORK *wk);
+void effC2_main_process_second(WORK_Other* ewk, PLW* twk);
+void c2_last_char_and_mvxy(WORK_Other* ewk);
+s16 c2_last_dir_select(PLW* wk, WORK* efw);
+void copy_rno(WORK* wk);
+void set_c2_quake(WORK* wk);
+void setup_prio_ix(WORK_Other* c2wk);
+void setup_vital_bonus2(WORK* wk);
+void setup_parts_break(WORK* wk);
+void setup_parts_break2(WORK* wk);
+void bs2_status_disp(WORK_Other* /* unused */);
+void bs2_score_add_next(WORK* wk);
+void set_1st_Bonus_Game_result(WORK* wk);
+void set_bs2_floor(WORK_Other* wk);
+void send_to_shizumi_guai(WORK* wk);
 
-void effect_C2_move(WORK_Other *ewk) {
+void effect_C2_move(WORK_Other* ewk) {
     bs2_status_disp(ewk);
 
     switch (ewk->wu.routine_no[0]) {
@@ -120,9 +120,9 @@ void effect_C2_move(WORK_Other *ewk) {
         }
 
         if (ewk->wu.dir_timer) {
-            effC2_main_process_second(ewk, (PLW *)ewk->wu.target_adrs);
+            effC2_main_process_second(ewk, (PLW*)ewk->wu.target_adrs);
         } else {
-            effC2_main_process_first(ewk, (PLW *)ewk->wu.target_adrs);
+            effC2_main_process_first(ewk, (PLW*)ewk->wu.target_adrs);
         }
 
         set_bs2_floor(ewk);
@@ -144,7 +144,7 @@ void effect_C2_move(WORK_Other *ewk) {
                 ewk->wu.position_z = 25;
                 illegal_setup_effK2(&ewk->wu, 4);
                 c2_last_char_and_mvxy(ewk);
-                setup_demojump((PLW *)ewk->wu.target_adrs, 2);
+                setup_demojump((PLW*)ewk->wu.target_adrs, 2);
                 break;
 
             case 9:
@@ -215,7 +215,7 @@ void effect_C2_move(WORK_Other *ewk) {
     }
 }
 
-void effC2_main_process_first(WORK_Other *ewk, PLW *twk) {
+void effC2_main_process_first(WORK_Other* ewk, PLW* twk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void player_hosei_data(WORK_Other * ewk, s32 flag, s16 f2);
@@ -379,10 +379,10 @@ void effC2_main_process_first(WORK_Other *ewk, PLW *twk) {
 }
 
 void effc2_parts_work_chain_check(s16 flag) {
-    WORK *adr0;
-    WORK *adr1;
-    WORK *adr2;
-    WORK *adr3;
+    WORK* adr0;
+    WORK* adr1;
+    WORK* adr2;
+    WORK* adr3;
     s16 wix = search_effect_index(1, 0, 0x7B);
     s16 bff;
     s16 bhf;
@@ -394,7 +394,7 @@ void effc2_parts_work_chain_check(s16 flag) {
     }
 
     while (wix != -1) {
-        adr1 = (WORK *)frw[wix];
+        adr1 = (WORK*)frw[wix];
 
         if (adr1->type == 4 || adr1->type == 5) {
             goto jump;
@@ -418,7 +418,7 @@ jump:
         return;
     }
 
-    adr2 = (WORK *)frw[adr1->behind];
+    adr2 = (WORK*)frw[adr1->behind];
 
     if (flag) {
         if (adr2->type != 4) {
@@ -429,8 +429,8 @@ jump:
     }
 
     bff = bhf = 0;
-    adr0 = (WORK *)frw[adr1->before];
-    adr3 = (WORK *)frw[adr2->behind];
+    adr0 = (WORK*)frw[adr1->before];
+    adr3 = (WORK*)frw[adr2->behind];
     bf[1] = adr1->before;
     bf[2] = adr2->before;
     bf[3] = adr3->before;
@@ -445,7 +445,7 @@ jump:
     adr3->before = bf[2];
 }
 
-void effC2_main_process_second(WORK_Other *ewk, PLW *twk) {
+void effC2_main_process_second(WORK_Other* ewk, PLW* twk) {
 #if defined(TARGET_PS2)
     void player_hosei_data(WORK_Other * ewk, s32 flag, s16 f2);
 #endif
@@ -587,12 +587,12 @@ void effC2_main_process_second(WORK_Other *ewk, PLW *twk) {
     sort_push_request(&ewk->wu);
 }
 
-void c2_last_char_and_mvxy(WORK_Other *ewk) {
+void c2_last_char_and_mvxy(WORK_Other* ewk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
 #endif
 
-    s16 ix = c2_last_dir_select((PLW *)ewk->wu.target_adrs, &ewk->wu);
+    s16 ix = c2_last_dir_select((PLW*)ewk->wu.target_adrs, &ewk->wu);
 
     set_char_move_init(&ewk->wu, 0, ewk->wu.dm_attlv + 92 + ix);
     setup_move_data_easy(&ewk->wu, c2_last_bomb[ewk->wu.dm_attlv], 1, 0);
@@ -602,14 +602,14 @@ void c2_last_char_and_mvxy(WORK_Other *ewk) {
     }
 }
 
-s16 c2_last_dir_select(PLW *wk, WORK *efw) {
+s16 c2_last_dir_select(PLW* wk, WORK* efw) {
 #if defined(TARGET_PS2)
     s16 get_sel_hosei_tbl_ix(s32 plnum);
     s16 check_work_position_bonus(WORK * hm, s32 tx);
 #endif
 
     s16 ix = get_sel_hosei_tbl_ix(wk->player_number) + 1;
-    s16 *dad = efw->hosei_adrs[ix].hos_box;
+    s16* dad = efw->hosei_adrs[ix].hos_box;
 
     ix = 4;
 
@@ -620,7 +620,7 @@ s16 c2_last_dir_select(PLW *wk, WORK *efw) {
     return ix;
 }
 
-void setup_demojump(PLW *twk, s16 ix) {
+void setup_demojump(PLW* twk, s16 ix) {
     switch (ix) {
     case 0:
         if (twk->wu.xyz[1].disp.pos > 3) {
@@ -659,8 +659,8 @@ void setup_demojump(PLW *twk, s16 ix) {
     }
 }
 
-s32 check_effc2_p2_rno(WORK *wk) {
-    WORK *c2wk = (WORK *)wk->my_effadrs;
+s32 check_effc2_p2_rno(WORK* wk) {
+    WORK* c2wk = (WORK*)wk->my_effadrs;
 
     if (c2wk->dir_timer == 0) {
         return 0;
@@ -673,14 +673,14 @@ s32 check_effc2_p2_rno(WORK *wk) {
     return 1;
 }
 
-void copy_rno(WORK *wk) {
+void copy_rno(WORK* wk) {
     wk->old_rno[0] = wk->routine_no[0];
     wk->old_rno[1] = wk->routine_no[1];
     wk->old_rno[2] = wk->routine_no[2];
     wk->old_rno[3] = wk->routine_no[3];
 }
 
-void player_hosei_data(WORK_Other *ewk, s16 flag, s16 f2) {
+void player_hosei_data(WORK_Other* ewk, s16 flag, s16 f2) {
 #if defined(TARGET_PS2)
     s16 get_sel_hosei_tbl_ix(s32 plnum);
 #endif
@@ -699,7 +699,7 @@ void player_hosei_data(WORK_Other *ewk, s16 flag, s16 f2) {
     }
 }
 
-void set_c2_quake(WORK *wk) {
+void set_c2_quake(WORK* wk) {
     if (!wk->hit_stop) {
         return;
     }
@@ -717,8 +717,8 @@ void set_c2_quake(WORK *wk) {
     }
 }
 
-void get_bs2_parts_data(WORK *wk) {
-    const BS2 *bs2 = &bs2_data_table[wk->type];
+void get_bs2_parts_data(WORK* wk) {
+    const BS2* bs2 = &bs2_data_table[wk->type];
 
     wk->work_id = 2;
     wk->dir_timer = bs2->dir_timer;
@@ -736,9 +736,9 @@ void get_bs2_parts_data(WORK *wk) {
     set_parts_priority(wk);
 }
 
-void setup_prio_ix(WORK_Other *c2wk) {
-    PLW *mwk = (PLW *)c2wk->my_master;
-    PLW *twk = (PLW *)mwk->wu.target_adrs;
+void setup_prio_ix(WORK_Other* c2wk) {
+    PLW* mwk = (PLW*)c2wk->my_master;
+    PLW* twk = (PLW*)mwk->wu.target_adrs;
 
     c2wk->wu.vital_new = 0;
 
@@ -747,9 +747,9 @@ void setup_prio_ix(WORK_Other *c2wk) {
     }
 }
 
-void set_parts_priority(WORK *wk) {
-    const BS2 *bs2 = &bs2_data_table[wk->type];
-    WORK *c2wk = (WORK *)wk->my_effadrs;
+void set_parts_priority(WORK* wk) {
+    const BS2* bs2 = &bs2_data_table[wk->type];
+    WORK* c2wk = (WORK*)wk->my_effadrs;
 
     if (c2wk->vital_new) {
         wk->my_priority = bs2->prio_low;
@@ -760,7 +760,7 @@ void set_parts_priority(WORK *wk) {
     wk->position_z = wk->my_priority;
 }
 
-void setup_vital_bonus2(WORK *wk) {
+void setup_vital_bonus2(WORK* wk) {
     s16 i;
 
     for (i = 0; i < 8; i++) {
@@ -769,8 +769,8 @@ void setup_vital_bonus2(WORK *wk) {
     }
 }
 
-void c3_new_damage(WORK *wk) {
-    WORK *c2wk;
+void c3_new_damage(WORK* wk) {
+    WORK* c2wk;
     s16 ix;
     s16 brlv;
 
@@ -778,7 +778,7 @@ void c3_new_damage(WORK *wk) {
         wk->dm_vital = 0;
     }
 
-    c2wk = (WORK *)wk->my_effadrs;
+    c2wk = (WORK*)wk->my_effadrs;
     c2wk->routine_no[1] = 1;
     c2wk->routine_no[2] = 0;
     c2wk->dm_attlv = wk->dm_attlv;
@@ -811,16 +811,16 @@ s16 c3_hit_disp_check(u8 ix) {
     return bs2_data_table[ix].vital;
 }
 
-s16 bs2_sync_bomb(WORK *wk) {
-    return ((WORK *)wk->my_effadrs)->dir_old;
+s16 bs2_sync_bomb(WORK* wk) {
+    return ((WORK*)wk->my_effadrs)->dir_old;
 }
 
-void bs2_get_parts_break(WORK *wk) {
-    wk->scr_mv_x = ((WORK *)wk->my_effadrs)->cg_number;
-    wk->scr_mv_y = ((WORK *)wk->my_effadrs)->cmwk[wk->type];
+void bs2_get_parts_break(WORK* wk) {
+    wk->scr_mv_x = ((WORK*)wk->my_effadrs)->cg_number;
+    wk->scr_mv_y = ((WORK*)wk->my_effadrs)->cmwk[wk->type];
 }
 
-void setup_parts_break(WORK *wk) {
+void setup_parts_break(WORK* wk) {
     s32 vint;
     s16 i;
     s16 j;
@@ -840,7 +840,7 @@ void setup_parts_break(WORK *wk) {
     }
 }
 
-void setup_parts_break2(WORK *wk) {
+void setup_parts_break2(WORK* wk) {
     s32 vint = wk->original_vitality;
     s16 j;
 
@@ -853,14 +853,14 @@ void setup_parts_break2(WORK *wk) {
     wk->cmwk[0] = j;
 }
 
-void bs2_status_disp(WORK_Other * /* unused */) {
+void bs2_status_disp(WORK_Other* /* unused */) {
     if (Usage == 7) {
         return;
     }
 }
 
-s32 check_parts_break_level(WORK *wk) {
-    WORK *c2wk = (WORK *)wk->my_effadrs;
+s32 check_parts_break_level(WORK* wk) {
+    WORK* c2wk = (WORK*)wk->my_effadrs;
     s16 i;
 
     if (wk->vital_old == c2wk->cmwk[wk->type]) {
@@ -869,7 +869,7 @@ s32 check_parts_break_level(WORK *wk) {
 
     if ((wk->id != 0x7A || c2wk->dir_timer != 0) && wk->vital_old < c2wk->cmwk[wk->type]) {
         for (i = wk->vital_old; i < c2wk->cmwk[wk->type]; i++) {
-            Additinal_Score_DM((WORK_Other *)wk->target_adrs, pbs_table[wk->type][i]);
+            Additinal_Score_DM((WORK_Other*)wk->target_adrs, pbs_table[wk->type][i]);
         }
     }
 
@@ -877,15 +877,15 @@ s32 check_parts_break_level(WORK *wk) {
     return 1;
 }
 
-void bs2_score_add_next(WORK *wk) {
+void bs2_score_add_next(WORK* wk) {
     s16 i;
 
     for (i = 1; i < 8; i++) {
-        Additinal_Score_DM((WORK_Other *)wk->target_adrs, pbs_table[i][wk->cmwk[i]]);
+        Additinal_Score_DM((WORK_Other*)wk->target_adrs, pbs_table[i][wk->cmwk[i]]);
     }
 }
 
-void set_1st_Bonus_Game_result(WORK *wk) {
+void set_1st_Bonus_Game_result(WORK* wk) {
     s16 i;
     s16 num = 0;
 
@@ -898,13 +898,13 @@ void set_1st_Bonus_Game_result(WORK *wk) {
     }
 }
 
-void set_bs2_floor(WORK_Other *wk) {
+void set_bs2_floor(WORK_Other* wk) {
 #if defined(TARGET_PS2)
     void player_hosei_data(WORK_Other * ewk, s32 flag, s16 f2);
 #endif
 
-    PLW *em = (PLW *)((WORK *)wk->my_master)->target_adrs;
-    s16 *dad;
+    PLW* em = (PLW*)((WORK*)wk->my_master)->target_adrs;
+    s16* dad;
 
     player_hosei_data(wk, wk->wu.dir_timer, 1);
     dad = wk->wu.hosei_adrs[wk->wu.cg_ja.hoix].hos_box;
@@ -917,35 +917,35 @@ void set_bs2_floor(WORK_Other *wk) {
     bs2_hosei[2] = dad[2] + dad[3];
 }
 
-void get_shizumi_guai(WORK *wk) {
-    wk->next_x = shindou_guai[((WORK *)wk->my_effadrs)->old_pos[1]][wk->type];
-    wk->next_y = shizumi_guai[((WORK *)wk->my_effadrs)->old_pos[0]][wk->type];
+void get_shizumi_guai(WORK* wk) {
+    wk->next_x = shindou_guai[((WORK*)wk->my_effadrs)->old_pos[1]][wk->type];
+    wk->next_y = shizumi_guai[((WORK*)wk->my_effadrs)->old_pos[0]][wk->type];
 }
 
-void send_to_shizumi_guai(WORK *wk) {
-    ((WORK *)wk->target_adrs)->next_y = shizumi_guai[((WORK *)wk->my_effadrs)->old_pos[0]][0];
+void send_to_shizumi_guai(WORK* wk) {
+    ((WORK*)wk->target_adrs)->next_y = shizumi_guai[((WORK*)wk->my_effadrs)->old_pos[0]][0];
 }
 
-s32 effect_C2_init(WORK *wk, u8 data) {
-    WORK_Other *ewk;
+s32 effect_C2_init(WORK* wk, u8 data) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(1)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.id = 0x7A;
     ewk->wu.type = data;
     ewk->wu.my_mts = 5;
-    ewk->my_master = (u32 *)wk;
-    ewk->wu.target_adrs = (u32 *)wk->target_adrs;
-    ewk->master_player = ((PLW *)wk)->player_number;
+    ewk->my_master = (u32*)wk;
+    ewk->wu.target_adrs = (u32*)wk->target_adrs;
+    ewk->master_player = ((PLW*)wk)->player_number;
     ewk->master_id = wk->id;
     ewk->master_work_id = wk->work_id;
-    wk->my_effadrs = (u32 *)ewk;
-    ewk->wu.my_effadrs = (u32 *)ewk;
+    wk->my_effadrs = (u32*)ewk;
+    ewk->wu.my_effadrs = (u32*)ewk;
     effect_C2_move(ewk);
     return 0;
 }

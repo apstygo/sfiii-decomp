@@ -13,27 +13,27 @@
 #include "sf33rd/Source/Game/PLS02.h"
 #include "sf33rd/Source/Game/PulPul.h"
 
-void setup_caught_process_flags(PLW *wk);
-void caught_cg_type_check(PLW *wk, PLW *emwk);
-s32 check_tsukamare_keizoku_check(PLW *wk, PLW *emwk);
+void setup_caught_process_flags(PLW* wk);
+void caught_cg_type_check(PLW* wk, PLW* emwk);
+s32 check_tsukamare_keizoku_check(PLW* wk, PLW* emwk);
 
-void scdmd_12000(PLW *wk);
-void scdmd_16000(PLW *wk);
-void scdmd_17000(PLW *wk);
-void scdmd_18000(PLW *wk);
-void scdmd_19000(PLW *wk);
-void scdmd_28000(PLW *wk);
-void scdmd_30000(PLW *wk);
+void scdmd_12000(PLW* wk);
+void scdmd_16000(PLW* wk);
+void scdmd_17000(PLW* wk);
+void scdmd_18000(PLW* wk);
+void scdmd_19000(PLW* wk);
+void scdmd_28000(PLW* wk);
+void scdmd_30000(PLW* wk);
 
-void (*const setup_cu_dm_init_data[20])(PLW *wk);
-void (*const plpcu_lv_00[4])(PLW *, PLW *);
+void (*const setup_cu_dm_init_data[20])(PLW* wk);
+void (*const plpcu_lv_00[4])(PLW*, PLW*);
 
-void Player_caught(PLW *wk) {
+void Player_caught(PLW* wk) {
 #if defined(TARGET_PS2)
     void clear_chainex_check(s32 ix);
 #endif
 
-    PLW *emwk = (PLW *)wk->wu.dmg_adrs;
+    PLW* emwk = (PLW*)wk->wu.dmg_adrs;
 
     setup_caught_process_flags(wk);
 
@@ -49,7 +49,7 @@ void Player_caught(PLW *wk) {
     plpcu_lv_00[wk->wu.routine_no[2]](wk, emwk);
 }
 
-void setup_caught_process_flags(PLW *wk) {
+void setup_caught_process_flags(PLW* wk) {
     wk->wu.next_z = wk->wu.my_priority;
     wk->running_f = 0;
     wk->guard_flag = 3;
@@ -75,9 +75,9 @@ void setup_caught_process_flags(PLW *wk) {
     }
 }
 
-void Caught_00000(PLW * /* unused */, PLW * /* unused */) {}
+void Caught_00000(PLW* /* unused */, PLW* /* unused */) {}
 
-void Caught_01000(PLW *wk, PLW *emwk) {
+void Caught_01000(PLW* wk, PLW* emwk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void char_move_index(WORK * wk, s32 ix);
@@ -127,7 +127,7 @@ void Caught_01000(PLW *wk, PLW *emwk) {
     }
 }
 
-void Caught_02000(PLW *wk, PLW *emwk) {
+void Caught_02000(PLW* wk, PLW* emwk) {
 #if defined(TARGET_PS2)
     void set_char_move_init(WORK * wk, s16 koc, s32 index);
     void char_move_index(WORK * wk, s32 ix);
@@ -177,9 +177,9 @@ void Caught_02000(PLW *wk, PLW *emwk) {
     }
 }
 
-void Caught_03000(PLW * /* unused */, PLW * /* unused */) {}
+void Caught_03000(PLW* /* unused */, PLW* /* unused */) {}
 
-void caught_cg_type_check(PLW *wk, PLW *emwk) {
+void caught_cg_type_check(PLW* wk, PLW* emwk) {
     switch (wk->wu.cg_type) {
     case 2:
         wk->wu.hit_quake = wk->wu.dm_quake;
@@ -230,7 +230,7 @@ void caught_cg_type_check(PLW *wk, PLW *emwk) {
     }
 }
 
-s32 check_tsukamare_keizoku_check(PLW *wk, PLW *emwk) {
+s32 check_tsukamare_keizoku_check(PLW* wk, PLW* emwk) {
     if (emwk->tsukami_f == 0) {
         wk->wu.routine_no[1] = 1;
         wk->wu.routine_no[2] = 88;
@@ -249,9 +249,9 @@ s32 check_tsukamare_keizoku_check(PLW *wk, PLW *emwk) {
     return 0;
 }
 
-void scdmd_12000(PLW *wk) {
+void scdmd_12000(PLW* wk) {
 #if defined(TARGET_PS2)
-    s32 setup_accessories(PLW *, u32 data);
+    s32 setup_accessories(PLW*, u32 data);
     s32 effect_D9_init(PLW * wk, u32 data);
 #endif
 
@@ -268,24 +268,24 @@ void scdmd_12000(PLW *wk) {
     }
 }
 
-void scdmd_14000(PLW *wk) {
+void scdmd_14000(PLW* wk) {
     setup_butt_own_data(&wk->wu);
     wk->wu.mvxy.a[1].sp = wk->wu.mvxy.d[1].sp = wk->wu.mvxy.kop[1] = 0;
 }
 
-void scdmd_16000(PLW *wk) {
+void scdmd_16000(PLW* wk) {
     setup_butt_own_data(&wk->wu);
     cal_initial_speed_y(&wk->wu, _buttobi_time_table[wk->wu.char_index][wk->wu.dm_attlv], 0);
 }
 
-void scdmd_17000(PLW *wk) {
+void scdmd_17000(PLW* wk) {
     setup_butt_own_data(&wk->wu);
     cal_initial_speed_y(&wk->wu, _buttobi_time_table[wk->wu.char_index][wk->wu.dm_attlv], wk->wu.xyz[1].disp.pos);
 }
 
-void scdmd_18000(PLW *wk) {
+void scdmd_18000(PLW* wk) {
 #if defined(TARGET_PS2)
-    s32 setup_accessories(PLW *, u32 data);
+    s32 setup_accessories(PLW*, u32 data);
     s32 effect_D9_init(PLW * wk, u32 data);
 #endif
 
@@ -303,21 +303,21 @@ void scdmd_18000(PLW *wk) {
     }
 }
 
-void scdmd_19000(PLW *wk) {
+void scdmd_19000(PLW* wk) {
     setup_butt_own_data(&wk->wu);
     cal_initial_speed_y(&wk->wu, _buttobi_time_table[wk->wu.char_index][wk->wu.dm_attlv], 0);
 }
 
-void scdmd_20000(PLW *wk) {
+void scdmd_20000(PLW* wk) {
     setup_butt_own_data(&wk->wu);
 }
 
-void scdmd_21000(PLW *wk) {
+void scdmd_21000(PLW* wk) {
     setup_butt_own_data(&wk->wu);
     wk->wu.mvxy.a[1].sp = wk->wu.mvxy.d[1].sp = wk->wu.mvxy.kop[1] = 0;
 }
 
-void scdmd_23000(PLW *wk) {
+void scdmd_23000(PLW* wk) {
     if (wk->wu.xyz[1].disp.pos < 0) {
         wk->wu.xyz[1].cal = 0;
     }
@@ -325,41 +325,41 @@ void scdmd_23000(PLW *wk) {
     setup_butt_own_data(&wk->wu);
 }
 
-void scdmd_24000(PLW *wk) {
+void scdmd_24000(PLW* wk) {
     wk->wu.routine_no[2] = 0;
     wk->wu.routine_no[3] = 1;
 }
 
-void scdmd_25000(PLW *wk) {}
+void scdmd_25000(PLW* wk) {}
 
-void scdmd_26000(PLW *wk) {
+void scdmd_26000(PLW* wk) {
     setup_butt_own_data(&wk->wu);
 }
 
-void scdmd_27000(PLW *wk) {
+void scdmd_27000(PLW* wk) {
     setup_butt_own_data(&wk->wu);
     wk->wu.mvxy.a[1].sp = wk->wu.mvxy.d[1].sp = wk->wu.mvxy.kop[1] = 0;
 }
 
-void scdmd_28000(PLW *wk) {
+void scdmd_28000(PLW* wk) {
     setup_butt_own_data(&wk->wu);
     cal_initial_speed_y(&wk->wu, _buttobi_time_table[wk->wu.char_index][wk->wu.dm_attlv], wk->wu.xyz[1].disp.pos);
 }
 
-void scdmd_29000(PLW *wk) {}
+void scdmd_29000(PLW* wk) {}
 
-void scdmd_30000(PLW *wk) {
+void scdmd_30000(PLW* wk) {
     setup_butt_own_data(&wk->wu);
     cal_initial_speed_y(&wk->wu, _buttobi_time_table[wk->wu.char_index][wk->wu.dm_attlv], 0);
 }
 
-void scdmd_31000(PLW *wk) {
+void scdmd_31000(PLW* wk) {
     setup_butt_own_data(&wk->wu);
 }
 
-void (*const setup_cu_dm_init_data[20])(PLW *wk) = { scdmd_12000, scdmd_12000, scdmd_14000, scdmd_14000, scdmd_16000,
+void (*const setup_cu_dm_init_data[20])(PLW* wk) = { scdmd_12000, scdmd_12000, scdmd_14000, scdmd_14000, scdmd_16000,
                                                      scdmd_17000, scdmd_18000, scdmd_19000, scdmd_20000, scdmd_21000,
                                                      scdmd_21000, scdmd_23000, scdmd_24000, scdmd_25000, scdmd_26000,
                                                      scdmd_27000, scdmd_28000, scdmd_29000, scdmd_30000, scdmd_31000 };
 
-void (*const plpcu_lv_00[4])(PLW *, PLW *) = { Caught_00000, Caught_01000, Caught_02000, Caught_03000 };
+void (*const plpcu_lv_00[4])(PLW*, PLW*) = { Caught_00000, Caught_01000, Caught_02000, Caught_03000 };

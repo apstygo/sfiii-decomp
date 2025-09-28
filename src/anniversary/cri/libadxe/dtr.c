@@ -15,7 +15,7 @@
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
 // data
-Char8 *dtr_build = "\nDTR Ver.1.03 Build:Sep 18 2003 10:00:10\n\0\0\0\0";
+Char8* dtr_build = "\nDTR Ver.1.03 Build:Sep 18 2003 10:00:10\n\0\0\0\0";
 Sint32 dtr_init_cnt = 0;
 DTR_OBJ dtr_obj[DTR_MAX_OBJ] = { 0 };
 

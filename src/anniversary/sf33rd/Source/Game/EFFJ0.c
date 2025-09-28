@@ -5,11 +5,11 @@
 #include "sf33rd/Source/Game/aboutspr.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-void effect_J0_move(WORK_Other *ewk) {
-    WORK_Other *mwk = (WORK_Other *)ewk->my_master;
-    WORK_Other *cwk = (WORK_Other *)ewk->wu.target_adrs;
-    WORK *sub_w = (WORK *)cwk->wu.target_adrs;
-    ImageBuff *image_buff = (ImageBuff *)sub_w + 9;
+void effect_J0_move(WORK_Other* ewk) {
+    WORK_Other* mwk = (WORK_Other*)ewk->my_master;
+    WORK_Other* cwk = (WORK_Other*)ewk->wu.target_adrs;
+    WORK* sub_w = (WORK*)cwk->wu.target_adrs;
+    ImageBuff* image_buff = (ImageBuff*)sub_w + 9;
 
     switch (ewk->wu.routine_no[0]) {
     case 0:
@@ -58,15 +58,15 @@ void effect_J0_move(WORK_Other *ewk) {
     }
 }
 
-s32 effect_J0_init(WORK_Other *ek, WORK_Other *mk, s16 data) {
-    WORK_Other *ewk;
+s32 effect_J0_init(WORK_Other* ek, WORK_Other* mk, s16 data) {
+    WORK_Other* ewk;
     s16 ix;
 
     if ((ix = pull_effect_work(3)) == -1) {
         return -1;
     }
 
-    ewk = (WORK_Other *)frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     ewk->wu.be_flag = 1;
     ewk->wu.disp_flag = 2;
     ewk->wu.id = 190;
@@ -83,8 +83,8 @@ s32 effect_J0_init(WORK_Other *ek, WORK_Other *mk, s16 data) {
     ewk->wu.my_col_mode = mk->wu.my_col_mode;
     ewk->wu.my_col_code = mk->wu.my_col_code;
     ewk->wu.extra_col = mk->wu.current_colcd;
-    ewk->my_master = (u32 *)mk;
-    ewk->wu.target_adrs = (u32 *)ek;
+    ewk->my_master = (u32*)mk;
+    ewk->wu.target_adrs = (u32*)ek;
     ewk->master_id = mk->wu.id;
     ewk->master_player = mk->master_player;
     ewk->wu.dir_timer = ek->wu.dir_timer;

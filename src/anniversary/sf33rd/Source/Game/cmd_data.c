@@ -11,12 +11,12 @@ WAZA_WORK waza_work[2][56];
 // sbss
 
 s16 cmd_id;
-s16 *cmd_tbl_ptr;
+s16* cmd_tbl_ptr;
 u16 sw_work;
-T_PL_LVR *chk_pl;
+T_PL_LVR* chk_pl;
 s16 waza_type[2];
-WAZA_WORK *waza_ptr;
-PLW *cmd_pl;
+WAZA_WORK* waza_ptr;
+PLW* cmd_pl;
 
 // rodata
 
@@ -1110,16 +1110,16 @@ const_s16_arr p14_CMD[56] = { pc_cmd_00,  pc_cmd_01,  pc_cmd_02,  pc_cmd_03,  pc
 
 // sdata
 
-void *pl_cmd[20] = { p0_cmd, p1_cmd, p2_cmd, p3_cmd, p4_cmd, p5_cmd,  p6_cmd,  p7_cmd,  p8_cmd,  p9_cmd,
+void* pl_cmd[20] = { p0_cmd, p1_cmd, p2_cmd, p3_cmd, p4_cmd, p5_cmd,  p6_cmd,  p7_cmd,  p8_cmd,  p9_cmd,
                      pA_cmd, pB_cmd, pC_cmd, pD_cmd, pE_cmd, p10_cmd, p11_cmd, p12_cmd, p13_cmd, p14_cmd };
 
-void *pl_CMD[20] = { p0_CMD, p1_CMD, p2_CMD, p3_CMD, p4_CMD, p5_CMD,  p6_CMD,  p7_CMD,  p8_CMD,  p9_CMD,
+void* pl_CMD[20] = { p0_CMD, p1_CMD, p2_CMD, p3_CMD, p4_CMD, p5_CMD,  p6_CMD,  p7_CMD,  p8_CMD,  p9_CMD,
                      pA_CMD, pB_CMD, pC_CMD, pD_CMD, pE_CMD, p10_CMD, p11_CMD, p12_CMD, p13_CMD, p14_CMD };
 
-const_s16_arr *player_cmd[20] = { p0_cmd, p1_cmd, p2_cmd, p3_cmd, p4_cmd, p5_cmd,  p6_cmd,  p7_cmd,  p8_cmd,  p9_cmd,
+const_s16_arr* player_cmd[20] = { p0_cmd, p1_cmd, p2_cmd, p3_cmd, p4_cmd, p5_cmd,  p6_cmd,  p7_cmd,  p8_cmd,  p9_cmd,
                                   pA_cmd, pB_cmd, pC_cmd, pD_cmd, pE_cmd, p10_cmd, p11_cmd, p12_cmd, p13_cmd, p14_cmd };
 
-const_s16_arr *player_CMD[20] = { p0_CMD, p1_CMD, p2_CMD, p3_CMD, p4_CMD, p5_CMD,  p6_CMD,  p7_CMD,  p8_CMD,  p9_CMD,
+const_s16_arr* player_CMD[20] = { p0_CMD, p1_CMD, p2_CMD, p3_CMD, p4_CMD, p5_CMD,  p6_CMD,  p7_CMD,  p8_CMD,  p9_CMD,
                                   pA_CMD, pB_CMD, pC_CMD, pD_CMD, pE_CMD, p10_CMD, p11_CMD, p12_CMD, p13_CMD, p14_CMD };
 
 s16 lvr_chk_tbl[2][4] = { { 5, 6, 9, 10 }, { 1, 2, 4, 8 } };
