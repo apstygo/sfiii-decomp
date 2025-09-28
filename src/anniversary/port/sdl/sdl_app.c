@@ -10,7 +10,7 @@
 
 #include <SDL3/SDL.h>
 
-#define FRAME_TIMES_MAX 120
+#define FRAME_END_TIMES_MAX 120
 
 // We can't include cri_mw.h because it leads to conflicts
 // with SDL types
@@ -21,19 +21,19 @@ static const float display_target_ratio = 4.0 / 3.0;
 static const int window_default_width = 640;
 static const int window_default_height = (int)(window_default_width / display_target_ratio);
 static const int target_fps = 60;
-static const float target_frame_time_ns = 1000000000.0 / target_fps;
+static const Uint64 target_frame_time_ns = 1000000000.0 / target_fps;
 
 static SDL_Window* window = NULL;
 static SDL_Renderer* renderer = NULL;
 static SDL_Texture* screen_texture = NULL;
 
 static Uint64 frame_start = 0;
-static Uint64 frame_times[FRAME_TIMES_MAX];
-static int frame_times_index = 0;
-static Uint64 frame_time_remainder = 0;
+static Uint64 frame_deadline = 0;
+static Uint64 frame_end_times[FRAME_END_TIMES_MAX];
+static int frame_end_times_index = 0;
+static bool frame_end_times_filled = false;
 static double fps = 0;
 static Uint64 frame_counter = 0;
-static Uint64 display_refresh_period = 0;
 
 static int opening_index = -1;
 static bool should_save_screenshot = false;
@@ -69,11 +69,6 @@ int SDLApp_Init() {
         return 1;
     }
 
-    if (!SDL_SetRenderVSync(renderer, 1)) {
-        SDL_Log("Couldn't enable VSync: %s", SDL_GetError());
-        return 1;
-    }
-
     SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
     // Initialize message renderer
@@ -84,17 +79,6 @@ int SDLApp_Init() {
 
     // Initialize screen texture
     create_screen_texture();
-
-    // Query display
-    const SDL_DisplayID display_id = SDL_GetDisplayForWindow(window);
-    const SDL_DisplayMode* display_mode = SDL_GetCurrentDisplayMode(display_id);
-
-    if (display_mode->refresh_rate == 0) {
-        SDL_Log("Displays with unspecified refresh rate are not supported yet");
-        return 1;
-    }
-
-    display_refresh_period = 1000000000.0 / display_mode->refresh_rate;
 
     // Initialize pads
     SDLPad_Init();
@@ -156,6 +140,10 @@ int SDLApp_PollEvents() {
 void SDLApp_BeginFrame() {
     frame_start = SDL_GetTicksNS();
 
+    if (frame_deadline == 0) {
+        frame_deadline = frame_start + target_frame_time_ns;
+    }
+
     // Clear window
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_SetRenderTarget(renderer, NULL);
@@ -183,21 +171,31 @@ static SDL_FRect get_letterbox_rect(int win_w, int win_h) {
     return rect;
 }
 
-static void add_frame_time(Uint64 frame_time) {
-    frame_times[frame_times_index] = frame_time;
-    frame_times_index += 1;
-    frame_times_index %= FRAME_TIMES_MAX;
+static void note_frame_end_time() {
+    frame_end_times[frame_end_times_index] = SDL_GetTicksNS();
+    frame_end_times_index += 1;
+    frame_end_times_index %= FRAME_END_TIMES_MAX;
+
+    if (frame_end_times_index == 0) {
+        frame_end_times_filled = true;
+    }
 }
 
 static void update_fps() {
-    Uint64 total_frame_time = 0;
-
-    for (int i = 0; i < FRAME_TIMES_MAX; i++) {
-        total_frame_time += frame_times[i];
+    if (!frame_end_times_filled) {
+        return;
     }
 
-    double average_frame_time = (double)total_frame_time / FRAME_TIMES_MAX;
-    fps = 1000000000.0 / average_frame_time;
+    double total_frame_time_ms = 0;
+
+    for (int i = 0; i < FRAME_END_TIMES_MAX - 1; i++) {
+        const int cur = frame_end_times_index;
+        const int next = (cur + 1) % FRAME_END_TIMES_MAX;
+        total_frame_time_ms += (double)(frame_end_times[next] - frame_end_times[cur]) / 1000000;
+    }
+
+    double average_frame_time_ms = total_frame_time_ms / FRAME_END_TIMES_MAX;
+    fps = 1000 / average_frame_time_ms;
 }
 
 static void save_texture(SDL_Texture* texture, const char* filename) {
@@ -208,6 +206,13 @@ static void save_texture(SDL_Texture* texture, const char* filename) {
 }
 
 void SDLApp_EndFrame() {
+    // Run PS2 interrupts. Necessary for CRI to run its logic
+    begin_interrupt();
+    ADXPS2_ExecVint(0);
+    end_interrupt();
+
+    // Render
+
     SDLGameRenderer_RenderFrame();
 
     if (should_save_screenshot) {
@@ -235,37 +240,34 @@ void SDLApp_EndFrame() {
 
     // Render metrics
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+    SDL_SetRenderScale(renderer, 2, 2);
     SDL_RenderDebugTextFormat(renderer, 8, 8, "FPS: %f", fps);
     SDL_RenderDebugTextFormat(renderer, 8, 20, "Render tasks: %d", SDLGameRenderer_GetRenderTaskCount());
+    SDL_SetRenderScale(renderer, 1, 1);
 
     if (opening_index >= 0) {
         SDL_RenderDebugTextFormat(renderer, 8, 32, "Opening index: %d", opening_index);
     }
 
-    const Uint64 frame_time_budget = float_to_uint64_clamped(target_frame_time_ns + frame_time_remainder);
-    Uint64 frame_time = SDL_GetTicksNS() - frame_start;
+    SDL_RenderPresent(renderer);
 
-    if (frame_time < frame_time_budget) {
-        Uint64 sleep_time = (frame_time_budget - frame_time) / display_refresh_period * display_refresh_period;
+    const Uint64 current_time = SDL_GetTicksNS();
+
+    if (current_time < frame_deadline) {
+        const Uint64 sleep_time = frame_deadline - current_time;
         SDL_DelayNS(sleep_time);
     }
 
-    SDL_RenderPresent(renderer);
+    frame_deadline += target_frame_time_ns;
 
     // Measure
     frame_counter += 1;
-    frame_time = SDL_GetTicksNS() - frame_start;
-    frame_time_remainder = float_to_uint64_clamped(target_frame_time_ns - frame_time);
-    add_frame_time(frame_time);
+    note_frame_end_time();
     update_fps();
 
     // Cleanup
     SDLGameRenderer_EndFrame();
     should_save_screenshot = false;
-
-    begin_interrupt();
-    ADXPS2_ExecVint(0);
-    end_interrupt();
 }
 
 void SDLApp_SetOpeningIndex(int index) {
