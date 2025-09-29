@@ -107,7 +107,7 @@ s32 effect_45_init(u8 id, s16 sync_bg, s16 master_player) {
     return 0;
 }
 
-void Setup_Message(WORK_Other_CONN *ewk) {
+void Setup_Message(WORK_Other_CONN* ewk) {
     Message_Data[ewk->wu.dir_old].contents = Message_Data[ewk->wu.dir_old].request;
     Message_Data[ewk->wu.dir_old].kind_cnt = Message_Data[ewk->wu.dir_old].kind_req;
 
