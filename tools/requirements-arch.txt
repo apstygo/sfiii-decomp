@@ -2,7 +2,6 @@ binutils
 curl
 git
 make
-7zip
 python-pip
 python-virtualenv
 unzip
