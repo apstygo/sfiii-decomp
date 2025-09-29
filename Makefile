@@ -184,6 +184,7 @@ ifeq ($(PLATFORM),windows)
 	@find build -name '*.o' > $(BUILD_DIR)/objects.txt
 	@echo libco/build/liblibco.a >> $(BUILD_DIR)/objects.txt
 	clang @$(BUILD_DIR)/objects.txt $(CLANG_LINKER_FLAGS) -o $@
+	$(shell cp /mingw64/bin/SDL3.dll $(BUILD_DIR)/SDL3.dll)
 else
 	clang $(ALL_O_FILES) $(CLANG_LINKER_FLAGS) -o $@
 endif
