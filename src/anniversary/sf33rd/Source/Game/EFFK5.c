@@ -77,7 +77,14 @@ void effect_K5_move(WORK_Other* ewk) {
             return;
         }
 
-        mvj = (MVJ*)(ewk->wu.target_adrs + 9);
+        // This line is bullshit. Effect K5 needs some space for MVJ manipulation. Instead of allocating
+        // space for that somewhere else they decided to use some of the space dedicated to effect work.
+        // Why did they choose routine_no as the starting offset specifically? They did that because it's
+        // the first var of WORK that is not used for effect scheduling. If they chose an earlier address
+        // that would lead to crashes and infinite loops. Fun times!
+        // There's one more line just like this one down below.
+        mvj = (MVJ*)(((WORK*)ewk->wu.target_adrs)->routine_no);
+
         init_K5_work(&ewk->wu, mwk, mvj);
         ewk->wu.old_rno[1] = mwk->cg_hit_ix;
         get_table_adrs_K5(mwk);
@@ -98,7 +105,7 @@ void effect_K5_move(WORK_Other* ewk) {
         }
 
         get_master_table_address(&ewk->wu, mwk);
-        mvj = (MVJ*)(ewk->wu.target_adrs + 9);
+        mvj = (MVJ*)(((WORK*)ewk->wu.target_adrs)->routine_no);
 
         if (mwk->K5_exec_ok) {
             mwk->K5_exec_ok = 0;
