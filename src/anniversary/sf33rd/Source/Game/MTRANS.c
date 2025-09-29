@@ -357,7 +357,7 @@ s16 getObjectHeight(u16 cgnum) {
     }
 
     cgnum -= texgrpdat[i].num_of_1st;
-    trsbas = (u16*)((char*)texgrplds[i].trans_table + ((u32*)texgrplds[i].trans_table)[cgnum]);
+    trsbas = (u16*)((s8*)texgrplds[i].trans_table + ((u32*)texgrplds[i].trans_table)[cgnum]);
     count = *trsbas;
     trsbas++;
     trsptr = (TileMapEntry*)trsbas;

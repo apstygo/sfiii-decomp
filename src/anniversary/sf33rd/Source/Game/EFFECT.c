@@ -120,19 +120,19 @@ void effect_work_list_init(s16 lix, s16 iid) {
             push_effect_work(c_addr);
             curr_ix = next_ix;
         }
+
         exec_tm[lix] = 0;
-        return;
-    }
+    } else {
+        while (curr_ix != -1) {
+            c_addr = (WORK*)frw[curr_ix];
+            next_ix = c_addr->behind;
 
-    while (curr_ix != -1) {
-        c_addr = (WORK*)frw[curr_ix];
-        next_ix = c_addr->behind;
+            if (c_addr->id == iid) {
+                push_effect_work(c_addr);
+            }
 
-        if (c_addr->id == iid) {
-            push_effect_work(c_addr);
+            curr_ix = next_ix;
         }
-
-        curr_ix = next_ix;
     }
 }
 
@@ -168,6 +168,11 @@ s16 pull_effect_work(s16 index) {
     return qix;
 }
 
+/// @brief Searches for an effect.
+/// @param index Index of the list to perform search in.
+/// @param flag Set to `true` to search from the tail, `false` to search from the head.
+/// @param tid ID to search for.
+/// @return Index of the effect, or `-1` if it couldn't be found.
 s16 search_effect_index(s16 index, s16 flag, s16 tid) {
     WORK* c_addr;
     s16 aix;
