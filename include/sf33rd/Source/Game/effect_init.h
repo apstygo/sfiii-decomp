@@ -36,10 +36,9 @@ s32 effect_76_init(s16 dir_old);                        // Range: 0x1F2670 -> 0x
 s32 effect_95_init(s16 vital_new);                      // Range: 0x1FCFD0 -> 0x1FD218
 s32 effect_A2_init(s16 /* unused */);                   // Range: 0x1FF350 -> 0x1FF408
 s32 effect_A8_init(s16 id, u8 dir_old, s16 sync_bg, s16 master_player, s16 cursor_index, s16 char_ix,
-                   s16 pos_index);                                          // Range: 0x2012C0 -> 0x201540
-s32 effect_A9_init(s16 Char_Index, s16 Option, s16 Pos_Index, s16 Option2); // Range: 0x201A80 -> 0x201C78
-// DWARF says WIN_PL_NO is s8, but decompilation suggests it's at least s16
-s32 effect_B8_init(s16 WIN_PL_NO, s16 timer);                                     // Range: 0x205500 -> 0x2056B8
+                   s16 pos_index);                                                // Range: 0x2012C0 -> 0x201540
+s32 effect_A9_init(s16 Char_Index, s16 Option, s16 Pos_Index, s16 Option2);       // Range: 0x201A80 -> 0x201C78
+s32 effect_B8_init(s8 WIN_PL_NO, s16 timer);                                      // Range: 0x205500 -> 0x2056B8
 s32 effect_C4_init(s16 id, s16 letter_type, s16 cursor_index, s16 master_player); // Range: 0x209D40 -> 0x209F4C
 s32 effect_E1_init(s16 id, s16 Time, s16 /* unused */);
 s32 effect_F5_init(s16 /* unused */);
