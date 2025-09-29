@@ -116,8 +116,7 @@ s32 effect_05_init() {
             return -1;
         }
 
-        ewk = (WORK_Other*)((u8*)&frw + ix * 0x700);
-
+        ewk = (WORK_Other*)frw[ix];
         ewk->wu.be_flag = 1;
         ewk->wu.id = 5;
         ewk->wu.work_id = 0x10;

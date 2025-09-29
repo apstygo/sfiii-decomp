@@ -6,13 +6,13 @@
 
 #define EFFECT_MAX 128
 
-extern s16 exec_tm[8];           // size: 0x10, address: 0x578F80
-extern u32 frw[EFFECT_MAX][448]; // size: 0x38000, address: 0x5A9CA0
-extern s16 head_ix[8];           // size: 0x10, address: 0x578FA0
-extern s16 tail_ix[8];           // size: 0x10, address: 0x578F90
-extern s16 frwctr_min;           // size: 0x2, address: 0x578FB0
-extern s16 frwctr;               // size: 0x2, address: 0x578FB4
-extern s16 frwque[EFFECT_MAX];   // size: 0x100, address: 0x5A9BA0
+extern s16 exec_tm[8];
+extern uintptr_t frw[EFFECT_MAX][448];
+extern s16 head_ix[8];
+extern s16 tail_ix[8];
+extern s16 frwctr_min;
+extern s16 frwctr;
+extern s16 frwque[EFFECT_MAX];
 
 void move_effect_work(s16 index);
 void disp_effect_work();

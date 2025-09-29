@@ -748,8 +748,8 @@ typedef struct {
     s16 master_id;       // offset 0x38E, size 0x2
     s16 master_player;   // offset 0x390, size 0x2
     s16 master_priority; // offset 0x392, size 0x2
-    char look_up_flag;   // offset 0x394, size 0x1
-    char curr_ja;        // offset 0x395, size 0x1
+    s8 look_up_flag;     // offset 0x394, size 0x1
+    s8 curr_ja;          // offset 0x395, size 0x1
     u16 ja_disp_bit;     // offset 0x396, size 0x2
     u16 ja_color_bit;    // offset 0x398, size 0x2
     s16 fade_cja;        // offset 0x39A, size 0x2

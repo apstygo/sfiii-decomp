@@ -237,7 +237,7 @@ s32 effect_F6_init(u8 typenum) {
         return -1;
     }
 
-    ewk = (WORK_Other*)&frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     data_ptr = efff6_data_tbl00[typenum];
     ewk->wu.id = 0x9C;
     ewk->wu.be_flag = 1;

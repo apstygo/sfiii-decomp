@@ -13,7 +13,7 @@ s16 frwctr_min;
 s16 head_ix[8];
 s16 tail_ix[8];
 s16 exec_tm[8];
-u32 frw[EFFECT_MAX][448];
+uintptr_t frw[EFFECT_MAX][448];
 s16 frwque[EFFECT_MAX];
 
 void move_effect_work(s16 index) {
@@ -21,17 +21,19 @@ void move_effect_work(s16 index) {
     s16 curr_ix;
     s16 next_ix;
 
-    if (!Debug_w[0x28]) {
-        exec_tm[index] += 1;
+    if (Debug_w[0x28]) {
+        return;
+    }
 
-        for (curr_ix = head_ix[index]; curr_ix != -1; curr_ix = next_ix) {
-            c_addr = (WORK*)frw[curr_ix];
-            next_ix = c_addr->behind;
+    exec_tm[index] += 1;
 
-            if (c_addr->timing != exec_tm[index]) {
-                c_addr->timing = exec_tm[index];
-                effmovejptbl[c_addr->id](c_addr);
-            }
+    for (curr_ix = head_ix[index]; curr_ix != -1; curr_ix = next_ix) {
+        c_addr = (WORK*)frw[curr_ix];
+        next_ix = c_addr->behind;
+
+        if (c_addr->timing != exec_tm[index]) {
+            c_addr->timing = exec_tm[index];
+            effmovejptbl[c_addr->id](c_addr);
         }
     }
 }
@@ -44,25 +46,28 @@ void disp_effect_work() {
     s32 px;
     s32 py;
 
-    if (Debug_w[0x29] != 0) {
-        px = 7;
-        py = 15;
-        for (index = 0; index <= 7; index += 1) {
-            curr_ix = head_ix[index];
-            px += 5;
-            py = 14;
-            for (curr_ix; curr_ix != -1; curr_ix = next_ix) {
+    if (Debug_w[0x29] == 0) {
+        return;
+    }
 
-                if (py > 49) {
-                    py = 14;
-                    px += 3;
-                }
+    px = 7;
+    py = 15;
 
-                c_addr = (WORK*)frw[curr_ix];
-                next_ix = c_addr->behind;
-                flPrintL(px, py, "%c%d", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"[(c_addr->id / 10)], c_addr -> id % 10);
-                py++;
+    for (index = 0; index <= 7; index += 1) {
+        curr_ix = head_ix[index];
+        px += 5;
+        py = 14;
+
+        for (curr_ix; curr_ix != -1; curr_ix = next_ix) {
+            if (py > 49) {
+                py = 14;
+                px += 3;
             }
+
+            c_addr = (WORK*)frw[curr_ix];
+            next_ix = c_addr->behind;
+            flPrintL(px, py, "%c%d", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"[(c_addr->id / 10)], c_addr -> id % 10);
+            py++;
         }
     }
 }
@@ -205,6 +210,12 @@ void push_effect_work(WORK* wkhd) {
     lix = wkhd->listix;
     qix = wkhd->myself;
     c_addr = (WORK*)frw[qix];
+
+#if !defined(TARGET_PS2)
+    if (qix < 0 || qix >= 128) {
+        fatal_error("qix is out of range");
+    }
+#endif
 
     switch ((qix == head_ix[lix]) + (qix == tail_ix[lix]) * 2) {
     case 0:

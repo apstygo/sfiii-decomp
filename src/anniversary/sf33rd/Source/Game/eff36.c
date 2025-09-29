@@ -364,7 +364,7 @@ s32 effect_36_init(u8 typenum) {
         return -1;
     }
 
-    ewk = (WORK_Other*)&frw[ix];
+    ewk = (WORK_Other*)frw[ix];
     data_ptr = eff36_data_tbl[typenum];
     ewk->wu.id = 0x24;
     ewk->wu.be_flag = 1;
