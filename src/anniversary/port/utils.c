@@ -24,7 +24,11 @@ void fatal_error(const s8 *fmt, ...) __dead2 {
 
     va_end(args);
     void *buffer[BACKTRACE_MAX];
-#if defined(_WIN32)
+#if !defined(_WIN32)
+    int nptrs = backtrace(buffer, BACKTRACE_MAX);
+    fprintf(stderr, "Stack trace:\n");
+    backtrace_symbols_fd(buffer, nptrs, fileno(stderr));
+#else
     fprintf(stderr, "Stack trace:\n");
     HANDLE process = GetCurrentProcess();
     SymInitialize(process, NULL, TRUE);
@@ -43,10 +47,6 @@ void fatal_error(const s8 *fmt, ...) __dead2 {
     }
     free(symbol);
     SymCleanup(process);
-#else
-    int nptrs = backtrace(buffer, BACKTRACE_MAX);
-    fprintf(stderr, "Stack trace:\n");
-    backtrace_symbols_fd(buffer, nptrs, fileno(stderr));
 #endif
     abort();
 }
