@@ -243,11 +243,12 @@ void SDLApp_EndFrame() {
     SDL_SetRenderScale(renderer, 2, 2);
     SDL_RenderDebugTextFormat(renderer, 8, 8, "FPS: %f", fps);
     SDL_RenderDebugTextFormat(renderer, 8, 20, "Render tasks: %d", SDLGameRenderer_GetRenderTaskCount());
-    SDL_SetRenderScale(renderer, 1, 1);
-
+    
     if (opening_index >= 0) {
         SDL_RenderDebugTextFormat(renderer, 8, 32, "Opening index: %d", opening_index);
     }
+
+    SDL_SetRenderScale(renderer, 1, 1);
 
     SDL_RenderPresent(renderer);
 
