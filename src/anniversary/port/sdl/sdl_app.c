@@ -243,7 +243,7 @@ void SDLApp_EndFrame() {
     SDL_SetRenderScale(renderer, 2, 2);
     SDL_RenderDebugTextFormat(renderer, 8, 8, "FPS: %f", fps);
     SDL_RenderDebugTextFormat(renderer, 8, 20, "Render tasks: %d", SDLGameRenderer_GetRenderTaskCount());
-    
+
     if (opening_index >= 0) {
         SDL_RenderDebugTextFormat(renderer, 8, 32, "Opening index: %d", opening_index);
     }
@@ -257,9 +257,10 @@ void SDLApp_EndFrame() {
     if (current_time < frame_deadline) {
         const Uint64 sleep_time = frame_deadline - current_time;
         SDL_DelayNS(sleep_time);
+        frame_deadline += target_frame_time_ns;
+    } else {
+        frame_deadline = current_time + target_frame_time_ns;
     }
-
-    frame_deadline += target_frame_time_ns;
 
     // Measure
     frame_counter += 1;
