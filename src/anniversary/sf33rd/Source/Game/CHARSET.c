@@ -2584,7 +2584,7 @@ void check_cgd_patdat(WORK* wk) {
         if (wk->cg_rival == 0) {
             wk->curr_rca = NULL;
         } else {
-            wk->curr_rca = wk->rival_catch_tbl + (wk->cg_rival - 20 + wk[1].before);
+            wk->curr_rca = wk->rival_catch_tbl + (wk->cg_rival - 20 + ((PLW*)wk)->tsukami_num);
         }
 
         wk->cg_olc = wk->olc_ix_table[wk->cg_olc_ix];
