@@ -264,6 +264,26 @@ void SDLGameRenderer_EndFrame() {
     clear_render_tasks();
 }
 
+void SDLGameRenderer_UnlockPalette(unsigned int ph) {
+    const int palette_handle = ph;
+    if ((palette_handle > 0) && (palette_handle < FL_PALETTE_MAX)) {
+        const FLTexture* fl_palette = &flPalette[palette_handle - 1];
+
+        SDLGameRenderer_DestroyPalette(palette_handle);
+        SDLGameRenderer_CreatePalette(ph << 16);
+    }
+}
+
+void SDLGameRenderer_UnlockTexture(unsigned int th) {
+    const int texture_handle = th;
+    if ((texture_handle > 0) && (texture_handle < FL_TEXTURE_MAX)) {
+        const FLTexture* fl_texture = &flTexture[texture_handle - 1];
+
+        SDLGameRenderer_DestroyTexture(texture_handle);
+        SDLGameRenderer_CreateTexture(th);
+    }
+}
+
 void SDLGameRenderer_CreateTexture(unsigned int th) {
     const int texture_index = LO_16_BITS(th) - 1;
     const FLTexture* fl_texture = &flTexture[texture_index];
@@ -416,34 +436,6 @@ void SDLGameRenderer_SetTexture(unsigned int th) {
     }
 
     push_texture(texture);
-}
-
-void SDLGameRenderer_ReloadTexture(unsigned int th) {
-    const int texture_handle = LO_16_BITS(th);
-    const int palette_handle = HI_16_BITS(th);
-
-    // Kludge to reduce texture re-creation caused by scfont_put
-    if (((texture_handle == 2) || (texture_handle == 4)) && ((palette_handle == 805) || (palette_handle == 806))) {
-        return;
-    }
-
-    if ((texture_handle > 0) && (texture_handle < FL_TEXTURE_MAX)) {
-        const FLTexture* fl_texture = &flTexture[texture_handle - 1];
-
-        if (!fl_texture->vram_on_flag) {
-            SDLGameRenderer_DestroyTexture(texture_handle);
-            SDLGameRenderer_CreateTexture(th);
-        }
-    }
-
-    if ((palette_handle > 0) && (palette_handle < FL_PALETTE_MAX)) {
-        const FLTexture* fl_palette = &flPalette[palette_handle - 1];
-
-        if (!fl_palette->vram_on_flag) {
-            SDLGameRenderer_DestroyPalette(palette_handle);
-            SDLGameRenderer_CreatePalette(th);
-        }
-    }
 }
 
 static void draw_quad(const SDLGameRenderer_Vertex* vertices, bool textured) {

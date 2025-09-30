@@ -1058,7 +1058,14 @@ s32 flUnlockTexture(u32 th) {
         return 0;
     }
 
+  
+#if defined(TARGET_PS2)
     return flPS2UnlockTexture(lpflTexture);
+#else
+    int ret = flPS2UnlockTexture(lpflTexture);
+    SDLGameRenderer_UnlockTexture(th);
+    return ret;
+#endif
 }
 
 s32 flUnlockPalette(u32 th) {
@@ -1072,7 +1079,13 @@ s32 flUnlockPalette(u32 th) {
         return 0;
     }
 
+#if defined(TARGET_PS2)
     return flPS2UnlockTexture(lpflPalette);
+#else
+    int ret = flPS2UnlockTexture(lpflPalette);
+    SDLGameRenderer_UnlockPalette(th);
+    return ret;
+#endif
 }
 
 s32 flPS2UnlockTexture(FLTexture* lpflTexture) {
@@ -1352,8 +1365,6 @@ s32 flPS2ReloadTexture(s32 count, u32* texlist) {
                 flDebugRTNum += 1;
             }
         }
-#else
-        SDLGameRenderer_ReloadTexture(th);
 #endif
     }
 
