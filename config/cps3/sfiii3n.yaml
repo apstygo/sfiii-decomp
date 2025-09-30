@@ -18,6 +18,16 @@ segments:
       - start: 0x400
         type: c
         file: game
+      # work_init_zero
+      - start: 0x0DBB32
+        type: c
+        file: game
+      - start: 0x0DBB6C
+        type: data
+        file: game
+      - start: 0x0dcd1a
+        type: c
+        file: game
       - start: 0x13bdfa
         type: data
         file: game
