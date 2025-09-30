@@ -20,23 +20,18 @@ def main():
     for func in caplogo_funcs:
         file_path = func_map.func_to_file[func]
         module = file_path.split("/")[0]
-        is_zlib = "zlib" in file_path
         func_size = func_map.func_to_size[func]
-        status = ""
 
-        if module == "sdk" or is_zlib:
+        if module != "cri":
             continue
 
+        cri_total += func_size
+
         if func in func_map.decompiled_funcs:
-            status = "✅"
+            cri_done += func_size
+            continue
 
-            if module == "cri":
-                cri_done += func_size
-
-        if module == "cri":
-            cri_total += func_size
-
-        function_table_rows.append((func, file_path, module, status))
+        function_table_rows.append((func, file_path))
 
     progress_table_headers = ("Module", "Progress")
     progress_table_rows = (
@@ -47,7 +42,7 @@ def main():
     text += tabulate(progress_table_rows, headers=progress_table_headers, tablefmt="github")
     text += "\n\n"
 
-    function_table_headers = ("Function", "File", "Module", "Is decompiled")
+    function_table_headers = ("Function", "File")
     text += tabulate(function_table_rows, headers=function_table_headers, tablefmt="github")
     text += "\n"
 
