@@ -142,6 +142,11 @@ split:
 	@mkdir -p $(dir $(LINKER_SCRIPT))
 	$(GENERATE_LCF) $(LINKER_SCRIPT)
 
+split_cps3:
+	cargo build --release --manifest-path ./tools/saturn-splitter/rust-dis/Cargo.toml
+	python3 ./tools/combine-and-decrypt.py ./sfiii3n/ ./decrypted.bin
+	cargo run --release --manifest-path ./tools/saturn-splitter/rust-dis/Cargo.toml ./config/cps3/sfiii3n.yaml
+
 clean: ##@ clean extracted files, assets, and build artifacts
 	git clean -fdx $(ASSETS_DIR)/
 	git clean -fdx $(ASM_DIR)/
