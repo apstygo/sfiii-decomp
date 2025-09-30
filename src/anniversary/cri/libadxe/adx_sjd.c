@@ -18,7 +18,6 @@ ADXSJD_OBJ adxsjd_obj[ADXSJD_MAX_OBJ] = { 0 };
 
 // forward decls
 void* adxsjd_get_wr(ADXSJD sjd, ptrdiff_t* arg1, Sint32* arg2, Sint32* arg3);
-Sint32 ADXSJD_GetBlkSmpl(ADXSJD sjd);
 
 void ADXSJD_Init() {
     ADXB_Init();
@@ -520,13 +519,31 @@ Sint32 ADXSJD_GetNumLoop(ADXSJD sjd) {
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetLpInsNsmpl);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetLpStartPos);
+#else
+Sint32 ADXSJD_GetLpStartPos(ADXSJD sjd) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetLpStartOfst);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetLpEndPos);
+#else
+Sint32 ADXSJD_GetLpEndPos(ADXSJD sjd) {
+    not_implemented(__func__);
+}
+#endif
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetLpEndOfst);
+#else
+Sint32 ADXSJD_GetLpEndOfst(ADXSJD sjd) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetAinfLen);
 
@@ -552,7 +569,13 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetHdrLen
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetFmtBps);
 
+#if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetSpsdInfo);
+#else
+Sint32 ADXSJD_GetSpsdInfo(ADXSJD sjd) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_TakeSnapshot);
 

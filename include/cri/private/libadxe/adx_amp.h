@@ -7,5 +7,6 @@
 void ADXAMP_Start(ADXAMP);
 void ADXAMP_Destroy(ADXAMP amp);
 void ADXAMP_Stop(ADXAMP amp);
+void ADXAMP_SetSfreq(ADXAMP amp, Sint32 sfreq);
 
 #endif // ADX_AMP_H
