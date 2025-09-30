@@ -136,8 +136,8 @@ ADXB ADXB_Create(Sint32 arg0, void* arg1, Sint32 arg2, Sint32 arg3) {
     adxb->unk84 = adxb;
     adxb->unkC8 = 0;
     adxb->unkDC = 0;
-    adxb->unkDE = -0x80; // pan auto
-    adxb->unkE0 = -0x80;
+    adxb->unkDE[0] = -0x80; // pan auto
+    adxb->unkDE[1] = -0x80;
     memset(&adxb->unkCC, 0, sizeof(ADX_UNK));
     return adxb;
 }
@@ -384,7 +384,9 @@ Sint16 ADXB_GetDefOutVol(ADXB adxb) {
     return adxb->unkDC;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetDefPan);
+Sint16 ADXB_GetDefPan(ADXB adxb, Sint32 arg1) {
+    return adxb->unkDE[arg1];
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetDataId);
 
