@@ -2,23 +2,26 @@
 #define SDL_PAD_H
 
 #include <SDL3/SDL.h>
+
 #include <stdbool.h>
 
 typedef struct SDLPad_ButtonState {
+    bool south;
+    bool east;
+    bool west;
+    bool north;
+    bool back;
+    bool start;
+    bool left_stick;
+    bool right_stick;
+    bool left_shoulder;
+    bool right_shoulder;
+    Sint16 left_trigger;
+    Sint16 right_trigger;
     bool dpad_up;
     bool dpad_down;
     bool dpad_left;
     bool dpad_right;
-    bool start;
-    bool back;
-    bool low_punch;
-    bool medium_punch;
-    bool hard_punch;
-    bool low_kick;
-    bool medium_kick;
-    bool hard_kick;
-    Sint16 left_trigger;
-    Sint16 right_trigger;
 } SDLPad_ButtonState;
 
 void SDLPad_Init();

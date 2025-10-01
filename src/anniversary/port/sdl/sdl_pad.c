@@ -127,12 +127,12 @@ void SDLPad_HandleGamepadButtonEvent(SDL_GamepadButtonEvent* event) {
 
     if (mapping->start == button) state->start = event->down;
     if (mapping->select == button) state->back = event->down;
-    if (mapping->low_punch == button) state->low_punch = event->down;
-    if (mapping->medium_punch == button) state->medium_punch = event->down;
-    if (mapping->hard_punch == button) state->hard_punch = event->down;
-    if (mapping->low_kick == button) state->low_kick = event->down;
-    if (mapping->medium_kick == button) state->medium_kick = event->down;
-    if (mapping->hard_kick == button) state->hard_kick = event->down;
+    if (mapping->low_punch == button) state->west = event->down;
+    if (mapping->medium_punch == button) state->north = event->down;
+    if (mapping->hard_punch == button) state->left_shoulder = event->down;
+    if (mapping->low_kick == button) state->south = event->down;
+    if (mapping->medium_kick == button) state->east = event->down;
+    if (mapping->hard_kick == button) state->right_shoulder = event->down;
 }
 
 void SDLPad_HandleGamepadAxisMotionEvent(SDL_GamepadAxisEvent* event) {
@@ -177,14 +177,14 @@ void SDLPad_HandleGamepadAxisMotionEvent(SDL_GamepadAxisEvent* event) {
     case SDL_GAMEPAD_AXIS_LEFT_TRIGGER:
         state->left_trigger = event->value;
         if (mapping->hard_punch == GAMEPAD_AXIS_LEFT_TRIGGER) {
-            state->hard_punch = event->value > dead_zone;
+            state->left_shoulder = event->value > dead_zone;
         }
         break;
 
     case SDL_GAMEPAD_AXIS_RIGHT_TRIGGER:
         state->right_trigger = event->value;
         if (mapping->hard_kick == GAMEPAD_AXIS_RIGHT_TRIGGER) {
-            state->hard_kick = event->value > dead_zone;
+            state->right_shoulder = event->value > dead_zone;
         }
         break;
     }
@@ -219,12 +219,12 @@ void SDLPad_HandleKeyboardEvent(SDL_KeyboardEvent* event) {
     if (key == mapping->right) state->dpad_right = event->down;
     if (key == mapping->start) state->start = event->down;
     if (key == mapping->select) state->back = event->down;
-    if (key == mapping->low_punch) state->low_punch = event->down;
-    if (key == mapping->medium_punch) state->medium_punch = event->down;
-    if (key == mapping->hard_punch) state->hard_punch = event->down;
-    if (key == mapping->low_kick) state->low_kick = event->down;
-    if (key == mapping->medium_kick) state->medium_kick = event->down;
-    if (key == mapping->hard_kick) state->hard_kick = event->down;
+    if (key == mapping->low_punch) state->west = event->down;
+    if (key == mapping->medium_punch) state->north = event->down;
+    if (key == mapping->hard_punch) state->left_shoulder = event->down;
+    if (key == mapping->low_kick) state->south = event->down;
+    if (key == mapping->medium_kick) state->east = event->down;
+    if (key == mapping->hard_kick) state->right_shoulder = event->down;
 }
 
 bool SDLPad_IsGamepadConnected(int id) {
