@@ -153,9 +153,9 @@ static int compare_render_tasks(const RenderTask* a, const RenderTask* b) {
 #define clut_shuf(x) (((x) & ~0x18) | ((((x) & 0x08) << 1) | (((x) & 0x10) >> 1)))
 
 static void read_rgba32_color(Uint32 pixel, SDL_Color* color) {
-    color->r = pixel & 0xFF;
+    color->b = pixel & 0xFF;
     color->g = (pixel >> 8) & 0xFF;
-    color->b = (pixel >> 16) & 0xFF;
+    color->r = (pixel >> 16) & 0xFF;
     color->a = (pixel >> 24) & 0xFF;
 }
 
