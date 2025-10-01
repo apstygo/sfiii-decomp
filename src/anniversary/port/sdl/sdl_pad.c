@@ -185,7 +185,36 @@ void SDLPad_HandleGamepadAxisMotionEvent(SDL_GamepadAxisEvent* event) {
 
     SDLPad_ButtonState* state = &button_state[index];
 
+    // TODO: Make this configurable
+    const Sint16 dead_zone = 8000;
+
     switch (event->axis) {
+    case SDL_GAMEPAD_AXIS_LEFTX:
+        if (event->value < -dead_zone) {
+            state->dpad_left = true;
+            state->dpad_right = false;
+        } else if (event->value > dead_zone) {
+            state->dpad_left = false;
+            state->dpad_right = true;
+        } else {
+            state->dpad_left = false;
+            state->dpad_right = false;
+        }
+        break;
+
+    case SDL_GAMEPAD_AXIS_LEFTY:
+        if (event->value < -dead_zone) {
+            state->dpad_up = true;
+            state->dpad_down = false;
+        } else if (event->value > dead_zone) {
+            state->dpad_up = false;
+            state->dpad_down = true;
+        } else {
+            state->dpad_up = false;
+            state->dpad_down = false;
+        }
+        break;
+
     case SDL_GAMEPAD_AXIS_LEFT_TRIGGER:
         state->left_trigger = event->value;
         break;
