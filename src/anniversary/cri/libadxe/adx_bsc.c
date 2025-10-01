@@ -576,16 +576,55 @@ void ADXB_CopyExtraBufSte(void* arg0, Sint32 arg1, Sint32 arg2, Sint32 arg3) {
     memcpy2(arg0 + (arg2 * 2), arg0 + ((arg2 + arg1) * 2), arg3);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_CopyExtraBufMono);
-
 #if defined(TARGET_PS2)
-void ADXB_EndDecode(ADXB adxb);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_EndDecode);
+INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_CopyExtraBufMono);
 #else
-void ADXB_EndDecode(ADXB adxb) {
+void ADXB_CopyExtraBufMono(void* arg0, Sint32 arg1, Sint32 arg2, Sint32 arg3) {
     not_implemented(__func__);
 }
 #endif
+
+void ADXB_EndDecode(ADXB adxb) {
+    Sint32 s1, s2, sp0, s3, s0, _s0, _s1, v0, v1, temp_div;
+    Sint32 s7;
+    ADXB_UNK* s5 = &adxb->unk48;
+    void* s8 = s5->unk14;
+    Sint32 s4;
+    Sint32 tmp1, tmp3;
+
+    s3 = s5->unkC;
+    s1 = s5->unk10;
+    s4 = s5->unk20;
+    sp0 = adxb->unk44;
+    s7 = adxb->unk40;
+
+    temp_div = s5->unk28 + s1 - 1;
+    s0 = temp_div % s1;
+    _s0 = s1 - s0 - 1;
+    s2 = temp_div / s1;
+
+    v0 = ADXPD_GetNumBlk(adxb->adxpd);
+
+    tmp1 = v0 * s1;
+    s1 = tmp1;
+    s2 = s2 * s5->unk8;
+    tmp3 = v0 * s3;
+    s3 = tmp3;
+    s1 = s1 / s5->unk8;
+    adxb->dec_num_sample = (v0 < s2) ? s1 : s1 - _s0;
+    s4 += adxb->dec_num_sample;
+    adxb->dec_data_len = s3;
+
+    if (s4 >= s7) {
+        s4 -= s7;
+
+        if ((s5->unk8 == 2) || (adxb->unkE4 != 0)) {
+            ADXB_CopyExtraBufSte(s8, s7, sp0, s4);
+        } else {
+            ADXB_CopyExtraBufMono(s8, s7, sp0, s4);
+        }
+    }
+}
 
 void ADXB_ExecOneAdx(ADXB adxb) {
     ADXPD adxpd;
