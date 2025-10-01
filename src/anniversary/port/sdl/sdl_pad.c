@@ -1,4 +1,5 @@
 #include "port/sdl/sdl_pad.h"
+#include "port/sdl/sdl_config.h"
 
 #include <SDL3/SDL.h>
 
@@ -56,7 +57,7 @@ static void handle_gamepad_added_event(SDL_GamepadDeviceEvent* event) {
         return;
     }
 
-    const SDL_Gamepad* gamepad = SDL_OpenGamepad(event->which);
+    SDL_Gamepad* gamepad = SDL_OpenGamepad(event->which);
     if (gamepad == NULL) {
         return;
     }
@@ -116,64 +117,22 @@ void SDLPad_HandleGamepadButtonEvent(SDL_GamepadButtonEvent* event) {
     }
 
     SDLPad_ButtonState* state = &button_state[index];
+    const SDLConfig_GamepadMapping* mapping = &SDLConfig_Get()->player[index].gamepad;
+    int button = event->button;
 
-    switch (event->button) {
-    case SDL_GAMEPAD_BUTTON_SOUTH:
-        state->south = event->down;
-        break;
+    if (button == SDL_GAMEPAD_BUTTON_DPAD_UP) state->dpad_up = event->down;
+    if (button == SDL_GAMEPAD_BUTTON_DPAD_DOWN) state->dpad_down = event->down;
+    if (button == SDL_GAMEPAD_BUTTON_DPAD_LEFT) state->dpad_left = event->down;
+    if (button == SDL_GAMEPAD_BUTTON_DPAD_RIGHT) state->dpad_right = event->down;
 
-    case SDL_GAMEPAD_BUTTON_EAST:
-        state->east = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_WEST:
-        state->west = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_NORTH:
-        state->north = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_BACK:
-        state->back = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_START:
-        state->start = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_LEFT_STICK:
-        state->left_stick = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_RIGHT_STICK:
-        state->right_stick = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_LEFT_SHOULDER:
-        state->left_shoulder = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_RIGHT_SHOULDER:
-        state->right_shoulder = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_DPAD_UP:
-        state->dpad_up = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_DPAD_DOWN:
-        state->dpad_down = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_DPAD_LEFT:
-        state->dpad_left = event->down;
-        break;
-
-    case SDL_GAMEPAD_BUTTON_DPAD_RIGHT:
-        state->dpad_right = event->down;
-        break;
-    }
+    if (mapping->start == button) state->start = event->down;
+    if (mapping->select == button) state->back = event->down;
+    if (mapping->low_punch == button) state->west = event->down;
+    if (mapping->medium_punch == button) state->north = event->down;
+    if (mapping->hard_punch == button) state->left_shoulder = event->down;
+    if (mapping->low_kick == button) state->south = event->down;
+    if (mapping->medium_kick == button) state->east = event->down;
+    if (mapping->hard_kick == button) state->right_shoulder = event->down;
 }
 
 void SDLPad_HandleGamepadAxisMotionEvent(SDL_GamepadAxisEvent* event) {
@@ -184,8 +143,8 @@ void SDLPad_HandleGamepadAxisMotionEvent(SDL_GamepadAxisEvent* event) {
     }
 
     SDLPad_ButtonState* state = &button_state[index];
+    const SDLConfig_GamepadMapping* mapping = &SDLConfig_Get()->player[index].gamepad;
 
-    // TODO: Make this configurable
     const Sint16 dead_zone = 8000;
 
     switch (event->axis) {
@@ -217,10 +176,16 @@ void SDLPad_HandleGamepadAxisMotionEvent(SDL_GamepadAxisEvent* event) {
 
     case SDL_GAMEPAD_AXIS_LEFT_TRIGGER:
         state->left_trigger = event->value;
+        if (mapping->hard_punch == GAMEPAD_AXIS_LEFT_TRIGGER) {
+            state->left_shoulder = event->value > dead_zone;
+        }
         break;
 
     case SDL_GAMEPAD_AXIS_RIGHT_TRIGGER:
         state->right_trigger = event->value;
+        if (mapping->hard_kick == GAMEPAD_AXIS_RIGHT_TRIGGER) {
+            state->right_shoulder = event->value > dead_zone;
+        }
         break;
     }
 }
@@ -245,72 +210,21 @@ void SDLPad_HandleKeyboardEvent(SDL_KeyboardEvent* event) {
     }
 
     SDLPad_ButtonState* state = &button_state[target_index];
+    const SDLConfig_KeyboardMapping* mapping = &SDLConfig_Get()->player[target_index].keyboard;
+    SDL_Keycode key = event->key;
 
-    switch (event->key) {
-    case SDLK_W:
-        state->dpad_up = event->down;
-        break;
-
-    case SDLK_A:
-        state->dpad_left = event->down;
-        break;
-
-    case SDLK_S:
-        state->dpad_down = event->down;
-        break;
-
-    case SDLK_D:
-        state->dpad_right = event->down;
-        break;
-
-    case SDLK_I:
-        state->north = event->down;
-        break;
-
-    case SDLK_J:
-        state->west = event->down;
-        break;
-
-    case SDLK_K:
-        state->south = event->down;
-        break;
-
-    case SDLK_L:
-        state->east = event->down;
-        break;
-
-    case SDLK_Q:
-        state->left_shoulder = event->down;
-        break;
-
-    case SDLK_E:
-        state->right_shoulder = event->down;
-        break;
-
-    case SDLK_1:
-        state->left_trigger = event->down ? SDL_MAX_SINT16 : 0;
-        break;
-
-    case SDLK_3:
-        state->right_trigger = event->down ? SDL_MAX_SINT16 : 0;
-        break;
-
-    case SDLK_2:
-        state->left_stick = event->down;
-        break;
-
-    case SDLK_4:
-        state->right_stick = event->down;
-        break;
-
-    case SDLK_BACKSPACE:
-        state->back = event->down;
-        break;
-
-    case SDLK_RETURN:
-        state->start = event->down;
-        break;
-    }
+    if (key == mapping->up) state->dpad_up = event->down;
+    if (key == mapping->down) state->dpad_down = event->down;
+    if (key == mapping->left) state->dpad_left = event->down;
+    if (key == mapping->right) state->dpad_right = event->down;
+    if (key == mapping->start) state->start = event->down;
+    if (key == mapping->select) state->back = event->down;
+    if (key == mapping->low_punch) state->west = event->down;
+    if (key == mapping->medium_punch) state->north = event->down;
+    if (key == mapping->hard_punch) state->left_shoulder = event->down;
+    if (key == mapping->low_kick) state->south = event->down;
+    if (key == mapping->medium_kick) state->east = event->down;
+    if (key == mapping->hard_kick) state->right_shoulder = event->down;
 }
 
 bool SDLPad_IsGamepadConnected(int id) {

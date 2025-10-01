@@ -1,7 +1,9 @@
 #include "port/sdl/sdl_app.h"
 #include "common.h"
+#include "ini.h"
 #include "port/float_clamp.h"
 #include "port/sdk_threads.h"
+#include "port/sdl/sdl_config.h"
 #include "port/sdl/sdl_game_renderer.h"
 #include "port/sdl/sdl_message_renderer.h"
 #include "port/sdl/sdl_pad.h"
@@ -37,6 +39,217 @@ static Uint64 frame_counter = 0;
 
 static int opening_index = -1;
 static bool should_save_screenshot = false;
+
+static SDLConfig_Configuration configuration;
+
+static SDL_Keycode keycode_from_string(const char* s) {
+    return SDL_GetKeyFromName(s);
+}
+
+static SDLConfig_GamepadButton gamepad_button_from_string(const char* s) {
+    if (strcmp(s, "south") == 0) return GAMEPAD_BUTTON_SOUTH;
+    if (strcmp(s, "east") == 0) return GAMEPAD_BUTTON_EAST;
+    if (strcmp(s, "west") == 0) return GAMEPAD_BUTTON_WEST;
+    if (strcmp(s, "north") == 0) return GAMEPAD_BUTTON_NORTH;
+    if (strcmp(s, "back") == 0) return GAMEPAD_BUTTON_BACK;
+    if (strcmp(s, "start") == 0) return GAMEPAD_BUTTON_START;
+    if (strcmp(s, "left_stick") == 0) return GAMEPAD_BUTTON_LEFT_STICK;
+    if (strcmp(s, "right_stick") == 0) return GAMEPAD_BUTTON_RIGHT_STICK;
+    if (strcmp(s, "left_shoulder") == 0) return GAMEPAD_BUTTON_LEFT_SHOULDER;
+    if (strcmp(s, "right_shoulder") == 0) return GAMEPAD_BUTTON_RIGHT_SHOULDER;
+    if (strcmp(s, "dpad_up") == 0) return GAMEPAD_BUTTON_DPAD_UP;
+    if (strcmp(s, "dpad_down") == 0) return GAMEPAD_BUTTON_DPAD_DOWN;
+    if (strcmp(s, "dpad_left") == 0) return GAMEPAD_BUTTON_DPAD_LEFT;
+    if (strcmp(s, "dpad_right") == 0) return GAMEPAD_BUTTON_DPAD_RIGHT;
+    if (strcmp(s, "left_trigger") == 0) return GAMEPAD_AXIS_LEFT_TRIGGER;
+    if (strcmp(s, "right_trigger") == 0) return GAMEPAD_AXIS_RIGHT_TRIGGER;
+    return GAMEPAD_BUTTON_INVALID;
+}
+
+const char* string_from_keycode(SDL_Keycode keycode) {
+    return SDL_GetKeyName(keycode);
+}
+
+const char* string_from_gamepad_button(SDLConfig_GamepadButton button) {
+    switch (button) {
+        case GAMEPAD_BUTTON_SOUTH: return "south";
+        case GAMEPAD_BUTTON_EAST: return "east";
+        case GAMEPAD_BUTTON_WEST: return "west";
+        case GAMEPAD_BUTTON_NORTH: return "north";
+        case GAMEPAD_BUTTON_BACK: return "back";
+        case GAMEPAD_BUTTON_START: return "start";
+        case GAMEPAD_BUTTON_LEFT_STICK: return "left_stick";
+        case GAMEPAD_BUTTON_RIGHT_STICK: return "right_stick";
+        case GAMEPAD_BUTTON_LEFT_SHOULDER: return "left_shoulder";
+        case GAMEPAD_BUTTON_RIGHT_SHOULDER: return "right_shoulder";
+        case GAMEPAD_BUTTON_DPAD_UP: return "dpad_up";
+        case GAMEPAD_BUTTON_DPAD_DOWN: return "dpad_down";
+        case GAMEPAD_BUTTON_DPAD_LEFT: return "dpad_left";
+        case GAMEPAD_BUTTON_DPAD_RIGHT: return "dpad_right";
+        case GAMEPAD_AXIS_LEFT_TRIGGER: return "left_trigger";
+        case GAMEPAD_AXIS_RIGHT_TRIGGER: return "right_trigger";
+        default: return "invalid";
+    }
+}
+
+void SDLConfig_Save(const SDLConfig_Configuration* config, const char* path) {
+    FILE* file = fopen(path, "w");
+    if (!file) {
+        SDL_Log("Couldn't open %s for writing.", path);
+        return;
+    }
+
+    fprintf(file, "[keyboard_p1]\n");
+    fprintf(file, "up = %s\n", string_from_keycode(config->player[0].keyboard.up));
+    fprintf(file, "down = %s\n", string_from_keycode(config->player[0].keyboard.down));
+    fprintf(file, "left = %s\n", string_from_keycode(config->player[0].keyboard.left));
+    fprintf(file, "right = %s\n", string_from_keycode(config->player[0].keyboard.right));
+    fprintf(file, "low_punch = %s\n", string_from_keycode(config->player[0].keyboard.low_punch));
+    fprintf(file, "medium_punch = %s\n", string_from_keycode(config->player[0].keyboard.medium_punch));
+    fprintf(file, "hard_punch = %s\n", string_from_keycode(config->player[0].keyboard.hard_punch));
+    fprintf(file, "low_kick = %s\n", string_from_keycode(config->player[0].keyboard.low_kick));
+    fprintf(file, "medium_kick = %s\n", string_from_keycode(config->player[0].keyboard.medium_kick));
+    fprintf(file, "hard_kick = %s\n", string_from_keycode(config->player[0].keyboard.hard_kick));
+    fprintf(file, "start = %s\n", string_from_keycode(config->player[0].keyboard.start));
+    fprintf(file, "select = %s\n", string_from_keycode(config->player[0].keyboard.select));
+    fprintf(file, "\n");
+
+    fprintf(file, "[keyboard_p2]\n");
+    fprintf(file, "up = %s\n", string_from_keycode(config->player[1].keyboard.up));
+    fprintf(file, "down = %s\n", string_from_keycode(config->player[1].keyboard.down));
+    fprintf(file, "left = %s\n", string_from_keycode(config->player[1].keyboard.left));
+    fprintf(file, "right = %s\n", string_from_keycode(config->player[1].keyboard.right));
+    fprintf(file, "low_punch = %s\n", string_from_keycode(config->player[1].keyboard.low_punch));
+    fprintf(file, "medium_punch = %s\n", string_from_keycode(config->player[1].keyboard.medium_punch));
+    fprintf(file, "hard_punch = %s\n", string_from_keycode(config->player[1].keyboard.hard_punch));
+    fprintf(file, "low_kick = %s\n", string_from_keycode(config->player[1].keyboard.low_kick));
+    fprintf(file, "medium_kick = %s\n", string_from_keycode(config->player[1].keyboard.medium_kick));
+    fprintf(file, "hard_kick = %s\n", string_from_keycode(config->player[1].keyboard.hard_kick));
+    fprintf(file, "start = %s\n", string_from_keycode(config->player[1].keyboard.start));
+    fprintf(file, "select = %s\n", string_from_keycode(config->player[1].keyboard.select));
+    fprintf(file, "\n");
+
+    fprintf(file, "[gamepad_p1]\n");
+    fprintf(file, "low_punch = %s\n", string_from_gamepad_button(config->player[0].gamepad.low_punch));
+    fprintf(file, "medium_punch = %s\n", string_from_gamepad_button(config->player[0].gamepad.medium_punch));
+    fprintf(file, "hard_punch = %s\n", string_from_gamepad_button(config->player[0].gamepad.hard_punch));
+    fprintf(file, "low_kick = %s\n", string_from_gamepad_button(config->player[0].gamepad.low_kick));
+    fprintf(file, "medium_kick = %s\n", string_from_gamepad_button(config->player[0].gamepad.medium_kick));
+    fprintf(file, "hard_kick = %s\n", string_from_gamepad_button(config->player[0].gamepad.hard_kick));
+    fprintf(file, "start = %s\n", string_from_gamepad_button(config->player[0].gamepad.start));
+    fprintf(file, "select = %s\n", string_from_gamepad_button(config->player[0].gamepad.select));
+    fprintf(file, "\n");
+
+    fprintf(file, "[gamepad_p2]\n");
+    fprintf(file, "low_punch = %s\n", string_from_gamepad_button(config->player[1].gamepad.low_punch));
+    fprintf(file, "medium_punch = %s\n", string_from_gamepad_button(config->player[1].gamepad.medium_punch));
+    fprintf(file, "hard_punch = %s\n", string_from_gamepad_button(config->player[1].gamepad.hard_punch));
+    fprintf(file, "low_kick = %s\n", string_from_gamepad_button(config->player[1].gamepad.low_kick));
+    fprintf(file, "medium_kick = %s\n", string_from_gamepad_button(config->player[1].gamepad.medium_kick));
+    fprintf(file, "hard_kick = %s\n", string_from_gamepad_button(config->player[1].gamepad.hard_kick));
+    fprintf(file, "start = %s\n", string_from_gamepad_button(config->player[1].gamepad.start));
+    fprintf(file, "select = %s\n", string_from_gamepad_button(config->player[1].gamepad.select));
+
+    fclose(file);
+}
+
+void SDLConfig_Init(SDLConfig_Configuration* config) {
+    // Player 1 Keyboard
+    config->player[0].keyboard.up = SDLK_W;
+    config->player[0].keyboard.down = SDLK_S;
+    config->player[0].keyboard.left = SDLK_A;
+    config->player[0].keyboard.right = SDLK_D;
+    config->player[0].keyboard.low_punch = SDLK_J;
+    config->player[0].keyboard.medium_punch = SDLK_K;
+    config->player[0].keyboard.hard_punch = SDLK_L;
+    config->player[0].keyboard.low_kick = SDLK_U;
+    config->player[0].keyboard.medium_kick = SDLK_I;
+    config->player[0].keyboard.hard_kick = SDLK_O;
+    config->player[0].keyboard.start = SDLK_RETURN;
+    config->player[0].keyboard.select = SDLK_BACKSPACE;
+
+    // Player 2 Keyboard
+    config->player[1].keyboard.up = SDLK_UP;
+    config->player[1].keyboard.down = SDLK_DOWN;
+    config->player[1].keyboard.left = SDLK_LEFT;
+    config->player[1].keyboard.right = SDLK_RIGHT;
+    config->player[1].keyboard.low_punch = SDLK_KP_4;
+    config->player[1].keyboard.medium_punch = SDLK_KP_5;
+    config->player[1].keyboard.hard_punch = SDLK_KP_6;
+    config->player[1].keyboard.low_kick = SDLK_KP_1;
+    config->player[1].keyboard.medium_kick = SDLK_KP_2;
+    config->player[1].keyboard.hard_kick = SDLK_KP_3;
+    config->player[1].keyboard.start = SDLK_KP_ENTER;
+    config->player[1].keyboard.select = SDLK_KP_0;
+
+    // Player 1 Gamepad
+    config->player[0].gamepad.low_punch = GAMEPAD_BUTTON_WEST;
+    config->player[0].gamepad.medium_punch = GAMEPAD_BUTTON_NORTH;
+    config->player[0].gamepad.hard_punch = GAMEPAD_BUTTON_LEFT_SHOULDER;
+    config->player[0].gamepad.low_kick = GAMEPAD_BUTTON_SOUTH;
+    config->player[0].gamepad.medium_kick = GAMEPAD_BUTTON_EAST;
+    config->player[0].gamepad.hard_kick = GAMEPAD_BUTTON_RIGHT_SHOULDER;
+    config->player[0].gamepad.start = GAMEPAD_BUTTON_START;
+    config->player[0].gamepad.select = GAMEPAD_BUTTON_BACK;
+
+    // Player 2 Gamepad
+    config->player[1].gamepad.low_punch = GAMEPAD_BUTTON_WEST;
+    config->player[1].gamepad.medium_punch = GAMEPAD_BUTTON_NORTH;
+    config->player[1].gamepad.hard_punch = GAMEPAD_BUTTON_LEFT_SHOULDER;
+    config->player[1].gamepad.low_kick = GAMEPAD_BUTTON_SOUTH;
+    config->player[1].gamepad.medium_kick = GAMEPAD_BUTTON_EAST;
+    config->player[1].gamepad.hard_kick = GAMEPAD_BUTTON_RIGHT_SHOULDER;
+    config->player[1].gamepad.start = GAMEPAD_BUTTON_START;
+    config->player[1].gamepad.select = GAMEPAD_BUTTON_BACK;
+}
+
+static int config_ini_handler(void* user, const char* section, const char* name, const char* value) {
+    SDLConfig_Configuration* pconfig = (SDLConfig_Configuration*)user;
+
+    #define MATCH(n) strcmp(name, n) == 0
+
+    int player_idx = -1;
+    if (strcmp(section, "keyboard_p1") == 0) player_idx = 0;
+    else if (strcmp(section, "keyboard_p2") == 0) player_idx = 1;
+    else if (strcmp(section, "gamepad_p1") == 0) player_idx = 0;
+    else if (strcmp(section, "gamepad_p2") == 0) player_idx = 1;
+
+    if (player_idx != -1) {
+        if (strstr(section, "keyboard")) {
+            SDLConfig_KeyboardMapping* kbd = &pconfig->player[player_idx].keyboard;
+            if (MATCH("up")) kbd->up = keycode_from_string(value);
+            else if (MATCH("down")) kbd->down = keycode_from_string(value);
+            else if (MATCH("left")) kbd->left = keycode_from_string(value);
+            else if (MATCH("right")) kbd->right = keycode_from_string(value);
+            else if (MATCH("low_punch")) kbd->low_punch = keycode_from_string(value);
+            else if (MATCH("medium_punch")) kbd->medium_punch = keycode_from_string(value);
+            else if (MATCH("hard_punch")) kbd->hard_punch = keycode_from_string(value);
+            else if (MATCH("low_kick")) kbd->low_kick = keycode_from_string(value);
+            else if (MATCH("medium_kick")) kbd->medium_kick = keycode_from_string(value);
+            else if (MATCH("hard_kick")) kbd->hard_kick = keycode_from_string(value);
+            else if (MATCH("start")) kbd->start = keycode_from_string(value);
+            else if (MATCH("select")) kbd->select = keycode_from_string(value);
+            else return 0;
+        } else if (strstr(section, "gamepad")) {
+            SDLConfig_GamepadMapping* pad = &pconfig->player[player_idx].gamepad;
+            if (MATCH("low_punch")) pad->low_punch = gamepad_button_from_string(value);
+            else if (MATCH("medium_punch")) pad->medium_punch = gamepad_button_from_string(value);
+            else if (MATCH("hard_punch")) pad->hard_punch = gamepad_button_from_string(value);
+            else if (MATCH("low_kick")) pad->low_kick = gamepad_button_from_string(value);
+            else if (MATCH("medium_kick")) pad->medium_kick = gamepad_button_from_string(value);
+            else if (MATCH("hard_kick")) pad->hard_kick = gamepad_button_from_string(value);
+            else if (MATCH("start")) pad->start = gamepad_button_from_string(value);
+            else if (MATCH("select")) pad->select = gamepad_button_from_string(value);
+            else return 0;
+        }
+    }
+
+    return 1;
+}
+
+const SDLConfig_Configuration* SDLConfig_Get() {
+    return &configuration;
+}
 
 static void create_screen_texture() {
     if (screen_texture != NULL) {
@@ -82,6 +295,13 @@ int SDLApp_Init() {
 
     // Initialize pads
     SDLPad_Init();
+
+    // Load config
+    SDLConfig_Init(&configuration);
+    if (ini_parse("config/anniversary/config.ini", config_ini_handler, &configuration) < 0) {
+        SDL_Log("Couldn't load config.ini, saving defaults");
+        SDLConfig_Save(&configuration, "config/anniversary/config.ini");
+    }
 
     return 0;
 }
