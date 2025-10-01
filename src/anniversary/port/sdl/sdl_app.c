@@ -11,6 +11,7 @@
 #include "sf33rd/Source/Game/main.h"
 
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_filesystem.h>
 
 #define FRAME_END_TIMES_MAX 120
 
@@ -297,10 +298,15 @@ int SDLApp_Init() {
     SDLPad_Init();
 
     // Load config
+    char* base_path = SDL_GetBasePath();
+    char config_path[1024];
+    snprintf(config_path, sizeof(config_path), "%s%s", base_path, "config.ini");
+    SDL_free(base_path);
+
     SDLConfig_Init(&configuration);
-    if (ini_parse("config/anniversary/config.ini", config_ini_handler, &configuration) < 0) {
+    if (ini_parse(config_path, config_ini_handler, &configuration) < 0) {
         SDL_Log("Couldn't load config.ini, saving defaults");
-        SDLConfig_Save(&configuration, "config/anniversary/config.ini");
+        SDLConfig_Save(&configuration, config_path);
     }
 
     return 0;
