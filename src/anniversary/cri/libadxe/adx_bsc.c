@@ -511,11 +511,6 @@ void ADXB_EvokeExpandPl2(ADXB adxb, Sint32 arg1) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-void ADXB_EvokeDecode(ADXB adxb);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_EvokeDecode);
-#else
-// TODO: This function needs thorough testing
 void ADXB_EvokeDecode(ADXB adxb) {
     ADXB_UNK* unk = &adxb->unk48;
     Sint32 temp_a1_2;
@@ -525,35 +520,35 @@ void ADXB_EvokeDecode(ADXB adxb) {
     Sint32 temp_t0;
     Sint32 temp_t2;
     Sint32 temp_t7;
-    Sint32 temp_v1;
-    Sint32 temp_a3;
     Sint32 var_t3;
-    Sint32 temp_hi;
+    Sint32 var_t1;
+    Sint32 var_t4;
+    Sint32 var_a3;
 
     temp_lo = unk->unk4 / unk->unk8;
     temp_t7 = unk->unk18;
+    var_t1 = unk->unk10;
     temp_t0 = unk->unk20;
+    var_a3 = unk->unk28;
 
-    temp_v1 = (unk->unk28 + unk->unk10) - 1;
-    temp_lo_2 = temp_v1 / unk->unk10;
-    temp_hi = temp_v1 % unk->unk10;
+    temp_lo_2 = (var_a3 + var_t1 - 1) / var_t1;
+    var_t3 = (temp_t7 - temp_t0 + var_t1 - 1) / var_t1;
+    temp_a1_2 = var_t1 - (var_a3 + var_t1 - 1) % var_t1 - 1;
 
-    temp_a3 = (unk->unk28 < unk->unk24);
-
-    var_t3 = (((temp_t7 - temp_t0) + unk->unk10) - 1) / unk->unk10;
-    temp_a1_2 = (unk->unk10 - temp_hi) - 1;
+    var_t4 = unk->unk24;
+    temp_lo_3 = var_t3 * var_t1;
 
     if (temp_lo_2 < var_t3) {
-        temp_t0 += var_t3 * unk->unk10;
-
-        if ((temp_t0 - temp_a1_2) < temp_t7) {
+        if ((temp_t0 + temp_lo_3 - temp_a1_2) < temp_t7) {
             var_t3 += 1;
         }
     }
 
-    temp_lo_3 = ((temp_a3 * temp_a1_2) + unk->unk24) / unk->unk10;
+    if (var_a3 < var_t4) {
+        var_t4 += temp_a1_2;
+    }
 
-    temp_t2 = MIN(temp_lo_3, temp_lo);
+    temp_t2 = MIN(var_t4 / var_t1, temp_lo);
     temp_t2 = MIN(temp_lo_2, temp_t2);
     temp_t2 = MIN(var_t3, temp_t2);
 
@@ -565,7 +560,6 @@ void ADXB_EvokeDecode(ADXB adxb) {
         ADXB_EvokeExpandMono(adxb, temp_t2);
     }
 }
-#endif
 
 void memcpy2(void* dest, const void* src, Sint32 count) {
     Uint16* _dest = dest;
