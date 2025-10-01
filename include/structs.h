@@ -1341,7 +1341,7 @@ struct _SAVE_W {
 
 typedef struct {
     // total size: 0x8
-    u8*** msgAdr; // offset 0x0, size 0x4
+    s8*** msgAdr; // offset 0x0, size 0x4
     s8* msgNum;   // offset 0x4, size 0x4
 } MessageTable;
 

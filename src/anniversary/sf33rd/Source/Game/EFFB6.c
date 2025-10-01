@@ -390,7 +390,7 @@ void get_message_conn_data(WORK_Other_CONN* ewk, s16 kind, s16 pl, s16 msg) {
         return;
     }
 
-    msghead = mess_tables[kind][pl]->msgAdr[msg];
+    msghead = (u8**)mess_tables[kind][pl]->msgAdr[msg];
     msgline = mess_tables[kind][pl]->msgNum[msg];
 
     for (i = 0; i < msgline; i++) {
