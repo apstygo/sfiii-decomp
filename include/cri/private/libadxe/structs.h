@@ -246,7 +246,7 @@ typedef struct {
     PS2PSJ psj[2];
     DTR dtr[2];
     SJ sjo[2];
-    intptr_t unk20;
+    void* unk20;
     Sint32 unk24;
     Sint32 unk28;
     Sint32 unk2C;
@@ -292,9 +292,9 @@ typedef struct {
     void* unk18;
     Sint32 unk1C;
     RcvCbf rcvcbf;
-    Sint32 unk24;
+    void* rcvcbf_obj;
     SndCbf sndcbf;
-    Sint32 unk2C;
+    void* sndcbf_obj;
     sceSifDmaData dma_data;
     Sint32 unk40;
 } DTX_OBJ;
