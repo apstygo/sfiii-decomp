@@ -44,25 +44,32 @@ static int input_source_index_from_joystick_id(SDL_JoystickID id) {
 }
 
 static void handle_gamepad_added_event(SDL_GamepadDeviceEvent* event) {
-    if (connected_input_sources >= INPUT_SOURCES_MAX) {
+    int target_index = -1;
+    for (int i = 0; i < INPUT_SOURCES_MAX; i++) {
+        if (input_sources[i].type != SDLPAD_INPUT_GAMEPAD) {
+            target_index = i;
+            break;
+        }
+    }
+
+    if (target_index == -1) {
         return;
     }
 
     const SDL_Gamepad* gamepad = SDL_OpenGamepad(event->which);
-
-    for (int i = 0; i < INPUT_SOURCES_MAX; i++) {
-        SDLPad_InputSource* input_source = &input_sources[i];
-
-        if (input_source->type != SDLPAD_INPUT_NONE) {
-            continue;
-        }
-
-        input_source->type = SDLPAD_INPUT_GAMEPAD;
-        input_source->gamepad.gamepad = gamepad;
-        break;
+    if (gamepad == NULL) {
+        return;
     }
 
-    connected_input_sources += 1;
+    SDLPad_InputSource* input_source = &input_sources[target_index];
+
+    if (input_source->type == SDLPAD_INPUT_NONE) {
+        connected_input_sources++;
+    }
+
+    input_source->type = SDLPAD_INPUT_GAMEPAD;
+    input_source->gamepad.gamepad = gamepad;
+    memset(&button_state[target_index], 0, sizeof(SDLPad_ButtonState));
 }
 
 static void handle_gamepad_removed_event(SDL_GamepadDeviceEvent* event) {
@@ -80,8 +87,9 @@ static void handle_gamepad_removed_event(SDL_GamepadDeviceEvent* event) {
 }
 
 void SDLPad_Init() {
-    input_sources[0].type = SDLPAD_INPUT_KEYBOARD;
-    connected_input_sources += 1;
+    memset(input_sources, 0, sizeof(input_sources));
+    memset(button_state, 0, sizeof(button_state));
+    connected_input_sources = 0;
 }
 
 void SDLPad_HandleGamepadDeviceEvent(SDL_GamepadDeviceEvent* event) {
@@ -189,7 +197,25 @@ void SDLPad_HandleGamepadAxisMotionEvent(SDL_GamepadAxisEvent* event) {
 }
 
 void SDLPad_HandleKeyboardEvent(SDL_KeyboardEvent* event) {
-    SDLPad_ButtonState* state = &button_state[0];
+    int target_index = -1;
+    for (int i = 0; i < INPUT_SOURCES_MAX; i++) {
+        if (input_sources[i].type != SDLPAD_INPUT_GAMEPAD) {
+            target_index = i;
+            break;
+        }
+    }
+
+    if (target_index == -1) {
+        return;
+    }
+
+    SDLPad_InputSource* input_source = &input_sources[target_index];
+    if (input_source->type == SDLPAD_INPUT_NONE) {
+        input_source->type = SDLPAD_INPUT_KEYBOARD;
+        connected_input_sources++;
+    }
+
+    SDLPad_ButtonState* state = &button_state[target_index];
 
     switch (event->key) {
     case SDLK_W:
