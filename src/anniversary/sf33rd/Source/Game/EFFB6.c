@@ -299,9 +299,7 @@ const s8* src_zen_kan7[128] = {
     "\xE7\x80", "\x93\x79"
 };
 
-#if defined(TARGET_PS2)
 MessageTable** mess_tables[6] = { pl_mes_tbl, pl_tlk_tbl, pl_end_tbl, msgSysDirTbl, msgExtraTbl, msgMenuTbl };
-#endif
 
 const s8** han_adrs[3] = { src_han_kata, src_han_alpha, src_han_alpha2 };
 
@@ -359,7 +357,6 @@ void effect_B6_move(WORK_Other_CONN* ewk) {
     }
 }
 
-#if defined(TARGET_PS2)
 void get_message_conn_data(WORK_Other_CONN* ewk, s16 kind, s16 pl, s16 msg) {
     u8** msghead;
     u8* msgtbl;
@@ -424,11 +421,6 @@ void get_message_conn_data(WORK_Other_CONN* ewk, s16 kind, s16 pl, s16 msg) {
 
     ewk->num_of_conn = mjcnt;
 }
-#else
-void get_message_conn_data(WORK_Other_CONN* ewk, s16 kind, s16 pl, s16 msg) {
-    not_implemented(__func__);
-}
-#endif
 
 s32 msgConvertObjNum(u8* moji, s32* spc, s32* hz, u16* num, u8 hzSel) {
     u8 tmpstr[4];
