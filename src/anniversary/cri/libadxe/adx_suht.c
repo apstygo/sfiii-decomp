@@ -3,7 +3,9 @@
 #include <cri/ee/adx_ps2.h>
 #include <cri/ee/cri_xpt.h>
 #include <cri/private/libadxe/adx_errs.h>
+#include <cri/private/libadxe/cri_cvfs.h>
 #include <cri/private/libadxe/htci.h>
+#include <cri/private/libadxe/htci_sub.h>
 
 void adxps2_err_host(void* obj, int ecode) {
     ADXERR_CallErrFunc1(ecode);
