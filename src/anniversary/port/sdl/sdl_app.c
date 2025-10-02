@@ -218,30 +218,34 @@ static int config_ini_handler(void* user, const char* section, const char* name,
     if (player_idx != -1) {
         if (strstr(section, "keyboard")) {
             SDLConfig_KeyboardMapping* kbd = &pconfig->player[player_idx].keyboard;
-            if (MATCH("up")) kbd->up = keycode_from_string(value);
-            else if (MATCH("down")) kbd->down = keycode_from_string(value);
-            else if (MATCH("left")) kbd->left = keycode_from_string(value);
-            else if (MATCH("right")) kbd->right = keycode_from_string(value);
-            else if (MATCH("low_punch")) kbd->low_punch = keycode_from_string(value);
-            else if (MATCH("medium_punch")) kbd->medium_punch = keycode_from_string(value);
-            else if (MATCH("hard_punch")) kbd->hard_punch = keycode_from_string(value);
-            else if (MATCH("low_kick")) kbd->low_kick = keycode_from_string(value);
-            else if (MATCH("medium_kick")) kbd->medium_kick = keycode_from_string(value);
-            else if (MATCH("hard_kick")) kbd->hard_kick = keycode_from_string(value);
-            else if (MATCH("start")) kbd->start = keycode_from_string(value);
-            else if (MATCH("select")) kbd->select = keycode_from_string(value);
-            else return 0;
+            SDL_Keycode key = keycode_from_string(value);
+            if (key != SDLK_UNKNOWN) {
+                if (MATCH("up")) kbd->up = key;
+                else if (MATCH("down")) kbd->down = key;
+                else if (MATCH("left")) kbd->left = key;
+                else if (MATCH("right")) kbd->right = key;
+                else if (MATCH("low_punch")) kbd->low_punch = key;
+                else if (MATCH("medium_punch")) kbd->medium_punch = key;
+                else if (MATCH("hard_punch")) kbd->hard_punch = key;
+                else if (MATCH("low_kick")) kbd->low_kick = key;
+                else if (MATCH("medium_kick")) kbd->medium_kick = key;
+                else if (MATCH("hard_kick")) kbd->hard_kick = key;
+                else if (MATCH("start")) kbd->start = key;
+                else if (MATCH("select")) kbd->select = key;
+            }
         } else if (strstr(section, "gamepad")) {
             SDLConfig_GamepadMapping* pad = &pconfig->player[player_idx].gamepad;
-            if (MATCH("low_punch")) pad->low_punch = gamepad_button_from_string(value);
-            else if (MATCH("medium_punch")) pad->medium_punch = gamepad_button_from_string(value);
-            else if (MATCH("hard_punch")) pad->hard_punch = gamepad_button_from_string(value);
-            else if (MATCH("low_kick")) pad->low_kick = gamepad_button_from_string(value);
-            else if (MATCH("medium_kick")) pad->medium_kick = gamepad_button_from_string(value);
-            else if (MATCH("hard_kick")) pad->hard_kick = gamepad_button_from_string(value);
-            else if (MATCH("start")) pad->start = gamepad_button_from_string(value);
-            else if (MATCH("select")) pad->select = gamepad_button_from_string(value);
-            else return 0;
+            SDLConfig_GamepadButton button = gamepad_button_from_string(value);
+            if (button != GAMEPAD_BUTTON_INVALID) {
+                if (MATCH("low_punch")) pad->low_punch = button;
+                else if (MATCH("medium_punch")) pad->medium_punch = button;
+                else if (MATCH("hard_punch")) pad->hard_punch = button;
+                else if (MATCH("low_kick")) pad->low_kick = button;
+                else if (MATCH("medium_kick")) pad->medium_kick = button;
+                else if (MATCH("hard_kick")) pad->hard_kick = button;
+                else if (MATCH("start")) pad->start = button;
+                else if (MATCH("select")) pad->select = button;
+            }
         }
     }
 
@@ -304,8 +308,8 @@ int SDLApp_Init() {
     SDL_free(base_path);
 
     SDLConfig_Init(&configuration);
-    if (ini_parse(config_path, config_ini_handler, &configuration) < 0) {
-        SDL_Log("Couldn't load config.ini, saving defaults");
+    if (ini_parse(config_path, config_ini_handler, &configuration) != 0) {
+        SDL_Log("Couldn't load config.ini or it contains errors, saving defaults");
         SDLConfig_Save(&configuration, config_path);
     }
 
