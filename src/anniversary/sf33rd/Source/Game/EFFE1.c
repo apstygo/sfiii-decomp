@@ -28,7 +28,6 @@ void effect_E1_move(WORK_Other* ewk) {
     sort_push_request4(&ewk->wu);
 }
 
-#if defined(TARGET_PS2)
 s32 effect_E1_init(s16 id, s16 Time, s16 /* unused */) {
     WORK_Other* ewk;
     s16 ix;
@@ -67,8 +66,3 @@ s32 effect_E1_init(s16 id, s16 Time, s16 /* unused */) {
 
     return 0;
 }
-#else
-s32 effect_E1_init(s16 id, s16 Time, s16 /* unused */) {
-    not_implemented(__func__);
-}
-#endif
