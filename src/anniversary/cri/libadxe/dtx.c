@@ -115,8 +115,8 @@ DTX DTX_Create(Sint32 id, void* eewk, void* iopwk, Sint32 wklen) {
     InvalidDCache(dtx->unkC, dtx->unkC + dtx->unk10 + 0x3F);
     dtx->rcvcbf = dtx_def_rcvcbf;
     dtx->sndcbf = dtx_def_sndcbf;
-    dtx->unk24 = 0;
-    dtx->unk2C = 0;
+    dtx->rcvcbf_obj = NULL;
+    dtx->sndcbf_obj = NULL;
     dtx->unk2 = 1;
     dtx->unk0 = 1;
 
@@ -134,14 +134,14 @@ void DTX_Destroy(DTX dtx) {
     memset(dtx, 0, sizeof(DTX_OBJ));
 }
 
-void DTX_SetRcvCbf(DTX dtx, void (*func)(), void* object) {
+void DTX_SetRcvCbf(DTX dtx, RcvCbf func, void* object) {
     dtx->rcvcbf = func;
-    dtx->unk24 = object;
+    dtx->rcvcbf_obj = object;
 }
 
-void DTX_SetSndCbf(DTX dtx, void (*func)(), void* object) {
+void DTX_SetSndCbf(DTX dtx, SndCbf func, void* object) {
     dtx->sndcbf = func;
-    dtx->unk2C = object;
+    dtx->sndcbf_obj = object;
 }
 
 void DTX_ExecHndl(DTX dtx) {
@@ -150,13 +150,13 @@ void DTX_ExecHndl(DTX dtx) {
 
     if ((dtx->unk1 == 1) && (dtx->unk8 < dtx->unk14[0xF])) {
         InvalidDCache(dtx->unkC, dtx->unkC + dtx->unk10 - 1);
-        dtx->rcvcbf(dtx->unk24, dtx->unkC, dtx->unk10);
+        dtx->rcvcbf(dtx->rcvcbf_obj, dtx->unkC, dtx->unk10);
         dtx->unk8 = dtx->unk14[0xF];
         dtx->unk1 = 0;
     }
 
     if (dtx->unk1 == 0 && dtx->unk2 == 1 && dtx_send_sw == 1) {
-        dtx->sndcbf(dtx->unk2C, dtx->unkC, dtx->unk10);
+        dtx->sndcbf(dtx->sndcbf_obj, dtx->unkC, dtx->unk10);
         dtx->unk8 += 1;
         dtx->unk14[0xF] = dtx->unk8;
         SyncDCache(dtx->unkC, dtx->unkC + dtx->unk10 - 1);

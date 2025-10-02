@@ -349,6 +349,7 @@ void dvCiSetRdMode(Sint32 trycount, Sint32 spindlctrl, Sint32 datapattern, Sint3
 #if defined(TARGET_PS2)
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci_sub", dvCiSetRootDir);
 #else
+// Matches on decomp.me but breaks here
 void dvCiSetRootDir(const Char8* dir) {
     Char8 last_char;
 
