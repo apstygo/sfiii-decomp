@@ -250,7 +250,7 @@ void ps2rna_release_psj(PS2PSJ psj) {
     psj->used = 0;
 };
 
-void ps2rna_rcvcbf(Sint32 arg0, Sint32* arg1, Sint32 len) {
+void ps2rna_rcvcbf(void* object, void* arg1, Sint32 arg2) {
     Sint32 i;
     Sint32 ticks;
 
@@ -258,22 +258,171 @@ void ps2rna_rcvcbf(Sint32 arg0, Sint32* arg1, Sint32 len) {
         while (1) {}
     }
 
-    ticks = arg1[0];
+    ticks = ((Sint32*)arg1)[0];
 
     for (i = 0; i < ticks; i++) {
         // Do nothing
     }
 }
 
-void ps2rna_sndcbf();
+typedef struct {
+    Sint16 unk0;
+    void* unk4;
+    Sint32 unk8;
+    Sint32 unkC;
+} PS2RNA_UNK_Item;
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/ps2_rna", ps2rna_sndcbf);
-#else
-void ps2rna_sndcbf() {
-    not_implemented(__func__);
+typedef struct {
+    Sint32 count;
+    char pad4[0xC];
+    PS2RNA_UNK_Item items[0];
+} PS2RNA_UNK_Header;
+
+void ps2rna_sndcbf(void* object, void* arg1, Sint32 arg2) {
+    ADXRNA rna;
+
+    Sint32 i;
+    Sint32 j;
+    Sint32 k;
+
+    PS2RNA_UNK_Header* head = (PS2RNA_UNK_Header*)arg1;
+    PS2RNA_UNK_Item* items = head->items;
+    PS2RNA_UNK_Item* item;
+
+    j = 0;
+
+    for (i = 0; i < 16; i++) {
+        rna = &ps2rna_obj[i];
+
+        if (rna->used != 1) {
+            continue;
+        }
+
+        if (j == 0x80) {
+            goto end;
+        }
+
+        if (ps2rna_ee_allpause != ps2rna_iop_allpause) {
+            items[j].unk0 = 0xB;
+            items[j].unk4 = 0;
+            items[j].unk8 = ps2rna_ee_allpause;
+            ps2rna_iop_allpause = ps2rna_ee_allpause;
+            j += 1;
+        }
+
+        if (j == 0x80) {
+            goto end;
+        }
+
+        if (rna->unk5F != rna->unk5E) {
+            items[j].unk0 = 8;
+            items[j].unk4 = rna->unk20;
+            items[j].unk8 = rna->unk5F;
+            rna->unk5E = rna->unk5F;
+            j += 1;
+        }
+
+        if (j == 0x80) {
+            goto end;
+        }
+
+        if (rna->unk30 == 0 && rna->unk31 == 1) {
+            items[j].unk0 = 2;
+            items[j].unk4 = rna->unk20;
+            items[j].unk8 = rna->unk30;
+            rna->unk31 = rna->unk30;
+            j += 1;
+        }
+
+        if (j == 0x80) {
+            goto end;
+        }
+
+        if (rna->unk54 != rna->unk58) {
+            items[j].unk0 = 0xA;
+            items[j].unk4 = rna->unk20;
+            items[j].unk8 = rna->unk54;
+            rna->unk58 = rna->unk54;
+            j += 1;
+        }
+
+        if (j == 0x80) {
+            goto end;
+        }
+
+        if (rna->num_chan != rna->unk33) {
+            items[j].unk0 = 3;
+            items[j].unk4 = rna->unk20;
+            items[j].unk8 = rna->num_chan;
+            rna->unk33 = rna->num_chan;
+            j += 1;
+        }
+
+        if (j == 0x80) {
+            goto end;
+        }
+
+        if (rna->sfreq != rna->unk38) {
+            items[j].unk0 = 4;
+            items[j].unk8 = rna->sfreq;
+            rna->unk38 = rna->sfreq;
+            items[j].unk4 = rna->unk20;
+            j += 1;
+        }
+
+        if (j == 0x80) {
+            goto end;
+        }
+
+        if (rna->out_vol != rna->unk40) {
+            int y = ps2rna_dbtbl[-rna->out_vol];
+            items[j].unk0 = 5;
+            items[j].unk4 = rna->unk20;
+            items[j].unk8 = 0;
+            items[j].unkC = y;
+            rna->unk40 = rna->out_vol;
+            j += 1;
+        }
+
+        if (j == 0x80) {
+            goto end;
+        }
+
+        if (j == 0x7F) {
+            goto end;
+        }
+
+        for (k = 0; k < rna->num_chan; k++) {
+            if (rna->pan[k] != rna->unk4C[k]) {
+                items[j].unk0 = 9;
+                items[j].unk4 = rna->unk20;
+                items[j].unk8 = k;
+                items[j].unkC = rna->pan[k];
+                rna->unk4C[k] = rna->pan[k];
+                j += 1;
+            }
+        }
+
+        if (j == 0x80) {
+            goto end;
+        }
+
+        if (rna->unk30 == 1 && rna->unk31 == 0) {
+            items[j].unk0 = 2;
+            items[j].unk4 = rna->unk20;
+            items[j].unk8 = rna->unk30;
+            rna->unk31 = rna->unk30;
+            j += 1;
+        }
+
+        if (j == 0x80) {
+            goto end;
+        }
+    }
+
+end:
+    head->count = j;
 }
-#endif
 
 void PS2RNA_Init() {
     intptr_t snd_buf[3];

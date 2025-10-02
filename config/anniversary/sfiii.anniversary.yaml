@@ -778,7 +778,7 @@ segments:
       - [0x3B35E8, .data, cri/libadxe/adx_stmc]
       - [0x3B4508, .data, cri/libadxe/adx_sudv]
       - [0x3B4538, .data, cri/libadxe/adx_tlk]
-      - [0x3B4588, data, cri/libadxe/adx_tsvr]
+      - [0x3B4588, .data, cri/libadxe/adx_tsvr]
       - [0x3B4598, .data, cri/libadxe/adx_xpnd]
       - [0x3B4960, .data, cri/libadxe/cri_cvfs]
       - [0x3B4970, .data, cri/libadxe/cri_srd]

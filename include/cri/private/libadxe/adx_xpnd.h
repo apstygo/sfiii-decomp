@@ -16,5 +16,6 @@ Sint32 ADXPD_EntrySte(ADXPD, Sint32, Sint32, Sint32, Sint32);
 void ADXPD_Start(ADXPD);
 void ADXPD_ExecHndl(ADXPD);
 Sint32 ADXPD_GetStat(ADXPD);
+Sint32 ADXPD_GetNumBlk(ADXPD adxpd);
 
 #endif // ADX_XPND_H

@@ -11,5 +11,9 @@ Sint32 ADXB_CheckAc3(void*);
 Sint32 ADXB_DecodeHeaderAc3(ADXB, void*, Sint32);
 void ADXB_ExecOneAc3(ADXB adxb);
 void ADXB_ExecOneAhx(ADXB adxb);
+void ADXB_SetAc3DecSmpl(ADXB adxb, Sint32 samples);
+void ADXB_SetAhxDecSmpl(ADXB adxb, Sint32 samples);
+void ADXB_Ac3TermSupply(ADXB adxb);
+void ADXB_AhxTermSupply(ADXB adxb);
 
 #endif

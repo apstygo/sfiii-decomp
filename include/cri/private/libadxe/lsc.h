@@ -13,5 +13,6 @@ void LSC_Stop(LSC lsc);
 void LSC_SetStmHndl(LSC lsc, ADXSTM);
 void LSC_ExecServer();
 Sint32 LSC_EntryFname(LSC lsc);
+Sint8 LSC_GetStat(LSC lsc);
 
 #endif

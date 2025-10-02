@@ -21,9 +21,9 @@ void ADXB_SetAc3InSj(ADXB adxb, SJ sj) {
     }
 }
 
-void ADXB_SetAc3DecSmpl(ADXB adxb, Sint32 arg1) {
-    adxb->unkC0 = arg1;
-    adxb->unkC4 = arg1 / 1536;
+void ADXB_SetAc3DecSmpl(ADXB adxb, Sint32 samples) {
+    adxb->ac3_dec_samples = samples;
+    adxb->ac3_dec_frames = samples / 1536;
 }
 
 void ADXB_Ac3TermSupply(ADXB adxb) {
@@ -62,13 +62,13 @@ void ADXB_SetAhxInSj(ADXB adxb, SJ sj) {
     }
 }
 
-void ADXB_SetAhxDecSmpl(ADXB adxb, Sint32 arg1) {
+void ADXB_SetAhxDecSmpl(ADXB adxb, Sint32 samples) {
     if (adxb->unkB0 != 0) {
-        ahxsetdecsmplfunc(adxb->unkB0, arg1);
+        ahxsetdecsmplfunc(adxb->unkB0, samples);
     }
 
-    adxb->unkB4 = arg1;
-    adxb->unkB8 = arg1 / 96;
+    adxb->ahx_dec_samples = samples;
+    adxb->ahx_dec_frames = samples / 96;
 }
 
 #if defined(TARGET_PS2)
