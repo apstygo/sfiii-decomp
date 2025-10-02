@@ -693,6 +693,9 @@ s32 adx_now_playing() {
 }
 
 s32 adx_now_playend() {
+#if defined(SOUND_DISABLED)
+	return 1;
+#endif
     bgm_exe.state = ADXT_GetStat(adxt);
 
     if (bgm_exe.state == ADXT_STAT_PLAYEND) {
