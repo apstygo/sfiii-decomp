@@ -209,6 +209,12 @@ EXPECTED_ERRORS = {
     0x2C9458: 0x4400A28F,
     0x2C9508: 0x3000A287,
     0x2C938C: 0x3200A593,
+
+    # adx_tsvr::ADXT_ExecHndl
+    0x2D6FB0: 0x05006254,
+
+    # cri_srd::srd_exec_dvd
+    0x2D9D14: 0x5600638C,
 }
 
 # Weird issue with cri_srd::srd_exec_dvd. 

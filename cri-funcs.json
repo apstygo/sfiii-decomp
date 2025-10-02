@@ -31,6 +31,7 @@
         "ADXB_GetNumLoop",
         "ADXB_GetAinfLen",
         "ADXB_GetDefOutVol",
+        "ADXB_GetDefPan",
         "adxb_get_key",
         "ADXB_GetStat",
         "ADXB_EntryData",

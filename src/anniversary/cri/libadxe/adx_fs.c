@@ -429,11 +429,6 @@ ADXF adxf_CreateAdxFs() {
     return adxf;
 }
 
-#if defined(TARGET_PS2)
-Sint32 adxf_SetFileInfoEx(ADXF adxf, Char8* fname, void* dir);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", D_0055A4C8);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", adxf_SetFileInfoEx);
-#else
 Sint32 adxf_SetFileInfoEx(ADXF adxf, Char8* fname, void* dir) {
     if (fname == NULL) {
         ADXERR_CallErrFunc1("E9081901:illigal parameter fname=null.(ADXF_Open)\0\0\0\0");
@@ -455,7 +450,6 @@ Sint32 adxf_SetFileInfoEx(ADXF adxf, Char8* fname, void* dir) {
     adxf->unk3C = 0;
     return ADXF_ERR_OK;
 }
-#endif
 
 ADXF ADXF_Open(Char8* fname, void* atr) {
     ADXF adxf;

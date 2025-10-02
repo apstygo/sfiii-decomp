@@ -6,5 +6,6 @@
 
 void ADXT_SetDefSvrFreq(Sint32 freq);
 void adxt_start_sj(ADXT adxt, SJ sj);
+void adxt_start_stm(ADXT adxt, const Char8* fname, void* dir, s32 arg3, Sint32 file_sct);
 
 #endif
