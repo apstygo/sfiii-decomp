@@ -1,4 +1,6 @@
 #include "common.h"
+#include <cri/private/libadxe/structs.h>
+
 #include <cri/private/libadxe/adx_dcd.h>
 #include <cri/private/libadxe/adx_dcd3.h>
 #include <cri/private/libadxe/cri_cvfs.h>
