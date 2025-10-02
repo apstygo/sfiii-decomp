@@ -27,3 +27,10 @@ ctx.c
 .splache
 temp
 rom
+
+# cps3
+src/cps3/
+sfiii3n/
+decrypted.bin
+config/cps3/game_syms.txt
+config/cps3/game.ld
