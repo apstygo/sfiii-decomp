@@ -6,6 +6,10 @@
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlSndDrv.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlTSB.h"
 
+#if !defined(TARGET_PS2)
+#include "port/sound/spu.h"
+#endif
+
 #include <eekernel.h>
 
 static CSE_SYSWORK cseSysWork __attribute__((aligned(16))); // size: 0x48, address: 0x57B260
@@ -141,7 +145,11 @@ s32 cseSendBd2SpuWithId(void* ee_addr, u32 size, u32 bank, u32 id) {
         param.e_addr = (uintptr_t)ee_addr;
         param.s_addr = mlMemMapGetBankAddr(bank);
         param.size = size;
+#if defined(TARGET_PS2)
         mlRpcQueueSetData(3, &param, sizeof(CSE_SPUID_PARAM));
+#else
+        SPU_Upload(param.s_addr, ee_addr, size);
+#endif
     }
 
     return 0;

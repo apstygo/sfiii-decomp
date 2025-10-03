@@ -986,7 +986,6 @@ void SsRequest(u16 ReqNumber) {
 #if defined(TARGET_PS2)
     u16 remake_sound_code_for_DC(s32 code, SoundPatchConfig * rmcode);
 #endif
-
     SoundPatchConfig rmcode;
 
     if (remake_sound_code_for_DC(ReqNumber, &rmcode)) {
