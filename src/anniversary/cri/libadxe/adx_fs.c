@@ -698,7 +698,7 @@ Sint32 ADXF_Stop(ADXF adxf) {
 
     switch (adxf->stat) {
     case 3:
-        adxf->stat = 1;
+        adxf->stat = ADXF_STAT_STOP;
         /* fallthrough */
 
     case 1:
@@ -716,7 +716,7 @@ Sint32 ADXF_Stop(ADXF adxf) {
         ADXCRS_Lock();
         adxf->rdsct = ADXSTM_Tell(adxf->stm) - adxf->skpos;
         adxf_CloseSjStm(adxf);
-        adxf->stat = 1;
+        adxf->stat = ADXF_STAT_STOP;
         ADXCRS_Unlock();
         adxf_SetCmdHstry(ADXF_CMD_STOP, 1, (intptr_t)adxf, -1, -1);
         break;
@@ -893,13 +893,10 @@ Sint32 adxf_ChkPrmGfr(Uint32 ptid, Sint32 flid) {
     return ADXF_ERR_OK;
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_fs", ADXF_GetFnameRange);
-#else
 Sint32 ADXF_GetFnameRange(Sint32 ptid, Sint32 flid, Char8* fname, Sint32* ofst, Sint32* fnsct) {
-    not_implemented(__func__);
+    void* dir;
+    return ADXF_GetFnameRangeEx(ptid, flid, fname, &dir, ofst, fnsct);
 }
-#endif
 
 Sint32 ADXF_GetFnameRangeEx(Sint32 ptid, Sint32 flid, Char8* fname, void** dir, Sint32* ofst, Sint32* fnsct) {
     ADXF_PTINFO* ptinfo;

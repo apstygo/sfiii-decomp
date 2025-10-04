@@ -44,7 +44,7 @@ s32 GetNumSplit(_ps2_head_chunk* pHEAD, u8 prog) {
         return -1;
     }
 
-    pPROG = (_ps2_prog_chunk*)((uintptr_t)&pHEAD->tag + (u32)pHEAD->progChunkOffset);
+    pPROG = (_ps2_prog_chunk*)((uintptr_t)pHEAD + (u32)pHEAD->progChunkOffset);
     if (IsSafeProgChunk(pPROG) != 1) {
         return -2;
     }

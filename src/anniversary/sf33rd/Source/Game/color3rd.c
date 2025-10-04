@@ -391,18 +391,20 @@ void init_trans_color_ram(s16 id, s16 key, u8 type, u16 data) {
     }
     case 8:
         cseSendBd2SpuWithId((void*)Get_ramcnt_address(key), Get_size_data_ramcnt_key(key), 0, 0);
+
         while (!sndCheckVTransStatus(1)) {
             waitVsyncDummy();
-        };
+        }
 
         Push_ramcnt_key(key);
         break;
 
     case 10:
         cseSendBd2SpuWithId((void*)Get_ramcnt_address(key), Get_size_data_ramcnt_key(key), id + 1, data + 1);
+
         while (!sndCheckVTransStatus(1)) {
             waitVsyncDummy();
-        };
+        }
 
         cseMemMapSetPhdAddr(id + 1, csePHDDataTable[data + 1]);
         cseTsbSetBankAddr(id + 1, cseTSBDataTable[data + 1]);

@@ -228,7 +228,7 @@ void adxt_stat_decinfo(ADXT adxt) {
     }
 
     ADXRNA_SetTransSw(adxt->rna, 1);
-    adxt->stat = 2;
+    adxt->stat = ADXT_STAT_PREP;
 }
 
 void adxt_stat_prep(ADXT adxt) {
@@ -256,7 +256,7 @@ void adxt_stat_prep(ADXT adxt) {
                 adxt->svcnt = adxt_vsync_cnt;
             }
 
-            adxt->stat = 3;
+            adxt->stat = ADXT_STAT_PLAYING;
         }
 
         adxt->pstready_flag = 1;
@@ -299,7 +299,7 @@ void adxt_stat_playing(ADXT adxt) {
 
     if (i == num_chan) {
         adxt->flush_nsmpl = 0;
-        adxt->stat = 4;
+        adxt->stat = ADXT_STAT_DECEND;
     }
 }
 
@@ -322,12 +322,12 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tsvr", ADXT_ExecErrChk
 void ADXT_ExecRdErrChk(ADXT adxt) {
     if ((adxt->stm != NULL) && (ADXSTM_GetStat(adxt->stm) == 4)) {
         adxt->ercode = -1;
-        adxt->stat = 6;
+        adxt->stat = ADXT_STAT_ERROR;
     }
 
     if ((adxt->lsc != NULL) && (LSC_GetStat(adxt->lsc) == 3)) {
         adxt->ercode = -1;
-        adxt->stat = 6;
+        adxt->stat = ADXT_STAT_ERROR;
     }
 }
 

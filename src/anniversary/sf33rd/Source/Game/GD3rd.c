@@ -18,6 +18,10 @@
 #include <libcdvd.h>
 #include <libgraph.h>
 
+// #include <stdio.h>
+// #include <stdlib.h>
+// #include <time.h>
+
 typedef struct {
     // total size: 0x4
     u8 trycount;    // offset 0x0, size 0x1
@@ -91,6 +95,30 @@ s32 Setup_Directory_Record_Data() {
 
         ADXM_ExecMain();
     }
+
+    // double max_time = 0;
+    // double total_time = 0;
+
+    // for (int i = 0; i < AFS_FILE_COUNT; i++) {
+    //     clock_t begin = clock();
+
+    //     const u32 file_size = fsGetFileSize(i);
+    //     void* buff = malloc(file_size);
+    //     REQ req;
+    //     req.fnum = i;
+    //     req.size = fsGetFileSize(req.fnum);
+    //     req.sect = fsCalSectorSize(req.size);
+    //     fsFileReadSync(&req, req.sect, buff);
+    //     free(buff);
+
+    //     clock_t end = clock();
+    //     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    //     total_time += time_spent;
+
+    //     if (time_spent > max_time) {
+    //         max_time = time_spent;
+    //     }
+    // }
 
     ps2CdReadMode.trycount = 64;
     ps2CdReadMode.spindlctrl = 1;
