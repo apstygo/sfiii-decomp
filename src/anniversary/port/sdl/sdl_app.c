@@ -2,6 +2,7 @@
 #include "common.h"
 #include "port/float_clamp.h"
 #include "port/sdk_threads.h"
+#include "port/sdl/sdl_adx_sound.h"
 #include "port/sdl/sdl_game_renderer.h"
 #include "port/sdl/sdl_message_renderer.h"
 #include "port/sdl/sdl_pad.h"
@@ -54,7 +55,7 @@ int SDLApp_Init() {
     SDL_SetAppMetadata(app_name, "0.1", NULL);
     SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, "1");
 
-    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
+    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_GAMEPAD)) {
         SDL_Log("Couldn't initialize SDL: %s", SDL_GetError());
         return 1;
     }
@@ -206,6 +207,9 @@ static void save_texture(SDL_Texture* texture, const char* filename) {
 }
 
 void SDLApp_EndFrame() {
+    // Run sound processing
+    SDLADXSound_ProcessTracks();
+
     // Run PS2 interrupts. Necessary for CRI to run its logic
     begin_interrupt();
     ADXPS2_ExecVint(0);
