@@ -393,9 +393,7 @@ void njUserInit() {
     Init_sound_system();
     Init_bgm_work();
     Setup_Directory_Record_Data();
-#if !defined(SOUND_DISABLED)
     sndInitialLoad();
-#endif
     cpInitTask();
     cpReadyTask(INIT_TASK_NUM, Init_Task);
 }

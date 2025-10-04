@@ -115,7 +115,7 @@ static s32 load_busy_ck() {
 
     stat = ADXF_GetStat(save->adxf);
 
-    if (stat == 2) {
+    if (stat == ADXF_STAT_READING) {
         return 1;
     }
 

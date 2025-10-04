@@ -293,7 +293,7 @@ void adxt_start_sj(ADXT adxt, SJ sj) {
     ADXSJD_SetInSj(adxt->sjd, sj);
     adxt->sji = sj;
     ADXSJD_Start(adxt->sjd);
-    adxt->stat = 1;
+    adxt->stat = ADXT_STAT_DECINFO;
     adxt->lesct = 0x7FFFFFFF;
     adxt->trpnsmpl = -1;
     adxt->lpcnt = 0;
@@ -348,7 +348,7 @@ void ADXT_StopWithoutLsc(ADXT adxt) {
     }
 
     adxt->sji = NULL;
-    adxt->stat = 0;
+    adxt->stat = ADXT_STAT_STOP;
     adxt->unkAC = 0;
     ADXCRS_Unlock();
 }
