@@ -288,10 +288,14 @@ void SPU_SDL_CB(void* user, SDL_AudioStream* stream, int additional_amount, int 
     u32 samples_amount = additional_amount / sizeof(s16);
     s16 out[2] = {};
 
+    SDL_LockMutex(spuLock);
+
     for (u32 i = 0; i < samples_amount; i++) {
         SPU_Tick(out);
         SDL_PutAudioStreamData(stream, out, sizeof(out));
     }
+
+    SDL_UnlockMutex(spuLock);
 }
 
 void SPU_Init() {
@@ -325,8 +329,6 @@ void SPU_Tick(s16* output) {
     s32 acc[2] = {};
     s32 vout[2] = {};
 
-    SDL_LockMutex(spuLock);
-
     for (int i = 0; i < VOICE_COUNT; i++) {
         v = &voices[i];
 
@@ -340,6 +342,4 @@ void SPU_Tick(s16* output) {
 
     output[0] = clamp(acc[0], INT16_MIN, INT16_MAX);
     output[1] = clamp(acc[1], INT16_MIN, INT16_MAX);
-
-    SDL_UnlockMutex(spuLock);
 }
