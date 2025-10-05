@@ -53,6 +53,7 @@ static void create_screen_texture() {
 int SDLApp_Init() {
     SDL_SetAppMetadata(app_name, "0.1", NULL);
     SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, "1");
+    SDL_SetHint(SDL_HINT_NO_SIGNAL_HANDLERS, "1");
 
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD)) {
         SDL_Log("Couldn't initialize SDL: %s", SDL_GetError());
