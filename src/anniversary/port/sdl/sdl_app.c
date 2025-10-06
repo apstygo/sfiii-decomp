@@ -36,7 +36,6 @@ static bool frame_end_times_filled = false;
 static double fps = 0;
 static Uint64 frame_counter = 0;
 
-static int opening_index = -1;
 static bool should_save_screenshot = false;
 
 static void create_screen_texture() {
@@ -246,13 +245,7 @@ void SDLApp_EndFrame() {
     // Render metrics
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
     SDL_SetRenderScale(renderer, 2, 2);
-    SDL_RenderDebugTextFormat(renderer, 8, 8, "FPS: %f", fps);
-    SDL_RenderDebugTextFormat(renderer, 8, 20, "Render tasks: %d", SDLGameRenderer_GetRenderTaskCount());
-
-    if (opening_index >= 0) {
-        SDL_RenderDebugTextFormat(renderer, 8, 32, "Opening index: %d", opening_index);
-    }
-
+    SDL_RenderDebugTextFormat(renderer, 8, 8, "FPS: %.3f", fps);
     SDL_SetRenderScale(renderer, 1, 1);
 
     SDL_RenderPresent(renderer);
@@ -275,8 +268,4 @@ void SDLApp_EndFrame() {
     // Cleanup
     SDLGameRenderer_EndFrame();
     should_save_screenshot = false;
-}
-
-void SDLApp_SetOpeningIndex(int index) {
-    opening_index = index;
 }

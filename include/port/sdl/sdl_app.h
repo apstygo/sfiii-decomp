@@ -7,6 +7,4 @@ int SDLApp_PollEvents();
 void SDLApp_BeginFrame();
 void SDLApp_EndFrame();
 
-void SDLApp_SetOpeningIndex(int index);
-
 #endif

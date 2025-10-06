@@ -28,10 +28,6 @@
 #include "sf33rd/Source/Game/texcash.h"
 #include "sf33rd/Source/Game/workuser.h"
 
-#if !defined(TARGET_PS2)
-#include "port/sdl/sdl_app.h"
-#endif
-
 typedef const f32* ro_f32_ptr;
 
 #if defined(TARGET_PS2)
@@ -1981,10 +1977,6 @@ void op_118_move() {
 }
 
 void op_bg_move(s16 r_index) {
-#if !defined(TARGET_PS2)
-    SDLApp_SetOpeningIndex(r_index);
-#endif
-
     op_bg0_move(r_index);
     op_bg1_move(r_index);
     op_bg2_move(r_index);

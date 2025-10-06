@@ -520,7 +520,3 @@ void SDLGameRenderer_DrawSprite2(const SDLGameRenderer_Sprite2* sprite2) {
 
     SDLGameRenderer_DrawSprite(&sprite, sprite2->vertex_color);
 }
-
-int SDLGameRenderer_GetRenderTaskCount() {
-    return render_task_count;
-}
