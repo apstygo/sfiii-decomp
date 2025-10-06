@@ -17,6 +17,7 @@ typedef struct RenderTask {
     SDL_Texture* texture;
     SDL_Vertex vertices[4];
     float z;
+    int index;
 } RenderTask;
 
 SDL_Texture* cps3_canvas = NULL;
@@ -144,7 +145,14 @@ static int compare_render_tasks(const RenderTask* a, const RenderTask* b) {
     } else if (a->z > b->z) {
         return 1;
     } else {
-        return 0;
+        // This eliminates z-fighting
+        if (a->index < b->index) {
+            return 1;
+        } else if (a->index > b->index) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 }
 
@@ -440,6 +448,7 @@ void SDLGameRenderer_SetTexture(unsigned int th) {
 
 static void draw_quad(const SDLGameRenderer_Vertex* vertices, bool textured) {
     RenderTask task;
+    task.index = render_task_count;
     task.texture = textured ? get_texture() : NULL;
     task.z = flPS2ConvScreenFZ(vertices[0].coord.z);
 

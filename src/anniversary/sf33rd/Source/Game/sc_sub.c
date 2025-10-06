@@ -841,14 +841,7 @@ void stun_put(u8 Pl_Num, u8 stun) {
 
     ppgSetupCurrentDataList(&ppgScrList);
     setFilterMode(0);
-
-#if defined(TARGET_PS2)
     scrscrntex[0].z = scrscrntex[3].z = PrioBase[4];
-#else
-    // Decreasing z by a tiny value brings stun gauge a bit closer to the screen, eliminating z-fighting
-    scrscrntex[0].z = scrscrntex[3].z = PrioBase[4] - 0.1f;
-#endif
-
     njSetPaletteBankNumG(0, 10);
     scrscrntex[0].u = 0.0f;
     scrscrntex[3].u = 8.0f / 256.0f;
