@@ -44,7 +44,11 @@ struct VWork {
     struct list_head list;
 };
 
-struct VWork vpool[48];
+static short masterVolume;
+static short assignedBankVolume[16];
+static short bankVolume[16];
+
+static struct VWork vpool[48];
 
 static LIST_HEAD(active_voices);
 static LIST_HEAD(free_voices);
@@ -126,6 +130,12 @@ void emlShimInit() {
 
     list_init(&active_voices);
     list_init(&free_voices);
+
+    masterVolume = 0x3fff;
+    for (int i = 0; i < 16; i++) {
+        bankVolume[i] = 0x3fff;
+        assignedBankVolume[i] = 0x3fff;
+    }
 
     for (int i = 0; i < 48; i++) {
         vpool[i].voice_num = i;
@@ -256,7 +266,7 @@ static int checkConditions(struct VId* id, CSE_REQP* match, u32 cond) {
 }
 
 void emlShimStartSound(CSE_SYS_PARAM_SNDSTART* param) {
-    int volume, pan, voll, volr, note, pitch;
+    int volume, bankvol, pan, voll, volr, note, pitch;
     struct SPUVConf conf;
     struct VWork* voice;
 
@@ -285,7 +295,9 @@ void emlShimStartSound(CSE_SYS_PARAM_SNDSTART* param) {
     voice->req_pitch = param->reqp.pitch;
 
     // From function UpdateVolPanPitch
-    volume = clamp((voice->ph_vol * voice->req_vol) / 0x3fff, 0, 0x3fff);
+    bankvol = bankVolume[voice->id.bank & 0xf];
+    volume = (bankvol * voice->req_vol) / 0x3fff;
+    volume = clamp((volume * voice->ph_vol) / 0x3fff, 0, 0x3fff);
     pan = clamp((voice->ph_pan + voice->req_pan) - 64, 0, 127);
     note = clamp(voice->ph_pitch + voice->req_pitch, -6000, 6000);
     pitch = (voice->freq * sceSdNote2Pitch(0x3c, 0, note / 100 + 60, note % 100)) / 48000;
@@ -330,5 +342,17 @@ void emlShimSeStopAll() {
 
     list_for_each (i, &active_voices, list) {
         SPU_StopVoice(i->voice_num);
+    }
+}
+
+void emlShimSysSetVolume(CSE_SYS_PARAM_BANKVOL* param) {
+    if (param->bank == 0xff) {
+        masterVolume = param->vol ? (param->vol * 0x3fff) / 0x7f : 0;
+    } else {
+        assignedBankVolume[param->bank] = param->vol ? (param->vol * 0x3fff) / 0x7f : 0;
+    }
+
+    for (int i = 0; i < 16; i++) {
+        bankVolume[i] = (masterVolume * assignedBankVolume[i]) / 0x3fff;
     }
 }
