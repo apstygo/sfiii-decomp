@@ -11,7 +11,7 @@
 
 #include <SDL3/SDL.h>
 
-#define FRAME_END_TIMES_MAX 120
+#define FRAME_END_TIMES_MAX 30
 
 // We can't include cri_mw.h because it leads to conflicts
 // with SDL types
@@ -21,14 +21,13 @@ static const char* app_name = "Street Fighter III: 3rd Strike";
 static const float display_target_ratio = 4.0 / 3.0;
 static const int window_default_width = 640;
 static const int window_default_height = (int)(window_default_width / display_target_ratio);
-static const int target_fps = 60;
+static const double target_fps = 59.59949;
 static const Uint64 target_frame_time_ns = 1000000000.0 / target_fps;
 
 static SDL_Window* window = NULL;
 static SDL_Renderer* renderer = NULL;
 static SDL_Texture* screen_texture = NULL;
 
-static Uint64 frame_start = 0;
 static Uint64 frame_deadline = 0;
 static Uint64 frame_end_times[FRAME_END_TIMES_MAX];
 static int frame_end_times_index = 0;
@@ -139,12 +138,6 @@ int SDLApp_PollEvents() {
 }
 
 void SDLApp_BeginFrame() {
-    frame_start = SDL_GetTicksNS();
-
-    if (frame_deadline == 0) {
-        frame_deadline = frame_start + target_frame_time_ns;
-    }
-
     // Clear window
     SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
     SDL_SetRenderTarget(renderer, NULL);
@@ -190,12 +183,12 @@ static void update_fps() {
     double total_frame_time_ms = 0;
 
     for (int i = 0; i < FRAME_END_TIMES_MAX - 1; i++) {
-        const int cur = frame_end_times_index;
+        const int cur = (frame_end_times_index + i) % FRAME_END_TIMES_MAX;
         const int next = (cur + 1) % FRAME_END_TIMES_MAX;
-        total_frame_time_ms += (double)(frame_end_times[next] - frame_end_times[cur]) / 1000000;
+        total_frame_time_ms += (double)(frame_end_times[next] - frame_end_times[cur]) / 1e6;
     }
 
-    double average_frame_time_ms = total_frame_time_ms / FRAME_END_TIMES_MAX;
+    double average_frame_time_ms = total_frame_time_ms / (FRAME_END_TIMES_MAX - 1);
     fps = 1000 / average_frame_time_ms;
 }
 
@@ -250,22 +243,32 @@ void SDLApp_EndFrame() {
 
     SDL_RenderPresent(renderer);
 
-    const Uint64 current_time = SDL_GetTicksNS();
+    // Cleanup
+    SDLGameRenderer_EndFrame();
+    should_save_screenshot = false;
 
-    if (current_time < frame_deadline) {
-        const Uint64 sleep_time = frame_deadline - current_time;
+    // Do frame pacing
+    Uint64 now = SDL_GetTicksNS();
+
+    if (frame_deadline == 0) {
+        frame_deadline = now + target_frame_time_ns;
+    }
+
+    if (now < frame_deadline) {
+        Uint64 sleep_time = frame_deadline - now;
         SDL_DelayNS(sleep_time);
-        frame_deadline += target_frame_time_ns;
-    } else {
-        frame_deadline = current_time + target_frame_time_ns;
+        now = SDL_GetTicksNS();
+    }
+
+    frame_deadline += target_frame_time_ns;
+
+    // If we fell behind by more than one frame, resync to avoid spiraling
+    if (now > frame_deadline + target_frame_time_ns) {
+        frame_deadline = now + target_frame_time_ns;
     }
 
     // Measure
     frame_counter += 1;
     note_frame_end_time();
     update_fps();
-
-    // Cleanup
-    SDLGameRenderer_EndFrame();
-    should_save_screenshot = false;
 }
