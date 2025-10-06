@@ -36,6 +36,8 @@ static double fps = 0;
 static Uint64 frame_counter = 0;
 
 static bool should_save_screenshot = false;
+static Uint64 last_mouse_motion_time = 0;
+static const int mouse_hide_delay_ms = 2000; // 2 seconds
 
 static void create_screen_texture() {
     if (screen_texture != NULL) {
@@ -98,6 +100,31 @@ static void set_screenshot_flag_if_needed(SDL_KeyboardEvent* event) {
     }
 }
 
+static void handle_fullscreen_toggle(SDL_KeyboardEvent* event) {
+    if ((event->key == SDLK_F11) && event->down && !event->repeat) {
+        const SDL_WindowFlags flags = SDL_GetWindowFlags(window);
+
+        if (flags & SDL_WINDOW_FULLSCREEN) {
+            SDL_SetWindowFullscreen(window, false);
+        } else {
+            SDL_SetWindowFullscreen(window, true);
+        }
+    }
+}
+
+static void handle_mouse_motion() {
+    last_mouse_motion_time = SDL_GetTicks();
+    SDL_ShowCursor();
+}
+
+static void hide_cursor_if_needed() {
+    const Uint64 now = SDL_GetTicks();
+
+    if ((last_mouse_motion_time > 0) && ((now - last_mouse_motion_time) > mouse_hide_delay_ms)) {
+        SDL_HideCursor();
+    }
+}
+
 int SDLApp_PollEvents() {
     SDL_Event event;
     int continue_running = 1;
@@ -121,7 +148,12 @@ int SDLApp_PollEvents() {
         case SDL_EVENT_KEY_DOWN:
         case SDL_EVENT_KEY_UP:
             set_screenshot_flag_if_needed(&event.key);
+            handle_fullscreen_toggle(&event.key);
             SDLPad_HandleKeyboardEvent(&event.key);
+            break;
+
+        case SDL_EVENT_MOUSE_MOTION:
+            handle_mouse_motion();
             break;
 
         case SDL_EVENT_WINDOW_RESIZED:
@@ -246,6 +278,9 @@ void SDLApp_EndFrame() {
     // Cleanup
     SDLGameRenderer_EndFrame();
     should_save_screenshot = false;
+
+    // Handle cursor hiding
+    hide_cursor_if_needed();
 
     // Do frame pacing
     Uint64 now = SDL_GetTicksNS();
