@@ -23,7 +23,7 @@ void fatal_error(const s8* fmt, ...) __dead2 {
     fprintf(stderr, "\n");
 
     va_end(args);
-    void *buffer[BACKTRACE_MAX];
+    void* buffer[BACKTRACE_MAX];
 #if !defined(_WIN32)
     int nptrs = backtrace(buffer, BACKTRACE_MAX);
     fprintf(stderr, "Stack trace:\n");
@@ -33,7 +33,7 @@ void fatal_error(const s8* fmt, ...) __dead2 {
     HANDLE process = GetCurrentProcess();
     SymInitialize(process, NULL, TRUE);
     int nptrs = CaptureStackBackTrace(0, BACKTRACE_MAX, buffer, NULL);
-    SYMBOL_INFO* symbol = (SYMBOL_INFO*)calloc(1, sizeof(SYMBOL_INFO)+SYMBOL_NAME_MAX);
+    SYMBOL_INFO* symbol = (SYMBOL_INFO*)calloc(1, sizeof(SYMBOL_INFO) + SYMBOL_NAME_MAX);
     if (!symbol) {
         fprintf(stderr, "Calloc failed when allocating SYMBOL_INFO, bailing!\n\n");
         SymCleanup(process);
@@ -43,7 +43,7 @@ void fatal_error(const s8* fmt, ...) __dead2 {
     symbol->SizeOfStruct = sizeof(SYMBOL_INFO);
     for (int i = 0; i < nptrs; i++) {
         SymFromAddr(process, (DWORD64)buffer[i], 0, symbol);
-        fprintf(stderr, "%i: %s - 0x%0llX\n", nptrs-i-1, symbol->Name, symbol->Address);
+        fprintf(stderr, "%i: %s - 0x%0llX\n", nptrs - i - 1, symbol->Name, symbol->Address);
     }
     free(symbol);
     SymCleanup(process);

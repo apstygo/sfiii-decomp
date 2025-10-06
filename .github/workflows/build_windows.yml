@@ -26,6 +26,7 @@ jobs:
                 mingw-w64-x86_64-sdl3
                 ninja
                 mingw-w64-x86_64-headers-git
+                mingw-w64-x86_64-ffmpeg
 
           - name: Checkout repository
             uses: actions/checkout@v4

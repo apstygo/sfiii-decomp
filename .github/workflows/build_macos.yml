@@ -14,8 +14,8 @@ jobs:
           - name: Checkout repository
             uses: actions/checkout@v4
 
-          - name: Install SDL3
-            run: brew install sdl3
+          - name: Install dependencies
+            run: brew install sdl3 ffmpeg
 
           - name: Build for macOS
             run: |

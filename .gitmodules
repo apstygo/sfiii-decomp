@@ -7,3 +7,6 @@
 [submodule "tools/mwccgap"]
 	path = tools/mwccgap
 	url = https://github.com/mkst/mwccgap.git
+[submodule "tools/saturn-splitter"]
+	path = tools/saturn-splitter
+	url = https://github.com/sozud/saturn-splitter.git

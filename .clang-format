@@ -12,3 +12,10 @@ AllowShortFunctionsOnASingleLine: Empty
 DerivePointerAlignment: false
 PointerAlignment: Left
 InsertNewlineAtEOF: true
+
+ForEachMacros:   ['list_for_each',
+                 'list_for_each_safe',
+                 'list_for_each_continue',
+                 'list_for_each_reverse',
+                 'list_for_each_safe_reverse',
+                 'list_for_each_continue_reverse']

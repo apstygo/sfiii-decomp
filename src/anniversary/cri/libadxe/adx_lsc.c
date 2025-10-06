@@ -118,7 +118,7 @@ void ADXT_ResetEntry(ADXT adxt) {
         return;
     }
 
-    if (adxt->stat != 0) {
+    if (adxt->stat != ADXT_STAT_STOP) {
         return;
     }
 

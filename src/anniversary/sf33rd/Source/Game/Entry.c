@@ -891,7 +891,6 @@ void Entry_Main_Sub(s16 PL_id, s16 Jump_Index) {
     }
 }
 
-#if defined(TARGET_PS2)
 void Naming_Init(s16 PL_id) {
     Naming_Cut[PL_id] = 0;
     Name_00[PL_id] = 0;
@@ -899,11 +898,6 @@ void Naming_Init(s16 PL_id) {
     name_wk[PL_id].r_no_1 = 0;
     end_name_cut[PL_id] = 0;
 }
-#else
-void Naming_Init(s16 PL_id) {
-    not_implemented(__func__);
-}
-#endif
 
 void Naming_Cut_Sub_1P() {
     if (!Naming_Cut[0] && (Ck_Break_Into_SP(p1sw_0, p1sw_1, 0) != 0)) {

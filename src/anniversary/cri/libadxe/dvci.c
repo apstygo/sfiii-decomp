@@ -29,7 +29,7 @@ Sint32 dvCiGetStat(DVG_CI handl);
 Sint32 dvCiGetSctLen();
 Sint32 dvCiGetNumTr(DVG_CI handl);
 Sint32 dvCiIsExistFile(const Char8* fname);
-Sint32 dvCiOptFn1(DVG_CI handl, Sint32 arg1, Sint32 arg2, Sint32 arg3);
+Sint32 dvCiOptFn1(DVG_CI handl, Sint32 arg1);
 void dvCiExecHndl(DVG_CI dvg_ci);
 
 // data
@@ -519,17 +519,50 @@ Sint32 dvci_getnumtr_lower(DVG_CI handl) {
     return val & 0xFFFFFFFF;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci", dvci_filesize_upper);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci", dvci_filesize_lower);
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/dvci", dvCiOptFn1);
-#else
-Sint32 dvCiOptFn1(DVG_CI handl, Sint32 arg1, Sint32 arg2, Sint32 arg3) {
-    // This is not a decompilation of this func.
-    // Seems like it never actually returns anything other that 0 in practice,
-    // so this implementation should suffice.
+Sint32 dvci_filesize_upper(const Char8* fname) {
     return 0;
 }
-#endif
+
+Sint32 dvci_filesize_lower(const Char8* fname) {
+    return dvci_getfilesize32(fname);
+}
+
+Sint32 dvCiOptFn1(DVG_CI handl, Sint32 arg1) {
+    Sint32 result = 0;
+
+    if (!handl) {
+        return 0;
+    }
+
+    switch (arg1) {
+    case 0xC8:
+        result = dvci_getnumtr_upper(handl);
+        break;
+
+    case 0xC9:
+        result = dvci_getnumtr_lower(handl);
+        break;
+
+    case 0xCA:
+        result = dvci_filesize_upper(handl);
+        break;
+
+    case 0xCB:
+        result = dvci_filesize_lower(handl);
+        break;
+
+    case 0xCC:
+        result = dvci_filesize_upper(handl);
+        break;
+
+    case 0xCD:
+        result = dvci_filesize_lower(handl);
+        break;
+
+    case 0x12B:
+        result = 1;
+        break;
+    }
+
+    return result;
+}

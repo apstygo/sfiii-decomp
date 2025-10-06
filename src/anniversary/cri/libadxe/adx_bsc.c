@@ -136,8 +136,8 @@ ADXB ADXB_Create(Sint32 arg0, void* arg1, Sint32 arg2, Sint32 arg3) {
     adxb->unk84 = adxb;
     adxb->unkC8 = 0;
     adxb->unkDC = 0;
-    adxb->unkDE = -0x80; // pan auto
-    adxb->unkE0 = -0x80;
+    adxb->unkDE[0] = -0x80; // pan auto
+    adxb->unkDE[1] = -0x80;
     memset(&adxb->unkCC, 0, sizeof(ADX_UNK));
     return adxb;
 }
@@ -384,7 +384,9 @@ Sint16 ADXB_GetDefOutVol(ADXB adxb) {
     return adxb->unkDC;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetDefPan);
+Sint16 ADXB_GetDefPan(ADXB adxb, Sint32 arg1) {
+    return adxb->unkDE[arg1];
+}
 
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetDataId);
 
@@ -509,11 +511,6 @@ void ADXB_EvokeExpandPl2(ADXB adxb, Sint32 arg1) {
 }
 #endif
 
-#if defined(TARGET_PS2)
-void ADXB_EvokeDecode(ADXB adxb);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_EvokeDecode);
-#else
-// TODO: This function needs thorough testing
 void ADXB_EvokeDecode(ADXB adxb) {
     ADXB_UNK* unk = &adxb->unk48;
     Sint32 temp_a1_2;
@@ -523,35 +520,35 @@ void ADXB_EvokeDecode(ADXB adxb) {
     Sint32 temp_t0;
     Sint32 temp_t2;
     Sint32 temp_t7;
-    Sint32 temp_v1;
-    Sint32 temp_a3;
     Sint32 var_t3;
-    Sint32 temp_hi;
+    Sint32 var_t1;
+    Sint32 var_t4;
+    Sint32 var_a3;
 
     temp_lo = unk->unk4 / unk->unk8;
     temp_t7 = unk->unk18;
+    var_t1 = unk->unk10;
     temp_t0 = unk->unk20;
+    var_a3 = unk->unk28;
 
-    temp_v1 = (unk->unk28 + unk->unk10) - 1;
-    temp_lo_2 = temp_v1 / unk->unk10;
-    temp_hi = temp_v1 % unk->unk10;
+    temp_lo_2 = (var_a3 + var_t1 - 1) / var_t1;
+    var_t3 = (temp_t7 - temp_t0 + var_t1 - 1) / var_t1;
+    temp_a1_2 = var_t1 - (var_a3 + var_t1 - 1) % var_t1 - 1;
 
-    temp_a3 = (unk->unk28 < unk->unk24);
-
-    var_t3 = (((temp_t7 - temp_t0) + unk->unk10) - 1) / unk->unk10;
-    temp_a1_2 = (unk->unk10 - temp_hi) - 1;
+    var_t4 = unk->unk24;
+    temp_lo_3 = var_t3 * var_t1;
 
     if (temp_lo_2 < var_t3) {
-        temp_t0 += var_t3 * unk->unk10;
-
-        if ((temp_t0 - temp_a1_2) < temp_t7) {
+        if ((temp_t0 + temp_lo_3 - temp_a1_2) < temp_t7) {
             var_t3 += 1;
         }
     }
 
-    temp_lo_3 = ((temp_a3 * temp_a1_2) + unk->unk24) / unk->unk10;
+    if (var_a3 < var_t4) {
+        var_t4 += temp_a1_2;
+    }
 
-    temp_t2 = MIN(temp_lo_3, temp_lo);
+    temp_t2 = MIN(var_t4 / var_t1, temp_lo);
     temp_t2 = MIN(temp_lo_2, temp_t2);
     temp_t2 = MIN(var_t3, temp_t2);
 
@@ -563,7 +560,6 @@ void ADXB_EvokeDecode(ADXB adxb) {
         ADXB_EvokeExpandMono(adxb, temp_t2);
     }
 }
-#endif
 
 void memcpy2(void* dest, const void* src, Sint32 count) {
     Uint16* _dest = dest;
@@ -580,16 +576,55 @@ void ADXB_CopyExtraBufSte(void* arg0, Sint32 arg1, Sint32 arg2, Sint32 arg3) {
     memcpy2(arg0 + (arg2 * 2), arg0 + ((arg2 + arg1) * 2), arg3);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_CopyExtraBufMono);
-
 #if defined(TARGET_PS2)
-void ADXB_EndDecode(ADXB adxb);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_EndDecode);
+INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_CopyExtraBufMono);
 #else
-void ADXB_EndDecode(ADXB adxb) {
+void ADXB_CopyExtraBufMono(void* arg0, Sint32 arg1, Sint32 arg2, Sint32 arg3) {
     not_implemented(__func__);
 }
 #endif
+
+void ADXB_EndDecode(ADXB adxb) {
+    Sint32 s1, s2, sp0, s3, s0, _s0, _s1, v0, v1, temp_div;
+    Sint32 s7;
+    ADXB_UNK* s5 = &adxb->unk48;
+    void* s8 = s5->unk14;
+    Sint32 s4;
+    Sint32 tmp1, tmp3;
+
+    s3 = s5->unkC;
+    s1 = s5->unk10;
+    s4 = s5->unk20;
+    sp0 = adxb->unk44;
+    s7 = adxb->unk40;
+
+    temp_div = s5->unk28 + s1 - 1;
+    s0 = temp_div % s1;
+    _s0 = s1 - s0 - 1;
+    s2 = temp_div / s1;
+
+    v0 = ADXPD_GetNumBlk(adxb->adxpd);
+
+    tmp1 = v0 * s1;
+    s1 = tmp1;
+    s2 = s2 * s5->unk8;
+    tmp3 = v0 * s3;
+    s3 = tmp3;
+    s1 = s1 / s5->unk8;
+    adxb->dec_num_sample = (v0 < s2) ? s1 : s1 - _s0;
+    s4 += adxb->dec_num_sample;
+    adxb->dec_data_len = s3;
+
+    if (s4 >= s7) {
+        s4 -= s7;
+
+        if ((s5->unk8 == 2) || (adxb->unkE4 != 0)) {
+            ADXB_CopyExtraBufSte(s8, s7, sp0, s4);
+        } else {
+            ADXB_CopyExtraBufMono(s8, s7, sp0, s4);
+        }
+    }
+}
 
 void ADXB_ExecOneAdx(ADXB adxb) {
     ADXPD adxpd;

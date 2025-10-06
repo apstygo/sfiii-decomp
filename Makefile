@@ -89,13 +89,14 @@ CLANG_WARNINGS += -Wno-shift-count-overflow
 
 CLANG_DEFINES := -DTARGET_SDL3 -DSOUND_DISABLED -DXPT_TGT_EE -D_POSIX_C_SOURCE -DDEBUG
 CLANG_INCLUDES := $(COMMON_INCLUDES) -Ilibco
-CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) -std=c99 -O0
+CLANG_FLAGS := $(CLANG_INCLUDES) $(CLANG_WARNINGS) $(CLANG_DEFINES) -std=gnu11 -O0
 
 CLANG_LINKER_FLAGS := -lm -g -Llibco/build -llibco
 
 ifneq ($(PLATFORM),ps2)
-	CLANG_FLAGS += $(shell pkg-config --cflags sdl3)
-	CLANG_LINKER_FLAGS += $(shell pkg-config --libs sdl3)
+	PORT_PACKAGES := sdl3 libavcodec libavutil libavformat libswresample
+	CLANG_FLAGS += $(shell pkg-config --cflags $(PORT_PACKAGES))
+	CLANG_LINKER_FLAGS += $(shell pkg-config --libs $(PORT_PACKAGES))
 endif
 
 ifeq ($(PLATFORM),windows)
@@ -145,6 +146,11 @@ build: $(MAIN_TARGET)
 split:
 	@mkdir -p $(dir $(LINKER_SCRIPT))
 	$(GENERATE_LCF) $(LINKER_SCRIPT)
+
+split_cps3:
+	cargo build --release --manifest-path ./tools/saturn-splitter/rust-dis/Cargo.toml
+	python3 ./tools/combine-and-decrypt.py ./sfiii3n/ ./decrypted.bin
+	cargo run --release --manifest-path ./tools/saturn-splitter/rust-dis/Cargo.toml ./config/cps3/sfiii3n.yaml
 
 clean: ##@ clean extracted files, assets, and build artifacts
 	git clean -fdx $(ASSETS_DIR)/

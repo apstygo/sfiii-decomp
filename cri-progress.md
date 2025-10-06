@@ -17,7 +17,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ADXB_SetAhxDecSmpl
 - [x] ADXB_AhxTermSupply
 
-### adx_bsc
+### adx_bsc ✅
 
 - [x] SKG_Init
 - [x] ADXB_Init
@@ -37,6 +37,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ADXB_GetNumLoop
 - [x] ADXB_GetAinfLen
 - [x] ADXB_GetDefOutVol
+- [x] ADXB_GetDefPan
 - [x] adxb_get_key
 - [x] ADXB_GetStat
 - [x] ADXB_EntryData
@@ -46,10 +47,10 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ADXB_GetDecDtLen
 - [x] ADXB_GetDecNumSmpl
 - [x] ADXB_EvokeExpandSte
-- [ ] ADXB_EvokeDecode
+- [x] ADXB_EvokeDecode
 - [x] memcpy2
 - [x] ADXB_CopyExtraBufSte
-- [ ] ADXB_EndDecode
+- [x] ADXB_EndDecode
 - [x] ADXB_ExecOneAdx
 - [x] ADXB_ExecHndl
 
@@ -76,7 +77,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 ### adx_dcd5
 
 - [ ] ADX_DecodeSte4AsSte
-- [ ] ADX_DecodeSte4
+- [x] ADX_DecodeSte4
 
 ### adx_errs ✅
 
@@ -109,7 +110,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [ ] ADXF_GetPtStatEx
 - [x] adxf_AllocAdxFs
 - [x] adxf_CreateAdxFs
-- [ ] adxf_SetFileInfoEx
+- [x] adxf_SetFileInfoEx
 - [x] ADXF_Open
 - [x] adxf_SetAfsFileInfo
 - [x] ADXF_OpenAfs
@@ -210,34 +211,34 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] adxsjd_clear
 - [x] ADXSJD_Create
 - [x] ADXSJD_Destroy
-- [ ] ADXSJD_GetStat
+- [x] ADXSJD_GetStat
 - [x] ADXSJD_SetInSj
-- [ ] ADXSJD_SetMaxDecSmpl
-- [ ] ADXSJD_TermSupply
+- [x] ADXSJD_SetMaxDecSmpl
+- [x] ADXSJD_TermSupply
 - [x] ADXSJD_Start
 - [x] ADXSJD_Stop
 - [x] adxsjd_decode_prep
 - [x] adxsjd_get_wr
 - [ ] adxsjd_decexec_start
-- [ ] adxsjd_decexec_end
-- [ ] adxsjd_decode_exec
-- [ ] ADXSJD_ExecHndl
-- [ ] ADXSJD_ExecServer
+- [x] adxsjd_decexec_end
+- [x] adxsjd_decode_exec
+- [x] ADXSJD_ExecHndl
+- [x] ADXSJD_ExecServer
 - [x] ADXSJD_GetDecNumSmpl
 - [x] ADXSJD_SetLnkSw
-- [ ] ADXSJD_EntryTrapFunc
-- [ ] ADXSJD_SetTrapNumSmpl
-- [ ] ADXSJD_SetTrapCnt
-- [ ] ADXSJD_SetTrapDtLen
-- [ ] ADXSJD_GetFormat
+- [x] ADXSJD_EntryTrapFunc
+- [x] ADXSJD_SetTrapNumSmpl
+- [x] ADXSJD_SetTrapCnt
+- [x] ADXSJD_SetTrapDtLen
+- [x] ADXSJD_GetFormat
 - [x] ADXSJD_GetSfreq
-- [ ] ADXSJD_GetNumChan
+- [x] ADXSJD_GetNumChan
 - [x] ADXSJD_GetOutBps
-- [ ] ADXSJD_GetBlkSmpl
+- [x] ADXSJD_GetBlkSmpl
 - [x] ADXSJD_GetTotalNumSmpl
-- [ ] ADXSJD_GetNumLoop
+- [x] ADXSJD_GetNumLoop
 - [x] ADXSJD_GetDefOutVol
-- [ ] ADXSJD_GetDefPan
+- [x] ADXSJD_GetDefPan
 
 ### adx_stmc ✅
 
@@ -280,10 +281,10 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ADXPS2_SetupDvdFs
 - [x] ADXPS2_LoadFcacheDvd
 
-### adx_suht
+### adx_suht ✅
 
-- [ ] ADXPS2_SetupHostFs
-- [ ] ADXPS2_LoadFcacheHost
+- [x] ADXPS2_SetupHostFs
+- [x] ADXPS2_LoadFcacheHost
 
 ### adx_tlk ✅
 
@@ -316,15 +317,15 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ADXT_StartMem
 - [x] ADXT_StartMem2
 
-### adx_tsvr
+### adx_tsvr ✅
 
-- [ ] adxt_set_outpan
-- [ ] adxt_stat_decinfo
-- [ ] adxt_stat_prep
-- [ ] adxt_stat_playing
-- [ ] ADXT_ExecRdErrChk
-- [ ] ADXT_ExecRdCompChk
-- [ ] ADXT_ExecHndl
+- [x] adxt_set_outpan
+- [x] adxt_stat_decinfo
+- [x] adxt_stat_prep
+- [x] adxt_stat_playing
+- [x] ADXT_ExecRdErrChk
+- [x] ADXT_ExecRdCompChk
+- [x] ADXT_ExecHndl
 
 ### adx_xpnd ✅
 
@@ -369,10 +370,10 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] isNeedDevName
 - [x] addDevName
 
-### cri_srd
+### cri_srd ✅
 
 - [x] srd_reset_obj
-- [ ] SRD_Create
+- [x] SRD_Create
 - [x] SRD_Destroy
 - [x] SRD_ReqRdDvd
 - [x] SRD_GetStat
@@ -417,7 +418,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] DTX_CallUrpc
 - [x] DTX_ExecServer
 
-### dvci
+### dvci ✅
 
 - [x] dvCiGetInterface
 - [x] dvci_call_errfn
@@ -441,9 +442,9 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] dvCiGetNumTr
 - [x] dvci_getnumtr_upper
 - [x] dvci_getnumtr_lower
-- [ ] dvci_filesize_upper
-- [ ] dvci_filesize_lower
-- [ ] dvCiOptFn1
+- [x] dvci_filesize_upper
+- [x] dvci_filesize_lower
+- [x] dvCiOptFn1
 
 ### dvci_sub
 
@@ -504,7 +505,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 
 - [ ] lsc_ExecHndl
 
-### ps2_rna
+### ps2_rna ✅
 
 - [x] PS2RNA_SetupVoice
 - [x] ps2rna_init_psj
@@ -512,7 +513,7 @@ If you don't see a function in this list it doesn't need to be decompiled.
 - [x] ps2rna_get_psj
 - [x] ps2rna_release_psj
 - [x] ps2rna_rcvcbf
-- [ ] ps2rna_sndcbf
+- [x] ps2rna_sndcbf
 - [x] PS2RNA_Init
 - [x] PS2RNA_InitIopSnd
 - [x] PS2RNA_FinishIopSnd

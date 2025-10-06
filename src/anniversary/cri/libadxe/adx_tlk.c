@@ -293,7 +293,7 @@ void adxt_start_sj(ADXT adxt, SJ sj) {
     ADXSJD_SetInSj(adxt->sjd, sj);
     adxt->sji = sj;
     ADXSJD_Start(adxt->sjd);
-    adxt->stat = 1;
+    adxt->stat = ADXT_STAT_DECINFO;
     adxt->lesct = 0x7FFFFFFF;
     adxt->trpnsmpl = -1;
     adxt->lpcnt = 0;
@@ -348,7 +348,7 @@ void ADXT_StopWithoutLsc(ADXT adxt) {
     }
 
     adxt->sji = NULL;
-    adxt->stat = 0;
+    adxt->stat = ADXT_STAT_STOP;
     adxt->unkAC = 0;
     ADXCRS_Unlock();
 }
@@ -487,8 +487,14 @@ INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetNumSmpl)
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B5D8);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetSfreq);
 
+#if defined(TARGET_PS2)
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B608);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetNumChan);
+#else
+Sint32 ADXT_GetNumChan(ADXT adxt) {
+    not_implemented(__func__);
+}
+#endif
 
 INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", D_0055B638);
 INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tlk", ADXT_GetHdrLen);

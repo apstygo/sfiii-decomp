@@ -40,7 +40,7 @@ Sint32 srd_wait_svr_cnt = 0;
 Sint32 volatile srd_debug_geterror = 0;
 Sint32 volatile srd_debug_rdbg_cnt = 0;
 Sint32 volatile srd_debug_rded_cnt = 0;
-Sint32 srd_create_cnt = 0;
+Sint32 volatile srd_create_cnt = 0;
 Sint32 srd_destroy_cnt = 0;
 Sint32 volatile srd_history_pre = 0;
 Sint32 volatile srd_history = 0;
@@ -58,9 +58,6 @@ void srd_reset_obj() {
     memset(&srd_obj, 0, sizeof(srd_obj));
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_Create);
-#else
 SRD SRD_Create() {
     SRD srd = NULL;
 
@@ -80,7 +77,6 @@ SRD SRD_Create() {
 
     return srd;
 }
-#endif
 
 void SRD_Destroy(SRD srd) {
     SVM_LockVar();

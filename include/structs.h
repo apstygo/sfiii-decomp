@@ -114,8 +114,12 @@ struct _SYSTEM_W {
     s32 reset;         // offset 0x14, size 0x4
     u8 sound_mode;     // offset 0x18, size 0x1
     u8 screen_mode;    // offset 0x19, size 0x1
-    u8 bgm_type;       // offset 0x1A, size 0x1
-    u8 dummy;          // offset 0x1B, size 0x1
+
+    /// Controls background music type (arranged vs original)
+    /// offset 0x1A, size 0x1
+    u8 bgm_type;
+
+    u8 dummy; // offset 0x1B, size 0x1
 };
 
 typedef struct {
@@ -1341,7 +1345,7 @@ struct _SAVE_W {
 
 typedef struct {
     // total size: 0x8
-    u8*** msgAdr; // offset 0x0, size 0x4
+    s8*** msgAdr; // offset 0x0, size 0x4
     s8* msgNum;   // offset 0x4, size 0x4
 } MessageTable;
 

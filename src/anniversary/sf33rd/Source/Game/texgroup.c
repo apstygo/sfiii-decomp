@@ -294,15 +294,17 @@ void q_ldreq_texture_group(REQ* curr) {
 
                 parabora_own_table[plt_req[curr->id]] = cit2->prot;
 
+                // Q specific code
                 if (curr->ix == 18) {
-#if !defined(TARGET_PS2)
-                    fatal_error("This code is highly suspicious. Investigate it before removing this error");
-#endif
+#if defined(TARGET_PS2)
                     patchAdrs = ((u32**)ldchd)[8];
                     patchAdrs[37] = patchAdrs[3];
+#else
+                    cit2->cbca[37] = cit2->cbca[3];
+#endif
                 }
 
-                // Looks like this code handles some Akuma specific stuff
+                // Akuma specific code
                 if (curr->ix == 15) {
                     trsbas = (u16*)(((u32*)texgrplds[15].trans_table)[166] + texgrplds[15].trans_table);
                     count = *trsbas;

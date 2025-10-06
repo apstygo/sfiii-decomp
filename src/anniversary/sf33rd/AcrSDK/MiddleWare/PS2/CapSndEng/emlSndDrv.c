@@ -5,6 +5,10 @@
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRefPhd.h"
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/emlRpcQueue.h"
 
+#if !defined(TARGET_PS2)
+#include "port/sound/emlShim.h"
+#endif
+
 #include <eekernel.h>
 
 s32 mlSysSetMono(u32 mono_sw) {
@@ -44,21 +48,39 @@ s32 mlSeSetLfo(CSE_REQP* pReqp, u16 pmd_speed, u16 pmd_depth, u16 amd_speed, u16
 }
 
 s32 mlSeStop(CSE_REQP* pReqp) {
+#if defined(TARGET_PS2)
     return SendSeChange(pReqp, 0x10000002);
+#else
+    emlShimSeStop(pReqp);
+    return 0;
+#endif
 }
 
 s32 mlSeKeyoff(CSE_REQP* pReqp) {
+#if defined(TARGET_PS2)
     return SendSeChange(pReqp, 0x10000001);
+#else
+    emlShimSeStop(pReqp);
+    return 0;
+#endif
 }
 
 s32 mlSeStopAll() {
     CSE_REQP reqp = {};
-
+#if defined(TARGET_PS2)
     return SendSeChange(&reqp, 0x10000002);
+#else
+    emlShimSeStopAll();
+    return 0;
+#endif
 }
 
 s32 mlSeInitSndDrv() {
+#if defined(TARGET_PS2)
     flSifRpcSend(0x309, NULL, 0);
+#else
+    emlShimInit();
+#endif
     return 0;
 }
 
@@ -68,7 +90,11 @@ s32 StartSound(CSE_PHDP* pPHDP, CSE_REQP* pREQP) {
     param.cmd = 0x10000000;
     param.phdp = *pPHDP;
     param.reqp = *pREQP;
+#if defined(TARGET_PS2)
     mlRpcQueueSetData(1, &param, sizeof(CSE_SYS_PARAM_SNDSTART));
+#else
+    emlShimStartSound(&param);
+#endif
     return 0;
 }
 
