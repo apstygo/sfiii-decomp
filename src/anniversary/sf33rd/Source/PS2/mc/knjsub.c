@@ -9,15 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#if defined(TARGET_PS2)
 #include "mw_stdarg.h"
-#else
-#include <stdarg.h>
-#endif
-
-#if !defined(TARGET_PS2)
-#include "port/sdl/sdl_message_renderer.h"
-#endif
 
 typedef struct _rgba {
     // total size: 0x4
@@ -476,12 +468,7 @@ void KnjPuts(const s8* str) {
     pp = kw->pack_cur;
 
     while (1) {
-#if defined(TARGET_PS2)
         code = *((u8*)str)++;
-#else
-        code = *(u8*)str;
-        str++;
-#endif
 
         if (code == 0) {
             break;
@@ -495,12 +482,7 @@ void KnjPuts(const s8* str) {
         }
 
         if (((code >= 0x80) && (code <= 0x9F)) || ((code >= 0xE0) && (code < 0x100))) {
-#if defined(TARGET_PS2)
             c = *((u8*)str)++;
-#else
-            c = *(u8*)str;
-            str++;
-#endif
 
             if (c == 0) {
                 break;
@@ -1075,7 +1057,6 @@ s32 KnjCheckCode(const s8* str) {
 }
 
 static u32* make_env_pkt(u32* p, u32 /* unused */, u32 /* unused */) {
-#if defined(TARGET_PS2)
     u32 qwc = 3;
 
     *p++ = qwc | 0x10000000;
@@ -1089,7 +1070,6 @@ static u32* make_env_pkt(u32* p, u32 /* unused */, u32 /* unused */) {
     *((u64*)p)++ = SCE_GS_ALPHA_1;
     *((u64*)p)++ = SCE_GS_SET_TEST_1(0, 0, 0, 0, 0, 0, 1, 1);
     *((u64*)p)++ = SCE_GS_TEST_1;
-#endif
 
     return p;
 }
@@ -1122,9 +1102,6 @@ static u32* make_img_pkt(u32* p, u32* img, u32 dbp, u32 dbw, u32 dbsm, u32 dsax,
         pw = 1;
     }
 
-#if !defined(TARGET_PS2)
-    SDLMessageRenderer_CreateTexture(rrw, rrh, img, dbsm);
-#else
     nw = rrw * rrh * pw / 32;
 
     if ((rrw * rrh * pw) % 32) {
@@ -1155,7 +1132,6 @@ static u32* make_img_pkt(u32* p, u32* img, u32 dbp, u32 dbw, u32 dbsm, u32 dsax,
     *p++ = (u32)img;    // transfer addr
     *p++ = 0;
     *p++ = nw | 0x51000000;
-#endif
 
     return p;
 }
@@ -1208,9 +1184,6 @@ static u32* make_fnt_pkt(_kanji_w* kw, u32* p, u32* img, u32 han_f) {
     v1 = kw->fonth * 16;
     m = ((kw->dispw == kw->fontw) && (kw->disph == kw->fonth)) ? 0 : 1;
 
-#if !defined(TARGET_PS2)
-    SDLMessageRenderer_DrawTexture(x0, y0, x1, y1, 0, 0, u1, v1, kw->color);
-#else
     *p++ = 0x10000008;
     *p++ = 0;
     *p++ = 0;
@@ -1234,7 +1207,6 @@ static u32* make_fnt_pkt(_kanji_w* kw, u32* p, u32* img, u32 han_f) {
     *((u64*)p)++ = SCE_GS_SET_XYZ2(x0, y0, kw->z);
     *((u64*)p)++ = SCE_GS_SET_UV(u1, v1);
     *((u64*)p)++ = SCE_GS_SET_XYZ2(x1, y1, kw->z);
-#endif
 
     return p;
 }
@@ -1277,9 +1249,6 @@ static u32* make_fbg_pkt(_kanji_w* kw, u32* p, u32* /* unused */, u32 han_f) {
     v1 = kw->fonth * 16;
     m = ((kw->dispw == kw->fontw) && (kw->disph == kw->fonth)) ? 0 : 1;
 
-#if !defined(TARGET_PS2)
-    SDLMessageRenderer_DrawTexture(x0, y0, x1, y1, 8, 8, u1 + 8, v1 + 8, kw->bg_color);
-#else
     *p++ = 0x10000008;
     *p++ = 0;
     *p++ = 0;
@@ -1303,7 +1272,6 @@ static u32* make_fbg_pkt(_kanji_w* kw, u32* p, u32* /* unused */, u32 han_f) {
     *((u64*)p)++ = SCE_GS_SET_XYZ(x0, y0, kw->z - 1);
     *((u64*)p)++ = SCE_GS_SET_UV(u1 + 8, v1 + 8);
     *((u64*)p)++ = SCE_GS_SET_XYZ(x1, y1, kw->z - 1);
-#endif
 
     return p;
 }

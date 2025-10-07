@@ -14,7 +14,7 @@
 #define ALIGN_UP(x, a) (((x) + ((a) - 1)) & ~((a) - 1))
 
 // Compilation with GNU C Compilier means we are compiling CRI
-#if defined(__GNUC__) && !defined(M2CTX) && !defined(TARGET_SDL3)
+#if defined(__GNUC__) && !defined(M2CTX)
 #define INCLUDE_ASM(FOLDER, NAME)                                                                                      \
     __asm__("\t.text\n"                                                                                                \
             "\t.align\t3\n"                                                                                            \

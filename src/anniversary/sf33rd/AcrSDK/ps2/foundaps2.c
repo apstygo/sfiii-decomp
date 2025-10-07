@@ -15,8 +15,6 @@
 #include "sf33rd/AcrSDK/ps2/ps2PAD.h"
 #include "structs.h"
 
-#include "port/sdk_threads.h"
-
 #include <eekernel.h>
 #include <libcdvd.h>
 #include <libdma.h>
@@ -29,11 +27,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#if defined(TARGET_PS2)
 #include "mw_stdarg.h"
-#else
-#include <stdarg.h>
-#endif
 
 // bss
 FLPS2State flPs2State;
@@ -157,14 +151,12 @@ s32 flInitialize(s32 /* unused */, s32 /* unused */) {
     flPADInitialize();
     flPS2DebugInit();
 
-#if defined(TARGET_PS2)
     // This loop waits until we're on an even frame
     while (1) {
         if ((flPs2State.Oddeven = sceGsSyncV(0)) == 0) {
             break;
         }
     }
-#endif
 
     DPUT_T1_MODE(0x80);
     DPUT_T1_COUNT(0);
@@ -205,11 +197,6 @@ s32 system_work_init() {
 }
 
 s32 system_hard_init() {
-#if !defined(TARGET_PS2)
-    // This is PS2-specific hardware initialization code, which means we can omit it for non-PS2 systems
-    return 1;
-#endif
-
     s32 i;
 
     sceSifInitRpc(0);
@@ -298,11 +285,6 @@ s32 flFlip(u32 flag) {
 }
 
 void flPS2VramFullClear() {
-#if !defined(TARGET_PS2)
-    // We don't need to clear VRAM on non-PS2 systems
-    return;
-#endif
-
     u32 handle;
     u8* lpBuff;
     u32 i;
@@ -797,10 +779,6 @@ s32 flLogOut(s8* format, ...) {
 
     flFileAppend("../acrout.txt", str, strlen(str));
     va_end(args);
-
-#if !defined(TARGET_PS2)
-    fatal_error(str);
-#endif
 
     return 1;
 }

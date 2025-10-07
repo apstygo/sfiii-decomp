@@ -12,8 +12,6 @@
 #include "sf33rd/Source/Game/workuser.h"
 #include "structs.h"
 
-#include "port/sdk_threads.h"
-
 #include <cri_mw.h>
 #include <libcdvd.h>
 #include <libgraph.h>
@@ -43,13 +41,7 @@ PS2CDReadMode ps2CdReadMode;
 s16 plt_req[2]; // size: 0x4, address: 0x579084
 u8 ldreq_break;
 struct _adx_fs* adxf = NULL;
-
-#if defined(TARGET_PS2)
 u8 sf3ptinfo[3352];
-#else
-u8 sf3ptinfo[3352 + 12];
-#endif
-
 REQ q_ldreq[16];      // size: 0x280, address: 0x5E1DD0
 u8 ldreq_result[294]; // size: 0x126, address: 0x5E1CA0
 

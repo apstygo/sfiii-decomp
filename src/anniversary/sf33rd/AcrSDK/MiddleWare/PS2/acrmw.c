@@ -4,8 +4,6 @@
 #include "sf33rd/AcrSDK/MiddleWare/PS2/CapSndEng/cse.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 
-#include "port/sdl/sdl_app.h"
-
 #include <cri_mw.h>
 #include <eeregs.h>
 #include <libgraph.h>
@@ -27,7 +25,6 @@ void flmwFlip(u32 /* unused */) {
     ADXM_ExecMain();
     cseExecServer();
 
-#if defined(TARGET_PS2)
     if (flPs2State.Irq_count <= flPs2State.FrameCount) {
         flPs2State.Oddeven = (*GS_CSR >> 13) & 1;
         flmwFlipSub();
@@ -44,7 +41,4 @@ void flmwFlip(u32 /* unused */) {
             // Wait
         }
     }
-#else
-    SDLApp_EndFrame();
-#endif
 }
