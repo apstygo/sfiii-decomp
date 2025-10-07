@@ -8,10 +8,6 @@
 #include "sf33rd/AcrSDK/ps2/flps2vram.h"
 #include "sf33rd/AcrSDK/ps2/foundaps2.h"
 
-#if !defined(TARGET_PS2)
-#include "port/sdl/sdl_game_renderer.h"
-#endif
-
 void flPS2SetClearColor(u32 col);
 s32 flPS2SendTextureRegister(u32 th);
 
@@ -1289,11 +1285,6 @@ s32 flPS2SetTextureRegister(u32 th, u64* texA, u64* tex1, u64* tex0, u64* clamp,
     s32 dw;
     s32 mip_tbp[MIP_TBP_SIZE];
     s32 mip_dbw[MIP_DBW_SIZE];
-
-#if !defined(TARGET_PS2)
-    SDLGameRenderer_SetTexture(th);
-    // return;
-#endif
 
     lpflTexture = &flTexture[LO_16_BITS(th) - 1];
 

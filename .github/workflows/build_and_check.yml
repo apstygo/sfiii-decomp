@@ -9,9 +9,9 @@ on:
 
 jobs:
     build:
-        # Building and testing cannot work if the repository owner is not apstygo
+        # Building and testing cannot work if the repository owner is not crowded-street
         # due to the missing secrets
-        if: github.repository == 'apstygo/sfiii-decomp'
+        if: github.repository == 'crowded-street/sfiii-decomp'
         runs-on: ubuntu-22.04
         permissions:
             contents: write
@@ -61,17 +61,9 @@ jobs:
                 name: build-log
                 path: build.log
 
-          - name: Update progress in README
-            if: github.event_name != 'pull_request_target'
-            run: python3 tools/update_progress_in_readme.py
-
           - name: Update CRI progress
             if: github.event_name != 'pull_request_target'
             run: python3 tools/update_cri_progress.py
-
-          - name: Update Caplogo progress
-            if: github.event_name != 'pull_request_target'
-            run: python3 tools/update_caplogo_progress.py
 
           - name: Commit progress updates
             if: github.event_name != 'pull_request_target'
