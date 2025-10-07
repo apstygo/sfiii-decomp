@@ -9,9 +9,9 @@ on:
 
 jobs:
     build:
-        # Building and testing cannot work if the repository owner is not apstygo
+        # Building and testing cannot work if the repository owner is not crowded-street
         # due to the missing secrets
-        if: github.repository == 'apstygo/sfiii-decomp'
+        if: github.repository == 'crowded-street/sfiii-decomp'
         runs-on: ubuntu-22.04
         permissions:
             contents: write
