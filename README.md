@@ -12,7 +12,7 @@ CRI middleware is partially decompiled. Most of file system and sound functions 
 
 ## Where to start
 
-Visit [the Wiki](https://github.com/apstygo/sfiii-decomp/wiki) for instructions on how to [build](https://github.com/apstygo/sfiii-decomp/wiki/Building) and [decompile](https://github.com/apstygo/sfiii-decomp/wiki/Decompiling) and other useful resources.
+Visit [the docs folder](docs) for instructions on how to [build](docs/builde-guide.md) and [decompile](docs/decompiling.md) and other useful resources.
 
 ## Community
 
