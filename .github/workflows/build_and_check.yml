@@ -11,7 +11,7 @@ jobs:
     build:
         # Building and testing cannot work if the repository owner is not crowded-street
         # due to the missing secrets
-        if: github.repository == 'crowded-street/sfiii-decomp'
+        if: github.repository == 'crowded-street/3s-decomp'
         runs-on: ubuntu-22.04
         permissions:
             contents: write
