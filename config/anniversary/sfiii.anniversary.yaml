@@ -539,14 +539,14 @@ segments:
       - [0x2B28A0, c, sf33rd/Source/Game/win_pl]
       - [0x2B7760, c, sf33rd/Source/Compress/zlibApp]
       - [0x2B7970, c, sf33rd/Source/Compress/Lz77/Lz77Dec]
-      - [0x2B7FC0, asm, sf33rd/Source/Compress/zlib/infcodes]
-      - [0x2B92F0, asm, sf33rd/Source/Compress/zlib/infblock]
-      - [0x2BB340, asm, sf33rd/Source/Compress/zlib/adler32]
-      - [0x2BB5C0, asm, sf33rd/Source/Compress/zlib/inffast]
-      - [0x2BC090, asm, sf33rd/Source/Compress/zlib/inflate]
-      - [0x2BCEA0, asm, sf33rd/Source/Compress/zlib/inftrees]
-      - [0x2BDB00, asm, sf33rd/Source/Compress/zlib/infutil]
-      - [0x2BDD70, asm, sf33rd/Source/Compress/zlib/zutil]
+      - [0x2B7FC0, c, sf33rd/Source/Compress/zlib/infcodes]
+      - [0x2B92F0, c, sf33rd/Source/Compress/zlib/infblock]
+      - [0x2BB340, c, sf33rd/Source/Compress/zlib/adler32]
+      - [0x2BB5C0, c, sf33rd/Source/Compress/zlib/inffast]
+      - [0x2BC090, c, sf33rd/Source/Compress/zlib/inflate]
+      - [0x2BCEA0, c, sf33rd/Source/Compress/zlib/inftrees]
+      - [0x2BDB00, c, sf33rd/Source/Compress/zlib/infutil]
+      - [0x2BDD70, c, sf33rd/Source/Compress/zlib/zutil]
       - [0x2BDE50, c, sf33rd/Source/Game/debug/Debug]
       - [0x2BFF30, c, sf33rd/Source/Game/debug/OBJTEST]
       - [0x2C0100, c, sf33rd/Source/Common/MemMan]
@@ -759,7 +759,7 @@ segments:
       - [0x376200, .data, bin2obj/etc]
       - [0x376E30, .data, bin2obj/char_table]
 
-      - [0x3A54E0, data, data_3A54E0] # zlib stuff
+      - [0x3A54E0, .data, sf33rd/Source/Compress/zlib/inftrees]
 
       - [0x3A65E0, .data, cri/libadxe/adx_amp]
       - [0x3A68E8, .data, cri/libadxe/adx_bahx]
@@ -1227,12 +1227,12 @@ segments:
       - [0x458150, .rodata, sf33rd/Source/Game/win_pl]
       - [0x4582C8, .rodata, sf33rd/Source/Compress/zlibApp]
       - [0x4582E0, .rodata, sf33rd/Source/Compress/Lz77/Lz77Dec]
-      - [0x458300, rodata, sf33rd/Source/Compress/zlib/infcodes]
-      - [0x458490, rodata, sf33rd/Source/Compress/zlib/infblock]
-      - [0x458780, rodata, sf33rd/Source/Compress/zlib/inffast]
-      - [0x458890, rodata, sf33rd/Source/Compress/zlib/inflate]
-      - [0x4589F0, rodata, sf33rd/Source/Compress/zlib/inftrees]
-      - [0x458D08, rodata, sf33rd/Source/Compress/zlib/zutil]
+      - [0x458300, .rodata, sf33rd/Source/Compress/zlib/infcodes]
+      - [0x458490, .rodata, sf33rd/Source/Compress/zlib/infblock]
+      - [0x458780, .rodata, sf33rd/Source/Compress/zlib/inffast]
+      - [0x458890, .rodata, sf33rd/Source/Compress/zlib/inflate]
+      - [0x4589F0, .rodata, sf33rd/Source/Compress/zlib/inftrees]
+      - [0x458D08, .rodata, sf33rd/Source/Compress/zlib/zutil]
       - [0x458D10, .rodata, sf33rd/Source/Game/debug/Debug]
       - [0x458E78, .rodata, sf33rd/Source/Game/debug/Deb_Data]
       - [0x459600, .rodata, sf33rd/Source/Game/debug/Nakai]
@@ -1496,8 +1496,8 @@ segments:
       - [0x4744A0, .sdata, sf33rd/Source/Game/VM_DATA]
       - [0x474500, .sdata, sf33rd/Source/Game/Win]
       - [0x474540, .sdata, sf33rd/Source/Game/win_pl]
-      - [0x474580, sdata, sf33rd/Source/Compress/zlib/inftrees]
-      - [0x474590, sdata, sf33rd/Source/Compress/zlib/infutil]
+      - [0x474580, .sdata, sf33rd/Source/Compress/zlib/inftrees]
+      - [0x474590, .sdata, sf33rd/Source/Compress/zlib/infutil]
       - [0x4745D8, .sdata, sf33rd/Source/Game/debug/Debug]
       - [0x474630, .sdata, sf33rd/Source/Game/debug/Deb_Data]
       - [0x474650, .sdata, sf33rd/Source/Common/PPGFile]
@@ -1661,7 +1661,7 @@ segments:
       - { type: .sbss, vram: 0x579AC4, name: sf33rd/Source/Game/WORK_SYS }
       - { type: .sbss, vram: 0x579DB0, name: sf33rd/Source/Game/workuser }
       - { type: .sbss, vram: 0x57A780, name: sf33rd/Source/Compress/zlibApp }
-      - { type: sbss, vram: 0x57A7F8, name: sf33rd/Source/Compress/zlib/zutil }
+      - { type: .sbss, vram: 0x57A7F8, name: sf33rd/Source/Compress/zlib/zutil }
       - { type: .sbss, vram: 0x57A7FC, name: sf33rd/Source/Game/debug/Debug_ID }
       - { type: .sbss, vram: 0x57A800, name: sf33rd/Source/Game/debug/Debug }
       - { type: .sbss, vram: 0x57A8B0, name: sf33rd/Source/Game/debug/OBJTEST }

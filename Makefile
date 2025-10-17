@@ -47,8 +47,9 @@ GENERATE_LCF := $(PYTHON) -m tools.lcf.generate_lcf
 
 COMMON_INCLUDES := -I$(INCLUDE_DIR) -I$(INCLUDE_DIR)/sdk -I$(INCLUDE_DIR)/cri -I$(INCLUDE_DIR)/cri/ee -Izlib
 PS2_INCLUDES := $(COMMON_INCLUDES) -I$(INCLUDE_DIR)/gcc
-PS2_DEFINES := -DTARGET_PS2
+PS2_DEFINES := -DTARGET_PS2 -DDEBUG
 MWCCPS2_FLAGS := -gccinc $(PS2_INCLUDES) -O0,p -c -lang c -str readonly -fl divbyzerocheck -sdatathreshold 128 $(PS2_DEFINES)
+MWCCPS2_ZLIB_FLAGS := -inline off $(MWCCPS2_FLAGS)
 EEGCC_FLAGS := $(PS2_INCLUDES) -O2 -G0 -c $(PS2_DEFINES) -DXPT_TGT_EE
 
 AS_FLAGS += -EL -I $(INCLUDE_DIR) -G 128 -march=r5900 -mabi=eabi -no-pad-sections
@@ -59,7 +60,8 @@ LD_FLAGS := -main func_00100008 -map
 MAIN_TARGET := $(BUILD_DIR)/$(MAIN)
 
 S_FILES := $(shell find $(ASM_DIR) -name '*.s' -not -path *nonmatchings* 2>/dev/null)
-GAME_C_FILES := $(shell find $(SRC_DIR)/sf33rd -name '*.c' 2>/dev/null)
+GAME_C_FILES := $(shell find $(SRC_DIR)/sf33rd -name '*.c' -not -path '*/Compress/zlib/*' 2>/dev/null)
+ZLIB_C_FILES := $(shell find $(SRC_DIR)/sf33rd/Source/Compress/zlib -name '*.c' 2>/dev/null)
 CRI_C_FILES := $(shell find $(SRC_DIR)/cri -name '*.c' 2>/dev/null)
 BIN2OBJ_C_FILES := $(shell find $(SRC_DIR)/bin2obj -name '*.c' 2>/dev/null)
 
@@ -67,12 +69,14 @@ ASM_O_FILES := $(patsubst %.s,%.s.o,$(S_FILES))
 ASM_O_FILES := $(addprefix $(BUILD_DIR)/,$(ASM_O_FILES))
 GAME_O_FILES := $(patsubst %.c,%.c.o,$(GAME_C_FILES))
 GAME_O_FILES := $(addprefix $(BUILD_DIR)/,$(GAME_O_FILES))
+ZLIB_O_FILES := $(patsubst %.c,%.c.o,$(ZLIB_C_FILES))
+ZLIB_O_FILES := $(addprefix $(BUILD_DIR)/,$(ZLIB_O_FILES))
 CRI_O_FILES := $(patsubst %.c,%.c.o,$(CRI_C_FILES))
 CRI_O_FILES := $(addprefix $(BUILD_DIR)/,$(CRI_O_FILES))
 BIN2OBJ_O_FILES := $(patsubst %.c,%.c.o,$(BIN2OBJ_C_FILES))
 BIN2OBJ_O_FILES := $(addprefix $(BUILD_DIR)/,$(BIN2OBJ_O_FILES))
 
-ALL_O_FILES := $(GAME_O_FILES) $(CRI_O_FILES) $(BIN2OBJ_O_FILES) $(ASM_O_FILES)
+ALL_O_FILES := $(GAME_O_FILES) $(ZLIB_O_FILES) $(CRI_O_FILES) $(BIN2OBJ_O_FILES) $(ASM_O_FILES)
 EEGCC_O_FILES := $(CRI_O_FILES) $(BIN2OBJ_O_FILES)
 
 LINKER_SCRIPT := $(BUILD_DIR)/$(MAIN).lcf
@@ -120,6 +124,11 @@ $(BUILD_DIR)/%.c.o: %.c
 $(CRI_O_FILES): $(BUILD_DIR)/%.c.o: %.c
 	@mkdir -p $(dir $@)
 	$(EEGCC_PATHS) $(EEGCC) $< -o $@ $(EEGCC_FLAGS)
+
+$(ZLIB_O_FILES): $(BUILD_DIR)/%.c.o: %.c
+	@mkdir -p $(dir $@)
+	python3 tools/mwccgap/mwccgap.py $< $@ --mwcc-path $(MWCCPS2) --macro-inc-path $(INCLUDE_DIR)/macro.inc --use-wibo --wibo-path $(WIBO) --as-march r5900 --as-mabi eabi --target-encoding shift_jis $(MWCCPS2_ZLIB_FLAGS)
+	$(PATCH_ALIGNMENT) $@
 
 # Tools
 
