@@ -160,15 +160,17 @@ typedef ADXSJD_OBJ* ADXSJD;
 // ADXAMP
 
 typedef struct {
-    /* 0x00 */ Char8 pad0[1];
+    /* 0x00 */ Sint8 used;
     /* 0x01 */ Sint8 unk1;
     /* 0x02 */ Sint8 unk2;
     /* 0x03 */ Char8 pad3[1];
-    /* 0x04 */ SJ unk4[1];
-    /* 0x08 */ Char8 pad8[4];
-    /* 0x0C */ SJ unkC[1];
-    /* 0x10 */ Char8 pad10[4];
-    /* 0x14 */ Sint32 unk14[6];
+    /* 0x04 */ SJ unk4[2];
+    /* 0x0C */ SJ unkC[2];
+    /* 0x14 */ Sint32 ExtractNumSmpl[2];
+    /* 0x1C */ Sint32 unk1C;
+    /* 0x20 */ Sint32 Sfreq;
+    /* 0x24 */ Float32 FrmLen;
+    /* 0x28 */ Float32 FrmPrd;
     /* 0x2C */ Sint32 unk2C;
 } ADXAMP_OBJ; /* size = 0x30 */
 
