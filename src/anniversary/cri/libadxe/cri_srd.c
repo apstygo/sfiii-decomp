@@ -52,7 +52,6 @@ Sint32 SRD_SceIoctl(Sint32 fd, Sint32 req, void* arg2);
 Sint64 SRD_SceLseek(Sint32 fd, Sint64 offset, Sint32 whence);
 Sint32 SRD_SceRead(Sint32 fd, void* buf, Sint32 nbyte);
 
-
 static void srd_reset_obj() {
     srd_build;
     memset(&srd_obj, 0, sizeof(srd_obj));
@@ -130,7 +129,7 @@ Sint32 SRD_ReqRdHst(SRD srd, Sint32 arg1, Sint32 arg2, Sint64 arg3, Sint32 arg4)
 
     ret = 0;
     SVM_LockVar();
-    
+
     if ((srd->stat == 0) || (srd->stat == 3) || (srd->stat == 9)) {
         srd->devtype = 2;
         srd->stat = 1;
@@ -212,7 +211,7 @@ void SRD_WaitComplete(SRD srd) {
         SVM_Unlock();
         break;
     }
-    
+
     if (srd->stat == 2) {
         if (srd_obj.devtype == 1) {
             srd_wait_dvd(srd);
@@ -486,7 +485,7 @@ Sint32 SRD_GetErrCode(void) {
 void SRD_WaitForExecServer(void) {
     srd_wait_svr_cnt = 0;
 
-    while(1) {
+    while (1) {
         if (srd_enter_fg != 1) {
             break;
         }
@@ -545,10 +544,10 @@ Sint32 SRD_GetReadStatusHost() {
                 return 1;
             }
         }
-        
+
         SVM_Unlock();
     }
-    
+
     return 0;
 }
 
@@ -569,14 +568,14 @@ Sint32 SRD_DebugPrint(void) {
     scePrintf(" srd_enter_fg       = %d\n", srd_enter_fg);
     scePrintf(" srd_debug_geterror = %d\n", srd_debug_geterror);
     scePrintf(" srd_obj.stat       = %d\n", srd_obj.stat);
-    
+
     if (srd_obj.devtype == 1) {
         scePrintf(" srd_obj.devtype    = DVD\n");
     }
     if (srd_obj.devtype == 2) {
         scePrintf(" srd_obj.devtype    = HOST\n");
     }
-    
+
     scePrintf(" Read Status(DVD=2/HST=1) = %d\n", SRD_GetReadStatus());
     return 0;
 }
@@ -612,7 +611,7 @@ Sint32 SRD_GetFilesystem64(void) {
 void SRD_SetLockHost(Sint32 arg0) {
     srd_host_lock = srd_hst_exec_locked = (Sint8)arg0;
     switch (arg0) {
-        case 1:
+    case 1:
         scePrintf("SRD: Enable HostLock\r\n");
     }
 }

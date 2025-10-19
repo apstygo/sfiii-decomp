@@ -70,7 +70,7 @@ static void ADXSTMF_SetupHandleMember(ADXSTM stm, Sint32 offset, Sint32 arg2, Si
     stm->cur_ofst = 0;
 
     // fake
-    if(file_len) {
+    if (file_len) {
         u8 x = -x;
     }
 

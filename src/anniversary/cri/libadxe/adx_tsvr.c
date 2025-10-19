@@ -1,16 +1,15 @@
 #include "common.h"
 #include <cri/private/libadxe/structs.h>
 
-#include <cri/private/libadxe/ps2_rna.h>
-#include <cri/private/libadxe/adx_crs.h>
-#include <cri/private/libadxe/adx_sjd.h>
 #include <cri/private/libadxe/adx_amp.h>
+#include <cri/private/libadxe/adx_crs.h>
 #include <cri/private/libadxe/adx_errs.h>
 #include <cri/private/libadxe/adx_rnap.h>
 #include <cri/private/libadxe/adx_sjd.h>
 #include <cri/private/libadxe/adx_stmc.h>
 #include <cri/private/libadxe/adx_tlk.h>
 #include <cri/private/libadxe/lsc.h>
+#include <cri/private/libadxe/ps2_rna.h>
 
 #include <cri/cri_adxt.h>
 #include <string.h>
@@ -98,10 +97,11 @@ void adxt_eos_entry(ADXT adxt) {
 
     stm = adxt->stm;
     sjd = adxt->sjd;
-    
+
     if (stm == NULL) {
         return;
-    } 
+    }
+
     if (sjd == NULL) {
         return;
     }
@@ -129,31 +129,31 @@ void adxt_set_outpan(ADXT adxt) {
     if (num_chan == 1) {
         if ((adxt->outpan[0] == -0x80) && (def_pan[0] == -0x80)) {
             ADXRNA_SetOutPan(adxt->rna, 0, 0);
-        } else if ((adxt->outpan[0] != -0x80) && (def_pan[0] == -0x80)){
+        } else if ((adxt->outpan[0] != -0x80) && (def_pan[0] == -0x80)) {
             ADXRNA_SetOutPan(adxt->rna, 0, adxt->outpan[0]);
         } else if ((adxt->outpan[0] == -0x80) && (def_pan[0] != -0x80)) {
             ADXRNA_SetOutPan(adxt->rna, 0, def_pan[0]);
-        } else { 
+        } else {
             ADXRNA_SetOutPan(adxt->rna, 0, adxt->outpan[0] + def_pan[0]);
         }
     } else {
         if ((adxt->outpan[0] == -0x80) && (def_pan[0] == -0x80)) {
             ADXRNA_SetOutPan(adxt->rna, 0, -0xF);
-        } else if ((adxt->outpan[0] != -0x80) && (def_pan[0] == -0x80)){
+        } else if ((adxt->outpan[0] != -0x80) && (def_pan[0] == -0x80)) {
             ADXRNA_SetOutPan(adxt->rna, 0, adxt->outpan[0]);
         } else if ((adxt->outpan[0] == -0x80) && (def_pan[0] != -0x80)) {
             ADXRNA_SetOutPan(adxt->rna, 0, def_pan[0]);
-        } else { 
+        } else {
             ADXRNA_SetOutPan(adxt->rna, 0, adxt->outpan[0] + def_pan[0]);
         }
 
         if ((adxt->outpan[1] == -0x80) && (def_pan[1] == -0x80)) {
             ADXRNA_SetOutPan(adxt->rna, 1, 0xF);
-        } else if ((adxt->outpan[1] != -0x80) && (def_pan[1] == -0x80)){
+        } else if ((adxt->outpan[1] != -0x80) && (def_pan[1] == -0x80)) {
             ADXRNA_SetOutPan(adxt->rna, 1, adxt->outpan[1]);
         } else if ((adxt->outpan[1] == -0x80) && (def_pan[1] != -0x80)) {
             ADXRNA_SetOutPan(adxt->rna, 1, def_pan[1]);
-        } else { 
+        } else {
             ADXRNA_SetOutPan(adxt->rna, 1, adxt->outpan[1] + def_pan[1]);
         }
     }
@@ -164,7 +164,8 @@ void adxt_nlp_trap_entry(ADXT adxt) {
     SJCK sp10;
     SJCK sp20;
     SJCK sp30;
-    s16 sp40; int x, xx;
+    s16 sp40;
+    s32 x, xx;
     s16 sp42, y;
     s32 temp_v0;
     s32 var_v1;
@@ -176,7 +177,7 @@ void adxt_nlp_trap_entry(ADXT adxt) {
     if (adxt->lnkflg == 0) {
         return;
     }
-    
+
     sp42 = 0;
     SJ_GetChunk(sj, 1, 0x7FFFFFFF, &sp);
     SJ_GetChunk(sj, 1, 0x7FFFFFFF, &sp20);
@@ -215,7 +216,7 @@ void adxt_nlp_trap_entry(ADXT adxt) {
             SJ_UngetChunk(sj, 1, &sp30.data);
         }
     }
-    
+
     adxt->decofst += ADXSJD_GetDecNumSmpl(sjd);
     ADXSJD_Stop(sjd);
     ADXSJD_Start(sjd);
@@ -432,16 +433,16 @@ void adxt_stat_decend(ADXT adxt) {
     for (var_s4 = 0; var_s4 < temp_s7; var_s4++) {
         SJ_GetChunk(adxt->sjo[var_s4], 0, var_s5 * 2, &sp0[var_s4]);
         x = sp0[var_s4].len;
-        var_s5 = (s32) (((x >> 1) < var_s5) ? (x >> 1) : var_s5);
+        var_s5 = (s32)(((x >> 1) < var_s5) ? (x >> 1) : var_s5);
     }
-    
+
     for (var_s4 = 0; var_s4 < temp_s7; var_s4++) {
         SJ_SplitChunk(&sp0[var_s4], var_s5 * 2, &sp0[var_s4], &sp10[var_s4]);
         memset(sp0[var_s4].data, 0, sp0[var_s4].len);
         SJ_PutChunk(adxt->sjo[var_s4], 1, &sp0[var_s4]);
         SJ_UngetChunk(adxt->sjo[var_s4], 0, &sp10[var_s4]);
     }
-    
+
     var_s1_2 = 0;
     adxt->flush_nsmpl += var_s5;
     ADXCRS_Unlock();
@@ -449,7 +450,7 @@ void adxt_stat_decend(ADXT adxt) {
         temp_v0_2 = (u32)SJ_GetNumData(adxt->sjo[var_s4], 1) >> 1;
         var_s1_2 = ((temp_v0_2 >= var_s1_2) ? temp_v0_2 : var_s1_2);
     }
-    
+
     if (((var_s1_2 + ADXRNA_GetNumData(adxt->rna)) - adxt->flush_nsmpl) <= 0) {
         ADXRNA_SetTransSw(adxt->rna, 0);
         ADXRNA_SetPlaySw(adxt->rna, 0);
@@ -471,7 +472,7 @@ void adxt_RcvrReplay(ADXT adxt) {
     ADXRNA_SetPlaySw(adxt->rna, 0);
     ADXSJD_Stop(adxt->sjd);
     ADXCRS_Unlock();
-    
+
     stm = adxt->stm;
     if (stm != NULL) {
         ADXSTM_Stop(stm);
@@ -482,7 +483,7 @@ void adxt_RcvrReplay(ADXT adxt) {
     for (var_s2 = 0; var_s2 < adxt->maxnch; var_s2++) {
         SJ_Reset(adxt->sjo[var_s2]);
     }
-    
+
     stm = adxt->stm;
     if (stm != NULL) {
         ADXSTM_Seek(stm, 0);
@@ -507,14 +508,14 @@ void ADXT_ExecErrChk(ADXT adxt) {
         } else {
             adxt->edeccnt = 0;
         }
-        
+
         adxt->edecpos = temp_v0;
-        
+
         if (adxt->ercode != 0) {
             if (adxt->autorcvr == 1 || adxt->autorcvr == 2) {
                 ADXT_Stop(adxt);
             }
-            
+
             if (adxt->autorcvr != 0) {
                 adxt->ercode = 0;
                 adxt->edeccnt = 0;
@@ -523,13 +524,14 @@ void ADXT_ExecErrChk(ADXT adxt) {
     } else {
         adxt->edeccnt = 0;
     }
-    
-    if ((temp_s1 == ADXT_STAT_DECINFO || temp_s1 == ADXT_STAT_PREP || temp_s1 == ADXT_STAT_PLAYING) && (adxt->pause_flag == 0) && (ADXSJD_GetStat(adxt->sjd) != 3)) {
+
+    if ((temp_s1 == ADXT_STAT_DECINFO || temp_s1 == ADXT_STAT_PREP || temp_s1 == ADXT_STAT_PLAYING) &&
+        (adxt->pause_flag == 0) && (ADXSJD_GetStat(adxt->sjd) != 3)) {
         var_v0_2 = (adxt->sji == NULL) ? 0 : SJ_GetNumData(adxt->sji, 1);
-        
+
         if (var_v0_2 < 0x40) {
             adxt->eshrtcnt++;
-            
+
             if (temp_s1 == 3) {
                 if (adxt->svrfreq * 5 < adxt->eshrtcnt) {
                     adxt->ercode = -1;
@@ -539,15 +541,14 @@ void ADXT_ExecErrChk(ADXT adxt) {
                     adxt->ercode = -1;
                 }
             }
-            
-            
+
             if (adxt->ercode != 0) {
                 if (adxt->autorcvr == 1) {
                     ADXT_Stop(adxt);
                 } else if (adxt->autorcvr == 2) {
                     adxt_RcvrReplay(adxt);
                 }
-                
+
                 if (adxt->autorcvr != 0) {
                     adxt->ercode = 0;
                     adxt->eshrtcnt = 0;
@@ -559,14 +560,14 @@ void ADXT_ExecErrChk(ADXT adxt) {
     } else {
         adxt->eshrtcnt = 0;
     }
-    
+
     if ((adxt->stm != NULL) && (ADXSTM_GetStat(adxt->stm) == 4)) {
         if (adxt->autorcvr == 1) {
             ADXT_Stop(adxt);
         } else if (adxt->autorcvr == 2) {
             adxt_RcvrReplay(adxt);
         }
-        
+
         if (adxt->autorcvr != 0) {
             adxt->ercode = 0;
             adxt->eshrtcnt = 0;
@@ -650,19 +651,19 @@ Sint32 ADXT_GetStatRead(ADXT adxt) {
     if (adxt == NULL) {
         return 0;
     }
-    
+
     stm = adxt->stm;
     if (stm == NULL) {
         lsc0 = adxt->lsc;
         if (lsc0 == NULL) {
             return 0;
         }
-        
+
         lsc1 = lsc0->stm_hndl;
         if (lsc1 != NULL) {
             return ADXSTM_GetReadFlg(lsc1);
         }
-        
+
         return 0;
     }
     return ADXSTM_GetReadFlg(stm);

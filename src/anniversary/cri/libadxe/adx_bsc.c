@@ -62,24 +62,24 @@ static Sint32 SKG_Finish(void) {
     return 0;
 }
 
-static Sint32 SKG_GenerateKey(Sint8 *arg0, Sint32 arg1, Uint16 *arg2, Uint16 *arg3, Uint16 *arg4) {
+static Sint32 SKG_GenerateKey(Sint8* arg0, Sint32 arg1, Uint16* arg2, Uint16* arg3, Uint16* arg4) {
     s16 var_a0;
     s16 var_t0;
     s16 var_t2;
     int i;
-    
+
     if (skg_init_count == 0) {
         SKG_Init();
     }
-    
+
     *arg2 = 0;
     *arg3 = 0;
     *arg4 = 0;
-    
+
     if ((arg0 == 0) && (arg1 <= 0)) {
         return 0;
     }
-    
+
     var_t2 = skg_prim_tbl[0x100];
     for (i = 0; i < arg1; i++) {
         var_t2 = skg_prim_tbl[(var_t2 * skg_prim_tbl[arg0[i] + 0x80]) % 0x400];
@@ -94,14 +94,14 @@ static Sint32 SKG_GenerateKey(Sint8 *arg0, Sint32 arg1, Uint16 *arg2, Uint16 *ar
     for (i = 0; i < arg1; i++) {
         var_a0 = skg_prim_tbl[(var_a0 * skg_prim_tbl[arg0[i] + 0x80]) % 0x400];
     }
-    
+
     *arg2 = var_t2;
     *arg3 = var_t0;
     *arg4 = var_a0;
     return 0;
 }
 
-static Sint32 SKG_GetDefKey(Uint16* arg0, Uint16* arg1, Uint16 *arg2) {
+static Sint32 SKG_GetDefKey(Uint16* arg0, Uint16* arg1, Uint16* arg2) {
     if (skg_init_count == 0) {
         SKG_Init();
     }
@@ -130,22 +130,22 @@ void* adxb_DefGetWr(void* object, Sint32* arg1, Sint32* arg2, Sint32* arg3) {
     ADXB adxb = (ADXB)object;
     void* ret = adxb->unk3C;
     int temp;
-    
+
     temp = adxb->unk8C;
-    
+
     *arg1 = adxb->unk8C;
     *arg2 = adxb->unk40 - adxb->unk8C;
     *arg3 = adxb->total_samples - adxb->unk88;
 
     // fake
-    if (adxb->unk8C){
+    if (adxb->unk8C) {
         u8 x = -x;
     }
-    
-    if (temp){
+
+    if (temp) {
         u8 x = -x;
     }
-    
+
     return ret;
 }
 
@@ -352,7 +352,7 @@ void ADXB_EntryGetWrFunc(ADXB adxb, void* (*get_wr)(void*, ptrdiff_t*, Sint32*, 
     adxb->object = object;
 }
 
-void ADXB_EntryAddWrFunc(ADXB adxb, void *arg1, Sint32 arg2) {
+void ADXB_EntryAddWrFunc(ADXB adxb, void* arg1, Sint32 arg2) {
     adxb->add_wr = arg1;
     adxb->unk84 = arg2;
 }
@@ -468,7 +468,7 @@ Sint16 ADXB_GetDefPan(ADXB adxb, Sint32 arg1) {
     return adxb->unkDE[arg1];
 }
 
-ADX_UNK *ADXB_GetDataId(ADXB adxb) {
+ADX_UNK* ADXB_GetDataId(ADXB adxb) {
     return &adxb->unkCC;
 }
 
@@ -587,7 +587,7 @@ void ADXB_EvokeExpandMono(ADXB adxb, Sint32 arg1) {
     ADXB_UNK* unk = &adxb->unk48;
     ADXPD pd = adxb->adxpd;
     int arg = unk->unk14 + (unk->unk20 * 2);
-    
+
     ADXPD_EntryMono(pd, unk->unk0, arg1, arg, 0);
     ADXPD_Start(pd);
 }
@@ -609,7 +609,7 @@ void ADXB_EvokeExpandPl2(ADXB adxb, Sint32 arg1) {
     ADXB_UNK* unk = &adxb->unk48;
     ADXPD pd = adxb->adxpd;
     int arg = unk->unk14 + (unk->unk20 * 2);
-    
+
     ADXPD_EntryPl2(pd, unk->unk0, arg1, arg, arg + (unk->unk1C * 2));
     ADXPD_Start(pd);
 }

@@ -295,7 +295,7 @@ void adxsjd_decexec_start(ADXSJD sjd) {
 
         while (SJ_GetChunk(sji, 1, SJCK_LEN_MAX, &sjd->unk14), sjd->unk14.len != 0) {
             len = sjd->unk14.len;
-            
+
             for (i = 0; i < sjd->unk14.len; i += 1) {
                 if (sjd->unk14.data[i] != 0) {
                     break;
@@ -393,7 +393,7 @@ void adxsjd_decexec_extra(ADXSJD sjd) {
     dt_len = ADXB_GetDecDtLen(adxb);
     dec_samples = ADXB_GetDecNumSmpl(adxb);
     temp_s0_2 = total_samples - sjd->unk34;
-    temp_s0_3 = (dec_samples< temp_s0_2) ? dec_samples : temp_s0_2;
+    temp_s0_3 = (dec_samples < temp_s0_2) ? dec_samples : temp_s0_2;
     sjd->unk2C += temp_s0_3;
     sjd->unk30 += dt_len;
     sjd->unk34 += temp_s0_3;
@@ -557,7 +557,7 @@ Sint32 ADXSJD_GetLpStartOfst(ADXSJD sjd) {
     if (sjd == NULL) {
         return 0;
     }
-    
+
     return ADXB_GetLpStartOfst(sjd->adxb);
 }
 
@@ -590,10 +590,10 @@ Sint16 ADXSJD_GetDefPan(ADXSJD sjd, Sint32 arg1) {
 }
 
 s32 ADXSJD_GetDataId(ADXSJD sjd) {
-    if (ADXB_GetAinfLen(sjd->adxb) > 0 && (sjd->state == 2 || sjd->state == 3)) {   
+    if (ADXB_GetAinfLen(sjd->adxb) > 0 && (sjd->state == 2 || sjd->state == 3)) {
         return ADXB_GetDataId(sjd->adxb);
     }
-    
+
     return 0;
 }
 

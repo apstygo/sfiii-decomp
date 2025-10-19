@@ -104,8 +104,8 @@ Sint32 ADXF_LoadPartitionEx(Sint32 arg0, Sint8* arg1, void* arg2, void* arg3) {
     if (res < 0) {
         return res;
     }
-    
-    while(1) {
+
+    while (1) {
         res = ADXF_GetPtStat(arg0);
         if (res == 3) {
             ret = 0;
@@ -118,7 +118,7 @@ Sint32 ADXF_LoadPartitionEx(Sint32 arg0, Sint8* arg1, void* arg2, void* arg3) {
         ADXM_ExecMain();
         adxf_wait_1ms();
     }
-    
+
     return ret;
 }
 
@@ -146,7 +146,8 @@ Sint32 ADXF_LoadPtNwEx(Sint32 ptid, Char8* fname, void* dir, void* ptinfo, void*
     return adxf_LoadPtBothNw(ptid, 0, 0, fname, dir, (ADXF_PTINFO*)ptinfo, tmpbuf, tbsize, 0);
 }
 
-Sint32 ADXF_LoadPtFromAfsNwEx(Sint32 set_ptid, Sint32 rd_ptid, Sint32 rd_flid, void *ptinfo, void *tmpbuf, Sint32 tbsize) {
+Sint32 ADXF_LoadPtFromAfsNwEx(Sint32 set_ptid, Sint32 rd_ptid, Sint32 rd_flid, void* ptinfo, void* tmpbuf,
+                              Sint32 tbsize) {
     return adxf_LoadPtBothNw(set_ptid, rd_ptid, rd_flid, 0, 0, ptinfo, tmpbuf, tbsize, 0);
 }
 
@@ -257,7 +258,9 @@ Sint32 ADXF_GetPtStat(Sint32 ptid) {
     return ADXF_GetPtStatEx(ptid);
 }
 
-#define READ_BUF_INT32(i) ((((Uint8 *)adxf_ldpt_buf)[((i) * 4) + 0] << 0) | (((Uint8 *)adxf_ldpt_buf)[((i) * 4) + 1] << 8) | (((Uint8 *)adxf_ldpt_buf)[((i) * 4) + 2] << 16) | (((Uint8 *)adxf_ldpt_buf)[((i) * 4) + 3] << 24))
+#define READ_BUF_INT32(i)                                                                                              \
+    ((((Uint8*)adxf_ldpt_buf)[((i) * 4) + 0] << 0) | (((Uint8*)adxf_ldpt_buf)[((i) * 4) + 1] << 8) |                   \
+     (((Uint8*)adxf_ldpt_buf)[((i) * 4) + 2] << 16) | (((Uint8*)adxf_ldpt_buf)[((i) * 4) + 3] << 24))
 Sint32 ADXF_GetPtStatEx(Sint32 ptid) {
     ADXF_PTINFO* ptinfo;
     ADXF_PTINFO_SMALL* ptinfo_small;
@@ -300,7 +303,7 @@ Sint32 ADXF_GetPtStatEx(Sint32 ptid) {
 
     var_s1 = 0;
     if (ptinfo->nfile == 0) {
-        if (memcmp(&adxf_ldpt_buf[var_s1], "AFS", sizeof("AFS")-1) != 0) {
+        if (memcmp(&adxf_ldpt_buf[var_s1], "AFS", sizeof("AFS") - 1) != 0) {
             ADXERR_CallErrFunc1("E0040701:Illigal format(not AFS).(ADXF_GetPtStat)");
             adxf_CloseLdptnwHn();
             return ADXF_STAT_ERROR;
@@ -608,7 +611,7 @@ Sint32 ADXF_ReadSj32(ADXF adxf, Sint32 nsct, SJ sj) {
         return 0;
     }
 
-    ret = adxf_read_sj32(adxf, nsct, sj);;
+    ret = adxf_read_sj32(adxf, nsct, sj);
     adxf->sjflag = 1;
     return ret;
 }
@@ -817,7 +820,7 @@ Sint32 ADXF_Seek(ADXF adxf, Sint32 pos, Sint32 type) {
     if (adxf->stat == 2) {
         ADXF_Stop(adxf);
     }
-    
+
     if (type == 0) {
         adxf->skpos = pos;
     } else if (type == 1) {
@@ -828,13 +831,13 @@ Sint32 ADXF_Seek(ADXF adxf, Sint32 pos, Sint32 type) {
         ADXERR_CallErrFunc1("E9040826:'type' is illigal.(ADXF_Seek)");
         return ADXF_ERR_PRM;
     }
-    
+
     if (adxf->skpos < 0) {
         adxf->skpos = 0;
     } else if (adxf->fnsct < adxf->skpos) {
         adxf->skpos = adxf->fnsct;
     }
-    
+
     adxf_SetCmdHstry(6, 1, (intptr_t)adxf, pos, type);
     return adxf->skpos;
 }
@@ -875,7 +878,7 @@ Sint32 ADXF_GetNumReqSct(ADXF adxf, Sint32* seekpos) {
         *seekpos = 0;
         return ADXF_ERR_PRM;
     }
-    
+
     *seekpos = adxf->rdstpos;
     return adxf->rqsct;
 }
@@ -885,7 +888,7 @@ Sint32 ADXF_GetNumReadSct(ADXF adxf) {
         ADXERR_CallErrFunc1("E9040831:'adxf' is NULL.(ADXF_GetNumReadSct)");
         return ADXF_ERR_PRM;
     }
-    
+
     return adxf->rdsct;
 }
 
@@ -988,7 +991,7 @@ void ADXF_SetReqRdSct(ADXF adxf, Sint32 nsct) {
         ADXERR_CallErrFunc1("E0041201:state is reading(ADXF_SetReqRdSct)");
         return;
     }
-    
+
     adxf->rqrdsct = nsct;
 }
 
@@ -1000,7 +1003,7 @@ Sint32 ADXF_GetStatRead(ADXF adxf) {
     if (adxf->stm == NULL) {
         return 0;
     }
-    
+
     return ADXSTM_GetReadFlg(adxf->stm);
 }
 

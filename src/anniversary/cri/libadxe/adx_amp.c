@@ -21,7 +21,7 @@ void ADXAMP_Finish() {
     }
 }
 
-ADXAMP ADXAMP_Create(Sint32 arg0, SJ *arg1, SJ *arg2) {
+ADXAMP ADXAMP_Create(Sint32 arg0, SJ* arg1, SJ* arg2) {
     ADXAMP amp;
     Sint32 i, j;
 
@@ -30,13 +30,13 @@ ADXAMP ADXAMP_Create(Sint32 arg0, SJ *arg1, SJ *arg2) {
             break;
         }
     }
-    
+
     if (i == 0x10) {
         return NULL;
     }
-    
+
     ADXCRS_Lock();
-    
+
     amp = &adxamp_obj[i];
     amp->unk2 = arg0;
 
@@ -45,7 +45,7 @@ ADXAMP ADXAMP_Create(Sint32 arg0, SJ *arg1, SJ *arg2) {
         amp->ExtractNumSmpl[j] = 0;
         amp->unkC[j] = arg2[j];
     }
-    
+
     amp->unk1 = 0;
     amp->unk1C = arg0;
     amp->Sfreq = 44100;
@@ -115,19 +115,19 @@ void adxamp_extract(ADXAMP amp) {
     s32 var_s6;
     Sint32 i, j, k;
 
-    temp_f1 = (f32) amp->Sfreq * amp->FrmLen;
+    temp_f1 = (f32)amp->Sfreq * amp->FrmLen;
     for (i = 0; i < amp->unk1C; i++) {
         temp_s0 = SJ_GetNumData(amp->unk4[i], 1) / 2 / temp_f1;
         temp_v1 = SJ_GetNumData(amp->unkC[i], 0) / 16;
         var_s6 = (temp_s0 < temp_v1) ? temp_s0 : temp_v1;
-        
+
         for (k = 0; k < var_s6; k++) {
             var_s0 = 0;
             var_s3 = 0;
             while (var_s0 < temp_f1) {
                 int len;
                 short* p;
-                
+
                 SJ_GetChunk(amp->unk4[i], 1, (temp_f1 - var_s0) * 2, &sp);
                 len = sp.len / 2;
                 p = (short*)sp.data;
@@ -138,14 +138,16 @@ void adxamp_extract(ADXAMP amp) {
                     }
                     var_s3 = (var_s3 < temp_a0_4) ? temp_a0_4 : var_s3;
                 }
-                
+
                 var_s0 += len;
                 SJ_PutChunk(amp->unk4[i], 0, &sp);
             }
-            
+
             SJ_GetChunk(amp->unkC[i], 0, 0x10, &sp10);
             if (sp10.len == 0) {
-                while(1);
+                while (1) {
+                    // Do nothing
+                }
             }
 
             // TODO: ?
@@ -158,7 +160,7 @@ void adxamp_extract(ADXAMP amp) {
             amp->unk2C += 1;
         }
     }
-    
+
     return;
 }
 
@@ -170,7 +172,7 @@ void ADXAMP_ExecHndl(ADXAMP amp) {
 
 void ADXAMP_ExecServer(void) {
     Sint32 i;
-    
+
     for (i = 0; i < 16; i++) {
         if (adxamp_obj[i].used == 1) {
             ADXAMP_ExecHndl(&adxamp_obj[i]);
