@@ -118,7 +118,9 @@ void ADXSJD_SetInSj(ADXSJD sjd, SJ sj) {
     ADXB_SetAc3InSj(sjd->adxb, sj);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_SetOutSj);
+void ADXSJD_SetOutSj(ADXSJD sjd, Sint32 arg1, SJ arg2) {
+    sjd->sjo[arg1] = arg2;
+}
 
 void ADXSJD_SetMaxDecSmpl(ADXSJD sjd, Sint32 max_samples) {
     sjd->unk38 = max_samples;
@@ -222,11 +224,9 @@ void* adxsjd_get_wr(ADXSJD sjd, ptrdiff_t* arg1, Sint32* arg2, Sint32* arg3) {
     Sint32 a0;
 
     first_out = sjd->sjo[0];
-    sjo = sjd->sjo;
-    chunk_p = sjd->chunks;
 
     for (i = 0; i < ADXB_GetNumChan(sjd->adxb); i++) {
-        SJ_GetChunk(sjo[i], 0, 0x4000, &chunk_p[i]);
+        SJ_GetChunk(sjd->sjo[i], 0, 0x4000, &sjd->chunks[i]);
     }
 
     *arg1 = ((void*)sjd->chunks[0].data - SJRBF_GetBufPtr(first_out)) / 2;
@@ -234,28 +234,24 @@ void* adxsjd_get_wr(ADXSJD sjd, ptrdiff_t* arg1, Sint32* arg2, Sint32* arg3) {
     a0 = sjd->unk38;
     temp_v0_3 = sjd->chunks[0].len / 2;
 
-    if (temp_v0_3 < a0) {
-        a0 = temp_v0_3;
+    if (a0 <= temp_v0_3) {
+        *arg2 = a0;
+    } else {
+        *arg2 = temp_v0_3;
     }
-
-    *arg2 = a0;
 
     if (sjd->trap_num_samples >= 0) {
-        var_v0 = sjd->trap_num_samples - sjd->trap_count;
+        *arg3 = sjd->trap_num_samples - sjd->trap_count;
     } else {
-        var_v0 = 0x1FFFFFFF;
+        *arg3 = 0x1FFFFFFF;
     }
 
-    *arg3 = var_v0;
     return ADXB_GetPcmBuf(sjd->adxb);
 }
 
-#define READ_MAGIC(ptr) ((((Uint8*)(ptr))[1] | ((Uint16*)(ptr))[0] << 8) & 0xFFFF)
+#define BSWAP_U16(_val) ((Uint16)((((_val & 0xFF00) >> 8)) | ((_val << 8) & 0xFF00)))
+#define BSWAP_S16(_val) ((Sint16)((((_val & 0xFF00) >> 8)) | ((_val << 8) & 0xFF00)))
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", adxsjd_decexec_start);
-#else
-// Needs testing
 void adxsjd_decexec_start(ADXSJD sjd) {
     ADXB adxb = sjd->adxb;
     SJ sji = sjd->sji;
@@ -263,8 +259,8 @@ void adxsjd_decexec_start(ADXSJD sjd) {
     Sint16 sp10;
     Sint32 blk_smpl;
     Sint32 num_data;
-    Sint32 var_16;
-    Sint32 var_5;
+    Sint32 len;
+    Sint32 i;
 
     if ((sjd->trap_num_samples >= 0) && (sjd->trap_count >= sjd->trap_num_samples)) {
         if (sjd->trap_func != NULL) {
@@ -279,7 +275,7 @@ void adxsjd_decexec_start(ADXSJD sjd) {
 
     SJ_GetChunk(sji, 1, SJCK_LEN_MAX, &sjd->unk14);
 
-    if ((ADXB_GetFormat(adxb) == 0) && (sjd->unk14.len >= 4) && (READ_MAGIC(sjd->unk14.data) == 0x8001)) {
+    if ((ADXB_GetFormat(adxb) == 0) && (sjd->unk14.len >= 4) && (BSWAP_U16(((Sint16*)sjd->unk14.data)[0]) == 0x8001)) {
         sjd->state = 3;
 
         if (ADX_DecodeFooter(sjd->unk14.data, sjd->unk14.len, &sp10) == 0) {
@@ -298,23 +294,19 @@ void adxsjd_decexec_start(ADXSJD sjd) {
         }
 
         while (SJ_GetChunk(sji, 1, SJCK_LEN_MAX, &sjd->unk14), sjd->unk14.len != 0) {
-            var_5 = 0;
-
-            while (1) {
-                var_16 = var_5 < sjd->unk14.len;
-
-                if (!var_16 || sjd->unk14.data[var_5] != 0) {
+            len = sjd->unk14.len;
+            
+            for (i = 0; i < sjd->unk14.len; i += 1) {
+                if (sjd->unk14.data[i] != 0) {
                     break;
                 }
-
-                var_5 += 1;
             }
 
-            SJ_SplitChunk(&sjd->unk14, var_5, &sjd->unk14, &sp);
+            SJ_SplitChunk(&sjd->unk14, i, &sjd->unk14, &sp);
             SJ_PutChunk(sji, 0, &sjd->unk14);
             SJ_UngetChunk(sji, 1, &sp);
 
-            if (var_16) {
+            if (i < len) {
                 break;
             }
         }
@@ -347,7 +339,6 @@ void adxsjd_decexec_start(ADXSJD sjd) {
     ADXB_EntryData(adxb, sjd->unk14.data, sjd->unk14.len);
     ADXB_Start(adxb);
 }
-#endif
 
 void adxsjd_decexec_end(ADXSJD sjd) {
     ADXB adxb = sjd->adxb;
@@ -388,13 +379,25 @@ void adxsjd_decexec_end(ADXSJD sjd) {
     ADXB_Reset(adxb);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", adxsjd_decexec_extra);
-#else
 void adxsjd_decexec_extra(ADXSJD sjd) {
-    not_implemented(__func__);
+    ADXB adxb;
+    Sint32 temp_a0;
+    Sint32 total_samples;
+    Sint32 temp_s0_2;
+    Sint32 temp_s0_3;
+    Sint32 dt_len;
+    Sint32 dec_samples;
+
+    adxb = sjd->adxb;
+    total_samples = ADXB_GetTotalNumSmpl(adxb);
+    dt_len = ADXB_GetDecDtLen(adxb);
+    dec_samples = ADXB_GetDecNumSmpl(adxb);
+    temp_s0_2 = total_samples - sjd->unk34;
+    temp_s0_3 = (dec_samples< temp_s0_2) ? dec_samples : temp_s0_2;
+    sjd->unk2C += temp_s0_3;
+    sjd->unk30 += dt_len;
+    sjd->unk34 += temp_s0_3;
 }
-#endif
 
 void adxsjd_decode_exec(ADXSJD sjd) {
     ADXB adxb = sjd->adxb;
@@ -440,27 +443,42 @@ void ADXSJD_ExecServer() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetDecDtLen);
+Sint32 ADXSJD_GetDecDtLen(ADXSJD sjd) {
+    return sjd->unk30;
+}
 
 Sint32 ADXSJD_GetDecNumSmpl(ADXSJD sjd) {
     return sjd->unk2C;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_SetDecPos);
+void ADXSJD_SetDecPos(ADXSJD sjd, s32 arg1) {
+    sjd->unk34 = arg1;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetDecPos);
+Sint32 ADXSJD_GetDecPos(ADXSJD sjd) {
+    return sjd->unk34;
+}
 
 void ADXSJD_SetLnkSw(ADXSJD sjd, Sint32 sw) {
     sjd->lnkflg = sw;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetLnkSw);
+Sint32 ADXSJD_GetLnkSw(ADXSJD sjd) {
+    return sjd->lnkflg;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_SetExtString);
+void ADXSJD_SetExtString(ADXSJD sjd) {
+    ADXB_SetExtString(sjd->adxb);
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_SetDefExtString);
+void ADXSJD_SetDefExtString(void) {
+    ADXB_SetDefExtString();
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_EntryFltFunc);
+void ADXSJD_EntryFltFunc(ADXSJD sjd, void (*func)(void*, Sint32, Sint8*, Sint32), void* arg2) {
+    sjd->flt_func = func;
+    sjd->flt_obj = arg2;
+}
 
 void ADXSJD_EntryTrapFunc(ADXSJD sjd, void (*func)(void*), void* obj) {
     sjd->trap_func = func;
@@ -471,19 +489,25 @@ void ADXSJD_SetTrapNumSmpl(ADXSJD sjd, Sint32 samples) {
     sjd->trap_num_samples = samples;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetTrapNumSmpl);
+Sint32 ADXSJD_GetTrapNumSmpl(ADXSJD sjd) {
+    return sjd->trap_num_samples;
+}
 
 void ADXSJD_SetTrapCnt(ADXSJD sjd, Sint32 cnt) {
     sjd->trap_count = cnt;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetTrapCnt);
+Sint32 ADXSJD_GetTrapCnt(ADXSJD sjd) {
+    return sjd->trap_count;
+}
 
 void ADXSJD_SetTrapDtLen(ADXSJD sjd, Sint32 dt_len) {
     sjd->trap_dt_len = dt_len;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetTrapDtLen);
+Sint32 ADXSJD_GetTrapDtLen(ADXSJD sjd) {
+    return sjd->trap_dt_len;
+}
 
 Sint32 ADXSJD_GetFormat(ADXSJD sjd) {
     return ADXB_GetFormat(sjd->adxb);
@@ -505,50 +529,52 @@ Sint32 ADXSJD_GetBlkSmpl(ADXSJD sjd) {
     return ADXB_GetBlkSmpl(sjd->adxb);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetBlkLen);
+void ADXSJD_GetBlkLen(ADXSJD sjd) {
+    ADXB_GetBlkLen(sjd->adxb);
+}
 
 Sint32 ADXSJD_GetTotalNumSmpl(ADXSJD sjd) {
     return ADXB_GetTotalNumSmpl(sjd->adxb);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetCof);
+void ADXSJD_GetCof(ADXSJD sjd) {
+    ADXB_GetCof(sjd->adxb);
+}
 
 Sint32 ADXSJD_GetNumLoop(ADXSJD sjd) {
     return ADXB_GetNumLoop(sjd->adxb);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetLpInsNsmpl);
+void ADXSJD_GetLpInsNsmpl(ADXSJD sjd) {
+    ADXB_GetLpInsNsmpl(sjd->adxb);
+}
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetLpStartPos);
-#else
 Sint32 ADXSJD_GetLpStartPos(ADXSJD sjd) {
-    not_implemented(__func__);
+    return ADXB_GetLpStartPos(sjd->adxb);
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetLpStartOfst);
+Sint32 ADXSJD_GetLpStartOfst(ADXSJD sjd) {
+    if (sjd == NULL) {
+        return 0;
+    }
+    
+    return ADXB_GetLpStartOfst(sjd->adxb);
+}
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetLpEndPos);
-#else
 Sint32 ADXSJD_GetLpEndPos(ADXSJD sjd) {
-    not_implemented(__func__);
+    return ADXB_GetLpEndPos(sjd->adxb);
 }
-#endif
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetLpEndOfst);
-#else
 Sint32 ADXSJD_GetLpEndOfst(ADXSJD sjd) {
-    not_implemented(__func__);
+    return ADXB_GetLpEndOfst(sjd->adxb);
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetAinfLen);
+void ADXSJD_GetAinfLen(ADXSJD sjd) {
+    ADXB_GetAinfLen(sjd->adxb);
+}
 
 Sint32 ADXSJD_GetDefOutVol(ADXSJD sjd) {
-    if (ADXB_GetAinfLen(sjd->adxb) > 0 && ((Uint8)sjd->state - 2) < 2U) {
+    if (ADXB_GetAinfLen(sjd->adxb) > 0 && (sjd->state == 2 || sjd->state == 3)) {
         return ADXB_GetDefOutVol(sjd->adxb);
     }
 
@@ -556,27 +582,37 @@ Sint32 ADXSJD_GetDefOutVol(ADXSJD sjd) {
 }
 
 Sint16 ADXSJD_GetDefPan(ADXSJD sjd, Sint32 arg1) {
-    if ((ADXB_GetAinfLen(sjd->adxb) > 0) && (((u8)sjd->state - 2) < 2U)) {
+    if ((ADXB_GetAinfLen(sjd->adxb) > 0) && (sjd->state == 2 || sjd->state == 3)) {
         return ADXB_GetDefPan(sjd->adxb, arg1);
     } else {
         return -0x80;
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetDataId);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetHdrLen);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetFmtBps);
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_GetSpsdInfo);
-#else
-Sint32 ADXSJD_GetSpsdInfo(ADXSJD sjd) {
-    not_implemented(__func__);
+s32 ADXSJD_GetDataId(ADXSJD sjd) {
+    if (ADXB_GetAinfLen(sjd->adxb) > 0 && (sjd->state == 2 || sjd->state == 3)) {   
+        return ADXB_GetDataId(sjd->adxb);
+    }
+    
+    return 0;
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_TakeSnapshot);
+s32 ADXSJD_GetHdrLen(ADXSJD sjd) {
+    return sjd->unk98;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_sjd", ADXSJD_RestoreSnapshot);
+void ADXSJD_GetFmtBps(ADXSJD sjd) {
+    ADXB_GetFmtBps(sjd->adxb);
+}
+
+void* ADXSJD_GetSpsdInfo(ADXSJD sjd) {
+    return sjd->unk58;
+}
+
+void ADXSJD_TakeSnapshot(ADXSJD sjd) {
+    ADXB_TakeSnapshot(sjd->adxb);
+}
+
+void ADXSJD_RestoreSnapshot(ADXSJD sjd) {
+    ADXB_RestoreSnapshot(sjd->adxb);
+}

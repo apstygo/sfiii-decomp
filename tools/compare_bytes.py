@@ -75,14 +75,6 @@ EXPECTED_ERRORS = {
     0xDD0B4: 0x00004384,
     0xDD0B8: 0x3E020286,
     0xDD0BC: 0x21104300,
-
-    # adx_sjd::adxsjd_get_wr: (a1, a2, a3) regswap
-    0x2D1740: 0x2DA8A000,
-    0x2D1748: 0x2DB0C000,
-    0x2D1750: 0x2DB8E000,
-    0x2D17C8: 0x0000A3AE,
-    0x2D17E8: 0x0000C4AE,
-    0x2D180C: 0x0000E2AE,
     
     # efff6::effect_F6_init: lh operand swap
     0x11DB9C: 0x00004384,
