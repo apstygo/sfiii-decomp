@@ -1,6 +1,9 @@
 #include "common.h"
 #include <cri/private/libadxe/structs.h>
 
+#include <cri/private/libadxe/ps2_rna.h>
+#include <cri/private/libadxe/adx_crs.h>
+#include <cri/private/libadxe/adx_sjd.h>
 #include <cri/private/libadxe/adx_amp.h>
 #include <cri/private/libadxe/adx_errs.h>
 #include <cri/private/libadxe/adx_rnap.h>
@@ -20,26 +23,97 @@ Sint32 adxt_dbg_nch = 0;
 Sint32 adxt_dbg_ndt = 0;
 Sint32 adxt_dbg_rna_ndata = 0;
 
-#if defined(TARGET_PS2)
-void adxt_trap_entry_lps(ADXT adxt);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tsvr", adxt_trap_entry_lps);
-#else
+// fwd declare
+void adxt_trap_entry(ADXT adxt);
+
 void adxt_trap_entry_lps(ADXT adxt) {
-    not_implemented(__func__);
+    s32 lp_epos;
+    s32 diff;
+    s32 lp_spos;
+    s32 lp_soff;
+    ADXSJD sjd;
+
+    sjd = adxt->sjd;
+    lp_spos = ADXSJD_GetLpStartPos(sjd);
+    lp_soff = ADXSJD_GetLpStartOfst(sjd);
+    lp_epos = ADXSJD_GetLpEndPos(sjd);
+    ADXSJD_TakeSnapshot(sjd);
+    diff = lp_epos - lp_spos;
+    ADXSJD_SetTrapCnt(sjd, 0);
+    adxt->trpnsmpl = diff;
+    ADXSJD_SetTrapNumSmpl(sjd, diff);
+    ADXSJD_SetTrapDtLen(sjd, lp_soff);
+    ADXSJD_SetDecPos(sjd, lp_spos);
+    ADXSJD_EntryTrapFunc(sjd, adxt_trap_entry, adxt);
 }
-#endif
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_tsvr", D_0055BCD0);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tsvr", adxt_trap_entry);
+void adxt_trap_entry(ADXT adxt) {
+    s32 temp_a1;
+    s32 temp_s3;
+    s32 temp_s4;
+    s32 temp_s5;
+    ADXSJD sjd;
+    SJ sj;
+    SJCK sp;
 
-#if defined(TARGET_PS2)
-void adxt_eos_entry(ADXT adxt);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tsvr", adxt_eos_entry);
-#else
+    sjd = adxt->sjd;
+    sj = adxt->sji;
+
+    temp_s3 = ADXSJD_GetLpStartPos(sjd);
+    temp_s5 = ADXSJD_GetLpStartOfst(sjd);
+    temp_s4 = ADXSJD_GetLpEndPos(sjd);
+
+    if ((adxt->stm == NULL) && (adxt->lpflg == 0)) {
+        ADXSJD_SetTrapNumSmpl(adxt->sjd, -1);
+        return;
+    }
+
+    SJ_GetChunk(sj, 1, adxt->lp_skiplen, &sp);
+    if (sp.len < adxt->lp_skiplen) {
+        ADXERR_CallErrFunc1("E8101201 adxt_trap_entry: not enough data");
+    }
+
+    SJ_PutChunk(sj, 0, &sp);
+    ADXSJD_SetTrapCnt(sjd, 0);
+    temp_a1 = temp_s4 - temp_s3;
+    adxt->trpnsmpl = temp_a1;
+    ADXSJD_SetTrapNumSmpl(sjd, temp_a1);
+    ADXSJD_SetTrapDtLen(sjd, temp_s5);
+    ADXSJD_SetDecPos(sjd, temp_s3);
+
+    if (adxt->pmode == 2) {
+        SJ_Reset(sj);
+        SJ_GetChunk(sj, 1, temp_s5, &sp);
+        SJ_PutChunk(sj, 0, &sp);
+    }
+
+    ADXSJD_RestoreSnapshot(sjd);
+    adxt->lpcnt += 1;
+}
+
 void adxt_eos_entry(ADXT adxt) {
-    not_implemented(__func__);
+    s32 temp_a2;
+    ADXSJD sjd;
+    ADXSTM stm;
+
+    stm = adxt->stm;
+    sjd = adxt->sjd;
+    
+    if (stm == NULL) {
+        return;
+    } 
+    if (sjd == NULL) {
+        return;
+    }
+
+    temp_a2 = ADXSJD_GetLpStartOfst(sjd);
+    if (adxt->lpflg == 0) {
+        ADXSJD_SetTrapNumSmpl(adxt->sjd, -1);
+        ADXSTM_SetEos(adxt->stm, 0x7FFFFFFF);
+    } else {
+        ADXSTM_Seek(stm, temp_a2 / 0x800);
+    }
 }
-#endif
 
 void adxt_set_outpan(ADXT adxt) {
     Sint32 i;
@@ -53,70 +127,108 @@ void adxt_set_outpan(ADXT adxt) {
     }
 
     if (num_chan == 1) {
-        if (adxt->outpan[0] == -0x80) {
-            if (def_pan[0] == -0x80) {
-                ADXRNA_SetOutPan(adxt->rna, 0, 0);
-            } else {
-                goto lbl1;
-            lbl2:
-                ADXRNA_SetOutPan(adxt->rna, 0, adxt->outpan[0]);
-            }
-        } else {
-            if (def_pan[0] == -0x80) {
-                goto lbl2;
-            lbl1:
-                ADXRNA_SetOutPan(adxt->rna, 0, def_pan[0]);
-            } else {
-                ADXRNA_SetOutPan(adxt->rna, 0, (Sint16)(adxt->outpan[0] & 0xFFFF) + def_pan[0]);
-            }
+        if ((adxt->outpan[0] == -0x80) && (def_pan[0] == -0x80)) {
+            ADXRNA_SetOutPan(adxt->rna, 0, 0);
+        } else if ((adxt->outpan[0] != -0x80) && (def_pan[0] == -0x80)){
+            ADXRNA_SetOutPan(adxt->rna, 0, adxt->outpan[0]);
+        } else if ((adxt->outpan[0] == -0x80) && (def_pan[0] != -0x80)) {
+            ADXRNA_SetOutPan(adxt->rna, 0, def_pan[0]);
+        } else { 
+            ADXRNA_SetOutPan(adxt->rna, 0, adxt->outpan[0] + def_pan[0]);
         }
     } else {
-        if (adxt->outpan[0] == -0x80) {
-            if (def_pan[0] == -0x80) {
-                ADXRNA_SetOutPan(adxt->rna, 0, -0xF);
-            } else {
-                goto lbl3;
-            lbl4:
-                ADXRNA_SetOutPan(adxt->rna, 0, adxt->outpan[0]);
-            }
-        } else {
-            if (def_pan[0] == -0x80) {
-                goto lbl4;
-            lbl3:
-                ADXRNA_SetOutPan(adxt->rna, 0, def_pan[0]);
-            } else {
-                ADXRNA_SetOutPan(adxt->rna, 0, adxt->outpan[0] + def_pan[0]);
-            }
+        if ((adxt->outpan[0] == -0x80) && (def_pan[0] == -0x80)) {
+            ADXRNA_SetOutPan(adxt->rna, 0, -0xF);
+        } else if ((adxt->outpan[0] != -0x80) && (def_pan[0] == -0x80)){
+            ADXRNA_SetOutPan(adxt->rna, 0, adxt->outpan[0]);
+        } else if ((adxt->outpan[0] == -0x80) && (def_pan[0] != -0x80)) {
+            ADXRNA_SetOutPan(adxt->rna, 0, def_pan[0]);
+        } else { 
+            ADXRNA_SetOutPan(adxt->rna, 0, adxt->outpan[0] + def_pan[0]);
         }
 
-        if (adxt->outpan[1] == -0x80) {
-            if (def_pan[1] == -0x80) {
-                ADXRNA_SetOutPan(adxt->rna, 1, 0xF);
-            } else {
-                goto lbl5;
-            lbl6:
-                ADXRNA_SetOutPan(adxt->rna, 1, adxt->outpan[1]);
-            }
-        } else {
-            if (def_pan[1] == -0x80) {
-                goto lbl6;
-            lbl5:
-                ADXRNA_SetOutPan(adxt->rna, 1, def_pan[1]);
-            } else {
-                ADXRNA_SetOutPan(adxt->rna, 1, (Sint16)(adxt->outpan[1] & 0xFFFF) + def_pan[1]);
-            }
+        if ((adxt->outpan[1] == -0x80) && (def_pan[1] == -0x80)) {
+            ADXRNA_SetOutPan(adxt->rna, 1, 0xF);
+        } else if ((adxt->outpan[1] != -0x80) && (def_pan[1] == -0x80)){
+            ADXRNA_SetOutPan(adxt->rna, 1, adxt->outpan[1]);
+        } else if ((adxt->outpan[1] == -0x80) && (def_pan[1] != -0x80)) {
+            ADXRNA_SetOutPan(adxt->rna, 1, def_pan[1]);
+        } else { 
+            ADXRNA_SetOutPan(adxt->rna, 1, adxt->outpan[1] + def_pan[1]);
         }
     }
 }
 
-#if defined(TARGET_PS2)
-void adxt_nlp_trap_entry(ADXT adxt);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tsvr", adxt_nlp_trap_entry);
-#else
 void adxt_nlp_trap_entry(ADXT adxt) {
-    not_implemented(__func__);
+    SJCK sp;
+    SJCK sp10;
+    SJCK sp20;
+    SJCK sp30;
+    s16 sp40; int x, xx;
+    s16 sp42, y;
+    s32 temp_v0;
+    s32 var_v1;
+    ADXSJD sjd;
+    SJ sj;
+
+    sjd = adxt->sjd;
+    sj = adxt->sji;
+    if (adxt->lnkflg == 0) {
+        return;
+    }
+    
+    sp42 = 0;
+    SJ_GetChunk(sj, 1, 0x7FFFFFFF, &sp);
+    SJ_GetChunk(sj, 1, 0x7FFFFFFF, &sp20);
+    if (ADX_DecodeFooter(sp.data, sp.len, &sp40) != 0) {
+        ADXT_SetLnkSw(adxt, 0);
+        SJ_UngetChunk(sj, 1, &sp20);
+        SJ_UngetChunk(sj, 1, &sp);
+        return;
+    }
+
+    xx = sp40;
+    temp_v0 = ADX_ScanInfoCode(sp.data + xx, sp.len - xx, &sp40);
+    if (temp_v0 == 0) {
+        var_v1 = -1;
+    } else {
+        var_v1 = ADX_ScanInfoCode(sp20.data, sp20.len, &sp42);
+    }
+
+    x = xx + sp40;
+    y = sp42;
+    if ((temp_v0 != 0) && (var_v1 != 0)) {
+        SJ_UngetChunk(sj, 1, &sp20);
+        SJ_UngetChunk(sj, 1, &sp);
+        ADXT_SetLnkSw(adxt, 0);
+        return;
+    } else {
+        if (temp_v0 == 0) {
+            SJ_UngetChunk(sj, 1, &sp20);
+            SJ_SplitChunk(&sp, x, &sp, &sp10);
+            SJ_PutChunk(sj, 0, &sp);
+            SJ_UngetChunk(sj, 1, &sp10.data);
+        } else {
+            SJ_PutChunk(sj, 0, &sp);
+            SJ_SplitChunk(&sp20, y, &sp20, &sp30);
+            SJ_PutChunk(sj, 0, &sp20);
+            SJ_UngetChunk(sj, 1, &sp30.data);
+        }
+    }
+    
+    adxt->decofst += ADXSJD_GetDecNumSmpl(sjd);
+    ADXSJD_Stop(sjd);
+    ADXSJD_Start(sjd);
+    ADXSJD_ExecHndl(sjd);
+    if (ADXSJD_GetStat(sjd) != 2) {
+        ADXT_SetLnkSw(adxt, 0);
+    } else {
+        ADXSJD_SetMaxDecSmpl(sjd, adxt->maxdecsmpl);
+        ADXSJD_SetTrapNumSmpl(sjd, ADXSJD_GetTotalNumSmpl(sjd));
+        ADXSJD_SetTrapDtLen(sjd, 0);
+        ADXSJD_SetTrapCnt(sjd, 0);
+    }
 }
-#endif
 
 void adxt_stat_decinfo(ADXT adxt) {
     Sint32 transpose = 0;
@@ -131,7 +243,6 @@ void adxt_stat_decinfo(ADXT adxt) {
     Sint32 blk_smpl;
     Sint32 max_dec_smpl;
     Sint32 lp_end_ofst;
-    Sint32 lp_skiplen;
 
     if ((adxt->pmode < 2U) && (adxt->unkAC == 1)) {
         if (ADXSTM_GetStat(adxt->stm) == 2) {
@@ -303,21 +414,165 @@ void adxt_stat_playing(ADXT adxt) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tsvr", adxt_stat_decend);
-#else
 void adxt_stat_decend(ADXT adxt) {
-    not_implemented(__func__);
+    SJCK sp0[2];
+    SJCK sp10[2];
+    s32 temp_s7;
+    s32 var_s1_2;
+    s32 var_s4;
+    s32 temp_v0_2;
+    s32 var_s5;
+    u32 x;
+
+    var_s4 = 0;
+    adxt_dbg_rna_ndata = ADXRNA_GetNumData(adxt->rna);
+    temp_s7 = ADXSJD_GetNumChan(adxt->sjd);
+    ADXCRS_Lock();
+    var_s5 = adxt->maxdecsmpl;
+    for (var_s4 = 0; var_s4 < temp_s7; var_s4++) {
+        SJ_GetChunk(adxt->sjo[var_s4], 0, var_s5 * 2, &sp0[var_s4]);
+        x = sp0[var_s4].len;
+        var_s5 = (s32) (((x >> 1) < var_s5) ? (x >> 1) : var_s5);
+    }
+    
+    for (var_s4 = 0; var_s4 < temp_s7; var_s4++) {
+        SJ_SplitChunk(&sp0[var_s4], var_s5 * 2, &sp0[var_s4], &sp10[var_s4]);
+        memset(sp0[var_s4].data, 0, sp0[var_s4].len);
+        SJ_PutChunk(adxt->sjo[var_s4], 1, &sp0[var_s4]);
+        SJ_UngetChunk(adxt->sjo[var_s4], 0, &sp10[var_s4]);
+    }
+    
+    var_s1_2 = 0;
+    adxt->flush_nsmpl += var_s5;
+    ADXCRS_Unlock();
+    for (var_s4 = 0; var_s4 < temp_s7; var_s4++) {
+        temp_v0_2 = (u32)SJ_GetNumData(adxt->sjo[var_s4], 1) >> 1;
+        var_s1_2 = ((temp_v0_2 >= var_s1_2) ? temp_v0_2 : var_s1_2);
+    }
+    
+    if (((var_s1_2 + ADXRNA_GetNumData(adxt->rna)) - adxt->flush_nsmpl) <= 0) {
+        ADXRNA_SetTransSw(adxt->rna, 0);
+        ADXRNA_SetPlaySw(adxt->rna, 0);
+        PS2RNA_SetDiscardSw(adxt->rna, 1);
+        adxt->stat = 5;
+    }
 }
-#endif
 
 void adxt_stat_playend(ADXT adxt) {
     // Do nothing
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tsvr", adxt_RcvrReplay);
+void adxt_RcvrReplay(ADXT adxt) {
+    s32 var_s2;
+    ADXSTM stm;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tsvr", ADXT_ExecErrChk);
+    ADXCRS_Lock();
+    ADXRNA_SetTransSw(adxt->rna, 0);
+    ADXRNA_SetPlaySw(adxt->rna, 0);
+    ADXSJD_Stop(adxt->sjd);
+    ADXCRS_Unlock();
+    
+    stm = adxt->stm;
+    if (stm != NULL) {
+        ADXSTM_Stop(stm);
+        SJ_Reset(adxt->sji);
+    }
+
+    ADXCRS_Lock();
+    for (var_s2 = 0; var_s2 < adxt->maxnch; var_s2++) {
+        SJ_Reset(adxt->sjo[var_s2]);
+    }
+    
+    stm = adxt->stm;
+    if (stm != NULL) {
+        ADXSTM_Seek(stm, 0);
+        ADXSTM_Start(adxt->stm);
+    }
+    adxt_start_sj(adxt, adxt->sji);
+    ADXCRS_Unlock();
+}
+
+void ADXT_ExecErrChk(ADXT adxt) {
+    s32 temp_v0;
+    s32 var_v0_2;
+    s8 temp_s1;
+
+    temp_s1 = adxt->stat;
+    if ((temp_s1 == ADXT_STAT_PLAYING) && (adxt->pause_flag == 0) && (ADXSJD_GetStat(adxt->sjd) != 3)) {
+        temp_v0 = ADXSJD_GetDecNumSmpl(adxt->sjd);
+        if (adxt->edecpos == temp_v0) {
+            if ((adxt->svrfreq * 5) < ++adxt->edeccnt) {
+                adxt->ercode = -2;
+            }
+        } else {
+            adxt->edeccnt = 0;
+        }
+        
+        adxt->edecpos = temp_v0;
+        
+        if (adxt->ercode != 0) {
+            if (adxt->autorcvr == 1 || adxt->autorcvr == 2) {
+                ADXT_Stop(adxt);
+            }
+            
+            if (adxt->autorcvr != 0) {
+                adxt->ercode = 0;
+                adxt->edeccnt = 0;
+            }
+        }
+    } else {
+        adxt->edeccnt = 0;
+    }
+    
+    if ((temp_s1 == ADXT_STAT_DECINFO || temp_s1 == ADXT_STAT_PREP || temp_s1 == ADXT_STAT_PLAYING) && (adxt->pause_flag == 0) && (ADXSJD_GetStat(adxt->sjd) != 3)) {
+        var_v0_2 = (adxt->sji == NULL) ? 0 : SJ_GetNumData(adxt->sji, 1);
+        
+        if (var_v0_2 < 0x40) {
+            adxt->eshrtcnt++;
+            
+            if (temp_s1 == 3) {
+                if (adxt->svrfreq * 5 < adxt->eshrtcnt) {
+                    adxt->ercode = -1;
+                }
+            } else {
+                if (adxt->svrfreq * 20 < adxt->eshrtcnt) {
+                    adxt->ercode = -1;
+                }
+            }
+            
+            
+            if (adxt->ercode != 0) {
+                if (adxt->autorcvr == 1) {
+                    ADXT_Stop(adxt);
+                } else if (adxt->autorcvr == 2) {
+                    adxt_RcvrReplay(adxt);
+                }
+                
+                if (adxt->autorcvr != 0) {
+                    adxt->ercode = 0;
+                    adxt->eshrtcnt = 0;
+                }
+            }
+        } else {
+            adxt->eshrtcnt = 0;
+        }
+    } else {
+        adxt->eshrtcnt = 0;
+    }
+    
+    if ((adxt->stm != NULL) && (ADXSTM_GetStat(adxt->stm) == 4)) {
+        if (adxt->autorcvr == 1) {
+            ADXT_Stop(adxt);
+        } else if (adxt->autorcvr == 2) {
+            adxt_RcvrReplay(adxt);
+        }
+        
+        if (adxt->autorcvr != 0) {
+            adxt->ercode = 0;
+            adxt->eshrtcnt = 0;
+        }
+    }
+}
 
 void ADXT_ExecRdErrChk(ADXT adxt) {
     if ((adxt->stm != NULL) && (ADXSTM_GetStat(adxt->stm) == 4)) {
@@ -387,4 +642,28 @@ void ADXT_ExecHndl(ADXT adxt) {
     ADXT_ExecRdErrChk(adxt);
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_tsvr", ADXT_GetStatRead);
+Sint32 ADXT_GetStatRead(ADXT adxt) {
+    LSC lsc0;
+    LSC lsc1;
+    ADXSTM stm;
+
+    if (adxt == NULL) {
+        return 0;
+    }
+    
+    stm = adxt->stm;
+    if (stm == NULL) {
+        lsc0 = adxt->lsc;
+        if (lsc0 == NULL) {
+            return 0;
+        }
+        
+        lsc1 = lsc0->stm_hndl;
+        if (lsc1 != NULL) {
+            return ADXSTM_GetReadFlg(lsc1);
+        }
+        
+        return 0;
+    }
+    return ADXSTM_GetReadFlg(stm);
+}

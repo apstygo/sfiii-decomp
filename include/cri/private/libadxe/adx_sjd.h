@@ -37,5 +37,6 @@ Sint32 ADXSJD_GetLpEndPos(ADXSJD sjd);
 Sint32 ADXSJD_GetSpsdInfo(ADXSJD sjd); // Might be returning a pointer
 void ADXSJD_TermSupply(ADXSJD sjd);
 Sint16 ADXSJD_GetDefPan(ADXSJD sjd, Sint32 arg1);
+void ADXSJD_RestoreSnapshot(ADXSJD sjd);
 
 #endif

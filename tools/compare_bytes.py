@@ -123,9 +123,6 @@ EXPECTED_ERRORS = {
     # cse::cseCheckVTransStatus mismatched __LINE__'s in assert
     0x311A28: 0x2D280000,
 
-    # adx_tsvr::ADXT_ExecHndl
-    0x2D6FB0: 0x05006254,
-
     # cri_srd::srd_exec_dvd
     0x2D9D14: 0x5600638C,
 }
