@@ -7,7 +7,7 @@
 
 void* cvFsOpen(const Char8* fname, void* arg1, Sint32 arg2);
 void cvFsClose(CVFSHandle*);
-void cvFsSeek(CVFSHandle*, Sint32, Sint32);
+Sint32 cvFsSeek(CVFSHandle*, Sint32, Sint32);
 Sint32 cvFsTell(CVFSHandle*);
 Sint32 cvFsGetStat(CVFSHandle*);
 Sint32 cvFsReqRd(CVFSHandle*, Sint32, void*);
