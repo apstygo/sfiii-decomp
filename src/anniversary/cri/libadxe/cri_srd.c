@@ -10,7 +10,7 @@
 
 typedef struct {
     /* 0x00 */ Sint8 unk0;
-    /* 0x01 */ Sint8 unk1;
+    /* 0x01 */ Sint8 devtype;
     /* 0x02 */ Sint8 stat;
     /* 0x03 */ Sint8 unk3;
     /* 0x04 */ Sint32 unk4;
@@ -20,8 +20,7 @@ typedef struct {
     /* 0x14 */ sceCdRMode unk14;
     /* 0x18 */ void* unk18;
     /* 0x1C */ Sint32 unk1C;
-    /* 0x20 */ Sint32 unk20;
-    /* 0x24 */ Sint32 unk24;
+    /* 0x20 */ Sint64 unk20;
     /* 0x28 */ Sint64 unk28;
     /* 0x30 */ Sint32 fd;
     /* 0x34 */ Sint32 unk34;
@@ -32,11 +31,11 @@ typedef SRD_OBJ* SRD;
 SRD_OBJ srd_obj = { 0 };
 Char8* volatile srd_build = "\nSRD/PS2EE Ver.2.18a Build:Sep 18 2003 10:00:14\n\0\0\0\0";
 Sint32 srd_enter_fg = 0;
-Sint32 srd_dvd_exec_locked = 0;
-Sint32 srd_hst_exec_locked = 0;
+Sint32 volatile srd_dvd_exec_locked = 0;
+Sint32 volatile srd_hst_exec_locked = 0;
 Sint32 volatile srd_geterror_locked = 0;
 Sint32 volatile srd_geterror_call = 1;
-Sint32 srd_wait_svr_cnt = 0;
+Uint32 volatile srd_wait_svr_cnt = 0;
 Sint32 volatile srd_debug_geterror = 0;
 Sint32 volatile srd_debug_rdbg_cnt = 0;
 Sint32 volatile srd_debug_rded_cnt = 0;
@@ -53,7 +52,8 @@ Sint32 SRD_SceIoctl(Sint32 fd, Sint32 req, void* arg2);
 Sint64 SRD_SceLseek(Sint32 fd, Sint64 offset, Sint32 whence);
 Sint32 SRD_SceRead(Sint32 fd, void* buf, Sint32 nbyte);
 
-void srd_reset_obj() {
+
+static void srd_reset_obj() {
     srd_build;
     memset(&srd_obj, 0, sizeof(srd_obj));
 }
@@ -111,7 +111,7 @@ s32 SRD_ReqRdDvd(SRD srd, s32 arg1, s32 arg2, void* arg3, sceCdRMode* arg4) {
     SVM_LockVar();
 
     if ((srd->stat == 0) || (srd->stat == 3) || (srd->stat == 9)) {
-        srd->unk1 = 1;
+        srd->devtype = 1;
         srd->stat = 1;
         srd->unk8 = arg1;
         srd->unkC = arg2;
@@ -125,13 +125,32 @@ s32 SRD_ReqRdDvd(SRD srd, s32 arg1, s32 arg2, void* arg3, sceCdRMode* arg4) {
     return var_s4;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_ReqRdHst);
+Sint32 SRD_ReqRdHst(SRD srd, Sint32 arg1, Sint32 arg2, Sint64 arg3, Sint32 arg4) {
+    Sint32 ret;
+
+    ret = 0;
+    SVM_LockVar();
+    
+    if ((srd->stat == 0) || (srd->stat == 3) || (srd->stat == 9)) {
+        srd->devtype = 2;
+        srd->stat = 1;
+        srd->fd = arg1;
+        srd->unk18 = arg4;
+        srd->unk20 = arg3;
+        srd->unk28 = arg2;
+        srd->unk4 = 0;
+        ret = 1;
+    }
+
+    SVM_UnlockVar();
+    return ret;
+}
 
 Sint32 SRD_GetStat(SRD srd) {
     return srd->stat;
 }
 
-void srd_wait() {
+static void srd_wait() {
     Sint32 i;
 
     for (i = 0; i < 0x4000; i++) {
@@ -139,9 +158,13 @@ void srd_wait() {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", srd_wait_dvd);
+static void srd_wait_dvd(SRD srd) {
+    SRD_SetHistory(0x1300);
+    sceCdSync(0);
+    SRD_SetHistory(0x1301);
+}
 
-void srd_wait_hst(SRD srd) {
+static void srd_wait_hst(SRD srd) {
     Sint32 sp = 1;
     Sint32 stat;
     Sint32 i;
@@ -173,27 +196,55 @@ void srd_wait_hst(SRD srd) {
     }
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_WaitComplete);
-#else
 void SRD_WaitComplete(SRD srd) {
-    not_implemented(__func__);
+    s16 i;
+    s8 temp_s2;
+    u8 temp_v0;
+
+    for (i = 0; i < 1000; i++) {
+        SVM_Lock();
+        if (srd_enter_fg == 1) {
+            SVM_Unlock();
+            srd_wait();
+            continue;
+        }
+        srd_enter_fg = 1;
+        SVM_Unlock();
+        break;
+    }
+    
+    if (srd->stat == 2) {
+        if (srd_obj.devtype == 1) {
+            srd_wait_dvd(srd);
+        }
+        if (srd_obj.devtype == 2) {
+            srd_wait_hst(srd);
+        }
+        if (srd->stat != 9) {
+            srd->stat = 3;
+            srd_debug_rded_cnt++;
+        }
+    }
+    srd_enter_fg = 0;
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_WaitCompleteVoid);
+void SRD_WaitCompleteVoid(void) {
+    SRD_WaitComplete(&srd_obj);
+}
 
-#if defined(TARGET_PS2)
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CAF8);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CB18);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_Break);
-#else
 void SRD_Break(SRD srd) {
-    not_implemented(__func__);
+    SVM_LockVar();
+    if (srd == NULL) {
+        scePrintf("SRD: SRD_Break handle is NULL\r\n");
+    } else if (srd->unk4 == 1) {
+        scePrintf("SRD: Already Break!\r\n");
+    } else {
+        srd->unk4 = 1;
+    }
+    SVM_UnlockVar();
 }
-#endif
 
-Sint32 srd_check_dvd_error(SRD srd) {
+static Sint32 srd_check_dvd_error(SRD srd) {
     Sint32 cd_err;
 
     if (srd_geterror_call == 0) {
@@ -220,16 +271,16 @@ Sint32 srd_check_dvd_error(SRD srd) {
 
     srd_debug_geterror = 0;
 
-    if ((cd_err + 1) >= 2U) {
+    if (cd_err != -1 && cd_err != 0) {
         srd->unk34 = cd_err;
-        scePrintf("SRD: Drive Error (sceCdGetError = 0x%x)\r\n\0\0\0\0", cd_err);
+        scePrintf("SRD: Drive Error (sceCdGetError = 0x%x)\r\n", cd_err);
         return 1;
     }
 
     return 0;
 }
 
-void srd_exec_dvd(SRD srd) {
+static void srd_exec_dvd(SRD srd) {
     Sint32 err;
     Sint32 dvd_err;
 
@@ -303,7 +354,7 @@ void srd_exec_dvd(SRD srd) {
     }
 }
 
-void srd_exec_hst(SRD srd) {
+static void srd_exec_hst(SRD srd) {
     Sint32 sp;
     Sint64 offset;
 
@@ -380,7 +431,9 @@ void srd_exec_hst(SRD srd) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_IsExecute);
+s32 SRD_IsExecute(void) {
+    return srd_enter_fg;
+}
 
 void SRD_ExecServer() {
     SRD srd = &srd_obj;
@@ -389,7 +442,7 @@ void SRD_ExecServer() {
         return;
     }
 
-    switch (srd->unk1) {
+    switch (srd->devtype) {
     case 1:
         if (srd_dvd_exec_locked == 1) {
             SVM_LockRsc();
@@ -404,7 +457,7 @@ void SRD_ExecServer() {
         break;
     }
 
-    switch (srd->unk1) {
+    switch (srd->devtype) {
     case 2:
         if (srd_hst_exec_locked == 1) {
             SVM_LockRsc();
@@ -422,78 +475,183 @@ void SRD_ExecServer() {
     srd_enter_fg = 0;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_GetDevTypeNow);
-
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_GetErrCode);
-
-#if defined(TARGET_PS2)
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CBD8);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_WaitForExecServer);
-#else
-void SRD_WaitForExecServer() {
-    not_implemented(__func__);
+Sint8 SRD_GetDevTypeNow(void) {
+    return srd_obj.devtype;
 }
-#endif
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_LockedForDvdExec);
+Sint32 SRD_GetErrCode(void) {
+    return srd_obj.unk34;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_LockedForHstExec);
+void SRD_WaitForExecServer(void) {
+    srd_wait_svr_cnt = 0;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_LockedForGetError);
+    while(1) {
+        if (srd_enter_fg != 1) {
+            break;
+        }
+        if (++srd_wait_svr_cnt > 0x19640000) {
+            scePrintf("SRD: SRD_WaitForExecServer timeout.(10sec)\n");
+            break;
+        }
+    }
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_CallForGetError);
+void SRD_LockedForDvdExec(Sint32 arg0) {
+    SRD_WaitForExecServer();
+    srd_dvd_exec_locked = (Sint8)arg0;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_SetError);
+void SRD_LockedForHstExec(Sint32 arg0) {
+    SRD_WaitForExecServer();
+    srd_hst_exec_locked = (Sint8)arg0;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_GetReadStatusDvd);
+void SRD_LockedForGetError(Sint32 arg0) {
+    SRD_WaitForExecServer();
+    srd_geterror_locked = (Sint8)arg0;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_GetReadStatusHost);
+void SRD_CallForGetError(Sint32 arg0) {
+    SRD_WaitForExecServer();
+    srd_geterror_call = (Sint8)arg0;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_GetReadStatus);
+void SRD_SetError(void) {
+    srd_obj.stat = 9;
+}
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CC08);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CC18);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CC38);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CC58);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CC78);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CC98);
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CCB8);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_DebugPrint);
+Sint32 SRD_GetReadStatusDvd(void) {
+    Sint32 temp_s0;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_GetReadEndCount);
+    SRD_SetHistory(0x2300);
+    temp_s0 = sceCdSync(1);
+    SRD_SetHistory(0x2301);
+    return temp_s0;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_GetReadBeginCount);
+Sint32 SRD_GetReadStatusHost() {
+    Sint32 sp;
+
+    if (srd_obj.stat == 2) {
+        SVM_Lock();
+        SRD_SetHistory(0x2400);
+        if (SRD_SceIoctl(srd_obj.fd, 1, &sp) < 0) {
+            SRD_SetHistory(0x2401);
+        } else {
+            SRD_SetHistory(0x2402);
+            if (sp != 0) {
+                SVM_Unlock();
+                return 1;
+            }
+        }
+        
+        SVM_Unlock();
+    }
+    
+    return 0;
+}
+
+Sint32 SRD_GetReadStatus(void) {
+    if (srd_obj.devtype == 1) {
+        return SRD_GetReadStatusDvd() * 2;
+    }
+    if (srd_obj.devtype == 2) {
+        return SRD_GetReadStatusHost();
+    }
+    return 0;
+}
+
+Sint32 SRD_DebugPrint(void) {
+    Uint8 temp_a1;
+
+    scePrintf("SRD: SRD Info.\n");
+    scePrintf(" srd_enter_fg       = %d\n", srd_enter_fg);
+    scePrintf(" srd_debug_geterror = %d\n", srd_debug_geterror);
+    scePrintf(" srd_obj.stat       = %d\n", srd_obj.stat);
+    
+    if (srd_obj.devtype == 1) {
+        scePrintf(" srd_obj.devtype    = DVD\n");
+    }
+    if (srd_obj.devtype == 2) {
+        scePrintf(" srd_obj.devtype    = HOST\n");
+    }
+    
+    scePrintf(" Read Status(DVD=2/HST=1) = %d\n", SRD_GetReadStatus());
+    return 0;
+}
+
+Sint32 SRD_GetReadEndCount(void) {
+    return srd_debug_rded_cnt;
+}
+
+Sint32 SRD_GetReadBeginCount(void) {
+    return srd_debug_rdbg_cnt;
+}
 
 void SRD_SetHistory(Sint32 arg0) {
     srd_history_pre = srd_history;
     srd_history = arg0;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_GetHistory);
+Sint32 SRD_GetHistory(void) {
+    return srd_history;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_SetFilesystem64);
+void SRD_SetFilesystem64(s32 arg0) {
+    srd_filesystem64 = arg0;
+    if (arg0 == 1) {
+        scePrintf("SRD: 64bit Host filesystem.\r\n");
+    }
+}
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CCD8);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_GetFilesystem64);
+Sint32 SRD_GetFilesystem64(void) {
+    return srd_filesystem64;
+}
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", D_0055CCF8);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_SetLockHost);
+void SRD_SetLockHost(Sint32 arg0) {
+    srd_host_lock = srd_hst_exec_locked = (Sint8)arg0;
+    switch (arg0) {
+        case 1:
+        scePrintf("SRD: Enable HostLock\r\n");
+    }
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_GetLockHost);
+Sint32 SRD_GetLockHost(void) {
+    return srd_host_lock;
+}
 
-void srd_sw_lock() {
+static void srd_sw_lock() {
     if (srd_host_lock == 1) {
         SVM_LockRsc(1);
     }
 }
 
-void srd_sw_unlock() {
+static void srd_sw_unlock() {
     if (srd_host_lock == 1) {
         SVM_UnlockRsc(1);
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/cri_srd", SRD_SetDvdSeekPos);
+Sint32 SRD_SetDvdSeekPos(Uint32 arg0) {
+    Sint32 temp_s0;
+    Sint32 var_s1;
+    Sint32 var_v0;
+
+    var_v0 = SVM_TestAndSet(&srd_enter_fg);
+    var_s1 = 0;
+    if (var_v0 != 0) {
+        SRD_SetHistory(0x9600);
+        temp_s0 = sceCdSeek(arg0);
+        SRD_SetHistory(0x9601);
+        if (temp_s0 == 0) {
+            var_s1 = sceCdGetError();
+        }
+        srd_enter_fg = 0;
+        var_v0 = var_s1;
+    }
+    return var_v0;
+}
 
 Sint64 SRD_SceLseek(Sint32 fd, Sint64 offset, Sint32 whence) {
     Sint64 ofst;
