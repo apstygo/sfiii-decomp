@@ -100,7 +100,13 @@ typedef struct {
     /* 0x9C */ Sint16 unk9C;
     /* 0x9E */ Sint16 unk9E;
     /* 0xA0 */ Sint16 unkA0;
-    /* 0xA2 */ char padA2[0xE];
+    /* 0xA2 */ Sint16 unkA2;
+    /* 0xA4 */ Sint16 unkA4;
+    /* 0xA6 */ Sint16 unkA6;
+    /* 0xA8 */ Sint16 unkA8;
+    /* 0xAA */ Sint16 unkAA;
+    /* 0xAC */ Sint16 unkAC;
+    /* 0xAE */ Sint16 unkAE;
     /* 0xB0 */ Sint32 unkB0;
     /* 0xB4 */ Sint32 ahx_dec_samples;
     /* 0xB8 */ Sint32 ahx_dec_frames;

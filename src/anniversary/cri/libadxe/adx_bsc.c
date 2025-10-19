@@ -17,51 +17,102 @@
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 
 Char8* skg_build = "\nSKG/PS2EE Ver.0.64 Build:Sep 18 2003 09:59:56\n";
-Sint32 skg_init_count = 0;
-Sint32 skg_err_func = 0;
-Sint32 skg_err_obj = 0;
+
+#include <cri/private/libadxe/adx_bsc_tbl.h>
+
+static Sint32 skg_init_count = 0;
+static void (*skg_err_func)(s32, s32) = 0;
+static Sint32 skg_err_obj = 0;
 void (*ahxsetextfunc)(Sint32, Sint16*) = NULL;
 Sint32 pl2encodefunc = 0;
 void (*pl2resetfunc)() = NULL;
-Sint16 adxb_def_k0 = 0;
-Sint16 adxb_def_km = 0;
-Sint16 adxb_def_ka = 0;
+static Uint16 adxb_def_k0 = 0;
+Uint16 adxb_def_km = 0;
+static Uint16 adxb_def_ka = 0;
 ADXB_OBJ adxb_obj[ADXB_MAX_OBJ] = { 0 };
 
 // forward decls
 void ADXB_Destroy(ADXB adxb);
-Sint32 adxb_get_key(ADXB adxb, Uint8 arg1, Uint8 arg2, Sint32 arg3, Sint16* arg4, Sint16* arg5, Sint16* arg6);
+static Sint32 adxb_get_key(ADXB adxb, Uint8 arg1, Uint8 arg2, Sint32 arg3, Uint16* arg4, Uint16* arg5, Uint16* arg6);
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", skg_prim_tbl);
+static Sint32 SKG_NopFunc(void) {
+    return 0;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", SKG_NopFunc);
+static Sint32 SKG_EntryErrFunc(void (*arg0)(Sint32, Sint32), Sint32 arg1) {
+    skg_err_func = arg0;
+    skg_err_obj = arg1;
+    return 0;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", SKG_EntryErrFunc);
+static Sint32 SKG_CallErrFunc(Sint32 arg0) {
+    if (skg_err_func != NULL) {
+        skg_err_func(skg_err_obj, arg0);
+    }
+    return 0;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", SKG_CallErrFunc);
-
-Sint32 SKG_Init() {
+static Sint32 SKG_Init() {
     skg_init_count += 1;
     return 0;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", SKG_Finish);
-
-#if defined(TARGET_PS2)
-void SKG_GenerateKey(void*, Sint32, Sint16*, Sint16*, Sint16*);
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", SKG_GenerateKey);
-#else
-// Never called
-void SKG_GenerateKey(void*, Sint32, Sint16*, Sint16*, Sint16*) {
-    not_implemented(__func__);
+static Sint32 SKG_Finish(void) {
+    skg_init_count -= 1;
+    return 0;
 }
-#endif
 
-INCLUDE_RODATA("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", D_0055A170);
+static Sint32 SKG_GenerateKey(Sint8 *arg0, Sint32 arg1, Uint16 *arg2, Uint16 *arg3, Uint16 *arg4) {
+    s16 var_a0;
+    s16 var_t0;
+    s16 var_t2;
+    int i;
+    
+    if (skg_init_count == 0) {
+        SKG_Init();
+    }
+    
+    *arg2 = 0;
+    *arg3 = 0;
+    *arg4 = 0;
+    
+    if ((arg0 == 0) && (arg1 <= 0)) {
+        return 0;
+    }
+    
+    var_t2 = skg_prim_tbl[0x100];
+    for (i = 0; i < arg1; i++) {
+        var_t2 = skg_prim_tbl[(var_t2 * skg_prim_tbl[arg0[i] + 0x80]) % 0x400];
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", SKG_GetDefKey);
+    var_t0 = skg_prim_tbl[0x200];
+    for (i = 0; i < arg1; i++) {
+        var_t0 = skg_prim_tbl[(var_t0 * skg_prim_tbl[arg0[i] + 0x80]) % 0x400];
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", SKG_GetNextKey);
+    var_a0 = skg_prim_tbl[0x300];
+    for (i = 0; i < arg1; i++) {
+        var_a0 = skg_prim_tbl[(var_a0 * skg_prim_tbl[arg0[i] + 0x80]) % 0x400];
+    }
+    
+    *arg2 = var_t2;
+    *arg3 = var_t0;
+    *arg4 = var_a0;
+    return 0;
+}
+
+static Sint32 SKG_GetDefKey(Uint16* arg0, Uint16* arg1, Uint16 *arg2) {
+    if (skg_init_count == 0) {
+        SKG_Init();
+    }
+    SKG_GenerateKey("CRI-MW", 6, arg0, arg1, arg2);
+    return 0;
+}
+
+static Sint32 SKG_GetNextKey(Uint16* arg0, Uint16* arg1, Uint16* arg2) {
+    *arg0 = *arg2 + (*arg0 * *arg1);
+    return 0;
+}
 
 void ADXB_Init() {
     ADXPD_Init();
@@ -69,24 +120,32 @@ void ADXB_Init() {
     memset(&adxb_obj, 0, sizeof(adxb_obj));
 }
 
-#if defined(TARGET_PS2)
 void ADXB_Finish() {
     ADXPD_Finish();
     SKG_Finish();
     memset(&adxb_obj, 0, sizeof(adxb_obj));
 }
-#else
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_Finish);
-#endif
 
 void* adxb_DefGetWr(void* object, Sint32* arg1, Sint32* arg2, Sint32* arg3) {
     ADXB adxb = (ADXB)object;
     void* ret = adxb->unk3C;
-
+    int temp;
+    
+    temp = adxb->unk8C;
+    
     *arg1 = adxb->unk8C;
     *arg2 = adxb->unk40 - adxb->unk8C;
     *arg3 = adxb->total_samples - adxb->unk88;
 
+    // fake
+    if (adxb->unk8C){
+        u8 x = -x;
+    }
+    
+    if (temp){
+        u8 x = -x;
+    }
+    
     return ret;
 }
 
@@ -154,14 +213,10 @@ void ADXB_Destroy(ADXB adxb) {
     }
 }
 
-// TODO: This function needs thorough testing
 Sint32 ADXB_DecodeHeaderAdx(ADXB adxb, void* header, Sint32 len) {
     Sint16 sp10[2];
     Sint16 sp20[2];
-    Sint16 sp30;
-    Sint16 sp32;
-    Sint16 sp34;
-    Sint16 sp36;
+    Sint16 sp30[4];
     Sint16 audio_offset;
     Sint8 version;
     Sint8 flags;
@@ -208,9 +263,9 @@ Sint32 ADXB_DecodeHeaderAdx(ADXB adxb, void* header, Sint32 len) {
             return 0;
         }
 
-        sp30 = 0;
+        sp30[0] = 0;
 
-        if (adxb_get_key(adxb, version, flags, adxb->total_samples, &sp32, &sp34, &sp36) < 0) {
+        if (adxb_get_key(adxb, version, flags, adxb->total_samples, &sp30[1], &sp30[2], &sp30[3]) < 0) {
             return -1;
         }
 
@@ -297,7 +352,10 @@ void ADXB_EntryGetWrFunc(ADXB adxb, void* (*get_wr)(void*, ptrdiff_t*, Sint32*, 
     adxb->object = object;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_EntryAddWrFunc);
+void ADXB_EntryAddWrFunc(ADXB adxb, void *arg1, Sint32 arg2) {
+    adxb->add_wr = arg1;
+    adxb->unk84 = arg2;
+}
 
 void* ADXB_GetPcmBuf(ADXB adxb) {
     return adxb->unk3C;
@@ -319,12 +377,13 @@ Sint32 ADXB_GetNumChan(ADXB adxb) {
     return adxb->channel_count;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetFmtBps);
+Sint8 ADXB_GetFmtBps(ADXB adxb) {
+    return adxb->sample_bitdepth;
+}
 
 Sint32 ADXB_GetOutBps(ADXB adxb) {
     Sint16 format;
     Sint16 temp_v1;
-    Sint32 var_v0;
 
     format = adxb->format;
 
@@ -354,27 +413,48 @@ Sint32 ADXB_GetBlkSmpl(ADXB adxb) {
     return adxb->samples_per_block;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetBlkLen);
+Sint8 ADXB_GetBlkLen(ADXB adxb) {
+    return adxb->block_size;
+}
 
 Sint32 ADXB_GetTotalNumSmpl(ADXB adxb) {
     return adxb->total_samples;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetCof);
+Sint16 ADXB_GetCof(ADXB adxb) {
+    return adxb->unk1C;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetLpInsNsmpl);
+Sint32 ADXB_GetLpInsNsmpl(ADXB adxb) {
+    return adxb->unk20;
+}
 
 Sint32 ADXB_GetNumLoop(ADXB adxb) {
     return adxb->unk24;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetLpStartPos);
+Sint32 ADXB_GetLpStartPos(ADXB adxb) {
+    return adxb->unk28;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetLpStartOfst);
+Sint32 ADXB_GetLpStartOfst(ADXB adxb) {
+    Sint32 var_v0;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetLpEndPos);
+    var_v0 = 0;
+    if (adxb != NULL) {
+        var_v0 = adxb->unk2C;
+    }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetLpEndOfst);
+    return var_v0;
+}
+
+Sint32 ADXB_GetLpEndPos(ADXB adxb) {
+    return adxb->unk30;
+}
+
+Sint32 ADXB_GetLpEndOfst(ADXB adxb) {
+    return adxb->unk34;
+}
 
 Sint32 ADXB_GetAinfLen(ADXB adxb) {
     return adxb->unkC8;
@@ -388,17 +468,36 @@ Sint16 ADXB_GetDefPan(ADXB adxb, Sint32 arg1) {
     return adxb->unkDE[arg1];
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetDataId);
+ADX_UNK *ADXB_GetDataId(ADXB adxb) {
+    return &adxb->unkCC;
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_TakeSnapshot);
+void ADXB_TakeSnapshot(ADXB adxb) {
+    ADXPD_GetDly(adxb->adxpd, &adxb->unkA8, &adxb->unkAC);
+    ADXPD_GetExtPrm(adxb->adxpd, &adxb->unkA2, &adxb->unkA4, &adxb->unkA6);
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_RestoreSnapshot);
+void ADXB_RestoreSnapshot(ADXB adxb) {
+    ADXPD_SetDly(adxb->adxpd, &adxb->unkA8, &adxb->unkAC);
+    ADXPD_SetExtPrm(adxb->adxpd, adxb->unkA2, adxb->unkA4, adxb->unkA6);
+}
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_SetExtString);
+void ADXB_SetExtString(ADXB adxb, Sint8* arg1) {
+    u16 sp;
+    u16 sp2;
+    u16 sp4;
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_SetDefExtString);
+    SKG_GenerateKey(arg1, strlen(arg1), &sp, &sp2, &sp4);
+    adxb->unk9C = sp;
+    adxb->unk9E = sp2;
+    adxb->unkA0 = sp4;
+}
 
-Sint32 adxb_get_key(ADXB adxb, Uint8 arg1, Uint8 arg2, Sint32 arg3, Sint16* arg4, Sint16* arg5, Sint16* arg6) {
+void ADXB_SetDefExtString(Sint8* arg0) {
+    SKG_GenerateKey(arg0, strlen(arg0), &adxb_def_k0, &adxb_def_km, &adxb_def_ka);
+}
+
+static Sint32 adxb_get_key(ADXB adxb, Uint8 arg1, Uint8 arg2, Sint32 arg3, Uint16* arg4, Uint16* arg5, Uint16* arg6) {
     Char8 sp[9];
 
     if (arg1 >= 4) {
@@ -480,15 +579,18 @@ Sint32 ADXB_GetDecNumSmpl(ADXB adxb) {
     return adxb->dec_num_sample;
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_GetAdxpd);
-
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_EvokeExpandMono);
-#else
-void ADXB_EvokeExpandMono(ADXB adxb, Sint32 arg1) {
-    not_implemented(__func__);
+ADXPD ADXB_GetAdxpd(ADXB adxb) {
+    return adxb->adxpd;
 }
-#endif
+
+void ADXB_EvokeExpandMono(ADXB adxb, Sint32 arg1) {
+    ADXB_UNK* unk = &adxb->unk48;
+    ADXPD pd = adxb->adxpd;
+    int arg = unk->unk14 + (unk->unk20 * 2);
+    
+    ADXPD_EntryMono(pd, unk->unk0, arg1, arg, 0);
+    ADXPD_Start(pd);
+}
 
 void ADXB_EvokeExpandSte(ADXB adxb, Sint32 arg1) {
     ADXPD adxpd = adxb->adxpd;
@@ -503,13 +605,14 @@ void ADXB_EvokeExpandSte(ADXB adxb, Sint32 arg1) {
     ADXPD_Start(adxpd);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_EvokeExpandPl2);
-#else
 void ADXB_EvokeExpandPl2(ADXB adxb, Sint32 arg1) {
-    not_implemented(__func__);
+    ADXB_UNK* unk = &adxb->unk48;
+    ADXPD pd = adxb->adxpd;
+    int arg = unk->unk14 + (unk->unk20 * 2);
+    
+    ADXPD_EntryPl2(pd, unk->unk0, arg1, arg, arg + (unk->unk1C * 2));
+    ADXPD_Start(pd);
 }
-#endif
 
 void ADXB_EvokeDecode(ADXB adxb) {
     ADXB_UNK* unk = &adxb->unk48;
@@ -576,16 +679,12 @@ void ADXB_CopyExtraBufSte(void* arg0, Sint32 arg1, Sint32 arg2, Sint32 arg3) {
     memcpy2(arg0 + (arg2 * 2), arg0 + ((arg2 + arg1) * 2), arg3);
 }
 
-#if defined(TARGET_PS2)
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_CopyExtraBufMono);
-#else
 void ADXB_CopyExtraBufMono(void* arg0, Sint32 arg1, Sint32 arg2, Sint32 arg3) {
-    not_implemented(__func__);
+    memcpy2(arg0, arg0 + (arg1 * 2), arg3);
 }
-#endif
 
 void ADXB_EndDecode(ADXB adxb) {
-    Sint32 s1, s2, sp0, s3, s0, _s0, _s1, v0, v1, temp_div;
+    Sint32 s1, s2, sp0, s3, s0, _s0, v0, temp_div;
     Sint32 s7;
     ADXB_UNK* s5 = &adxb->unk48;
     void* s8 = s5->unk14;
@@ -685,4 +784,12 @@ void ADXB_ExecHndl(ADXB adxb) {
     }
 }
 
-INCLUDE_ASM("asm/anniversary/nonmatchings/cri/libadxe/adx_bsc", ADXB_ExecServer);
+void ADXB_ExecServer(void) {
+    Sint32 i;
+
+    for (i = 0; i < ADXB_MAX_OBJ; i++) {
+        if (adxb_obj[i].unk0 == 1) {
+            ADXB_ExecHndl(&adxb_obj[i]);
+        }
+    }
+}
